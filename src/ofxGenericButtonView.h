@@ -5,16 +5,21 @@
 //  Created by Ian Grossberg on 12/30/11.
 //  Copyright (c) 2011 Lumos Labs. All rights reserved.
 //
+// TODO: OF touch event notification
 
 #pragma once
 
 #include "ofxGenericView.h"
 
 @class UIButtonDelegateForwarder;
+class ofxGenericButtonViewTouchDelegate;
 
 class ofxGenericButtonView : public ofxGenericView
 {
 public:
+    ofxGenericButtonView( ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate );
+    virtual ~ofxGenericButtonView();
+    
     void setText( string newText );
     string getText();
     //    void setTextColor( const ofColor newColor );
@@ -24,19 +29,38 @@ public:
     void setBackgroundImage( string fileName );
     
     // TODO: scheme so that UIButtonDelegateForwarder is the only one that can call these
-    virtual void touchCancel(){};
-    virtual void touchDown(){};
-    virtual void touchDownRepeat(){};
-    virtual void touchDragEnter(){};
-    virtual void touchDragExit(){};
-    virtual void touchDragInside(){};
-    virtual void touchDragOutside(){};
-    virtual void touchUpInside(){};
-    virtual void touchUpOutside(){};
+    // TODO: scheme so we can pass a reference of this to delegate
+    virtual void touchCancel();
+    virtual void touchDown();
+    virtual void touchDownRepeat();
+    virtual void touchDragEnter();
+    virtual void touchDragExit();
+    virtual void touchDragInside();
+    virtual void touchDragOutside();
+    virtual void touchUpInside();
+    virtual void touchUpOutside();
     
 protected:
+    ofPtrWeak< ofxGenericButtonViewTouchDelegate > _touchDelegate;
+    
     virtual UIView* createUIView( const CGRect& frame );  
     UIButtonDelegateForwarder* _eventHandler;
+};
+
+class ofxGenericButtonViewTouchDelegate
+{
+public:
+    virtual ~ofxGenericButtonViewTouchDelegate(){};
+    
+    virtual void button_touchCancel(){};
+    virtual void button_touchDown(){};
+    virtual void button_touchDownRepeat(){};
+    virtual void button_touchDragEnter(){};
+    virtual void button_touchDragExit(){};
+    virtual void button_touchDragInside(){};
+    virtual void button_touchDragOutside(){};
+    virtual void button_touchUpInside(){};
+    virtual void button_touchUpOutside(){};
 };
 
 @interface UIButtonDelegateForwarder : NSObject 

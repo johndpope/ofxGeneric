@@ -9,6 +9,16 @@
 #import "ofxGenericButtonView.h"
 #import "ofxGenericUtility.h"
 
+ofxGenericButtonView::ofxGenericButtonView( ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate )
+: _touchDelegate( touchDelegate )
+{
+}
+
+ofxGenericButtonView::~ofxGenericButtonView()
+{
+    release( _eventHandler );
+}
+
 UIView* ofxGenericButtonView::createUIView( const CGRect& frame )
 {
     // TODO: configurable type
@@ -61,6 +71,25 @@ void ofxGenericButtonView::setBackgroundImage( string fileName )
                          forState:UIControlStateNormal ];
     }
 }
+
+#define touchEventMethod( eventName ) \
+void ofxGenericButtonView::eventName() \
+{ \
+    if ( _touchDelegate ) \
+    { \
+        ( _touchDelegate.lock() )->button_ ## eventName(); \
+    } \
+}
+
+touchEventMethod( touchCancel );
+touchEventMethod( touchDown );
+touchEventMethod( touchDownRepeat );
+touchEventMethod( touchDragEnter );
+touchEventMethod( touchDragExit );
+touchEventMethod( touchDragInside );
+touchEventMethod( touchDragOutside );
+touchEventMethod( touchUpInside );
+touchEventMethod( touchUpOutside );
 
 @implementation UIButtonDelegateForwarder
 
