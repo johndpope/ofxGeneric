@@ -28,9 +28,19 @@ unsigned int ofxGenericTableView::getNumberOfCells( unsigned int section )
     return 0;
 }
 
-ofPtr< ofxGenericTableViewCell > ofxGenericTableView::getViewForCell( unsigned int section, unsigned int index )
+ofPtr< ofxGenericTableViewCell > ofxGenericTableView::getCell( unsigned int section, unsigned int index )
 {
     return ofPtr< ofxGenericTableViewCell >();
+}
+
+float ofxGenericTableView::getHeightForCell( unsigned int section, unsigned int index )
+{
+    ofPtr< ofxGenericTableViewCell > cell = getCell( section, index );
+    if ( cell )
+    {
+        return cell->getBounds().height;
+    }
+    return 0;
 }
 
 ofxGenericTableViewCell::~ofxGenericTableViewCell()
@@ -46,6 +56,7 @@ void ofxGenericTableViewCell::init( ofPtr< ofxGenericTableViewCell > setThis, of
     
     _table = table;
     _view = createUITableViewCell( ofRectangleToCGRect( setBounds ) );
+    [ _view setFrame:ofRectangleToCGRect( setBounds ) ];
 }
 
 UITableViewCell* ofxGenericTableViewCell::getUITableViewCell()
@@ -83,7 +94,7 @@ UITableViewCell* ofxGenericTableViewCell::createUITableViewCell( const CGRect& f
 {
     if ( _delegate )
     {
-        ofPtr< ofxGenericTableViewCell > view = _delegate->getViewForCell( [ indexPath section ], [ indexPath row ] );
+        ofPtr< ofxGenericTableViewCell > view = _delegate->getCell( [ indexPath section ], [ indexPath row ] );
         if ( view )
         {
             return view->getUITableViewCell();
@@ -91,5 +102,15 @@ UITableViewCell* ofxGenericTableViewCell::createUITableViewCell( const CGRect& f
     }
     return nil;
 }
+
+-( CGFloat )tableView:( UITableView* )tableView heightForRowAtIndexPath:( NSIndexPath* )indexPath
+{
+    if ( _delegate )
+    {
+        return _delegate->getHeightForCell( [ indexPath section ], [ indexPath row ] );
+    }
+    return 0;
+}
+
 
 @end

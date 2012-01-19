@@ -18,7 +18,8 @@ class ofxGenericTableView : public ofxGenericView
 public:
     virtual ~ofxGenericTableView();
     virtual unsigned int getNumberOfCells( unsigned int section );
-    virtual ofPtr< ofxGenericTableViewCell > getViewForCell( unsigned int section, unsigned int index );
+    virtual ofPtr< ofxGenericTableViewCell > getCell( unsigned int section, unsigned int index );
+    virtual float getHeightForCell( unsigned int section, unsigned int index );
 
 protected:
     virtual UIView* createUIView( const CGRect& frame );  
@@ -46,5 +47,6 @@ protected:
 -( id )initWithDelegate:( ofxGenericTableView* )delegate;
 -( NSInteger )tableView:( UITableView* )tableView numberOfRowsInSection:( NSInteger )section;
 -( UITableViewCell* )tableView:( UITableView* )tableView cellForRowAtIndexPath:( NSIndexPath* )indexPath;
+-( CGFloat )tableView:( UITableView* )tableView heightForRowAtIndexPath:( NSIndexPath* )indexPath;
 
 @end
