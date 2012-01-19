@@ -62,7 +62,8 @@ void ofxGenericApp::finishedLaunching()
      ofRegisterTouchEvents((ofxiPhoneApp*)ofGetAppPtr());
      */
     
-    setup();
+	ofNotifySetup();
+	ofNotifyUpdate();
           
      /*
      // show or hide status bar depending on OF_WINDOW or OF_FULLSCREEN
@@ -71,6 +72,8 @@ void ofxGenericApp::finishedLaunching()
      // Listen to did rotate event
 */
 }
+
+
 void ofxGenericApp::didBecomeActive()
 {
 }

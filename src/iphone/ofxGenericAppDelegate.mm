@@ -8,33 +8,7 @@
 
 #import "ofxGenericAppDelegate.h"
 #import "ofxGenericApp.h"
-
-class ofxGenericAppFriend
-{
-public:
-    ofxGenericApp* getFriend()
-    { return ofxGenericApp::getInstance(); }
-    
-    void applicationDidFinishLaunching()
-    { getFriend()->finishedLaunching(); }
-    void applicationDidBecomeActive()
-    { getFriend()->didBecomeActive(); }
-    void applicationWillResignActive()
-    { getFriend()->willResignActive(); }
-    void applicationDidReceiveMemoryWarning()
-    { getFriend()->didReceiveMemoryWarning(); }
-    void applicationWillTerminate()
-    { getFriend()->willTerminate(); }
-    void deviceOrientationDidChange( ofOrientation newOrientation )
-    { getFriend()->deviceOrientationDidChange( newOrientation ); }
-};
-
-@interface ofxGenericAppDelegate()
-{
-    ofxGenericAppFriend genericAppFriend;
-}
-
-@end
+#import "ofMain.h"
 
 @implementation ofxGenericAppDelegate
 
@@ -51,17 +25,25 @@ public:
         [ self.window setScreen:[ UIScreen mainScreen ] ];
         [ self.window makeKeyAndVisible ];
         
-        genericAppFriend.applicationDidFinishLaunching(); 
+        ofxGenericApp::getInstance()->finishedLaunching();
         
         [ [ UIDevice currentDevice ] beginGeneratingDeviceOrientationNotifications ];
         [ [ NSNotificationCenter defaultCenter ] addObserver: self 
                                                     selector: @selector( deviceOrientationDidChange: ) 
                                                         name: UIDeviceOrientationDidChangeNotification 
                                                       object: nil ];
+        
+        _displayLink = [ [ CADisplayLink displayLinkWithTarget:self selector:@selector( update ) ] retain ];
+        [ _displayLink addToRunLoop:[ NSRunLoop currentRunLoop ] forMode:NSDefaultRunLoopMode ];
     } else
     {
         // TODO: error
     }
+}
+
+-( void )update
+{
+    ofNotifyUpdate();
 }
 
 -( void )deviceOrientationDidChange:( NSNotification* )notification
@@ -71,22 +53,21 @@ public:
 	
     if( interfaceOrientation != UIDeviceOrientationUnknown )
     {
-        genericAppFriend.deviceOrientationDidChange( ( ofOrientation )interfaceOrientation );
+        ofxGenericApp::getInstance()->deviceOrientationDidChange( ( ofOrientation )interfaceOrientation );
     }
 }
 
-
 - (void)applicationDidBecomeActive:(UIApplication *)application
-{ genericAppFriend.applicationDidBecomeActive(); }
+{ ofxGenericApp::getInstance()->didBecomeActive(); }
 
 - (void)applicationWillResignActive:(UIApplication *)application
-{ genericAppFriend.applicationWillResignActive(); }
+{ ofxGenericApp::getInstance()->willResignActive(); }
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application
-{ genericAppFriend.applicationDidReceiveMemoryWarning(); }
+{ ofxGenericApp::getInstance()->didReceiveMemoryWarning(); }
 
 - (void)applicationWillTerminate:(UIApplication *)application
-{ genericAppFriend.applicationWillTerminate(); }
+{ ofxGenericApp::getInstance()->willTerminate(); }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
@@ -132,6 +113,12 @@ public:
  @property (nonatomic, retain) UIWindow *window __OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_5_0);
  */
 
+
+-( void )dealloc
+{
+    release( _displayLink );
+    [ super dealloc ];
+}
 
 @end
 

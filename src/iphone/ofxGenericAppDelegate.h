@@ -13,6 +13,7 @@
 
 @interface ofxGenericAppDelegate : NSObject < UIApplicationDelegate >  
 {
+    CADisplayLink* _displayLink;
 }
 
 @property (retain, nonatomic) UIWindow* window;
