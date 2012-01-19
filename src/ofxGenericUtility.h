@@ -13,6 +13,9 @@
 #import <UIKit/UIKit.h>
 #import "ofxiPhoneExtras.h"
 
+#include "ofxGenericConstants.h"
+
+// memory macros
 #define deleteSafe( cPlusPlusObject ) \
     if ( cPlusPlusObject ) \
         delete cPlusPlusObject; \
@@ -31,10 +34,7 @@
     [ objectCViewController release ]; \
     objectCViewController = nil;
 
-
-NSString* pathToBundle( NSString* resourceFileName = nil );
-
-CGFloat getWindowScale();
+// singleton model macros
 
 #define singletonInheretableHeader( className ) \
 public: \
@@ -84,3 +84,11 @@ void className::set ## className ## InstanceToThis() \
     { \
     } \
 }
+
+// iOS utilities
+NSString* pathToBundle( NSString* resourceFileName = nil );
+
+CGFloat getWindowScale();
+
+UITextAlignment ofxGenericTextHorizontalAlignmentToUITextAlignment( ofxGenericTextHorizontalAlignment from );
+

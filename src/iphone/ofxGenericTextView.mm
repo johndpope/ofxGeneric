@@ -28,6 +28,15 @@ string ofxGenericTextView::getText()
     return string();
 }
 
+void ofxGenericTextView::setTextAlignment( ofxGenericTextHorizontalAlignment alignment )
+{
+    if ( [ _view isKindOfClass:[ UILabel class ] ] )
+    {
+        UILabel* labelView = ( UILabel* )_view;
+        [ labelView setTextAlignment:ofxGenericTextHorizontalAlignmentToUITextAlignment( alignment ) ];
+    }
+}
+
 UIView* ofxGenericTextView::createUIView( const CGRect& frame )
 {
     UILabel* newView = [ [ UILabel alloc ] initWithFrame:frame ];

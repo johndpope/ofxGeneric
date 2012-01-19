@@ -38,3 +38,17 @@ ofRectangle CGRectToofRectangle( const CGRect& from )
 {
     return ofRectangle( from.origin.x, from.origin.y, from.size.width, from.size.height );
 }
+
+UITextAlignment ofxGenericTextHorizontalAlignmentToUITextAlignment( ofxGenericTextHorizontalAlignment from )
+{
+    switch ( from )
+    {
+        case ofxGenericTextHorizontalAlignmentLeft:
+            return UITextAlignmentLeft;
+        case ofxGenericTextHorizontalAlignmentCenter:
+            return UITextAlignmentCenter;
+        case ofxGenericTextHorizontalAlignmentRight:
+            return UITextAlignmentRight;
+    }
+    return UITextAlignmentLeft;
+}

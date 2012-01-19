@@ -9,12 +9,14 @@
 #pragma once
 
 #include "ofxGenericView.h"
+#include "ofxGenericConstants.h"
 
 class ofxGenericTextView : public ofxGenericView
 {
 public:
     void setText( string newText );
     string getText();
+    void setTextAlignment( ofxGenericTextHorizontalAlignment alignment );
     
 protected:
     virtual UIView* createUIView( const CGRect& frame );
