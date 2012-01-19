@@ -32,8 +32,8 @@ public:
     
     ofRectangle getBounds();
     
-    ofxGenericView* getRootView();
-    void setRootView( ofxGenericView* view );
+    ofPtr< ofxGenericView > getRootView();
+    void setRootView( ofPtr< ofxGenericView > view );
     
 #ifdef TARGET_OS_IPHONE
     UIWindow* getUIWindow();
@@ -45,5 +45,5 @@ protected:
     UIWindow* _uiWindow;
 #endif
     
-    ofxGenericView* _rootView;
+    ofPtr< ofxGenericView > _rootView;
 };

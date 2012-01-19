@@ -20,7 +20,7 @@ public:
     ofxGenericView();
     virtual ~ofxGenericView();
     
-    virtual void init( const ofRectangle& setBounds );
+    virtual void init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setBounds );
 
     UIView* getUIView();
     UIViewController* getUIViewController();
@@ -31,19 +31,21 @@ public:
     ofColor getBackgroundColor();
     void setBackgroundColor( const ofColor& setColor );
     
-    void addChildView( ofxGenericView* add );
-    void removeChildView( ofxGenericView* remove );
+    void addChildView( ofPtr< ofxGenericView > add );
+    void removeChildView( ofPtr< ofxGenericView > remove );
     void removeFromParent();
-    void destroyChildViews();
+    void removeChildViews();
     
 protected:        
     virtual UIView* createUIView( const CGRect& frame );
     virtual UIViewController* createUIViewController();
-
     UIView* _view;
     UIViewController* _viewController;
+    
+    ofPtrWeak< ofxGenericView > _this;
 
-    std::list< ofxGenericView* > _children;
-    ofxGenericView* _parent;
+    std::list< ofPtr< ofxGenericView > > _children;
+    ofPtrWeak< ofxGenericView > _parent;
+    ofPtr< ofxGenericView > getChildViewofPtr( ofxGenericView* forView );
 };
 

@@ -42,7 +42,7 @@ public:
 
 -( void )applicationDidFinishLaunching:( UIApplication* )application
 {
-    ofxAppGenericWindow* window = ofxGenericApp::getInstance()->getWindow();
+    ofPtr< ofxAppGenericWindow > window = ofxGenericApp::getInstance()->getWindow();
 
     if ( window )
     {

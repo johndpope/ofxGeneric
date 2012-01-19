@@ -19,7 +19,7 @@
 @end
 
 ofxGenericView::ofxGenericView()
-: _children(), _parent( NULL )
+: _children()
 , _view( nil ), _viewController( nil )
 {
 }
@@ -28,18 +28,16 @@ ofxGenericView::~ofxGenericView()
 {
     removeFromParent();
     // TODO: make togglable?
-    destroyChildViews();
+    removeChildViews();
     
-    [ _view removeFromSuperview ];
-    [ _view release ];
-    _view = nil;
-    [ _viewController removeFromParentViewController ];
-    [ _viewController release ];
-    _viewController = nil;
+    releaseView( _view );
+    releaseViewController( _viewController );
 }
 
-void ofxGenericView::init( const ofRectangle& setBounds )
+void ofxGenericView::init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setBounds )
 {
+    _this = setThis;
+    
     _view = createUIView( ofRectangleToCGRect( setBounds ) );
     _viewController = createUIViewController();
     [ _viewController setView:_view ];
@@ -91,7 +89,7 @@ void ofxGenericView::setBackgroundColor( const ofColor& setColor )
     [ _view setBackgroundColor:ofColorToUIColor( setColor ) ];
 }
 
-void ofxGenericView::addChildView( ofxGenericView* add )
+void ofxGenericView::addChildView( ofPtr< ofxGenericView > add )
 {
     if ( add )
     {
@@ -99,10 +97,10 @@ void ofxGenericView::addChildView( ofxGenericView* add )
         {
             _children.push_back( add );
             [ _view addSubview:add->getUIView() ];
-            add->_parent = this;
+            add->_parent = _this;
         } else
         {
-            // tODO:
+            // TODO:
         }
     } else
     {
@@ -110,17 +108,17 @@ void ofxGenericView::addChildView( ofxGenericView* add )
     }
 }
 
-void ofxGenericView::removeChildView( ofxGenericView* remove )
+void ofxGenericView::removeChildView( ofPtr< ofxGenericView > remove )
 {
     if ( remove )
     {
         if ( remove->getUIView() )
         {
-            if ( remove->_parent == this )
+            if ( remove->_parent == _this )
             {
                 [ remove->getUIView() removeFromSuperview ];
                 _children.remove( remove );
-                remove->_parent = NULL;
+                remove->_parent = ofPtrWeak< ofxGenericView >();
             } else
             {
                 // TODO:
@@ -135,22 +133,33 @@ void ofxGenericView::removeChildView( ofxGenericView* remove )
     }
 }
 
+ofPtr< ofxGenericView > ofxGenericView::getChildViewofPtr( ofxGenericView* forView )
+{
+    for( 
+        std::list< ofPtr< ofxGenericView > >::iterator trav = _children.begin();
+        trav != _children.end();
+        trav ++
+        )
+    {
+        if ( &**trav == forView )
+            return *trav;
+    }
+    return ofPtr< ofxGenericView >();
+}
+
 void ofxGenericView::removeFromParent()
 {
     if ( _parent )
     {
-        _parent->removeChildView( this );
+        ofPtr< ofxGenericView > parentPtr = _parent.lock();
+        ofPtr< ofxGenericView > thisPtr = parentPtr->getChildViewofPtr( this );
+        parentPtr->removeChildView( thisPtr );
     }
 }
 
-void ofxGenericView::destroyChildViews()
+void ofxGenericView::removeChildViews()
 {
-    while( _children.size() )
-    {
-        ofxGenericView* destroyView = *_children.begin();
-        _children.pop_front();
-        delete destroyView;
-    }
+    _children.clear();
 }
 
 @implementation ofxUIGenericViewController

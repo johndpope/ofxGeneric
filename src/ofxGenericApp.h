@@ -13,7 +13,7 @@ class ofxGenericApp : public ofBaseApp
     singletonInheretableHeader( ofxGenericApp );
     
 public:
-    void runViaInfiniteLoop( ofxAppGenericWindow* window );
+    virtual void runViaInfiniteLoop( ofPtr< ofxAppGenericWindow > window );
     
     // TODO: come up with calling scheme, friending doesn't seem to be possible :(
     virtual void finishedLaunching();
@@ -25,9 +25,9 @@ public:
     
     virtual void deviceOrientationDidChange( ofOrientation newOrientation );
     
-    ofxAppGenericWindow* getWindow();
-    ofxGenericView* getRootView();
+    ofPtr< ofxAppGenericWindow > getWindow();
+    ofPtr< ofxGenericView > getRootView();
     
 protected:    
-    ofxAppGenericWindow* _window;
+    ofPtr< ofxAppGenericWindow > _window;
 };

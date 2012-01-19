@@ -13,24 +13,17 @@
 #import "ofxGenericAppDelegate.h"
 
 ofxGenericApp::ofxGenericApp()
-: _window( NULL )
 {
 }
 
 ofxGenericApp::~ofxGenericApp()
 {
-    if ( _window )
-    {
-        // handled for us by the ofPtr reference counter, TODO: hey I should switch over to using them :D
-        //        delete _window;
-        _window = NULL;
-    }
     ofxGenericApp::_instance = NULL;
 }
 
 singletonInheretableSourceBase( ofxGenericApp );
 
-void ofxGenericApp::runViaInfiniteLoop( ofxAppGenericWindow* window )
+void ofxGenericApp::runViaInfiniteLoop( ofPtr< ofxAppGenericWindow > window )
 {
     // TODO: strong references
     _window = window;
@@ -42,8 +35,8 @@ void ofxGenericApp::runViaInfiniteLoop( ofxAppGenericWindow* window )
 // TODO: come up with calling scheme, friending doesn't seem to be possible :(
 void ofxGenericApp::finishedLaunching()
 {
-    ofxGenericView* rootView = new ofxGenericView();
-    rootView->init( _window->getBounds() );
+    ofPtr< ofxGenericView > rootView( new ofxGenericView() );
+    rootView->init( rootView, _window->getBounds() );
     
     _window->setRootView( rootView );
     
@@ -97,16 +90,16 @@ void ofxGenericApp::deviceOrientationDidChange( ofOrientation newOrientation )
 }
 
 
-ofxAppGenericWindow* ofxGenericApp::getWindow()
+ofPtr< ofxAppGenericWindow > ofxGenericApp::getWindow()
 {
     return _window;
 }
 
-ofxGenericView* ofxGenericApp::getRootView()
+ofPtr< ofxGenericView > ofxGenericApp::getRootView()
 {
     if ( _window )
     {
         return _window->getRootView();
     }
-    return NULL;
+    return ofPtr< ofxGenericView >();
 }

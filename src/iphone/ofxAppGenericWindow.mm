@@ -12,21 +12,14 @@
 #import "ofxGenericApp.h"
 
 ofxAppGenericWindow::ofxAppGenericWindow()
-: _uiWindow( nil ), _rootView( nil )
+: _uiWindow( nil )
 {
     _uiWindow = [ [ UIWindow alloc ] initWithFrame:[ [ UIScreen mainScreen ] bounds ] ];
 }
 
 ofxAppGenericWindow::~ofxAppGenericWindow()
 {
-    if ( _rootView )
-    {
-        delete _rootView;
-        _rootView = NULL;
-    }
-    [ _uiWindow removeFromSuperview ];
-    [ _uiWindow release ];
-    _uiWindow = nil;
+    releaseView( _uiWindow );
 }
 
 UIWindow* ofxAppGenericWindow::getUIWindow()
@@ -38,23 +31,22 @@ void ofxAppGenericWindow::runAppViaInfiniteLoop( ofBaseApp* appPtr )
 {
     // HACK: for now unsafely assume we've got an ofxGenericApp, TODO: does it need to be called from the app?
     ofxGenericApp* app = ( ofxGenericApp* )appPtr;
-    app->runViaInfiniteLoop( this );
+    ofPtr< ofxAppGenericWindow > passThis( this );
+    app->runViaInfiniteLoop( passThis );
 }
 
 ofRectangle ofxAppGenericWindow::getBounds()
 {
-    CGRect from = [ _uiWindow bounds ];
-    ofRectangle to( from.origin.x, from.origin.y, from.size.width, from.size.height );
-    return to;
+    return CGRectToofRectangle( [ _uiWindow bounds ] );
 }
 
-ofxGenericView* ofxAppGenericWindow::getRootView()
+ofPtr< ofxGenericView > ofxAppGenericWindow::getRootView()
 {
     return _rootView;
 }
 
-void ofxAppGenericWindow::setRootView( ofxGenericView* view )
+void ofxAppGenericWindow::setRootView( ofPtr< ofxGenericView > view )
 {
     _rootView = view;
-    [ _uiWindow setRootViewController:view->getUIViewController() ];
+    [ _uiWindow setRootViewController:_rootView->getUIViewController() ];
 }
