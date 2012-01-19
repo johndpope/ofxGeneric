@@ -16,6 +16,7 @@ class ofxGenericTableViewCell;
 class ofxGenericTableView : public ofxGenericView
 {
 public:
+    virtual ~ofxGenericTableView();
     virtual unsigned int getNumberOfCells( unsigned int section );
     virtual ofxGenericTableViewCell* getViewForCell( unsigned int section, unsigned int index );
 

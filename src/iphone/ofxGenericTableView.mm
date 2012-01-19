@@ -7,6 +7,12 @@
 //
 
 #import "ofxGenericTableView.h"
+#import "ofxGenericUtility.h"
+
+ofxGenericTableView::~ofxGenericTableView()
+{
+    release( _forwarder );
+}
 
 UIView* ofxGenericTableView::createUIView( const CGRect& frame )
 {
