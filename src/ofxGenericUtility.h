@@ -31,16 +31,10 @@
     [ objectCViewController release ]; \
     objectCViewController = nil;
 
-UIColor* ofColorToUIColor( const ofColor& from );
-ofColor UIColorToofColor( UIColor* from );
 
 NSString* pathToBundle( NSString* resourceFileName = nil );
 
 CGFloat getWindowScale();
-
-CGRect ofRectangleToCGRect( const ofRectangle& from );
-ofRectangle CGRectToofRectangle( const CGRect& from );
-
 
 #define singletonInheretableHeader( className ) \
 public: \
