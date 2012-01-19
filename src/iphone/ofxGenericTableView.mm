@@ -19,6 +19,7 @@ UIView* ofxGenericTableView::createUIView( const CGRect& frame )
     UITableView* newView = [ [ UITableView alloc ] initWithFrame:frame style:UITableViewStylePlain ];
     _forwarder = [ [ ofxGenericTableViewDelegateForwarder alloc ] initWithDelegate:this ];
     [ newView setDelegate:_forwarder ];
+    [ newView setDataSource:_forwarder ];
     return newView;
 }
 
@@ -27,31 +28,34 @@ unsigned int ofxGenericTableView::getNumberOfCells( unsigned int section )
     return 0;
 }
 
-ofxGenericTableViewCell* ofxGenericTableView::getViewForCell( unsigned int section, unsigned int index )
+ofPtr< ofxGenericTableViewCell > ofxGenericTableView::getViewForCell( unsigned int section, unsigned int index )
 {
-    return NULL;
+    return ofPtr< ofxGenericTableViewCell >();
 }
 
 ofxGenericTableViewCell::~ofxGenericTableViewCell()
 {
-    [ _view release ];
-    _view = nil;
+    releaseView( _view );
 }
 
-void ofxGenericTableViewCell::init()
+void ofxGenericTableViewCell::init( ofPtr< ofxGenericTableViewCell > setThis, ofPtrWeak< ofxGenericTableView > table, const ofRectangle& setBounds )
 {
-    _view = createUITableViewCell();
+    // TODO: skipping parent init is too careless and potentially dangerous, come up with better scheme so we aren't creating unnecessary _view in parent init
+    //    ofxGenericView::init( setThis, setBounds );
+    _this = setThis;
+    
+    _table = table;
+    _view = createUITableViewCell( ofRectangleToCGRect( setBounds ) );
 }
 
 UITableViewCell* ofxGenericTableViewCell::getUITableViewCell()
 {
-    return _view;
+    return ( UITableViewCell* )_view;
 }
 
-UITableViewCell* ofxGenericTableViewCell::createUITableViewCell()
+UITableViewCell* ofxGenericTableViewCell::createUITableViewCell( const CGRect& frame )
 {
-    UITableViewCell* newView = [ [ UITableViewCell alloc ] init ];
-    return newView;
+    return [ [ UITableViewCell alloc ] initWithFrame:frame ];
 }
 
 @implementation ofxGenericTableViewDelegateForwarder
@@ -59,7 +63,6 @@ UITableViewCell* ofxGenericTableViewCell::createUITableViewCell()
 -( id )initWithDelegate:( ofxGenericTableView* )delegate
 {
     self = [ super init ];
-    _delegate = nil;
     if ( self )
     {
         _delegate = delegate;
@@ -80,11 +83,10 @@ UITableViewCell* ofxGenericTableViewCell::createUITableViewCell()
 {
     if ( _delegate )
     {
-        ofxGenericTableViewCell* view = _delegate->getViewForCell( [ indexPath section ], [ indexPath row ] );
+        ofPtr< ofxGenericTableViewCell > view = _delegate->getViewForCell( [ indexPath section ], [ indexPath row ] );
         if ( view )
         {
-            // TODO: fix
-            return ( UITableViewCell* )view->getUITableViewCell();
+            return view->getUITableViewCell();
         }
     }
     return nil;

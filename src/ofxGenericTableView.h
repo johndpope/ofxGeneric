@@ -18,23 +18,24 @@ class ofxGenericTableView : public ofxGenericView
 public:
     virtual ~ofxGenericTableView();
     virtual unsigned int getNumberOfCells( unsigned int section );
-    virtual ofxGenericTableViewCell* getViewForCell( unsigned int section, unsigned int index );
+    virtual ofPtr< ofxGenericTableViewCell > getViewForCell( unsigned int section, unsigned int index );
 
 protected:
     virtual UIView* createUIView( const CGRect& frame );  
     ofxGenericTableViewDelegateForwarder* _forwarder;    
 };
 
-class ofxGenericTableViewCell
+class ofxGenericTableViewCell : public ofxGenericView
 {
 public:
     virtual ~ofxGenericTableViewCell();
-    void init();
+    virtual void init( ofPtr< ofxGenericTableViewCell > setThis, ofPtrWeak< ofxGenericTableView > table, const ofRectangle& setBounds  );
     
     UITableViewCell* getUITableViewCell();
 protected:
-    virtual UITableViewCell* createUITableViewCell();
-    UITableViewCell* _view;
+    ofPtrWeak< ofxGenericTableView > _table;
+    
+    virtual UITableViewCell* createUITableViewCell( const CGRect& frame );
 };
 
 @interface ofxGenericTableViewDelegateForwarder : UITableViewController
