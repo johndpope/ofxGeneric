@@ -13,10 +13,23 @@
 #import <UIKit/UIKit.h>
 #import "ofxiPhoneExtras.h"
 
-#define deleteSafe( cPlusPlusObject ) if ( cPlusPlusObject ) delete cPlusPlusObject; cPlusPlusObject = NULL;
+#define deleteSafe( cPlusPlusObject ) \
+    if ( cPlusPlusObject ) \
+        delete cPlusPlusObject; \
+    cPlusPlusObject = NULL;
 
-#define release( objectiveCObject ) [ objectiveCObject release ]; objectiveCObject = nil;
-#define releaseView( objectiveCView ) [ objectiveCView removeFromSuperview ]; release( objectiveCView );
+#define release( objectiveCObject ) \
+    [ objectiveCObject release ]; \
+    objectiveCObject = nil;
+
+#define releaseView( objectiveCView ) \
+    [ objectiveCView removeFromSuperview ]; \
+    release( objectiveCView );
+
+#define releaseViewController( objectCViewController ) \
+    [ objectCViewController removeFromParentViewController ]; \
+    [ objectCViewController release ]; \
+    objectCViewController = nil;
 
 UIColor* ofColorToUIColor( const ofColor& from );
 ofColor UIColorToofColor( UIColor* from );
