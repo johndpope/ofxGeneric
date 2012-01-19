@@ -17,9 +17,10 @@ class ofxGenericButtonViewTouchDelegate;
 class ofxGenericButtonView : public ofxGenericView
 {
 public:
-    ofxGenericButtonView( ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate );
+    ofxGenericButtonView();
     virtual ~ofxGenericButtonView();
     
+    virtual void init( ofPtrWeak< ofxGenericView > setThis,  ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate, const ofRectangle& setBounds );
     void setText( string newText );
     string getText();
     //    void setTextColor( const ofColor newColor );

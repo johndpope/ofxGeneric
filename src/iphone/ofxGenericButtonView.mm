@@ -9,14 +9,19 @@
 #import "ofxGenericButtonView.h"
 #import "ofxGenericUtility.h"
 
-ofxGenericButtonView::ofxGenericButtonView( ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate )
-: _touchDelegate( touchDelegate )
+ofxGenericButtonView::ofxGenericButtonView()
 {
 }
 
 ofxGenericButtonView::~ofxGenericButtonView()
 {
     release( _eventHandler );
+}
+
+void ofxGenericButtonView::init( ofPtrWeak< ofxGenericView > setThis, ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate, const ofRectangle& setBounds )
+{
+    ofxGenericView::init( setThis, setBounds );
+    _touchDelegate = touchDelegate;
 }
 
 UIView* ofxGenericButtonView::createUIView( const CGRect& frame )
