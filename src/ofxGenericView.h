@@ -20,7 +20,7 @@ public:
     ofxGenericView();
     virtual ~ofxGenericView();
     
-    virtual void init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setBounds );
+    virtual void init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 ) );
 
     UIView* getUIView();
     UIViewController* getUIViewController();

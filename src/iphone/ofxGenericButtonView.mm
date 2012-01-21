@@ -18,7 +18,7 @@ ofxGenericButtonView::~ofxGenericButtonView()
     release( _eventHandler );
 }
 
-void ofxGenericButtonView::init( ofPtrWeak< ofxGenericView > setThis, ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate, const ofRectangle& setBounds )
+void ofxGenericButtonView::init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setBounds, ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate )
 {
     ofxGenericView::init( setThis, setBounds );
     _touchDelegate = touchDelegate;

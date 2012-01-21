@@ -30,7 +30,7 @@ class ofxGenericTableViewCell : public ofxGenericView
 {
 public:
     virtual ~ofxGenericTableViewCell();
-    virtual void init( ofPtr< ofxGenericTableViewCell > setThis, ofPtrWeak< ofxGenericTableView > table, const ofRectangle& setBounds  );
+    virtual void init( ofPtr< ofxGenericTableViewCell > setThis, ofPtrWeak< ofxGenericTableView > table, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 )  );
     
     UITableViewCell* getUITableViewCell();
 protected:
