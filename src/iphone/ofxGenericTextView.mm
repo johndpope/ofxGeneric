@@ -44,6 +44,6 @@ UIView* ofxGenericTextView::createUIView( const CGRect& frame )
     [ newView setBackgroundColor:[ UIColor clearColor ] ];
     [ newView setTextColor:[ UIColor blackColor ] ];
     return newView;
-}ofxGenericUIViewCastOperator( ofxGenericTextView, UILabel );
+}
 
 ofxGenericUIViewCastOperator( ofxGenericTextView, UILabel );
