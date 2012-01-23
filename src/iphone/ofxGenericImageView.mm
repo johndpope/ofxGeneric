@@ -25,3 +25,4 @@ void ofxGenericImageView::setImage( string fileName )
         [ view setImage:[ UIImage imageWithContentsOfFile:pathToBundle( ofxStringToNSString( fileName ) )  ] ];
     }
 }
+ofxGenericUIViewCastOperator( ofxGenericImageView, UIImageView );

@@ -43,6 +43,8 @@ float ofxGenericTableView::getHeightForCell( unsigned int section, unsigned int 
     return 0;
 }
 
+ofxGenericUIViewCastOperator( ofxGenericTableView, UITableView );
+
 ofxGenericTableViewCell::~ofxGenericTableViewCell()
 {
     releaseView( _view );
@@ -59,15 +61,12 @@ void ofxGenericTableViewCell::init( ofPtr< ofxGenericTableViewCell > setThis, of
     [ _view setFrame:ofRectangleToCGRect( setBounds ) ];
 }
 
-UITableViewCell* ofxGenericTableViewCell::getUITableViewCell()
-{
-    return ( UITableViewCell* )_view;
-}
-
 UITableViewCell* ofxGenericTableViewCell::createUITableViewCell( const CGRect& frame )
 {
     return [ [ UITableViewCell alloc ] initWithFrame:frame ];
 }
+
+ofxGenericUIViewCastOperator( ofxGenericTableViewCell, UITableViewCell );
 
 @implementation ofxGenericTableViewDelegateForwarder
 
@@ -97,7 +96,7 @@ UITableViewCell* ofxGenericTableViewCell::createUITableViewCell( const CGRect& f
         ofPtr< ofxGenericTableViewCell > view = _delegate->getCell( [ indexPath section ], [ indexPath row ] );
         if ( view )
         {
-            return view->getUITableViewCell();
+            return *view;
         }
     }
     return nil;

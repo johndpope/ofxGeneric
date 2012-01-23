@@ -17,7 +17,9 @@ public:
     void setText( string newText );
     string getText();
     void setTextAlignment( ofxGenericTextHorizontalAlignment alignment );
-    
+
+    operator UILabel*();
+
 protected:
     virtual UIView* createUIView( const CGRect& frame );
 };

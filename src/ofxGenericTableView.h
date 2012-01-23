@@ -21,6 +21,8 @@ public:
     virtual ofPtr< ofxGenericTableViewCell > getCell( unsigned int section, unsigned int index );
     virtual float getHeightForCell( unsigned int section, unsigned int index );
 
+    operator UITableView*();
+
 protected:
     virtual UIView* createUIView( const CGRect& frame );  
     ofxGenericTableViewDelegateForwarder* _forwarder;    
@@ -32,7 +34,8 @@ public:
     virtual ~ofxGenericTableViewCell();
     virtual void init( ofPtr< ofxGenericTableViewCell > setThis, ofPtrWeak< ofxGenericTableView > table, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 )  );
     
-    UITableViewCell* getUITableViewCell();
+    operator UITableViewCell*();
+
 protected:
     ofPtrWeak< ofxGenericTableView > _table;
     

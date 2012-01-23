@@ -64,6 +64,11 @@ UIView* ofxGenericView::getUIView()
     return _view;
 }
 
+ofxGenericView::operator UIView*()
+{
+    return _view;
+}
+
 UIViewController* ofxGenericView::getUIViewController()
 {
     return _viewController;

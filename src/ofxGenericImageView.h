@@ -15,6 +15,8 @@ class ofxGenericImageView : public ofxGenericView
 public:
     void setImage( string fileName );
     
+    operator UIImageView*();
+    
 protected:
     virtual UIView* createUIView( const CGRect& frame );
 };

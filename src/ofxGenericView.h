@@ -23,6 +23,7 @@ public:
     virtual void init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 ) );
 
     UIView* getUIView();
+    operator UIView*();
     UIViewController* getUIViewController();
 
     ofRectangle getBounds();
@@ -49,3 +50,12 @@ protected:
     ofPtr< ofxGenericView > getChildViewofPtr( ofxGenericView* forView );
 };
 
+#define ofxGenericUIViewCastOperator( ofxType, UIViewType ) \
+ofxType::operator UIViewType*() \
+{ \
+    if ( [ _view isKindOfClass:[ UIViewType class ] ] ) \
+    { \
+        return ( UIViewType* )_view; \
+    } \
+    return nil; \
+}

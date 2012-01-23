@@ -41,6 +41,8 @@ public:
     virtual void touchUpInside();
     virtual void touchUpOutside();
     
+    operator UIButton*();
+    
 protected:
     ofPtrWeak< ofxGenericButtonViewTouchDelegate > _touchDelegate;
     

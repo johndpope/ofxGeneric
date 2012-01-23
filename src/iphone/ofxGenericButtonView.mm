@@ -77,6 +77,8 @@ void ofxGenericButtonView::setBackgroundImage( string fileName )
     }
 }
 
+ofxGenericUIViewCastOperator( ofxGenericButtonView, UIButton );
+
 #define touchEventMethod( eventName ) \
 void ofxGenericButtonView::eventName() \
 { \
