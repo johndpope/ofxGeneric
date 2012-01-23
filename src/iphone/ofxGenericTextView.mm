@@ -15,6 +15,7 @@ void ofxGenericTextView::setText( string newText )
     {
         UILabel* labelView = ( UILabel* )_view;
         [ labelView setText:ofxStringToNSString( newText ) ];
+        [ labelView sizeToFit ]; // TEMP:
     }    
 }
 
