@@ -10,7 +10,9 @@
 
 #include "ofxGenericView.h"
 
+#if TARGET_OS_IPHONE
 @class ofxGenericTableViewDelegateForwarder;
+#endif
 class ofxGenericTableViewCell;
 
 class ofxGenericTableView : public ofxGenericView
@@ -21,11 +23,15 @@ public:
     virtual ofPtr< ofxGenericTableViewCell > getCell( unsigned int section, unsigned int index );
     virtual float getHeightForCell( unsigned int section, unsigned int index );
 
+#if TARGET_OS_IPHONE
     operator UITableView*();
+#endif
 
 protected:
+#if TARGET_OS_IPHONE
     virtual UIView* createUIView( const CGRect& frame );  
     ofxGenericTableViewDelegateForwarder* _forwarder;    
+#endif
 };
 
 class ofxGenericTableViewCell : public ofxGenericView
@@ -34,14 +40,19 @@ public:
     virtual ~ofxGenericTableViewCell();
     virtual void init( ofPtr< ofxGenericTableViewCell > setThis, ofPtrWeak< ofxGenericTableView > table, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 )  );
     
+#if TARGET_OS_IPHONE
     operator UITableViewCell*();
+#endif
 
 protected:
     ofPtrWeak< ofxGenericTableView > _table;
     
+#if TARGET_OS_IPHONE
     virtual UITableViewCell* createUITableViewCell( const CGRect& frame );
+#endif
 };
 
+#if TARGET_OS_IPHONE
 @interface ofxGenericTableViewDelegateForwarder : UITableViewController
 {
 @private
@@ -53,3 +64,4 @@ protected:
 -( CGFloat )tableView:( UITableView* )tableView heightForRowAtIndexPath:( NSIndexPath* )indexPath;
 
 @end
+#endif

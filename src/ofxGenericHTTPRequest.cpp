@@ -1,36 +1,42 @@
 //
-//  ofxGenericHTTPRequest.mm
-//  iOS
+//  ofxGenericHTTPRequest.cpp
 //
 //  Created by Ian Grossberg on 1/23/12.
 //  Copyright (c) 2012 Lumos Labs. All rights reserved.
 //
 
-#import "ofxGenericHTTPRequest.h"
-#import "ofxGenericUtility.h"
-#import "Settings.h"
+#include "ofxGenericHTTPRequest.h"
+#include "ofxGenericUtility.h"
 
 ofxGenericHTTPRequest::ofxGenericHTTPRequest( string url, string method, void* data, int dataByteLength, ofPtr< ofxGenericHTTPRequestDelegate > delegate )
 : _delegate( delegate )
+#if TARGET_OS_IPHONE
 , _connection( nil ), _forwarder( nil )
+#endif
 {
+#if TARGET_OS_IPHONE
     // TODO: allow caching and timeout specification
     NSURLRequest* request = [ NSURLRequest requestWithURL:[ NSURL URLWithString:ofxStringToNSString( url ) ] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:20.0f ];
 
     _forwarder = [ [ NSURLConnectionDelegateForwarder alloc ] initWithDelegate:this ];
     _connection = [ [ NSURLConnection alloc ] initWithRequest:request delegate:_forwarder startImmediately:YES ];
+#endif
 }
 
 ofxGenericHTTPRequest::~ofxGenericHTTPRequest()
 {
     cancel();
+#if TARGET_OS_IPHONE
     release( _forwarder );
+#endif
 }
 
 void ofxGenericHTTPRequest::cancel()
 {
+#if TARGET_OS_IPHONE
     [ _connection cancel ];
     release( _connection );
+#endif
 }
 
 void ofxGenericHTTPRequest::finishedWithError( ofPtr< ofxGenericHTTPResponse > response )
@@ -49,6 +55,7 @@ void ofxGenericHTTPRequest::finishedSuccessfully( ofPtr< ofxGenericHTTPResponse 
     }
 }
 
+#if TARGET_OS_IPHONE
 @implementation NSURLConnectionDelegateForwarder
 
 -( id )initWithDelegate:( ofxGenericHTTPRequest* )delegate
@@ -100,12 +107,12 @@ void ofxGenericHTTPRequest::finishedSuccessfully( ofPtr< ofxGenericHTTPResponse 
 }
 
 #ifdef SSL_PROTOCOL_VERIFICATION_OFF
--( BOOL )connection:( NSURLConnection* )connection canAuthenticateAgainstProtectionSpace:( NSURLProtectionSpace * )protectionSpace 
+-( BOOL )connection:( NSURLConnection* )connection canAuthenticateAgainstProtectionSpace:( NSURLProtectionSpace * )protectionSpace
 {
     return [ protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust ];
 }
 
--( void )connection:( NSURLConnection*)connection didReceiveAuthenticationChallenge:( NSURLAuthenticationChallenge* )challenge 
+-( void )connection:( NSURLConnection*)connection didReceiveAuthenticationChallenge:( NSURLAuthenticationChallenge* )challenge
 {
     if ( [ challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust ] )
     {
@@ -119,3 +126,4 @@ void ofxGenericHTTPRequest::finishedSuccessfully( ofPtr< ofxGenericHTTPResponse 
 #endif
 
 @end
+#endif

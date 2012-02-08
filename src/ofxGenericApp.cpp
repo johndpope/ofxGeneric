@@ -1,16 +1,17 @@
 //
-//  ofxGenericAppiPhone.mm
-//  iPhone+OF Lib
+//  ofxGenericApp.cpp
 //
-//  Created by Ian Grossberg on 12/28/11.
+//  Created by Ian Grossberg on 12/29/11.
 //  Copyright (c) 2011 Lumos Labs. All rights reserved.
 //
 
 #include "ofxGenericApp.h"
 
+#if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
 
 #import "ofxGenericAppDelegate.h"
+#endif
 
 ofxGenericApp::ofxGenericApp()
 {
@@ -27,19 +28,21 @@ void ofxGenericApp::runViaInfiniteLoop( ofPtr< ofxAppGenericWindow > window )
 {
     // TODO: strong references
     _window = window;
-    
+
+#if TARGET_OS_IPHONE
     NSString* delegateClassName = NSStringFromClass( [ ofxGenericAppDelegate class ] );
     UIApplicationMain( nil, nil, nil, delegateClassName );
+#endif
+#if defined(TARGET_ANDROID)
+    finishedLaunching();
+#endif
 }
 
 // TODO: come up with calling scheme, friending doesn't seem to be possible :(
 void ofxGenericApp::finishedLaunching()
 {
-    ofPtr< ofxGenericView > rootView( new ofxGenericView() );
-    rootView->init( rootView, _window->getBounds() );
-    
-    _window->setRootView( rootView );
-    
+	createRootView();
+
     /*
      //----- DAMIAN
      // set data path root for ofToDataPath()
@@ -54,25 +57,32 @@ void ofxGenericApp::finishedLaunching()
      ofLog(OF_LOG_VERBOSE, "setting data path root to " + path);
      ofSetDataPathRoot( path );
      //-----
-          
+
      iPhoneSetOrientation(OFXIPHONE_ORIENTATION_PORTRAIT);
-     
-     
+
+
      // call testApp::setup()
      ofRegisterTouchEvents((ofxiPhoneApp*)ofGetAppPtr());
      */
-    
+
 	ofNotifySetup();
 	ofNotifyUpdate();
-          
+
      /*
      // show or hide status bar depending on OF_WINDOW or OF_FULLSCREEN
      [[UIApplication sharedApplication] setStatusBarHidden:(iPhoneGetOFWindow()->windowMode == OF_FULLSCREEN) animated:YES];
-     
+
      // Listen to did rotate event
 */
 }
 
+void ofxGenericApp::createRootView()
+{
+    ofPtr< ofxGenericView > rootView( new ofxGenericView() );
+    rootView->init( rootView, _window->getBounds() );
+
+    _window->setRootView( rootView );
+}
 
 void ofxGenericApp::didBecomeActive()
 {
@@ -106,3 +116,6 @@ ofPtr< ofxGenericView > ofxGenericApp::getRootView()
     }
     return ofPtr< ofxGenericView >();
 }
+
+
+

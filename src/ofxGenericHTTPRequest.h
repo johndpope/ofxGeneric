@@ -13,7 +13,9 @@
 
 class ofxGenericHTTPRequestDelegate;
 class ofxGenericHTTPResponse;
+#if TARGET_OS_IPHONE
 @class NSURLConnectionDelegateForwarder;
+#endif
 
 class ofxGenericHTTPRequest
 {
@@ -29,8 +31,10 @@ public:
 protected:
     ofPtr< ofxGenericHTTPRequestDelegate > _delegate;
     
+#if TARGET_OS_IPHONE
     NSURLConnection* _connection;
     NSURLConnectionDelegateForwarder* _forwarder;
+#endif
 };
 
 class ofxGenericHTTPRequestDelegate
@@ -42,6 +46,7 @@ public:
     virtual void finishedSuccessfully( ofxGenericHTTPRequest* request, ofPtr< ofxGenericHTTPResponse > response ) = 0;
 };
 
+#if TARGET_OS_IPHONE
 @interface NSURLConnectionDelegateForwarder : NSObject< NSURLConnectionDelegate >
 {
 @protected
@@ -57,4 +62,4 @@ public:
 -( void )connectionDidFinishLoading:( NSURLConnection* )connection;
 
 @end
-
+#endif

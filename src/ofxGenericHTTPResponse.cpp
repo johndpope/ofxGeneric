@@ -1,6 +1,5 @@
 //
-//  ofxGenericHTTPResponse.mm
-//  iOS
+//  ofxGenericHTTPResponse.cpp
 //
 //  Created by Ian Grossberg on 1/23/12.
 //  Copyright (c) 2012 Lumos Labs. All rights reserved.
@@ -11,11 +10,14 @@
 
 ofxGenericHTTPResponse::ofxGenericHTTPResponse()
 : data( NULL ), dataByteLength( 0 )
+#if TARGET_OS_IPHONE
 , _dataSource( nil )
+#endif
 {
-    
+
 }
 
+#if TARGET_OS_IPHONE
 ofxGenericHTTPResponse::ofxGenericHTTPResponse( NSError* error )
 : data( NULL ), dataByteLength( 0 )
 , _dataSource( nil )
@@ -45,9 +47,11 @@ ofxGenericHTTPResponse::ofxGenericHTTPResponse( NSURLResponse* response, NSData*
     dataByteLength = [ setData length ];
     _dataSource = [ setData retain ];
 }
+#endif
 
 ofxGenericHTTPResponse::~ofxGenericHTTPResponse()
-{    
+{
+#if TARGET_OS_IPHONE
     release( _dataSource );
+#endif
 }
-

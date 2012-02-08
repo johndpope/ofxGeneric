@@ -10,8 +10,10 @@
 
 #include "ofMain.h"
 
+#if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
 #import "ofxiPhoneExtras.h"
+#endif
 
 #include "ofxGenericConstants.h"
 
@@ -21,6 +23,7 @@
         delete cPlusPlusObject; \
     cPlusPlusObject = NULL;
 
+#if TARGET_OS_IPHONE
 #define release( objectiveCObject ) \
     [ objectiveCObject release ]; \
     objectiveCObject = nil;
@@ -33,6 +36,7 @@
     [ objectCViewController removeFromParentViewController ]; \
     [ objectCViewController release ]; \
     objectCViewController = nil;
+#endif
 
 // singleton model macros
 
@@ -85,10 +89,11 @@ void className::set ## className ## InstanceToThis() \
     } \
 }
 
+#if TARGET_OS_IPHONE
 // iOS utilities
 NSString* pathToBundle( NSString* resourceFileName = nil );
 
 CGFloat getWindowScale();
 
 UITextAlignment ofxGenericTextHorizontalAlignmentToUITextAlignment( ofxGenericTextHorizontalAlignment from );
-
+#endif

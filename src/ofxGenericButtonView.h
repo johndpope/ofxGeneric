@@ -11,7 +11,9 @@
 
 #include "ofxGenericView.h"
 
+#if TARGET_OS_IPHONE
 @class UIButtonDelegateForwarder;
+#endif
 class ofxGenericButtonViewTouchDelegate;
 
 class ofxGenericButtonView : public ofxGenericView
@@ -41,13 +43,17 @@ public:
     virtual void touchUpInside();
     virtual void touchUpOutside();
     
+#if TARGET_OS_IPHONE
     operator UIButton*();
+#endif
     
 protected:
     ofPtrWeak< ofxGenericButtonViewTouchDelegate > _touchDelegate;
     
+#if TARGET_OS_IPHONE
     virtual UIView* createUIView( const CGRect& frame );  
     UIButtonDelegateForwarder* _eventHandler;
+#endif
 };
 
 class ofxGenericButtonViewTouchDelegate
@@ -66,6 +72,7 @@ public:
     virtual void button_touchUpOutside(){};
 };
 
+#if TARGET_OS_IPHONE
 @interface UIButtonDelegateForwarder : NSObject 
 {
 @private
@@ -84,3 +91,4 @@ public:
 -( void )touchUpOutside:( id )sender;
 
 @end
+#endif

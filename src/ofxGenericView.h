@@ -10,9 +10,11 @@
 
 #include "ofMain.h"
 
+#if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
+#endif
 
-#import <list>
+#include <list>
 
 class ofxGenericView
 {
@@ -22,9 +24,11 @@ public:
     
     virtual void init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 ) );
 
+#if TARGET_OS_IPHONE
     UIView* getUIView();
     operator UIView*();
     UIViewController* getUIViewController();
+#endif
 
     ofRectangle getBounds();
     void setBounds( const ofRectangle& setBounds );
@@ -38,10 +42,12 @@ public:
     void removeChildViews();
     
 protected:        
+#if TARGET_OS_IPHONE
     virtual UIView* createUIView( const CGRect& frame );
     virtual UIViewController* createUIViewController();
     UIView* _view;
     UIViewController* _viewController;
+#endif
     
     ofPtrWeak< ofxGenericView > _this;
 
@@ -50,6 +56,7 @@ protected:
     ofPtr< ofxGenericView > getChildViewofPtr( ofxGenericView* forView );
 };
 
+#if TARGET_OS_IPHONE
 #define ofxGenericUIViewCastOperator( ofxType, UIViewType ) \
 ofxType::operator UIViewType*() \
 { \
@@ -59,3 +66,4 @@ ofxType::operator UIViewType*() \
     } \
     return nil; \
 }
+#endif

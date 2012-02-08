@@ -15,8 +15,12 @@ class ofxGenericImageView : public ofxGenericView
 public:
     void setImage( string fileName );
     
+#if TARGET_OS_IPHONE
     operator UIImageView*();
+#endif
     
 protected:
+#if TARGET_OS_IPHONE
     virtual UIView* createUIView( const CGRect& frame );
+#endif
 };

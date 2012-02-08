@@ -1,19 +1,21 @@
 //
-//  ofxGenericTableView.mm
-//  iPhone+OF Lib
+//  ofxGenericTableView.cpp
 //
 //  Created by Ian Grossberg on 1/3/12.
 //  Copyright (c) 2012 Lumos Labs. All rights reserved.
 //
 
-#import "ofxGenericTableView.h"
-#import "ofxGenericUtility.h"
+#include "ofxGenericTableView.h"
+#include "ofxGenericUtility.h"
 
 ofxGenericTableView::~ofxGenericTableView()
 {
-    release( _forwarder );
+#if TARGET_OS_IPHONE
+	release( _forwarder );
+#endif
 }
 
+#if TARGET_OS_IPHONE
 UIView* ofxGenericTableView::createUIView( const CGRect& frame )
 {
     UITableView* newView = [ [ UITableView alloc ] initWithFrame:frame style:UITableViewStylePlain ];
@@ -22,6 +24,7 @@ UIView* ofxGenericTableView::createUIView( const CGRect& frame )
     [ newView setDataSource:_forwarder ];
     return newView;
 }
+#endif
 
 unsigned int ofxGenericTableView::getNumberOfCells( unsigned int section )
 {
@@ -43,11 +46,15 @@ float ofxGenericTableView::getHeightForCell( unsigned int section, unsigned int 
     return 0;
 }
 
+#if TARGET_OS_IPHONE
 ofxGenericUIViewCastOperator( ofxGenericTableView, UITableView );
+#endif
 
 ofxGenericTableViewCell::~ofxGenericTableViewCell()
 {
+#if TARGET_OS_IPHONE
     releaseView( _view );
+#endif
 }
 
 void ofxGenericTableViewCell::init( ofPtr< ofxGenericTableViewCell > setThis, ofPtrWeak< ofxGenericTableView > table, const ofRectangle& setBounds )
@@ -55,12 +62,15 @@ void ofxGenericTableViewCell::init( ofPtr< ofxGenericTableViewCell > setThis, of
     // TODO: skipping parent init is too careless and potentially dangerous, come up with better scheme so we aren't creating unnecessary _view in parent init
     //    ofxGenericView::init( setThis, setBounds );
     _this = setThis;
-    
+
     _table = table;
+#if TARGET_OS_IPHONE
     _view = createUITableViewCell( ofRectangleToCGRect( setBounds ) );
     [ _view setFrame:ofRectangleToCGRect( setBounds ) ];
+#endif
 }
 
+#if TARGET_OS_IPHONE
 UITableViewCell* ofxGenericTableViewCell::createUITableViewCell( const CGRect& frame )
 {
     return [ [ UITableViewCell alloc ] initWithFrame:frame ];
@@ -113,3 +123,4 @@ ofxGenericUIViewCastOperator( ofxGenericTableViewCell, UITableViewCell );
 
 
 @end
+#endif

@@ -4,7 +4,9 @@
 
 #include "ofxGenericUtility.h"
 
+#if TARGET_OS_IPHONE
 #include "ofxGenericAppDelegate.h"
+#endif
 #include "ofxAppGenericWindow.h"
 #include "ofxGenericView.h"
 
@@ -30,4 +32,6 @@ public:
     
 protected:    
     ofPtr< ofxAppGenericWindow > _window;
+
+    virtual void createRootView();
 };

@@ -26,11 +26,15 @@ public:
     string errorRecoverySuggestions;
         
     ofxGenericHTTPResponse();
+#if TARGET_OS_IPHONE
     ofxGenericHTTPResponse( NSError* error );
     ofxGenericHTTPResponse( NSURLResponse* response, NSData* data );
+#endif
     
     virtual ~ofxGenericHTTPResponse();
     
 protected:
+#if TARGET_OS_IPHONE
     NSData* _dataSource;
+#endif
 };

@@ -18,8 +18,12 @@ public:
     string getText();
     void setTextAlignment( ofxGenericTextHorizontalAlignment alignment );
 
+#if TARGET_OS_IPHONE
     operator UILabel*();
+#endif
 
 protected:
+#if TARGET_OS_IPHONE
     virtual UIView* createUIView( const CGRect& frame );
+#endif
 };
