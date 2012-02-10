@@ -26,6 +26,7 @@ singletonInheretableSourceBase( ofxGenericApp );
 
 void ofxGenericApp::runViaInfiniteLoop( ofPtr< ofxAppGenericWindow > window )
 {
+	ofLog( ofxGenericModuleName, OF_LOG_VERBOSE, "App loop starting..." );
     // TODO: strong references
     _window = window;
 

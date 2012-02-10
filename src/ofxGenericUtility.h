@@ -97,3 +97,11 @@ CGFloat getWindowScale();
 
 UITextAlignment ofxGenericTextHorizontalAlignmentToUITextAlignment( ofxGenericTextHorizontalAlignment from );
 #endif
+
+void ofxGLog( ofLogLevel level, const string & message );
+void ofxGLogError( const string & message );
+void ofxGLogFatalError( const string & message );
+void ofxGLogNotice( const string & message );
+void ofxGLogVerbose( const string & message );
+void ofxGLogWarning( const string & message );
+void ofxGLog( ofLogLevel level, const char* format, ... );

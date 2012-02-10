@@ -14,3 +14,5 @@ enum ofxGenericTextHorizontalAlignment
     ofxGenericTextHorizontalAlignmentCenter,
     ofxGenericTextHorizontalAlignmentRight
 };
+
+#define ofxGenericModuleName "OF::Generic"
