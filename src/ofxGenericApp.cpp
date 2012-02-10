@@ -13,6 +13,10 @@
 #import "ofxGenericAppDelegate.h"
 #endif
 
+#if TARGET_ANDROID
+JNIEnv* ofxGenericApp::jniEnv = NULL;
+#endif
+
 ofxGenericApp::ofxGenericApp()
 {
 }

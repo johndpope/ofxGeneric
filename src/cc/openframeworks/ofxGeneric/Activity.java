@@ -19,7 +19,7 @@ public class Activity extends android.app.Activity
 		
         super.onCreate(savedInstanceState);
 
-        Activity.SetupLog();
+        Activity.SetupJNI();
         Activity.Main();
 /*        if ( ofApp == null )
         {
@@ -28,7 +28,7 @@ public class Activity extends android.app.Activity
         }*/
     }
 	
-	public static native void SetupLog();
+	public static native void SetupJNI();
 	
     public static native void Main(); // TODO: App requires it built, should be part of ofxGeneric
 

@@ -7,6 +7,10 @@
 #if TARGET_OS_IPHONE
 #include "ofxGenericAppDelegate.h"
 #endif
+#if TARGET_ANDROID
+#include <jni.h>
+#endif
+
 #include "ofxAppGenericWindow.h"
 #include "ofxGenericView.h"
 
@@ -30,6 +34,10 @@ public:
     ofPtr< ofxAppGenericWindow > getWindow();
     ofPtr< ofxGenericView > getRootView();
     
+#if TARGET_ANDROID
+    static JNIEnv* jniEnv;
+#endif
+
 protected:    
     ofPtr< ofxAppGenericWindow > _window;
 
