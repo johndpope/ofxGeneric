@@ -17,6 +17,10 @@
 
 #include "ofxGenericConstants.h"
 
+#if TARGET_ANDROID
+#include <jni.h>
+#endif
+
 // memory macros
 #define deleteSafe( cPlusPlusObject ) \
     if ( cPlusPlusObject ) \
@@ -105,3 +109,20 @@ void ofxGLogNotice( const string & message );
 void ofxGLogVerbose( const string & message );
 void ofxGLogWarning( const string & message );
 void ofxGLog( ofLogLevel level, const char* format, ... );
+
+#if TARGET_ANDROID
+
+#include <exception>
+class JNIException : public std::exception
+{
+public:
+	JNIException( string message ) : _what( message ) {}
+	~JNIException() throw() {}
+	const char* what() const throw() { return _what.c_str(); }
+
+private:
+	string _what;
+};
+
+jobject JNICallClassStaticObjectMethod( const char* className, const char* methodName, const char* methodSig );
+#endif
