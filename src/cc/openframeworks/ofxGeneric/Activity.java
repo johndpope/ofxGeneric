@@ -32,20 +32,35 @@ public class Activity extends android.app.Activity
 	
     public static native void Main(); // TODO: App requires it built, should be part of ofxGeneric
 
-    static {
-    	try{
+    static 
+    {
+    	try
+    	{
     		System.loadLibrary("stlport_shared");
-//    		System.loadLibrary("neondetection"); 
-/*	    	if(hasNeon()){
+    	} catch( Throwable e )
+    	{
+    		Log.i( "OF::Generic", "Exception loading library stlport_shared: ", e );
+    	}
+/*    	try
+    	{
+    		System.loadLibrary("neondetection"); 
+	    	if(hasNeon()){
 	    		Log.i("OF","loading neon optimized library");
 	    		System.loadLibrary("OFAndroidApp_neon");
-	    	}else{*/
+	    	}else{
 	    		Log.i("OF","loading not-neon optimized library");
-	    		System.loadLibrary("OFAndroidApp");
-//	    	}
-    	}catch(Throwable e){
+	    	}
+    	} catch( Throwable e ) 
+    	{
     		Log.i("OF","failed neon detection, loading not-neon library",e);
+    	}
+*/
+    	try
+    	{
     		System.loadLibrary("OFAndroidApp");
+    	} catch( Throwable e )
+    	{
+    		Log.i( "OF::Generic", "Exception loading library OFAndroidApp: ", e );
     	}
     }
 
