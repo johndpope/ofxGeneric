@@ -64,7 +64,7 @@ public class Activity extends android.app.Activity
     	}
     }
 
-    public Activity getInstance() 
+    static public Activity getInstance() 
     {
     	return mActivity;
     }
