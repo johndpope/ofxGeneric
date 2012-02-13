@@ -14,6 +14,7 @@
 #endif
 
 #if TARGET_ANDROID
+#include "ofxGenericJNI.h"
 JNIEnv* ofxGenericApp::jniEnv = NULL;
 #endif
 
@@ -39,6 +40,8 @@ void ofxGenericApp::runViaInfiniteLoop( ofPtr< ofxAppGenericWindow > window )
     UIApplicationMain( nil, nil, nil, delegateClassName );
 #endif
 #if defined(TARGET_ANDROID)
+    JNICallObjectMethod( true, "cc/openframeworks/ofxGeneric/Activity", "setWindow", "(Lcc/openframeworks/ofxGeneric/View;)V", _window->getNativeWindow() );
+
     finishedLaunching();
 #endif
 }

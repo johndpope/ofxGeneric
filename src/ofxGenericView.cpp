@@ -19,10 +19,17 @@
 @end
 #endif
 
+#if TARGET_ANDROID
+#include "ofxGenericJNI.h"
+#endif
+
 ofxGenericView::ofxGenericView()
 : _children()
 #if TARGET_OS_IPHONE
 , _view( nil ), _viewController( nil )
+#endif
+#if TARGET_ANDROID
+, _view( NULL )
 #endif
 {
 }
@@ -37,31 +44,41 @@ ofxGenericView::~ofxGenericView()
     releaseView( _view );
     releaseViewController( _viewController );
 #endif
+#if TARGET_ANDROID
+    JNIDeleteLocalRef( _view );
+    _view = NULL;
+#endif
 }
 
-void ofxGenericView::init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setBounds )
+void ofxGenericView::init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setFrame )
 {
     _this = setThis;
 
+    _view = createNativeView( setFrame );
 #if TARGET_OS_IPHONE
-    _view = createUIView( ofRectangleToCGRect( setBounds ) );
     _viewController = createUIViewController();
     [ _viewController setView:_view ];
 #endif
 }
 
-#if TARGET_OS_IPHONE
-UIView* ofxGenericView::createUIView( const CGRect& frame )
+NativeView ofxGenericView::createNativeView( const ofRectangle& setFrame )
 {
-    UIView* newView = [ [ UIView alloc ] initWithFrame:frame ];
+#if TARGET_OS_IPHONE
+	UIView* newView = [ [ UIView alloc ] initWithFrame:ofRectangleToCGRect( setFrame ) ];
 
+	// TODO: move to shared code overridable function after _view assigned? or just assign _view in here
     [ newView setBackgroundColor:[ UIColor whiteColor ] ];
     [ newView setOpaque:YES ];
     [ newView setHidden:NO ];
 
     return newView;
+#endif
+#if TARGET_ANDROID
+    return JNICallObjectMethod( true, "cc/openframeworks/ofxGeneric/View", "createAndInit", "(Landroid/graphics/Rect;)Lcc/openframeworks/ofxGeneric/View;", NULL );
+#endif
 }
 
+#if TARGET_OS_IPHONE
 UIViewController* ofxGenericView::createUIViewController()
 {
     return [ [ ofxUIGenericViewController alloc ] init ];
@@ -108,6 +125,9 @@ void ofxGenericView::setBackgroundColor( const ofColor& setColor )
 {
 #if TARGET_OS_IPHONE
     [ _view setBackgroundColor:ofColorToUIColor( setColor ) ];
+#endif
+#if TARGET_ANDROID
+//public void setBackgroundColor( int red, int green, int blue, int alpha )
 #endif
 }
 

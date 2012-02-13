@@ -12,6 +12,12 @@
 
 #if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
+typedef UIView* NativeView;
+#endif
+
+#if TARGET_ANDROID
+#include <jni.h>
+typedef jobject NativeView;
 #endif
 
 #include <list>
@@ -24,14 +30,14 @@ public:
     
     virtual void init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 ) );
 
+    NativeView getNativeView();
+    operator NativeView();
 #if TARGET_OS_IPHONE
-    UIView* getUIView();
-    operator UIView*();
     UIViewController* getUIViewController();
 #endif
 
-    ofRectangle getBounds();
-    void setBounds( const ofRectangle& setBounds );
+    ofRectangle getFrame();
+    void setFrame( const ofRectangle& setFrame );
     
     ofColor getBackgroundColor();
     void setBackgroundColor( const ofColor& setColor );
@@ -42,10 +48,10 @@ public:
     void removeChildViews();
     
 protected:        
+    virtual NativeView* createNativeView( const ofRectangle& frame );
+    NativeView _view;
 #if TARGET_OS_IPHONE
-    virtual UIView* createUIView( const CGRect& frame );
     virtual UIViewController* createUIViewController();
-    UIView* _view;
     UIViewController* _viewController;
 #endif
     

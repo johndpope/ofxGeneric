@@ -20,7 +20,7 @@
 
     if ( window )
     {
-        self.window = window->getUIWindow();
+        self.window = window->getNativeWindow();
         
         [ self.window setScreen:[ UIScreen mainScreen ] ];
         [ self.window makeKeyAndVisible ];

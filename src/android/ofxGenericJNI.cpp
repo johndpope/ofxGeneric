@@ -27,6 +27,13 @@ extern "C"
 }
 
 // http://docs.oracle.com/javase/1.5.0/docs/guide/jni/spec/types.html#wp276
+// http://www.ibm.com/developerworks/java/tutorials/j-jni/resources.html
+// http://www.ibm.com/developerworks/java/tutorials/j-jni/section6.html
+// http://java.sun.com/docs/books/jni/html/invoke.html
+// debug
+// http://www.eclipse.org/sequoyah/documentation/native_debug.php
+// http://mhandroid.wordpress.com/2011/01/23/using-eclipse-for-android-cc-debugging/#more-23
+// http://wiki.eclipse.org/Sequoyah/ndk_guide
 
 inline jstring JNICStringToJavaString( const char string[] )
 {
@@ -161,3 +168,9 @@ jobject JNICallVoidMethod( bool isStatic, const char* className, const char* met
 	}
 	return NULL;
 }
+
+void JNIDeleteLocalRef( jobject object )
+{
+	ofxGenericApp::jniEnv->DeleteLocalRef( object );
+}
+

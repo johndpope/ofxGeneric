@@ -11,7 +11,8 @@ public class Activity extends android.app.Activity
 {
 //	static protected OFAndroid ofApp;
 	static protected Activity mActivity; // TODO: can we have multiple activities of the same type at once??
-
+	static protected View mWindow;
+	
 	@Override
     public void onCreate(Bundle savedInstanceState)
     { 
@@ -67,6 +68,12 @@ public class Activity extends android.app.Activity
     static public Activity getInstance() 
     {
     	return mActivity;
+    }
+    
+    static public void setWindow( View window )
+    {
+    	mWindow = window;
+    	mActivity.setContentView( window.getView() );
     }
 	
 	@Override

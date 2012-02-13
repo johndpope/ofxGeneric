@@ -1,5 +1,5 @@
 package cc.openframeworks.ofxGeneric;
-
+/*
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -10,9 +10,9 @@ import java.util.Map;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
-
+*/
 import cc.openframeworks.OFAndroidObject;
-
+/*
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -35,7 +35,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CompoundButton;
 import android.widget.Toast;
-
+*/
 public class App 
 {
 	protected String mPackageName;

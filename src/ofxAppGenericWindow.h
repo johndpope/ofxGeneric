@@ -13,6 +13,12 @@
 #if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
 #import "ofAppiPhoneWindow.h"
+typedef UIWindow* NativeWindow;
+#endif
+
+#if TARGET_ANDROID
+#include <jni.h>
+typedef jobject NativeWindow;
 #endif
 
 #include "ofBaseApp.h"
@@ -36,15 +42,11 @@ public:
     ofPtr< ofxGenericView > getRootView();
     void setRootView( ofPtr< ofxGenericView > view );
     
-#if TARGET_OS_IPHONE
-    UIWindow* getUIWindow();
-#endif
+    NativeWindow getNativeWindow();
     
 protected:
-    
-#if TARGET_OS_IPHONE
-    UIWindow* _uiWindow;
-#endif
+    virtual NativeWindow createNativeWindow();
+    NativeWindow _window;
     
     ofPtr< ofxGenericView > _rootView;
 };

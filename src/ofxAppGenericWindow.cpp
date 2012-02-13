@@ -11,30 +11,43 @@
 #endif
 
 #include "ofxGenericApp.h"
+#include "ofxGenericConstants.h"
+
+#if TARGET_ANDROID
+#include "ofxGenericJNI.h"
+#endif
 
 ofxAppGenericWindow::ofxAppGenericWindow()
 #if TARGET_OS_IPHONE
-: _uiWindow( nil )
+: _window( nil )
 #endif
 {
-#if TARGET_OS_IPHONE
-    _uiWindow = [ [ UIWindow alloc ] initWithFrame:[ [ UIScreen mainScreen ] bounds ] ];
-#endif
+    _window = createNativeWindow();
 }
 
 ofxAppGenericWindow::~ofxAppGenericWindow()
 {
 #if TARGET_OS_IPHONE
-    releaseView( _uiWindow );
+    releaseView( _window );
 #endif
 }
 
-#if TARGET_OS_IPHONE
-UIWindow* ofxAppGenericWindow::getUIWindow()
+NativeWindow ofxAppGenericWindow::createNativeWindow()
 {
-    return _uiWindow;
-}
+#if TARGET_OS_IPHONE
+    return [ [ UIWindow alloc ] initWithFrame:[ [ UIScreen mainScreen ] bounds ] ];
 #endif
+
+#if TARGET_ANDROID
+    return JNICallObjectMethod( true, "cc/openframeworks/ofxGeneric/View", "createAndInit", "(Landroid/graphics/Rect;)Lcc/openframeworks/ofxGeneric/View;", NULL );
+#endif
+	return NULL;
+}
+
+NativeWindow ofxAppGenericWindow::getNativeWindow()
+{
+    return _window;
+}
 
 void ofxAppGenericWindow::runAppViaInfiniteLoop( ofBaseApp* appPtr )
 {
@@ -47,7 +60,7 @@ void ofxAppGenericWindow::runAppViaInfiniteLoop( ofBaseApp* appPtr )
 ofRectangle ofxAppGenericWindow::getBounds()
 {
 #if TARGET_OS_IPHONE
-    return CGRectToofRectangle( [ _uiWindow bounds ] );
+    return CGRectToofRectangle( [ _window bounds ] );
 #endif
 }
 
@@ -60,7 +73,9 @@ void ofxAppGenericWindow::setRootView( ofPtr< ofxGenericView > view )
 {
     _rootView = view;
 #if TARGET_OS_IPHONE
-    [ _uiWindow setRootViewController:_rootView->getUIViewController() ];
+    [ _window setRootViewController:_rootView->getUIViewController() ];
+#endif
+#if TARGET_ANDROID
 #endif
 }
 
