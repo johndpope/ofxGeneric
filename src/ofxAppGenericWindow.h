@@ -13,6 +13,10 @@
 #include "ofBaseApp.h"
 #include "ofxGenericView.h"
 
+#if TARGET_OS_IPHONE
+#include "ofAppiPhoneWindow.h"
+#endif
+
 class ofxAppGenericWindow
 #if TARGET_OS_IPHONE
 : public ofAppiPhoneWindow
@@ -26,7 +30,7 @@ public:
     
     virtual void runAppViaInfiniteLoop( ofBaseApp* appPtr );  
     
-    ofRectangle getBounds();
+    ofRectangle getFrame();
     
     ofPtr< ofxGenericView > getRootView();
     void setRootView( ofPtr< ofxGenericView > view );

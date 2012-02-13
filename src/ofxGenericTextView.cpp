@@ -43,14 +43,16 @@ void ofxGenericTextView::setTextAlignment( ofxGenericTextHorizontalAlignment ali
 #endif
 }
 
-#if TARGET_OS_IPHONE
-UIView* ofxGenericTextView::createUIView( const CGRect& frame )
+NativeView ofxGenericTextView::createNativeView( const ofRectangle& frame )
 {
-    UILabel* newView = [ [ UILabel alloc ] initWithFrame:frame ];
+#if TARGET_OS_IPHONE
+    UILabel* newView = [ [ UILabel alloc ] initWithFrame:ofRectangleToCGRect( frame ) ];
     [ newView setBackgroundColor:[ UIColor clearColor ] ];
     [ newView setTextColor:[ UIColor blackColor ] ];
     return newView;
+#endif
 }
 
+#if TARGET_OS_IPHONE
 ofxGenericUIViewCastOperator( ofxGenericTextView, UILabel );
 #endif

@@ -50,8 +50,8 @@ public:
 protected:
     ofPtrWeak< ofxGenericButtonViewTouchDelegate > _touchDelegate;
     
+    virtual NativeView createNativeView( const ofRectangle& frame );
 #if TARGET_OS_IPHONE
-    virtual UIView* createUIView( const CGRect& frame );  
     UIButtonDelegateForwarder* _eventHandler;
 #endif
 };

@@ -57,7 +57,7 @@ void ofxAppGenericWindow::runAppViaInfiniteLoop( ofBaseApp* appPtr )
     app->runViaInfiniteLoop( passThis );
 }
 
-ofRectangle ofxAppGenericWindow::getBounds()
+ofRectangle ofxAppGenericWindow::getFrame()
 {
 #if TARGET_OS_IPHONE
     return CGRectToofRectangle( [ _window bounds ] );

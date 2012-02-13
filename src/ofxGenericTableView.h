@@ -28,8 +28,8 @@ public:
 #endif
 
 protected:
+    virtual NativeView createNativeView( const ofRectangle& frame );
 #if TARGET_OS_IPHONE
-    virtual UIView* createUIView( const CGRect& frame );  
     ofxGenericTableViewDelegateForwarder* _forwarder;    
 #endif
 };

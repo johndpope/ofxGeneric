@@ -110,7 +110,7 @@ ofRectangle ofxGenericView::getFrame()
 void ofxGenericView::setFrame( const ofRectangle& setFrame )
 {
 #if TARGET_OS_IPHONE
-    [ _view setFrame: ofRectangleToCGRect( setBounds ) ];
+    [ _view setFrame: ofRectangleToCGRect( setFrame ) ];
 #endif
 }
 
@@ -136,16 +136,18 @@ void ofxGenericView::addChildView( ofPtr< ofxGenericView > add )
     if ( add )
     {
         _children.push_back( add );
-#if TARGET_OS_IPHONE
-        if ( add->getUIView() )
+        NativeView nativeView = add->getNativeView();
+        if ( nativeView )
         {
-          	[ _view addSubview:add->getUIView() ];
+#if TARGET_OS_IPHONE
+          	[ _view addSubview:nativeView ];
+#else // FIXME: #elif TARGET_ANDROID
+#endif
         } else
         {
             // TODO:
         }
         add->_parent = _this;
-#endif
     } else
     {
         // TODO:
@@ -158,15 +160,17 @@ void ofxGenericView::removeChildView( ofPtr< ofxGenericView > remove )
     {
 		if ( remove->_parent == _this )
 		{
-#if TARGET_OS_IPHONE
-			if ( remove->getUIView() )
+            NativeView nativeView = remove->getNativeView();
+			if ( nativeView )
 			{
-				[ remove->getUIView() removeFromSuperview ];
+#if TARGET_OS_IPHONE
+				[ nativeView removeFromSuperview ];
+#else // FIXME: #elif TARGET_ANDROID
+#endif
 			} else
 			{
 				// TODO:
 			}
-#endif
 			_children.remove( remove );
 			remove->_parent = ofPtrWeak< ofxGenericView >();
         } else

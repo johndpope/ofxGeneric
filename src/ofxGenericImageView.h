@@ -20,7 +20,5 @@ public:
 #endif
     
 protected:
-#if TARGET_OS_IPHONE
-    virtual UIView* createUIView( const CGRect& frame );
-#endif
+    virtual NativeView createNativeView( const ofRectangle& frame );
 };

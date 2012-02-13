@@ -25,12 +25,12 @@ void ofxGenericButtonView::init( ofPtrWeak< ofxGenericView > setThis, const ofRe
     _touchDelegate = touchDelegate;
 }
 
-#if TARGET_OS_IPHONE
-UIView* ofxGenericButtonView::createUIView( const CGRect& frame )
+NativeView ofxGenericButtonView::createNativeView( const ofRectangle& frame )
 {
+#if TARGET_OS_IPHONE
     // TODO: configurable type
     UIButton* newView = [ [ UIButton buttonWithType:UIButtonTypeRoundedRect ] retain ];
-    [ newView setFrame:frame ];
+    [ newView setFrame:ofRectangleToCGRect( frame ) ];
     [ newView setTitleColor:[ UIColor blackColor ] forState:UIControlStateNormal ];
     [ newView setBackgroundColor:[ UIColor clearColor ] ];
 
@@ -48,8 +48,8 @@ UIView* ofxGenericButtonView::createUIView( const CGRect& frame )
     [ newView addTarget:_eventHandler action:@selector( touchUpInside: ) forControlEvents: UIControlEventTouchUpInside ];
     [ newView addTarget:_eventHandler action:@selector( touchUpOutside: ) forControlEvents:UIControlEventTouchUpOutside ];
     return newView;
-}
 #endif
+}
 
 void ofxGenericButtonView::setText( string newText )
 {

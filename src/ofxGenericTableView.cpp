@@ -15,16 +15,16 @@ ofxGenericTableView::~ofxGenericTableView()
 #endif
 }
 
-#if TARGET_OS_IPHONE
-UIView* ofxGenericTableView::createUIView( const CGRect& frame )
+NativeView ofxGenericTableView::createNativeView( const ofRectangle& frame )
 {
-    UITableView* newView = [ [ UITableView alloc ] initWithFrame:frame style:UITableViewStylePlain ];
+#if TARGET_OS_IPHONE
+    UITableView* newView = [ [ UITableView alloc ] initWithFrame:ofRectangleToCGRect( frame ) style:UITableViewStylePlain ];
     _forwarder = [ [ ofxGenericTableViewDelegateForwarder alloc ] initWithDelegate:this ];
     [ newView setDelegate:_forwarder ];
     [ newView setDataSource:_forwarder ];
     return newView;
-}
 #endif
+}
 
 unsigned int ofxGenericTableView::getNumberOfCells( unsigned int section )
 {

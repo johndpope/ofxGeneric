@@ -8,14 +8,14 @@
 #include "ofxGenericImageView.h"
 #include "ofxGenericUtility.h"
 
-#if TARGET_OS_IPHONE
-UIView* ofxGenericImageView::createUIView( const CGRect& frame )
+NativeView ofxGenericImageView::createNativeView( const ofRectangle& frame )
 {
-    UIImageView* newView = [ [ UIImageView alloc ] initWithFrame:frame ];
+#if TARGET_OS_IPHONE
+    UIImageView* newView = [ [ UIImageView alloc ] initWithFrame:ofRectangleToCGRect( frame ) ];
     [ newView setBackgroundColor:[ UIColor clearColor ] ];
     return newView;
-}
 #endif
+}
 
 // TODO: auto @2x if available
 void ofxGenericImageView::setImage( string fileName )
