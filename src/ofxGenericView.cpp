@@ -78,20 +78,20 @@ NativeView ofxGenericView::createNativeView( const ofRectangle& setFrame )
 #endif
 }
 
+NativeView ofxGenericView::getNativeView()
+{
+	return _view;
+}
+
+ofxGenericView::operator NativeView()
+{
+	return _view;
+}
+
 #if TARGET_OS_IPHONE
 UIViewController* ofxGenericView::createUIViewController()
 {
     return [ [ ofxUIGenericViewController alloc ] init ];
-}
-
-UIView* ofxGenericView::getUIView()
-{
-    return _view;
-}
-
-ofxGenericView::operator UIView*()
-{
-    return _view;
 }
 
 UIViewController* ofxGenericView::getUIViewController()
@@ -100,14 +100,14 @@ UIViewController* ofxGenericView::getUIViewController()
 }
 #endif
 
-ofRectangle ofxGenericView::getBounds()
+ofRectangle ofxGenericView::getFrame()
 {
 #if TARGET_OS_IPHONE
     return CGRectToofRectangle( [ _view frame ] );
 #endif
 }
 
-void ofxGenericView::setBounds( const ofRectangle& setBounds )
+void ofxGenericView::setFrame( const ofRectangle& setFrame )
 {
 #if TARGET_OS_IPHONE
     [ _view setFrame: ofRectangleToCGRect( setBounds ) ];

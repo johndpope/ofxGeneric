@@ -8,6 +8,16 @@
 
 #pragma once
 
+#if TARGET_OS_IPHONE
+#import <UIKit/UIKit.h>
+typedef UIView* NativeView;
+typedef UIWindow* NativeWindow;
+#else //if TARGET_ANDROID // FIXME: ARG ECLIPSE WHY DO YOU HATE ME PARSEEEEEEEE DAAAMN YOU
+#include <jni.h>
+typedef jobject NativeView;
+typedef jobject NativeWindow;
+#endif
+
 enum ofxGenericTextHorizontalAlignment
 {
     ofxGenericTextHorizontalAlignmentLeft,
@@ -16,3 +26,4 @@ enum ofxGenericTextHorizontalAlignment
 };
 
 #define ofxGenericModuleName "OF::Generic"
+

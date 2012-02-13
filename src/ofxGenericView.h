@@ -9,16 +9,7 @@
 #pragma once
 
 #include "ofMain.h"
-
-#if TARGET_OS_IPHONE
-#import <UIKit/UIKit.h>
-typedef UIView* NativeView;
-#endif
-
-#if TARGET_ANDROID
-#include <jni.h>
-typedef jobject NativeView;
-#endif
+#include "ofxGenericConstants.h"
 
 #include <list>
 
@@ -48,7 +39,7 @@ public:
     void removeChildViews();
     
 protected:        
-    virtual NativeView* createNativeView( const ofRectangle& frame );
+    virtual NativeView createNativeView( const ofRectangle& frame );
     NativeView _view;
 #if TARGET_OS_IPHONE
     virtual UIViewController* createUIViewController();

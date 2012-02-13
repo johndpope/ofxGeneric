@@ -41,7 +41,7 @@ float ofxGenericTableView::getHeightForCell( unsigned int section, unsigned int 
     ofPtr< ofxGenericTableViewCell > cell = getCell( section, index );
     if ( cell )
     {
-        return cell->getBounds().height;
+        return cell->getFrame().height;
     }
     return 0;
 }

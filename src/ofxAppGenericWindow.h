@@ -10,17 +10,6 @@
 
 #include "ofAppBaseWindow.h"
 
-#if TARGET_OS_IPHONE
-#import <UIKit/UIKit.h>
-#import "ofAppiPhoneWindow.h"
-typedef UIWindow* NativeWindow;
-#endif
-
-#if TARGET_ANDROID
-#include <jni.h>
-typedef jobject NativeWindow;
-#endif
-
 #include "ofBaseApp.h"
 #include "ofxGenericView.h"
 
