@@ -44,6 +44,9 @@ protected:
 #if TARGET_OS_IPHONE
     virtual UIViewController* createUIViewController();
     UIViewController* _viewController;
+#elif TARGET_ANDROID
+    jclass _viewClass;
+    jmethodID _createViewMethodId;
 #endif
     
     ofPtrWeak< ofxGenericView > _this;

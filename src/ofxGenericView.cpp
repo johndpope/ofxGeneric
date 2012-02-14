@@ -24,13 +24,13 @@
 #endif
 
 ofxGenericView::ofxGenericView()
-: _children()
+:
 #if TARGET_OS_IPHONE
-, _view( nil ), _viewController( nil )
+ _view( nil ), _viewController( nil ),
+#elif TARGET_ANDROID
+ _view( NULL ), _viewClass( NULL ), _createViewMethodId( NULL ),
 #endif
-#if TARGET_ANDROID
-, _view( NULL )
-#endif
+_children()
 {
 }
 
@@ -43,8 +43,7 @@ ofxGenericView::~ofxGenericView()
 #if TARGET_OS_IPHONE
     releaseView( _view );
     releaseViewController( _viewController );
-#endif
-#if TARGET_ANDROID
+#elif TARGET_ANDROID
     JNIDeleteLocalRef( _view );
     _view = NULL;
 #endif
@@ -72,9 +71,13 @@ NativeView ofxGenericView::createNativeView( const ofRectangle& setFrame )
     [ newView setHidden:NO ];
 
     return newView;
-#endif
-#if TARGET_ANDROID
-    return JNICallObjectMethod( true, "cc/openframeworks/ofxGeneric/View", "createAndInit", "(Landroid/graphics/Rect;)Lcc/openframeworks/ofxGeneric/View;", NULL );
+#elif TARGET_ANDROID
+    if ( !_viewClass )
+    	_viewClass = JNIFindClass( "cc/openframeworks/ofxGeneric/View" );
+    if ( !_createViewMethodId )
+    	_createViewMethodId = JNIGetMethodID( _viewClass, true, "createAndInit", JNIEncodeMethodSignature( 1, JNIType_object, "cc/openframeworks/ofxGeneric/View", JNIType_object, "android/graphics/Rect" ) );
+
+    return JNICallObjectMethod( _viewClass, true, _createViewMethodId, NULL );
 #endif
 }
 

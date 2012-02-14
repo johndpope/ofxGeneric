@@ -2,12 +2,12 @@
 
 #include "ofMain.h"
 
+#include "ofxGenericConstants.h"
 #include "ofxGenericUtility.h"
 
 #if TARGET_OS_IPHONE
 #include "ofxGenericAppDelegate.h"
-#endif
-#if TARGET_ANDROID
+#elif TARGET_ANDROID
 #include <jni.h>
 #endif
 
