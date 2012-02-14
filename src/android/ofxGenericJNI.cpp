@@ -1,7 +1,5 @@
 #include "ofxGenericJNI.h"
 
-#include "ofxGenericConstants.h"
-
 #include "android/log.h"
 #include "ofxAndroidLogChannel.h"
 
@@ -35,19 +33,19 @@ extern "C"
 // http://mhandroid.wordpress.com/2011/01/23/using-eclipse-for-android-cc-debugging/#more-23
 // http://wiki.eclipse.org/Sequoyah/ndk_guide
 
-inline jstring JNICStringToJavaString( const char string[] )
+jstring JNICStringToJavaString( const char string[] )
 {
     // translate c string to java string
     return ofxGenericApp::jniEnv->NewStringUTF( string );
 }
 
-inline const char* JNIJavaStringToCString( JNIEnv* env, jstring string )
+const char* JNIJavaStringToCString( JNIEnv* env, jstring string )
 {
     jboolean copy;
     return ofxGenericApp::jniEnv->GetStringUTFChars( string, &copy );
 }
 
-inline const char* JNIGetClassName( jobject object )
+const char* JNIGetClassName( jobject object )
 {
     jclass jClass = ofxGenericApp::jniEnv->GetObjectClass( object );
     if ( !jClass )
@@ -62,7 +60,7 @@ inline const char* JNIGetClassName( jobject object )
     return JNIJavaStringToCString( ofxGenericApp::jniEnv, name );
 }
 
-inline void JNIHandleException()
+void JNIHandleException()
 {
 	jthrowable exception = ofxGenericApp::jniEnv->ExceptionOccurred();
 	if ( exception )
@@ -82,14 +80,14 @@ inline void JNIHandleException()
 	}
 }
 
-inline jclass JNIFindClass( const char* className )
+jclass JNIFindClass( const char* className )
 {
 	jclass classObject = ofxGenericApp::jniEnv->FindClass( className );
 	JNIHandleException();
 	return classObject;
 }
 
-inline jmethodID JNIGetMethodID( jclass classObject, bool isStatic, const char* methodName, const char* methodSignature )
+jmethodID JNIGetMethodID( jclass classObject, bool isStatic, const char* methodName, const char* methodSignature )
 {
 	jmethodID methodID;
 	if ( isStatic )
@@ -103,7 +101,7 @@ inline jmethodID JNIGetMethodID( jclass classObject, bool isStatic, const char* 
 	return methodID;
 }
 
-inline jobject JNICallObjectMethod( jclass classObject, bool isStatic, jmethodID methodID, va_list args )
+jobject JNICallObjectMethod( jclass classObject, bool isStatic, jmethodID methodID, va_list args )
 {
 	jobject result;
 	if ( isStatic )
@@ -114,6 +112,15 @@ inline jobject JNICallObjectMethod( jclass classObject, bool isStatic, jmethodID
 		result = ofxGenericApp::jniEnv->CallObjectMethodV( classObject, methodID, args );
 	}
 	JNIHandleException();
+	return result;
+}
+
+jobject JNICallObjectMethod( jclass classObject, bool isStatic, jmethodID methodID, ... )
+{
+	va_list args;
+	va_start( args, methodID );
+	jobject result = JNICallObjectMethod( classObject, isStatic, methodID, args );
+	va_end( args );
 	return result;
 }
 
@@ -138,7 +145,7 @@ jobject JNICallObjectMethod( bool isStatic, const char* className, const char* m
 	return NULL;
 }
 
-inline void JNICallVoidMethod( jclass classObject, bool isStatic, jmethodID methodID, va_list args )
+void JNICallVoidMethod( jclass classObject, bool isStatic, jmethodID methodID, va_list args )
 {
 	if ( isStatic )
 	{
@@ -172,5 +179,96 @@ jobject JNICallVoidMethod( bool isStatic, const char* className, const char* met
 void JNIDeleteLocalRef( jobject object )
 {
 	ofxGenericApp::jniEnv->DeleteLocalRef( object );
+}
+
+const char* JNIGetBasicTypeSignatureEncoding( const JNIBasicTypeSignature& type )
+{
+	switch( type )
+	{
+		// TODO: map external to function so others can use
+		case JNIType_bool:
+			return "Z";
+		case JNIType_byte:
+			return "B";
+		case JNIType_char:
+			return "C";
+		case JNIType_short:
+			return "S";
+		case JNIType_int:
+			return "I";
+		case JNIType_long:
+			return "J";
+		case JNIType_float:
+			return "F";
+		case JNIType_double:
+			return "D";
+		case JNIType_array:
+			return "[";
+		case JNIType_void:
+			return "V";
+		case JNIType_object:
+			return "L%s;";
+	}
+	return NULL;
+}
+
+const char* JNIGetObjectSignatureEncoding( const char* objectWithPath )
+{
+	string encoded( "L" );
+	encoded += objectWithPath;
+	encoded += ";";
+	return encoded.c_str();
+}
+
+const char* JNIEncodeMethodSignature( int numParameters, JNIBasicTypeSignature returnType, ... )
+{
+	string encoded( "(" );
+	va_list parameterTypePointer;
+	va_start( parameterTypePointer, returnType );
+
+    JNIBasicTypeSignature arrayReturnType = JNIType_void;
+	const char* returnTypeObjectWithPath = NULL;
+    if ( returnType == JNIType_array )
+    {
+        arrayReturnType = ( JNIBasicTypeSignature )va_arg( parameterTypePointer, int ); //annoying warning JNIBasicTypeSignature );
+    }
+    if ( returnType == JNIType_object || ( returnType == JNIType_array && arrayReturnType == JNIType_object ) )
+	{
+		returnTypeObjectWithPath = va_arg( parameterTypePointer, char* );
+	}
+
+    for( int travParameters = 0; travParameters < numParameters; travParameters ++ )
+    {
+        JNIBasicTypeSignature parameterType = ( JNIBasicTypeSignature )va_arg( parameterTypePointer, int ); //annoying warning JNIBasicTypeSignature );
+        if ( parameterType == JNIType_array )
+        {
+            encoded += JNIGetBasicTypeSignatureEncoding( JNIType_array );
+            parameterType = ( JNIBasicTypeSignature )va_arg( parameterTypePointer, int ); //annoying warning JNIBasicTypeSignature );
+        }
+		if( parameterType == JNIType_object )
+		{
+			const char* objectWithPath = va_arg( parameterTypePointer, char* );
+            encoded += JNIGetObjectSignatureEncoding( objectWithPath );
+		} else
+		{
+			encoded += JNIGetBasicTypeSignatureEncoding( parameterType );
+		}
+	}
+	encoded += ")";
+
+    if ( returnType == JNIType_array )
+    {
+        encoded += JNIGetBasicTypeSignatureEncoding( JNIType_array );
+        returnType = arrayReturnType;
+    }
+	if( returnType == JNIType_object )
+	{
+		encoded += JNIGetObjectSignatureEncoding( returnTypeObjectWithPath );
+	} else
+	{
+		encoded += JNIGetBasicTypeSignatureEncoding( returnType );
+	}
+
+	return encoded.c_str();
 }
 

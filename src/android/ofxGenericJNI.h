@@ -1,3 +1,4 @@
+#include "ofxGenericConstants.h"
 #include "ofMain.h"
 
 #include <jni.h>
@@ -15,20 +16,41 @@ private:
 	string _what;
 };
 
-inline jstring JNICStringToJavaString( const char string[] );
-inline const char* JNIJavaStringToCString( jstring string );
+jstring JNICStringToJavaString( const char string[] );
+const char* JNIJavaStringToCString( jstring string );
 
-inline void JNIHandleException();
+void JNIHandleException();
 
-inline const char* JNIGetClassName( jobject object );
-inline jclass JNIFindClass( const char* className );
+const char* JNIGetClassName( jobject object );
+jclass JNIFindClass( const char* className );
 
-inline jmethodID JNIGetMethodID( jclass classObject, bool isStatic, const char* methodName, const char* methodSignature );
+jmethodID JNIGetMethodID( jclass classObject, bool isStatic, const char* methodName, const char* methodSignature );
 
-inline jobject JNICallObjectMethod( jclass classObject, bool isStatic, jmethodID methodID, va_list args );
+jobject JNICallObjectMethod( jclass classObject, bool isStatic, jmethodID methodID, va_list args );
+jobject JNICallObjectMethod( jclass classObject, bool isStatic, jmethodID methodID, ... );
 jobject JNICallObjectMethod( bool isStatic, const char* className, const char* methodName, const char* methodSig, ... );
 
-inline void JNICallVoidMethod( jclass classObject, bool isStatic, jmethodID methodID, va_list args );
+void JNICallVoidMethod( jclass classObject, bool isStatic, jmethodID methodID, va_list args );
 jobject JNICallVoidMethod( bool isStatic, const char* className, const char* methodName, const char* methodSig, ... );
 
 void JNIDeleteLocalRef( jobject object );
+
+
+enum JNIBasicTypeSignature
+{
+	JNIType_bool,
+	JNIType_byte,
+	JNIType_char,
+	JNIType_short,
+	JNIType_int,
+	JNIType_long,
+	JNIType_float,
+	JNIType_double,
+	JNIType_array,
+	JNIType_void,
+	JNIType_object
+};
+
+const char* JNIGetBasicTypeSignatureEncoding( const JNIBasicTypeSignature& type );
+const char* JNIGetObjectSignatureEncoding( const char* objectWithPath );
+const char* JNIEncodeMethodSignature( int numParameters, JNIBasicTypeSignature returnType, ... );
