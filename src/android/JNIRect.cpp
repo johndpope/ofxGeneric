@@ -53,7 +53,6 @@ JNIMethod* JNIRect::getConstructor()
 				false,
 				"<init>",
 				JNIEncodeMethodSignature( 4, JNIType_void, JNIType_int, JNIType_int, JNIType_int, JNIType_int )
-//				JNIEncodeMethodSignature( 4, JNIType_object, JNIRect::className, JNIType_int, JNIType_int, JNIType_int, JNIType_int )
 				);
 	}
 	return _constructor;
