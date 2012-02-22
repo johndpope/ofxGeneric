@@ -22,7 +22,6 @@
 
 #if TARGET_ANDROID
 jclass ofxGenericView::_jniClass = NULL;
-std::map< int, JNIMethod* > ofxGenericView::_jniStaticMethods;
 const char* ofxGenericView::className = "cc/openframeworks/ofxGeneric/View";
 #endif
 
@@ -63,6 +62,13 @@ void ofxGenericView::init( ofPtrWeak< ofxGenericView > setThis, const ofRectangl
 #if TARGET_OS_IPHONE
     _viewController = createUIViewController();
     [ _viewController setView:_view ];
+#elif TARGET_ANDROID
+    JNIRect jniRect = ofRectangleToJNIRect( setFrame );
+    callJNIVoidMethod(
+    		_jniMethods,
+    		JNIMethod_Init,
+    		jniRect.getJNIInstance()
+    		);
 #endif
 }
 
@@ -103,13 +109,7 @@ NativeView ofxGenericView::createNativeView( const ofRectangle& setFrame )
 #elif TARGET_ANDROID
 
     // TODO: exception handling
-    JNIRect jniRect = ofRectangleToJNIRect( setFrame );
-    jobject newView = callJNIObjectMethod(
-    		_jniStaticMethods,
-    		JNIMethod_CreateAndInit,
-    		jniRect.getJNIInstance()
-    		);
-
+    jobject newView = createJNIInstance( _jniMethods, JNIMethod_constructor );
     // set background white
     // set opaque
     // set not hidden
@@ -278,11 +278,19 @@ void ofxGenericView::removeChildViews()
 void ofxGenericView::registerJNIMethods()
 {
     registerJNIMethodID(
-    		_jniStaticMethods,
-    		true,
-    		JNIMethod_CreateAndInit,
-			"createAndInit",
-			JNIEncodeMethodSignature( 1, JNIType_object, ofxGenericView::className, JNIType_object, JNIRect::className )
+    		_jniMethods,
+    		false,
+    		JNIMethod_constructor,
+			"<init>",
+			JNIEncodeMethodSignature( 0, JNIType_void )
+    		);
+
+    registerJNIMethodID(
+    		_jniMethods,
+    		false,
+    		JNIMethod_Init,
+			"Init",
+			JNIEncodeMethodSignature( 1, JNIType_void, JNIType_object, JNIRect::className )
     		);
 
     registerJNIMethodID(

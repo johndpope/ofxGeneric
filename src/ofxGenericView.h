@@ -65,16 +65,12 @@ protected:
 #elif TARGET_ANDROID
 
     static jclass _jniClass;
-    enum ofxGenericViewStaticMethods
-    {
-    	JNIMethod_CreateAndInit,
-    	JNIMethod_constructor
-    };
-    static std::map< int, JNIMethod* > _jniStaticMethods;
 
     enum ofxGenericViewMethods
     {
-    	JNIMethod_SetFrame = JNIObject::Last,
+    	JNIMethod_constructor = JNIObject::Last,
+    	JNIMethod_Init,
+    	JNIMethod_SetFrame,
     	JNIMethod_GetFrame,
     	JNIMethod_GetBackgroundColor,
     	JNIMethod_SetBackgroundColor,
@@ -82,7 +78,7 @@ protected:
     	JNIMethod_RemoveChildView,
     	Last
     };
-    void registerJNIMethods();
+    virtual void registerJNIMethods();
 #endif
     
     ofPtrWeak< ofxGenericView > _this;

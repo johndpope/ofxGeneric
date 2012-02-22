@@ -38,13 +38,6 @@ public class View
 		mFrame = frame;
 	}
 	
-	static public View createAndInit( Rect frame )
-	{
-		View view = new View();
-		view.Init( frame );
-		return view;
-	}
-	
 	protected android.view.View createView()
 	{
 		return new android.view.View( Activity.getInstance() );
@@ -94,9 +87,9 @@ public class View
 	
 	public void addChildView( View child )
 	{
-		RelativeLayout.LayoutParams layout = new RelativeLayout.LayoutParams( mFrame.width(), mFrame.height() );
-		layout.leftMargin = mFrame.top;
-		layout.topMargin = mFrame.left;
+		RelativeLayout.LayoutParams layout = new RelativeLayout.LayoutParams( child.mFrame.width(), child.mFrame.height() );
+		layout.leftMargin = child.mFrame.top;
+		layout.topMargin = child.mFrame.left;
 		mViewGroup.addView( child.getAndroidView(), layout );
 	}
 	
