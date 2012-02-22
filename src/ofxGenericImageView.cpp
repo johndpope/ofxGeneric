@@ -8,6 +8,11 @@
 #include "ofxGenericImageView.h"
 #include "ofxGenericUtility.h"
 
+#if TARGET_ANDROID
+jclass ofxGenericImageView::_jniClass = NULL;
+const char* ofxGenericImageView::className = "cc/openframeworks/ofxGeneric/ImageView";
+#endif
+
 NativeView ofxGenericImageView::createNativeView( const ofRectangle& frame )
 {
 #if TARGET_OS_IPHONE
@@ -29,8 +34,45 @@ void ofxGenericImageView::setImage( string fileName )
         UIImageView* view = ( UIImageView* )_view;
         [ view setImage:[ UIImage imageWithContentsOfFile:pathToBundle( ofxStringToNSString( fileName ) )  ] ];
     }
+#elif TARGET_ANDROID
+    callJNIVoidMethod(
+    		_jniMethods,
+    		JNIMethod_SetImage
+    		// , fileName
+    		);
 #endif
 }
+
 #if TARGET_OS_IPHONE
+
 ofxGenericUIViewCastOperator( ofxGenericImageView, UIImageView );
+
+#elif TARGET_ANDROID
+
+jclass ofxGenericImageView::getJNIClassStatic()
+{
+	// TODO: handle exception
+    if ( !_jniClass )
+    	_jniClass = ( jclass )ofxGenericImageView::createJNIReferenceStatic( JNIFindClass( ofxGenericImageView::className ) );
+    return _jniClass;
+}
+
+jclass ofxGenericImageView::getJNIClass()
+{
+	return ofxGenericImageView::getJNIClassStatic();
+}
+
+void ofxGenericImageView::registerJNIMethods()
+{
+	ofxGenericView::registerJNIMethods();
+	registerJNIMethodID(
+			_jniMethods,
+			false,
+			JNIMethod_SetImage,
+			"setImage",
+			JNIEncodeMethodSignature( 0, JNIType_void )
+			);
+}
+
+
 #endif

@@ -17,8 +17,25 @@ public:
     
 #if TARGET_OS_IPHONE
     operator UIImageView*();
+#elif TARGET_ANDROID
+
+    static jclass getJNIClassStatic();
+	virtual jclass getJNIClass();
+    static const char* className;
+
+    enum ofxGenericImageViewMethods
+    {
+    	JNIMethod_SetImage = ofxGenericView::Last,
+    	Last
+    };
+    virtual void registerJNIMethods();
+
 #endif
     
 protected:
     virtual NativeView createNativeView( const ofRectangle& frame );
+
+#if TARGET_ANDROID
+    static jclass _jniClass;
+#endif
 };
