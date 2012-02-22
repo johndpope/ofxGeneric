@@ -1,5 +1,5 @@
 #include "ofxGenericJNI.h"
-#include "ofxGenericJNIObject.h"
+#include "JNIObject.h"
 
 #include "android/log.h"
 #include "ofxAndroidLogChannel.h"

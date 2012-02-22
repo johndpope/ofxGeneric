@@ -1,4 +1,4 @@
-#include "ofxGenericJNIObject.h"
+#include "JNIObject.h"
 
 #include "JNIMethod.h"
 #include "ofxGenericApp.h"

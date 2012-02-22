@@ -11,7 +11,7 @@
 #include "ofMain.h"
 #include "ofxGenericConstants.h"
 #if TARGET_ANDROID
-#include "ofxGenericJNIObject.h"
+#include "JNIObject.h"
 #endif
 
 #include <list>

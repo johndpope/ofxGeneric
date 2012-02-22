@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "ofxGenericJNIObject.h"
+#include "JNIObject.h"
 
 // TODO: generally profile (code and development performance) interfacing object vs work in java, basic type only interface
 // TODO: caching?

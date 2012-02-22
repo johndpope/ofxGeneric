@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "ofxGenericJNIObject.h"
+#include "JNIObject.h"
 #include <jni.h>
 
 class JNIField

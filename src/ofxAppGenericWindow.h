@@ -17,7 +17,7 @@
 #if TARGET_OS_IPHONE
 #include "ofAppiPhoneWindow.h"
 #elif TARGET_ANDROID
-#include "ofxGenericJNIObject.h"
+#include "JNIObject.h"
 #endif
 
 class ofxAppGenericWindow

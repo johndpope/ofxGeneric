@@ -14,7 +14,7 @@
 #endif
 
 #if TARGET_ANDROID
-#include "ofxGenericJNIObject.h"
+#include "JNIObject.h"
 #endif
 
 #if TARGET_ANDROID
