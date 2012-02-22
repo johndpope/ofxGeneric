@@ -32,10 +32,12 @@ void ofxGLogWarning( const string & message )
 	ofLogWarning( ofxGenericModuleName, message );
 }
 
+#include "android/log.h"
 void ofxGLog( ofLogLevel level, const char* format, ... )
 {
 	va_list args;
 	va_start( args, format );
-	ofLog( ofxGenericModuleName, level, ofVAArgsToString( format, args ) );
+	string message = ofVAArgsToString( format, args );
 	va_end( args );
+	ofLog( ofxGenericModuleName, level, message );
 }

@@ -1,5 +1,8 @@
 #pragma once
 
+// QQQQ
+#define TARGET_ANDROID 1
+
 #include "ofMain.h"
 
 #include "ofxGenericConstants.h"
@@ -33,12 +36,12 @@ public:
     
     ofPtr< ofxAppGenericWindow > getWindow();
     ofPtr< ofxGenericView > getRootView();
-    
+
 #if TARGET_ANDROID
-    static JNIEnv* jniEnv;
+    static const char* ActivityClassName;
 #endif
 
-protected:    
+protected:
     ofPtr< ofxAppGenericWindow > _window;
 
     virtual void createRootView();

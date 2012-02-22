@@ -7,6 +7,7 @@
 
 #include "ofxGenericView.h"
 #include "ofxGenericUtility.h"
+#include "JNIRect.h"
 
 #if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
@@ -20,7 +21,9 @@
 #endif
 
 #if TARGET_ANDROID
-#include "ofxGenericJNI.h"
+jclass ofxGenericView::_jniClass = NULL;
+std::map< int, JNIMethod* > ofxGenericView::_jniStaticMethods;
+const char* ofxGenericView::className = "cc/openframeworks/ofxGeneric/View";
 #endif
 
 ofxGenericView::ofxGenericView()
@@ -28,7 +31,7 @@ ofxGenericView::ofxGenericView()
 #if TARGET_OS_IPHONE
  _view( nil ), _viewController( nil ),
 #elif TARGET_ANDROID
- _view( NULL ), _viewClass( NULL ), _createViewMethodId( NULL ),
+ _view( NULL ),
 #endif
 _children()
 {
@@ -37,21 +40,24 @@ _children()
 ofxGenericView::~ofxGenericView()
 {
     removeFromParent();
-    // TODO: make togglable?
+    // TODO: make toggle-able?
     removeChildViews();
 
 #if TARGET_OS_IPHONE
     releaseView( _view );
     releaseViewController( _viewController );
 #elif TARGET_ANDROID
-    JNIDeleteLocalRef( _view );
-    _view = NULL;
+	destroyJNIReference( _view );
 #endif
 }
 
 void ofxGenericView::init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setFrame )
 {
     _this = setThis;
+
+#if TARGET_ANDROID
+    registerJNIMethods();
+#endif
 
     _view = createNativeView( setFrame );
 #if TARGET_OS_IPHONE
@@ -60,24 +66,54 @@ void ofxGenericView::init( ofPtrWeak< ofxGenericView > setThis, const ofRectangl
 #endif
 }
 
+#if TARGET_ANDROID
+jclass ofxGenericView::getJNIClassStatic()
+{
+	// TODO: handle exception
+    if ( !_jniClass )
+    	_jniClass = ( jclass )ofxGenericView::createJNIReferenceStatic( JNIFindClass( ofxGenericView::className ) );
+    return _jniClass;
+}
+
+jclass ofxGenericView::getJNIClass()
+{
+	return ofxGenericView::getJNIClassStatic();
+}
+
+
+jobject ofxGenericView::getJNIInstance()
+{
+	return _view;
+}
+
+#endif
+
 NativeView ofxGenericView::createNativeView( const ofRectangle& setFrame )
 {
 #if TARGET_OS_IPHONE
 	UIView* newView = [ [ UIView alloc ] initWithFrame:ofRectangleToCGRect( setFrame ) ];
 
-	// TODO: move to shared code overridable function after _view assigned? or just assign _view in here
+	// TODO: move to shared code override-able function after _view assigned? or just assign _view in here
     [ newView setBackgroundColor:[ UIColor whiteColor ] ];
     [ newView setOpaque:YES ];
     [ newView setHidden:NO ];
 
     return newView;
-#elif TARGET_ANDROID
-    if ( !_viewClass )
-    	_viewClass = JNIFindClass( "cc/openframeworks/ofxGeneric/View" );
-    if ( !_createViewMethodId )
-    	_createViewMethodId = JNIGetMethodID( _viewClass, true, "createAndInit", JNIEncodeMethodSignature( 1, JNIType_object, "cc/openframeworks/ofxGeneric/View", JNIType_object, "android/graphics/Rect" ) );
 
-    return JNICallObjectMethod( _viewClass, true, _createViewMethodId, NULL );
+#elif TARGET_ANDROID
+
+    // TODO: exception handling
+    JNIRect jniRect = ofRectangleToJNIRect( setFrame );
+    jobject newView = callJNIObjectMethod(
+    		_jniStaticMethods,
+    		JNIMethod_CreateAndInit,
+    		jniRect.getJNIInstance()
+    		);
+
+    // set background white
+    // set opaque
+    // set not hidden
+    return createJNIReference( newView );
 #endif
 }
 
@@ -107,6 +143,10 @@ ofRectangle ofxGenericView::getFrame()
 {
 #if TARGET_OS_IPHONE
     return CGRectToofRectangle( [ _view frame ] );
+#elif TARGET_ANDROID
+    jobject jniFrame = callJNIObjectMethod( _jniMethods, JNIMethod_GetFrame );
+    JNIRect jniRect( jniFrame );
+    return JNIRectToofRectangle( jniRect );
 #endif
 }
 
@@ -114,6 +154,9 @@ void ofxGenericView::setFrame( const ofRectangle& setFrame )
 {
 #if TARGET_OS_IPHONE
     [ _view setFrame: ofRectangleToCGRect( setFrame ) ];
+#elif TARGET_ANDROID
+    JNIRect jniRect = ofRectangleToJNIRect( setFrame ); // TODO: temporary ref passing going to killlllll
+    callJNIVoidMethod( _jniMethods, JNIMethod_SetFrame, jniRect.getJNIInstance() );
 #endif
 }
 
@@ -121,6 +164,9 @@ ofColor ofxGenericView::getBackgroundColor()
 {
 #if TARGET_OS_IPHONE
     return UIColorToofColor( [ _view backgroundColor ] );
+#elif TARGET_ANDROID
+    jint androidColor = callJNIIntMethod( _jniMethods, JNIMethod_GetBackgroundColor );
+    return JNIColorToofColor( androidColor );
 #endif
 }
 
@@ -128,9 +174,12 @@ void ofxGenericView::setBackgroundColor( const ofColor& setColor )
 {
 #if TARGET_OS_IPHONE
     [ _view setBackgroundColor:ofColorToUIColor( setColor ) ];
-#endif
-#if TARGET_ANDROID
-//public void setBackgroundColor( int red, int green, int blue, int alpha )
+#elif TARGET_ANDROID
+    callJNIVoidMethod(
+    		_jniMethods,
+    		JNIMethod_SetBackgroundColor,
+    		( int )setColor.r, ( int )setColor.g, ( int )setColor.b, ( int )setColor.a
+    		);
 #endif
 }
 
@@ -144,7 +193,12 @@ void ofxGenericView::addChildView( ofPtr< ofxGenericView > add )
         {
 #if TARGET_OS_IPHONE
           	[ _view addSubview:nativeView ];
-#else // FIXME: #elif TARGET_ANDROID
+#elif TARGET_ANDROID
+          	callJNIVoidMethod(
+          			_jniMethods,
+          			JNIMethod_AddChildView,
+          			nativeView
+          			);
 #endif
         } else
         {
@@ -168,7 +222,12 @@ void ofxGenericView::removeChildView( ofPtr< ofxGenericView > remove )
 			{
 #if TARGET_OS_IPHONE
 				[ nativeView removeFromSuperview ];
-#else // FIXME: #elif TARGET_ANDROID
+#elif TARGET_ANDROID
+				callJNIVoidMethod(
+						_jniMethods,
+						JNIMethod_RemoveChildView,
+						nativeView
+						);
 #endif
 			} else
 			{
@@ -214,6 +273,67 @@ void ofxGenericView::removeChildViews()
 {
     _children.clear();
 }
+
+#if TARGET_ANDROID
+void ofxGenericView::registerJNIMethods()
+{
+    registerJNIMethodID(
+    		_jniStaticMethods,
+    		true,
+    		JNIMethod_CreateAndInit,
+			"createAndInit",
+			JNIEncodeMethodSignature( 1, JNIType_object, ofxGenericView::className, JNIType_object, JNIRect::className )
+    		);
+
+    registerJNIMethodID(
+    		_jniMethods,
+    		false,
+    		JNIMethod_GetFrame,
+    		"getFrame",
+    		JNIEncodeMethodSignature( 0, JNIType_object, JNIRect::className )
+    		);
+
+    registerJNIMethodID(
+    		_jniMethods,
+    		false,
+    		JNIMethod_SetFrame,
+    		"setFrame",
+    		JNIEncodeMethodSignature( 1, JNIType_void, JNIType_object, JNIRect::className )
+    		);
+
+    registerJNIMethodID(
+    		_jniMethods,
+    		false,
+    		JNIMethod_GetBackgroundColor,
+    		"getBackgroundColor",
+    		JNIEncodeMethodSignature( 0, JNIType_int )
+    		);
+
+    registerJNIMethodID(
+    		_jniMethods,
+    		false,
+    		JNIMethod_SetBackgroundColor,
+    		"setBackgroundColor",
+    		JNIEncodeMethodSignature( 4, JNIType_void, JNIType_int, JNIType_int, JNIType_int, JNIType_int )
+    		);
+
+    registerJNIMethodID(
+    		_jniMethods,
+    		false,
+    		JNIMethod_AddChildView,
+    		"addChildView",
+    		JNIEncodeMethodSignature( 1, JNIType_void, JNIType_object, ofxGenericView::className )
+    		);
+
+    registerJNIMethodID(
+    		_jniMethods,
+    		false,
+    		JNIMethod_RemoveChildView,
+    		"removeChildView",
+    		JNIEncodeMethodSignature( 1, JNIType_void, JNIType_object, ofxGenericView::className )
+    		);
+}
+#endif
 
 #if TARGET_OS_IPHONE
 @implementation ofxUIGenericViewController
@@ -356,3 +476,5 @@ void ofxGenericView::removeChildViews()
 
 @end
 #endif
+
+

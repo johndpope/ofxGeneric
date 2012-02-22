@@ -48,6 +48,9 @@ NativeView ofxGenericButtonView::createNativeView( const ofRectangle& frame )
     [ newView addTarget:_eventHandler action:@selector( touchUpInside: ) forControlEvents: UIControlEventTouchUpInside ];
     [ newView addTarget:_eventHandler action:@selector( touchUpOutside: ) forControlEvents:UIControlEventTouchUpOutside ];
     return newView;
+#elif TARGET_ANDROID
+    // TODO: implement
+    return ofxGenericView::createNativeView( frame );
 #endif
 }
 
@@ -70,6 +73,9 @@ string ofxGenericButtonView::getText()
         UIButton* view = ( UIButton* )_view;
         return ofxNSStringToString( [ view currentTitle ] );
     }
+    return string();
+#elif TARGET_ANROID
+    // TODO: implement
     return string();
 #endif
 }

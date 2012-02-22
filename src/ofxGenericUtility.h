@@ -13,6 +13,8 @@
 #if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
 #import "ofxiPhoneExtras.h"
+#elif TARGET_ANDROID
+#include "JNIRect.h"
 #endif
 
 #include "ofxGenericConstants.h"
@@ -20,8 +22,18 @@
 // memory macros
 #define deleteSafe( cPlusPlusObject ) \
     if ( cPlusPlusObject ) \
+    { \
         delete cPlusPlusObject; \
-    cPlusPlusObject = NULL;
+        cPlusPlusObject = NULL; \
+    }
+
+#define deleteThreadSafe( cPlusPlusObject, type ) \
+    if ( cPlusPlusObject ) \
+    { \
+    	type buffer = cPlusPlusObject; \
+        cPlusPlusObject = NULL; \
+        delete buffer; \
+    }
 
 #if TARGET_OS_IPHONE
 #define release( objectiveCObject ) \
@@ -96,6 +108,15 @@ NSString* pathToBundle( NSString* resourceFileName = nil );
 CGFloat getWindowScale();
 
 UITextAlignment ofxGenericTextHorizontalAlignmentToUITextAlignment( ofxGenericTextHorizontalAlignment from );
+
+#elif TARGET_ANDROID
+
+JNIRect ofRectangleToJNIRect( const ofRectangle& from );
+ofRectangle JNIRectToofRectangle( JNIRect& from );
+
+jint ofColorToJNIColor( const ofColor& from );
+ofColor JNIColorToofColor( const jint& from );
+
 #endif
 
 void ofxGLog( ofLogLevel level, const string & message );

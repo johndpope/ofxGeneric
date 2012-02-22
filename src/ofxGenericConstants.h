@@ -13,6 +13,8 @@
 typedef UIView* NativeView;
 typedef UIWindow* NativeWindow;
 #else //if TARGET_ANDROID // FIXME: ARG ECLIPSE WHY DO YOU HATE ME PARSEEEEEEEE DAAAMN YOU
+#define TARGET_ANDROID 1
+// WTFFFFFFF
 #include <jni.h>
 typedef jobject NativeView;
 typedef jobject NativeWindow;

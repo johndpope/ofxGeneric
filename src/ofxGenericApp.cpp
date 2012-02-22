@@ -14,8 +14,11 @@
 #endif
 
 #if TARGET_ANDROID
-#include "ofxGenericJNI.h"
-JNIEnv* ofxGenericApp::jniEnv = NULL;
+#include "ofxGenericJNIObject.h"
+#endif
+
+#if TARGET_ANDROID
+const char* ofxGenericApp::ActivityClassName = "cc/openframeworks/ofxGeneric/Activity";
 #endif
 
 ofxGenericApp::ofxGenericApp()
@@ -38,10 +41,17 @@ void ofxGenericApp::runViaInfiniteLoop( ofPtr< ofxAppGenericWindow > window )
 #if TARGET_OS_IPHONE
     NSString* delegateClassName = NSStringFromClass( [ ofxGenericAppDelegate class ] );
     UIApplicationMain( nil, nil, nil, delegateClassName );
-#endif
-#if defined(TARGET_ANDROID)
-    JNICallObjectMethod( true, "cc/openframeworks/ofxGeneric/Activity", "setWindow", "(Lcc/openframeworks/ofxGeneric/View;)V", _window->getNativeWindow() );
+#elif TARGET_ANDROID
+/*    JNIMethod setWindow(
+    		JNIFindClass(ofxGenericApp::ActivityClassName ),
+    		true,
+    		"setWindow",
+    		JNIEncodeMethodSignature( 1, JNIType_void, JNIType_object, ofxGenericView::className ), //"(Lcc/openframeworks/ofxGeneric/View;)V",
+    		true
+    		);
 
+    JNICallStaticVoidMethod( setWindow.getClass(), setWindow.getID(), _window->getNativeWindow() );
+*/
     finishedLaunching();
 #endif
 }

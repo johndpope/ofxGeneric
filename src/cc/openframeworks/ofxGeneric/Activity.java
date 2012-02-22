@@ -1,10 +1,12 @@
 package cc.openframeworks.ofxGeneric;
 
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.RelativeLayout.LayoutParams;
 import cc.openframeworks.OFAndroid;
 
 public class Activity extends android.app.Activity
@@ -12,11 +14,14 @@ public class Activity extends android.app.Activity
 //	static protected OFAndroid ofApp;
 	static protected Activity mActivity; // TODO: can we have multiple activities of the same type at once??
 	static protected View mWindow;
+	static protected View mRootView;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState)
     { 
 		mActivity = this;
+		mWindow = null;
+		mRootView = null;
 		
         super.onCreate(savedInstanceState);
 
@@ -70,10 +75,23 @@ public class Activity extends android.app.Activity
     	return mActivity;
     }
     
-    static public void setWindow( View window )
+    static public View createWindow()
     {
-    	mWindow = window;
-    	mActivity.setContentView( window.getView() );
+    	mWindow = new View();
+    	mWindow.Init( new Rect( 0, 0, mActivity.getWindowManager().getDefaultDisplay().getWidth(), mActivity.getWindowManager().getDefaultDisplay().getHeight() ) );
+    	mActivity.setContentView( mWindow.getAndroidView() );
+    	return mWindow;
+    }
+    
+    static public void setRootView( View rootView )
+    {
+    	mRootView = rootView;
+    	mWindow.addChildView( rootView );
+    }
+    
+    static public Rect getWindowFrame()
+    {
+		return mWindow.getFrame();
     }
 	
 	@Override

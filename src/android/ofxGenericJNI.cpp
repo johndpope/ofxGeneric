@@ -1,4 +1,5 @@
 #include "ofxGenericJNI.h"
+#include "ofxGenericJNIObject.h"
 
 #include "android/log.h"
 #include "ofxAndroidLogChannel.h"
@@ -12,8 +13,13 @@ void SetupJNI( JNIEnv* env, jobject thiz )
 	__android_log_print( ANDROID_LOG_VERBOSE, ofxGenericModuleName, "Switching ofLog over to Android" );
 	ofLog::setChannel( ofPtr< ofxAndroidLogChannel >( new ofxAndroidLogChannel(), std::ptr_fun( noopDeleter ) ) );
 
-	ofxGenericApp::jniEnv = env;
-	ofxGLog( OF_LOG_VERBOSE, "In SetupJNI(): %d", env );
+	JavaVM* javaVM = NULL;
+	if ( env->GetJavaVM( &javaVM ) == JNI_OK )
+	{
+		JNIObject::setJavaVM( javaVM );
+	}
+
+	ofxGLog( OF_LOG_VERBOSE, "JNI: VM %p Env %p", javaVM, env );
 }
 
 extern "C"
@@ -36,53 +42,53 @@ extern "C"
 jstring JNICStringToJavaString( const char string[] )
 {
     // translate c string to java string
-    return ofxGenericApp::jniEnv->NewStringUTF( string );
+    return JNIObject::getJNIEnv()->NewStringUTF( string );
 }
 
 const char* JNIJavaStringToCString( JNIEnv* env, jstring string )
 {
     jboolean copy;
-    return ofxGenericApp::jniEnv->GetStringUTFChars( string, &copy );
+    return JNIObject::getJNIEnv()->GetStringUTFChars( string, &copy );
 }
 
 const char* JNIGetClassName( jobject object )
 {
-    jclass jClass = ofxGenericApp::jniEnv->GetObjectClass( object );
+    jclass jClass = JNIObject::getJNIEnv()->GetObjectClass( object );
     if ( !jClass )
     	return NULL;
-    jmethodID method = ofxGenericApp::jniEnv->GetMethodID( jClass, "getName", "()Ljava/lang/String" );
+    jmethodID method = JNIObject::getJNIEnv()->GetMethodID( jClass, "getName", "()Ljava/lang/String" );
     if ( !method )
     	return NULL;
-    jstring name = ( jstring )ofxGenericApp::jniEnv->CallObjectMethod( jClass, method );
+    jstring name = ( jstring )JNIObject::getJNIEnv()->CallObjectMethod( jClass, method );
     if ( !name )
     	return NULL;
 
-    return JNIJavaStringToCString( ofxGenericApp::jniEnv, name );
+    return JNIJavaStringToCString( JNIObject::getJNIEnv(), name );
 }
 
 void JNIHandleException()
 {
-	jthrowable exception = ofxGenericApp::jniEnv->ExceptionOccurred();
+	jthrowable exception = JNIObject::getJNIEnv()->ExceptionOccurred();
 	if ( exception )
 	{
-		ofxGenericApp::jniEnv->ExceptionDescribe();
-		ofxGenericApp::jniEnv->ExceptionClear();
+		JNIObject::getJNIEnv()->ExceptionDescribe();
+		JNIObject::getJNIEnv()->ExceptionClear();
 
 		const char* exceptionClassName = JNIGetClassName( exception );
 		if ( !exceptionClassName ) // TODO: fix, doesn't seem to ever be working, will remove need for describe and allow us to mirror with explicit C++ exception classes
 		{
 	    	// TODO: handle gracefully but don't let go unnoticed!
-			ofxGenericApp::jniEnv->ExceptionClear();
+			JNIObject::getJNIEnv()->ExceptionClear();
 			exceptionClassName = "Unknown exception";
 		}
-		ofxGenericApp::jniEnv->DeleteLocalRef( exception );
+		JNIObject::getJNIEnv()->DeleteLocalRef( exception );
 		throw JNIException( exceptionClassName );
 	}
 }
 
 jclass JNIFindClass( const char* className )
 {
-	jclass classObject = ofxGenericApp::jniEnv->FindClass( className );
+	jclass classObject = JNIObject::getJNIEnv()->FindClass( className );
 	JNIHandleException();
 	return classObject;
 }
@@ -92,96 +98,130 @@ jmethodID JNIGetMethodID( jclass classObject, bool isStatic, const char* methodN
 	jmethodID methodID;
 	if ( isStatic )
 	{
-		methodID = ofxGenericApp::jniEnv->GetStaticMethodID( classObject, methodName, methodSignature );
+		ofxGLog( OF_LOG_VERBOSE, "JNI: Attempting to get method ID for static method ::%s%s", methodName, methodSignature );
+		methodID = JNIObject::getJNIEnv()->GetStaticMethodID( classObject, methodName, methodSignature );
 	} else
 	{
-		methodID = ofxGenericApp::jniEnv->GetMethodID( classObject, methodName, methodSignature );
+		ofxGLog( OF_LOG_VERBOSE, "JNI: Attempting to get method ID for instance method ::%s%s", methodName, methodSignature );
+		methodID = JNIObject::getJNIEnv()->GetMethodID( classObject, methodName, methodSignature );
 	}
 	JNIHandleException();
 	return methodID;
 }
 
-jobject JNICallObjectMethod( jclass classObject, bool isStatic, jmethodID methodID, va_list args )
+jobject JNICallStaticObjectMethod( jclass classObject, jmethodID methodID, va_list args )
 {
-	jobject result;
-	if ( isStatic )
-	{
-		result = ofxGenericApp::jniEnv->CallStaticObjectMethodV( classObject, methodID, args );
-	} else
-	{
-		result = ofxGenericApp::jniEnv->CallObjectMethodV( classObject, methodID, args );
-	}
+	jobject	result = JNIObject::getJNIEnv()->CallStaticObjectMethodV( classObject, methodID, args );
 	JNIHandleException();
 	return result;
 }
 
-jobject JNICallObjectMethod( jclass classObject, bool isStatic, jmethodID methodID, ... )
+jobject JNICallStaticObjectMethod( jclass classObject, jmethodID methodID, ... )
 {
 	va_list args;
 	va_start( args, methodID );
-	jobject result = JNICallObjectMethod( classObject, isStatic, methodID, args );
+	jobject result = JNICallStaticObjectMethod( classObject, methodID, args );
 	va_end( args );
 	return result;
 }
 
-jobject JNICallObjectMethod( bool isStatic, const char* className, const char* methodName, const char* methodSig, ... )
+jobject JNICallStaticObjectMethod( const char* className, const char* methodName, const char* methodSig, ... )
 {
 	ofxGLog( OF_LOG_VERBOSE, "JNI: Attempting to call %s::%s%s", className, methodName, methodSig );
 	try
 	{
 		jclass classObject = JNIFindClass( className );
-		jmethodID methodID = JNIGetMethodID( classObject, isStatic, methodName, methodSig );
+		jmethodID methodID = JNIGetMethodID( classObject, true, methodName, methodSig );
 
 		va_list args;
 		va_start( args, methodSig );
-		jobject result = JNICallObjectMethod( classObject, isStatic, methodID, args );
+		jobject result = JNICallStaticObjectMethod( classObject, methodID, args );
 		va_end( args );
 
 		return result;
 	} catch( std::exception& e )
 	{
-		ofxGLog( OF_LOG_WARNING, "Exception when calling %s::%s %s - %s", className, methodName, methodSig, e.what() );
+		ofxGLog( OF_LOG_WARNING, "Exception when calling %s::%s%s - %s", className, methodName, methodSig, e.what() );
 	}
 	return NULL;
 }
 
-void JNICallVoidMethod( jclass classObject, bool isStatic, jmethodID methodID, va_list args )
+jobject JNICallObjectMethod( jobject objectInstance, jmethodID methodID, va_list args )
 {
-	if ( isStatic )
-	{
-		ofxGenericApp::jniEnv->CallStaticVoidMethodV( classObject, methodID, args );
-	} else
-	{
-		ofxGenericApp::jniEnv->CallVoidMethodV( classObject, methodID, args );
-	}
+	jobject result = JNIObject::getJNIEnv()->CallObjectMethodV( objectInstance, methodID, args );
+	JNIHandleException();
+	return result;
+}
+
+jobject JNICallObjectMethod( jobject objectInstance, jmethodID methodID, ... )
+{
+	va_list args;
+	va_start( args, methodID );
+	jobject result = JNIObject::getJNIEnv()->CallObjectMethodV( objectInstance, methodID, args );
+	va_end( args );
+	JNIHandleException();
+	return result;
+}
+
+void JNICallStaticVoidMethod( jclass classObject, jmethodID methodID, va_list args )
+{
+	JNIObject::getJNIEnv()->CallStaticVoidMethodV( classObject, methodID, args );
 	JNIHandleException();
 }
 
-jobject JNICallVoidMethod( bool isStatic, const char* className, const char* methodName, const char* methodSig, ... )
+void JNICallStaticVoidMethod( jclass classObject, jmethodID methodID, ... )
 {
-	ofxGLog( OF_LOG_VERBOSE, "JNI: Attempting to call %s::%s %s", className, methodName, methodSig );
+	va_list args;
+	va_start( args, methodID );
+	JNICallStaticVoidMethod( classObject, methodID, args );
+	JNIHandleException();
+	va_end( args );
+}
+
+void JNICallStaticVoidMethod( const char* className, const char* methodName, const char* methodSig, ... )
+{
+	ofxGLog( OF_LOG_VERBOSE, "JNI: Attempting to call %s::%s%s", className, methodName, methodSig );
 	try
 	{
 		jclass classObject = JNIFindClass( className );
-		jmethodID methodID = JNIGetMethodID( classObject, isStatic, methodName, methodSig );
+		jmethodID methodID = JNIGetMethodID( classObject, true, methodName, methodSig );
 
 		va_list args;
 		va_start( args, methodSig );
-		JNICallVoidMethod( classObject, isStatic, methodID, args );
+		JNICallStaticVoidMethod( classObject, methodID, args );
 		va_end( args );
 	} catch( std::exception& e )
 	{
-		ofxGLog( OF_LOG_WARNING, "Exception when calling %s::%s %s - %s", className, methodName, methodSig, e.what() );
+		ofxGLog( OF_LOG_WARNING, "Exception when calling %s::%s%s - %s", className, methodName, methodSig, e.what() );
 	}
-	return NULL;
+}
+
+void JNICallVoidMethod( jobject objectInstance, jmethodID methodID, va_list args )
+{
+	JNIObject::getJNIEnv()->CallVoidMethodV( objectInstance, methodID, args );
+	JNIHandleException();
+}
+
+jint JNICallIntMethod( jobject objectInstance, jmethodID methodID, va_list args )
+{
+	jint result = JNIObject::getJNIEnv()->CallIntMethodV( objectInstance, methodID, args );
+	JNIHandleException();
+	return result;
+}
+
+jint JNICallStaticIntMethod( jclass classObject, jmethodID methodID, va_list args )
+{
+	jint result = JNIObject::getJNIEnv()->CallStaticIntMethodV( classObject, methodID, args );
+	JNIHandleException();
+	return result;
 }
 
 void JNIDeleteLocalRef( jobject object )
 {
-	ofxGenericApp::jniEnv->DeleteLocalRef( object );
+	JNIObject::getJNIEnv()->DeleteLocalRef( object );
 }
 
-const char* JNIGetBasicTypeSignatureEncoding( const JNIBasicTypeSignature& type )
+string JNIGetBasicTypeSignatureEncoding( const JNIBasicTypeSignature& type )
 {
 	switch( type )
 	{
@@ -209,18 +249,18 @@ const char* JNIGetBasicTypeSignatureEncoding( const JNIBasicTypeSignature& type 
 		case JNIType_object:
 			return "L%s;";
 	}
-	return NULL;
+	return "";
 }
 
-const char* JNIGetObjectSignatureEncoding( const char* objectWithPath )
+string JNIGetObjectSignatureEncoding( const char* objectWithPath )
 {
 	string encoded( "L" );
 	encoded += objectWithPath;
 	encoded += ";";
-	return encoded.c_str();
+	return encoded;
 }
 
-const char* JNIEncodeMethodSignature( int numParameters, JNIBasicTypeSignature returnType, ... )
+string JNIEncodeMethodSignature( int numParameters, JNIBasicTypeSignature returnType, ... )
 {
 	string encoded( "(" );
 	va_list parameterTypePointer;
@@ -231,10 +271,12 @@ const char* JNIEncodeMethodSignature( int numParameters, JNIBasicTypeSignature r
     if ( returnType == JNIType_array )
     {
         arrayReturnType = ( JNIBasicTypeSignature )va_arg( parameterTypePointer, int ); //annoying warning JNIBasicTypeSignature );
+//    	ofxGLog( OF_LOG_VERBOSE, "JNI Method Sig Encode: return array type %d", ( int )arrayReturnType );
     }
     if ( returnType == JNIType_object || ( returnType == JNIType_array && arrayReturnType == JNIType_object ) )
 	{
 		returnTypeObjectWithPath = va_arg( parameterTypePointer, char* );
+//    	ofxGLog( OF_LOG_VERBOSE, "JNI Method Sig Encode: return object type %s", returnTypeObjectWithPath );
 	}
 
     for( int travParameters = 0; travParameters < numParameters; travParameters ++ )
@@ -244,14 +286,17 @@ const char* JNIEncodeMethodSignature( int numParameters, JNIBasicTypeSignature r
         {
             encoded += JNIGetBasicTypeSignatureEncoding( JNIType_array );
             parameterType = ( JNIBasicTypeSignature )va_arg( parameterTypePointer, int ); //annoying warning JNIBasicTypeSignature );
+//        	ofxGLog( OF_LOG_VERBOSE, "JNI Method Sig Encode: parameter %d array type %d - built: %s", travParameters, ( int )parameterType, encoded.c_str() );
         }
 		if( parameterType == JNIType_object )
 		{
 			const char* objectWithPath = va_arg( parameterTypePointer, char* );
             encoded += JNIGetObjectSignatureEncoding( objectWithPath );
+//        	ofxGLog( OF_LOG_VERBOSE, "JNI Method Sig Encode: parameter %d object type %s - built: %s", travParameters, objectWithPath, encoded.c_str() );
 		} else
 		{
 			encoded += JNIGetBasicTypeSignatureEncoding( parameterType );
+//        	ofxGLog( OF_LOG_VERBOSE, "JNI Method Sig Encode: parameter %d basic type %d - built: %s", travParameters, ( int )parameterType, encoded.c_str() );
 		}
 	}
 	encoded += ")";
@@ -260,15 +305,21 @@ const char* JNIEncodeMethodSignature( int numParameters, JNIBasicTypeSignature r
     {
         encoded += JNIGetBasicTypeSignatureEncoding( JNIType_array );
         returnType = arrayReturnType;
+//    	ofxGLog( OF_LOG_VERBOSE, "JNI Method Sig Encode: return array type - built: %s", encoded.c_str() );
     }
 	if( returnType == JNIType_object )
 	{
 		encoded += JNIGetObjectSignatureEncoding( returnTypeObjectWithPath );
+//    	ofxGLog( OF_LOG_VERBOSE, "JNI Method Sig Encode: return object type %s - built: %s", returnTypeObjectWithPath, encoded.c_str() );
 	} else
 	{
 		encoded += JNIGetBasicTypeSignatureEncoding( returnType );
+//    	ofxGLog( OF_LOG_VERBOSE, "JNI Method Sig Encode: return basic type %d - built: %s", ( int )returnType, encoded.c_str() );
 	}
 
-	return encoded.c_str();
+	va_end( parameterTypePointer );
+
+	ofxGLog( OF_LOG_VERBOSE, "JNI Method Sig Encoded: built %s", encoded.c_str() );
+	return encoded;
 }
 

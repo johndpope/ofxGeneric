@@ -10,10 +10,16 @@
 
 #include "ofMain.h"
 #include "ofxGenericConstants.h"
+#if TARGET_ANDROID
+#include "ofxGenericJNIObject.h"
+#endif
 
 #include <list>
 
 class ofxGenericView
+#if TARGET_ANDROID
+: public JNIObject
+#endif
 {
 public:
     ofxGenericView();
@@ -24,7 +30,16 @@ public:
     NativeView getNativeView();
     operator NativeView();
 #if TARGET_OS_IPHONE
+
     UIViewController* getUIViewController();
+
+#elif TARGET_ANDROID
+
+    static jclass getJNIClassStatic();
+	virtual jclass getJNIClass();
+    static const char* className;
+
+    jobject getJNIInstance();
 #endif
 
     ofRectangle getFrame();
@@ -41,12 +56,33 @@ public:
 protected:        
     virtual NativeView createNativeView( const ofRectangle& frame );
     NativeView _view;
+
 #if TARGET_OS_IPHONE
+
     virtual UIViewController* createUIViewController();
     UIViewController* _viewController;
+
 #elif TARGET_ANDROID
-    jclass _viewClass;
-    jmethodID _createViewMethodId;
+
+    static jclass _jniClass;
+    enum ofxGenericViewStaticMethods
+    {
+    	JNIMethod_CreateAndInit,
+    	JNIMethod_constructor
+    };
+    static std::map< int, JNIMethod* > _jniStaticMethods;
+
+    enum ofxGenericViewMethods
+    {
+    	JNIMethod_SetFrame = JNIObject::Last,
+    	JNIMethod_GetFrame,
+    	JNIMethod_GetBackgroundColor,
+    	JNIMethod_SetBackgroundColor,
+    	JNIMethod_AddChildView,
+    	JNIMethod_RemoveChildView,
+    	Last
+    };
+    void registerJNIMethods();
 #endif
     
     ofPtrWeak< ofxGenericView > _this;
