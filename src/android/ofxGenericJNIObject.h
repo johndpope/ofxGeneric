@@ -36,6 +36,7 @@ protected:
 	void registerJNIMethodID( std::map< int, JNIMethod* >& methods, bool isStatic, int methodEnum, string methodName, string methodSignature );
 
 	static jobject createJNIInstance( JNIMethod* constructor, ... );
+	static jobject createJNIInstance( std::map< int, JNIMethod* >& methods, int methodEnum, ... );
 
 	jobject callJNIObjectMethod( std::map< int, JNIMethod* >& methods, int methodEnum, ... );
 	void callJNIVoidMethod( std::map< int, JNIMethod* >& methods, int methodEnum, ... );

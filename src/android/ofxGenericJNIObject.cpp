@@ -173,3 +173,30 @@ void JNIObject::destroyJNIReference( jobject& object )
 	}
 }
 
+jobject JNIObject::createJNIInstance( JNIMethod* constructor, ... )
+{
+	va_list args;
+	va_start( args, constructor );
+	jobject result = constructor->createInstance( NULL );
+	va_end( args );
+	return result;
+}
+
+jobject JNIObject::createJNIInstance( std::map< int, JNIMethod* >& methods, int methodEnum, ... )
+{
+	std::map< int, JNIMethod* >::const_iterator methodIt = methods.find( methodEnum );
+	if ( methodIt == methods.end() )
+	{
+		ofxGLog( OF_LOG_ERROR, "JNI: Object: Could not find in map %p constructor with enum %d", &methods, ( int )methodEnum );
+		return NULL;
+	}
+
+	JNIMethod* constructor = ( *methodIt ).second;
+	va_list args;
+	va_start( args, methodEnum );
+	jobject result = constructor->createInstance( NULL );
+	va_end( args );
+	return result;
+}
+
+
