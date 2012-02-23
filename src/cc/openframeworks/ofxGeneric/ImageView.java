@@ -9,7 +9,7 @@ public class ImageView extends View
 	
 	public void setImage()//( String name )
 	{
-		if ( mView != null ) // TODO: typecheck
+		if ( mView != null && mView instanceof android.widget.ImageView )
 		{
 			android.widget.ImageView asImageView = ( android.widget.ImageView )mView;
 			asImageView.setImageResource( cc.openframeworks.cc.R.drawable.launch );
