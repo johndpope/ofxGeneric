@@ -7,13 +7,13 @@
 
 #pragma once
 
-#include "JNIObject.h"
 #include <jni.h>
+#include <string>
 
 class JNIField
 {
 public:
-	JNIField( jclass classObject, bool isStatic, string name, string signature, bool ownReference = false );
+	JNIField( jclass classObject, bool isStatic, std::string name, std::string signature, bool ownReference = false );
 	JNIField( jclass classObject, bool isStatic, jfieldID id, bool ownReference = false );
 	~JNIField();
 
@@ -21,7 +21,7 @@ public:
 	bool isStatic();
 	jfieldID getID();
 
-	string toString();
+	std::string toString();
 
 	jint getIntField( jobject instance = NULL );
 	void setIntField( jint value, jobject instance = NULL );
@@ -32,6 +32,6 @@ protected:
 	bool _isStatic;
 	jfieldID _id;
 
-	string _name;
-	string _signature;
+	std::string _name;
+	std::string _signature;
 };

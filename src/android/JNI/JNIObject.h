@@ -5,7 +5,9 @@
 
 #pragma once
 
-#include "ofxGenericJNI.h"
+#include <jni.h>
+#include <string>
+#include <map>
 
 class JNIMethod;
 class JNIField;
@@ -32,8 +34,10 @@ protected:
 	};
 	std::map< int, JNIMethod* > _jniMethods; // TODO: should be able to be made static per each class, passed into register and get
 
-	static void registerJNIMethodID( std::map< int, JNIMethod* >& methods, jclass classObject, bool isStatic, int methodEnum, string methodName, string methodSignature );
-	void registerJNIMethodID( std::map< int, JNIMethod* >& methods, bool isStatic, int methodEnum, string methodName, string methodSignature );
+	static JNIMethod* getJNIMethod( const std::map< int, JNIMethod* >& methods, int methodEnum );
+
+	static void registerJNIMethodID( std::map< int, JNIMethod* >& methods, jclass classObject, bool isStatic, int methodEnum, std::string methodName, std::string methodSignature );
+	void registerJNIMethodID( std::map< int, JNIMethod* >& methods, bool isStatic, int methodEnum, std::string methodName, std::string methodSignature );
 
 	static jobject createJNIInstance( JNIMethod* constructor, ... );
 	static jobject createJNIInstance( std::map< int, JNIMethod* >& methods, int methodEnum, ... );

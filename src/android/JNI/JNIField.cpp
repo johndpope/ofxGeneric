@@ -6,10 +6,12 @@
  */
 
 #include "JNIField.h"
+#include "JNIObject.h"
+#include "JNIUtility.h"
 
 static const bool lateFieldID = false;
 
-JNIField::JNIField( jclass classObject, bool isStatic, string name, string signature, bool ownReference )
+JNIField::JNIField( jclass classObject, bool isStatic, std::string name, std::string signature, bool ownReference )
 {
 	_ownReference = ownReference;
 	if( _ownReference )

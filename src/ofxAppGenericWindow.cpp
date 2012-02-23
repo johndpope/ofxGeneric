@@ -14,7 +14,7 @@
 #include "ofxGenericConstants.h"
 
 #if TARGET_ANDROID
-#include "ofxGenericJNI.h"
+#include "JNIUtility.h"
 #include "JNIRect.h"
 #include "JNIMethod.h"
 
@@ -59,8 +59,7 @@ NativeWindow ofxAppGenericWindow::createNativeWindow()
     		true
     		);
 
-    jobject window = JNICallStaticObjectMethod( createWindow.getClass(), createWindow.getID() );
-    return createJNIReference( window );
+    return createJNIReference( createWindow.callObjectMethod( createWindow.getClass() ) );
 #else
 	return NULL;
 #endif
@@ -94,8 +93,7 @@ ofRectangle ofxAppGenericWindow::getFrame()
     		true
     		);
 
-    jobject frame = JNICallStaticObjectMethod( getFrame.getClass(), getFrame.getID() );
-    JNIRect jniRect( frame );
+    JNIRect jniRect( getFrame.callObjectMethod( getFrame.getClass() ) );
     return JNIRectToofRectangle( jniRect );
 #endif
 }
@@ -119,7 +117,7 @@ void ofxAppGenericWindow::setRootView( ofPtr< ofxGenericView > view )
     		true
     		);
 
-    JNICallStaticVoidMethod( setRootView.getClass(), setRootView.getID(), _rootView->getNativeView() );
+    setRootView.callVoidMethod( setRootView.getClass(), _rootView->getNativeView() );
 #endif
 }
 

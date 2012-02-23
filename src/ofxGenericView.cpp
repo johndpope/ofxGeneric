@@ -7,7 +7,6 @@
 
 #include "ofxGenericView.h"
 #include "ofxGenericUtility.h"
-#include "JNIRect.h"
 
 #if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
@@ -21,6 +20,9 @@
 #endif
 
 #if TARGET_ANDROID
+#include "JNIUtility.h"
+#include "JNIRect.h"
+
 jclass ofxGenericView::_jniClass = NULL;
 const char* ofxGenericView::className = "cc/openframeworks/ofxGeneric/View";
 #endif

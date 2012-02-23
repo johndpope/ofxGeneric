@@ -6,10 +6,12 @@
  */
 
 #include "JNIMethod.h"
+#include "JNIObject.h"
+#include "JNIUtility.h"
 
 static const bool lateMethodID = false;
 
-JNIMethod::JNIMethod( jclass classObject, bool isStatic, string name, string signature, bool ownReference )
+JNIMethod::JNIMethod( jclass classObject, bool isStatic, std::string name, std::string signature, bool ownReference )
 {
 	_ownReference = ownReference;
 	if( _ownReference )
@@ -85,12 +87,68 @@ std::string JNIMethod::toString()
 	return _name + _signature;
 }
 
-jint JNIMethod::callIntMethod( jobject instance, ... )
+/*jobject callObjectMethod( jobject instance, va_list args );
+jobject callObjectMethod( jobject instance, ... );
+void callVoidMethod( jobject instance, va_list args );
+void callVoidMethod( jobject instance, ... );
+jint callIntMethod( jobject instance, va_list args );
+jint callIntMethod( jobject instance, ... );
+*/
+jobject JNIMethod::callObjectMethod( jobject instance, va_list args )
 {
-	jint result = NULL;
+	jobject result = NULL;
+	if ( isStatic() )
+	{
+		result = JNIObject::getJNIEnv()->CallStaticObjectMethodV( getClass(), getID(), args );
+	} else
+	{
+		result = JNIObject::getJNIEnv()->CallObjectMethodV( instance, getID(), args );
+	}
+
+	JNIHandleException();
+
+	return result;
+
+}
+
+jobject JNIMethod::callObjectMethod( jobject instance, ... )
+{
+	jobject result = NULL;
 
 	va_list args;
 	va_start( args, instance );
+	result = callObjectMethod( instance, args );
+	va_end( args );
+
+	return result;
+}
+
+
+void JNIMethod::callVoidMethod( jobject instance, va_list args )
+{
+	if ( isStatic() )
+	{
+		JNIObject::getJNIEnv()->CallStaticVoidMethodV( getClass(), getID(), args );
+	} else
+	{
+		JNIObject::getJNIEnv()->CallVoidMethodV( instance, getID(), args );
+	}
+
+	JNIHandleException();
+}
+
+void JNIMethod::callVoidMethod( jobject instance, ... )
+{
+	va_list args;
+	va_start( args, instance );
+	callVoidMethod( instance, args );
+	va_end( args );
+}
+
+
+jint JNIMethod::callIntMethod( jobject instance, va_list args )
+{
+	jint result = NULL;
 	if ( isStatic() )
 	{
 		result = JNIObject::getJNIEnv()->CallStaticIntMethodV( getClass(), getID(), args );
@@ -98,9 +156,21 @@ jint JNIMethod::callIntMethod( jobject instance, ... )
 	{
 		result = JNIObject::getJNIEnv()->CallIntMethodV( instance, getID(), args );
 	}
-	va_end( args );
 
 	JNIHandleException();
+
+	return result;
+
+}
+
+jint JNIMethod::callIntMethod( jobject instance, ... )
+{
+	jint result = NULL;
+
+	va_list args;
+	va_start( args, instance );
+	result = callIntMethod( instance, args );
+	va_end( args );
 
 	return result;
 }
@@ -111,5 +181,8 @@ jobject JNIMethod::createInstance( jobject instance, ... )
 	va_start( args, instance );
 	jobject result = JNIObject::getJNIEnv()->NewObjectV( getClass(), getID(), args );
 	va_end( args );
+
+	JNIHandleException();
+
 	return result;
 }

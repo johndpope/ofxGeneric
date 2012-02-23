@@ -9,6 +9,8 @@
 #include "ofxGenericUtility.h"
 
 #if TARGET_ANDROID
+#include "JNIUtility.h"
+
 jclass ofxGenericImageView::_jniClass = NULL;
 const char* ofxGenericImageView::className = "cc/openframeworks/ofxGeneric/ImageView";
 #endif

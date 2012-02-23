@@ -9,6 +9,7 @@
 #include "ofxGenericJNI.h"
 #include "JNIMethod.h"
 #include "JNIField.h"
+#include "JNIUtility.h"
 
 jclass JNIRect::_jniClass = NULL;
 JNIMethod* JNIRect::_constructor = NULL;
