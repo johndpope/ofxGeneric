@@ -13,6 +13,8 @@
 
 jclass ofxGenericButtonView::_jniClass = NULL;
 const char* ofxGenericButtonView::className = "cc/openframeworks/ofxGeneric/ButtonView";
+
+std::vector< ofxGenericButtonView* > ofxGenericButtonView::_nativeMap;
 #endif
 
 ofxGenericButtonView::ofxGenericButtonView()
@@ -30,6 +32,12 @@ void ofxGenericButtonView::init( ofPtrWeak< ofxGenericView > setThis, const ofRe
 {
     ofxGenericView::init( setThis, setBounds );
     _touchDelegate = touchDelegate;
+
+#if TARGET_ANDROID
+    int androidViewID = _nativeMap.size();
+    _nativeMap.push_back( this );
+    callJNIVoidMethod( _jniMethods, JNIMethod_setJNITouchID, androidViewID );
+#endif
 }
 
 NativeView ofxGenericButtonView::createNativeView( const ofRectangle& frame )
@@ -151,6 +159,22 @@ void ofxGenericButtonView::registerJNIMethods()
 			JNIEncodeMethodSignature( 0, JNIType_void )
 //			JNIEncodeMethodSignature( 1, JNIType_void, JNIType_object, "java/lang/String" )
 			);
+
+    registerJNIMethodID(
+    		_jniMethods,
+    		false,
+    		JNIMethod_setJNITouchID,
+    		"setJNITouchID",
+    		JNIEncodeMethodSignature( 1, JNIType_void, JNIType_int )
+    		);
+
+    registerJNIMethodID(
+    		_jniMethods,
+    		false,
+    		JNIMethod_getJNITouchID,
+    		"getJNITouchID",
+    		JNIEncodeMethodSignature( 0, JNIType_int )
+    		);
 }
 #endif
 
@@ -227,4 +251,29 @@ touchEventMethod( touchUpOutside );
 }
 
 @end
+#elif TARGET_ANDROID
+
+void ofxGenericButtonView::handleOnClick( int nativeID )
+{
+	if ( nativeID < _nativeMap.size() )
+	{
+		ofxGenericButtonView* buttonView = _nativeMap[ nativeID ];
+		if ( buttonView )
+		{
+			buttonView->touchUpInside();
+		} else
+		{
+			// TODO:
+		}
+	}
+}
+
+extern "C"
+{
+	void Java_cc_openframeworks_ofxGeneric_ButtonView_handleOnClickNative( JNIEnv* env, jobject thiz, jobject clickedView, jint id )
+	{
+		ofxGenericButtonView::handleOnClick( id );
+	}
+}
+
 #endif

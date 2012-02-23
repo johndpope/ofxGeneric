@@ -10,6 +10,7 @@
 #pragma once
 
 #include "ofxGenericView.h"
+#include <vector>
 
 #if TARGET_OS_IPHONE
 @class UIButtonDelegateForwarder;
@@ -51,15 +52,7 @@ public:
 	virtual jclass getJNIClass();
     static const char* className;
 
-    enum ofxGenericButtonViewMethods
-    {
-    	JNIMethod_SetText = ofxGenericView::Last,
-    	JNIMethod_GetText,
-    	JNIMethod_setBackgroundImage,
-    	Last
-    };
-    virtual void registerJNIMethods();
-
+    static void handleOnClick( int nativeID );
 #endif
     
 protected:
@@ -70,6 +63,19 @@ protected:
     UIButtonDelegateForwarder* _eventHandler;
 #elif TARGET_ANDROID
     static jclass _jniClass;
+
+    enum ofxGenericButtonViewMethods
+     {
+     	JNIMethod_SetText = ofxGenericView::Last,
+     	JNIMethod_GetText,
+     	JNIMethod_setBackgroundImage,
+     	JNIMethod_setJNITouchID,
+     	JNIMethod_getJNITouchID,
+     	Last
+     };
+     virtual void registerJNIMethods();
+
+     static std::vector< ofxGenericButtonView* > _nativeMap;
 #endif
 
 };
@@ -109,4 +115,6 @@ public:
 -( void )touchUpOutside:( id )sender;
 
 @end
+#elif TARGET_ANDROID
+
 #endif
