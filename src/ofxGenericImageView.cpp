@@ -27,7 +27,7 @@ NativeView ofxGenericImageView::createNativeView( const ofRectangle& frame )
 }
 
 // TODO: auto @2x if available
-void ofxGenericImageView::setImage( string fileName )
+void ofxGenericImageView::setImage( std::string fileName )
 {
 #if TARGET_OS_IPHONE
     if ( [ _view isKindOfClass:[ UIImageView class ] ] )

@@ -32,7 +32,7 @@ ofxGenericView::ofxGenericView()
 #if TARGET_OS_IPHONE
  _view( nil ), _viewController( nil ),
 #elif TARGET_ANDROID
- _view( NULL ),
+ _view( NULL ), 
 #endif
 _children()
 {
