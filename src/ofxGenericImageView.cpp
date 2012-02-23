@@ -22,7 +22,6 @@ NativeView ofxGenericImageView::createNativeView( const ofRectangle& frame )
     [ newView setBackgroundColor:[ UIColor clearColor ] ];
     return newView;
 #elif TARGET_ANDROID
-    // TODO: implement
     return ofxGenericView::createNativeView( frame );
 #endif
 }
