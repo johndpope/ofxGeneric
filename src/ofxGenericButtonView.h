@@ -23,13 +23,13 @@ public:
     virtual ~ofxGenericButtonView();
     
     virtual void init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 ), ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate = ofPtrWeak< ofxGenericButtonViewTouchDelegate >() );
-    void setText( string newText );
-    string getText();
+    void setText( std::string newText );
+    std::string getText();
     //    void setTextColor( const ofColor newColor );
     //    ofColor getTextColor();
     
     // void setImage
-    void setBackgroundImage( string fileName );
+    void setBackgroundImage( std::string fileName );
     
     // TODO: scheme so that UIButtonDelegateForwarder is the only one that can call these
     // TODO: scheme so we can pass a reference of this to delegate
@@ -45,6 +45,21 @@ public:
     
 #if TARGET_OS_IPHONE
     operator UIButton*();
+#elif TARGET_ANDROID
+
+    static jclass getJNIClassStatic();
+	virtual jclass getJNIClass();
+    static const char* className;
+
+    enum ofxGenericButtonViewMethods
+    {
+    	JNIMethod_SetText = ofxGenericView::Last,
+    	JNIMethod_GetText,
+    	JNIMethod_setBackgroundImage,
+    	Last
+    };
+    virtual void registerJNIMethods();
+
 #endif
     
 protected:
@@ -53,7 +68,10 @@ protected:
     virtual NativeView createNativeView( const ofRectangle& frame );
 #if TARGET_OS_IPHONE
     UIButtonDelegateForwarder* _eventHandler;
+#elif TARGET_ANDROID
+    static jclass _jniClass;
 #endif
+
 };
 
 class ofxGenericButtonViewTouchDelegate

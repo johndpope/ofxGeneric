@@ -44,9 +44,13 @@ private:
 
 void JNIHandleException();
 
-jstring JNICStringToJavaString( const char string[] );
-const char* JNIJavaStringToCString( jstring string );
-
 const char* JNIGetClassName( jobject object );
 jclass JNIFindClass( const char* className );
+
+class JNIUtility
+{
+public:
+	static jstring CStringToJavaString( std::string from );
+	static std::string JavaStringToCString( jstring from );
+};
 

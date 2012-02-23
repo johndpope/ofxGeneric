@@ -8,6 +8,13 @@
 #include "ofxGenericButtonView.h"
 #include "ofxGenericUtility.h"
 
+#if TARGET_ANDROID
+#include "JNIUtility.h"
+
+jclass ofxGenericButtonView::_jniClass = NULL;
+const char* ofxGenericButtonView::className = "cc/openframeworks/ofxGeneric/ButtonView";
+#endif
+
 ofxGenericButtonView::ofxGenericButtonView()
 {
 }
@@ -49,12 +56,11 @@ NativeView ofxGenericButtonView::createNativeView( const ofRectangle& frame )
     [ newView addTarget:_eventHandler action:@selector( touchUpOutside: ) forControlEvents:UIControlEventTouchUpOutside ];
     return newView;
 #elif TARGET_ANDROID
-    // TODO: implement
     return ofxGenericView::createNativeView( frame );
 #endif
 }
 
-void ofxGenericButtonView::setText( string newText )
+void ofxGenericButtonView::setText( std::string newText )
 {
 #if TARGET_OS_IPHONE
     if ( [ _view isKindOfClass:[ UIButton class ] ] )
@@ -62,10 +68,13 @@ void ofxGenericButtonView::setText( string newText )
         UIButton* view = ( UIButton* )_view;
         [ view setTitle:ofxStringToNSString( newText ) forState:UIControlStateNormal ];
     }
+#elif TARGET_ANDROID
+    jstring newTextJNI = JNIUtility::CStringToJavaString( newText );
+    callJNIVoidMethod( _jniMethods, JNIMethod_SetText, newTextJNI );
 #endif
 }
 
-string ofxGenericButtonView::getText()
+std::string ofxGenericButtonView::getText()
 {
 #if TARGET_OS_IPHONE
     if ( [ _view isKindOfClass:[ UIButton class ] ] )
@@ -74,13 +83,15 @@ string ofxGenericButtonView::getText()
         return ofxNSStringToString( [ view currentTitle ] );
     }
     return string();
-#elif TARGET_ANROID
-    // TODO: implement
-    return string();
+#elif TARGET_ANDROID
+    jstring jString = ( jstring )callJNIObjectMethod( _jniMethods, JNIMethod_GetText );
+    return JNIUtility::JavaStringToCString( jString );
+#else
+    return std::string();
 #endif
 }
 
-void ofxGenericButtonView::setBackgroundImage( string fileName )
+void ofxGenericButtonView::setBackgroundImage( std::string fileName )
 {
 #if TARGET_OS_IPHONE
     if ( [ _view isKindOfClass:[ UIButton class ] ] )
@@ -89,11 +100,58 @@ void ofxGenericButtonView::setBackgroundImage( string fileName )
         [ view setBackgroundImage:[ UIImage imageWithContentsOfFile:pathToBundle( ofxStringToNSString( fileName ) )  ]
                          forState:UIControlStateNormal ];
     }
+#elif TARGET_ANDROID
+    callJNIVoidMethod(
+    		_jniMethods,
+    		JNIMethod_setBackgroundImage
+    		//, fileName
+    		);
 #endif
 }
 
 #if TARGET_OS_IPHONE
 ofxGenericUIViewCastOperator( ofxGenericButtonView, UIButton );
+#elif TARGET_ANDROID
+
+jclass ofxGenericButtonView::getJNIClassStatic()
+{
+	// TODO: handle exception
+    if ( !_jniClass )
+    	_jniClass = ( jclass )ofxGenericButtonView::createJNIReferenceStatic( JNIFindClass( ofxGenericButtonView::className ) );
+    return _jniClass;
+}
+
+jclass ofxGenericButtonView::getJNIClass()
+{
+	return ofxGenericButtonView::getJNIClassStatic();
+}
+
+void ofxGenericButtonView::registerJNIMethods()
+{
+	ofxGenericView::registerJNIMethods();
+	registerJNIMethodID(
+			_jniMethods,
+			false,
+			JNIMethod_SetText,
+			"setText",
+			JNIEncodeMethodSignature( 1, JNIType_void, JNIType_object, "java/lang/String" )
+			);
+	registerJNIMethodID(
+			_jniMethods,
+			false,
+			JNIMethod_GetText,
+			"getText",
+			JNIEncodeMethodSignature( 0, JNIType_object, "java/lang/String" )
+			);
+	registerJNIMethodID(
+			_jniMethods,
+			false,
+			JNIMethod_setBackgroundImage,
+			"setBackgroundImage",
+			JNIEncodeMethodSignature( 0, JNIType_void )
+//			JNIEncodeMethodSignature( 1, JNIType_void, JNIType_object, "java/lang/String" )
+			);
+}
 #endif
 
 #define touchEventMethod( eventName ) \

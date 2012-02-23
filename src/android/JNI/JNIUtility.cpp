@@ -127,18 +127,6 @@ std::string JNIEncodeMethodSignature( int numParameters, JNIBasicTypeSignature r
 	return encoded;
 }
 
-jstring JNICStringToJavaString( const char string[] )
-{
-    // translate c string to java string
-    return JNIObject::getJNIEnv()->NewStringUTF( string );
-}
-
-const char* JNIJavaStringToCString( JNIEnv* env, jstring string )
-{
-    jboolean copy;
-    return JNIObject::getJNIEnv()->GetStringUTFChars( string, &copy );
-}
-
 const char* JNIGetClassName( jobject object )
 {
     jclass jClass = JNIObject::getJNIEnv()->GetObjectClass( object );
@@ -151,8 +139,21 @@ const char* JNIGetClassName( jobject object )
     if ( !name )
     	return NULL;
 
-    return JNIJavaStringToCString( JNIObject::getJNIEnv(), name );
+    return JNIUtility::JavaStringToCString( name ).c_str();
 }
+
+/*
+ * jclass exccls(env->GetObjectClass(exc));
+        jclass clscls(env->FindClass("java/lang/Class"));
+
+        jmethodID getName(env->GetMethodID(clscls, "getName", "()Ljava/lang/String;"));
+        jstring name(static_cast<jstring>(env->CallObjectMethod(exccls, getName)));
+        char const* utfName(env->GetStringUTFChars(name, 0));
+
+        jmethodID getMessage(env->GetMethodID(exccls, "getMessage", "()Ljava/lang/String;"));
+        jstring message(static_cast<jstring>(env->CallObjectMethod(exc, getMessage)));
+        char const* utfMessage(env->GetStringUTFChars(message, 0));
+ */
 
 
 jclass JNIFindClass( const char* className )
@@ -162,3 +163,17 @@ jclass JNIFindClass( const char* className )
 	return classObject;
 }
 
+jstring JNIUtility::CStringToJavaString( std::string from )
+{
+	jstring result = JNIObject::getJNIEnv()->NewStringUTF( from.c_str() );
+	JNIHandleException();
+	return result;
+}
+
+std::string JNIUtility::JavaStringToCString( jstring from )
+{
+	jboolean isCopy;
+	const char* result = JNIObject::getJNIEnv()->GetStringUTFChars( from, &isCopy );
+	JNIHandleException();
+	return result;
+}
