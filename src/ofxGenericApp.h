@@ -1,11 +1,8 @@
 #pragma once
 
-// QQQQ
-#define TARGET_ANDROID 1
-
+#include "ofxGenericConstants.h"
 #include "ofMain.h"
 
-#include "ofxGenericConstants.h"
 #include "ofxGenericUtility.h"
 
 #if TARGET_OS_IPHONE

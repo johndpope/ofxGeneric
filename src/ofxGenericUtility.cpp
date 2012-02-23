@@ -32,7 +32,6 @@ void ofxGLogWarning( const string & message )
 	ofLogWarning( ofxGenericModuleName, message );
 }
 
-#include "android/log.h"
 void ofxGLog( ofLogLevel level, const char* format, ... )
 {
 	va_list args;
