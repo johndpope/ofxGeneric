@@ -9,6 +9,9 @@
 #pragma once
 
 #include "ofMain.h"
+#if TARGET_OS_IPHONE
+#import <UIKit/UIKit.h>
+#endif
 
 class ofxGenericHTTPResponse
 {
