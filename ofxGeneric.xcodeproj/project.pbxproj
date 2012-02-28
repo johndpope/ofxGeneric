@@ -449,7 +449,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3C7B4E6714FC7C56003121FE /* Project.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = (
+					armv6,
+					"$(ARCHS_STANDARD_32_BIT)",
+				);
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -476,7 +479,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3C7B4E6714FC7C56003121FE /* Project.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = (
+					armv6,
+					"$(ARCHS_STANDARD_32_BIT)",
+				);
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
