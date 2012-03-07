@@ -98,6 +98,32 @@ ofRectangle ofxAppGenericWindow::getFrame()
 #endif
 }
 
+ofRectangle ofxAppGenericWindow::convertTo( const ofRectangle& rectangle, ofPtr< ofxGenericView > fromSpace )
+{    
+    if ( fromSpace )
+    {
+#if TARGET_OS_IPHONE
+        CGRect cgRect = ofRectangleToCGRect( rectangle );
+        CGRect coverted = [ _window convertRect:cgRect fromView:( UIView* )( *fromSpace ) ];
+        return CGRectToofRectangle( coverted );
+#endif
+    }
+    return ofRectangle();
+}
+
+ofRectangle ofxAppGenericWindow::convertFrom( const ofRectangle& rectangle, ofPtr< ofxGenericView > toSpace )
+{
+    if ( toSpace )
+    {
+#if TARGET_OS_IPHONE
+        CGRect cgRect = ofRectangleToCGRect( rectangle );
+        CGRect coverted = [ _window convertRect:cgRect toView:( UIView* )( *toSpace ) ];
+        return CGRectToofRectangle( coverted );
+#endif
+    }
+    return ofRectangle();
+}
+
 ofPtr< ofxGenericView > ofxAppGenericWindow::getRootView()
 {
     return _rootView;

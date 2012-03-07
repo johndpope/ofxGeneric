@@ -35,6 +35,9 @@ public:
     
     ofRectangle getFrame();
     
+    ofRectangle convertTo( const ofRectangle& rectangle, ofPtr< ofxGenericView > fromSpace );
+    ofRectangle convertFrom( const ofRectangle& rectangle, ofPtr< ofxGenericView > toSpace );
+    
     ofPtr< ofxGenericView > getRootView();
     void setRootView( ofPtr< ofxGenericView > view );
     
