@@ -22,6 +22,7 @@ const char* ofxGenericApp::ActivityClassName = "cc/openframeworks/ofxGeneric/Act
 #endif
 
 ofxGenericApp::ofxGenericApp()
+: _keyboardIsVisible( false )
 {
 }
 
@@ -133,6 +134,27 @@ ofPtr< ofxGenericView > ofxGenericApp::getRootView()
         return _window->getRootView();
     }
     return ofPtr< ofxGenericView >();
+}
+
+bool ofxGenericApp::keyboardIsVisible()
+{
+    return _keyboardIsVisible;
+}
+
+ofRectangle ofxGenericApp::getKeyboardFrame()
+{
+    return _keyboardFrame;
+}
+
+void ofxGenericApp::keyboardWillShow( const ofRectangle& keyboardFrame )
+{    
+    _keyboardFrame = keyboardFrame;
+    _keyboardIsVisible = true;
+}
+
+void ofxGenericApp::keyboardWillHide()
+{
+    _keyboardIsVisible = false;
 }
 
 

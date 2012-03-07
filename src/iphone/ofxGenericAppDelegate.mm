@@ -35,6 +35,15 @@
         
         _displayLink = [ [ CADisplayLink displayLinkWithTarget:self selector:@selector( update ) ] retain ];
         [ _displayLink addToRunLoop:[ NSRunLoop currentRunLoop ] forMode:NSDefaultRunLoopMode ];
+        
+        [ [ NSNotificationCenter defaultCenter ] addObserver:self
+                                                    selector:@selector( keyboardWillShow: ) 
+                                                        name:UIKeyboardWillShowNotification
+                                                      object:nil ];
+        [ [ NSNotificationCenter defaultCenter ] addObserver:self
+                                                    selector:@selector( keyboardWillHide: ) 
+                                                        name:UIKeyboardWillHideNotification
+                                                      object:nil ];
     } else
     {
         // TODO: error
@@ -113,6 +122,19 @@
  @property (nonatomic, retain) UIWindow *window __OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_5_0);
  */
 
+-( void )keyboardWillShow:( NSNotification* )notification
+{
+    NSDictionary* userInfo = [ notification userInfo ];
+    CGRect keyboardEndFrame;
+    [ [ userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] getValue:&keyboardEndFrame ];
+    
+    ofxGenericApp::getInstance()->keyboardWillShow( CGRectToofRectangle( keyboardEndFrame ) );
+}
+
+-( void )keyboardWillHide:( NSNotification* )notification
+{
+    ofxGenericApp::getInstance()->keyboardWillHide();
+}
 
 -( void )dealloc
 {

@@ -33,6 +33,11 @@ public:
     
     ofPtr< ofxAppGenericWindow > getWindow();
     ofPtr< ofxGenericView > getRootView();
+    
+    bool keyboardIsVisible();
+    ofRectangle getKeyboardFrame();
+    virtual void keyboardWillShow( const ofRectangle& keyboardFrame );    
+    virtual void keyboardWillHide();  
 
 #if TARGET_ANDROID
     static const char* ActivityClassName;
@@ -42,4 +47,7 @@ protected:
     ofPtr< ofxAppGenericWindow > _window;
 
     virtual void createRootView();
+    
+    bool _keyboardIsVisible;
+    ofRectangle _keyboardFrame;
 };
