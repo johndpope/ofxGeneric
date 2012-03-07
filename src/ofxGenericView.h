@@ -61,6 +61,14 @@ public:
     
     ofPtrWeak< ofxGenericView > getParent();
     
+    virtual void willLoad() {};
+    virtual void didLoad() {};
+    
+    virtual void willAppear() {};
+    virtual void didAppear() {};
+    virtual void willDisappear() {};
+    virtual void didDisappear() {};
+    
 protected:        
     virtual NativeView createNativeView( const ofRectangle& frame );
     NativeView _view;

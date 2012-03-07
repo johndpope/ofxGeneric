@@ -49,6 +49,8 @@ void ofxGenericView::init( ofPtrWeak< ofxGenericView > setThis, const ofRectangl
 #if TARGET_ANDROID
     registerJNIMethods();
 #endif
+    
+    willLoad();
 
     _view = createNativeView( setFrame );
 #if TARGET_OS_IPHONE
@@ -62,6 +64,8 @@ void ofxGenericView::init( ofPtrWeak< ofxGenericView > setThis, const ofRectangl
     		jniRect.getJNIInstance()
     		);
 #endif
+    
+    didLoad();
 }
 
 #if TARGET_ANDROID
@@ -122,7 +126,7 @@ ofxGenericView::operator NativeView()
 #if TARGET_OS_IPHONE
 ofxUIGenericViewController* ofxGenericView::createUIViewController()
 {
-    return [ [ ofxUIGenericViewController alloc ] init ];
+    return [ [ ofxUIGenericViewController alloc ] initWithDelegate:_this ];
 }
 
 ofxUIGenericViewController* ofxGenericView::getUIViewController()
@@ -179,6 +183,9 @@ void ofxGenericView::addChildView( ofPtr< ofxGenericView > add )
 {
     if ( add )
     {
+        if ( true ) // TODO: only when attached to root
+            add->willAppear();
+        
         _children.push_back( add );
         NativeView nativeView = add->getNativeView();
         if ( nativeView )
@@ -197,6 +204,9 @@ void ofxGenericView::addChildView( ofPtr< ofxGenericView > add )
             // TODO:
         }
         add->_parent = _this;
+        
+        if ( true )
+            add->didAppear();
     } else
     {
         // TODO:
@@ -207,8 +217,11 @@ void ofxGenericView::removeChildView( ofPtr< ofxGenericView > remove )
 {
     if ( remove )
     {
-		if ( remove->_parent == _this )
+		if ( *( remove->_parent.lock() ) == *( _this.lock() ) )
 		{
+            if ( true )
+                remove->willDisappear();
+            
             NativeView nativeView = remove->getNativeView();
 			if ( nativeView )
 			{
@@ -227,6 +240,9 @@ void ofxGenericView::removeChildView( ofPtr< ofxGenericView > remove )
 			}
 			_children.remove( remove );
 			remove->_parent = ofPtrWeak< ofxGenericView >();
+            
+            if ( true )
+                remove->didDisappear();
         } else
         {
             // TODO:
@@ -343,142 +359,95 @@ void ofxGenericView::registerJNIMethods()
 #if TARGET_OS_IPHONE
 @implementation ofxUIGenericViewController
 
--( id )init
+-( id )initWithDelegate:( ofPtrWeak< ofxGenericView > ) delegate;
 {
     self = [ super init ];
     if ( self )
     {
-        _activeTouches = [ [ NSMutableDictionary alloc ] init ];
+        _delegate = delegate;
     }
     return self;
 }
 
 -( void )dealloc
 {
-    [ _activeTouches release ];
-    _activeTouches = nil;
     [ super dealloc ];
 }
 
-#pragma mark Touch Events
-
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+#pragma mark Lifetime Events
+/*
+-( void )loadView
 {
-	for(UITouch *touch in touches)
+    if ( _delegate )
     {
-/*		int touchIndex = 0;
-		while([[activeTouches allValues] containsObject:[NSNumber numberWithInt:touchIndex]]) {
-			touchIndex++;
-		}
-
-		[activeTouches setObject:[NSNumber numberWithInt:touchIndex] forKey:[NSValue valueWithPointer:touch]];
-
-		CGPoint touchPoint = [touch locationInView:self.view];
-
-		touchPoint.x *= getWindowScale();
-		touchPoint.y *= getWindowScale();
-
-		iPhoneGetOFWindow()->rotateXY(touchPoint.x, touchPoint.y);
-
-		if( touchIndex==0 ){
-			ofNotifyMousePressed(touchPoint.x, touchPoint.y, 0);
-		}
-
-		ofTouchEventArgs touchArgs;
-		touchArgs.x = touchPoint.x;
-		touchArgs.y = touchPoint.y;
-		touchArgs.id = touchIndex;
-		if([touch tapCount] == 2) ofNotifyEvent(ofEvents.touchDoubleTap,touchArgs);	// send doubletap
-		ofNotifyEvent(ofEvents.touchDown,touchArgs);	// but also send tap (upto app programmer to ignore this if doubletap came that frame)*/
-	}
-
+        _delegate.lock()->willLoad();
+    }
+    [ super loadView ];
 }
 
-//------------------------------------------------------
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+-( void )viewDidLoad
 {
-	//	NSLog(@"touchesMoved: %i %i %i", [touches count],  [[event touchesForView:self] count], multitouchData.numTouches);
-
-	for(UITouch *touch in touches)
+    [ super viewDidLoad ];
+    if ( _delegate )
     {
-		/*int touchIndex = [[activeTouches objectForKey:[NSValue valueWithPointer:touch]] intValue];
-		//		[activeTouches setObject:[NSNumber numberWithInt:touchIndex] forKey:[NSValue valueWithPointer:touch]];
-
-		CGPoint touchPoint = [touch locationInView:self];
-
-		touchPoint.x*=touchScaleFactor; // this has to be done because retina still returns points in 320x240 but with high percision
-		touchPoint.y*=touchScaleFactor;
-
-		iPhoneGetOFWindow()->rotateXY(touchPoint.x, touchPoint.y);
-
-		if( touchIndex==0 ){
-			ofNotifyMouseDragged(touchPoint.x, touchPoint.y, 0);
-		}
-		ofTouchEventArgs touchArgs;
-		touchArgs.numTouches = [[event touchesForView:self] count];
-		touchArgs.x = touchPoint.x;
-		touchArgs.y = touchPoint.y;
-		touchArgs.id = touchIndex;
-		ofNotifyEvent(ofEvents.touchMoved, touchArgs);*/
-	}
-
+        _delegate.lock()->didLoad();
+    }
 }
 
-//------------------------------------------------------
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+-( void )viewWillUnload
 {
-	//	NSLog(@"touchesEnded: %i %i %i", [touches count],  [[event touchesForView:self] count], multitouchData.numTouches);
-	for(UITouch *touch in touches)
+    [ super viewWillUnload ];
+    if ( _delegate )
     {
-/*		int touchIndex = [[activeTouches objectForKey:[NSValue valueWithPointer:touch]] intValue];
-
-		[activeTouches removeObjectForKey:[NSValue valueWithPointer:touch]];
-
-		CGPoint touchPoint = [touch locationInView:self];
-
-		touchPoint.x*=touchScaleFactor; // this has to be done because retina still returns points in 320x240 but with high percision
-		touchPoint.y*=touchScaleFactor;
-
-		iPhoneGetOFWindow()->rotateXY(touchPoint.x, touchPoint.y);
-
-		if( touchIndex==0 ){
-			ofNotifyMouseReleased(touchPoint.x, touchPoint.y, 0);
-		}
-
-		ofTouchEventArgs touchArgs;
-		touchArgs.numTouches = [[event touchesForView:self] count] - [touches count];
-		touchArgs.x = touchPoint.x;
-		touchArgs.y = touchPoint.y;
-		touchArgs.id = touchIndex;
-		ofNotifyEvent(ofEvents.touchUp, touchArgs);*/
-	}
+        _delegate.lock()->willUnload();
+    }
 }
 
-//------------------------------------------------------
-- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+-( void )viewDidUnload
 {
-	for(UITouch *touch in touches)
+    [ super viewDidUnload ];
+    if ( _delegate )
     {
-/*		int touchIndex = [[activeTouches objectForKey:[NSValue valueWithPointer:touch]] intValue];
-
-		CGPoint touchPoint = [touch locationInView:self];
-
-		touchPoint.x*=touchScaleFactor; // this has to be done because retina still returns points in 320x240 but with high percision
-		touchPoint.y*=touchScaleFactor;
-
-		iPhoneGetOFWindow()->rotateXY(touchPoint.x, touchPoint.y);
-
-		ofTouchEventArgs touchArgs;
-		touchArgs.numTouches = [[event touchesForView:self] count];
-		touchArgs.x = touchPoint.x;
-		touchArgs.y = touchPoint.y;
-		touchArgs.id = touchIndex;
-		ofNotifyEvent(ofEvents.touchCancelled, touchArgs);*/
-	}
-
-	[self touchesEnded:touches withEvent:event];
+        _delegate.lock()->didUnload();
+    }
 }
 
+-( void )viewWillAppear:( BOOL )animated
+{
+    [ super viewWillAppear:animated ];
+    if ( _delegate )
+    {
+        _delegate.lock()->willAppear();
+    }
+}
+
+-( void )viewDidAppear:(BOOL)animated
+{
+    [ super viewDidAppear:animated ];
+    if ( _delegate )
+    {
+        _delegate.lock()->didAppear();
+    }
+}
+
+-( void )viewWillDisappear:(BOOL)animated
+{
+    [ super viewWillDisappear:animated ];
+    if ( _delegate )
+    {
+        _delegate.lock()->willDisappear();
+    }
+}
+
+-( void )viewDidDisappear:(BOOL)animated
+{
+    [ super viewDidDisappear:animated ];
+    if ( _delegate )
+    {
+        _delegate.lock()->didDisappear();
+    }
+}
+*/
 @end
 #endif
 
