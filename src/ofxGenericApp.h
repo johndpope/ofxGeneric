@@ -38,6 +38,7 @@ public:
     ofRectangle getKeyboardFrame();
     virtual void keyboardWillShow( const ofRectangle& keyboardFrame );    
     virtual void keyboardWillHide();  
+    void setMoveFromUnderKeyboard( ofPtr< ofxGenericView > view ); // TODO: make into a list
 
 #if TARGET_ANDROID
     static const char* ActivityClassName;
@@ -50,4 +51,6 @@ protected:
     
     bool _keyboardIsVisible;
     ofRectangle _keyboardFrame;
+    ofPtr< ofxGenericView > _moveFromUnderKeyboard;
+    ofRectangle _moveFromUnderKeyboardOriginalFrame;
 };

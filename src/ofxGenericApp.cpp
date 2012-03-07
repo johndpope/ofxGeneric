@@ -150,12 +150,35 @@ void ofxGenericApp::keyboardWillShow( const ofRectangle& keyboardFrame )
 {    
     _keyboardFrame = keyboardFrame;
     _keyboardIsVisible = true;
+    if ( _moveFromUnderKeyboard )
+    {
+        _moveFromUnderKeyboardOriginalFrame = _moveFromUnderKeyboard->getFrame();
+        ofRectangle worldLocation = _window->convertTo( _moveFromUnderKeyboardOriginalFrame, _moveFromUnderKeyboard->getParent().lock() );
+#if TARGET_OS_IPHONE
+        if ( worldLocation.intersects( _keyboardFrame ) )
+        {
+            // assume the keyboard came from the bottom
+            
+            // TODO: animate
+            worldLocation = ofRectangle( worldLocation.x, keyboardFrame.y - worldLocation.height, worldLocation.width, worldLocation.height );
+            _moveFromUnderKeyboard->setFrame( _window->convertFrom( worldLocation, _moveFromUnderKeyboard->getParent().lock() ) );
+        }
+#endif
+    }
 }
 
 void ofxGenericApp::keyboardWillHide()
 {
     _keyboardIsVisible = false;
+    _moveFromUnderKeyboard->setFrame( _moveFromUnderKeyboardOriginalFrame );
 }
+
+void ofxGenericApp::setMoveFromUnderKeyboard( ofPtr< ofxGenericView > view )
+{
+    _moveFromUnderKeyboard = view;
+}
+
+
 
 
 
