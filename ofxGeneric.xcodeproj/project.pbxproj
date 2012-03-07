@@ -309,17 +309,6 @@
 		};
 /* End PBXTargetDependency section */
 
-/* Begin PBXVariantGroup section */
-		3C7B4ECC14FC7CF1003121FE /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				3C7B4ECD14FC7CF1003121FE /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
 		3C7B4DFC14FC78A1003121FE /* Debug */ = {
 			isa = XCBuildConfiguration;
