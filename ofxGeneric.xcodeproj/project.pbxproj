@@ -33,7 +33,7 @@
 		3C7B4EC814FC7CBF003121FE /* ofxGenericUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C7B4E9D14FC7CBF003121FE /* ofxGenericUtility.h */; };
 		3C7B4EC914FC7CBF003121FE /* ofxGenericView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C7B4E9E14FC7CBF003121FE /* ofxGenericView.cpp */; };
 		3C7B4ECA14FC7CBF003121FE /* ofxGenericView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C7B4E9F14FC7CBF003121FE /* ofxGenericView.h */; };
-		3C7B4EE014FC7D3C003121FE /* libofxiPhone_iphoneos_Debug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C7B4EDC14FC7D2E003121FE /* libofxiPhone_iphoneos_Debug.a */; };
+		3CB302171506DB5B00A1A91F /* libofxiPhone_iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C7B4EDC14FC7D2E003121FE /* libofxiPhone_iphoneos.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -100,7 +100,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3C7B4EE014FC7D3C003121FE /* libofxiPhone_iphoneos_Debug.a in Frameworks */,
+				3CB302171506DB5B00A1A91F /* libofxiPhone_iphoneos.a in Frameworks */,
 				3C7B4DDE14FC78A1003121FE /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -188,7 +188,7 @@
 		3C7B4ED514FC7D2E003121FE /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3C7B4EDC14FC7D2E003121FE /* libofxiPhone_iphoneos_Debug.a */,
+				3C7B4EDC14FC7D2E003121FE /* libofxiPhone_iphoneos.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -270,10 +270,10 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		3C7B4EDC14FC7D2E003121FE /* libofxiPhone_iphoneos_Debug.a */ = {
+		3C7B4EDC14FC7D2E003121FE /* libofxiPhone_iphoneos.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libofxiPhone_iphoneos_Debug.a;
+			path = libofxiPhone_iphoneos.a;
 			remoteRef = 3C7B4EDB14FC7D2E003121FE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
