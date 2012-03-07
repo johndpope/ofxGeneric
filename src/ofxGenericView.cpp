@@ -8,16 +8,6 @@
 #include "ofxGenericView.h"
 #include "ofxGenericUtility.h"
 
-#if TARGET_OS_IPHONE
-#import <UIKit/UIKit.h>
-
-@interface ofxUIGenericViewController : UIViewController
-{
-@private
-    NSMutableDictionary* _activeTouches;
-}
-@end
-#endif
 
 #if TARGET_ANDROID
 #include "JNIUtility.h"
@@ -130,12 +120,12 @@ ofxGenericView::operator NativeView()
 }
 
 #if TARGET_OS_IPHONE
-UIViewController* ofxGenericView::createUIViewController()
+ofxUIGenericViewController* ofxGenericView::createUIViewController()
 {
     return [ [ ofxUIGenericViewController alloc ] init ];
 }
 
-UIViewController* ofxGenericView::getUIViewController()
+ofxUIGenericViewController* ofxGenericView::getUIViewController()
 {
     return _viewController;
 }

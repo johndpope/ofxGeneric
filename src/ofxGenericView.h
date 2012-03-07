@@ -16,6 +16,12 @@
 
 #include <list>
 
+#if TARGET_OS_IPHONE
+#import <UIKit/UIKit.h>
+
+@class ofxUIGenericViewController;
+#endif
+
 class ofxGenericView
 #if TARGET_ANDROID
 : public JNIObject
@@ -31,7 +37,7 @@ public:
     operator NativeView();
 #if TARGET_OS_IPHONE
 
-    UIViewController* getUIViewController();
+    ofxUIGenericViewController* getUIViewController();
 
 #elif TARGET_ANDROID
 
@@ -61,8 +67,8 @@ protected:
 
 #if TARGET_OS_IPHONE
 
-    virtual UIViewController* createUIViewController();
-    UIViewController* _viewController;
+    virtual ofxUIGenericViewController* createUIViewController();
+    ofxUIGenericViewController* _viewController;
 
 #elif TARGET_ANDROID
 
@@ -91,6 +97,17 @@ protected:
 };
 
 #if TARGET_OS_IPHONE
+
+@interface ofxUIGenericViewController : UIViewController
+{
+@protected
+    ofPtrWeak< ofxGenericView > _delegate;
+    NSMutableDictionary* _activeTouches;
+}
+-( id )initWithDelegate:( ofPtrWeak< ofxGenericView > ) delegate;
+
+@end
+
 #define ofxGenericUIViewCastOperator( ofxType, UIViewType ) \
 ofxType::operator UIViewType*() \
 { \
