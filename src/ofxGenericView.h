@@ -53,6 +53,8 @@ public:
     void removeFromParent();
     void removeChildViews();
     
+    ofPtrWeak< ofxGenericView > getParent();
+    
 protected:        
     virtual NativeView createNativeView( const ofRectangle& frame );
     NativeView _view;

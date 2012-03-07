@@ -276,6 +276,11 @@ void ofxGenericView::removeChildViews()
     _children.clear();
 }
 
+ofPtrWeak< ofxGenericView > ofxGenericView::getParent()
+{
+    return _parent;
+}
+
 #if TARGET_ANDROID
 void ofxGenericView::registerJNIMethods()
 {
