@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3C17BC04150AA08E00DA1034 /* ofxGenericActivityView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C17BC03150AA08E00DA1034 /* ofxGenericActivityView.cpp */; };
 		3C1E7B441508288D007B6723 /* ofxGenericLaunchView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C1E7B421508288D007B6723 /* ofxGenericLaunchView.cpp */; };
 		3C1E7B451508288D007B6723 /* ofxGenericLaunchView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C1E7B431508288D007B6723 /* ofxGenericLaunchView.h */; };
 		3C7B4DDE14FC78A1003121FE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C7B4DDD14FC78A1003121FE /* Foundation.framework */; };
@@ -58,6 +59,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3C17BC01150A9F9A00DA1034 /* ofxGenericActivityView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericActivityView.h; sourceTree = "<group>"; };
+		3C17BC03150AA08E00DA1034 /* ofxGenericActivityView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericActivityView.cpp; sourceTree = "<group>"; };
 		3C1E7B421508288D007B6723 /* ofxGenericLaunchView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericLaunchView.cpp; sourceTree = "<group>"; };
 		3C1E7B431508288D007B6723 /* ofxGenericLaunchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericLaunchView.h; sourceTree = "<group>"; };
 		3C7B4DDA14FC78A1003121FE /* libofxGeneric.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libofxGeneric.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -183,6 +186,8 @@
 				3CF590961506E78E00963966 /* ofxGenericEditTextView.cpp */,
 				3C1E7B421508288D007B6723 /* ofxGenericLaunchView.cpp */,
 				3C1E7B431508288D007B6723 /* ofxGenericLaunchView.h */,
+				3C17BC01150A9F9A00DA1034 /* ofxGenericActivityView.h */,
+				3C17BC03150AA08E00DA1034 /* ofxGenericActivityView.cpp */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -312,6 +317,7 @@
 				3C7B4EC914FC7CBF003121FE /* ofxGenericView.cpp in Sources */,
 				3CF590971506E78E00963966 /* ofxGenericEditTextView.cpp in Sources */,
 				3C1E7B441508288D007B6723 /* ofxGenericLaunchView.cpp in Sources */,
+				3C17BC04150AA08E00DA1034 /* ofxGenericActivityView.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
