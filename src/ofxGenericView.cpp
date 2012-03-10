@@ -308,6 +308,27 @@ float ofxGenericView::getAlpha()
     return 1.0f;
 }
 
+void ofxGenericView::setVisible( bool visible )
+{    
+#if TARGET_OS_IPHONE
+    if ( _view )
+    {
+        [ _view setHidden:( BOOL )!visible ];
+    }
+#endif
+}
+
+bool ofxGenericView::getVisible()
+{
+#if TARGET_OS_IPHONE
+    if ( _view )
+    {
+        return ( bool )!_view.isHidden;
+    }
+#endif
+    return false;
+}
+
 #if TARGET_ANDROID
 void ofxGenericView::registerJNIMethods()
 {

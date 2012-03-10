@@ -72,6 +72,9 @@ public:
     void setAlpha( float alpha );
     float getAlpha();
     
+    void setVisible( bool visible );
+    bool getVisible();
+    
 protected:        
     virtual NativeView createNativeView( const ofRectangle& frame );
     NativeView _view;
