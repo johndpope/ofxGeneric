@@ -69,6 +69,9 @@ public:
     virtual void willDisappear() {};
     virtual void didDisappear() {};
     
+    void setAlpha( float alpha );
+    float getAlpha();
+    
 protected:        
     virtual NativeView createNativeView( const ofRectangle& frame );
     NativeView _view;

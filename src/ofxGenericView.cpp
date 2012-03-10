@@ -287,6 +287,27 @@ ofPtrWeak< ofxGenericView > ofxGenericView::getParent()
     return _parent;
 }
 
+void ofxGenericView::setAlpha( float alpha )
+{
+#if TARGET_OS_IPHONE
+    if ( _view )
+    {
+        [ _view setAlpha:( CGFloat )alpha ];
+    }
+#endif
+}
+
+float ofxGenericView::getAlpha()
+{
+#if TARGET_OS_IPHONE
+    if ( _view )
+    {
+        return ( float )_view.alpha;
+    }
+#endif    
+    return 1.0f;
+}
+
 #if TARGET_ANDROID
 void ofxGenericView::registerJNIMethods()
 {
