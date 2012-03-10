@@ -227,6 +227,7 @@ ofxGenericUIViewCastOperator( ofxGenericEditTextView, UITextField );
 
 -( void )dealloc
 {
+    [ super dealloc ];
     _delegate = NULL;
 }
 
