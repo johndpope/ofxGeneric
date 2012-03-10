@@ -183,6 +183,29 @@ bool ofxGenericEditTextView::shouldReturn()
     return true;
 }
 
+void ofxGenericEditTextView::setEnabled( bool enabled )
+{
+#if TARGET_OS_IPHONE
+    UITextField* textField = ( UITextField* )*this;
+    if ( textField )
+    {
+        [ textField setEnabled:( BOOL )enabled ];
+    }
+#endif
+}
+         
+bool ofxGenericEditTextView::getEnabled()
+{
+#if TARGET_OS_IPHONE
+    UITextField* textField = ( UITextField* )*this;
+    if ( textField )
+    {
+        return textField.enabled;
+    }
+#endif 
+    return false;
+}
+         
 
 #if TARGET_OS_IPHONE
 ofxGenericUIViewCastOperator( ofxGenericEditTextView, UITextField );

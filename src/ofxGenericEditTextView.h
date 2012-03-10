@@ -47,6 +47,9 @@ public:
     virtual bool shouldClear();
     virtual bool shouldReturn();
     
+    void setEnabled( bool enabled );
+    bool getEnabled();
+    
 protected:
     virtual NativeView createNativeView( const ofRectangle& frame );
 #if TARGET_OS_IPHONE
