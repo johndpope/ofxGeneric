@@ -19,7 +19,8 @@ ofPtr< ofxGenericActivityView > ofxGenericActivityView::create( const ofRectangl
 NativeView ofxGenericActivityView::createNativeView( const ofRectangle& frame )
 {
 #if TARGET_OS_IPHONE
-    UIActivityIndicatorView* newView = [ [ UIActivityIndicatorView alloc ] initWithFrame:ofRectangleToCGRect( frame ) ];
+    UIActivityIndicatorView* newView = [ [ UIActivityIndicatorView alloc ] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge ];
+    [ newView setFrame:ofRectangleToCGRect( frame ) ];
     return newView;
 #endif
 }
