@@ -28,11 +28,9 @@ class ofxGenericView
 #endif
 {
 public:
-    ofxGenericView();
+    static ofPtr< ofxGenericView > create( const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ) );
     virtual ~ofxGenericView();
     
-    virtual void init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 ) );
-
     NativeView getNativeView();
     operator NativeView();
 #if TARGET_OS_IPHONE
@@ -76,6 +74,9 @@ public:
     bool getVisible();
     
 protected:        
+    ofxGenericView();
+    virtual void init( ofPtrWeak< ofxGenericView > smartPointer, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 ) );
+    
     virtual NativeView createNativeView( const ofRectangle& frame );
     NativeView _view;
 

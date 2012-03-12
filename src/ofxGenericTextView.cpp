@@ -8,6 +8,13 @@
 #include "ofxGenericTextView.h"
 #include "ofxGenericUtility.h"
 
+ofPtr< ofxGenericTextView > ofxGenericTextView::create( const ofRectangle& setFrame )
+{
+    ofPtr< ofxGenericTextView > create = ofPtr< ofxGenericTextView >( new ofxGenericTextView() );
+    create->init( create, setFrame );
+    return create;
+}
+
 void ofxGenericTextView::setText( string newText )
 {
 #if TARGET_OS_IPHONE

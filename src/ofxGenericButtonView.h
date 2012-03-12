@@ -20,10 +20,9 @@ class ofxGenericButtonViewTouchDelegate;
 class ofxGenericButtonView : public ofxGenericView
 {
 public:
-    ofxGenericButtonView();
+    static ofPtr< ofxGenericButtonView > create( const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ), ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate = ofPtrWeak< ofxGenericButtonViewTouchDelegate >() );
     virtual ~ofxGenericButtonView();
     
-    virtual void init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 ), ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate = ofPtrWeak< ofxGenericButtonViewTouchDelegate >() );
     void setText( std::string newText );
     std::string getText();
     //    void setTextColor( const ofColor newColor );
@@ -56,6 +55,9 @@ public:
 #endif
     
 protected:
+    ofxGenericButtonView();
+    virtual void init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 ), ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate = ofPtrWeak< ofxGenericButtonViewTouchDelegate >() );
+
     ofPtrWeak< ofxGenericButtonViewTouchDelegate > _touchDelegate;
     
     virtual NativeView createNativeView( const ofRectangle& frame );

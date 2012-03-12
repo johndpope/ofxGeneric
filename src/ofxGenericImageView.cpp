@@ -15,6 +15,18 @@ jclass ofxGenericImageView::_jniClass = NULL;
 const char* ofxGenericImageView::className = "cc/openframeworks/ofxGeneric/ImageView";
 #endif
 
+ofxGenericImageView::ofxGenericImageView()
+{
+}
+
+ofPtr< ofxGenericImageView > ofxGenericImageView::create( const ofRectangle& setFrame, string fileName )
+{
+    ofPtr< ofxGenericImageView > create = ofPtr< ofxGenericImageView >( new ofxGenericImageView() );
+    create->init( create, setFrame );
+    create->setImage( fileName );
+    return create;
+}
+
 NativeView ofxGenericImageView::createNativeView( const ofRectangle& frame )
 {
 #if TARGET_OS_IPHONE

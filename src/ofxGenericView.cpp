@@ -17,6 +17,13 @@ jclass ofxGenericView::_jniClass = NULL;
 const char* ofxGenericView::className = "cc/openframeworks/ofxGeneric/View";
 #endif
 
+ofPtr< ofxGenericView > ofxGenericView::create( const ofRectangle& setFrame )
+{
+    ofPtr< ofxGenericView > create = ofPtr< ofxGenericView >( new ofxGenericView() );
+    create->init( create, setFrame );
+    return create;
+}
+
 ofxGenericView::ofxGenericView()
 :
 #if TARGET_OS_IPHONE

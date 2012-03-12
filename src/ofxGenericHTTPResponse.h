@@ -16,6 +16,10 @@
 class ofxGenericHTTPResponse
 {
 public:
+    static ofPtr< ofxGenericHTTPResponse > create();
+    static ofPtr< ofxGenericHTTPResponse > create( NSError* error );
+    static ofPtr< ofxGenericHTTPResponse > create( NSURLResponse* response, NSData* data );
+    
     // TODO: readonly
     int statusCode;
     string MIMEType;
@@ -28,15 +32,17 @@ public:
     string errorFailureReason;
     string errorRecoverySuggestions;
         
+    virtual ~ofxGenericHTTPResponse();
+    
+protected:
     ofxGenericHTTPResponse();
 #if TARGET_OS_IPHONE
     ofxGenericHTTPResponse( NSError* error );
     ofxGenericHTTPResponse( NSURLResponse* response, NSData* data );
-#endif
+#endif    
     
-    virtual ~ofxGenericHTTPResponse();
+    ofPtrWeak< ofxGenericHTTPResponse > _this;
     
-protected:
 #if TARGET_OS_IPHONE
     NSData* _dataSource;
 #endif

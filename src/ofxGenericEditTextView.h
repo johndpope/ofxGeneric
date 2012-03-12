@@ -18,7 +18,7 @@
 class ofxGenericEditTextView : public ofxGenericView
 {
 public:
-    ofxGenericEditTextView();
+    static ofPtr< ofxGenericEditTextView > create( const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ) );
     virtual ~ofxGenericEditTextView();
     
     void setText( string newText );
@@ -51,6 +51,7 @@ public:
     bool getEnabled();
     
 protected:
+    ofxGenericEditTextView();
     virtual NativeView createNativeView( const ofRectangle& frame );
 #if TARGET_OS_IPHONE
     ofxGenericEditTextViewDelegateForwarder* _forwarder;

@@ -8,6 +8,13 @@
 #include "ofxGenericTableView.h"
 #include "ofxGenericUtility.h"
 
+ofPtr< ofxGenericTableView > ofxGenericTableView::create( const ofRectangle& setFrame )
+{
+    ofPtr< ofxGenericTableView > create = ofPtr< ofxGenericTableView >( new ofxGenericTableView() );
+    create->init( create, setFrame );
+    return create;
+}
+
 ofxGenericTableView::~ofxGenericTableView()
 {
 #if TARGET_OS_IPHONE

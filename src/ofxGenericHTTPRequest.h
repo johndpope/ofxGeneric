@@ -20,7 +20,7 @@ class ofxGenericHTTPResponse;
 class ofxGenericHTTPRequest
 {
 public:
-    ofxGenericHTTPRequest( string url, string method, void* data = 0, int dataByteLength = 0, ofPtr< ofxGenericHTTPRequestDelegate > delegate = ofPtr< ofxGenericHTTPRequestDelegate >() );
+    static ofPtr< ofxGenericHTTPRequest > create( string url, string method, void* data = 0, int dataByteLength = 0, ofPtr< ofxGenericHTTPRequestDelegate > delegate = ofPtr< ofxGenericHTTPRequestDelegate >() );
     virtual ~ofxGenericHTTPRequest();
     
     virtual void cancel();
@@ -29,6 +29,9 @@ public:
     virtual void finishedSuccessfully( ofPtr< ofxGenericHTTPResponse > response );
     
 protected:
+    ofxGenericHTTPRequest( string url, string method, void* data = 0, int dataByteLength = 0, ofPtr< ofxGenericHTTPRequestDelegate > delegate = ofPtr< ofxGenericHTTPRequestDelegate >() );
+    ofPtrWeak< ofxGenericHTTPRequest > _this;
+    
     ofPtr< ofxGenericHTTPRequestDelegate > _delegate;
     
 #if TARGET_OS_IPHONE
@@ -41,20 +44,20 @@ class ofxGenericHTTPRequestDelegate
 {
 public:
     virtual ~ofxGenericHTTPRequestDelegate(){};
-    // TODO: straight pointer :(
-    virtual void finishedWithError( ofxGenericHTTPRequest* request, ofPtr< ofxGenericHTTPResponse > response ) = 0;
-    virtual void finishedSuccessfully( ofxGenericHTTPRequest* request, ofPtr< ofxGenericHTTPResponse > response ) = 0;
+
+    virtual void httpRequest_finishedWithError( ofPtr< ofxGenericHTTPRequest > request, ofPtr< ofxGenericHTTPResponse > response ) = 0;
+    virtual void httpRequest_finishedSuccessfully( ofPtr< ofxGenericHTTPRequest > request, ofPtr< ofxGenericHTTPResponse > response ) = 0;
 };
 
 #if TARGET_OS_IPHONE
 @interface NSURLConnectionDelegateForwarder : NSObject< NSURLConnectionDelegate >
 {
 @protected
-    ofxGenericHTTPRequest* _delegate;
+    ofPtrWeak< ofxGenericHTTPRequest > _delegate;
     NSMutableData* _receivedData;
     NSURLResponse* _response;
 }
--( id )initWithDelegate:( ofxGenericHTTPRequest* )delegate;
+-( id )initWithDelegate:( ofPtrWeak< ofxGenericHTTPRequest > )delegate;
 
 -( void )connection:( NSURLConnection* )connection didFailWithError:( NSError* )error;
 -( void )connection:( NSURLConnection* )connection didReceiveResponse:( NSURLResponse* )response;

@@ -8,6 +8,28 @@
 #include "ofxGenericHTTPResponse.h"
 #include "ofxGenericUtility.h"
 
+
+ofPtr< ofxGenericHTTPResponse > ofxGenericHTTPResponse::create()
+{
+    ofPtr< ofxGenericHTTPResponse > create = ofPtr< ofxGenericHTTPResponse >( new ofxGenericHTTPResponse() );
+    create->_this = create;
+    return create;
+}
+
+ofPtr< ofxGenericHTTPResponse > ofxGenericHTTPResponse::create( NSError* error )
+{    
+    ofPtr< ofxGenericHTTPResponse > create = ofPtr< ofxGenericHTTPResponse >( new ofxGenericHTTPResponse( error ) );
+    create->_this = create;
+    return create;
+}
+
+ofPtr< ofxGenericHTTPResponse > ofxGenericHTTPResponse::create( NSURLResponse* response, NSData* data )
+{
+    ofPtr< ofxGenericHTTPResponse > create = ofPtr< ofxGenericHTTPResponse >( new ofxGenericHTTPResponse( response, data ) );
+    create->_this = create;
+    return create;
+}
+
 ofxGenericHTTPResponse::ofxGenericHTTPResponse()
 : data( NULL ), dataByteLength( 0 )
 #if TARGET_OS_IPHONE

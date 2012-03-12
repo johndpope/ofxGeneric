@@ -15,12 +15,13 @@ class ofxGenericLaunchViewDelegate;
 class ofxGenericLaunchView : public ofxGenericImageView
 {
 public:
-    virtual void init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setBounds, ofPtrWeak< ofxGenericLaunchViewDelegate > delegate );
-    
+    static ofPtr< ofxGenericLaunchView > create( const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ), ofPtrWeak< ofxGenericLaunchViewDelegate > delegate = ofPtrWeak< ofxGenericLaunchViewDelegate >() );
     virtual void didLoad();
     virtual void didAppear();
     
 protected:
+    virtual void init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setBounds, ofPtrWeak< ofxGenericLaunchViewDelegate > delegate );
+    
     ofPtrWeak< ofxGenericLaunchViewDelegate > _delegate;
 };
 

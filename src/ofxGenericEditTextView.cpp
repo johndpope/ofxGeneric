@@ -9,6 +9,13 @@
 #include "ofxGenericUtility.h"
 #include "ofxGenericApp.h"
 
+ofPtr< ofxGenericEditTextView > ofxGenericEditTextView::create( const ofRectangle& setFrame )
+{
+    ofPtr< ofxGenericEditTextView > create = ofPtr< ofxGenericEditTextView >( new ofxGenericEditTextView() );
+    create->init( create, setFrame );
+    return create;
+}
+
 ofxGenericEditTextView::ofxGenericEditTextView()
 : _moveFromUnderKeyboardOnBeginEdit( false )
 #if TARGET_OS_IPHONE

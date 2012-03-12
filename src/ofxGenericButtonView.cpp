@@ -17,6 +17,13 @@ const char* ofxGenericButtonView::className = "cc/openframeworks/ofxGeneric/Butt
 std::vector< ofxGenericButtonView* > ofxGenericButtonView::_nativeMap;
 #endif
 
+ofPtr< ofxGenericButtonView > ofxGenericButtonView::create( const ofRectangle& setFrame, ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate )
+{
+    ofPtr< ofxGenericButtonView > create = ofPtr< ofxGenericButtonView >( new ofxGenericButtonView() );
+    create->init( create, setFrame, touchDelegate );
+    return create;
+}
+
 ofxGenericButtonView::ofxGenericButtonView()
 {
 }

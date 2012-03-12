@@ -97,8 +97,7 @@ void ofxGenericApp::finishedLaunching()
 
 void ofxGenericApp::createRootView()
 {
-    ofPtr< ofxGenericView > rootView( new ofxGenericView() );
-    rootView->init( rootView, _window->getFrame() );
+    ofPtr< ofxGenericView > rootView = ofxGenericView::create( _window->getFrame() );
 
     _window->setRootView( rootView );
 }

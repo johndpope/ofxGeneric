@@ -13,6 +13,7 @@
 class ofxGenericActivityView : public ofxGenericView
 {
 public:
+    static ofPtr< ofxGenericActivityView > create( const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ) );
 #if TARGET_OS_IPHONE
     operator UIActivityIndicatorView*();
 #endif

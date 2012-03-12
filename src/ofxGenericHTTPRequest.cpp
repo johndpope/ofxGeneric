@@ -8,6 +8,13 @@
 #include "ofxGenericHTTPRequest.h"
 #include "ofxGenericUtility.h"
 
+ofPtr< ofxGenericHTTPRequest > ofxGenericHTTPRequest::create( string url, string method, void* data, int dataByteLength, ofPtr< ofxGenericHTTPRequestDelegate > delegate )
+{
+    ofPtr< ofxGenericHTTPRequest > create = ofPtr< ofxGenericHTTPRequest >( new ofxGenericHTTPRequest( url, method, data, dataByteLength, delegate ) );
+    create->_this = create;
+    return create;
+}
+
 ofxGenericHTTPRequest::ofxGenericHTTPRequest( string url, string method, void* data, int dataByteLength, ofPtr< ofxGenericHTTPRequestDelegate > delegate )
 : _delegate( delegate )
 #if TARGET_OS_IPHONE
@@ -18,7 +25,7 @@ ofxGenericHTTPRequest::ofxGenericHTTPRequest( string url, string method, void* d
     // TODO: allow caching and timeout specification
     NSURLRequest* request = [ NSURLRequest requestWithURL:[ NSURL URLWithString:ofxStringToNSString( url ) ] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:20.0f ];
 
-    _forwarder = [ [ NSURLConnectionDelegateForwarder alloc ] initWithDelegate:this ];
+    _forwarder = [ [ NSURLConnectionDelegateForwarder alloc ] initWithDelegate:_this ];
     _connection = [ [ NSURLConnection alloc ] initWithRequest:request delegate:_forwarder startImmediately:YES ];
 #endif
 }
@@ -43,7 +50,7 @@ void ofxGenericHTTPRequest::finishedWithError( ofPtr< ofxGenericHTTPResponse > r
 {
     if ( _delegate )
     {
-        _delegate->finishedWithError( this, response );
+        _delegate->httpRequest_finishedWithError( _this.lock(), response );
     }
 }
 
@@ -51,14 +58,14 @@ void ofxGenericHTTPRequest::finishedSuccessfully( ofPtr< ofxGenericHTTPResponse 
 {
     if ( _delegate )
     {
-        _delegate->finishedSuccessfully( this, response );
+        _delegate->httpRequest_finishedSuccessfully( _this.lock(), response );
     }
 }
 
 #if TARGET_OS_IPHONE
 @implementation NSURLConnectionDelegateForwarder
 
--( id )initWithDelegate:( ofxGenericHTTPRequest* )delegate
+-( id )initWithDelegate:( ofPtrWeak< ofxGenericHTTPRequest > )delegate
 {
     self = [ super init ];
     if ( self )
@@ -72,7 +79,6 @@ void ofxGenericHTTPRequest::finishedSuccessfully( ofPtr< ofxGenericHTTPResponse 
 
 -( void )dealloc
 {
-    _delegate = NULL;
     release( _receivedData );
     release( _response );
     [ super dealloc ];
@@ -82,8 +88,8 @@ void ofxGenericHTTPRequest::finishedSuccessfully( ofPtr< ofxGenericHTTPResponse 
 {
     if ( _delegate )
     {
-        ofPtr< ofxGenericHTTPResponse > response( new ofxGenericHTTPResponse( error ) );
-        _delegate->finishedWithError( response );
+        ofPtr< ofxGenericHTTPResponse > response = ofxGenericHTTPResponse::create( error );
+        _delegate.lock()->finishedWithError( response );
     }
 }
 
@@ -101,8 +107,8 @@ void ofxGenericHTTPRequest::finishedSuccessfully( ofPtr< ofxGenericHTTPResponse 
 {
     if ( _delegate )
     {
-        ofPtr< ofxGenericHTTPResponse > response( new ofxGenericHTTPResponse( _response, _receivedData ) );
-        _delegate->finishedSuccessfully( response );
+        ofPtr< ofxGenericHTTPResponse > response = ofxGenericHTTPResponse::create( _response, _receivedData );
+        _delegate.lock()->finishedSuccessfully( response );
     }
 }
 

@@ -9,6 +9,13 @@
 #include "ofxGenericLaunchView.h"
 #include "ofxGenericApp.h"
 
+ofPtr< ofxGenericLaunchView > ofxGenericLaunchView::create( const ofRectangle& setFrame, ofPtrWeak< ofxGenericLaunchViewDelegate > delegate )
+{
+    ofPtr< ofxGenericLaunchView > create = ofPtr< ofxGenericLaunchView >( new ofxGenericLaunchView() );
+    create->init( create, setFrame, delegate );
+    return create;
+}
+
 void ofxGenericLaunchView::init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setBounds, ofPtrWeak< ofxGenericLaunchViewDelegate > delegate )
 {
     _delegate = delegate;

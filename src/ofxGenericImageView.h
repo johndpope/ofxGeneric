@@ -13,6 +13,7 @@
 class ofxGenericImageView : public ofxGenericView
 {
 public:
+    static ofPtr< ofxGenericImageView > create( const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ), string fileName = string() );
     void setImage( string fileName );
     
 #if TARGET_OS_IPHONE
@@ -33,6 +34,7 @@ public:
 #endif
     
 protected:
+    ofxGenericImageView();
     virtual NativeView createNativeView( const ofRectangle& frame );
 
 #if TARGET_ANDROID

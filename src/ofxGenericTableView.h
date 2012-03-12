@@ -18,7 +18,9 @@ class ofxGenericTableViewCell;
 class ofxGenericTableView : public ofxGenericView
 {
 public:
+    static ofPtr< ofxGenericTableView > create( const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ) );
     virtual ~ofxGenericTableView();
+    
     virtual unsigned int getNumberOfCells( unsigned int section );
     virtual ofPtr< ofxGenericTableViewCell > getCell( unsigned int section, unsigned int index );
     virtual float getHeightForCell( unsigned int section, unsigned int index );

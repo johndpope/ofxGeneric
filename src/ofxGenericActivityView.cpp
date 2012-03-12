@@ -9,6 +9,13 @@
 #include "ofxGenericActivityView.h"
 #include "ofxGenericUtility.h"
 
+ofPtr< ofxGenericActivityView > ofxGenericActivityView::create( const ofRectangle& setFrame )
+{
+    ofPtr< ofxGenericActivityView > create = ofPtr< ofxGenericActivityView >( new ofxGenericActivityView() );
+    create->init( create, setFrame );
+    return create;
+}
+
 NativeView ofxGenericActivityView::createNativeView( const ofRectangle& frame )
 {
 #if TARGET_OS_IPHONE
