@@ -29,7 +29,8 @@ public:
     virtual void finishedSuccessfully( ofPtr< ofxGenericHTTPResponse > response );
     
 protected:
-    ofxGenericHTTPRequest( string url, string method, void* data = 0, int dataByteLength = 0, ofPtr< ofxGenericHTTPRequestDelegate > delegate = ofPtr< ofxGenericHTTPRequestDelegate >() );
+    ofxGenericHTTPRequest();
+    virtual void init( ofPtrWeak< ofxGenericHTTPRequest > setThis, string url, string method, void* data = 0, int dataByteLength = 0, ofPtr< ofxGenericHTTPRequestDelegate > delegate = ofPtr< ofxGenericHTTPRequestDelegate >() );
     ofPtrWeak< ofxGenericHTTPRequest > _this;
     
     ofPtr< ofxGenericHTTPRequestDelegate > _delegate;
