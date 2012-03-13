@@ -31,6 +31,7 @@ public:
     string suggestedFilename;
     void* data;
     int dataByteLength;
+    string getDataAsString();
     
     string errorDescription;
     string errorFailureReason;

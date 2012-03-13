@@ -114,13 +114,9 @@ void ofxGenericHTTPResponse::init( ofPtrWeak< ofxGenericHTTPResponse > setThis, 
     dataByteLength = setDataByteLength;
     suggestedFilename = setSuggestedFilename;
 
-    char* output = new char[ dataByteLength + 1 ];
-    snprintf( output, dataByteLength, "%s", data );
-    output[ dataByteLength ] = '\0';
     ofxGLog( OF_LOG_ERROR, 
             "HTTPResponse - Status: %d MIMEType: %s Text Encoding: %s Suggested File Name: %s\nBody: %s", 
-            statusCode, MIMEType.c_str(), textEncoding.c_str(), suggestedFilename.c_str(), output );
-    delete [] output;
+            statusCode, MIMEType.c_str(), textEncoding.c_str(), suggestedFilename.c_str(), getDataAsString().c_str() );
 }
 
 ofxGenericHTTPResponse::~ofxGenericHTTPResponse()
@@ -128,4 +124,16 @@ ofxGenericHTTPResponse::~ofxGenericHTTPResponse()
 #if TARGET_OS_IPHONE
     release( _dataSource );
 #endif
+}
+
+string ofxGenericHTTPResponse::getDataAsString()
+{
+    char* dataBuffer = new char[ dataByteLength + 1 ];
+    snprintf( dataBuffer, dataByteLength + 1, "%s", data );
+    
+    string dataString( dataBuffer );
+    
+    delete [] dataBuffer;
+    
+    return dataString;
 }
