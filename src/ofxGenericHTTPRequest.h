@@ -23,6 +23,7 @@ public:
     static ofPtr< ofxGenericHTTPRequest > create( string url, string method, void* data = 0, int dataByteLength = 0, ofPtr< ofxGenericHTTPRequestDelegate > delegate = ofPtr< ofxGenericHTTPRequestDelegate >() );
     virtual ~ofxGenericHTTPRequest();
     
+    virtual void start();
     virtual void cancel();
     
     virtual void finishedWithError( ofPtr< ofxGenericHTTPResponse > response );
@@ -36,6 +37,7 @@ protected:
     ofPtr< ofxGenericHTTPRequestDelegate > _delegate;
     
 #if TARGET_OS_IPHONE
+    NSMutableURLRequest* _request;
     NSURLConnection* _connection;
     NSURLConnectionDelegateForwarder* _forwarder;
 #endif
