@@ -99,6 +99,8 @@ void ofxGenericHTTPResponse::init( ofPtrWeak<ofxGenericHTTPResponse> setThis, st
     errorDescription = setErrorDescription;
     errorFailureReason = setErrorFailureReason;
     errorRecoverySuggestions = setErrorRecoverySuggestions;
+    
+    ofxGLog( OF_LOG_ERROR, "HTTPResponse - Error: " + errorDescription + " " + errorFailureReason + " " + errorRecoverySuggestions );
 }
 
 void ofxGenericHTTPResponse::init( ofPtrWeak< ofxGenericHTTPResponse > setThis, int setStatusCode, string setMIMEType, string setTextEncoding, void* setData, int setDataByteLength, string setSuggestedFilename )
@@ -111,6 +113,14 @@ void ofxGenericHTTPResponse::init( ofPtrWeak< ofxGenericHTTPResponse > setThis, 
     data = setData;
     dataByteLength = setDataByteLength;
     suggestedFilename = setSuggestedFilename;
+
+    char* output = new char[ dataByteLength + 1 ];
+    snprintf( output, dataByteLength, "%s", data );
+    output[ dataByteLength ] = '\0';
+    ofxGLog( OF_LOG_ERROR, 
+            "HTTPResponse - Status: %d MIMEType: %s Text Encoding: %s Suggested File Name: %s\nBody: %s", 
+            statusCode, MIMEType.c_str(), textEncoding.c_str(), suggestedFilename.c_str(), output );
+    delete [] output;
 }
 
 ofxGenericHTTPResponse::~ofxGenericHTTPResponse()

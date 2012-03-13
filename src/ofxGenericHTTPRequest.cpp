@@ -46,7 +46,7 @@ void ofxGenericHTTPRequest::init( ofPtrWeak< ofxGenericHTTPRequest > setThis, st
     {
 #if DEBUG
         NSString* dataString = [ [ [ NSString alloc ] initWithBytes:data length:dataByteLength encoding:NSUTF8StringEncoding ] autorelease ];
-        NSLog( @"HTTPRequest - body: %@", dataString );
+        NSLog( @"HTTPRequest - Body:\n%@", dataString );
 #endif
         [ _request setHTTPBody:[ NSData dataWithBytes:data length:dataByteLength ] ];
     }
