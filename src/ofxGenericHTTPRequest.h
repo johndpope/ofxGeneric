@@ -26,8 +26,10 @@ public:
     virtual void start();
     virtual void cancel();
     
-    virtual void finishedWithError( ofPtr< ofxGenericHTTPResponse > response );
-    virtual void finishedSuccessfully( ofPtr< ofxGenericHTTPResponse > response );
+#if TARGET_OS_IPHONE
+    virtual void finishedWithError( NSError* error );
+    virtual void finishedSuccessfully( NSURLResponse* urlResponse, NSData* receivedData );
+#endif
     
 protected:
     ofxGenericHTTPRequest();
