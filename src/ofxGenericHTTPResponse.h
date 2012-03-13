@@ -17,10 +17,14 @@ class ofxGenericHTTPResponse
 {
 public:
     static ofPtr< ofxGenericHTTPResponse > create();
-    static ofPtr< ofxGenericHTTPResponse > create( NSError* error );
+    static ofPtr< ofxGenericHTTPResponse > create( string setErrorDescription, string setErrorFailureReason = "", string setErrorRecoverySuggestions = "" );
+    static ofPtr< ofxGenericHTTPResponse > create( int statusCode, string MIMEType, string textEncoding, void* data, int dataByteLength, string suggestedFilename = "" );
+#if TARGET_OS_IPHONE
     static ofPtr< ofxGenericHTTPResponse > create( NSURLResponse* response, NSData* data );
+    static ofPtr< ofxGenericHTTPResponse > create( NSError* error );
+#endif
     
-    // TODO: readonly
+    // TODO: readonly accessors
     int statusCode;
     string MIMEType;
     string textEncoding;
@@ -36,10 +40,10 @@ public:
     
 protected:
     ofxGenericHTTPResponse();
-#if TARGET_OS_IPHONE
-    ofxGenericHTTPResponse( NSError* error );
-    ofxGenericHTTPResponse( NSURLResponse* response, NSData* data );
-#endif    
+    
+    virtual void init( ofPtrWeak< ofxGenericHTTPResponse > setThis );
+    virtual void init( ofPtrWeak< ofxGenericHTTPResponse > setThis, int statusCode, string MIMEType, string textEncoding, void* data, int dataByteLength, string suggestedFilename = "" );
+    virtual void init( ofPtrWeak< ofxGenericHTTPResponse > setThis, string setErrorDescription, string setErrorFailureReason = "", string setErrorRecoverySuggestions = ""  );
     
     ofPtrWeak< ofxGenericHTTPResponse > _this;
     

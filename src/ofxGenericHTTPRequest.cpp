@@ -11,10 +11,10 @@
 #include "ofxGenericHTTPRequest.h"
 #include "ofxGenericUtility.h"
 
-ofPtr< ofxGenericHTTPRequest > ofxGenericHTTPRequest::create( string url, string method, void* data, int dataByteLength, ofPtr< ofxGenericHTTPRequestDelegate > delegate )
+ofPtr< ofxGenericHTTPRequest > ofxGenericHTTPRequest::create( string url, string method, string format, void* data, int dataByteLength, float timeout, ofPtr< ofxGenericHTTPRequestDelegate > delegate )
 {
     ofPtr< ofxGenericHTTPRequest > create = ofPtr< ofxGenericHTTPRequest >( new ofxGenericHTTPRequest() );
-    create->init( create, url, method, data, dataByteLength, delegate );
+    create->init( create, url, method, format, data, dataByteLength, timeout, delegate );
     return create;
 }
 
@@ -26,14 +26,14 @@ ofxGenericHTTPRequest::ofxGenericHTTPRequest()
 {
 }
 
-void ofxGenericHTTPRequest::init( ofPtrWeak< ofxGenericHTTPRequest > setThis, string url, string method, void* data, int dataByteLength, ofPtr< ofxGenericHTTPRequestDelegate > delegate )
+void ofxGenericHTTPRequest::init( ofPtrWeak< ofxGenericHTTPRequest > setThis, string url, string method, string format, void* data, int dataByteLength, float timeout, ofPtr< ofxGenericHTTPRequestDelegate > delegate )
 {
     _this = setThis;
     
     _delegate = delegate;
     
 #if DEBUG
-    ofxGLog( OF_LOG_VERBOSE, "HTTPRequest: " + url + method );
+    ofxGLog( OF_LOG_VERBOSE, "HTTPRequest: " + url + " " + method + " " + format );
 #endif
     
 #if TARGET_OS_IPHONE
@@ -53,6 +53,16 @@ void ofxGenericHTTPRequest::init( ofPtrWeak< ofxGenericHTTPRequest > setThis, st
 
     _forwarder = [ [ NSURLConnectionDelegateForwarder alloc ] initWithDelegate:_this ];
 #endif
+    
+    _format = format;
+    std::transform( _format.begin(), _format.end(), _format.begin(), ::tolower );    
+    if ( _format == "xml" )
+    {
+#if TARGET_OS_IPHONE
+        [ _request setValue:@"application/xml" forHTTPHeaderField:@"Accept" ];
+        [ _request setValue:@"application/xml" forHTTPHeaderField:@"Content-Type" ];        
+#endif
+    }
 }
 
 ofxGenericHTTPRequest::~ofxGenericHTTPRequest()
@@ -82,23 +92,27 @@ void ofxGenericHTTPRequest::cancel()
 #endif
 }
 
-void ofxGenericHTTPRequest::finishedWithError( ofPtr< ofxGenericHTTPResponse > response )
+#if TARGET_OS_IPHONE
+void ofxGenericHTTPRequest::finishedWithError( NSError* error )
 {
     if ( _delegate )
     {
+        ofPtr< ofxGenericHTTPResponse > response = ofxGenericHTTPResponse::create( error );
         _delegate->httpRequest_finishedWithError( _this.lock(), response );
     }
     release( _connection );
 }
 
-void ofxGenericHTTPRequest::finishedSuccessfully( ofPtr< ofxGenericHTTPResponse > response )
+void ofxGenericHTTPRequest::finishedSuccessfully( NSURLResponse* urlResponse, NSData* receivedData )
 {
     if ( _delegate )
     {
+        ofPtr< ofxGenericHTTPResponse > response = ofxGenericHTTPResponse::create( urlResponse, receivedData );
         _delegate->httpRequest_finishedSuccessfully( _this.lock(), response );
     }
     release( _connection );
 }
+#endif
 
 #if TARGET_OS_IPHONE
 @implementation NSURLConnectionDelegateForwarder
@@ -126,8 +140,7 @@ void ofxGenericHTTPRequest::finishedSuccessfully( ofPtr< ofxGenericHTTPResponse 
 {
     if ( _delegate )
     {
-        ofPtr< ofxGenericHTTPResponse > response = ofxGenericHTTPResponse::create( error );
-        _delegate.lock()->finishedWithError( response );
+        _delegate.lock()->finishedWithError( error );
     }
 }
 
@@ -139,16 +152,13 @@ void ofxGenericHTTPRequest::finishedSuccessfully( ofPtr< ofxGenericHTTPResponse 
 -( void )connection:( NSURLConnection* )connection didReceiveData:( NSData* )data
 {
     [ _receivedData appendData:data ];
-    NSString* newStr = [ [ [ NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease ];
-    NSLog( @"%@", newStr );
 }
 
 -( void )connectionDidFinishLoading:( NSURLConnection* )connection
 {
     if ( _delegate )
     {
-        ofPtr< ofxGenericHTTPResponse > response = ofxGenericHTTPResponse::create( _response, _receivedData );
-        _delegate.lock()->finishedSuccessfully( response );
+        _delegate.lock()->finishedSuccessfully( _response, _receivedData );
     }
 }
 

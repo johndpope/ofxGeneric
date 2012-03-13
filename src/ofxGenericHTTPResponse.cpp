@@ -12,23 +12,71 @@
 ofPtr< ofxGenericHTTPResponse > ofxGenericHTTPResponse::create()
 {
     ofPtr< ofxGenericHTTPResponse > create = ofPtr< ofxGenericHTTPResponse >( new ofxGenericHTTPResponse() );
-    create->_this = create;
+    create->init( create );
     return create;
 }
 
+ofPtr< ofxGenericHTTPResponse > ofxGenericHTTPResponse::create( string setErrorDescription, string setErrorFailureReason, string setErrorRecoverySuggestions )
+{
+    ofPtr< ofxGenericHTTPResponse > create = ofPtr< ofxGenericHTTPResponse >( new ofxGenericHTTPResponse() );
+    create->init( 
+                 create, 
+                 setErrorDescription,
+                 setErrorFailureReason,
+                 setErrorRecoverySuggestions
+                 );
+    return create;
+}
+
+ofPtr< ofxGenericHTTPResponse > ofxGenericHTTPResponse::create( int statusCode, string MIMEType, string textEncoding, void* data, int dataByteLength, string suggestedFilename )
+{
+    ofPtr< ofxGenericHTTPResponse > create = ofPtr< ofxGenericHTTPResponse >( new ofxGenericHTTPResponse() );
+    create->init( 
+                 create, 
+                 statusCode,
+                 MIMEType,
+                 textEncoding,
+                 data,
+                 dataByteLength,
+                 suggestedFilename
+                 );
+    return create;
+}
+
+#if TARGET_OS_IPHONE
 ofPtr< ofxGenericHTTPResponse > ofxGenericHTTPResponse::create( NSError* error )
 {    
-    ofPtr< ofxGenericHTTPResponse > create = ofPtr< ofxGenericHTTPResponse >( new ofxGenericHTTPResponse( error ) );
-    create->_this = create;
-    return create;
+    return ofxGenericHTTPResponse::create(
+                                          ofxNSStringToString( [ error localizedDescription ] ), 
+                                          ofxNSStringToString( [ error localizedFailureReason ] ),
+                                          ofxNSStringToString( [ error localizedRecoverySuggestion ] )
+                                          );
 }
 
 ofPtr< ofxGenericHTTPResponse > ofxGenericHTTPResponse::create( NSURLResponse* response, NSData* data )
 {
-    ofPtr< ofxGenericHTTPResponse > create = ofPtr< ofxGenericHTTPResponse >( new ofxGenericHTTPResponse( response, data ) );
-    create->_this = create;
+    int statusCode;
+    if ( [ response isKindOfClass:[ NSHTTPURLResponse class ] ] )
+    {
+        NSHTTPURLResponse* httpResponse = ( NSHTTPURLResponse* )response;
+        statusCode = [ httpResponse statusCode ];
+    } else
+    {
+        statusCode = -1;
+    }
+    
+    ofPtr< ofxGenericHTTPResponse > create = ofxGenericHTTPResponse::create( 
+                                                                            statusCode,
+                                                                            ofxNSStringToString( [ response MIMEType ] ),
+                                                                            ofxNSStringToString( [ response textEncodingName ] ),
+                                                                            ( void* )[ data bytes ],
+                                                                            [ data length ],
+                                                                            ofxNSStringToString( [ response suggestedFilename ] ) 
+                                                                            );
+    create->_dataSource = [ data retain ];
     return create;
 }
+#endif
 
 ofxGenericHTTPResponse::ofxGenericHTTPResponse()
 : data( NULL ), dataByteLength( 0 )
@@ -39,37 +87,31 @@ ofxGenericHTTPResponse::ofxGenericHTTPResponse()
 
 }
 
-#if TARGET_OS_IPHONE
-ofxGenericHTTPResponse::ofxGenericHTTPResponse( NSError* error )
-: data( NULL ), dataByteLength( 0 )
-, _dataSource( nil )
+void ofxGenericHTTPResponse::init( ofPtrWeak<ofxGenericHTTPResponse> setThis )
 {
-    errorDescription = ofxNSStringToString( [ error localizedDescription ] );
-    errorFailureReason = ofxNSStringToString( [ error localizedFailureReason ] );
-    errorRecoverySuggestions = ofxNSStringToString( [ error localizedRecoverySuggestion ] );
+    _this = setThis;
 }
 
-ofxGenericHTTPResponse::ofxGenericHTTPResponse( NSURLResponse* response, NSData* setData )
-: data( NULL ), dataByteLength( 0 )
-, _dataSource( nil )
+void ofxGenericHTTPResponse::init( ofPtrWeak<ofxGenericHTTPResponse> setThis, string setErrorDescription, string setErrorFailureReason , string setErrorRecoverySuggestions )
 {
-    if ( [ response isKindOfClass:[ NSHTTPURLResponse class ] ] )
-    {
-        NSHTTPURLResponse* httpResponse = ( NSHTTPURLResponse* )response;
-        statusCode = [ httpResponse statusCode ];
-    } else
-    {
-        statusCode = -1;
-    }
-    MIMEType = ofxNSStringToString( [ response MIMEType ] );
-    textEncoding = ofxNSStringToString( [ response textEncodingName ] );
-    suggestedFilename = ofxNSStringToString( [ response suggestedFilename ] );
-
-    data = ( void* )[ setData bytes ];
-    dataByteLength = [ setData length ];
-    _dataSource = [ setData retain ];
+    init( setThis );
+    
+    errorDescription = setErrorDescription;
+    errorFailureReason = setErrorFailureReason;
+    errorRecoverySuggestions = setErrorRecoverySuggestions;
 }
-#endif
+
+void ofxGenericHTTPResponse::init( ofPtrWeak< ofxGenericHTTPResponse > setThis, int setStatusCode, string setMIMEType, string setTextEncoding, void* setData, int setDataByteLength, string setSuggestedFilename )
+{
+    init( setThis );
+    
+    statusCode = setStatusCode;
+    MIMEType = setMIMEType;
+    textEncoding = setTextEncoding;
+    data = setData;
+    dataByteLength = setDataByteLength;
+    suggestedFilename = setSuggestedFilename;
+}
 
 ofxGenericHTTPResponse::~ofxGenericHTTPResponse()
 {
