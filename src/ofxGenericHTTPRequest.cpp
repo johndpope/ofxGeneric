@@ -32,13 +32,22 @@ void ofxGenericHTTPRequest::init( ofPtrWeak< ofxGenericHTTPRequest > setThis, st
     
     _delegate = delegate;
     
+    string urlWithFormat = url;
+    if ( urlWithFormat.find( "?" ) == string::npos )
+    {
+        urlWithFormat += "?format=" + format;
+    } else
+    {
+        urlWithFormat += "&format=" + format;
+    }
+
 #if DEBUG
-    ofxGLog( OF_LOG_VERBOSE, "HTTPRequest: " + url + " " + method + " " + format );
+    ofxGLog( OF_LOG_VERBOSE, "HTTPRequest: " + urlWithFormat + " " + method );
 #endif
-    
+
 #if TARGET_OS_IPHONE
     // TODO: allow caching and timeout specification
-    _request = [ [ NSMutableURLRequest alloc ] initWithURL:[ NSURL URLWithString:ofxStringToNSString( url ) ] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:timeout ];
+    _request = [ [ NSMutableURLRequest alloc ] initWithURL:[ NSURL URLWithString:ofxStringToNSString( urlWithFormat ) ] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:timeout ];
     [ _request setHTTPShouldHandleCookies:YES ];
     [ _request setHTTPMethod:[ NSString stringWithCString:method.c_str() encoding:NSUTF8StringEncoding ] ];
     
