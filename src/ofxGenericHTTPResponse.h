@@ -13,19 +13,14 @@
 #import <UIKit/UIKit.h>
 #endif
 
+class ofxGenericHTTPRequest;
 class ofxXmlSettings;
 
 class ofxGenericHTTPResponse
 {
-public:
-    static ofPtr< ofxGenericHTTPResponse > create();
-    static ofPtr< ofxGenericHTTPResponse > create( string setErrorDescription, string setErrorFailureReason = "", string setErrorRecoverySuggestions = "" );
-    static ofPtr< ofxGenericHTTPResponse > create( int statusCode, string MIMEType, string textEncoding, void* data, int dataByteLength, string suggestedFilename = "" );
-#if TARGET_OS_IPHONE
-    static ofPtr< ofxGenericHTTPResponse > create( NSURLResponse* response, NSData* data );
-    static ofPtr< ofxGenericHTTPResponse > create( NSError* error );
-#endif
-
+    friend class ofxGenericHTTPRequest;
+    
+public:    
     int getStatusCode();
     
     string getMIMEType();
@@ -36,7 +31,7 @@ public:
     string getDataAsString();
     ofPtr< ofxXmlSettings > getDataAsXML();
     
-    string getErrorDescription();
+    virtual string getErrorDescription();
     string getErrorFailureReason();
     string getErrorRecoverySuggestions();
         
@@ -50,7 +45,10 @@ protected:
     virtual void init( ofPtrWeak< ofxGenericHTTPResponse > setThis );
     virtual void init( ofPtrWeak< ofxGenericHTTPResponse > setThis, int statusCode, string MIMEType, string textEncoding, void* data, int dataByteLength, string suggestedFilename = "" );
     virtual void init( ofPtrWeak< ofxGenericHTTPResponse > setThis, string setErrorDescription, string setErrorFailureReason = "", string setErrorRecoverySuggestions = ""  );
-    
+#if TARGET_OS_IPHONE
+    void retainData( NSData* data );
+#endif
+
     ofPtrWeak< ofxGenericHTTPResponse > _this;
     
     int _statusCode;

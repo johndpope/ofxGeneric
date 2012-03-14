@@ -101,23 +101,66 @@ void ofxGenericHTTPRequest::cancel()
 #endif
 }
 
-#if TARGET_OS_IPHONE
-void ofxGenericHTTPRequest::finishedWithError( NSError* error )
+ofPtr< ofxGenericHTTPResponse > ofxGenericHTTPRequest::createResponse()
 {
-    _lastResponse = ofxGenericHTTPResponse::create( error );
+    return ofPtr< ofxGenericHTTPResponse >( new ofxGenericHTTPResponse() );
+}
+
+void ofxGenericHTTPRequest::finishedWithError( string errorDescription, string errorFailureReason, string errorRecoverySuggestion )
+{
+    _lastResponse = createResponse();
+    _lastResponse->init( _lastResponse, errorDescription, errorFailureReason, errorRecoverySuggestion );
     if ( _delegate )
     {
         _delegate->httpRequest_finishedWithError( _this.lock() );
     }
+}
+
+void ofxGenericHTTPRequest::finishedSuccessfully( int statusCode, string MIMEType, string textEncoding, void* data, int dataByteLength, string suggestedFilename )
+{
+    _lastResponse = createResponse();
+    _lastResponse->init( _lastResponse, statusCode, MIMEType, textEncoding, data, dataByteLength, suggestedFilename );
+    if ( _delegate )
+    {
+        _delegate->httpRequest_finishedWithError( _this.lock() );
+    }
+}
+
+#if TARGET_OS_IPHONE
+void ofxGenericHTTPRequest::finishedWithError( NSError* error )
+{
+    finishedWithError( 
+                      ofxNSStringToString( [ error localizedDescription ] ), 
+                      ofxNSStringToString( [ error localizedFailureReason ] ),
+                      ofxNSStringToString( [ error localizedRecoverySuggestion ] )
+                      );
     release( _connection );
 }
 
-void ofxGenericHTTPRequest::finishedSuccessfully( NSURLResponse* urlResponse, NSData* receivedData )
+void ofxGenericHTTPRequest::finishedSuccessfully( NSURLResponse* response, NSData* data )
 {
-    _lastResponse = ofxGenericHTTPResponse::create( urlResponse, receivedData );
-    if ( _delegate )
+    int statusCode;
+    if ( [ response isKindOfClass:[ NSHTTPURLResponse class ] ] )
     {
-        _delegate->httpRequest_finishedSuccessfully( _this.lock() );
+        NSHTTPURLResponse* httpResponse = ( NSHTTPURLResponse* )response;
+        statusCode = [ httpResponse statusCode ];
+    } else
+    {
+        statusCode = -1;
+    }
+    
+    finishedSuccessfully(
+                         statusCode,
+                         ofxNSStringToString( [ response MIMEType ] ),
+                         ofxNSStringToString( [ response textEncodingName ] ),
+                         ( void* )[ data bytes ],
+                         [ data length ],
+                         ofxNSStringToString( [ response suggestedFilename ] )
+                         );
+
+    if ( getLastResponse() )
+    {
+        getLastResponse()->retainData( data );
     }
     release( _connection );
 }
@@ -126,15 +169,6 @@ void ofxGenericHTTPRequest::finishedSuccessfully( NSURLResponse* urlResponse, NS
 ofPtr< ofxGenericHTTPResponse > ofxGenericHTTPRequest::getLastResponse()
 {
     return _lastResponse;
-}
-
-bool ofxGenericHTTPRequest::responseOk()
-{
-    if ( _lastResponse )
-    {
-        return _lastResponse->isOk();
-    }
-    return false;
 }
 
 #if TARGET_OS_IPHONE
