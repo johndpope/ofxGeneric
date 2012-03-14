@@ -45,7 +45,7 @@ void ofxGenericTextView::setTextAlignment( ofxGenericTextHorizontalAlignment ali
     if ( [ _view isKindOfClass:[ UILabel class ] ] )
     {
         UILabel* labelView = ( UILabel* )_view;
-        [ labelView setTextAlignment:ofxGenericTextHorizontalAlignmentToUITextAlignment( alignment ) ];
+        [ labelView setTextAlignment:ofxGenericTextHorizontalAlignmentToiOS( alignment ) ];
     }
 #endif
 }

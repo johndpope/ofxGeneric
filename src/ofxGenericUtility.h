@@ -107,7 +107,7 @@ NSString* pathToBundle( NSString* resourceFileName = nil );
 
 CGFloat getWindowScale();
 
-UITextAlignment ofxGenericTextHorizontalAlignmentToUITextAlignment( ofxGenericTextHorizontalAlignment from );
+UITextAlignment ofxGenericTextHorizontalAlignmentToiOS( ofxGenericTextHorizontalAlignment from );
 UITableViewCellSeparatorStyle ofxGenericTableViewSeparatorStyleToiOS( ofxGenericTableViewSeparatorStyle from );
 
 #elif TARGET_ANDROID
