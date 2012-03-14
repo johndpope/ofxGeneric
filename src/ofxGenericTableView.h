@@ -9,6 +9,7 @@
 #pragma once
 
 #include "ofxGenericView.h"
+#include "ofxGenericConstants.h"
 
 #if TARGET_OS_IPHONE
 @class ofxGenericTableViewDelegateForwarder;
@@ -24,6 +25,9 @@ public:
     virtual unsigned int getNumberOfCells( unsigned int section );
     virtual ofPtr< ofxGenericTableViewCell > getCell( unsigned int section, unsigned int index );
     virtual float getHeightForCell( unsigned int section, unsigned int index );
+    
+    void setSeparatorColor( const ofColor& separatorColor );
+    void setSeparatorStyle( ofxGenericTableViewSeparatorStyle separatorStyle );
 
 #if TARGET_OS_IPHONE
     operator UITableView*();

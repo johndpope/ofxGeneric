@@ -53,6 +53,29 @@ float ofxGenericTableView::getHeightForCell( unsigned int section, unsigned int 
     return 0;
 }
 
+void ofxGenericTableView::setSeparatorColor( const ofColor& separatorColor )
+{
+#if TARGET_OS_IPHONE
+    UITableView* view = ( UITableView* )*this;
+    if ( view )
+    {
+        [ view setSeparatorColor:ofColorToUIColor( separatorColor ) ];
+    }
+#endif
+}
+
+void ofxGenericTableView::setSeparatorStyle( ofxGenericTableViewSeparatorStyle separatorStyle )
+{
+#if TARGET_OS_IPHONE
+    UITableView* view = ( UITableView* )*this;
+    if ( view )
+    {
+        [ view setSeparatorStyle:ofxGenericTableViewSeparatorStyleToiOS( separatorStyle ) ];
+    }
+#endif    
+}
+
+
 #if TARGET_OS_IPHONE
 ofxGenericUIViewCastOperator( ofxGenericTableView, UITableView );
 #endif

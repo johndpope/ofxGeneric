@@ -20,7 +20,10 @@ typedef UIWindow* NativeWindow;
 #include <jni.h>
 typedef jobject NativeView;
 typedef jobject NativeWindow;
+
 #endif
+
+#define ofxGenericModuleName "OF::Generic"
 
 enum ofxGenericTextHorizontalAlignment
 {
@@ -29,5 +32,9 @@ enum ofxGenericTextHorizontalAlignment
     ofxGenericTextHorizontalAlignmentRight
 };
 
-#define ofxGenericModuleName "OF::Generic"
-
+enum ofxGenericTableViewSeparatorStyle
+{
+    ofxGenericTableViewSeparatorStyleNone,
+    ofxGenericTableViewSeparatorStyleSingleLine,
+    ofxGenericTableViewSeparatorStyleSingleLineEtched
+};

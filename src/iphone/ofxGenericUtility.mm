@@ -52,3 +52,16 @@ UITextAlignment ofxGenericTextHorizontalAlignmentToUITextAlignment( ofxGenericTe
     }
     return UITextAlignmentLeft;
 }
+UITableViewCellSeparatorStyle ofxGenericTableViewSeparatorStyleToiOS( ofxGenericTableViewSeparatorStyle from )
+{
+    switch ( from )
+    {
+        case ofxGenericTableViewSeparatorStyleNone:
+            return UITableViewCellSeparatorStyleNone;
+        case ofxGenericTableViewSeparatorStyleSingleLine:
+            return UITableViewCellSeparatorStyleSingleLine;
+        case ofxGenericTableViewSeparatorStyleSingleLineEtched:
+            return UITableViewCellSeparatorStyleSingleLineEtched;
+    }
+    return UITableViewCellSeparatorStyleSingleLine;    
+}
