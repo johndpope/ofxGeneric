@@ -82,7 +82,7 @@ ofPtr< ofxGenericHTTPResponse > ofxGenericHTTPResponse::create( NSURLResponse* r
 #endif
 
 ofxGenericHTTPResponse::ofxGenericHTTPResponse()
-: data( NULL ), dataByteLength( 0 )
+: _data( NULL ), _dataByteLength( 0 )
 #if TARGET_OS_IPHONE
 , _dataSource( nil )
 #endif
@@ -95,45 +95,41 @@ void ofxGenericHTTPResponse::init( ofPtrWeak<ofxGenericHTTPResponse> setThis )
     _this = setThis;
 }
 
-void ofxGenericHTTPResponse::init( ofPtrWeak<ofxGenericHTTPResponse> setThis, string setErrorDescription, string setErrorFailureReason , string setErrorRecoverySuggestions )
+void ofxGenericHTTPResponse::init( ofPtrWeak<ofxGenericHTTPResponse> setThis, string errorDescription, string errorFailureReason , string errorRecoverySuggestions )
 {
     init( setThis );
     
-    errorDescription = setErrorDescription;
-    errorFailureReason = setErrorFailureReason;
-    errorRecoverySuggestions = setErrorRecoverySuggestions;
+    _errorDescription = errorDescription;
+    _errorFailureReason = errorFailureReason;
+    _errorRecoverySuggestions = errorRecoverySuggestions;
     
-    ofxGLog( OF_LOG_ERROR, "HTTPResponse - Error: " + errorDescription + " " + errorFailureReason + " " + errorRecoverySuggestions );
+    ofxGLog( OF_LOG_ERROR, "HTTPResponse - Error: " + _errorDescription + " " + _errorFailureReason + " " + _errorRecoverySuggestions );
 }
 
 void ofxGenericHTTPResponse::init( ofPtrWeak< ofxGenericHTTPResponse > setThis, int setStatusCode, string setMIMEType, string setTextEncoding, void* setData, int setDataByteLength, string setSuggestedFilename )
 {
     init( setThis );
     
-    statusCode = setStatusCode;
-    MIMEType = setMIMEType;
-    textEncoding = setTextEncoding;
-    data = setData;
-    dataByteLength = setDataByteLength;
-    suggestedFilename = setSuggestedFilename;
+    _statusCode = setStatusCode;
+    _MIMEType = setMIMEType;
+    _textEncoding = setTextEncoding;
+    _data = setData;
+    _dataByteLength = setDataByteLength;
+    _suggestedFilename = setSuggestedFilename;
 
     ofxGLog( OF_LOG_VERBOSE, 
             "HTTPResponse - Status: %d MIMEType: %s Text Encoding: %s Suggested File Name: %s\nBody: %s", 
-            statusCode, MIMEType.c_str(), textEncoding.c_str(), suggestedFilename.c_str(), getDataAsString().c_str() );
+            _statusCode, _MIMEType.c_str(), _textEncoding.c_str(), _suggestedFilename.c_str(), getDataAsString().c_str() );
     
-    if ( MIMEType == MIMEType_xml )
+    if ( _MIMEType == MIMEType_xml )
     {
         _xml = ofPtr< ofxXmlSettings >( new ofxXmlSettings() );
         TiXmlEncoding encoding = TIXML_DEFAULT_ENCODING;
-        if ( textEncoding == "utf-8" )
+        if ( _textEncoding == "utf-8" )
         {
             encoding = TIXML_ENCODING_UTF8;
         }
         _xml->doc.Parse( getDataAsString().c_str(), NULL, encoding );
-        if ( _xml->doc.Error() )
-        {
-            errorDescription = _xml->doc.ErrorDesc();
-        }
     }
 }
 
@@ -156,10 +152,40 @@ ofxGenericHTTPResponse::~ofxGenericHTTPResponse()
 #endif
 }
 
+int ofxGenericHTTPResponse::getStatusCode()
+{
+    return _statusCode;
+}
+
+string ofxGenericHTTPResponse::getMIMEType()
+{
+    return _MIMEType;
+}
+
+string ofxGenericHTTPResponse::getTextEncoding()
+{
+    return _textEncoding;
+}
+
+string ofxGenericHTTPResponse::getSuggestedFilename()
+{
+    return _suggestedFilename;
+}
+
+void* ofxGenericHTTPResponse::getData()
+{
+    return _data;
+}
+
+int ofxGenericHTTPResponse::getDataByteLength()
+{
+    return _dataByteLength;
+}
+
 string ofxGenericHTTPResponse::getDataAsString()
 {
-    char* dataBuffer = new char[ dataByteLength + 1 ];
-    snprintf( dataBuffer, dataByteLength + 1, "%s", data );
+    char* dataBuffer = new char[ _dataByteLength + 1 ];
+    snprintf( dataBuffer, _dataByteLength + 1, "%s", _data );
     
     string dataString( dataBuffer );
     
@@ -173,4 +199,24 @@ ofPtr< ofxXmlSettings >ofxGenericHTTPResponse::getDataAsXML()
     return _xml;
 }
 
+string ofxGenericHTTPResponse::getErrorDescription()
+{
+    if ( !_errorDescription.empty() )
+    {
+        return _errorDescription;
+    } else if ( _xml && _xml->doc.Error() )
+    {
+        return _xml->doc.ErrorDesc();
+    }
+    return string();
+}
 
+string ofxGenericHTTPResponse::getErrorFailureReason()
+{
+    return _errorFailureReason;
+}
+
+string ofxGenericHTTPResponse::getErrorRecoverySuggestions()
+{
+    return _errorRecoverySuggestions;
+}

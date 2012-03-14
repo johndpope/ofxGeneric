@@ -25,21 +25,20 @@ public:
     static ofPtr< ofxGenericHTTPResponse > create( NSURLResponse* response, NSData* data );
     static ofPtr< ofxGenericHTTPResponse > create( NSError* error );
 #endif
+
+    int getStatusCode();
     
-    // TODO: readonly accessors
-    int statusCode;
-    string MIMEType;
-    string textEncoding;
-    string suggestedFilename;
-    void* data;
-    int dataByteLength;
-    
+    string getMIMEType();
+    string getTextEncoding();
+    string getSuggestedFilename();    
+    void* getData();
+    int getDataByteLength();    
     string getDataAsString();
     ofPtr< ofxXmlSettings > getDataAsXML();
     
-    string errorDescription;
-    string errorFailureReason;
-    string errorRecoverySuggestions;
+    string getErrorDescription();
+    string getErrorFailureReason();
+    string getErrorRecoverySuggestions();
         
     bool isOk();
     
@@ -54,9 +53,20 @@ protected:
     
     ofPtrWeak< ofxGenericHTTPResponse > _this;
     
+    int _statusCode;
+    
+    string _MIMEType;
+    string _textEncoding;
+    string _suggestedFilename;
+    void* _data;
+    int _dataByteLength;
 #if TARGET_OS_IPHONE
     NSData* _dataSource;
 #endif
+    
+    string _errorDescription;
+    string _errorFailureReason;
+    string _errorRecoverySuggestions;
     
     ofPtr< ofxXmlSettings > _xml;
 };
