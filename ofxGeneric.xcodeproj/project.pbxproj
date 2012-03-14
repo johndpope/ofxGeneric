@@ -42,6 +42,8 @@
 		3C85FC5B150FD117001F5854 /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C85FC55150FD117001F5854 /* tinyxmlparser.cpp */; };
 		3C85FC5C150FD117001F5854 /* ofxXmlSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C85FC56150FD117001F5854 /* ofxXmlSettings.cpp */; };
 		3C85FC5D150FD117001F5854 /* ofxXmlSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C85FC57150FD117001F5854 /* ofxXmlSettings.h */; };
+		3C85FC60151149B7001F5854 /* ofxGenericScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C85FC5F151149B7001F5854 /* ofxGenericScrollView.h */; };
+		3C85FC6415114B1E001F5854 /* ofxGenericScrollView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C85FC6315114B1E001F5854 /* ofxGenericScrollView.cpp */; };
 		3CB302171506DB5B00A1A91F /* libofxiPhone_iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C7B4EDC14FC7D2E003121FE /* libofxiPhone_iphoneos.a */; };
 		3CF590941506E6EA00963966 /* ofxGenericEditTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CF590931506E6EA00963966 /* ofxGenericEditTextView.h */; };
 		3CF590971506E78E00963966 /* ofxGenericEditTextView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CF590961506E78E00963966 /* ofxGenericEditTextView.cpp */; };
@@ -111,6 +113,8 @@
 		3C85FC55150FD117001F5854 /* tinyxmlparser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlparser.cpp; sourceTree = "<group>"; };
 		3C85FC56150FD117001F5854 /* ofxXmlSettings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxXmlSettings.cpp; sourceTree = "<group>"; };
 		3C85FC57150FD117001F5854 /* ofxXmlSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxXmlSettings.h; sourceTree = "<group>"; };
+		3C85FC5F151149B7001F5854 /* ofxGenericScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericScrollView.h; sourceTree = "<group>"; };
+		3C85FC6315114B1E001F5854 /* ofxGenericScrollView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericScrollView.cpp; sourceTree = "<group>"; };
 		3CBAC5F914FD4E60002A12C8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		3CBAC5FC14FD4E73002A12C8 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		3CBAC5FE14FD4EA7002A12C8 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
@@ -202,6 +206,8 @@
 				3C1E7B431508288D007B6723 /* ofxGenericLaunchView.h */,
 				3C17BC01150A9F9A00DA1034 /* ofxGenericActivityView.h */,
 				3C17BC03150AA08E00DA1034 /* ofxGenericActivityView.cpp */,
+				3C85FC5F151149B7001F5854 /* ofxGenericScrollView.h */,
+				3C85FC6315114B1E001F5854 /* ofxGenericScrollView.cpp */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -287,6 +293,7 @@
 				3C1E7B451508288D007B6723 /* ofxGenericLaunchView.h in Headers */,
 				3C85FC59150FD117001F5854 /* tinyxml.h in Headers */,
 				3C85FC5D150FD117001F5854 /* ofxXmlSettings.h in Headers */,
+				3C85FC60151149B7001F5854 /* ofxGenericScrollView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,6 +384,7 @@
 				3C85FC5A150FD117001F5854 /* tinyxmlerror.cpp in Sources */,
 				3C85FC5B150FD117001F5854 /* tinyxmlparser.cpp in Sources */,
 				3C85FC5C150FD117001F5854 /* ofxXmlSettings.cpp in Sources */,
+				3C85FC6415114B1E001F5854 /* ofxGenericScrollView.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
