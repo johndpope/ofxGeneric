@@ -122,7 +122,7 @@ void ofxGenericHTTPRequest::finishedSuccessfully( int statusCode, string MIMETyp
     _lastResponse->init( _lastResponse, statusCode, MIMEType, textEncoding, data, dataByteLength, suggestedFilename );
     if ( _delegate )
     {
-        _delegate->httpRequest_finishedWithError( _this.lock() );
+        _delegate->httpRequest_finishedSuccessfully( _this.lock() );
     }
 }
 
