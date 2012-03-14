@@ -36,6 +36,12 @@
 		3C7B4EC814FC7CBF003121FE /* ofxGenericUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C7B4E9D14FC7CBF003121FE /* ofxGenericUtility.h */; };
 		3C7B4EC914FC7CBF003121FE /* ofxGenericView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C7B4E9E14FC7CBF003121FE /* ofxGenericView.cpp */; };
 		3C7B4ECA14FC7CBF003121FE /* ofxGenericView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C7B4E9F14FC7CBF003121FE /* ofxGenericView.h */; };
+		3C85FC58150FD117001F5854 /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C85FC52150FD117001F5854 /* tinyxml.cpp */; };
+		3C85FC59150FD117001F5854 /* tinyxml.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C85FC53150FD117001F5854 /* tinyxml.h */; };
+		3C85FC5A150FD117001F5854 /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C85FC54150FD117001F5854 /* tinyxmlerror.cpp */; };
+		3C85FC5B150FD117001F5854 /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C85FC55150FD117001F5854 /* tinyxmlparser.cpp */; };
+		3C85FC5C150FD117001F5854 /* ofxXmlSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C85FC56150FD117001F5854 /* ofxXmlSettings.cpp */; };
+		3C85FC5D150FD117001F5854 /* ofxXmlSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C85FC57150FD117001F5854 /* ofxXmlSettings.h */; };
 		3CB302171506DB5B00A1A91F /* libofxiPhone_iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C7B4EDC14FC7D2E003121FE /* libofxiPhone_iphoneos.a */; };
 		3CF590941506E6EA00963966 /* ofxGenericEditTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CF590931506E6EA00963966 /* ofxGenericEditTextView.h */; };
 		3CF590971506E78E00963966 /* ofxGenericEditTextView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CF590961506E78E00963966 /* ofxGenericEditTextView.cpp */; };
@@ -98,6 +104,13 @@
 		3C7B4F1414FC861A003121FE /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		3C7B4F1614FD4E13003121FE /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		3C7B4F1814FD4E1C003121FE /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		3C85FC4F150FD117001F5854 /* install.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = install.xml; sourceTree = "<group>"; };
+		3C85FC52150FD117001F5854 /* tinyxml.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxml.cpp; sourceTree = "<group>"; };
+		3C85FC53150FD117001F5854 /* tinyxml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tinyxml.h; sourceTree = "<group>"; };
+		3C85FC54150FD117001F5854 /* tinyxmlerror.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlerror.cpp; sourceTree = "<group>"; };
+		3C85FC55150FD117001F5854 /* tinyxmlparser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlparser.cpp; sourceTree = "<group>"; };
+		3C85FC56150FD117001F5854 /* ofxXmlSettings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxXmlSettings.cpp; sourceTree = "<group>"; };
+		3C85FC57150FD117001F5854 /* ofxXmlSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxXmlSettings.h; sourceTree = "<group>"; };
 		3CBAC5F914FD4E60002A12C8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		3CBAC5FC14FD4E73002A12C8 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		3CBAC5FE14FD4EA7002A12C8 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
@@ -122,6 +135,7 @@
 		3C7B4DCF14FC78A0003121FE = {
 			isa = PBXGroup;
 			children = (
+				3C85FC4D150FD108001F5854 /* addons */,
 				3C7B4E6714FC7C56003121FE /* Project.xcconfig */,
 				3C7B4E6E14FC7CBF003121FE /* src */,
 				3C7B4DDC14FC78A1003121FE /* Frameworks */,
@@ -210,6 +224,45 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		3C85FC4D150FD108001F5854 /* addons */ = {
+			isa = PBXGroup;
+			children = (
+				3C85FC4E150FD117001F5854 /* ofxXmlSettings */,
+			);
+			name = addons;
+			sourceTree = "<group>";
+		};
+		3C85FC4E150FD117001F5854 /* ofxXmlSettings */ = {
+			isa = PBXGroup;
+			children = (
+				3C85FC4F150FD117001F5854 /* install.xml */,
+				3C85FC50150FD117001F5854 /* libs */,
+				3C85FC51150FD117001F5854 /* src */,
+			);
+			name = ofxXmlSettings;
+			path = /Users/ian/Documents/LumosityMobile/iOS/../libs/openFrameworks/addons/ofxXmlSettings;
+			sourceTree = "<absolute>";
+		};
+		3C85FC50150FD117001F5854 /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				3C85FC52150FD117001F5854 /* tinyxml.cpp */,
+				3C85FC53150FD117001F5854 /* tinyxml.h */,
+				3C85FC54150FD117001F5854 /* tinyxmlerror.cpp */,
+				3C85FC55150FD117001F5854 /* tinyxmlparser.cpp */,
+			);
+			path = libs;
+			sourceTree = "<group>";
+		};
+		3C85FC51150FD117001F5854 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				3C85FC56150FD117001F5854 /* ofxXmlSettings.cpp */,
+				3C85FC57150FD117001F5854 /* ofxXmlSettings.h */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -232,6 +285,8 @@
 				3C7B4ECA14FC7CBF003121FE /* ofxGenericView.h in Headers */,
 				3CF590941506E6EA00963966 /* ofxGenericEditTextView.h in Headers */,
 				3C1E7B451508288D007B6723 /* ofxGenericLaunchView.h in Headers */,
+				3C85FC59150FD117001F5854 /* tinyxml.h in Headers */,
+				3C85FC5D150FD117001F5854 /* ofxXmlSettings.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -318,6 +373,10 @@
 				3CF590971506E78E00963966 /* ofxGenericEditTextView.cpp in Sources */,
 				3C1E7B441508288D007B6723 /* ofxGenericLaunchView.cpp in Sources */,
 				3C17BC04150AA08E00DA1034 /* ofxGenericActivityView.cpp in Sources */,
+				3C85FC58150FD117001F5854 /* tinyxml.cpp in Sources */,
+				3C85FC5A150FD117001F5854 /* tinyxmlerror.cpp in Sources */,
+				3C85FC5B150FD117001F5854 /* tinyxmlparser.cpp in Sources */,
+				3C85FC5C150FD117001F5854 /* ofxXmlSettings.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

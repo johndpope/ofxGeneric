@@ -42,7 +42,7 @@ void ofxGenericHTTPRequest::init( ofPtrWeak< ofxGenericHTTPRequest > setThis, st
     }
 
 #if DEBUG
-    ofxGLog( OF_LOG_VERBOSE, "HTTPRequest: " + urlWithFormat + " " + method );
+    ofxGLog( OF_LOG_VERBOSE, "HTTPRequest - " + urlWithFormat + " " + method );
 #endif
 
 #if TARGET_OS_IPHONE
@@ -55,7 +55,7 @@ void ofxGenericHTTPRequest::init( ofPtrWeak< ofxGenericHTTPRequest > setThis, st
     {
 #if DEBUG
         NSString* dataString = [ [ [ NSString alloc ] initWithBytes:data length:dataByteLength encoding:NSUTF8StringEncoding ] autorelease ];
-        NSLog( @"HTTPRequest - Body:\n%@", dataString );
+        NSLog( @"HTTPRequest - \nBody: %@", dataString );
 #endif
         [ _request setHTTPBody:[ NSData dataWithBytes:data length:dataByteLength ] ];
     }
@@ -104,24 +104,38 @@ void ofxGenericHTTPRequest::cancel()
 #if TARGET_OS_IPHONE
 void ofxGenericHTTPRequest::finishedWithError( NSError* error )
 {
+    _lastResponse = ofxGenericHTTPResponse::create( error );
     if ( _delegate )
     {
-        ofPtr< ofxGenericHTTPResponse > response = ofxGenericHTTPResponse::create( error );
-        _delegate->httpRequest_finishedWithError( _this.lock(), response );
+        _delegate->httpRequest_finishedWithError( _this.lock() );
     }
     release( _connection );
 }
 
 void ofxGenericHTTPRequest::finishedSuccessfully( NSURLResponse* urlResponse, NSData* receivedData )
 {
+    _lastResponse = ofxGenericHTTPResponse::create( urlResponse, receivedData );
     if ( _delegate )
     {
-        ofPtr< ofxGenericHTTPResponse > response = ofxGenericHTTPResponse::create( urlResponse, receivedData );
-        _delegate->httpRequest_finishedSuccessfully( _this.lock(), response );
+        _delegate->httpRequest_finishedSuccessfully( _this.lock() );
     }
     release( _connection );
 }
 #endif
+
+ofPtr< ofxGenericHTTPResponse > ofxGenericHTTPRequest::getLastResponse()
+{
+    return _lastResponse;
+}
+
+bool ofxGenericHTTPRequest::responseOk()
+{
+    if ( _lastResponse )
+    {
+        return _lastResponse->isOk();
+    }
+    return false;
+}
 
 #if TARGET_OS_IPHONE
 @implementation NSURLConnectionDelegateForwarder

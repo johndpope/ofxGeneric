@@ -13,6 +13,8 @@
 #import <UIKit/UIKit.h>
 #endif
 
+class ofxXmlSettings;
+
 class ofxGenericHTTPResponse
 {
 public:
@@ -31,12 +33,16 @@ public:
     string suggestedFilename;
     void* data;
     int dataByteLength;
+    
     string getDataAsString();
+    ofPtr< ofxXmlSettings > getDataAsXML();
     
     string errorDescription;
     string errorFailureReason;
     string errorRecoverySuggestions;
         
+    bool isOk();
+    
     virtual ~ofxGenericHTTPResponse();
     
 protected:
@@ -51,4 +57,6 @@ protected:
 #if TARGET_OS_IPHONE
     NSData* _dataSource;
 #endif
+    
+    ofPtr< ofxXmlSettings > _xml;
 };

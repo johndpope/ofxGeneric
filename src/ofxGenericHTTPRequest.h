@@ -31,6 +31,9 @@ public:
     virtual void finishedSuccessfully( NSURLResponse* urlResponse, NSData* receivedData );
 #endif
     
+    ofPtr< ofxGenericHTTPResponse > getLastResponse();
+    bool responseOk();
+    
 protected:
     ofxGenericHTTPRequest();
     virtual void init( ofPtrWeak< ofxGenericHTTPRequest > setThis, string url, string method, string format, void* data = 0, int dataByteLength = 0, float timeout = 20.0f, ofPtr< ofxGenericHTTPRequestDelegate > delegate = ofPtr< ofxGenericHTTPRequestDelegate >() );
@@ -45,6 +48,8 @@ protected:
     NSURLConnection* _connection;
     NSURLConnectionDelegateForwarder* _forwarder;
 #endif
+    
+    ofPtr< ofxGenericHTTPResponse > _lastResponse;
 };
 
 class ofxGenericHTTPRequestDelegate
@@ -52,8 +57,8 @@ class ofxGenericHTTPRequestDelegate
 public:
     virtual ~ofxGenericHTTPRequestDelegate(){};
 
-    virtual void httpRequest_finishedWithError( ofPtr< ofxGenericHTTPRequest > request, ofPtr< ofxGenericHTTPResponse > response ) = 0;
-    virtual void httpRequest_finishedSuccessfully( ofPtr< ofxGenericHTTPRequest > request, ofPtr< ofxGenericHTTPResponse > response ) = 0;
+    virtual void httpRequest_finishedWithError( ofPtr< ofxGenericHTTPRequest > request ) = 0;
+    virtual void httpRequest_finishedSuccessfully( ofPtr< ofxGenericHTTPRequest > request ) = 0;
 };
 
 #if TARGET_OS_IPHONE

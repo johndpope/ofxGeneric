@@ -8,6 +8,9 @@
 #include "ofxGenericHTTPResponse.h"
 #include "ofxGenericUtility.h"
 
+#include "ofxXmlSettings.h"
+
+#define MIMEType_xml "application/xml"
 
 ofPtr< ofxGenericHTTPResponse > ofxGenericHTTPResponse::create()
 {
@@ -114,9 +117,36 @@ void ofxGenericHTTPResponse::init( ofPtrWeak< ofxGenericHTTPResponse > setThis, 
     dataByteLength = setDataByteLength;
     suggestedFilename = setSuggestedFilename;
 
-    ofxGLog( OF_LOG_ERROR, 
+    ofxGLog( OF_LOG_VERBOSE, 
             "HTTPResponse - Status: %d MIMEType: %s Text Encoding: %s Suggested File Name: %s\nBody: %s", 
             statusCode, MIMEType.c_str(), textEncoding.c_str(), suggestedFilename.c_str(), getDataAsString().c_str() );
+    
+    if ( MIMEType == MIMEType_xml )
+    {
+        _xml = ofPtr< ofxXmlSettings >( new ofxXmlSettings() );
+        TiXmlEncoding encoding = TIXML_DEFAULT_ENCODING;
+        if ( textEncoding == "utf-8" )
+        {
+            encoding = TIXML_ENCODING_UTF8;
+        }
+        _xml->doc.Parse( getDataAsString().c_str(), NULL, encoding );
+        if ( _xml->doc.Error() )
+        {
+            errorDescription = _xml->doc.ErrorDesc();
+        }
+    }
+}
+
+bool ofxGenericHTTPResponse::isOk()
+{
+    if ( _xml )
+    {
+        if ( _xml->tagExists( "response" ) )
+        {
+            return ( bool )_xml->getAttribute( "response", "success", 0 );
+        }
+    }
+    return false;
 }
 
 ofxGenericHTTPResponse::~ofxGenericHTTPResponse()
@@ -137,3 +167,10 @@ string ofxGenericHTTPResponse::getDataAsString()
     
     return dataString;
 }
+
+ofPtr< ofxXmlSettings >ofxGenericHTTPResponse::getDataAsXML()
+{
+    return _xml;
+}
+
+
