@@ -124,6 +124,29 @@ void ofxGenericButtonView::setBackgroundImage( std::string fileName )
 #endif
 }
 
+void ofxGenericButtonView::setEnabled( bool enabled )
+{
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[ UIButton class ] ] )
+    {
+        UIButton* view = ( UIButton* )_view;
+        [ view setEnabled:( BOOL )enabled ];
+    }
+#endif
+}
+
+bool ofxGenericButtonView::getEnabled()
+{
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[ UIButton class ] ] )
+    {
+        UIButton* view = ( UIButton* )_view;
+        return ( bool )view.enabled;
+    }
+#endif 
+    return false;
+}
+
 #if TARGET_OS_IPHONE
 ofxGenericUIViewCastOperator( ofxGenericButtonView, UIButton );
 #elif TARGET_ANDROID

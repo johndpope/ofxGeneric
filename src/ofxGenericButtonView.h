@@ -43,6 +43,9 @@ public:
     virtual void touchUpInside();
     virtual void touchUpOutside();
     
+    void setEnabled( bool enabled );
+    bool getEnabled();
+    
 #if TARGET_OS_IPHONE
     operator UIButton*();
 #elif TARGET_ANDROID
