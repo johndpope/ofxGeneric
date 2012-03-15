@@ -41,9 +41,7 @@ void ofxGenericHTTPRequest::init( ofPtrWeak< ofxGenericHTTPRequest > setThis, st
         urlWithFormat += "&format=" + format;
     }
 
-#if DEBUG
     ofxGLog( OF_LOG_VERBOSE, "HTTPRequest - " + urlWithFormat + " " + method );
-#endif
 
 #if TARGET_OS_IPHONE
     // TODO: allow caching and timeout specification
@@ -53,10 +51,8 @@ void ofxGenericHTTPRequest::init( ofPtrWeak< ofxGenericHTTPRequest > setThis, st
     
     if ( data && dataByteLength > 0 )
     {
-#if DEBUG
         NSString* dataString = [ [ [ NSString alloc ] initWithBytes:data length:dataByteLength encoding:NSUTF8StringEncoding ] autorelease ];
         NSLog( @"HTTPRequest - \nBody: %@", dataString );
-#endif
         [ _request setHTTPBody:[ NSData dataWithBytes:data length:dataByteLength ] ];
     }
 
@@ -219,7 +215,8 @@ ofPtr< ofxGenericHTTPResponse > ofxGenericHTTPRequest::getLastResponse()
     }
 }
 
-#ifdef SSL_PROTOCOL_VERIFICATION_OFF
+// TODO: FIX PROPIGATING VALUE
+//#ifdef SSL_PROTOCOL_VERIFICATION_OFF
 -( BOOL )connection:( NSURLConnection* )connection canAuthenticateAgainstProtectionSpace:( NSURLProtectionSpace * )protectionSpace
 {
     return [ protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust ];
@@ -236,7 +233,7 @@ ofPtr< ofxGenericHTTPResponse > ofxGenericHTTPRequest::getLastResponse()
     }
     [ challenge.sender continueWithoutCredentialForAuthenticationChallenge:challenge ];
 }
-#endif
+//#endif
 
 @end
 #endif
