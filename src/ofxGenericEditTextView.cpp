@@ -330,6 +330,29 @@ void ofxGenericEditTextView::setKeyboardReturnKey( ofxGenericKeyboardReturnKey k
 }
 
      
+void ofxGenericEditTextView::setSecureText( bool secure )
+{
+#if TARGET_OS_IPHONE
+    UITextField* textField = ( UITextField* )*this;
+    if ( textField )
+    {
+        [ textField setSecureTextEntry:( BOOL )secure ];
+    }
+#endif 
+}
+
+bool ofxGenericEditTextView::getSecureText()
+{
+#if TARGET_OS_IPHONE
+    UITextField* textField = ( UITextField* )*this;
+    if ( textField )
+    {
+        return ( bool )textField.secureTextEntry;
+    }
+#endif 
+    return false;   
+}
+
 
 #if TARGET_OS_IPHONE
 ofxGenericUIViewCastOperator( ofxGenericEditTextView, UITextField );
