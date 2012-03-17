@@ -122,3 +122,19 @@ UIKeyboardType ofxGenericKeyboardTypeToiOS( ofxGenericKeyboardType from )
 #endif
     }
 }
+
+UITextAutocapitalizationType ofxGenericTextAutoCapitalizationToiOS( ofxGenericTextAutoCapitalization from )
+{
+    switch ( from )
+    {
+        case ofxGenericTextAutoCapitalizationNone:
+            return UITextAutocapitalizationTypeNone;
+        case ofxGenericTextAutoCapitalizationWords:
+            return UITextAutocapitalizationTypeWords;
+        case ofxGenericTextAutoCapitalizationSentences:
+            return UITextAutocapitalizationTypeSentences;
+        case ofxGenericTextAutoCapitalizationAllCharacters:
+            return UITextAutocapitalizationTypeAllCharacters;
+    }
+    return UITextAutocapitalizationTypeNone;
+}

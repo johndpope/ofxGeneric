@@ -38,6 +38,15 @@ enum ofxGenericTableViewSeparatorStyle
     ofxGenericTableViewSeparatorStyleSingleLine,
     ofxGenericTableViewSeparatorStyleSingleLineEtched
 };
+
+enum ofxGenericTextAutoCapitalization
+{
+    ofxGenericTextAutoCapitalizationNone, // UITextAutocapitalizationTypeNone,
+    ofxGenericTextAutoCapitalizationWords, // UITextAutocapitalizationTypeWords,
+    ofxGenericTextAutoCapitalizationSentences, // UITextAutocapitalizationTypeSentences,
+    ofxGenericTextAutoCapitalizationAllCharacters // UITextAutocapitalizationTypeAllCharacters,
+};
+
 enum ofxGenericKeyboardReturnKey
 {
     ofxGenericKeyboardReturnKeyDefault, //UIReturnKeyDefault,

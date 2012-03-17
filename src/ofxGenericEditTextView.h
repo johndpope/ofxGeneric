@@ -50,6 +50,8 @@ public:
     void setEnabled( bool enabled );
     bool getEnabled();
     
+    void setAutoCapitalization( ofxGenericTextAutoCapitalization autoCapitalization );
+    
     void setKeyboard( ofxGenericKeyboardType type );
     void setKeyboardReturnKey( ofxGenericKeyboardReturnKey key );
     

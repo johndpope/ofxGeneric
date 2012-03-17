@@ -111,6 +111,7 @@ UITextAlignment ofxGenericTextHorizontalAlignmentToiOS( ofxGenericTextHorizontal
 UITableViewCellSeparatorStyle ofxGenericTableViewSeparatorStyleToiOS( ofxGenericTableViewSeparatorStyle from );
 UIReturnKeyType     ofxGenericKeyboardReturnKeyToiOS( ofxGenericKeyboardReturnKey from );
 UIKeyboardType ofxGenericKeyboardTypeToiOS( ofxGenericKeyboardType from );
+UITextAutocapitalizationType ofxGenericTextAutoCapitalizationToiOS( ofxGenericTextAutoCapitalization from );
 
 #elif TARGET_ANDROID
 

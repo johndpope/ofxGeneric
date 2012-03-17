@@ -212,6 +212,18 @@ bool ofxGenericEditTextView::getEnabled()
 #endif 
     return false;
 }
+
+void ofxGenericEditTextView::setAutoCapitalization(ofxGenericTextAutoCapitalization autoCapitalization )
+{
+#if TARGET_OS_IPHONE
+    UITextField* textField = ( UITextField* )*this;
+    if ( textField )
+    {
+        [ textField setAutocapitalizationType:ofxGenericTextAutoCapitalizationToiOS( autoCapitalization ) ];
+    }
+#endif 
+}
+
 void ofxGenericEditTextView::setKeyboard( ofxGenericKeyboardType type )
 {
 #if TARGET_OS_IPHONE
