@@ -66,3 +66,28 @@ UITableViewCellSeparatorStyle ofxGenericTableViewSeparatorStyleToiOS( ofxGeneric
     }
     return UITableViewCellSeparatorStyleSingleLine;    
 }
+
+UIReturnKeyType ofxGenericKeyboardReturnKeyToiOS( ofxGenericKeyboardReturnKey from )
+{
+    switch( from )
+    {
+        case ofxGenericKeyboardReturnKeyDefault:
+            return UIReturnKeyDefault;
+        case ofxGenericKeyboardReturnKeyGo:
+            return UIReturnKeyGo;
+            //    ofxGenericKeyboardReturnKeyGoogle, //UIReturnKeyGoogle,
+            //    ofxGenericKeyboardReturnKeyJoin, UIReturnKeyJoin,
+        case ofxGenericKeyboardReturnKeyNext:
+            return UIReturnKeyNext;
+            //    ofxGenericKeyboardReturnKeyRoute, //UIReturnKeyRoute,
+        case ofxGenericKeyboardReturnKeySearch:
+            return UIReturnKeySearch;
+        case ofxGenericKeyboardReturnKeySend:
+            return UIReturnKeySend;
+            //    ofxGenericKeyboardReturnKeyYahoo, UIReturnKeyYahoo,
+        case ofxGenericKeyboardReturnKeyDone:
+            return UIReturnKeyDone;
+            //ofxGenericKeyboardReturnKeyEmergencyCall //UIReturnKeyEmergencyCall,
+    }
+    return UIReturnKeyDefault;
+}

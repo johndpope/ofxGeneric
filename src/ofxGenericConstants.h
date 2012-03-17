@@ -38,3 +38,18 @@ enum ofxGenericTableViewSeparatorStyle
     ofxGenericTableViewSeparatorStyleSingleLine,
     ofxGenericTableViewSeparatorStyleSingleLineEtched
 };
+enum ofxGenericKeyboardReturnKey
+{
+    ofxGenericKeyboardReturnKeyDefault, //UIReturnKeyDefault,
+    ofxGenericKeyboardReturnKeyGo, //UIReturnKeyGo,
+//    ofxGenericKeyboardReturnKeyGoogle, //UIReturnKeyGoogle,
+//    ofxGenericKeyboardReturnKeyJoin, UIReturnKeyJoin,
+    ofxGenericKeyboardReturnKeyNext, //UIReturnKeyNext,
+//    ofxGenericKeyboardReturnKeyRoute, //UIReturnKeyRoute,
+    ofxGenericKeyboardReturnKeySearch, //UIReturnKeySearch,
+    ofxGenericKeyboardReturnKeySend, //UIReturnKeySend,
+//    ofxGenericKeyboardReturnKeyYahoo, UIReturnKeyYahoo,
+    ofxGenericKeyboardReturnKeyDone, //UIReturnKeyDone,
+    //ofxGenericKeyboardReturnKeyEmergencyCall //UIReturnKeyEmergencyCall,
+};
+

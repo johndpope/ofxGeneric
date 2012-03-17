@@ -50,6 +50,11 @@ public:
     void setEnabled( bool enabled );
     bool getEnabled();
     
+    void setKeyboardReturnKey( ofxGenericKeyboardReturnKey key );
+    
+    void setSecureText( bool secure );
+    bool getSecureText();
+    
 protected:
     ofxGenericEditTextView();
     virtual NativeView createNativeView( const ofRectangle& frame );

@@ -212,7 +212,18 @@ bool ofxGenericEditTextView::getEnabled()
 #endif 
     return false;
 }
-         
+void ofxGenericEditTextView::setKeyboardReturnKey( ofxGenericKeyboardReturnKey key )
+{
+#if TARGET_OS_IPHONE
+    UITextField* textField = ( UITextField* )*this;
+    if ( textField )
+    {
+        [ textField setReturnKeyType:ofxGenericKeyboardReturnKeyToiOS( key ) ];
+    }
+#endif 
+}
+
+     
 
 #if TARGET_OS_IPHONE
 ofxGenericUIViewCastOperator( ofxGenericEditTextView, UITextField );
