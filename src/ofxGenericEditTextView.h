@@ -52,11 +52,15 @@ public:
     
     void setAutoCapitalization( ofxGenericTextAutoCapitalization autoCapitalization );
     
+    void setEnableReturnKeyAutomatically( bool enabled );
+    bool getEnableReturnKeyAutomatically();
+
     void setKeyboard( ofxGenericKeyboardType type );
     void setKeyboardReturnKey( ofxGenericKeyboardReturnKey key );
     
     void setSecureText( bool secure );
     bool getSecureText();
+    
     
 protected:
     ofxGenericEditTextView();

@@ -224,6 +224,29 @@ void ofxGenericEditTextView::setAutoCapitalization(ofxGenericTextAutoCapitalizat
 #endif 
 }
 
+void ofxGenericEditTextView::setEnableReturnKeyAutomatically( bool enabled )
+{
+#if TARGET_OS_IPHONE
+    UITextField* textField = ( UITextField* )*this;
+    if ( textField )
+    {
+        [ textField setEnablesReturnKeyAutomatically:enabled ];
+    }
+#endif 
+}
+
+bool ofxGenericEditTextView::getEnableReturnKeyAutomatically()
+{
+#if TARGET_OS_IPHONE
+    UITextField* textField = ( UITextField* )*this;
+    if ( textField )
+    {
+        return textField.enablesReturnKeyAutomatically;
+    }
+#endif 
+    return false;
+}
+
 void ofxGenericEditTextView::setKeyboard( ofxGenericKeyboardType type )
 {
 #if TARGET_OS_IPHONE
