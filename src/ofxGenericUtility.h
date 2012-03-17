@@ -110,6 +110,7 @@ CGFloat getWindowScale();
 UITextAlignment ofxGenericTextHorizontalAlignmentToiOS( ofxGenericTextHorizontalAlignment from );
 UITableViewCellSeparatorStyle ofxGenericTableViewSeparatorStyleToiOS( ofxGenericTableViewSeparatorStyle from );
 UIReturnKeyType     ofxGenericKeyboardReturnKeyToiOS( ofxGenericKeyboardReturnKey from );
+UIKeyboardType ofxGenericKeyboardTypeToiOS( ofxGenericKeyboardType from );
 
 #elif TARGET_ANDROID
 

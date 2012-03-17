@@ -91,3 +91,34 @@ UIReturnKeyType ofxGenericKeyboardReturnKeyToiOS( ofxGenericKeyboardReturnKey fr
     }
     return UIReturnKeyDefault;
 }
+
+UIKeyboardType ofxGenericKeyboardTypeToiOS( ofxGenericKeyboardType from )
+{
+    switch ( from )
+    {
+        case ofxGenericKeyboardTypeDefault:
+            return UIKeyboardTypeDefault;                // Default type for the current input method.
+        case ofxGenericKeyboardTypeASCIICapable:
+            return UIKeyboardTypeASCIICapable;           // Displays a keyboard which can enter ASCII characters, non-ASCII keyboards remain active
+        case ofxGenericKeyboardTypeNumbersAndPunctuation:
+            return UIKeyboardTypeNumbersAndPunctuation;  // Numbers and assorted punctuation.
+        case ofxGenericKeyboardTypeURL:
+            return UIKeyboardTypeURL;                    // A type optimized for URL entry (shows . / .com prominently).
+        case ofxGenericKeyboardTypeNumberPad:
+            return UIKeyboardTypeNumberPad;              // A number pad (0-9). Suitable for PIN entry.
+        case ofxGenericKeyboardTypePhonePad:
+            return UIKeyboardTypePhonePad;               // A phone pad (1-9, *, 0, #, with letters under the numbers).
+        case ofxGenericKeyboardTypeNamePhonePad:
+            return UIKeyboardTypeNamePhonePad;           // A type optimized for entering a person's name or phone number.
+        case ofxGenericKeyboardTypeEmailAddress:
+            return UIKeyboardTypeEmailAddress;           // A type optimized for multiple email address entry (shows space @ . prominently).
+#if __IPHONE_4_1 <= __IPHONE_OS_VERSION_MAX_ALLOWED
+        case ofxGenericKeyboardTypeDecimalPad:
+            return UIKeyboardTypeDecimalPad;             // A number pad with a decimal point.
+#endif
+#if __IPHONE_5_0 <= __IPHONE_OS_VERSION_MAX_ALLOWED
+        case ofxGenericKeyboardTypeTwitter:
+            return UIKeyboardTypeTwitter;                // A type optimized for twitter text entry (easy access to @ #)
+#endif
+    }
+}

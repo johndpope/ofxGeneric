@@ -53,3 +53,20 @@ enum ofxGenericKeyboardReturnKey
     //ofxGenericKeyboardReturnKeyEmergencyCall //UIReturnKeyEmergencyCall,
 };
 
+enum ofxGenericKeyboardType
+{
+    ofxGenericKeyboardTypeDefault, //UIKeyboardTypeDefault,                // Default type for the current input method.
+    ofxGenericKeyboardTypeASCIICapable, //UIKeyboardTypeASCIICapable,           // Displays a keyboard which can enter ASCII characters, non-ASCII keyboards remain active
+    ofxGenericKeyboardTypeNumbersAndPunctuation, //UIKeyboardTypeNumbersAndPunctuation,  // Numbers and assorted punctuation.
+     ofxGenericKeyboardTypeURL, //UIKeyboardTypeURL,                    // A type optimized for URL entry (shows . / .com prominently).
+     ofxGenericKeyboardTypeNumberPad, //UIKeyboardTypeNumberPad,              // A number pad (0-9). Suitable for PIN entry.
+     ofxGenericKeyboardTypePhonePad, //UIKeyboardTypePhonePad,               // A phone pad (1-9, *, 0, #, with letters under the numbers).
+     ofxGenericKeyboardTypeNamePhonePad, //UIKeyboardTypeNamePhonePad,           // A type optimized for entering a person's name or phone number.
+     ofxGenericKeyboardTypeEmailAddress, //UIKeyboardTypeEmailAddress,           // A type optimized for multiple email address entry (shows space @ . prominently).
+#if __IPHONE_4_1 <= __IPHONE_OS_VERSION_MAX_ALLOWED
+     ofxGenericKeyboardTypeDecimalPad, //UIKeyboardTypeDecimalPad,             // A number pad with a decimal point.
+#endif
+#if __IPHONE_5_0 <= __IPHONE_OS_VERSION_MAX_ALLOWED
+     ofxGenericKeyboardTypeTwitter, //UIKeyboardTypeTwitter,                // A type optimized for twitter text entry (easy access to @ #)
+#endif
+};

@@ -212,6 +212,17 @@ bool ofxGenericEditTextView::getEnabled()
 #endif 
     return false;
 }
+void ofxGenericEditTextView::setKeyboard( ofxGenericKeyboardType type )
+{
+#if TARGET_OS_IPHONE
+    UITextField* textField = ( UITextField* )*this;
+    if ( textField )
+    {
+        [ textField setKeyboardType:ofxGenericKeyboardTypeToiOS( type ) ];
+    }
+#endif 
+}
+
 void ofxGenericEditTextView::setKeyboardReturnKey( ofxGenericKeyboardReturnKey key )
 {
 #if TARGET_OS_IPHONE

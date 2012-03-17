@@ -50,6 +50,7 @@ public:
     void setEnabled( bool enabled );
     bool getEnabled();
     
+    void setKeyboard( ofxGenericKeyboardType type );
     void setKeyboardReturnKey( ofxGenericKeyboardReturnKey key );
     
     void setSecureText( bool secure );
