@@ -224,6 +224,37 @@ void ofxGenericEditTextView::setAutoCapitalization(ofxGenericTextAutoCapitalizat
 #endif 
 }
 
+void ofxGenericEditTextView::setAutoCorrection( bool enabled )
+{
+#if TARGET_OS_IPHONE
+    UITextField* textField = ( UITextField* )*this;
+    if ( textField )
+    {
+        UITextAutocorrectionType autoCorrection;
+        if ( enabled )
+        {
+            autoCorrection = UITextAutocorrectionTypeYes;
+        } else 
+        {
+            autoCorrection = UITextAutocorrectionTypeNo;
+        }
+        [ textField setAutocorrectionType:autoCorrection ];            
+    }
+#endif 
+}
+
+bool ofxGenericEditTextView::getAutoCorrection()
+{
+#if TARGET_OS_IPHONE
+    UITextField* textField = ( UITextField* )*this;
+    if ( textField )
+    {
+        return textField.autocorrectionType == UITextAutocorrectionTypeYes;
+    }
+#endif
+    return false;
+}
+
 void ofxGenericEditTextView::setEnableReturnKeyAutomatically( bool enabled )
 {
 #if TARGET_OS_IPHONE

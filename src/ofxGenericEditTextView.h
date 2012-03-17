@@ -52,6 +52,9 @@ public:
     
     void setAutoCapitalization( ofxGenericTextAutoCapitalization autoCapitalization );
     
+    void setAutoCorrection( bool enabled );
+    bool getAutoCorrection();
+    
     void setEnableReturnKeyAutomatically( bool enabled );
     bool getEnableReturnKeyAutomatically();
 
