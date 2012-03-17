@@ -55,6 +55,9 @@ public:
     void setAutoCorrection( bool enabled );
     bool getAutoCorrection();
     
+    void setSpellChecking( bool enabled );
+    bool getSpellChecking();
+    
     void setEnableReturnKeyAutomatically( bool enabled );
     bool getEnableReturnKeyAutomatically();
 

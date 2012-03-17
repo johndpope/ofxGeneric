@@ -255,6 +255,35 @@ bool ofxGenericEditTextView::getAutoCorrection()
     return false;
 }
 
+void ofxGenericEditTextView::setSpellChecking( bool enabled )
+{
+#if TARGET_OS_IPHONE
+    UITextField* textField = ( UITextField* )*this;
+    if ( textField )
+    {
+        if ( enabled )
+        {
+            [ textField setSpellCheckingType:UITextSpellCheckingTypeYes ];
+        } else
+        {
+            [ textField setSpellCheckingType:UITextSpellCheckingTypeNo ];
+        }
+    }
+#endif 
+}
+
+bool ofxGenericEditTextView::getSpellChecking()
+{
+#if TARGET_OS_IPHONE
+    UITextField* textField = ( UITextField* )*this;
+    if ( textField )
+    {
+        return textField.spellCheckingType == UITextSpellCheckingTypeYes;
+    }
+#endif 
+    return false;
+}
+
 void ofxGenericEditTextView::setEnableReturnKeyAutomatically( bool enabled )
 {
 #if TARGET_OS_IPHONE
