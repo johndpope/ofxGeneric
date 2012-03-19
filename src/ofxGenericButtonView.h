@@ -13,7 +13,7 @@
 #include <vector>
 
 #if TARGET_OS_IPHONE
-@class UIButtonDelegateForwarder;
+@class ofxGenericButtonViewForwarder;
 #endif
 class ofxGenericButtonViewTouchDelegate;
 
@@ -65,7 +65,7 @@ protected:
     
     virtual NativeView createNativeView( const ofRectangle& frame );
 #if TARGET_OS_IPHONE
-    UIButtonDelegateForwarder* _eventHandler;
+    ofxGenericButtonViewForwarder* _forwarder;
 #elif TARGET_ANDROID
     static jclass _jniClass;
 
@@ -100,26 +100,3 @@ public:
     virtual void button_touchUpInside( ofPtr< ofxGenericButtonView > buttonView ){};
     virtual void button_touchUpOutside( ofPtr< ofxGenericButtonView > buttonView ){};
 };
-
-#if TARGET_OS_IPHONE
-@interface UIButtonDelegateForwarder : NSObject 
-{
-@private
-    ofxGenericButtonView* _delegate;
-}
--( void )setDelegate:( ofxGenericButtonView* )setDelegate;
-
--( void )touchCancel:( id )sender;
--( void )touchDown:( id )sender;
--( void )touchDownRepeat:( id )sender;
--( void )touchDragEnter:( id )sender;
--( void )touchDragExit:( id )sender;
--( void )touchDragInside:( id )sender;
--( void )touchDragOutside:( id )sender;
--( void )touchUpInside:( id )sender;
--( void )touchUpOutside:( id )sender;
-
-@end
-#elif TARGET_ANDROID
-
-#endif

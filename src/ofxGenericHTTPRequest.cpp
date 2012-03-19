@@ -11,6 +11,24 @@
 #include "ofxGenericHTTPRequest.h"
 #include "ofxGenericUtility.h"
 
+#if TARGET_OS_IPHONE
+@interface NSURLConnectionForwarder : NSObject< NSURLConnectionDelegate >
+{
+@protected
+    ofPtrWeak< ofxGenericHTTPRequest > _delegate;
+    NSMutableData* _receivedData;
+    NSURLResponse* _response;
+}
+-( id )initWithDelegate:( ofPtrWeak< ofxGenericHTTPRequest > )delegate;
+
+-( void )connection:( NSURLConnection* )connection didFailWithError:( NSError* )error;
+-( void )connection:( NSURLConnection* )connection didReceiveResponse:( NSURLResponse* )response;
+-( void )connection:( NSURLConnection* )connection didReceiveData:( NSData* )data;
+-( void )connectionDidFinishLoading:( NSURLConnection* )connection;
+
+@end
+#endif
+
 ofPtr< ofxGenericHTTPRequest > ofxGenericHTTPRequest::create( string url, string method, string format, void* data, int dataByteLength, float timeout, ofPtr< ofxGenericHTTPRequestDelegate > delegate )
 {
     ofPtr< ofxGenericHTTPRequest > create = ofPtr< ofxGenericHTTPRequest >( new ofxGenericHTTPRequest() );
@@ -56,7 +74,7 @@ void ofxGenericHTTPRequest::init( ofPtrWeak< ofxGenericHTTPRequest > setThis, st
         [ _request setHTTPBody:[ NSData dataWithBytes:data length:dataByteLength ] ];
     }
 
-    _forwarder = [ [ NSURLConnectionDelegateForwarder alloc ] initWithDelegate:_this ];
+    _forwarder = [ [ NSURLConnectionForwarder alloc ] initWithDelegate:_this ];
 #endif
     
     _format = format;
@@ -168,7 +186,7 @@ ofPtr< ofxGenericHTTPResponse > ofxGenericHTTPRequest::getLastResponse()
 }
 
 #if TARGET_OS_IPHONE
-@implementation NSURLConnectionDelegateForwarder
+@implementation NSURLConnectionForwarder
 
 -( id )initWithDelegate:( ofPtrWeak< ofxGenericHTTPRequest > )delegate
 {
@@ -215,7 +233,7 @@ ofPtr< ofxGenericHTTPResponse > ofxGenericHTTPRequest::getLastResponse()
     }
 }
 
-// TODO: FIX PROPIGATING VALUE
+// TODO: FIX PROPIGATING PREDEF VALUE
 //#ifdef SSL_PROTOCOL_VERIFICATION_OFF
 -( BOOL )connection:( NSURLConnection* )connection canAuthenticateAgainstProtectionSpace:( NSURLProtectionSpace * )protectionSpace
 {

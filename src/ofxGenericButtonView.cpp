@@ -8,7 +8,29 @@
 #include "ofxGenericButtonView.h"
 #include "ofxGenericUtility.h"
 
-#if TARGET_ANDROID
+
+
+#if TARGET_OS_IPHONE
+@interface ofxGenericButtonViewForwarder : NSObject 
+{
+@private
+    ofxGenericButtonView* _delegate;
+}
+-( void )setDelegate:( ofxGenericButtonView* )setDelegate;
+
+-( void )touchCancel:( id )sender;
+-( void )touchDown:( id )sender;
+-( void )touchDownRepeat:( id )sender;
+-( void )touchDragEnter:( id )sender;
+-( void )touchDragExit:( id )sender;
+-( void )touchDragInside:( id )sender;
+-( void )touchDragOutside:( id )sender;
+-( void )touchUpInside:( id )sender;
+-( void )touchUpOutside:( id )sender;
+
+@end
+#elif TARGET_ANDROID
+
 #include "JNIUtility.h"
 
 jclass ofxGenericButtonView::_jniClass = NULL;
@@ -31,7 +53,7 @@ ofxGenericButtonView::ofxGenericButtonView()
 ofxGenericButtonView::~ofxGenericButtonView()
 {
 #if TARGET_OS_IPHONE
-    release( _eventHandler );
+    release( _forwarder );
 #endif
 }
 
@@ -57,18 +79,18 @@ NativeView ofxGenericButtonView::createNativeView( const ofRectangle& frame )
     [ newView setBackgroundColor:[ UIColor clearColor ] ];
 
     // TODO: doesn't match createUIView design
-    _eventHandler = [ [ UIButtonDelegateForwarder alloc ] init ];
-    [ _eventHandler setDelegate:this ];
+    _forwarder = [ [ ofxGenericButtonViewForwarder alloc ] init ];
+    [ _forwarder setDelegate:this ];
 
-    [ newView addTarget:_eventHandler action:@selector( touchCancel: ) forControlEvents: UIControlEventTouchCancel ];
-    [ newView addTarget:_eventHandler action:@selector( touchDown: ) forControlEvents: UIControlEventTouchDown ];
-    [ newView addTarget:_eventHandler action:@selector( touchDownRepeat: ) forControlEvents: UIControlEventTouchDownRepeat ];
-    [ newView addTarget:_eventHandler action:@selector( touchDragEnter: ) forControlEvents: UIControlEventTouchDragEnter ];
-    [ newView addTarget:_eventHandler action:@selector( touchDragExit: ) forControlEvents: UIControlEventTouchDragExit ];
-    [ newView addTarget:_eventHandler action:@selector( touchDragInside: ) forControlEvents: UIControlEventTouchDragInside ];
-    [ newView addTarget:_eventHandler action:@selector( touchDragOutside: ) forControlEvents: UIControlEventTouchDragOutside ];
-    [ newView addTarget:_eventHandler action:@selector( touchUpInside: ) forControlEvents: UIControlEventTouchUpInside ];
-    [ newView addTarget:_eventHandler action:@selector( touchUpOutside: ) forControlEvents:UIControlEventTouchUpOutside ];
+    [ newView addTarget:_forwarder action:@selector( touchCancel: ) forControlEvents: UIControlEventTouchCancel ];
+    [ newView addTarget:_forwarder action:@selector( touchDown: ) forControlEvents: UIControlEventTouchDown ];
+    [ newView addTarget:_forwarder action:@selector( touchDownRepeat: ) forControlEvents: UIControlEventTouchDownRepeat ];
+    [ newView addTarget:_forwarder action:@selector( touchDragEnter: ) forControlEvents: UIControlEventTouchDragEnter ];
+    [ newView addTarget:_forwarder action:@selector( touchDragExit: ) forControlEvents: UIControlEventTouchDragExit ];
+    [ newView addTarget:_forwarder action:@selector( touchDragInside: ) forControlEvents: UIControlEventTouchDragInside ];
+    [ newView addTarget:_forwarder action:@selector( touchDragOutside: ) forControlEvents: UIControlEventTouchDragOutside ];
+    [ newView addTarget:_forwarder action:@selector( touchUpInside: ) forControlEvents: UIControlEventTouchUpInside ];
+    [ newView addTarget:_forwarder action:@selector( touchUpOutside: ) forControlEvents:UIControlEventTouchUpOutside ];
     return newView;
 #elif TARGET_ANDROID
     return ofxGenericView::createNativeView( frame );
@@ -228,7 +250,7 @@ touchEventMethod( touchUpInside );
 touchEventMethod( touchUpOutside );
 
 #if TARGET_OS_IPHONE
-@implementation UIButtonDelegateForwarder
+@implementation ofxGenericButtonViewForwarder
 
 -( void )setDelegate:(ofxGenericButtonView *)setDelegate
 {

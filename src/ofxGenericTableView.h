@@ -12,7 +12,7 @@
 #include "ofxGenericConstants.h"
 
 #if TARGET_OS_IPHONE
-@class ofxGenericTableViewDelegateForwarder;
+@class ofxGenericTableViewForwarder;
 #endif
 class ofxGenericTableViewCell;
 
@@ -36,7 +36,7 @@ public:
 protected:
     virtual NativeView createNativeView( const ofRectangle& frame );
 #if TARGET_OS_IPHONE
-    ofxGenericTableViewDelegateForwarder* _forwarder;    
+    ofxGenericTableViewForwarder* _forwarder;    
 #endif
 };
 
@@ -57,17 +57,3 @@ protected:
     virtual UITableViewCell* createUITableViewCell( const CGRect& frame );
 #endif
 };
-
-#if TARGET_OS_IPHONE
-@interface ofxGenericTableViewDelegateForwarder : UITableViewController
-{
-@private
-    ofxGenericTableView* _delegate;
-}
--( id )initWithDelegate:( ofxGenericTableView* )delegate;
--( NSInteger )tableView:( UITableView* )tableView numberOfRowsInSection:( NSInteger )section;
--( UITableViewCell* )tableView:( UITableView* )tableView cellForRowAtIndexPath:( NSIndexPath* )indexPath;
--( CGFloat )tableView:( UITableView* )tableView heightForRowAtIndexPath:( NSIndexPath* )indexPath;
-
-@end
-#endif

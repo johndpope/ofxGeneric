@@ -8,6 +8,20 @@
 #include "ofxGenericTableView.h"
 #include "ofxGenericUtility.h"
 
+#if TARGET_OS_IPHONE
+@interface ofxGenericTableViewForwarder : UITableViewController
+{
+@private
+    ofxGenericTableView* _delegate;
+}
+-( id )initWithDelegate:( ofxGenericTableView* )delegate;
+-( NSInteger )tableView:( UITableView* )tableView numberOfRowsInSection:( NSInteger )section;
+-( UITableViewCell* )tableView:( UITableView* )tableView cellForRowAtIndexPath:( NSIndexPath* )indexPath;
+-( CGFloat )tableView:( UITableView* )tableView heightForRowAtIndexPath:( NSIndexPath* )indexPath;
+
+@end
+#endif
+
 ofPtr< ofxGenericTableView > ofxGenericTableView::create( const ofRectangle& setFrame )
 {
     ofPtr< ofxGenericTableView > create = ofPtr< ofxGenericTableView >( new ofxGenericTableView() );
@@ -26,7 +40,7 @@ NativeView ofxGenericTableView::createNativeView( const ofRectangle& frame )
 {
 #if TARGET_OS_IPHONE
     UITableView* newView = [ [ UITableView alloc ] initWithFrame:ofRectangleToCGRect( frame ) style:UITableViewStylePlain ];
-    _forwarder = [ [ ofxGenericTableViewDelegateForwarder alloc ] initWithDelegate:this ];
+    _forwarder = [ [ ofxGenericTableViewForwarder alloc ] initWithDelegate:this ];
     [ newView setDelegate:_forwarder ];
     [ newView setDataSource:_forwarder ];
     return newView;
@@ -108,7 +122,7 @@ UITableViewCell* ofxGenericTableViewCell::createUITableViewCell( const CGRect& f
 
 ofxGenericUIViewCastOperator( ofxGenericTableViewCell, UITableViewCell );
 
-@implementation ofxGenericTableViewDelegateForwarder
+@implementation ofxGenericTableViewForwarder
 
 -( id )initWithDelegate:( ofxGenericTableView* )delegate
 {

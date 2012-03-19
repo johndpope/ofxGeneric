@@ -12,7 +12,7 @@
 #include "ofxGenericConstants.h"
 
 #if TARGET_OS_IPHONE
-@class ofxGenericEditTextViewDelegateForwarder;
+@class ofxGenericEditTextViewForwarder;
 #endif
 
 class ofxGenericEditTextView : public ofxGenericView
@@ -72,18 +72,8 @@ protected:
     ofxGenericEditTextView();
     virtual NativeView createNativeView( const ofRectangle& frame );
 #if TARGET_OS_IPHONE
-    ofxGenericEditTextViewDelegateForwarder* _forwarder;
+    ofxGenericEditTextViewForwarder* _forwarder;
 #endif
     
     bool _moveFromUnderKeyboardOnBeginEdit;
 };
-
-#if TARGET_OS_IPHONE
-@interface ofxGenericEditTextViewDelegateForwarder : NSObject< UITextFieldDelegate >
-{
-@protected
-    ofxGenericEditTextView* _delegate;
-}
--( id )initWithDelegate:( ofxGenericEditTextView* )delegate;
-@end
-#endif

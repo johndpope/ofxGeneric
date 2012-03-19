@@ -9,6 +9,16 @@
 #include "ofxGenericUtility.h"
 #include "ofxGenericApp.h"
 
+#if TARGET_OS_IPHONE
+@interface ofxGenericEditTextViewForwarder : NSObject< UITextFieldDelegate >
+{
+@protected
+    ofxGenericEditTextView* _delegate;
+}
+-( id )initWithDelegate:( ofxGenericEditTextView* )delegate;
+@end
+#endif
+
 ofPtr< ofxGenericEditTextView > ofxGenericEditTextView::create( const ofRectangle& setFrame )
 {
     ofPtr< ofxGenericEditTextView > create = ofPtr< ofxGenericEditTextView >( new ofxGenericEditTextView() );
@@ -35,7 +45,7 @@ NativeView ofxGenericEditTextView::createNativeView( const ofRectangle& frame )
 {
 #if TARGET_OS_IPHONE
     UITextField* newView = [ [ UITextField alloc ] initWithFrame:ofRectangleToCGRect( frame ) ];
-    _forwarder = [ [ ofxGenericEditTextViewDelegateForwarder alloc ] initWithDelegate:this ];
+    _forwarder = [ [ ofxGenericEditTextViewForwarder alloc ] initWithDelegate:this ];
     [ newView setDelegate:_forwarder ];
     [ newView setBackgroundColor:[ UIColor whiteColor ] ];
     [ newView setTextColor:[ UIColor blackColor ] ];
@@ -360,7 +370,7 @@ ofxGenericUIViewCastOperator( ofxGenericEditTextView, UITextField );
 
 #if TARGET_OS_IPHONE
 
-@implementation ofxGenericEditTextViewDelegateForwarder
+@implementation ofxGenericEditTextViewForwarder
 
 -( id )initWithDelegate:( ofxGenericEditTextView* )delegate
 {
