@@ -213,7 +213,7 @@ void ofxGenericButtonView::eventName() \
 { \
     if ( _touchDelegate ) \
     { \
-        ( _touchDelegate.lock() )->button_ ## eventName(); \
+        ( _touchDelegate.lock() )->button_ ## eventName( dynamic_pointer_cast< ofxGenericButtonView >( _this.lock() ) ); \
     } \
 }
 

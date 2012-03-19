@@ -90,15 +90,15 @@ class ofxGenericButtonViewTouchDelegate
 public:
     virtual ~ofxGenericButtonViewTouchDelegate(){};
     
-    virtual void button_touchCancel(){};
-    virtual void button_touchDown(){};
-    virtual void button_touchDownRepeat(){};
-    virtual void button_touchDragEnter(){};
-    virtual void button_touchDragExit(){};
-    virtual void button_touchDragInside(){};
-    virtual void button_touchDragOutside(){};
-    virtual void button_touchUpInside(){};
-    virtual void button_touchUpOutside(){};
+    virtual void button_touchCancel( ofPtr< ofxGenericButtonView > buttonView ){};
+    virtual void button_touchDown( ofPtr< ofxGenericButtonView > buttonView ){};
+    virtual void button_touchDownRepeat( ofPtr< ofxGenericButtonView > buttonView ){};
+    virtual void button_touchDragEnter( ofPtr< ofxGenericButtonView > buttonView ){};
+    virtual void button_touchDragExit( ofPtr< ofxGenericButtonView > buttonView ){};
+    virtual void button_touchDragInside( ofPtr< ofxGenericButtonView > buttonView ){};
+    virtual void button_touchDragOutside( ofPtr< ofxGenericButtonView > buttonView ){};
+    virtual void button_touchUpInside( ofPtr< ofxGenericButtonView > buttonView ){};
+    virtual void button_touchUpOutside( ofPtr< ofxGenericButtonView > buttonView ){};
 };
 
 #if TARGET_OS_IPHONE
