@@ -73,6 +73,9 @@ public:
     void setVisible( bool visible );
     bool getVisible();
     
+    void setNextResponder( ofPtrWeak< ofxGenericView > view );
+    ofPtr< ofxGenericView > getNextResponder();
+    
 protected:        
     ofxGenericView();
     virtual void init( ofPtrWeak< ofxGenericView > smartPointer, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 ) );
@@ -105,6 +108,8 @@ protected:
 #endif
     
     ofPtrWeak< ofxGenericView > _this;
+    
+    ofPtrWeak< ofxGenericView > _nextResponder;
 
     std::list< ofPtr< ofxGenericView > > _children;
     ofPtrWeak< ofxGenericView > _parent;

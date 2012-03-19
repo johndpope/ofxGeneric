@@ -336,6 +336,16 @@ bool ofxGenericView::getVisible()
     return false;
 }
 
+void ofxGenericView::setNextResponder( ofPtrWeak< ofxGenericView > view )
+{
+    _nextResponder = view;
+}
+
+ofPtr< ofxGenericView > ofxGenericView::getNextResponder()
+{
+    return _nextResponder.lock();
+}
+
 #if TARGET_ANDROID
 void ofxGenericView::registerJNIMethods()
 {
