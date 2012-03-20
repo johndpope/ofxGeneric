@@ -15,10 +15,12 @@
 @class ofxGenericEditTextViewForwarder;
 #endif
 
+class ofxGenericEditTextViewDelegate;
+
 class ofxGenericEditTextView : public ofxGenericView
 {
 public:
-    static ofPtr< ofxGenericEditTextView > create( const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ) );
+    static ofPtr< ofxGenericEditTextView > create( const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ), ofPtrWeak< ofxGenericEditTextViewDelegate > delegate = ofPtrWeak< ofxGenericEditTextViewDelegate >() );
     virtual ~ofxGenericEditTextView();
     
     void setText( string newText );
@@ -37,7 +39,7 @@ public:
     bool currentlyEditing();
     
     void setClearsOnBeginEditing( bool clear );
-    bool clearsOnBeginEditing();
+    bool getClearsOnBeginEditing();
     
     virtual bool shouldBeginEditing();
     virtual void didBeginEditing();
@@ -64,16 +66,40 @@ public:
     void setKeyboard( ofxGenericKeyboardType type );
     void setKeyboardReturnKey( ofxGenericKeyboardReturnKey key );
     
+    void setHideKeyboardOnReturn( bool enabled );
+    bool getHideKeyboardOnReturn();
+
     void setSecureText( bool secure );
     bool getSecureText();
     
-    
+
+    // TODO: find better place
+    virtual void hideKeyboard();
+
 protected:
     ofxGenericEditTextView();
+        virtual void init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ), ofPtrWeak< ofxGenericEditTextViewDelegate > delegate = ofPtrWeak< ofxGenericEditTextViewDelegate >() );
     virtual NativeView createNativeView( const ofRectangle& frame );
 #if TARGET_OS_IPHONE
     ofxGenericEditTextViewForwarder* _forwarder;
 #endif
     
+    ofPtrWeak< ofxGenericEditTextViewDelegate > _delegate;
+    
     bool _moveFromUnderKeyboardOnBeginEdit;
+    bool _hideKeyboardOnReturn;
+};
+
+class ofxGenericEditTextViewDelegate
+{
+public:
+    virtual ~ofxGenericEditTextViewDelegate() {};
+    
+    virtual bool editText_shouldBeginEditing( ofPtr< ofxGenericEditTextView > view ) { return true; };
+    virtual void editText_didBeginEditing( ofPtr< ofxGenericEditTextView > view ) {};
+    virtual bool editText_shouldEndEditing( ofPtr< ofxGenericEditTextView > view ) { return true; };
+    virtual void editText_didEndEditing( ofPtr< ofxGenericEditTextView > view ) {};
+    virtual bool editText_shouldChangeCharactersInRange(  ofPtr< ofxGenericEditTextView > view, int from, int count, string replacement ) { return true; };
+    virtual bool editText_shouldClear( ofPtr< ofxGenericEditTextView > view ) { return true; }
+    virtual bool editText_shouldReturn( ofPtr< ofxGenericEditTextView > view ) { return true; }
 };

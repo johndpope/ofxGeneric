@@ -19,15 +19,15 @@
 @end
 #endif
 
-ofPtr< ofxGenericEditTextView > ofxGenericEditTextView::create( const ofRectangle& setFrame )
+ofPtr< ofxGenericEditTextView > ofxGenericEditTextView::create( const ofRectangle& setFrame, ofPtrWeak< ofxGenericEditTextViewDelegate > delegate )
 {
     ofPtr< ofxGenericEditTextView > create = ofPtr< ofxGenericEditTextView >( new ofxGenericEditTextView() );
-    create->init( create, setFrame );
+    create->init( create, setFrame, delegate );
     return create;
 }
 
 ofxGenericEditTextView::ofxGenericEditTextView()
-: _moveFromUnderKeyboardOnBeginEdit( false )
+: _moveFromUnderKeyboardOnBeginEdit( false ), _hideKeyboardOnReturn( true )
 #if TARGET_OS_IPHONE
 , _forwarder( nil )
 #endif
@@ -39,6 +39,12 @@ ofxGenericEditTextView::~ofxGenericEditTextView()
 #if TARGET_OS_IPHONE
     release( _forwarder );
 #endif
+}
+
+void ofxGenericEditTextView::init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setFrame, ofPtrWeak< ofxGenericEditTextViewDelegate > delegate )
+{
+    ofxGenericView::init( setThis, setFrame );
+    _delegate = delegate;
 }
 
 NativeView ofxGenericEditTextView::createNativeView( const ofRectangle& frame )
@@ -134,7 +140,7 @@ void ofxGenericEditTextView::setClearsOnBeginEditing( bool clear )
 #endif
 }
 
-bool ofxGenericEditTextView::clearsOnBeginEditing()
+bool ofxGenericEditTextView::getClearsOnBeginEditing()
 {
 #if TARGET_OS_IPHONE
     UITextField* textField = ( UITextField* )this;
@@ -153,6 +159,10 @@ void ofxGenericEditTextView::setMoveFromUnderKeyboardOnBeginEdit( bool move )
 
 bool ofxGenericEditTextView::shouldBeginEditing()
 {    
+    if ( _delegate )
+    {
+        return _delegate.lock()->editText_shouldBeginEditing( dynamic_pointer_cast< ofxGenericEditTextView >( _this ) );
+    }
     return true;
 }
 
@@ -162,11 +172,18 @@ void ofxGenericEditTextView::didBeginEditing()
     {
         ofxGenericApp::getInstance()->setMoveFromUnderKeyboard( _this.lock() );
     }
+    if ( _delegate )
+    {
+        _delegate.lock()->editText_didBeginEditing( dynamic_pointer_cast< ofxGenericEditTextView >( _this ) );
+    }
 }
 
 bool ofxGenericEditTextView::shouldEndEditing()
 {    
-    return true;
+    if ( _delegate )
+    {
+        return _delegate.lock()->editText_shouldEndEditing( dynamic_pointer_cast< ofxGenericEditTextView >( _this ) );
+    }    return true;
 }
 
 void ofxGenericEditTextView::didEndEditing()
@@ -175,20 +192,55 @@ void ofxGenericEditTextView::didEndEditing()
     {
         ofxGenericApp::getInstance()->setMoveFromUnderKeyboard( ofPtr< ofxGenericView >() );
     }
+#if TARGET_OS_IPHONE
+    if ( _nextResponder )
+    {
+        [ _nextResponder.lock()->getNativeView() becomeFirstResponder ];
+    }
+#endif
+    if ( _delegate )
+    {
+        _delegate.lock()->editText_didEndEditing( dynamic_pointer_cast< ofxGenericEditTextView >( _this ) );
+    }
 }
 
 bool ofxGenericEditTextView::shouldChangeCharactersInRange( int from, int count, string replacement )
 {    
+    if ( _delegate )
+    {
+        return _delegate.lock()->editText_shouldChangeCharactersInRange( dynamic_pointer_cast< ofxGenericEditTextView >( _this ), from, count, replacement );
+    }
     return true;
 }
 
 bool ofxGenericEditTextView::shouldClear()
-{    
+{
+    if ( _delegate )
+    {
+        return _delegate.lock()->editText_shouldClear( dynamic_pointer_cast< ofxGenericEditTextView >( _this ) );
+    }
     return true;
 }
 
 bool ofxGenericEditTextView::shouldReturn()
-{    
+{  
+    bool shouldReturn = true;
+    if ( _delegate )
+    {
+        shouldReturn = _delegate.lock()->editText_shouldReturn( dynamic_pointer_cast< ofxGenericEditTextView >( _this ) );
+    }
+    if ( shouldReturn )
+    {
+        if ( _hideKeyboardOnReturn )
+        {
+            hideKeyboard();
+        }
+    }
+    return shouldReturn;
+}
+
+void ofxGenericEditTextView::hideKeyboard()
+{
 #if TARGET_OS_IPHONE
     // TODO: wrap resigning keyboard separately 
     UITextField* textField = ( UITextField* )*this;
@@ -196,8 +248,7 @@ bool ofxGenericEditTextView::shouldReturn()
     {
         [ textField resignFirstResponder ];
     }
-#endif
-    return true;
+#endif    
 }
 
 void ofxGenericEditTextView::setEnabled( bool enabled )
@@ -339,6 +390,15 @@ void ofxGenericEditTextView::setKeyboardReturnKey( ofxGenericKeyboardReturnKey k
 #endif 
 }
 
+void ofxGenericEditTextView::setHideKeyboardOnReturn( bool enabled )
+{
+    _hideKeyboardOnReturn = enabled;
+}
+
+bool ofxGenericEditTextView::getHideKeyboardOnReturn()
+{
+    return _hideKeyboardOnReturn;
+}
      
 void ofxGenericEditTextView::setSecureText( bool secure )
 {
