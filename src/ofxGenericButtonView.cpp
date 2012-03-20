@@ -57,9 +57,9 @@ ofxGenericButtonView::~ofxGenericButtonView()
 #endif
 }
 
-void ofxGenericButtonView::init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setBounds, ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate )
+void ofxGenericButtonView::init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setFrame, ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate )
 {
-    ofxGenericView::init( setThis, setBounds );
+    ofxGenericView::init( setThis, setFrame );
     _touchDelegate = touchDelegate;
 
 #if TARGET_ANDROID
