@@ -51,12 +51,15 @@ void ofxGenericHTTPRequest::init( ofPtrWeak< ofxGenericHTTPRequest > setThis, st
     _delegate = delegate;
     
     string urlWithFormat = url;
-    if ( urlWithFormat.find( "?" ) == string::npos )
+    if ( !format.empty() )
     {
-        urlWithFormat += "?format=" + format;
-    } else
-    {
-        urlWithFormat += "&format=" + format;
+        if ( urlWithFormat.find( "?" ) == string::npos )
+        {
+            urlWithFormat += "?format=" + format;
+        } else
+        {
+            urlWithFormat += "&format=" + format;
+        }
     }
 
     ofxGLog( OF_LOG_VERBOSE, "HTTPRequest - " + urlWithFormat + " " + method );
