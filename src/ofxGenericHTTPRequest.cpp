@@ -100,6 +100,11 @@ ofxGenericHTTPRequest::~ofxGenericHTTPRequest()
 #endif
 }
 
+void ofxGenericHTTPRequest::setDelegate( ofPtr< ofxGenericHTTPRequestDelegate > delegate )
+{
+    _delegate = delegate;
+}
+
 void ofxGenericHTTPRequest::start()
 {
 #if TARGET_OS_IPHONE
@@ -258,3 +263,63 @@ ofPtr< ofxGenericHTTPResponse > ofxGenericHTTPRequest::getLastResponse()
 
 @end
 #endif
+
+/////////////////////////////////////////////////////////
+
+ofPtr< ofxGenericHTTPRequestHolder > ofxGenericHTTPRequestHolder::_instance;
+
+ofxGenericHTTPRequestHolder::ofxGenericHTTPRequestHolder()
+{
+}
+
+ofxGenericHTTPRequestHolder::~ofxGenericHTTPRequestHolder()
+{
+}
+
+ofPtr< ofxGenericHTTPRequestHolder > ofxGenericHTTPRequestHolder::getInstance()
+{
+    if ( !( ofxGenericHTTPRequestHolder::_instance ) )
+    {
+        ( new ofxGenericHTTPRequestHolder() )->setofxGenericHTTPRequestHolderInstanceToThis();
+    }
+    return ofxGenericHTTPRequestHolder::_instance;
+}
+
+void ofxGenericHTTPRequestHolder::setofxGenericHTTPRequestHolderInstanceToThis()
+{
+    if ( ofxGenericHTTPRequestHolder::_instance == NULL )
+    {
+        ofxGenericHTTPRequestHolder::_instance = ofPtr< ofxGenericHTTPRequestHolder >( this );
+    } else
+    {
+        // TODO: exception
+    }
+}
+
+void ofxGenericHTTPRequestHolder::holdRequestUntilComplete( ofPtr< ofxGenericHTTPRequest > request )
+{
+    for ( std::list< ofPtr< ofxGenericHTTPRequest > >::iterator find = _holdRequestUntilComplete.begin(); find != _holdRequestUntilComplete.end(); find++ )
+    {
+        if ( *find == request )
+        {
+            return;
+        }
+    }
+    request->setDelegate( ofxGenericHTTPRequestHolder::_instance );
+    _holdRequestUntilComplete.push_back( request );    
+}
+
+void ofxGenericHTTPRequestHolder::httpRequest_finishedWithError( ofPtr< ofxGenericHTTPRequest > request )
+{
+    removeHeldRequest( request );    
+}
+
+void ofxGenericHTTPRequestHolder::httpRequest_finishedSuccessfully( ofPtr< ofxGenericHTTPRequest > request )
+{
+    removeHeldRequest( request );
+}
+
+void ofxGenericHTTPRequestHolder::removeHeldRequest( ofPtr< ofxGenericHTTPRequest > request )
+{
+    _holdRequestUntilComplete.remove( request );
+}
