@@ -35,7 +35,7 @@ public:
     string getErrorFailureReason();
     string getErrorRecoverySuggestions();
         
-    bool isOk();
+    virtual bool isOk();
     
     virtual ~ofxGenericHTTPResponse();
     
