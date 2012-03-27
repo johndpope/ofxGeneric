@@ -38,8 +38,6 @@ _children()
 ofxGenericView::~ofxGenericView()
 {
     removeFromParent();
-    // TODO: make toggle-able?
-    removeChildViews();
 
 #if TARGET_OS_IPHONE
     releaseView( _view );
@@ -279,8 +277,7 @@ void ofxGenericView::removeFromParent()
     if ( _parent )
     {
         ofPtr< ofxGenericView > parentPtr = _parent.lock();
-        ofPtr< ofxGenericView > thisPtr = parentPtr->getChildViewofPtr( this );
-        parentPtr->removeChildView( thisPtr );
+        parentPtr->removeChildView( _this.lock() );
     }
 }
 
