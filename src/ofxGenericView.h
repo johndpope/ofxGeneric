@@ -76,6 +76,9 @@ public:
     void setNextResponder( ofPtrWeak< ofxGenericView > view );
     ofPtr< ofxGenericView > getNextResponder();
     
+    // TEMP HACK:
+    void replaceChildrenWith( ofPtr< ofxGenericView > view );
+    
 protected:        
     ofxGenericView();
     virtual void init( ofPtrWeak< ofxGenericView > smartPointer, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 ) );
