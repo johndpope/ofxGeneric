@@ -444,8 +444,8 @@ ofxGenericUIViewCastOperator( ofxGenericEditTextView, UITextField );
 
 -( void )dealloc
 {
-    [ super dealloc ];
     _delegate = NULL;
+    [ super dealloc ];
 }
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField        // return NO to disallow editing.

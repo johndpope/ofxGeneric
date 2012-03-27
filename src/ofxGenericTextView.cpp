@@ -15,6 +15,18 @@ ofPtr< ofxGenericTextView > ofxGenericTextView::create( const ofRectangle& setFr
     return create;
 }
 
+NativeView ofxGenericTextView::createNativeView( const ofRectangle& frame )
+{
+#if TARGET_OS_IPHONE
+    UILabel* newView = [ [ UILabel alloc ] initWithFrame:ofRectangleToCGRect( frame ) ];
+    [ newView setBackgroundColor:[ UIColor clearColor ] ];
+    [ newView setTextColor:[ UIColor blackColor ] ];
+    [ newView setLineBreakMode:UILineBreakModeWordWrap ];
+    [ newView setNumberOfLines:0 ];
+    return newView;
+#endif
+}
+
 void ofxGenericTextView::setText( string newText )
 {
 #if TARGET_OS_IPHONE
@@ -46,16 +58,6 @@ void ofxGenericTextView::setTextAlignment( ofxGenericTextHorizontalAlignment ali
         UILabel* labelView = ( UILabel* )_view;
         [ labelView setTextAlignment:ofxGenericTextHorizontalAlignmentToiOS( alignment ) ];
     }
-#endif
-}
-
-NativeView ofxGenericTextView::createNativeView( const ofRectangle& frame )
-{
-#if TARGET_OS_IPHONE
-    UILabel* newView = [ [ UILabel alloc ] initWithFrame:ofRectangleToCGRect( frame ) ];
-    [ newView setBackgroundColor:[ UIColor clearColor ] ];
-    [ newView setTextColor:[ UIColor blackColor ] ];
-    return newView;
 #endif
 }
 
