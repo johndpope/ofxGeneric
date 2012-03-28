@@ -138,3 +138,49 @@ UITextAutocapitalizationType ofxGenericTextAutoCapitalizationToiOS( ofxGenericTe
     }
     return UITextAutocapitalizationTypeNone;
 }
+
+UIDeviceOrientation ofOrientationToiOS( ofOrientation from )
+{
+    switch ( from ) 
+    {
+        case OF_ORIENTATION_UNKNOWN:
+            return UIDeviceOrientationUnknown;
+        case OF_ORIENTATION_DEFAULT:
+            return UIDeviceOrientationPortrait;
+        case OF_ORIENTATION_180:
+            return UIDeviceOrientationPortraitUpsideDown;
+        case OF_ORIENTATION_90_RIGHT:
+            return UIDeviceOrientationLandscapeLeft;
+        case OF_ORIENTATION_90_LEFT:
+            return UIDeviceOrientationLandscapeRight;
+            // TODO:
+//        case ofxGenericOrientationFaceUp:
+//            return UIDeviceOrientationFaceUp;
+//        case ofxGenericOrientationFaceDown:
+//            return UIDeviceOrientationFaceDown;
+    }
+    return UIDeviceOrientationUnknown;
+}
+
+ofOrientation iOSToofOrientation( UIDeviceOrientation from )
+{
+    switch ( from ) 
+    {
+        case UIDeviceOrientationUnknown:
+            return OF_ORIENTATION_UNKNOWN;
+        case UIDeviceOrientationPortrait:
+            return OF_ORIENTATION_DEFAULT;
+        case UIDeviceOrientationPortraitUpsideDown:
+            return OF_ORIENTATION_180;
+        case UIDeviceOrientationLandscapeLeft:
+            return OF_ORIENTATION_90_RIGHT;
+        case UIDeviceOrientationLandscapeRight:
+            return OF_ORIENTATION_90_LEFT;
+// TODO:
+//        case UIDeviceOrientationFaceUp:
+//            return ofxGenericOrientationFaceUp;
+//        case UIDeviceOrientationFaceDown:
+//            return ofxGenericOrientationFaceDown;
+    }
+    return OF_ORIENTATION_UNKNOWN;
+}

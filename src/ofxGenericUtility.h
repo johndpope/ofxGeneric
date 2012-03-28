@@ -112,6 +112,8 @@ UITableViewCellSeparatorStyle ofxGenericTableViewSeparatorStyleToiOS( ofxGeneric
 UIReturnKeyType     ofxGenericKeyboardReturnKeyToiOS( ofxGenericKeyboardReturnKey from );
 UIKeyboardType ofxGenericKeyboardTypeToiOS( ofxGenericKeyboardType from );
 UITextAutocapitalizationType ofxGenericTextAutoCapitalizationToiOS( ofxGenericTextAutoCapitalization from );
+UIDeviceOrientation ofOrientationToiOS( ofOrientation from );
+ofOrientation iOSToofOrientation( UIDeviceOrientation from );
 
 #elif TARGET_ANDROID
 
