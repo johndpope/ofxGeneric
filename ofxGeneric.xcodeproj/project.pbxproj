@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3C0AC1511522C34500872B70 /* ofxGenericPlatform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C0AC1501522C34500872B70 /* ofxGenericPlatform.cpp */; };
 		3C17BC04150AA08E00DA1034 /* ofxGenericActivityView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C17BC03150AA08E00DA1034 /* ofxGenericActivityView.cpp */; };
 		3C1E7B441508288D007B6723 /* ofxGenericLaunchView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C1E7B421508288D007B6723 /* ofxGenericLaunchView.cpp */; };
 		3C1E7B451508288D007B6723 /* ofxGenericLaunchView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C1E7B431508288D007B6723 /* ofxGenericLaunchView.h */; };
@@ -67,6 +68,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3C0AC14E1522C2E700872B70 /* ofxGenericPlatform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericPlatform.h; sourceTree = "<group>"; };
+		3C0AC1501522C34500872B70 /* ofxGenericPlatform.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericPlatform.cpp; sourceTree = "<group>"; };
 		3C17BC01150A9F9A00DA1034 /* ofxGenericActivityView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericActivityView.h; sourceTree = "<group>"; };
 		3C17BC03150AA08E00DA1034 /* ofxGenericActivityView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericActivityView.cpp; sourceTree = "<group>"; };
 		3C1E7B421508288D007B6723 /* ofxGenericLaunchView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericLaunchView.cpp; sourceTree = "<group>"; };
@@ -208,6 +211,8 @@
 				3C17BC03150AA08E00DA1034 /* ofxGenericActivityView.cpp */,
 				3C85FC5F151149B7001F5854 /* ofxGenericScrollView.h */,
 				3C85FC6315114B1E001F5854 /* ofxGenericScrollView.cpp */,
+				3C0AC14E1522C2E700872B70 /* ofxGenericPlatform.h */,
+				3C0AC1501522C34500872B70 /* ofxGenericPlatform.cpp */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -385,6 +390,7 @@
 				453C813E15192A39005ED622 /* tinyxmlerror.cpp in Sources */,
 				453C813F15192A39005ED622 /* tinyxmlparser.cpp in Sources */,
 				453C814015192A39005ED622 /* ofxXmlSettings.cpp in Sources */,
+				3C0AC1511522C34500872B70 /* ofxGenericPlatform.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
