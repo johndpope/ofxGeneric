@@ -19,7 +19,7 @@
     // Set 'oldp' parameter to NULL to get the size of the data returned so we can allocate appropriate amount of space
     sysctlbyname( "hw.machine", NULL, &size, NULL, 0 ); 
     
-    char* systemNameBuffer = malloc( size );    
+    char* systemNameBuffer = ( char* )malloc( size );    
     sysctlbyname( "hw.machine", systemNameBuffer, &size, NULL, 0 );
     NSString* systemName = [ NSString stringWithCString:systemNameBuffer encoding: NSUTF8StringEncoding ];
     free( systemNameBuffer );
