@@ -98,7 +98,7 @@ string ofxGenericPlatform::operatingSystemVersion()
 #endif
 }
 
-string ofxGenericPlatform::getUniqueIdentifier()
+string ofxGenericPlatform::uniqueIdentifier()
 {
 #if TARGET_OS_IPHONE
     return ofxNSStringToString( [ [ UIDevice currentDevice ] uniqueIdentifier ] ); // TODO: uniqueIdentifier being deprecated

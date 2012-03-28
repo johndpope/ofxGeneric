@@ -23,7 +23,7 @@ public:
     string operatingSystemName();
     string operatingSystemGroupName();
     string operatingSystemVersion();
-    string getUniqueIdentifier();
+    string uniqueIdentifier();
     ofOrientation orientation();
     float batteryLevel();
     
