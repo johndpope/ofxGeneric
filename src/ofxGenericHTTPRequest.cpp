@@ -65,8 +65,10 @@ void ofxGenericHTTPRequest::init( ofPtrWeak< ofxGenericHTTPRequest > setThis, st
     ofxGLog( OF_LOG_VERBOSE, "HTTPRequest - " + urlWithFormat + " " + method );
 
 #if TARGET_OS_IPHONE
-    // TODO: allow caching and timeout specification
-    _request = [ [ NSMutableURLRequest alloc ] initWithURL:[ NSURL URLWithString:ofxStringToNSString( urlWithFormat ) ] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:timeout ];
+    // TODO: allow caching specification
+    
+    NSString* urlStringEncoded = [ ofxStringToNSString( urlWithFormat ) stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ];
+    _request = [ [ NSMutableURLRequest alloc ] initWithURL:[ NSURL URLWithString:urlStringEncoded ] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:timeout ];
     [ _request setHTTPShouldHandleCookies:YES ];
     [ _request setHTTPMethod:[ NSString stringWithCString:method.c_str() encoding:NSUTF8StringEncoding ] ];
     
