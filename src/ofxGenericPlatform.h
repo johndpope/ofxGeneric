@@ -19,6 +19,7 @@ public:
     bool multitaskingSupported();
     string deviceName();
     string deviceModel();
+    string deviceModelVersion();
     string operatingSystemName();
     string operatingSystemGroupName();
     string operatingSystemVersion();

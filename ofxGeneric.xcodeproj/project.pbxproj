@@ -11,6 +11,8 @@
 		3C17BC04150AA08E00DA1034 /* ofxGenericActivityView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C17BC03150AA08E00DA1034 /* ofxGenericActivityView.cpp */; };
 		3C1E7B441508288D007B6723 /* ofxGenericLaunchView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C1E7B421508288D007B6723 /* ofxGenericLaunchView.cpp */; };
 		3C1E7B451508288D007B6723 /* ofxGenericLaunchView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C1E7B431508288D007B6723 /* ofxGenericLaunchView.h */; };
+		3C55641B1523BC910063AFFC /* UIDevice+Model.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C5564191523BC910063AFFC /* UIDevice+Model.h */; };
+		3C55641C1523BC910063AFFC /* UIDevice+Model.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3C55641A1523BC910063AFFC /* UIDevice+Model.mm */; };
 		3C7B4DDE14FC78A1003121FE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C7B4DDD14FC78A1003121FE /* Foundation.framework */; };
 		3C7B4EB214FC7CBF003121FE /* ofxGenericAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C7B4E8714FC7CBF003121FE /* ofxGenericAppDelegate.h */; };
 		3C7B4EB314FC7CBF003121FE /* ofxGenericAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3C7B4E8814FC7CBF003121FE /* ofxGenericAppDelegate.mm */; };
@@ -74,6 +76,8 @@
 		3C17BC03150AA08E00DA1034 /* ofxGenericActivityView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericActivityView.cpp; sourceTree = "<group>"; };
 		3C1E7B421508288D007B6723 /* ofxGenericLaunchView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericLaunchView.cpp; sourceTree = "<group>"; };
 		3C1E7B431508288D007B6723 /* ofxGenericLaunchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericLaunchView.h; sourceTree = "<group>"; };
+		3C5564191523BC910063AFFC /* UIDevice+Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+Model.h"; sourceTree = "<group>"; };
+		3C55641A1523BC910063AFFC /* UIDevice+Model.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "UIDevice+Model.mm"; sourceTree = "<group>"; };
 		3C7B4DDA14FC78A1003121FE /* libofxGeneric.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libofxGeneric.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C7B4DDD14FC78A1003121FE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3C7B4DED14FC78A1003121FE /* UIKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -220,6 +224,8 @@
 		3C7B4E8614FC7CBF003121FE /* iphone */ = {
 			isa = PBXGroup;
 			children = (
+				3C5564191523BC910063AFFC /* UIDevice+Model.h */,
+				3C55641A1523BC910063AFFC /* UIDevice+Model.mm */,
 				3C7B4E8714FC7CBF003121FE /* ofxGenericAppDelegate.h */,
 				3C7B4E8814FC7CBF003121FE /* ofxGenericAppDelegate.mm */,
 				3C7B4E8914FC7CBF003121FE /* ofxGenericUtility.mm */,
@@ -299,6 +305,7 @@
 				3C85FC60151149B7001F5854 /* ofxGenericScrollView.h in Headers */,
 				453C813D15192A39005ED622 /* tinyxml.h in Headers */,
 				453C814115192A39005ED622 /* ofxXmlSettings.h in Headers */,
+				3C55641B1523BC910063AFFC /* UIDevice+Model.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -391,6 +398,7 @@
 				453C813F15192A39005ED622 /* tinyxmlparser.cpp in Sources */,
 				453C814015192A39005ED622 /* ofxXmlSettings.cpp in Sources */,
 				3C0AC1511522C34500872B70 /* ofxGenericPlatform.cpp in Sources */,
+				3C55641C1523BC910063AFFC /* UIDevice+Model.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

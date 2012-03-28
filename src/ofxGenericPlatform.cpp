@@ -8,6 +8,10 @@
 
 #include "ofxGenericPlatform.h"
 
+#if TARGET_OS_IPHONE
+#include "UIDevice+Model.h"
+#endif
+
 ofxGenericPlatform* ofxGenericPlatform::_instance = NULL;
 
 ofxGenericPlatform::ofxGenericPlatform()
@@ -56,6 +60,13 @@ string ofxGenericPlatform::deviceModel()
 {
 #if TARGET_OS_IPHONE
     return ofxNSStringToString( [ [ UIDevice currentDevice ] model ] );
+#endif
+}
+
+string ofxGenericPlatform::deviceModelVersion()
+{
+#if TARGET_OS_IPHONE
+    return ofxNSStringToString( [ [ UIDevice currentDevice ] modelVersionPretty ] );
 #endif
 }
 
