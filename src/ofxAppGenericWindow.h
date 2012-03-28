@@ -51,6 +51,8 @@ public:
     virtual jobject getJNIInstance();
 #endif
     
+    virtual ofOrientation getOrientation();
+
 protected:
     virtual NativeWindow createNativeWindow();
     NativeWindow _window;

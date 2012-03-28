@@ -12,6 +12,7 @@
 
 #include "ofxGenericApp.h"
 #include "ofxGenericConstants.h"
+#include "ofxGenericPlatform.h"
 
 #if TARGET_ANDROID
 #include "JNIUtility.h"
@@ -145,6 +146,11 @@ void ofxAppGenericWindow::setRootView( ofPtr< ofxGenericView > view )
 
     setRootView.callVoidMethod( setRootView.getClass(), _rootView->getNativeView() );
 #endif
+}
+
+ofOrientation ofxAppGenericWindow::getOrientation()
+{
+    return ofxGenericPlatform::getInstance()->orientation();
 }
 
 #if TARGET_ANDROID
