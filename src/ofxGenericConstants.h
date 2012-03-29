@@ -25,6 +25,16 @@ typedef jobject NativeWindow;
 
 #define ofxGenericModuleName "OF::Generic"
 
+enum ofxGenericTextLinebreakMode
+{
+    ofxGenericTextLinebreakModeWordWrap,
+    ofxGenericTextLinebreakModeCharacterWrap,
+    ofxGenericTextLinebreakModeClip,
+    ofxGenericTextLinebreakModeHeadTruncation,
+    ofxGenericTextLinebreakModeTailTruncation,
+    ofxGenericTextLinebreakModeMiddleTruncation
+};
+
 enum ofxGenericTextHorizontalAlignment
 {
     ofxGenericTextHorizontalAlignmentLeft,

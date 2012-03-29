@@ -61,6 +61,87 @@ void ofxGenericTextView::setTextAlignment( ofxGenericTextHorizontalAlignment ali
 #endif
 }
 
+ofxGenericTextHorizontalAlignment ofxGenericTextView::getTextAlignment()
+{
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[ UILabel class ] ] )
+    {
+        UILabel* labelView = ( UILabel* )_view;
+        return iOSToofxGenericTextHorizontalAlignment( labelView.textAlignment );
+    }
+#endif
+    return ofxGenericTextHorizontalAlignmentLeft;
+}
+
+void ofxGenericTextView::setTextColor ( const ofColor& setColor )
+{
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[ UILabel class ] ] )
+    {
+        UILabel* labelView = ( UILabel* )_view;
+        [ labelView setTextColor:ofColorToUIColor( setColor ) ];
+    }
+#endif
+}
+
+ofColor ofxGenericTextView::getTextColor ()
+{
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[ UILabel class ] ] )
+    {
+        UILabel* labelView = ( UILabel* )_view;
+        return UIColorToofColor( labelView.textColor );
+    }
+#endif
+    return ofColor(0, 0, 0);
+}
+
+void ofxGenericTextView::setLineBreakMode ( ofxGenericTextLinebreakMode mode )
+{
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[ UILabel class ] ] )
+    {
+        UILabel* labelView = ( UILabel* )_view;
+        [ labelView setLineBreakMode: ofxGenericTextLinebreakModeToiOS( mode ) ];
+    }
+#endif
+}
+
+ofxGenericTextLinebreakMode ofxGenericTextView::getLineBreakMode()
+{
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[ UILabel class ] ] )
+    {
+        UILabel* labelView = ( UILabel* )_view;
+        return iOSToofxGenericTextLinebreakMode( labelView.lineBreakMode );
+    }
+#endif
+    return ofxGenericTextLinebreakModeWordWrap;
+}
+
+void ofxGenericTextView::setNumberOfLines ( int n )
+{
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[ UILabel class ] ] )
+    {
+        UILabel* labelView = ( UILabel* )_view;
+        [ labelView setNumberOfLines: n ];
+    }
+#endif
+}
+
+int ofxGenericTextView::getNumberOfLines ()
+{
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[ UILabel class ] ] )
+    {
+        UILabel* labelView = ( UILabel* )_view;
+        return labelView.numberOfLines;
+    }
+#endif
+    return 0;
+}
+
 #if TARGET_OS_IPHONE
 ofxGenericUIViewCastOperator( ofxGenericTextView, UILabel );
 #endif

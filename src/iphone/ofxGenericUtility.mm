@@ -53,6 +53,60 @@ UITextAlignment ofxGenericTextHorizontalAlignmentToiOS( ofxGenericTextHorizontal
     return UITextAlignmentLeft;
 }
 
+ofxGenericTextHorizontalAlignment iOSToofxGenericTextHorizontalAlignment( UITextAlignment from )
+{
+    switch ( from )
+    {
+        case UITextAlignmentLeft:
+            return ofxGenericTextHorizontalAlignmentLeft;
+        case UITextAlignmentCenter:
+            return ofxGenericTextHorizontalAlignmentCenter;
+        case UITextAlignmentRight:
+            return ofxGenericTextHorizontalAlignmentRight;
+    }
+    return ofxGenericTextHorizontalAlignmentLeft;
+}
+
+UILineBreakMode ofxGenericTextLinebreakModeToiOS( ofxGenericTextLinebreakMode from )
+{
+    switch ( from )
+    {
+        case ofxGenericTextLinebreakModeWordWrap:
+            return UILineBreakModeWordWrap;
+        case ofxGenericTextLinebreakModeCharacterWrap:
+            return UILineBreakModeCharacterWrap;
+        case ofxGenericTextLinebreakModeClip:
+            return UILineBreakModeClip;
+        case ofxGenericTextLinebreakModeHeadTruncation:
+            return UILineBreakModeHeadTruncation;
+        case ofxGenericTextLinebreakModeTailTruncation:
+            return UILineBreakModeTailTruncation;
+        case ofxGenericTextLinebreakModeMiddleTruncation:
+            return UILineBreakModeMiddleTruncation;
+    }
+    return UILineBreakModeWordWrap;
+}
+
+ofxGenericTextLinebreakMode iOSToofxGenericTextLinebreakMode( UILineBreakMode from )
+{
+    switch ( from )
+    {
+        case UILineBreakModeWordWrap:
+            return ofxGenericTextLinebreakModeWordWrap;
+        case UILineBreakModeCharacterWrap:
+            return ofxGenericTextLinebreakModeCharacterWrap;
+        case UILineBreakModeClip:
+            return ofxGenericTextLinebreakModeClip;
+        case UILineBreakModeHeadTruncation:
+            return ofxGenericTextLinebreakModeHeadTruncation;
+        case UILineBreakModeTailTruncation:
+            return ofxGenericTextLinebreakModeTailTruncation;
+        case UILineBreakModeMiddleTruncation:
+            return ofxGenericTextLinebreakModeMiddleTruncation;
+    }
+    return ofxGenericTextLinebreakModeWordWrap;
+}
+
 UITableViewCellSeparatorStyle ofxGenericTableViewSeparatorStyleToiOS( ofxGenericTableViewSeparatorStyle from )
 {
     switch ( from )

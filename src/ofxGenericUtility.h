@@ -108,12 +108,15 @@ NSString* pathToBundle( NSString* resourceFileName = nil );
 CGFloat getWindowScale();
 
 UITextAlignment ofxGenericTextHorizontalAlignmentToiOS( ofxGenericTextHorizontalAlignment from );
+ofxGenericTextHorizontalAlignment iOSToofxGenericTextHorizontalAlignment( UITextAlignment from );
 UITableViewCellSeparatorStyle ofxGenericTableViewSeparatorStyleToiOS( ofxGenericTableViewSeparatorStyle from );
 UIReturnKeyType     ofxGenericKeyboardReturnKeyToiOS( ofxGenericKeyboardReturnKey from );
 UIKeyboardType ofxGenericKeyboardTypeToiOS( ofxGenericKeyboardType from );
 UITextAutocapitalizationType ofxGenericTextAutoCapitalizationToiOS( ofxGenericTextAutoCapitalization from );
 UIDeviceOrientation ofOrientationToiOS( ofOrientation from );
 ofOrientation iOSToofOrientation( UIDeviceOrientation from );
+UILineBreakMode ofxGenericTextLinebreakModeToiOS( ofxGenericTextLinebreakMode from );
+ofxGenericTextLinebreakMode iOSToofxGenericTextLinebreakMode( UILineBreakMode from );
 
 #elif TARGET_ANDROID
 

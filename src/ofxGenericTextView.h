@@ -18,7 +18,18 @@ public:
     
     void setText( string newText );
     string getText();
+    
     void setTextAlignment( ofxGenericTextHorizontalAlignment alignment );
+    ofxGenericTextHorizontalAlignment getTextAlignment();
+    
+    void setTextColor ( const ofColor& setColor );
+    ofColor getTextColor ();
+    
+    void setLineBreakMode ( ofxGenericTextLinebreakMode mode );
+    ofxGenericTextLinebreakMode getLineBreakMode();
+    
+    void setNumberOfLines ( int n );
+    int getNumberOfLines ();
 
 #if TARGET_OS_IPHONE
     operator UILabel*();
