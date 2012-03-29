@@ -22,6 +22,8 @@
 @class ofxUIGenericViewController;
 #endif
 
+class ofxGenericViewDelegate;
+
 class ofxGenericView
 #if TARGET_ANDROID
 : public JNIObject
@@ -59,13 +61,13 @@ public:
     
     ofPtrWeak< ofxGenericView > getParent();
     
-    virtual void willLoad() {};
-    virtual void didLoad() {};
+    virtual void willLoad();
+    virtual void didLoad();
     
-    virtual void willAppear() {};
-    virtual void didAppear() {};
-    virtual void willDisappear() {};
-    virtual void didDisappear() {};
+    virtual void willAppear();
+    virtual void didAppear();
+    virtual void willDisappear();
+    virtual void didDisappear();
     
     void setAlpha( float alpha );
     float getAlpha();
@@ -78,6 +80,8 @@ public:
     
     // TEMP HACK:
     void replaceChildrenWith( ofPtr< ofxGenericView > view );
+    
+    virtual void setViewDelegate( ofPtrWeak< ofxGenericViewDelegate > delegate );
     
 protected:        
     ofxGenericView();
@@ -117,6 +121,21 @@ protected:
     std::list< ofPtr< ofxGenericView > > _children;
     ofPtrWeak< ofxGenericView > _parent;
     ofPtr< ofxGenericView > getChildViewofPtr( ofxGenericView* forView );
+    ofPtrWeak < ofxGenericViewDelegate > _viewDelegate;
+};
+
+class ofxGenericViewDelegate
+{
+public:
+    virtual ~ofxGenericViewDelegate() {};
+    
+    virtual void willLoad( ofPtr< ofxGenericView > view ) {};
+    virtual void didLoad( ofPtr< ofxGenericView > view ) {};
+    
+    virtual void willAppear( ofPtr< ofxGenericView > view ) {};
+    virtual void didAppear( ofPtr< ofxGenericView > view ) {};
+    virtual void willDisappear( ofPtr< ofxGenericView > view ) {};
+    virtual void didDisappear( ofPtr< ofxGenericView > view ) {};
 };
 
 #if TARGET_OS_IPHONE

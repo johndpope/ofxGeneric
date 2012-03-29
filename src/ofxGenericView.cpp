@@ -349,6 +349,59 @@ void ofxGenericView::replaceChildrenWith( ofPtr< ofxGenericView > view )
     addChildView( view );
 }
 
+void ofxGenericView::willLoad()
+{
+    if ( _viewDelegate )
+    {
+        _viewDelegate.lock()->willLoad( _this.lock() );
+    }
+};
+
+void ofxGenericView::didLoad()
+{
+    if ( _viewDelegate )
+    {
+        _viewDelegate.lock()->didLoad( _this.lock() );
+    }
+};
+
+void ofxGenericView::willAppear()
+{
+    if ( _viewDelegate )
+    {
+        _viewDelegate.lock()->willAppear( _this.lock() );
+    }
+};
+
+void ofxGenericView::didAppear()
+{
+    if ( _viewDelegate )
+    {
+        _viewDelegate.lock()->didAppear( _this.lock() );
+    }
+};
+
+void ofxGenericView::willDisappear()
+{
+    if ( _viewDelegate )
+    {
+        _viewDelegate.lock()->willDisappear( _this.lock() );
+    }
+};
+
+void ofxGenericView::didDisappear()
+{
+    if ( _viewDelegate )
+    {
+        _viewDelegate.lock()->didDisappear( _this.lock() );
+    }
+};
+
+void ofxGenericView::setViewDelegate( ofPtrWeak< ofxGenericViewDelegate > delegate )
+{
+    _viewDelegate = delegate;
+}
+
 #if TARGET_ANDROID
 void ofxGenericView::registerJNIMethods()
 {
