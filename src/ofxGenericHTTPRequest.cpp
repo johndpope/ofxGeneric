@@ -36,12 +36,24 @@ ofPtr< ofxGenericHTTPRequest > ofxGenericHTTPRequest::create( string url, string
     return create;
 }
 
+ofPtr< ofxGenericHTTPRequest > ofxGenericHTTPRequest::create( string url, string method, string format, string data, float timeout, ofPtr< ofxGenericHTTPRequestDelegate > delegate )
+{
+    ofPtr< ofxGenericHTTPRequest > create = ofPtr< ofxGenericHTTPRequest >( new ofxGenericHTTPRequest() );
+    create->init( create, url, method, format, data, timeout, delegate );
+    return create;
+}
+
 ofxGenericHTTPRequest::ofxGenericHTTPRequest()
 :
 #if TARGET_OS_IPHONE
  _connection( nil ), _forwarder( nil ), _request( nil )
 #endif
 {
+}
+
+void ofxGenericHTTPRequest::init( ofPtrWeak< ofxGenericHTTPRequest > setThis, string url, string method, string format, string data, float timeout, ofPtr< ofxGenericHTTPRequestDelegate > delegate )
+{
+    ofxGenericHTTPRequest::init( setThis, url, method, format, (void*) data.c_str(), data.length(), timeout, delegate );
 }
 
 void ofxGenericHTTPRequest::init( ofPtrWeak< ofxGenericHTTPRequest > setThis, string url, string method, string format, void* data, int dataByteLength, float timeout, ofPtr< ofxGenericHTTPRequestDelegate > delegate )

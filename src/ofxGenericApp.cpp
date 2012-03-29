@@ -169,7 +169,10 @@ void ofxGenericApp::keyboardWillShow( const ofRectangle& keyboardFrame )
 void ofxGenericApp::keyboardWillHide()
 {
     _keyboardIsVisible = false;
-    _moveFromUnderKeyboard->setFrame( _moveFromUnderKeyboardOriginalFrame );
+    if (_moveFromUnderKeyboard)
+    {
+        _moveFromUnderKeyboard->setFrame( _moveFromUnderKeyboardOriginalFrame );
+    }
 }
 
 void ofxGenericApp::setMoveFromUnderKeyboard( ofPtr< ofxGenericView > view )

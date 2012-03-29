@@ -21,6 +21,7 @@ class ofxGenericHTTPRequest
 {
 public:
     static ofPtr< ofxGenericHTTPRequest > create( string url, string method, string format, void* data = 0, int dataByteLength = 0, float timeout = 20.0f, ofPtr< ofxGenericHTTPRequestDelegate > delegate = ofPtr< ofxGenericHTTPRequestDelegate >() );
+    static ofPtr< ofxGenericHTTPRequest > create( string url, string method, string format, string data, float timeout = 20.0f, ofPtr< ofxGenericHTTPRequestDelegate > delegate = ofPtr< ofxGenericHTTPRequestDelegate >() );
     virtual ~ofxGenericHTTPRequest();
     
     virtual void start();
@@ -40,6 +41,7 @@ public:
 protected:
     ofxGenericHTTPRequest();
     virtual void init( ofPtrWeak< ofxGenericHTTPRequest > setThis, string url, string method, string format, void* data = 0, int dataByteLength = 0, float timeout = 20.0f, ofPtr< ofxGenericHTTPRequestDelegate > delegate = ofPtr< ofxGenericHTTPRequestDelegate >() );
+    virtual void init( ofPtrWeak< ofxGenericHTTPRequest > setThis, string url, string method, string format, string data = "", float timeout = 20.0f, ofPtr< ofxGenericHTTPRequestDelegate > delegate = ofPtr< ofxGenericHTTPRequestDelegate >() );
     ofPtrWeak< ofxGenericHTTPRequest > _this;
     
     ofPtr< ofxGenericHTTPRequestDelegate > _delegate;

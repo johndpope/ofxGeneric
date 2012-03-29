@@ -8,8 +8,6 @@
 #include "ofxGenericHTTPResponse.h"
 #include "ofxGenericUtility.h"
 
-#include "ofxXmlSettings.h"
-
 #define MIMEType_xml "application/xml"
 
 #if TARGET_OS_IPHONE
@@ -27,7 +25,7 @@ void ofxGenericHTTPResponse::retainData( NSData* data )
 #endif
 
 ofxGenericHTTPResponse::ofxGenericHTTPResponse()
-: _data( NULL ), _dataByteLength( 0 )
+: _data( NULL ), _dataByteLength( 0 ), _mainElement( NULL )
 #if TARGET_OS_IPHONE
 , _dataSource( nil )
 #endif
@@ -38,6 +36,7 @@ ofxGenericHTTPResponse::ofxGenericHTTPResponse()
 void ofxGenericHTTPResponse::init( ofPtrWeak<ofxGenericHTTPResponse> setThis )
 {
     _this = setThis;
+    _mainElement = findMainElement();
 }
 
 void ofxGenericHTTPResponse::init( ofPtrWeak<ofxGenericHTTPResponse> setThis, string errorDescription, string errorFailureReason , string errorRecoverySuggestions )
@@ -47,6 +46,7 @@ void ofxGenericHTTPResponse::init( ofPtrWeak<ofxGenericHTTPResponse> setThis, st
     _errorDescription = errorDescription;
     _errorFailureReason = errorFailureReason;
     _errorRecoverySuggestions = errorRecoverySuggestions;
+    _mainElement = findMainElement();
     
     ofxGLog( OF_LOG_ERROR, "HTTPResponse - Error: " + _errorDescription + " " + _errorFailureReason + " " + _errorRecoverySuggestions );
 }
@@ -76,6 +76,7 @@ void ofxGenericHTTPResponse::init( ofPtrWeak< ofxGenericHTTPResponse > setThis, 
         }
         _xml->doc.Parse( getDataAsString().c_str(), NULL, encoding );
     }
+    _mainElement = findMainElement();
 }
 
 bool ofxGenericHTTPResponse::isOk()
@@ -146,14 +147,41 @@ ofPtr< ofxXmlSettings >ofxGenericHTTPResponse::getDataAsXML()
 
 string ofxGenericHTTPResponse::getErrorDescription()
 {
-    if ( !_errorDescription.empty() )
+    //this will be set early by HTTP errors, in that case we won't continue
+    if ( _errorDescription.empty() )
     {
-        return _errorDescription;
-    } else if ( _xml && _xml->doc.Error() )
-    {
-        return _xml->doc.ErrorDesc();
+        //if there was an XML parsing error, then report that
+        if ( _xml && _xml->doc.Error() )
+        {
+            _errorDescription = _xml->doc.ErrorDesc();
+        }
+        //otherwise, look through the XML to see if there are any errors within
+        else
+        {
+            TiXmlElement* mainElement = getMainElement();
+            if ( mainElement )
+            {
+                TiXmlElement* errors = mainElement->FirstChildElement( "errors" );
+                
+                if ( errors )
+                {
+                    TiXmlElement* error = errors->FirstChildElement( "error" );
+                    if ( error )
+                    {
+                        _errorDescription = error->GetText();
+                    }
+                }
+            }
+        }
+        
+        //if we still haven't set an error, report an unknown one
+        if ( _errorDescription.empty() )
+        {
+            _errorDescription = string("Unknown Error");
+        }
     }
-    return string();
+    
+    return _errorDescription;
 }
 
 string ofxGenericHTTPResponse::getErrorFailureReason()
@@ -165,3 +193,9 @@ string ofxGenericHTTPResponse::getErrorRecoverySuggestions()
 {
     return _errorRecoverySuggestions;
 }
+
+TiXmlElement* ofxGenericHTTPResponse::getMainElement()
+{
+    return _mainElement;
+}
+

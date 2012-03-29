@@ -12,6 +12,7 @@
 #if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
 #endif
+#include "ofxXmlSettings.h"
 
 class ofxGenericHTTPRequest;
 class ofxXmlSettings;
@@ -67,4 +68,8 @@ protected:
     string _errorRecoverySuggestions;
     
     ofPtr< ofxXmlSettings > _xml;
+    
+    virtual TiXmlElement* findMainElement(){return NULL;};
+    virtual TiXmlElement* getMainElement();
+    TiXmlElement* _mainElement;
 };
