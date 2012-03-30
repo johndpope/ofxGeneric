@@ -142,6 +142,41 @@ int ofxGenericTextView::getNumberOfLines ()
     return 0;
 }
 
+void ofxGenericTextView::setFont ( string name, float size )
+{
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[ UILabel class ] ] )
+    {
+        UILabel* labelView = ( UILabel* )_view;
+        [ labelView setFont: [UIFont fontWithName:[NSString stringWithCString:name.c_str() encoding:NSASCIIStringEncoding] size:size] ];
+    }
+#endif
+}
+
+float ofxGenericTextView::getFontSize()
+{
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[ UILabel class ] ] )
+    {
+        UILabel* labelView = ( UILabel* )_view;
+        return labelView.font.pointSize;
+    }
+#endif
+    return 12.0f;
+}
+
+string ofxGenericTextView::getFontName()
+{
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[ UILabel class ] ] )
+    {
+        UILabel* labelView = ( UILabel* )_view;
+        return [labelView.font.fontName cStringUsingEncoding:NSASCIIStringEncoding];
+    }
+#endif
+    return "Helvetica";
+}
+                                
 #if TARGET_OS_IPHONE
 ofxGenericUIViewCastOperator( ofxGenericTextView, UILabel );
 #endif

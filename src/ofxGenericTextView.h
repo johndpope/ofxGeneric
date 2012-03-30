@@ -30,6 +30,10 @@ public:
     
     void setNumberOfLines ( int n );
     int getNumberOfLines ();
+    
+    void setFont ( string name, float size );
+    float getFontSize();
+    string getFontName();
 
 #if TARGET_OS_IPHONE
     operator UILabel*();
