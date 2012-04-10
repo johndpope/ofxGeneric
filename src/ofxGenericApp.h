@@ -31,8 +31,8 @@ public:
     
     virtual void deviceOrientationDidChange( ofOrientation newOrientation );
     
-    ofPtr< ofxAppGenericWindow > getWindow();
-    ofPtr< ofxGenericView > getRootView();
+    ofPtr< ofxAppGenericWindow > getWindow() const;
+    ofPtr< ofxGenericView > getRootView() const;
     
     bool keyboardIsVisible();
     ofRectangle getKeyboardFrame();

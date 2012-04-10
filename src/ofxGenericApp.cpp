@@ -121,12 +121,12 @@ void ofxGenericApp::deviceOrientationDidChange( ofOrientation newOrientation )
 }
 
 
-ofPtr< ofxAppGenericWindow > ofxGenericApp::getWindow()
+ofPtr< ofxAppGenericWindow > ofxGenericApp::getWindow() const
 {
     return _window;
 }
 
-ofPtr< ofxGenericView > ofxGenericApp::getRootView()
+ofPtr< ofxGenericView > ofxGenericApp::getRootView() const
 {
     if ( _window )
     {
