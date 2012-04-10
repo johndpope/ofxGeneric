@@ -104,6 +104,7 @@ NativeView ofxGenericView::createNativeView( const ofRectangle& setFrame )
     [ newView setBackgroundColor:[ UIColor whiteColor ] ];
     [ newView setOpaque:YES ];
     [ newView setHidden:NO ];
+    [ newView setClipsToBounds:YES ];
 
     return newView;
 
