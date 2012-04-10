@@ -169,6 +169,26 @@ bool ofxGenericButtonView::getEnabled()
     return false;
 }
 
+#if DEBUG
+string ofxGenericButtonView::toString()
+{
+    string result( ofxGenericView::toString() );
+    
+    char buffer[ 1024 ];
+    snprintf( buffer, 1024, "Enabled: %d", getEnabled() );
+    result += buffer;
+    
+#if TARGET_OS_IPHONE
+    snprintf( buffer, 1024, " User Interaction Enabled %d", [ getNativeView() isUserInteractionEnabled ] );
+    result += buffer;
+#else
+#endif
+    
+    return result;
+}
+#endif
+
+
 #if TARGET_OS_IPHONE
 ofxGenericUIViewCastOperator( ofxGenericButtonView, UIButton );
 #elif TARGET_ANDROID

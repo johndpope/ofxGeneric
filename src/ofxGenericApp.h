@@ -43,6 +43,10 @@ public:
 #if TARGET_ANDROID
     static const char* ActivityClassName;
 #endif
+    
+#if DEBUG
+    static string dumpViewGraph();
+#endif
 
 protected:
     ofPtr< ofxAppGenericWindow > _window;

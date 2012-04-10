@@ -180,7 +180,16 @@ void ofxGenericApp::setMoveFromUnderKeyboard( ofPtr< ofxGenericView > view )
     _moveFromUnderKeyboard = view;
 }
 
-
+#if DEBUG
+string ofxGenericApp::dumpViewGraph()
+{
+    if ( ofxGenericApp::getInstance()->getWindow() )
+    {
+        return ofxGenericApp::getInstance()->getWindow()->dumpViewGraph();
+    }
+    return string();
+}
+#endif
 
 
 

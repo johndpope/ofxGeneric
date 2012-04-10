@@ -56,7 +56,11 @@ public:
 
     static void handleOnClick( int nativeID );
 #endif
-    
+
+#if DEBUG
+    virtual string toString();
+#endif
+
 protected:
     ofxGenericButtonView();
     virtual void init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ), ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate = ofPtrWeak< ofxGenericButtonViewTouchDelegate >() );

@@ -83,6 +83,11 @@ public:
     
     virtual void setViewDelegate( ofPtrWeak< ofxGenericViewDelegate > delegate );
     
+#if DEBUG
+    virtual string dumpViewGraph( int depth );
+    virtual string toString();
+#endif
+    
 protected:        
     ofxGenericView();
     virtual void init( ofPtrWeak< ofxGenericView > smartPointer, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 ) );

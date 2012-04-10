@@ -402,6 +402,45 @@ void ofxGenericView::setViewDelegate( ofPtrWeak< ofxGenericViewDelegate > delega
     _viewDelegate = delegate;
 }
 
+#if DEBUG
+string ofxGenericView::dumpViewGraph( int depth )
+{
+    string result;
+    string tab;
+    for( int trav = 0 ; trav < depth; trav ++ )
+        tab += " ";
+    tab += " ";
+    
+    result += tab + toString() + "\n";
+
+    if ( _children.size() )
+    {
+        result += tab + "\\\n";
+
+        for( std::list< ofPtr< ofxGenericView > >::const_iterator travChildren = _children.begin(); travChildren != _children.end(); travChildren++ )
+        {
+            result += ( *travChildren )->dumpViewGraph( depth + 1 );
+        }
+    }
+    
+    return result;
+}
+
+string ofxGenericView::toString()
+{
+    const std::type_info& info = typeid( *this );
+    
+    string result( info.name() );    
+#if TARGET_OS_IPHONE
+    string nativeClassName = ofxNSStringToString( NSStringFromClass ( [ getNativeView() class ] ) ); 
+    result += " native: " + nativeClassName;
+#else
+#endif
+    result += " frame: " + getFrame().toString();
+    return result;
+}
+#endif
+
 #if TARGET_ANDROID
 void ofxGenericView::registerJNIMethods()
 {
