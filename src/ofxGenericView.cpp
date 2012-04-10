@@ -344,12 +344,6 @@ ofPtr< ofxGenericView > ofxGenericView::getNextResponder()
     return _nextResponder.lock();
 }
 
-void ofxGenericView::replaceChildrenWith( ofPtr< ofxGenericView > view )
-{
-    removeChildViews();
-    addChildView( view );
-}
-
 void ofxGenericView::willLoad()
 {
     if ( _viewDelegate )

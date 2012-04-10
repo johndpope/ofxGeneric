@@ -78,9 +78,6 @@ public:
     void setNextResponder( ofPtrWeak< ofxGenericView > view );
     ofPtr< ofxGenericView > getNextResponder();
     
-    // TEMP HACK:
-    void replaceChildrenWith( ofPtr< ofxGenericView > view );
-    
     virtual void setViewDelegate( ofPtrWeak< ofxGenericViewDelegate > delegate );
     
 #if DEBUG
