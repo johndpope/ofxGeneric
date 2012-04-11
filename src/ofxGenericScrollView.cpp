@@ -46,7 +46,7 @@ void ofxGenericScrollView::setContentSize( const ofPoint& contentSize )
 void ofxGenericScrollView::setContentOffset( const ofPoint& contentOffset, bool animated )
 {
 #if TARGET_OS_IPHONE
-    UIScrollView* view = ( UIScrollView* )*this;
+    UIScrollView* view = *this;
     if ( view )
     {
         [ view setContentOffset:CGPointMake( contentOffset.x, contentOffset.y ) animated:( BOOL )animated ];
@@ -54,6 +54,67 @@ void ofxGenericScrollView::setContentOffset( const ofPoint& contentOffset, bool 
 #elif TARGET_ANDROID
 #endif    
 }
+
+void ofxGenericScrollView::setEnabled( bool enabled )
+{
+#if TARGET_OS_IPHONE
+    UIScrollView* view = *this;
+    if ( view )
+    {
+        [ view setScrollEnabled:( BOOL )enabled ];
+    }
+#elif TARGET_ANDROID
+#endif
+}
+
+void ofxGenericScrollView::setDirectionalLockEnabled( bool enabled )
+{
+#if TARGET_OS_IPHONE
+    UIScrollView* view = *this;
+    if ( view )
+    {
+        [ view setDirectionalLockEnabled:( BOOL )enabled ];
+    }
+#elif TARGET_ANDROID
+#endif
+}
+
+void ofxGenericScrollView::setPagingEnabled( bool enabled )
+{
+#if TARGET_OS_IPHONE
+    UIScrollView* view = *this;
+    if ( view )
+    {
+        [ view setPagingEnabled:( BOOL )enabled ];
+    }
+#elif TARGET_ANDROID
+#endif
+}
+
+void ofxGenericScrollView::setShowHorizontalScrollIndicator( bool show )
+{
+#if TARGET_OS_IPHONE
+    UIScrollView* view = *this;
+    if ( view )
+    {
+        [ view setShowsHorizontalScrollIndicator:( BOOL )show ];
+    }
+#elif TARGET_ANDROID
+#endif
+}
+
+void ofxGenericScrollView::setShowVerticalScrollIndicator( bool show )
+{
+#if TARGET_OS_IPHONE
+    UIScrollView* view = *this;
+    if ( view )
+    {
+        [ view setShowsVerticalScrollIndicator:( BOOL )show ];
+    } 
+#elif TARGET_ANDROID
+#endif
+}
+
 
 #if TARGET_OS_IPHONE
 

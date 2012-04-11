@@ -17,6 +17,13 @@ public:
     
     void setContentSize( const ofPoint& contentSize );
     void setContentOffset( const ofPoint& contentOffset, bool animated );
+    void setEnabled( bool enabled );
+    
+    void setDirectionalLockEnabled( bool enabled );
+    void setPagingEnabled( bool enabled );
+    
+    void setShowHorizontalScrollIndicator( bool show );
+    void setShowVerticalScrollIndicator( bool show );
     
 #if TARGET_OS_IPHONE
     operator UIScrollView*();
