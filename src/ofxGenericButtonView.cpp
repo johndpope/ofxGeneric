@@ -175,7 +175,7 @@ string ofxGenericButtonView::toString()
     string result( ofxGenericView::toString() );
     
     char buffer[ 1024 ];
-    snprintf( buffer, 1024, "Enabled: %d", getEnabled() );
+    snprintf( buffer, 1024, " Enabled: %d", getEnabled() );
     result += buffer;
     
 #if TARGET_OS_IPHONE
