@@ -75,6 +75,9 @@ public:
     void setVisible( bool visible );
     bool getVisible();
     
+    void setClipSubviews( bool clip );
+    bool getClipSubviews();
+    
     void setNextResponder( ofPtrWeak< ofxGenericView > view );
     ofPtr< ofxGenericView > getNextResponder();
     

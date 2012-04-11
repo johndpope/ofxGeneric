@@ -334,6 +334,27 @@ bool ofxGenericView::getVisible()
     return false;
 }
 
+void ofxGenericView::setClipSubviews( bool clip )
+{
+#if TARGET_OS_IPHONE
+    if ( _view )
+    {
+        [ _view setClipsToBounds:( BOOL )clip ];
+    }
+#endif
+}
+
+bool ofxGenericView::getClipSubviews()
+{
+#if TARGET_OS_IPHONE
+    if ( _view )
+    {
+        return ( bool )_view.clipsToBounds;
+    }
+#endif    
+    return false;
+}
+
 void ofxGenericView::setNextResponder( ofPtrWeak< ofxGenericView > view )
 {
     _nextResponder = view;
