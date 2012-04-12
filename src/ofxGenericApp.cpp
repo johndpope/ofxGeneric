@@ -60,23 +60,9 @@ void ofxGenericApp::runViaInfiniteLoop( ofPtr< ofxAppGenericWindow > window )
 // TODO: come up with calling scheme, friending doesn't seem to be possible :(
 void ofxGenericApp::finishedLaunching()
 {
-	createRootView();
+    createRootView();
 
     /*
-     //----- DAMIAN
-     // set data path root for ofToDataPath()
-     // path on iPhone will be ~/Applications/{application GUID}/openFrameworks.app/data
-     // get the resource path for the bundle (ie '~/Applications/{application GUID}/openFrameworks.app')
-     NSString *bundle_path_ns = [[NSBundle mainBundle] resourcePath];
-     // convert to UTF8 STL string
-     string path = [bundle_path_ns UTF8String];
-     // append data
-     //path.append( "/data/" ); // ZACH
-     path.append( "/" ); // ZACH
-     ofLog(OF_LOG_VERBOSE, "setting data path root to " + path);
-     ofSetDataPathRoot( path );
-     //-----
-
      iPhoneSetOrientation(OFXIPHONE_ORIENTATION_PORTRAIT);
 
 
@@ -88,9 +74,6 @@ void ofxGenericApp::finishedLaunching()
 	ofNotifyUpdate();
 
      /*
-     // show or hide status bar depending on OF_WINDOW or OF_FULLSCREEN
-     [[UIApplication sharedApplication] setStatusBarHidden:(iPhoneGetOFWindow()->windowMode == OF_FULLSCREEN) animated:YES];
-
      // Listen to did rotate event
 */
 }
@@ -98,7 +81,9 @@ void ofxGenericApp::finishedLaunching()
 void ofxGenericApp::createRootView()
 {
     ofPtr< ofxGenericView > rootView = ofxGenericView::create( _window->getFrame() );
-
+#if TARGET_OS_IPHONE
+    [ rootView->getUIViewController() setWantsFullScreenLayout:YES ];
+#endif
     _window->setRootView( rootView );
 }
 
@@ -178,6 +163,28 @@ void ofxGenericApp::keyboardWillHide()
 void ofxGenericApp::setMoveFromUnderKeyboard( ofPtr< ofxGenericView > view )
 {
     _moveFromUnderKeyboard = view;
+}
+
+bool ofxGenericApp::getStatusBarVisible()
+{
+#if TARGET_OS_IPHONE
+    return ( bool )![ UIApplication sharedApplication ].statusBarHidden;
+#endif
+}
+
+void ofxGenericApp::setStatusBarVisible( bool visible, bool animated )
+{
+#if TARGET_OS_IPHONE
+    UIStatusBarAnimation animation;
+    if ( animated )
+    {
+        animation = UIStatusBarAnimationSlide;       
+    } else 
+    {
+        animation = UIStatusBarAnimationNone;
+    }
+    [ [ UIApplication sharedApplication ] setStatusBarHidden:( BOOL )!visible withAnimation:animation ];
+#endif
 }
 
 #if DEBUG
