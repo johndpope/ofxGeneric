@@ -50,7 +50,7 @@ NativeWindow ofxAppGenericWindow::createNativeWindow()
     return [ [ UIWindow alloc ] initWithFrame:[ [ UIScreen mainScreen ] bounds ] ];
 #elif TARGET_ANDROID
     // TODO: exception handling
-    string signature = JNIEncodeMethodSignature( 0, JNIType_object, ofxGenericView::className ); //"(Lcc/openframeworks/ofxGeneric/View;)V",
+    string signature = JNIEncodeMethodSignature( 0, JNIType_object, ofxGenericView::className );
 
     JNIMethod createWindow(
     		JNIFindClass( ofxGenericApp::ActivityClassName ),
@@ -82,7 +82,7 @@ void ofxAppGenericWindow::runAppViaInfiniteLoop( ofBaseApp* appPtr )
 ofRectangle ofxAppGenericWindow::getFrame()
 {
 #if TARGET_OS_IPHONE
-    return CGRectToofRectangle( [ _window bounds ] );
+    return CGRectToofRectangle( [ _window frame ] );
 #elif TARGET_ANDROID
     // TODO: cache
     string signature = JNIEncodeMethodSignature( 0, JNIType_object, JNIRect::className );

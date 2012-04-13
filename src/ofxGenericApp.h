@@ -39,6 +39,9 @@ public:
     virtual void keyboardWillShow( const ofRectangle& keyboardFrame );    
     virtual void keyboardWillHide();  
     void setMoveFromUnderKeyboard( ofPtr< ofxGenericView > view ); // TODO: make into a list
+    
+    bool getStatusBarVisible();
+    void setStatusBarVisible( bool visible, bool animated );
 
 #if TARGET_ANDROID
     static const char* ActivityClassName;

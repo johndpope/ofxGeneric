@@ -219,6 +219,50 @@ void ofxGenericView::addChildView( ofPtr< ofxGenericView > add )
     }
 }
 
+void ofxGenericView::addChildView( ofPtr< ofxGenericView > add, ofPtr< ofxGenericView > before )
+{
+    if ( add )
+    {
+        if ( before && before->getParent() == _this )
+        {
+            if ( true ) // TODO: only when attached to root
+                add->willAppear();
+
+            std::list< ofPtr< ofxGenericView > >::iterator findIndex = _children.begin();
+            while ( findIndex != _children.end() && ( *findIndex ) != before )
+            {
+                findIndex ++;
+            }
+            // TODO: extra error check
+            _children.insert( findIndex, add );
+            
+            NativeView addNativeView = add->getNativeView();
+            NativeView beforeNativeView = before->getNativeView();
+            if ( addNativeView )
+            {
+#if TARGET_OS_IPHONE
+                [ _view insertSubview:addNativeView belowSubview:beforeNativeView ];
+#elif TARGET_ANDROID
+#endif
+            } else
+            {
+                // TODO:
+            }
+            add->_parent = _this;
+            
+            if ( true )
+                add->didAppear();
+
+        } else 
+        {
+            addChildView( add );
+        }
+    } else
+    {
+        // TODO:
+    }    
+}
+
 void ofxGenericView::removeChildView( ofPtr< ofxGenericView > remove )
 {
     if ( remove )
@@ -416,6 +460,54 @@ void ofxGenericView::didDisappear()
 void ofxGenericView::setViewDelegate( ofPtrWeak< ofxGenericViewDelegate > delegate )
 {
     _viewDelegate = delegate;
+}
+
+void ofxGenericView::beginAnimation( string animationId, void* context )
+{
+#if TARGET_OS_IPHONE
+    [ UIView beginAnimations:ofxStringToNSString( animationId ) context:context ];
+#elif TARGET_ANDROID
+#endif
+}
+
+void ofxGenericView::commitAnimation()
+{
+#if TARGET_OS_IPHONE
+    [ UIView commitAnimations ];
+#elif TARGET_ANDROID
+#endif
+}
+
+void ofxGenericView::setAnimationDuration( double seconds )
+{
+#if TARGET_OS_IPHONE
+    [ UIView setAnimationDuration:( NSTimeInterval )seconds ];
+#elif TARGET_ANDROID
+#endif
+}
+
+void ofxGenericView::setAnimationDelay( double seconds )
+{
+#if TARGET_OS_IPHONE
+    [ UIView setAnimationDelay:( NSTimeInterval )seconds ];
+#elif TARGET_ANDROID
+#endif
+}
+
+void ofxGenericView::setAnimationCurve( ofxGenericViewAnimationCurve curve )
+{
+#if TARGET_OS_IPHONE
+    [ UIView setAnimationCurve:ofxGenericViewAnimationCurveToiOS( curve ) ];
+#elif TARGET_ANDROID
+#endif    
+}
+
+void ofxGenericView::setAnimationTransition( ofxGenericViewAnimationTransition transition, ofPtr< ofxGenericView > forView )
+{
+#if TARGET_OS_IPHONE
+    [ UIView setAnimationTransition:ofxGenericViewAnimationTransitionToiOS( transition ) forView:forView->getNativeView() cache:NO ];
+#elif TARGET_ANDROID
+#endif    
 }
 
 #if DEBUG

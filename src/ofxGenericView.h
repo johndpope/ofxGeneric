@@ -55,6 +55,7 @@ public:
     void setBackgroundColor( const ofColor& setColor );
     
     void addChildView( ofPtr< ofxGenericView > add );
+    void addChildView( ofPtr< ofxGenericView > add, ofPtr< ofxGenericView > before );
     void removeChildView( ofPtr< ofxGenericView > remove );
     void removeFromParent();
     void removeChildViews();
@@ -82,6 +83,24 @@ public:
     ofPtr< ofxGenericView > getNextResponder();
     
     virtual void setViewDelegate( ofPtrWeak< ofxGenericViewDelegate > delegate );
+    
+    static void beginAnimation( string animationId, void* context = 0 );
+    static void commitAnimation();
+    
+//    static void setAnimationDelegate:
+//    + (void)setAnimationDelegate:(id)delegate;                          // default = nil
+//    + (void)setAnimationWillStartSelector:(SEL)selector;                // default = NULL. -animationWillStart:(NSString *)animationID context:(void *)context
+//    + (void)setAnimationDidStopSelector:(SEL)selector;                  // default = NULL. -animationDidStop:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context
+    static void setAnimationDuration( double seconds = 0.2 );
+    static void setAnimationDelay( double seconds = 0.0 );
+    static void setAnimationCurve( ofxGenericViewAnimationCurve curve );
+  
+    static void setAnimationTransition( ofxGenericViewAnimationTransition transition, ofPtr< ofxGenericView > forView );
+//    + (void)setAnimationTransition:(UIViewAnimationTransition)transition forView:(UIView *)view cache:(BOOL)cache;  // current limitation - only one per begin/commit block
+    
+//    + (void)setAnimationsEnabled:(BOOL)enabled;                         // ignore any attribute changes while set.
+//    + (BOOL)areAnimationsEnabled;
+
     
 #if DEBUG
     virtual string dumpViewGraph( int depth );
