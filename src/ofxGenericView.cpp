@@ -219,6 +219,50 @@ void ofxGenericView::addChildView( ofPtr< ofxGenericView > add )
     }
 }
 
+void ofxGenericView::addChildView( ofPtr< ofxGenericView > add, ofPtr< ofxGenericView > before )
+{
+    if ( add )
+    {
+        if ( before && before->getParent() == _this )
+        {
+            if ( true ) // TODO: only when attached to root
+                add->willAppear();
+
+            std::list< ofPtr< ofxGenericView > >::iterator findIndex = _children.begin();
+            while ( findIndex != _children.end() && ( *findIndex ) != before )
+            {
+                findIndex ++;
+            }
+            // TODO: extra error check
+            _children.insert( findIndex, add );
+            
+            NativeView addNativeView = add->getNativeView();
+            NativeView beforeNativeView = before->getNativeView();
+            if ( addNativeView )
+            {
+#if TARGET_OS_IPHONE
+                [ _view insertSubview:addNativeView belowSubview:beforeNativeView ];
+#elif TARGET_ANDROID
+#endif
+            } else
+            {
+                // TODO:
+            }
+            add->_parent = _this;
+            
+            if ( true )
+                add->didAppear();
+
+        } else 
+        {
+            addChildView( add );
+        }
+    } else
+    {
+        // TODO:
+    }    
+}
+
 void ofxGenericView::removeChildView( ofPtr< ofxGenericView > remove )
 {
     if ( remove )

@@ -55,6 +55,7 @@ public:
     void setBackgroundColor( const ofColor& setColor );
     
     void addChildView( ofPtr< ofxGenericView > add );
+    void addChildView( ofPtr< ofxGenericView > add, ofPtr< ofxGenericView > before );
     void removeChildView( ofPtr< ofxGenericView > remove );
     void removeFromParent();
     void removeChildViews();
