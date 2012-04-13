@@ -44,12 +44,27 @@
 		3CB302171506DB5B00A1A91F /* libofxiPhone_iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C7B4EDC14FC7D2E003121FE /* libofxiPhone_iphoneos.a */; };
 		3CF590941506E6EA00963966 /* ofxGenericEditTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CF590931506E6EA00963966 /* ofxGenericEditTextView.h */; };
 		3CF590971506E78E00963966 /* ofxGenericEditTextView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CF590961506E78E00963966 /* ofxGenericEditTextView.cpp */; };
+		45037A491534E6E200ADB7EC /* ofxGenericCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45037A481534E6E100ADB7EC /* ofxGenericCache.cpp */; };
 		453C813C15192A39005ED622 /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 453C813515192A39005ED622 /* tinyxml.cpp */; };
 		453C813D15192A39005ED622 /* tinyxml.h in Headers */ = {isa = PBXBuildFile; fileRef = 453C813615192A39005ED622 /* tinyxml.h */; };
 		453C813E15192A39005ED622 /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 453C813715192A39005ED622 /* tinyxmlerror.cpp */; };
 		453C813F15192A39005ED622 /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 453C813815192A39005ED622 /* tinyxmlparser.cpp */; };
 		453C814015192A39005ED622 /* ofxXmlSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 453C813A15192A39005ED622 /* ofxXmlSettings.cpp */; };
 		453C814115192A39005ED622 /* ofxXmlSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 453C813B15192A39005ED622 /* ofxXmlSettings.h */; };
+		453E461815365E1C00C66514 /* autolink.h in Headers */ = {isa = PBXBuildFile; fileRef = 453E45BA15365E1C00C66514 /* autolink.h */; };
+		453E461915365E1C00C66514 /* config.h in Headers */ = {isa = PBXBuildFile; fileRef = 453E45BB15365E1C00C66514 /* config.h */; };
+		453E461A15365E1C00C66514 /* features.h in Headers */ = {isa = PBXBuildFile; fileRef = 453E45BC15365E1C00C66514 /* features.h */; };
+		453E461B15365E1C00C66514 /* forwards.h in Headers */ = {isa = PBXBuildFile; fileRef = 453E45BD15365E1C00C66514 /* forwards.h */; };
+		453E461C15365E1C00C66514 /* json.h in Headers */ = {isa = PBXBuildFile; fileRef = 453E45BE15365E1C00C66514 /* json.h */; };
+		453E461D15365E1C00C66514 /* reader.h in Headers */ = {isa = PBXBuildFile; fileRef = 453E45BF15365E1C00C66514 /* reader.h */; };
+		453E461E15365E1C00C66514 /* value.h in Headers */ = {isa = PBXBuildFile; fileRef = 453E45C015365E1C00C66514 /* value.h */; };
+		453E461F15365E1C00C66514 /* writer.h in Headers */ = {isa = PBXBuildFile; fileRef = 453E45C115365E1C00C66514 /* writer.h */; };
+		453E462015365E1C00C66514 /* json_batchallocator.h in Headers */ = {isa = PBXBuildFile; fileRef = 453E45C415365E1C00C66514 /* json_batchallocator.h */; };
+		453E462115365E1C00C66514 /* json_reader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 453E45C715365E1C00C66514 /* json_reader.cpp */; };
+		453E462215365E1C00C66514 /* json_value.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 453E45C815365E1C00C66514 /* json_value.cpp */; };
+		453E462315365E1C00C66514 /* json_writer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 453E45CA15365E1C00C66514 /* json_writer.cpp */; };
+		453E463015365E1C00C66514 /* ofxJSONElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 453E460215365E1C00C66514 /* ofxJSONElement.cpp */; };
+		453E463115365E1C00C66514 /* ofxJSONElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 453E460315365E1C00C66514 /* ofxJSONElement.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -121,6 +136,8 @@
 		3CBAC60014FD4EC8002A12C8 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		3CF590931506E6EA00963966 /* ofxGenericEditTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericEditTextView.h; sourceTree = "<group>"; };
 		3CF590961506E78E00963966 /* ofxGenericEditTextView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericEditTextView.cpp; sourceTree = "<group>"; };
+		45037A461534E6D700ADB7EC /* ofxGenericCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericCache.h; sourceTree = "<group>"; };
+		45037A481534E6E100ADB7EC /* ofxGenericCache.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericCache.cpp; sourceTree = "<group>"; };
 		453C813315192A39005ED622 /* install.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = install.xml; sourceTree = "<group>"; };
 		453C813515192A39005ED622 /* tinyxml.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = tinyxml.cpp; sourceTree = "<group>"; };
 		453C813615192A39005ED622 /* tinyxml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tinyxml.h; sourceTree = "<group>"; };
@@ -128,6 +145,25 @@
 		453C813815192A39005ED622 /* tinyxmlparser.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = tinyxmlparser.cpp; sourceTree = "<group>"; };
 		453C813A15192A39005ED622 /* ofxXmlSettings.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxXmlSettings.cpp; sourceTree = "<group>"; };
 		453C813B15192A39005ED622 /* ofxXmlSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxXmlSettings.h; sourceTree = "<group>"; };
+		453E45B615365E1C00C66514 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		453E45BA15365E1C00C66514 /* autolink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = autolink.h; sourceTree = "<group>"; };
+		453E45BB15365E1C00C66514 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
+		453E45BC15365E1C00C66514 /* features.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = features.h; sourceTree = "<group>"; };
+		453E45BD15365E1C00C66514 /* forwards.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = forwards.h; sourceTree = "<group>"; };
+		453E45BE15365E1C00C66514 /* json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = json.h; sourceTree = "<group>"; };
+		453E45BF15365E1C00C66514 /* reader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = reader.h; sourceTree = "<group>"; };
+		453E45C015365E1C00C66514 /* value.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = value.h; sourceTree = "<group>"; };
+		453E45C115365E1C00C66514 /* writer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = writer.h; sourceTree = "<group>"; };
+		453E45C415365E1C00C66514 /* json_batchallocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = json_batchallocator.h; sourceTree = "<group>"; };
+		453E45C515365E1C00C66514 /* json_internalarray.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = json_internalarray.inl; sourceTree = "<group>"; };
+		453E45C615365E1C00C66514 /* json_internalmap.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = json_internalmap.inl; sourceTree = "<group>"; };
+		453E45C715365E1C00C66514 /* json_reader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = json_reader.cpp; sourceTree = "<group>"; };
+		453E45C815365E1C00C66514 /* json_value.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = json_value.cpp; sourceTree = "<group>"; };
+		453E45C915365E1C00C66514 /* json_valueiterator.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = json_valueiterator.inl; sourceTree = "<group>"; };
+		453E45CA15365E1C00C66514 /* json_writer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = json_writer.cpp; sourceTree = "<group>"; };
+		453E460015365E1C00C66514 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		453E460215365E1C00C66514 /* ofxJSONElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxJSONElement.cpp; sourceTree = "<group>"; };
+		453E460315365E1C00C66514 /* ofxJSONElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxJSONElement.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +187,7 @@
 				3C7B4E6E14FC7CBF003121FE /* src */,
 				3C7B4DDC14FC78A1003121FE /* Frameworks */,
 				3C7B4DDB14FC78A1003121FE /* Products */,
+				453E45B415365E1C00C66514 /* libs */,
 			);
 			sourceTree = "<group>";
 		};
@@ -209,7 +246,6 @@
 				3C7B4E9F14FC7CBF003121FE /* ofxGenericView.h */,
 				3CF590931506E6EA00963966 /* ofxGenericEditTextView.h */,
 				3CF590961506E78E00963966 /* ofxGenericEditTextView.cpp */,
-				3C1E7B421508288D007B6723 /* ofxGenericLaunchView.cpp */,
 				3C1E7B431508288D007B6723 /* ofxGenericLaunchView.h */,
 				3C17BC01150A9F9A00DA1034 /* ofxGenericActivityView.h */,
 				3C17BC03150AA08E00DA1034 /* ofxGenericActivityView.cpp */,
@@ -217,6 +253,9 @@
 				3C85FC6315114B1E001F5854 /* ofxGenericScrollView.cpp */,
 				3C0AC14E1522C2E700872B70 /* ofxGenericPlatform.h */,
 				3C0AC1501522C34500872B70 /* ofxGenericPlatform.cpp */,
+				45037A461534E6D700ADB7EC /* ofxGenericCache.h */,
+				45037A481534E6E100ADB7EC /* ofxGenericCache.cpp */,
+				3C1E7B421508288D007B6723 /* ofxGenericLaunchView.cpp */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -280,6 +319,88 @@
 			path = src;
 			sourceTree = "<group>";
 		};
+		453E45B415365E1C00C66514 /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				453E45B515365E1C00C66514 /* ofxJSON */,
+			);
+			path = libs;
+			sourceTree = "<group>";
+		};
+		453E45B515365E1C00C66514 /* ofxJSON */ = {
+			isa = PBXGroup;
+			children = (
+				453E45B615365E1C00C66514 /* .gitignore */,
+				453E45B715365E1C00C66514 /* lib */,
+				453E460015365E1C00C66514 /* README */,
+				453E460115365E1C00C66514 /* src */,
+			);
+			path = ofxJSON;
+			sourceTree = "<group>";
+		};
+		453E45B715365E1C00C66514 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				453E45B815365E1C00C66514 /* include */,
+				453E45C215365E1C00C66514 /* src */,
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
+		453E45B815365E1C00C66514 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				453E45B915365E1C00C66514 /* json */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		453E45B915365E1C00C66514 /* json */ = {
+			isa = PBXGroup;
+			children = (
+				453E45BA15365E1C00C66514 /* autolink.h */,
+				453E45BB15365E1C00C66514 /* config.h */,
+				453E45BC15365E1C00C66514 /* features.h */,
+				453E45BD15365E1C00C66514 /* forwards.h */,
+				453E45BE15365E1C00C66514 /* json.h */,
+				453E45BF15365E1C00C66514 /* reader.h */,
+				453E45C015365E1C00C66514 /* value.h */,
+				453E45C115365E1C00C66514 /* writer.h */,
+			);
+			path = json;
+			sourceTree = "<group>";
+		};
+		453E45C215365E1C00C66514 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				453E45C315365E1C00C66514 /* lib_json */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		453E45C315365E1C00C66514 /* lib_json */ = {
+			isa = PBXGroup;
+			children = (
+				453E45C415365E1C00C66514 /* json_batchallocator.h */,
+				453E45C515365E1C00C66514 /* json_internalarray.inl */,
+				453E45C615365E1C00C66514 /* json_internalmap.inl */,
+				453E45C715365E1C00C66514 /* json_reader.cpp */,
+				453E45C815365E1C00C66514 /* json_value.cpp */,
+				453E45C915365E1C00C66514 /* json_valueiterator.inl */,
+				453E45CA15365E1C00C66514 /* json_writer.cpp */,
+			);
+			path = lib_json;
+			sourceTree = "<group>";
+		};
+		453E460115365E1C00C66514 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				453E460215365E1C00C66514 /* ofxJSONElement.cpp */,
+				453E460315365E1C00C66514 /* ofxJSONElement.h */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -306,6 +427,16 @@
 				453C813D15192A39005ED622 /* tinyxml.h in Headers */,
 				453C814115192A39005ED622 /* ofxXmlSettings.h in Headers */,
 				3C55641B1523BC910063AFFC /* UIDevice+Model.h in Headers */,
+				453E461815365E1C00C66514 /* autolink.h in Headers */,
+				453E461915365E1C00C66514 /* config.h in Headers */,
+				453E461A15365E1C00C66514 /* features.h in Headers */,
+				453E461B15365E1C00C66514 /* forwards.h in Headers */,
+				453E461C15365E1C00C66514 /* json.h in Headers */,
+				453E461D15365E1C00C66514 /* reader.h in Headers */,
+				453E461E15365E1C00C66514 /* value.h in Headers */,
+				453E461F15365E1C00C66514 /* writer.h in Headers */,
+				453E462015365E1C00C66514 /* json_batchallocator.h in Headers */,
+				453E463115365E1C00C66514 /* ofxJSONElement.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,6 +530,11 @@
 				453C814015192A39005ED622 /* ofxXmlSettings.cpp in Sources */,
 				3C0AC1511522C34500872B70 /* ofxGenericPlatform.cpp in Sources */,
 				3C55641C1523BC910063AFFC /* UIDevice+Model.mm in Sources */,
+				45037A491534E6E200ADB7EC /* ofxGenericCache.cpp in Sources */,
+				453E462115365E1C00C66514 /* json_reader.cpp in Sources */,
+				453E462215365E1C00C66514 /* json_value.cpp in Sources */,
+				453E462315365E1C00C66514 /* json_writer.cpp in Sources */,
+				453E463015365E1C00C66514 /* ofxJSONElement.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -434,10 +570,6 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"src/**",
-					"$(OF_CORE_HEADERS)",
-				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				SDKROOT = iphoneos;
 			};
@@ -457,10 +589,6 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"src/**",
-					"$(OF_CORE_HEADERS)",
-				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;

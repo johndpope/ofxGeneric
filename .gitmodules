@@ -1,0 +1,3 @@
+[submodule "libs/ofxJSON"]
+	path = libs/ofxJSON
+	url = git@github.com:lumoslabs/ofxJSON.git

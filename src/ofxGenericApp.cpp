@@ -62,6 +62,18 @@ void ofxGenericApp::finishedLaunching()
 {
 	createRootView();
 
+#ifdef TARGET_ANDROID
+    
+#else
+    NSString *dataPath = [NSString stringWithFormat:@"%@/",[[NSBundle mainBundle] resourcePath]];
+    string dpath = [dataPath UTF8String];
+    ofSetDataPathRoot(dpath);
+    NSString *documentsPath = [NSString stringWithFormat:@"%@/",[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]];
+    string docpath = [documentsPath UTF8String];
+    ofSetDocumentsPathRoot(docpath);
+    ofLogVerbose("Setting data path to: " + dpath + " documents path to: " + docpath);
+#endif
+    
     /*
      //----- DAMIAN
      // set data path root for ofToDataPath()
