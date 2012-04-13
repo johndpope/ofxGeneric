@@ -89,3 +89,20 @@ enum ofxGenericKeyboardType
      ofxGenericKeyboardTypeTwitter, //UIKeyboardTypeTwitter,                // A type optimized for twitter text entry (easy access to @ #)
 #endif
 };
+
+enum ofxGenericViewAnimationCurve
+{
+    ofxViewAnimationCurveEaseInOut, //UIViewAnimationCurveEaseInOut,         // slow at beginning and end
+    ofxViewAnimationCurveEaseIn, //UIViewAnimationCurveEaseIn,            // slow at beginning
+    ofxViewAnimationCurveEaseOut, //UIViewAnimationCurveEaseOut,           // slow at end
+    ofxViewAnimationCurveLinear //UIViewAnimationCurveLinear
+};
+
+enum ofxGenericViewAnimationTransition
+{
+    ofxGenericViewAnimationTransitionNone, //UIViewAnimationTransitionNone,
+    ofxGenericViewAnimationTransitionFlipFromLeft, //UIViewAnimationTransitionFlipFromLeft,
+    ofxGenericViewAnimationTransitionFlipFromRight, //UIViewAnimationTransitionFlipFromRight,
+    ofxGenericViewAnimationTransitionCurlUp, //UIViewAnimationTransitionCurlUp,
+    ofxGenericViewAnimationTransitionCurlDown //UIViewAnimationTransitionCurlDown,
+};

@@ -238,3 +238,37 @@ ofOrientation iOSToofOrientation( UIDeviceOrientation from )
     }
     return OF_ORIENTATION_UNKNOWN;
 }
+
+UIViewAnimationCurve ofxViewAnimationCurveToiOS( ofxGenericViewAnimationCurve from )
+{
+    switch( from )
+    {
+        case ofxViewAnimationCurveEaseInOut:
+            return UIViewAnimationCurveEaseInOut;
+        case ofxViewAnimationCurveEaseIn:
+            return UIViewAnimationCurveEaseIn;
+        case ofxViewAnimationCurveEaseOut:
+            return UIViewAnimationCurveEaseOut;
+        case ofxViewAnimationCurveLinear:
+            return UIViewAnimationCurveLinear;
+    }
+    return UIViewAnimationCurveLinear;
+}
+
+UIViewAnimationTransition ofxGenericViewAnimationTransitionToiOS( ofxGenericViewAnimationTransition from )
+{
+    switch ( from ) 
+    {
+        case ofxGenericViewAnimationTransitionNone:
+            return UIViewAnimationTransitionNone;
+        case ofxGenericViewAnimationTransitionFlipFromLeft:
+            return UIViewAnimationTransitionFlipFromLeft;
+        case ofxGenericViewAnimationTransitionFlipFromRight:
+            return UIViewAnimationTransitionFlipFromRight;
+        case ofxGenericViewAnimationTransitionCurlUp:
+            return UIViewAnimationTransitionCurlUp;
+        case ofxGenericViewAnimationTransitionCurlDown:
+            return UIViewAnimationTransitionCurlDown;
+    }
+    return UIViewAnimationTransitionNone;
+}

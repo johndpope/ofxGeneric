@@ -117,6 +117,8 @@ UIDeviceOrientation ofOrientationToiOS( ofOrientation from );
 ofOrientation iOSToofOrientation( UIDeviceOrientation from );
 UILineBreakMode ofxGenericTextLinebreakModeToiOS( ofxGenericTextLinebreakMode from );
 ofxGenericTextLinebreakMode iOSToofxGenericTextLinebreakMode( UILineBreakMode from );
+UIViewAnimationCurve ofxGenericViewAnimationCurveToiOS( ofxGenericViewAnimationCurve from );
+UIViewAnimationTransition ofxGenericViewAnimationTransitionToiOS( ofxGenericViewAnimationTransition from );
 
 #elif TARGET_ANDROID
 

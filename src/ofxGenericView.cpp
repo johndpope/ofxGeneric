@@ -418,6 +418,54 @@ void ofxGenericView::setViewDelegate( ofPtrWeak< ofxGenericViewDelegate > delega
     _viewDelegate = delegate;
 }
 
+void ofxGenericView::beginAnimation( string animationId, void* context )
+{
+#if TARGET_OS_IPHONE
+    [ UIView beginAnimations:ofxStringToNSString( animationId ) context:context ];
+#elif TARGET_ANDROID
+#endif
+}
+
+void ofxGenericView::commitAnimation()
+{
+#if TARGET_OS_IPHONE
+    [ UIView commitAnimations ];
+#elif TARGET_ANDROID
+#endif
+}
+
+void ofxGenericView::setAnimationDuration( double seconds )
+{
+#if TARGET_OS_IPHONE
+    [ UIView setAnimationDuration:( NSTimeInterval )seconds ];
+#elif TARGET_ANDROID
+#endif
+}
+
+void ofxGenericView::setAnimationDelay( double seconds )
+{
+#if TARGET_OS_IPHONE
+    [ UIView setAnimationDelay:( NSTimeInterval )seconds ];
+#elif TARGET_ANDROID
+#endif
+}
+
+void ofxGenericView::setAnimationCurve( ofxGenericViewAnimationCurve curve )
+{
+#if TARGET_OS_IPHONE
+    [ UIView setAnimationCurve:ofxGenericViewAnimationCurveToiOS( curve ) ];
+#elif TARGET_ANDROID
+#endif    
+}
+
+void ofxGenericView::setAnimationTransition( ofxGenericViewAnimationTransition transition, ofPtr< ofxGenericView > forView )
+{
+#if TARGET_OS_IPHONE
+    [ UIView setAnimationTransition:ofxGenericViewAnimationTransitionToiOS( transition ) forView:forView->getNativeView() cache:NO ];
+#elif TARGET_ANDROID
+#endif    
+}
+
 #if DEBUG
 string ofxGenericView::dumpViewGraph( int depth )
 {
