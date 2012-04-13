@@ -84,11 +84,9 @@ public:
     
     virtual void setViewDelegate( ofPtrWeak< ofxGenericViewDelegate > delegate );
     
-    static void beginAnimation( string animationId, void* context = 0 );
+    static void beginAnimation( string animationId, ofPtr< ofxGenericViewDelegate > delegate = ofPtr< ofxGenericViewDelegate >() );
     static void commitAnimation();
     
-//    static void setAnimationDelegate:
-//    + (void)setAnimationDelegate:(id)delegate;                          // default = nil
 //    + (void)setAnimationWillStartSelector:(SEL)selector;                // default = NULL. -animationWillStart:(NSString *)animationID context:(void *)context
 //    + (void)setAnimationDidStopSelector:(SEL)selector;                  // default = NULL. -animationDidStop:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context
     static void setAnimationDuration( double seconds = 0.2 );
@@ -160,6 +158,9 @@ public:
     virtual void didAppear( ofPtr< ofxGenericView > view ) {};
     virtual void willDisappear( ofPtr< ofxGenericView > view ) {};
     virtual void didDisappear( ofPtr< ofxGenericView > view ) {};
+    
+    virtual void animationWillStart( string animationId ) {};
+    virtual void animationDidStop( string animationId ) {};
 };
 
 #if TARGET_OS_IPHONE

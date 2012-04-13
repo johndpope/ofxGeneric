@@ -8,8 +8,19 @@
 #include "ofxGenericView.h"
 #include "ofxGenericUtility.h"
 
+#if TARGET_OS_IPHONE
 
-#if TARGET_ANDROID
+@interface ofxGenericViewAnimationForwarder : NSObject
+{
+    ofPtr< ofxGenericViewDelegate > _delegate;
+}
+-( id )initWithDelegate:( ofPtr< ofxGenericViewDelegate > )delegate;
+- (void)animationWillStart:( NSString* )animationID finished:( NSNumber* )finished context:( void* )context;
+- (void)animationDidStop:( NSString* )animationID finished:( NSNumber* )finished context:( void* )context;
+
+@end
+
+#elif TARGET_ANDROID
 #include "JNIUtility.h"
 #include "JNIRect.h"
 
@@ -462,10 +473,17 @@ void ofxGenericView::setViewDelegate( ofPtrWeak< ofxGenericViewDelegate > delega
     _viewDelegate = delegate;
 }
 
-void ofxGenericView::beginAnimation( string animationId, void* context )
+void ofxGenericView::beginAnimation( string animationId, ofPtr< ofxGenericViewDelegate > delegate )
 {
 #if TARGET_OS_IPHONE
-    [ UIView beginAnimations:ofxStringToNSString( animationId ) context:context ];
+    [ UIView beginAnimations:ofxStringToNSString( animationId ) context:nil ];
+    if ( delegate )
+    {
+        ofxGenericViewAnimationForwarder* forwarder = [ [ ofxGenericViewAnimationForwarder alloc ] initWithDelegate:delegate ];
+        [ UIView setAnimationDelegate:forwarder ];
+        [ UIView setAnimationWillStartSelector:@selector( animationWillStart:finished:context: ) ];
+        [ UIView setAnimationDidStopSelector:@selector( animationDidStop:finished:context: ) ];
+    }
 #elif TARGET_ANDROID
 #endif
 }
@@ -619,6 +637,7 @@ void ofxGenericView::registerJNIMethods()
 #endif
 
 #if TARGET_OS_IPHONE
+
 @implementation ofxUIGenericViewController
 
 -( id )initWithDelegate:( ofPtrWeak< ofxGenericView > ) delegate;
@@ -637,6 +656,7 @@ void ofxGenericView::registerJNIMethods()
 }
 
 #pragma mark Lifetime Events
+// NOT CALLED WHEN YOU CONSTRUCT YOUR OWN VIEW WHHHYYY
 /*
 -( void )loadView
 {
@@ -710,6 +730,36 @@ void ofxGenericView::registerJNIMethods()
     }
 }
 */
+@end
+
+@implementation ofxGenericViewAnimationForwarder
+
+-( id )initWithDelegate:( ofPtr< ofxGenericViewDelegate > )delegate
+{
+    self = [ super init ];
+    if ( self )
+    {
+        _delegate = delegate;
+    }
+    return self;    
+}
+
+- (void)animationWillStart:( NSString* )animationID finished:( NSNumber* )finished context:( void* )context
+{
+    if ( _delegate )
+    {
+        _delegate->animationWillStart( ofxNSStringToString( animationID ) );
+    }
+}
+
+- (void)animationDidStop:( NSString* )animationID finished:( NSNumber* )finished context:( void* )context
+{
+    if ( _delegate )
+    {
+        _delegate->animationDidStop( ofxNSStringToString( animationID ) );
+    }
+}
+
 @end
 #endif
 
