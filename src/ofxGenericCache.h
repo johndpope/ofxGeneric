@@ -25,7 +25,7 @@ public:
     virtual bool cache(string key, int val);
     virtual bool cache(string key, bool val);
     virtual bool cache(string key, string val);
-
+    
     virtual float loadFloat(string key);
     virtual int loadInt(string key);
     virtual bool loadBool(string key);
@@ -46,4 +46,6 @@ protected:
     void setofxGenericCacheInstanceToThis();
     
     ofxJSONElement _map;
+    
+    //Json::Value resolvePath( );
 };

@@ -65,6 +65,7 @@
 		453E462315365E1C00C66514 /* json_writer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 453E45CA15365E1C00C66514 /* json_writer.cpp */; };
 		453E463015365E1C00C66514 /* ofxJSONElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 453E460215365E1C00C66514 /* ofxJSONElement.cpp */; };
 		453E463115365E1C00C66514 /* ofxJSONElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 453E460315365E1C00C66514 /* ofxJSONElement.h */; };
+		456BACAD153DE6A50097D5D4 /* ofxGenericDate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 456BACAC153DE6A50097D5D4 /* ofxGenericDate.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -164,6 +165,8 @@
 		453E460015365E1C00C66514 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		453E460215365E1C00C66514 /* ofxJSONElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxJSONElement.cpp; sourceTree = "<group>"; };
 		453E460315365E1C00C66514 /* ofxJSONElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxJSONElement.h; sourceTree = "<group>"; };
+		456BACAA153DE6960097D5D4 /* ofxGenericDate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericDate.h; sourceTree = "<group>"; };
+		456BACAC153DE6A50097D5D4 /* ofxGenericDate.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericDate.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -237,6 +240,8 @@
 				3C7B4E9614FC7CBF003121FE /* ofxGenericImageView.h */,
 				3C7B4E9714FC7CBF003121FE /* ofxGenericTableView.cpp */,
 				3C7B4E9814FC7CBF003121FE /* ofxGenericTableView.h */,
+				456BACAC153DE6A50097D5D4 /* ofxGenericDate.cpp */,
+				456BACAA153DE6960097D5D4 /* ofxGenericDate.h */,
 				3C7B4E9914FC7CBF003121FE /* ofxGenericTextView.cpp */,
 				3C7B4E9A14FC7CBF003121FE /* ofxGenericTextView.h */,
 				3C7B4E9B14FC7CBF003121FE /* ofxGenericUI.h */,
@@ -535,6 +540,7 @@
 				453E462215365E1C00C66514 /* json_value.cpp in Sources */,
 				453E462315365E1C00C66514 /* json_writer.cpp in Sources */,
 				453E463015365E1C00C66514 /* ofxJSONElement.cpp in Sources */,
+				456BACAD153DE6A50097D5D4 /* ofxGenericDate.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
