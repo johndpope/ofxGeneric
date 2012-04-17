@@ -54,6 +54,8 @@ public:
     void setEnabled( bool enabled );
     bool getEnabled();
     
+    void setBorderStyle( ofxGenericTextViewBorderStyle borderStyle );
+    
     void setAutoCapitalization( ofxGenericTextAutoCapitalization autoCapitalization );
     
     void setAutoCorrection( bool enabled );

@@ -279,6 +279,17 @@ bool ofxGenericEditTextView::getEnabled()
     return false;
 }
 
+void ofxGenericEditTextView::setBorderStyle( ofxGenericTextViewBorderStyle borderStyle )
+{
+#if TARGET_OS_IPHONE
+    UITextField* textField = ( UITextField* )*this;
+    if ( textField )
+    {
+        [ textField setBorderStyle:ofxGenericTextViewBorderStyleToiOS( borderStyle ) ];
+    }
+#endif    
+}
+
 void ofxGenericEditTextView::setAutoCapitalization(ofxGenericTextAutoCapitalization autoCapitalization )
 {
 #if TARGET_OS_IPHONE

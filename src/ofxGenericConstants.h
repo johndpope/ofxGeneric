@@ -105,7 +105,9 @@ enum ofxGenericViewAnimationTransition
     ofxGenericViewAnimationTransitionFlipFromRight, //UIViewAnimationTransitionFlipFromRight,
     ofxGenericViewAnimationTransitionCurlUp, //UIViewAnimationTransitionCurlUp,
     ofxGenericViewAnimationTransitionCurlDown //UIViewAnimationTransitionCurlDown,
-};enum ofxGenericViewAutoresizing
+};
+
+enum ofxGenericViewAutoresizing
 {
     ofxGenericViewAutoresizingNone = 0, //UIViewAutoresizingNone                 = 0,
     ofxGenericViewAutoresizingLeftMargin     = 1 << 0, //UIViewAutoresizingFlexibleLeftMargin   = 1 << 0,
@@ -114,4 +116,12 @@ enum ofxGenericViewAnimationTransition
     ofxGenericViewAutoresizingTopMargin      = 1 << 3, //UIViewAutoresizingFlexibleTopMargin    = 1 << 3,
     ofxGenericViewAutoresizingFlexibleHeight = 1 << 4, //UIViewAutoresizingFlexibleHeight       = 1 << 4,
     ofxGenericViewAutoresizingBottomMargin   = 1 << 5  //UIViewAutoresizingFlexibleBottomMargin = 1 << 5
+};
+
+enum ofxGenericTextViewBorderStyle
+{
+    ofxGenericTextViewBorderNone, //UITextBorderStyleNone,
+    ofxGenericTextViewBorderLine, //UITextBorderStyleLine,
+    ofxGenericTextViewBorderBezel, //UITextBorderStyleBezel,
+    ofxGenericTextViewBorderRoundedRect //UITextBorderStyleRoundedRect
 };

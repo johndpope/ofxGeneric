@@ -122,6 +122,10 @@ UIViewAnimationTransition ofxGenericViewAnimationTransitionToiOS( ofxGenericView
 
 UIViewAutoresizing ofxGenericViewAutoresizingToiOS( ofxGenericViewAutoresizing from );
 ofxGenericViewAutoresizing iOSToofxGenericViewAutoresizing( UIViewAutoresizing from );
+
+UITextBorderStyle ofxGenericTextViewBorderStyleToiOS( ofxGenericTextViewBorderStyle from );
+ofxGenericTextViewBorderStyle iOSToofxGenericTextViewBorderStyle( UITextBorderStyle from );
+
 #elif TARGET_ANDROID
 
 JNIRect ofRectangleToJNIRect( const ofRectangle& from );
