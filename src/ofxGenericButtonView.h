@@ -56,6 +56,8 @@ public:
 
     static void handleOnClick( int nativeID );
 #endif
+    
+    void setDelegate( ofPtrWeak< ofxGenericButtonViewTouchDelegate > delegate );
 
 #if DEBUG
     virtual string toString();

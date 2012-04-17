@@ -23,6 +23,8 @@ public:
     static ofPtr< ofxGenericEditTextView > create( const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ), ofPtrWeak< ofxGenericEditTextViewDelegate > delegate = ofPtrWeak< ofxGenericEditTextViewDelegate >() );
     virtual ~ofxGenericEditTextView();
     
+    void setDelegate( ofPtrWeak< ofxGenericEditTextViewDelegate > delegate );
+    
     void setText( string newText );
     string getText();
 //    void setTextAlignment( ofxGenericTextHorizontalAlignment alignment );

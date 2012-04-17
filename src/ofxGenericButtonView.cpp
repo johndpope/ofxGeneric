@@ -60,7 +60,7 @@ ofxGenericButtonView::~ofxGenericButtonView()
 void ofxGenericButtonView::init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setFrame, ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate )
 {
     ofxGenericView::init( setThis, setFrame );
-    _touchDelegate = touchDelegate;
+    setDelegate( touchDelegate );
 
 #if TARGET_ANDROID
     int androidViewID = _nativeMap.size();
@@ -167,6 +167,11 @@ bool ofxGenericButtonView::getEnabled()
     }
 #endif 
     return false;
+}
+
+void ofxGenericButtonView::setDelegate( ofPtrWeak< ofxGenericButtonViewTouchDelegate > delegate )
+{
+    _touchDelegate = delegate;
 }
 
 #if DEBUG
