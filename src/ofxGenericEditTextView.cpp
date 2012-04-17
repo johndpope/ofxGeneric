@@ -55,6 +55,7 @@ NativeView ofxGenericEditTextView::createNativeView( const ofRectangle& frame )
     [ newView setDelegate:_forwarder ];
     [ newView setBackgroundColor:[ UIColor whiteColor ] ];
     [ newView setTextColor:[ UIColor blackColor ] ];
+    [ newView setAdjustsFontSizeToFitWidth:YES ];
     return newView;
 #endif
 }
