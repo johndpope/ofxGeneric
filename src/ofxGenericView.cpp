@@ -410,6 +410,16 @@ bool ofxGenericView::getClipSubviews()
     return false;
 }
 
+void ofxGenericView::setAutoresizingMask( int autoresizing )
+{
+#if TARGET_OS_IPHONE
+    if ( _view )
+    {
+        [ _view setAutoresizingMask:ofxGenericViewAutoresizingToiOS( ( ofxGenericViewAutoresizing )autoresizing ) ];
+    }
+#endif
+}
+
 void ofxGenericView::setNextResponder( ofPtrWeak< ofxGenericView > view )
 {
     _nextResponder = view;

@@ -120,6 +120,8 @@ ofxGenericTextLinebreakMode iOSToofxGenericTextLinebreakMode( UILineBreakMode fr
 UIViewAnimationCurve ofxGenericViewAnimationCurveToiOS( ofxGenericViewAnimationCurve from );
 UIViewAnimationTransition ofxGenericViewAnimationTransitionToiOS( ofxGenericViewAnimationTransition from );
 
+UIViewAutoresizing ofxGenericViewAutoresizingToiOS( ofxGenericViewAutoresizing from );
+ofxGenericViewAutoresizing iOSToofxGenericViewAutoresizing( UIViewAutoresizing from );
 #elif TARGET_ANDROID
 
 JNIRect ofRectangleToJNIRect( const ofRectangle& from );

@@ -79,6 +79,8 @@ public:
     void setClipSubviews( bool clip );
     bool getClipSubviews();
     
+    void setAutoresizingMask( int autoresizing );
+    
     void setNextResponder( ofPtrWeak< ofxGenericView > view );
     ofPtr< ofxGenericView > getNextResponder();
     

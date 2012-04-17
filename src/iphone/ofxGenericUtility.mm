@@ -272,3 +272,63 @@ UIViewAnimationTransition ofxGenericViewAnimationTransitionToiOS( ofxGenericView
     }
     return UIViewAnimationTransitionNone;
 }
+
+UIViewAutoresizing ofxGenericViewAutoresizingToiOS( ofxGenericViewAutoresizing from )
+{
+    UIViewAutoresizing to = 0;
+    if ( from & ofxGenericViewAutoresizingLeftMargin )
+    {
+        to |= UIViewAutoresizingFlexibleLeftMargin;
+    }
+    if ( from & ofxGenericViewAutoresizingFlexibleWidth )
+    {
+        to |= UIViewAutoresizingFlexibleWidth;
+    }
+    if ( from & ofxGenericViewAutoresizingRightMargin )
+    {
+        to |= UIViewAutoresizingFlexibleRightMargin;
+    }
+    if ( from & ofxGenericViewAutoresizingTopMargin )
+    {
+        to |= UIViewAutoresizingFlexibleTopMargin;
+    }
+    if ( from & ofxGenericViewAutoresizingFlexibleHeight )
+    {
+        to |= UIViewAutoresizingFlexibleHeight;
+    }
+    if ( from & ofxGenericViewAutoresizingBottomMargin )
+    {
+        to |= UIViewAutoresizingFlexibleBottomMargin;
+    }
+    return to;
+}
+
+ofxGenericViewAutoresizing iOSToofxGenericViewAutoresizing( UIViewAutoresizing from )
+{
+    int to = 0;
+    if ( from & UIViewAutoresizingFlexibleLeftMargin )
+    {
+        to |= ofxGenericViewAutoresizingLeftMargin;
+    }
+    if ( from & UIViewAutoresizingFlexibleWidth )
+    {
+        to |= ofxGenericViewAutoresizingFlexibleWidth;
+    }
+    if ( from & UIViewAutoresizingFlexibleRightMargin )
+    {
+        to |= ofxGenericViewAutoresizingRightMargin;
+    }
+    if ( from & UIViewAutoresizingFlexibleTopMargin )
+    {
+        to |= ofxGenericViewAutoresizingTopMargin;
+    }
+    if ( from & UIViewAutoresizingFlexibleHeight )
+    {
+        to |= ofxGenericViewAutoresizingFlexibleHeight;
+    }
+    if ( from & UIViewAutoresizingFlexibleBottomMargin )
+    {
+        to |= ofxGenericViewAutoresizingBottomMargin;
+    }
+    return ( ofxGenericViewAutoresizing )to;
+}
