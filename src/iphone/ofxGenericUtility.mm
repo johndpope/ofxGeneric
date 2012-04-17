@@ -146,6 +146,33 @@ UIReturnKeyType ofxGenericKeyboardReturnKeyToiOS( ofxGenericKeyboardReturnKey fr
     return UIReturnKeyDefault;
 }
 
+ofxGenericKeyboardReturnKey iOSToofxGenericKeyboardReturnKey( UIReturnKeyType from )
+{
+    switch( from )
+    {
+        case UIReturnKeyDefault:
+            return ofxGenericKeyboardReturnKeyDefault;
+        case UIReturnKeyGo:
+            return ofxGenericKeyboardReturnKeyGo;
+            //    ofxGenericKeyboardReturnKeyGoogle, //UIReturnKeyGoogle,
+            //    ofxGenericKeyboardReturnKeyJoin, UIReturnKeyJoin,
+        case UIReturnKeyNext:
+            return ofxGenericKeyboardReturnKeyNext;
+            //    ofxGenericKeyboardReturnKeyRoute, //UIReturnKeyRoute,
+        case UIReturnKeySearch:
+            return ofxGenericKeyboardReturnKeySearch;
+        case UIReturnKeySend:
+            return ofxGenericKeyboardReturnKeySend;
+            //    ofxGenericKeyboardReturnKeyYahoo, UIReturnKeyYahoo,
+        case UIReturnKeyDone:
+            return ofxGenericKeyboardReturnKeyDone;
+            //ofxGenericKeyboardReturnKeyEmergencyCall //UIReturnKeyEmergencyCall,
+        default:
+            return ofxGenericKeyboardReturnKeyDefault;
+    }
+    return ofxGenericKeyboardReturnKeyDefault;
+}
+
 UIKeyboardType ofxGenericKeyboardTypeToiOS( ofxGenericKeyboardType from )
 {
     switch ( from )
@@ -177,6 +204,37 @@ UIKeyboardType ofxGenericKeyboardTypeToiOS( ofxGenericKeyboardType from )
     }
 }
 
+ofxGenericKeyboardType iOSToofxGenericKeyboardType( UIKeyboardType from )
+{
+    switch ( from )
+    {
+        case UIKeyboardTypeDefault:                // Default type for the current input method.
+            return ofxGenericKeyboardTypeDefault;
+        case UIKeyboardTypeASCIICapable:           // Displays a keyboard which can enter ASCII characters, non-ASCII keyboards remain active
+            return ofxGenericKeyboardTypeASCIICapable;
+        case UIKeyboardTypeNumbersAndPunctuation:  // Numbers and assorted punctuation.
+            return ofxGenericKeyboardTypeNumbersAndPunctuation;
+        case UIKeyboardTypeURL:                    // A type optimized for URL entry (shows . / .com prominently).
+            return ofxGenericKeyboardTypeURL;
+        case UIKeyboardTypeNumberPad:              // A number pad (0-9). Suitable for PIN entry.
+            return ofxGenericKeyboardTypeNumberPad;
+        case UIKeyboardTypePhonePad:               // A phone pad (1-9, *, 0, #, with letters under the numbers).
+            return ofxGenericKeyboardTypePhonePad;
+        case UIKeyboardTypeNamePhonePad:           // A type optimized for entering a person's name or phone number.
+            return ofxGenericKeyboardTypeNamePhonePad;
+        case UIKeyboardTypeEmailAddress:           // A type optimized for multiple email address entry (shows space @ . prominently).
+            return ofxGenericKeyboardTypeEmailAddress;
+#if __IPHONE_4_1 <= __IPHONE_OS_VERSION_MAX_ALLOWED
+        case UIKeyboardTypeDecimalPad:             // A number pad with a decimal point.
+            return ofxGenericKeyboardTypeDecimalPad;
+#endif
+#if __IPHONE_5_0 <= __IPHONE_OS_VERSION_MAX_ALLOWED
+        case UIKeyboardTypeTwitter:                // A type optimized for twitter text entry (easy access to @ #)
+            return ofxGenericKeyboardTypeTwitter;
+#endif
+    }
+}
+
 UITextAutocapitalizationType ofxGenericTextAutoCapitalizationToiOS( ofxGenericTextAutoCapitalization from )
 {
     switch ( from )
@@ -191,6 +249,22 @@ UITextAutocapitalizationType ofxGenericTextAutoCapitalizationToiOS( ofxGenericTe
             return UITextAutocapitalizationTypeAllCharacters;
     }
     return UITextAutocapitalizationTypeNone;
+}
+
+ofxGenericTextAutoCapitalization iOSToofxGenericTextAutoCapitalization( UITextAutocapitalizationType from )
+{
+    switch ( from )
+    {
+        case UITextAutocapitalizationTypeNone:
+            return ofxGenericTextAutoCapitalizationNone;
+        case UITextAutocapitalizationTypeWords:
+            return ofxGenericTextAutoCapitalizationWords;
+        case UITextAutocapitalizationTypeSentences:
+            return ofxGenericTextAutoCapitalizationSentences;
+        case UITextAutocapitalizationTypeAllCharacters:
+            return ofxGenericTextAutoCapitalizationAllCharacters;
+    }
+    return ofxGenericTextAutoCapitalizationNone;
 }
 
 UIDeviceOrientation ofOrientationToiOS( ofOrientation from )
@@ -235,11 +309,13 @@ ofOrientation iOSToofOrientation( UIDeviceOrientation from )
 //            return ofxGenericOrientationFaceUp;
 //        case UIDeviceOrientationFaceDown:
 //            return ofxGenericOrientationFaceDown;
+        default:
+            return OF_ORIENTATION_UNKNOWN;
     }
     return OF_ORIENTATION_UNKNOWN;
 }
 
-UIViewAnimationCurve ofxViewAnimationCurveToiOS( ofxGenericViewAnimationCurve from )
+UIViewAnimationCurve ofxGenericViewAnimationCurveToiOS( ofxGenericViewAnimationCurve from )
 {
     switch( from )
     {
@@ -331,4 +407,36 @@ ofxGenericViewAutoresizing iOSToofxGenericViewAutoresizing( UIViewAutoresizing f
         to |= ofxGenericViewAutoresizingBottomMargin;
     }
     return ( ofxGenericViewAutoresizing )to;
+}
+
+UITextBorderStyle ofxGenericTextViewBorderStyleToiOS( ofxGenericTextViewBorderStyle from )
+{
+    switch ( from )
+    {
+        case ofxGenericTextViewBorderNone:
+            return UITextBorderStyleNone;
+        case ofxGenericTextViewBorderLine:
+            return UITextBorderStyleLine;
+        case ofxGenericTextViewBorderBezel:
+            return UITextBorderStyleBezel;
+        case ofxGenericTextViewBorderRoundedRect:
+            return UITextBorderStyleRoundedRect;
+    }
+    return UITextBorderStyleNone;
+}
+
+ofxGenericTextViewBorderStyle iOSToofxGenericTextViewBorderStyle( UITextBorderStyle from )
+{
+    switch( from )
+    {
+        case UITextBorderStyleNone:
+            return ofxGenericTextViewBorderNone;
+        case UITextBorderStyleLine:
+            return ofxGenericTextViewBorderLine;
+        case UITextBorderStyleBezel:
+            return ofxGenericTextViewBorderBezel;
+        case UITextBorderStyleRoundedRect:
+            return ofxGenericTextViewBorderRoundedRect;
+    }
+    return ofxGenericTextViewBorderNone;
 }

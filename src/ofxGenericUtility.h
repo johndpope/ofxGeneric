@@ -109,14 +109,24 @@ CGFloat getWindowScale();
 
 UITextAlignment ofxGenericTextHorizontalAlignmentToiOS( ofxGenericTextHorizontalAlignment from );
 ofxGenericTextHorizontalAlignment iOSToofxGenericTextHorizontalAlignment( UITextAlignment from );
+
 UITableViewCellSeparatorStyle ofxGenericTableViewSeparatorStyleToiOS( ofxGenericTableViewSeparatorStyle from );
+
 UIReturnKeyType     ofxGenericKeyboardReturnKeyToiOS( ofxGenericKeyboardReturnKey from );
+ofxGenericKeyboardReturnKey iOSToofxGenericKeyboardReturnKey( UIReturnKeyType from );
+
 UIKeyboardType ofxGenericKeyboardTypeToiOS( ofxGenericKeyboardType from );
+ofxGenericKeyboardType iOSToofxGenericKeyboardType( UIKeyboardType from );
+
 UITextAutocapitalizationType ofxGenericTextAutoCapitalizationToiOS( ofxGenericTextAutoCapitalization from );
+ofxGenericTextAutoCapitalization iOSToofxGenericTextAutoCapitalization( UITextAutocapitalizationType from );
+
 UIDeviceOrientation ofOrientationToiOS( ofOrientation from );
 ofOrientation iOSToofOrientation( UIDeviceOrientation from );
+
 UILineBreakMode ofxGenericTextLinebreakModeToiOS( ofxGenericTextLinebreakMode from );
 ofxGenericTextLinebreakMode iOSToofxGenericTextLinebreakMode( UILineBreakMode from );
+
 UIViewAnimationCurve ofxGenericViewAnimationCurveToiOS( ofxGenericViewAnimationCurve from );
 UIViewAnimationTransition ofxGenericViewAnimationTransitionToiOS( ofxGenericViewAnimationTransition from );
 
