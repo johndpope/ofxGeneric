@@ -49,7 +49,7 @@ public:
 #endif
 
     ofRectangle getFrame();
-    void setFrame( const ofRectangle& setFrame );
+    virtual void setFrame( const ofRectangle& setFrame );
     
     ofColor getBackgroundColor();
     void setBackgroundColor( const ofColor& setColor );
