@@ -10,12 +10,23 @@
 #import "ofxGenericApp.h"
 #import "ofMain.h"
 
+@interface ofxGenericAppDelegate ( Private )
+
+-( void )installUncaughtExceptionHandler;
+
+@end
+
+void HandleUncaughtException( NSException *exception );
+void SignalHandler( int signal );
+
 @implementation ofxGenericAppDelegate
 
 @synthesize window = _window;
 
 -( void )applicationDidFinishLaunching:( UIApplication* )application
 {
+    [ self installUncaughtExceptionHandler ];
+
     ofPtr< ofxAppGenericWindow > window = ofxGenericApp::getInstance()->getWindow();
 
     if ( window )
@@ -142,5 +153,91 @@
     [ super dealloc ];
 }
 
+-( void )installUncaughtExceptionHandler
+{
+	NSSetUncaughtExceptionHandler( &HandleUncaughtException );
+    
+    struct sigaction newSignalAction;
+    memset( &newSignalAction, 0, sizeof( newSignalAction ) );
+    newSignalAction.sa_handler = &SignalHandler;
+    sigaction( SIGABRT, &newSignalAction, NULL );
+    sigaction( SIGILL, &newSignalAction, NULL );
+    sigaction( SIGSEGV, &newSignalAction, NULL );//
+    sigaction( SIGFPE, &newSignalAction, NULL );//
+    sigaction( SIGBUS, &newSignalAction, NULL );
+    sigaction( SIGPIPE, &newSignalAction, NULL );//
+}
+
+-( void )handleUncaughtException:( NSException* )exception
+{
+    // TODO: log
+    // TODO: notify us
+    // TODO: notify user
+    
+ /*   NSArray *callStack = [ UncaughtExceptionHandler backtrace ];
+	NSMutableDictionary *userInfo = [ NSMutableDictionary dictionaryWithDictionary:[ exception userInfo ] ];
+	[userInfo setObject:callStack forKey:UncaughtExceptionHandlerAddressesKey ];
+	
+	[ [ [ [ UncaughtExceptionHandler alloc ] init ] autorelease ] performSelectorOnMainThread:@selector(handleException:)
+     withObject:
+     [NSException
+      exceptionWithName:[exception name]
+      reason:[exception reason]
+      userInfo:userInfo]
+     waitUntilDone:YES];*/
+}
+
+-( void )handleSignal:( int )signal
+{
+    // TODO: log
+    // TODO: notify us
+    // TODO: notify user
+
+/*	NSMutableDictionary *userInfo = [ NSMutableDictionary dictionaryWithObject:[ NSNumber numberWithInt:signal ] forKey:UncaughtExceptionHandlerSignalKey];
+    
+	NSArray *callStack = [ UncaughtExceptionHandler backtrace ];
+	[userInfo setObject:callStack forKey:UncaughtExceptionHandlerAddressesKey];
+	
+	[[[[UncaughtExceptionHandler alloc] init] autorelease]
+     performSelectorOnMainThread:@selector(handleException:)
+     withObject:
+     [NSException
+      exceptionWithName:UncaughtExceptionHandlerSignalExceptionName
+      reason:
+      [NSString stringWithFormat:
+       NSLocalizedString(@"Signal %d was raised.", nil),
+       signal]
+      userInfo:
+      [NSDictionary
+       dictionaryWithObject:[NSNumber numberWithInt:signal]
+       forKey:UncaughtExceptionHandlerSignalKey]]
+     waitUntilDone:YES];  */  
+}
+
 @end
 
+void HandleUncaughtException( NSException *exception )
+{
+    id applicationDelegate = [ [ UIApplication sharedApplication ] delegate ];
+    if ( [ applicationDelegate isKindOfClass:[ ofxGenericAppDelegate class ] ] )
+    {
+        ofxGenericAppDelegate* ofxGApplicationDelegate = ( ofxGenericAppDelegate* )applicationDelegate;
+        [ ofxGApplicationDelegate handleUncaughtException:exception ];
+    } else 
+    {
+        ofxGLogFatalError( "Unable to retrieve ofxGenericAppDelegate to handle uncaught exception" );
+    }
+}
+
+void SignalHandler( int signal )
+{
+    id applicationDelegate = [ [ UIApplication sharedApplication ] delegate ];
+    if ( [ applicationDelegate isKindOfClass:[ ofxGenericAppDelegate class ] ] )
+    {
+        ofxGenericAppDelegate* ofxGApplicationDelegate = ( ofxGenericAppDelegate* )applicationDelegate;
+        [ ofxGApplicationDelegate handleSignal:signal ];
+    } else 
+    {
+        ofxGLogFatalError( "Unable to retrieve ofxGenericAppDelegate to handle signal" );
+    }
+}

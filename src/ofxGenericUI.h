@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "ofMain.h"
+#include "ofxGenericMain.h"
 #include "ofxAppGenericWindow.h"
 
 #include "ofAppRunner.h"

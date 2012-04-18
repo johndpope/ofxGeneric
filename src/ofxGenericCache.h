@@ -12,7 +12,7 @@
 
 #pragma once
 
-#include "ofxGenericUtility.h"
+#include "ofxGenericMain.h"
 #include "ofxJSONElement.h"
 
 class ofxGenericCache

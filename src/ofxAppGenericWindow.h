@@ -8,17 +8,15 @@
 
 #pragma once
 
-#include "ofAppBaseWindow.h"
-
-#include "ofBaseApp.h"
-#include "ofxGenericView.h"
-
+#include "ofxGenericMain.h"
 
 #if TARGET_OS_IPHONE
 #include "ofAppiPhoneWindow.h"
 #elif TARGET_ANDROID
-#include "JNIObject.h"
+#include "ofAppBaseWindow.h"
 #endif
+
+#include "ofxGenericView.h"
 
 class ofxAppGenericWindow
 #if TARGET_OS_IPHONE

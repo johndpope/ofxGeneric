@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "ofMain.h"
+#include "ofxGenericMain.h"
 #include "ofxGenericHTTPResponse.h"
 
 class ofxGenericHTTPRequestDelegate;

@@ -1,14 +1,11 @@
 #pragma once
 
+#include "ofxGenericMain.h"
 #include "ofxGenericConstants.h"
-#include "ofMain.h"
-
 #include "ofxGenericUtility.h"
 
 #if TARGET_OS_IPHONE
 #include "ofxGenericAppDelegate.h"
-#elif TARGET_ANDROID
-#include <jni.h>
 #endif
 
 #include "ofxAppGenericWindow.h"

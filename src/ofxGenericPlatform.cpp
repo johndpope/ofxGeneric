@@ -7,6 +7,7 @@
 //
 
 #include "ofxGenericPlatform.h"
+#include "ofxGenericUtility.h"
 
 #if TARGET_OS_IPHONE
 #include "UIDevice+Model.h"
