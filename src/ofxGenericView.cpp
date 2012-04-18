@@ -567,9 +567,9 @@ void ofxGenericView::setAnimationTransition( ofxGenericViewAnimationTransition t
 #endif    
 }
 
-#if DEBUG
 string ofxGenericView::dumpViewGraph( int depth )
 {
+#if defined(DEBUG) || defined(TEST)
     string result;
     string tab;
     for( int trav = 0 ; trav < depth; trav ++ )
@@ -589,10 +589,14 @@ string ofxGenericView::dumpViewGraph( int depth )
     }
     
     return result;
+#else
+    return string();
+#endif
 }
 
 string ofxGenericView::toString()
 {
+#if defined(DEBUG) || defined(TEST)
     const std::type_info& info = typeid( *this );
     
     string result( info.name() );    
@@ -603,8 +607,11 @@ string ofxGenericView::toString()
 #endif
     result += " frame: " + getFrame().toString();
     return result;
-}
+    
+#else
+    return string();
 #endif
+}
 
 #if TARGET_ANDROID
 void ofxGenericView::registerJNIMethods()

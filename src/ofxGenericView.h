@@ -102,10 +102,8 @@ public:
 //    + (BOOL)areAnimationsEnabled;
 
     
-#if DEBUG
     virtual string dumpViewGraph( int depth );
     virtual string toString();
-#endif
     
 protected:        
     ofxGenericView();

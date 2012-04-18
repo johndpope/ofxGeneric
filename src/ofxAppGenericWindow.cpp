@@ -158,17 +158,19 @@ ofOrientation ofxAppGenericWindow::getOrientation()
     return ofxGenericPlatform::orientation();
 }
 
-#if DEBUG
 string ofxAppGenericWindow::dumpViewGraph()
 {
+#if defined(DEBUG) || defined(TEST)
     string result = "Window\n";
     if ( _rootView )
     {
         result += _rootView->dumpViewGraph( 1 );
     }
     return result;
-}
+#else
+    return string();
 #endif
+}
 
 #if TARGET_ANDROID
 jclass ofxAppGenericWindow::getJNIClassStatic()

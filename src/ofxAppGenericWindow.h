@@ -53,9 +53,7 @@ public:
     
     virtual ofOrientation getOrientation();
 
-#if DEBUG
     string dumpViewGraph();
-#endif
     
 protected:
     virtual NativeWindow createNativeWindow();
