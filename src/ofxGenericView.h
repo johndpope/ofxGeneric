@@ -142,10 +142,15 @@ protected:
     
     ofPtrWeak< ofxGenericView > _nextResponder;
 
+    void setIsAttachedToRoot( bool attached );
+    bool _isAttachedToRoot;
+
     std::list< ofPtr< ofxGenericView > > _children;
     ofPtrWeak< ofxGenericView > _parent;
     ofPtr< ofxGenericView > getChildViewofPtr( ofxGenericView* forView );
     ofPtrWeak < ofxGenericViewDelegate > _viewDelegate;
+    
+    friend class ofxAppGenericWindow;
 };
 
 class ofxGenericViewDelegate
