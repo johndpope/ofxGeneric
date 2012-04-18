@@ -11,6 +11,7 @@
 
 #if TARGET_OS_IPHONE
 #include "UIDevice+Model.h"
+#include "OpenUDID.h"
 #endif
 
 bool ofxGenericPlatform::multitaskingSupported()
@@ -72,7 +73,7 @@ string ofxGenericPlatform::operatingSystemVersion()
 string ofxGenericPlatform::uniqueIdentifier()
 {
 #if TARGET_OS_IPHONE
-    return ofxNSStringToString( [ [ UIDevice currentDevice ] uniqueIdentifier ] ); // TODO: uniqueIdentifier being deprecated
+    return ofxNSStringToString( [ OpenUDID value ] );
     //https://github.com/gekitz/UIDevice-with-UniqueIdentifier-for-iOS-5
 #endif
 }

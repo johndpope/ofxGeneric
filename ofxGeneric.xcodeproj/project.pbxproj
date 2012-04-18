@@ -11,6 +11,8 @@
 		3C17BC04150AA08E00DA1034 /* ofxGenericActivityView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C17BC03150AA08E00DA1034 /* ofxGenericActivityView.cpp */; };
 		3C1E7B441508288D007B6723 /* ofxGenericLaunchView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C1E7B421508288D007B6723 /* ofxGenericLaunchView.cpp */; };
 		3C1E7B451508288D007B6723 /* ofxGenericLaunchView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C1E7B431508288D007B6723 /* ofxGenericLaunchView.h */; };
+		3C5336E0153F6A420046AFD8 /* OpenUDID.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C5336DD153F6A420046AFD8 /* OpenUDID.h */; };
+		3C5336E1153F6A420046AFD8 /* OpenUDID.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C5336DE153F6A420046AFD8 /* OpenUDID.m */; };
 		3C55641B1523BC910063AFFC /* UIDevice+Model.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C5564191523BC910063AFFC /* UIDevice+Model.h */; };
 		3C55641C1523BC910063AFFC /* UIDevice+Model.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3C55641A1523BC910063AFFC /* UIDevice+Model.mm */; };
 		3C7B4DDE14FC78A1003121FE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C7B4DDD14FC78A1003121FE /* Foundation.framework */; };
@@ -94,6 +96,9 @@
 		3C1E7B421508288D007B6723 /* ofxGenericLaunchView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericLaunchView.cpp; sourceTree = "<group>"; };
 		3C1E7B431508288D007B6723 /* ofxGenericLaunchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericLaunchView.h; sourceTree = "<group>"; };
 		3C5336DA153F64A10046AFD8 /* ofxGenericMain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericMain.h; sourceTree = "<group>"; };
+		3C5336DD153F6A420046AFD8 /* OpenUDID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenUDID.h; sourceTree = "<group>"; };
+		3C5336DE153F6A420046AFD8 /* OpenUDID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenUDID.m; sourceTree = "<group>"; };
+		3C5336DF153F6A420046AFD8 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		3C5564191523BC910063AFFC /* UIDevice+Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+Model.h"; sourceTree = "<group>"; };
 		3C55641A1523BC910063AFFC /* UIDevice+Model.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "UIDevice+Model.mm"; sourceTree = "<group>"; };
 		3C7B4DDA14FC78A1003121FE /* libofxGeneric.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libofxGeneric.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -186,6 +191,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3C5336DC153F6A420046AFD8 /* OpenUDID */ = {
+			isa = PBXGroup;
+			children = (
+				3C5336DD153F6A420046AFD8 /* OpenUDID.h */,
+				3C5336DE153F6A420046AFD8 /* OpenUDID.m */,
+				3C5336DF153F6A420046AFD8 /* README.md */,
+			);
+			path = OpenUDID;
+			sourceTree = "<group>";
+		};
 		3C7B4DCF14FC78A0003121FE = {
 			isa = PBXGroup;
 			children = (
@@ -334,6 +349,7 @@
 		453E45B415365E1C00C66514 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				3C5336DC153F6A420046AFD8 /* OpenUDID */,
 				453E45B515365E1C00C66514 /* ofxJSON */,
 			);
 			path = libs;
@@ -449,6 +465,7 @@
 				453E461F15365E1C00C66514 /* writer.h in Headers */,
 				453E462015365E1C00C66514 /* json_batchallocator.h in Headers */,
 				453E463115365E1C00C66514 /* ofxJSONElement.h in Headers */,
+				3C5336E0153F6A420046AFD8 /* OpenUDID.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -549,6 +566,7 @@
 				453E463015365E1C00C66514 /* ofxJSONElement.cpp in Sources */,
 				456BACAD153DE6A50097D5D4 /* ofxGenericDate.cpp in Sources */,
 				3CA59B33153F4312008EE095 /* ofxGenericException.cpp in Sources */,
+				3C5336E1153F6A420046AFD8 /* OpenUDID.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
