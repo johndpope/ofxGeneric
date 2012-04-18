@@ -42,7 +42,7 @@ ofxGenericView::ofxGenericView()
 #elif TARGET_ANDROID
  _view( NULL ), 
 #endif
-_children()
+_isAttachedToRoot( false ), _children()
 {
 }
 
@@ -200,8 +200,10 @@ void ofxGenericView::addChildView( ofPtr< ofxGenericView > add )
 {
     if ( add )
     {
-        if ( true ) // TODO: only when attached to root
+        if ( _isAttachedToRoot )
+        {
             add->willAppear();
+        }
         
         _children.push_back( add );
         NativeView nativeView = add->getNativeView();
@@ -222,8 +224,11 @@ void ofxGenericView::addChildView( ofPtr< ofxGenericView > add )
         }
         add->_parent = _this;
         
-        if ( true )
+        if ( _isAttachedToRoot )
+        {
+            add->setIsAttachedToRoot( true );
             add->didAppear();
+        }
     } else
     {
         // TODO:
@@ -236,8 +241,10 @@ void ofxGenericView::addChildView( ofPtr< ofxGenericView > add, ofPtr< ofxGeneri
     {
         if ( before && before->getParent() == _this )
         {
-            if ( true ) // TODO: only when attached to root
+            if ( _isAttachedToRoot )
+            {
                 add->willAppear();
+            }
 
             std::list< ofPtr< ofxGenericView > >::iterator findIndex = _children.begin();
             while ( findIndex != _children.end() && ( *findIndex ) != before )
@@ -261,9 +268,11 @@ void ofxGenericView::addChildView( ofPtr< ofxGenericView > add, ofPtr< ofxGeneri
             }
             add->_parent = _this;
             
-            if ( true )
+            if ( _isAttachedToRoot )
+            {
+                add->setIsAttachedToRoot( true );
                 add->didAppear();
-
+            }
         } else 
         {
             addChildView( add );
@@ -276,12 +285,14 @@ void ofxGenericView::addChildView( ofPtr< ofxGenericView > add, ofPtr< ofxGeneri
 
 void ofxGenericView::removeChildView( ofPtr< ofxGenericView > remove )
 {
-    if ( remove )
+    if ( remove && _this && remove->_parent == _this )
     {
 		if ( *( remove->_parent.lock() ) == *( _this.lock() ) )
 		{
-            if ( true )
+            if ( _isAttachedToRoot )
+            {
                 remove->willDisappear();
+            }
             
             NativeView nativeView = remove->getNativeView();
 			if ( nativeView )
@@ -302,8 +313,11 @@ void ofxGenericView::removeChildView( ofPtr< ofxGenericView > remove )
 			_children.remove( remove );
 			remove->_parent = ofPtrWeak< ofxGenericView >();
             
-            if ( true )
+            if ( _isAttachedToRoot )
+            {
+                remove->setIsAttachedToRoot( false );
                 remove->didDisappear();
+            }
         } else
         {
             // TODO:
@@ -314,18 +328,9 @@ void ofxGenericView::removeChildView( ofPtr< ofxGenericView > remove )
     }
 }
 
-ofPtr< ofxGenericView > ofxGenericView::getChildViewofPtr( ofxGenericView* forView )
+void ofxGenericView::setIsAttachedToRoot( bool attached )
 {
-    for(
-        std::list< ofPtr< ofxGenericView > >::iterator trav = _children.begin();
-        trav != _children.end();
-        trav ++
-        )
-    {
-        if ( &**trav == forView )
-            return *trav;
-    }
-    return ofPtr< ofxGenericView >();
+    _isAttachedToRoot = attached;
 }
 
 void ofxGenericView::removeFromParent()
@@ -452,13 +457,25 @@ void ofxGenericView::willAppear()
     {
         _viewDelegate.lock()->willAppear( _this.lock() );
     }
+    
+    for( std::list< ofPtr< ofxGenericView > >::iterator travChildren = _children.begin(); travChildren != _children.end(); travChildren ++ )
+    {
+        ( *travChildren )->willAppear();
+    }
 };
 
 void ofxGenericView::didAppear()
 {
+    setIsAttachedToRoot( true );
+    
     if ( _viewDelegate )
     {
         _viewDelegate.lock()->didAppear( _this.lock() );
+    }
+    
+    for( std::list< ofPtr< ofxGenericView > >::iterator travChildren = _children.begin(); travChildren != _children.end(); travChildren ++ )
+    {
+        ( *travChildren )->didAppear();
     }
 };
 
@@ -468,13 +485,25 @@ void ofxGenericView::willDisappear()
     {
         _viewDelegate.lock()->willDisappear( _this.lock() );
     }
+
+    for( std::list< ofPtr< ofxGenericView > >::iterator travChildren = _children.begin(); travChildren != _children.end(); travChildren ++ )
+    {
+        ( *travChildren )->willDisappear();
+    }
 };
 
 void ofxGenericView::didDisappear()
 {
+    setIsAttachedToRoot( false );
+    
     if ( _viewDelegate )
     {
         _viewDelegate.lock()->didDisappear( _this.lock() );
+    }
+
+    for( std::list< ofPtr< ofxGenericView > >::iterator travChildren = _children.begin(); travChildren != _children.end(); travChildren ++ )
+    {
+        ( *travChildren )->didDisappear();
     }
 };
 
