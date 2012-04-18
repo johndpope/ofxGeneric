@@ -13,12 +13,12 @@
 		3C1E7B451508288D007B6723 /* ofxGenericLaunchView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C1E7B431508288D007B6723 /* ofxGenericLaunchView.h */; };
 		3C5336E0153F6A420046AFD8 /* OpenUDID.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C5336DD153F6A420046AFD8 /* OpenUDID.h */; };
 		3C5336E1153F6A420046AFD8 /* OpenUDID.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C5336DE153F6A420046AFD8 /* OpenUDID.m */; };
-		3C55641B1523BC910063AFFC /* UIDevice+Model.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C5564191523BC910063AFFC /* UIDevice+Model.h */; };
-		3C55641C1523BC910063AFFC /* UIDevice+Model.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3C55641A1523BC910063AFFC /* UIDevice+Model.mm */; };
+		3C5336E7153F6ED60046AFD8 /* ofxGenericAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C5336E2153F6ED60046AFD8 /* ofxGenericAppDelegate.h */; };
+		3C5336E8153F6ED60046AFD8 /* ofxGenericAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3C5336E3153F6ED60046AFD8 /* ofxGenericAppDelegate.mm */; };
+		3C5336E9153F6ED60046AFD8 /* ofxGenericUtility.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3C5336E4153F6ED60046AFD8 /* ofxGenericUtility.mm */; };
+		3C5336EA153F6ED60046AFD8 /* UIDevice+Model.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C5336E5153F6ED60046AFD8 /* UIDevice+Model.h */; };
+		3C5336EB153F6ED60046AFD8 /* UIDevice+Model.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3C5336E6153F6ED60046AFD8 /* UIDevice+Model.mm */; };
 		3C7B4DDE14FC78A1003121FE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C7B4DDD14FC78A1003121FE /* Foundation.framework */; };
-		3C7B4EB214FC7CBF003121FE /* ofxGenericAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C7B4E8714FC7CBF003121FE /* ofxGenericAppDelegate.h */; };
-		3C7B4EB314FC7CBF003121FE /* ofxGenericAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3C7B4E8814FC7CBF003121FE /* ofxGenericAppDelegate.mm */; };
-		3C7B4EB414FC7CBF003121FE /* ofxGenericUtility.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3C7B4E8914FC7CBF003121FE /* ofxGenericUtility.mm */; };
 		3C7B4EB514FC7CBF003121FE /* ofxAppGenericWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C7B4E8A14FC7CBF003121FE /* ofxAppGenericWindow.cpp */; };
 		3C7B4EB614FC7CBF003121FE /* ofxAppGenericWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C7B4E8B14FC7CBF003121FE /* ofxAppGenericWindow.h */; };
 		3C7B4EB714FC7CBF003121FE /* ofxGenericApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C7B4E8C14FC7CBF003121FE /* ofxGenericApp.cpp */; };
@@ -99,15 +99,15 @@
 		3C5336DD153F6A420046AFD8 /* OpenUDID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenUDID.h; sourceTree = "<group>"; };
 		3C5336DE153F6A420046AFD8 /* OpenUDID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenUDID.m; sourceTree = "<group>"; };
 		3C5336DF153F6A420046AFD8 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		3C5564191523BC910063AFFC /* UIDevice+Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+Model.h"; sourceTree = "<group>"; };
-		3C55641A1523BC910063AFFC /* UIDevice+Model.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "UIDevice+Model.mm"; sourceTree = "<group>"; };
+		3C5336E2153F6ED60046AFD8 /* ofxGenericAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericAppDelegate.h; sourceTree = "<group>"; };
+		3C5336E3153F6ED60046AFD8 /* ofxGenericAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxGenericAppDelegate.mm; sourceTree = "<group>"; };
+		3C5336E4153F6ED60046AFD8 /* ofxGenericUtility.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxGenericUtility.mm; sourceTree = "<group>"; };
+		3C5336E5153F6ED60046AFD8 /* UIDevice+Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+Model.h"; sourceTree = "<group>"; };
+		3C5336E6153F6ED60046AFD8 /* UIDevice+Model.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "UIDevice+Model.mm"; sourceTree = "<group>"; };
 		3C7B4DDA14FC78A1003121FE /* libofxGeneric.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libofxGeneric.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C7B4DDD14FC78A1003121FE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3C7B4DED14FC78A1003121FE /* UIKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3C7B4E6714FC7C56003121FE /* Project.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Project.xcconfig; sourceTree = "<group>"; };
-		3C7B4E8714FC7CBF003121FE /* ofxGenericAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericAppDelegate.h; sourceTree = "<group>"; };
-		3C7B4E8814FC7CBF003121FE /* ofxGenericAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxGenericAppDelegate.mm; sourceTree = "<group>"; };
-		3C7B4E8914FC7CBF003121FE /* ofxGenericUtility.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxGenericUtility.mm; sourceTree = "<group>"; };
 		3C7B4E8A14FC7CBF003121FE /* ofxAppGenericWindow.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxAppGenericWindow.cpp; sourceTree = "<group>"; };
 		3C7B4E8B14FC7CBF003121FE /* ofxAppGenericWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxAppGenericWindow.h; sourceTree = "<group>"; };
 		3C7B4E8C14FC7CBF003121FE /* ofxGenericApp.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericApp.cpp; sourceTree = "<group>"; };
@@ -243,7 +243,7 @@
 		3C7B4E6E14FC7CBF003121FE /* src */ = {
 			isa = PBXGroup;
 			children = (
-				3C7B4E8614FC7CBF003121FE /* iphone */,
+				3C7B4E8614FC7CBF003121FE /* iOS */,
 				3C7B4E8A14FC7CBF003121FE /* ofxAppGenericWindow.cpp */,
 				3C7B4E8B14FC7CBF003121FE /* ofxAppGenericWindow.h */,
 				3C7B4E8C14FC7CBF003121FE /* ofxGenericApp.cpp */,
@@ -287,16 +287,16 @@
 			path = src;
 			sourceTree = "<group>";
 		};
-		3C7B4E8614FC7CBF003121FE /* iphone */ = {
+		3C7B4E8614FC7CBF003121FE /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				3C5564191523BC910063AFFC /* UIDevice+Model.h */,
-				3C55641A1523BC910063AFFC /* UIDevice+Model.mm */,
-				3C7B4E8714FC7CBF003121FE /* ofxGenericAppDelegate.h */,
-				3C7B4E8814FC7CBF003121FE /* ofxGenericAppDelegate.mm */,
-				3C7B4E8914FC7CBF003121FE /* ofxGenericUtility.mm */,
+				3C5336E2153F6ED60046AFD8 /* ofxGenericAppDelegate.h */,
+				3C5336E3153F6ED60046AFD8 /* ofxGenericAppDelegate.mm */,
+				3C5336E4153F6ED60046AFD8 /* ofxGenericUtility.mm */,
+				3C5336E5153F6ED60046AFD8 /* UIDevice+Model.h */,
+				3C5336E6153F6ED60046AFD8 /* UIDevice+Model.mm */,
 			);
-			path = iphone;
+			path = iOS;
 			sourceTree = "<group>";
 		};
 		3C7B4ED514FC7D2E003121FE /* Products */ = {
@@ -436,7 +436,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3C7B4EB214FC7CBF003121FE /* ofxGenericAppDelegate.h in Headers */,
 				3C7B4EB614FC7CBF003121FE /* ofxAppGenericWindow.h in Headers */,
 				3C7B4EB814FC7CBF003121FE /* ofxGenericApp.h in Headers */,
 				3C7B4EBA14FC7CBF003121FE /* ofxGenericButtonView.h in Headers */,
@@ -454,7 +453,6 @@
 				3C85FC60151149B7001F5854 /* ofxGenericScrollView.h in Headers */,
 				453C813D15192A39005ED622 /* tinyxml.h in Headers */,
 				453C814115192A39005ED622 /* ofxXmlSettings.h in Headers */,
-				3C55641B1523BC910063AFFC /* UIDevice+Model.h in Headers */,
 				453E461815365E1C00C66514 /* autolink.h in Headers */,
 				453E461915365E1C00C66514 /* config.h in Headers */,
 				453E461A15365E1C00C66514 /* features.h in Headers */,
@@ -466,6 +464,8 @@
 				453E462015365E1C00C66514 /* json_batchallocator.h in Headers */,
 				453E463115365E1C00C66514 /* ofxJSONElement.h in Headers */,
 				3C5336E0153F6A420046AFD8 /* OpenUDID.h in Headers */,
+				3C5336E7153F6ED60046AFD8 /* ofxGenericAppDelegate.h in Headers */,
+				3C5336EA153F6ED60046AFD8 /* UIDevice+Model.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -537,8 +537,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3C7B4EB314FC7CBF003121FE /* ofxGenericAppDelegate.mm in Sources */,
-				3C7B4EB414FC7CBF003121FE /* ofxGenericUtility.mm in Sources */,
 				3C7B4EB514FC7CBF003121FE /* ofxAppGenericWindow.cpp in Sources */,
 				3C7B4EB714FC7CBF003121FE /* ofxGenericApp.cpp in Sources */,
 				3C7B4EB914FC7CBF003121FE /* ofxGenericButtonView.cpp in Sources */,
@@ -558,7 +556,6 @@
 				453C813F15192A39005ED622 /* tinyxmlparser.cpp in Sources */,
 				453C814015192A39005ED622 /* ofxXmlSettings.cpp in Sources */,
 				3C0AC1511522C34500872B70 /* ofxGenericPlatform.cpp in Sources */,
-				3C55641C1523BC910063AFFC /* UIDevice+Model.mm in Sources */,
 				45037A491534E6E200ADB7EC /* ofxGenericCache.cpp in Sources */,
 				453E462115365E1C00C66514 /* json_reader.cpp in Sources */,
 				453E462215365E1C00C66514 /* json_value.cpp in Sources */,
@@ -567,6 +564,9 @@
 				456BACAD153DE6A50097D5D4 /* ofxGenericDate.cpp in Sources */,
 				3CA59B33153F4312008EE095 /* ofxGenericException.cpp in Sources */,
 				3C5336E1153F6A420046AFD8 /* OpenUDID.m in Sources */,
+				3C5336E8153F6ED60046AFD8 /* ofxGenericAppDelegate.mm in Sources */,
+				3C5336E9153F6ED60046AFD8 /* ofxGenericUtility.mm in Sources */,
+				3C5336EB153F6ED60046AFD8 /* UIDevice+Model.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
