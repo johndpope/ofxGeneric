@@ -199,16 +199,16 @@ void ofxGenericApp::setStatusBarVisible( bool visible, bool animated )
 #endif
 }
 
-#if DEBUG
 string ofxGenericApp::dumpViewGraph()
 {
+#if defined(DEBUG) || defined(TEST)
     if ( ofxGenericApp::getInstance()->getWindow() )
     {
         return ofxGenericApp::getInstance()->getWindow()->dumpViewGraph();
     }
+#endif
     return string();
 }
-#endif
 
 
 
