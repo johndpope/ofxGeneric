@@ -8,21 +8,15 @@
 
 #pragma once
 
-#include "ofMain.h"
+#include "ofxGenericMain.h"
 #include "ofxGenericConstants.h"
-#if TARGET_ANDROID
-#include "JNIObject.h"
-#endif
 
 #include <list>
 
+class ofxGenericViewDelegate;
 #if TARGET_OS_IPHONE
-#import <UIKit/UIKit.h>
-
 @class ofxUIGenericViewController;
 #endif
-
-class ofxGenericViewDelegate;
 
 class ofxGenericView
 #if TARGET_ANDROID

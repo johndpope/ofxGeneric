@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include "ofMain.h"
+#include "ofxGenericMain.h"
 
 #if TARGET_OS_IPHONE
 #import <Foundation/Foundation.h>

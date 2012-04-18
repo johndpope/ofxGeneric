@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "ofMain.h"
+#include "ofxGenericMain.h"
 
 #include <exception>
 #if TARGET_OS_IPHONE

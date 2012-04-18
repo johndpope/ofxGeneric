@@ -8,16 +8,14 @@
 
 #pragma once
 
-#include "ofMain.h"
+#include "ofxGenericMain.h"
 
 #if TARGET_OS_IPHONE
-#import <UIKit/UIKit.h>
 typedef UIView* NativeView;
 typedef UIWindow* NativeWindow;
 #else //if TARGET_ANDROID // FIXME: ARG ECLIPSE WHY DO YOU HATE ME PARSEEEEEEEE DAAAMN YOU
 #define TARGET_ANDROID 1
 // WTFFFFFFF
-#include <jni.h>
 typedef jobject NativeView;
 typedef jobject NativeWindow;
 

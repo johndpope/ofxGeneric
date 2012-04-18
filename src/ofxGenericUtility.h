@@ -8,10 +8,9 @@
 
 #pragma once
 
-#include "ofMain.h"
+#include "ofxGenericMain.h"
 
 #if TARGET_OS_IPHONE
-#import <UIKit/UIKit.h>
 #import "ofxiPhoneExtras.h"
 #elif TARGET_ANDROID
 #include "JNIRect.h"

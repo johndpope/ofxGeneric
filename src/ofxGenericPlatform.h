@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "ofxGenericUtility.h"
+#include "ofxGenericMain.h"
 
 class ofxGenericPlatform
 {
