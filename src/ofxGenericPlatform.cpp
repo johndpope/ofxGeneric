@@ -12,36 +12,6 @@
 #include "UIDevice+Model.h"
 #endif
 
-ofxGenericPlatform* ofxGenericPlatform::_instance = NULL;
-
-ofxGenericPlatform::ofxGenericPlatform()
-{
-}
-
-ofxGenericPlatform::~ofxGenericPlatform()
-{
-}
-
-ofxGenericPlatform* ofxGenericPlatform::getInstance()
-{
-    if ( ofxGenericPlatform::_instance == NULL )
-    {
-        ( new ofxGenericPlatform() )->setofxGenericPlatformInstanceToThis();
-    }
-    return ofxGenericPlatform::_instance;
-}
-
-void ofxGenericPlatform::setofxGenericPlatformInstanceToThis()
-{
-    if ( ofxGenericPlatform::_instance == NULL )
-    {
-        ofxGenericPlatform::_instance = this;
-    } else
-    {
-        // TODO: exception
-    }
-}
-
 bool ofxGenericPlatform::multitaskingSupported()
 {
 #if TARGET_OS_IPHONE

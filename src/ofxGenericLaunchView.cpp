@@ -36,7 +36,7 @@ void ofxGenericLaunchView::didLoad()
 #ifdef UI_USER_INTERFACE_IDIOM
     if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
     {
-        ofOrientation orientation = ofxGenericPlatform::getInstance()->orientation();
+        ofOrientation orientation = ofxGenericPlatform::orientation();
         if ( orientation == OF_ORIENTATION_90_LEFT || orientation == OF_ORIENTATION_90_RIGHT )
         {
             setImage( "Default-Landscape~ipad.png" );        

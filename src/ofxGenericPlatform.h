@@ -13,22 +13,14 @@
 class ofxGenericPlatform
 {
 public:
-    virtual ~ofxGenericPlatform();
-    static ofxGenericPlatform* getInstance();
-    
-    bool multitaskingSupported();
-    string deviceName();
-    string deviceModel();
-    string deviceModelVersion();
-    string operatingSystemName();
-    string operatingSystemGroupName();
-    string operatingSystemVersion();
-    string uniqueIdentifier();
-    ofOrientation orientation();
-    float batteryLevel();
-    
-protected:
-    ofxGenericPlatform();
-    static ofxGenericPlatform* _instance;
-    void setofxGenericPlatformInstanceToThis();
+    static bool multitaskingSupported();
+    static string deviceName();
+    static string deviceModel();
+    static string deviceModelVersion();
+    static string operatingSystemName();
+    static string operatingSystemGroupName();
+    static string operatingSystemVersion();
+    static string uniqueIdentifier();
+    static ofOrientation orientation();
+    static float batteryLevel();
 };

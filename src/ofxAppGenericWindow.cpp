@@ -150,7 +150,7 @@ void ofxAppGenericWindow::setRootView( ofPtr< ofxGenericView > view )
 
 ofOrientation ofxAppGenericWindow::getOrientation()
 {
-    return ofxGenericPlatform::getInstance()->orientation();
+    return ofxGenericPlatform::orientation();
 }
 
 #if DEBUG
