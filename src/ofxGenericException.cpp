@@ -9,6 +9,11 @@
 #include "ofxGenericException.h"
 #include "ofxGenericUtility.h"
 
+ofxGenericException::ofxGenericException( std::exception translate ) throw()
+{
+    _what = translate.what();
+}
+
 #if TARGET_OS_IPHONE
 ofxGenericException::ofxGenericException( NSException* translate ) throw()
 {
