@@ -9,6 +9,11 @@
 #include "ofxGenericException.h"
 #include "ofxGenericUtility.h"
 
+ofxGenericException::ofxGenericException( string what ) throw()
+: _what( what )
+{    
+}
+
 ofxGenericException::ofxGenericException( std::exception translate ) throw()
 {
     _what = translate.what();

@@ -18,6 +18,7 @@
 class ofxGenericException : public std::exception
 {
 public:
+    ofxGenericException( string what ) throw();
     ofxGenericException( std::exception translate ) throw();
 #if TARGET_OS_IPHONE
     ofxGenericException( NSException* translate ) throw();
