@@ -45,6 +45,7 @@
 		3C85FC6415114B1E001F5854 /* ofxGenericScrollView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C85FC6315114B1E001F5854 /* ofxGenericScrollView.cpp */; };
 		3CA59B33153F4312008EE095 /* ofxGenericException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CA59B32153F4311008EE095 /* ofxGenericException.cpp */; };
 		3CB302171506DB5B00A1A91F /* libofxiPhone_iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C7B4EDC14FC7D2E003121FE /* libofxiPhone_iphoneos.a */; };
+		3CD855A8153FA58400152CA4 /* ofxGenericAlertView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CD855A7153FA58400152CA4 /* ofxGenericAlertView.cpp */; };
 		3CF590941506E6EA00963966 /* ofxGenericEditTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CF590931506E6EA00963966 /* ofxGenericEditTextView.h */; };
 		3CF590971506E78E00963966 /* ofxGenericEditTextView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CF590961506E78E00963966 /* ofxGenericEditTextView.cpp */; };
 		45037A491534E6E200ADB7EC /* ofxGenericCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45037A481534E6E100ADB7EC /* ofxGenericCache.cpp */; };
@@ -144,6 +145,8 @@
 		3CBAC5FC14FD4E73002A12C8 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		3CBAC5FE14FD4EA7002A12C8 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		3CBAC60014FD4EC8002A12C8 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		3CD855A5153FA56400152CA4 /* ofxGenericAlertView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericAlertView.h; sourceTree = "<group>"; };
+		3CD855A7153FA58400152CA4 /* ofxGenericAlertView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericAlertView.cpp; sourceTree = "<group>"; };
 		3CF590931506E6EA00963966 /* ofxGenericEditTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericEditTextView.h; sourceTree = "<group>"; };
 		3CF590961506E78E00963966 /* ofxGenericEditTextView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericEditTextView.cpp; sourceTree = "<group>"; };
 		45037A461534E6D700ADB7EC /* ofxGenericCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericCache.h; sourceTree = "<group>"; };
@@ -283,6 +286,8 @@
 				3CA59B30153F40E7008EE095 /* ofxGenericException.h */,
 				3CA59B32153F4311008EE095 /* ofxGenericException.cpp */,
 				3C5336DA153F64A10046AFD8 /* ofxGenericMain.h */,
+				3CD855A5153FA56400152CA4 /* ofxGenericAlertView.h */,
+				3CD855A7153FA58400152CA4 /* ofxGenericAlertView.cpp */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -567,6 +572,7 @@
 				3C5336E8153F6ED60046AFD8 /* ofxGenericAppDelegate.mm in Sources */,
 				3C5336E9153F6ED60046AFD8 /* ofxGenericUtility.mm in Sources */,
 				3C5336EB153F6ED60046AFD8 /* UIDevice+Model.mm in Sources */,
+				3CD855A8153FA58400152CA4 /* ofxGenericAlertView.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
