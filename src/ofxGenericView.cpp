@@ -12,9 +12,9 @@
 
 @interface ofxGenericViewAnimationForwarder : NSObject
 {
-    ofPtr< ofxGenericViewDelegate > _delegate;
+    ofPtrWeak< ofxGenericViewDelegate > _delegate;
 }
--( id )initWithDelegate:( ofPtr< ofxGenericViewDelegate > )delegate;
+-( id )initWithDelegate:( ofPtrWeak< ofxGenericViewDelegate > )delegate;
 - (void)animationWillStart:( NSString* )animationID finished:( NSNumber* )finished context:( void* )context;
 - (void)animationDidStop:( NSString* )animationID finished:( NSNumber* )finished context:( void* )context;
 
@@ -780,7 +780,7 @@ void ofxGenericView::registerJNIMethods()
 
 @implementation ofxGenericViewAnimationForwarder
 
--( id )initWithDelegate:( ofPtr< ofxGenericViewDelegate > )delegate
+-( id )initWithDelegate:( ofPtrWeak< ofxGenericViewDelegate > )delegate
 {
     self = [ super init ];
     if ( self )
@@ -794,7 +794,7 @@ void ofxGenericView::registerJNIMethods()
 {
     if ( _delegate )
     {
-        _delegate->animationWillStart( ofxNSStringToString( animationID ) );
+        _delegate.lock()->animationWillStart( ofxNSStringToString( animationID ) );
     }
 }
 
@@ -802,7 +802,7 @@ void ofxGenericView::registerJNIMethods()
 {
     if ( _delegate )
     {
-        _delegate->animationDidStop( ofxNSStringToString( animationID ) );
+        _delegate.lock()->animationDidStop( ofxNSStringToString( animationID ) );
     }
 }
 
