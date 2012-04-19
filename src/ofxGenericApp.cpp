@@ -13,6 +13,8 @@
 #import "ofxGenericAppDelegate.h"
 #endif
 
+#include "ofxGenericException.h"
+
 #if TARGET_ANDROID
 #include "JNIObject.h"
 #endif
@@ -28,33 +30,59 @@ ofxGenericApp::ofxGenericApp()
 
 ofxGenericApp::~ofxGenericApp()
 {
-    ofxGenericApp::_instance = NULL;
 }
 
-singletonInheretableSourceBase( ofxGenericApp );
+ofPtr< ofxGenericApp > ofxGenericApp::_this;
+
+ofPtr< ofxGenericApp > ofxGenericApp::getInstance()
+{
+    if ( !ofxGenericApp::_this )
+    {
+        ( new ofxGenericApp() )->setofxGenericAppInstanceToThis();
+    }
+    return ofxGenericApp::_this;
+}
+
+void ofxGenericApp::setofxGenericAppInstanceToThis()
+{
+    if ( !ofxGenericApp::_this )
+    {
+        ofxGenericApp::_this = ofPtr< ofxGenericApp >( this );
+    }
+}
 
 void ofxGenericApp::runViaInfiniteLoop( ofPtr< ofxAppGenericWindow > window )
 {
-	ofLog( ofxGenericModuleName, OF_LOG_VERBOSE, "App loop starting..." );
-    // TODO: strong references
-    _window = window;
+    try
+    {
+            
+        ofLog( ofxGenericModuleName, OF_LOG_VERBOSE, "App loop starting..." );
+        // TODO: strong references
+        _window = window;
 
-#if TARGET_OS_IPHONE
-    NSString* delegateClassName = NSStringFromClass( [ ofxGenericAppDelegate class ] );
-    UIApplicationMain( nil, nil, nil, delegateClassName );
-#elif TARGET_ANDROID
-/*    JNIMethod setWindow(
-    		JNIFindClass(ofxGenericApp::ActivityClassName ),
-    		true,
-    		"setWindow",
-    		JNIEncodeMethodSignature( 1, JNIType_void, JNIType_object, ofxGenericView::className ), //"(Lcc/openframeworks/ofxGeneric/View;)V",
-    		true
-    		);
+    #if TARGET_OS_IPHONE
+        NSString* delegateClassName = NSStringFromClass( [ ofxGenericAppDelegate class ] );
+        UIApplicationMain( nil, nil, nil, delegateClassName );
+        
+    #elif TARGET_ANDROID
+    /*    JNIMethod setWindow(
+                JNIFindClass(ofxGenericApp::ActivityClassName ),
+                true,
+                "setWindow",
+                JNIEncodeMethodSignature( 1, JNIType_void, JNIType_object, ofxGenericView::className ), //"(Lcc/openframeworks/ofxGeneric/View;)V",
+                true
+                );
 
-    JNICallStaticVoidMethod( setWindow.getClass(), setWindow.getID(), _window->getNativeWindow() );
-*/
-    finishedLaunching();
-#endif
+        JNICallStaticVoidMethod( setWindow.getClass(), setWindow.getID(), _window->getNativeWindow() );
+    */
+        finishedLaunching();
+        
+    #endif
+        
+    } catch( exception uncaught )
+    {
+        handleUncaughtException( ofxGenericException( uncaught ) );
+    }
 }
 
 // TODO: come up with calling scheme, friending doesn't seem to be possible :(
@@ -197,6 +225,51 @@ void ofxGenericApp::setStatusBarVisible( bool visible, bool animated )
     }
     [ [ UIApplication sharedApplication ] setStatusBarHidden:( BOOL )!visible withAnimation:animation ];
 #endif
+}
+
+void ofxGenericApp::handleUncaughtException( ofxGenericException exception )
+{
+}
+
+void ofxGenericApp::handleSignal( int signal )
+{
+}
+
+void ofxGenericApp::showFatalErrorAndQuit( string title, string message )
+{
+    ofPtr< ofxGenericAlertView > fatalErrorAlert = ofxGenericAlertView::create( title, message, dynamic_pointer_cast< ofxGenericAlertViewDelegate >( _this ) );
+    fatalErrorAlert->show();
+    
+#if TARGET_OS_IPHONE
+    CFRunLoopRef runLoop = CFRunLoopGetCurrent();
+	CFArrayRef allModes = CFRunLoopCopyAllModes(runLoop);
+    
+    _fatalErrorDismissed = false;
+    while ( !_fatalErrorDismissed )
+	{
+		for ( NSString* mode in ( NSArray* )allModes)
+		{
+			CFRunLoopRunInMode( ( CFStringRef )mode, 0.001, false );
+		}
+	}
+	
+	CFRelease( allModes );
+#endif
+}
+
+void ofxGenericApp::fatalErrorDismissed()
+{
+    _fatalErrorDismissed = true;
+}
+
+void ofxGenericApp::alertView_clickedButtonAtIndex( int buttonIndex )
+{
+    fatalErrorDismissed();
+}
+
+void ofxGenericApp::alertView_cancelled()
+{
+    fatalErrorDismissed();
 }
 
 string ofxGenericApp::dumpViewGraph()
