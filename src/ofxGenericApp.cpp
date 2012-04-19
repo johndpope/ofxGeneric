@@ -48,6 +48,9 @@ void ofxGenericApp::setofxGenericAppInstanceToThis()
     if ( !ofxGenericApp::_this )
     {
         ofxGenericApp::_this = ofPtr< ofxGenericApp >( this );
+    } else
+    {
+        throw ofxGenericExceptionSubclassedSingletonInitializedTwice( "ofxGenericApp" );        
     }
 }
 
@@ -282,6 +285,4 @@ string ofxGenericApp::dumpViewGraph()
 #endif
     return string();
 }
-
-
 

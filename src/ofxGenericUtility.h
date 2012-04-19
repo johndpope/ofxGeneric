@@ -18,6 +18,8 @@
 
 #include "ofxGenericConstants.h"
 
+#include "ofxGenericException.h"
+
 // memory macros
 #define deleteSafe( cPlusPlusObject ) \
     if ( cPlusPlusObject ) \
@@ -48,57 +50,6 @@
     [ objectCViewController release ]; \
     objectCViewController = nil;
 #endif
-
-// singleton model macros
-
-#define singletonInheretableHeader( className ) \
-public: \
-    virtual ~className(); \
-    static className* getInstance(); \
-\
-protected: \
-    className(); \
-    static className* _instance; \
-    void set ## className ## InstanceToThis();
-
-#define singletonInheretableSource( className ) \
-className* className::_instance = NULL; \
-\
-className* className::getInstance() \
-{ \
-    if ( className::_instance == NULL ) \
-    { \
-        ( new className() )->set ## className ## InstanceToThis(); \
-    } \
-    return className::_instance; \
-}
-
-#define singletonInheretableSourceBase( className ) \
-singletonInheretableSource( className ); \
-\
-void className::set ## className ## InstanceToThis() \
-{ \
-    if ( className::_instance == NULL ) \
-    { \
-        className::_instance = this; \
-    } else \
-    { \
-    } \
-}
-
-#define singletonInheretableSourceInhereted( className, superClassName ) \
-singletonInheretableSource( className ); \
-\
-void className::set ## className ## InstanceToThis() \
-{ \
-    if ( className::_instance == NULL ) \
-    { \
-        className::_instance = this; \
-        className::_instance->set ## superClassName ## InstanceToThis(); \
-    } else \
-    { \
-    } \
-}
 
 #if TARGET_OS_IPHONE
 // iOS utilities
@@ -152,3 +103,9 @@ void ofxGLogNotice( const string & message );
 void ofxGLogVerbose( const string & message );
 void ofxGLogWarning( const string & message );
 void ofxGLog( ofLogLevel level, const char* format, ... );
+
+class ofxGenericExceptionSubclassedSingletonInitializedTwice : public ofxGenericException
+{
+public:
+    ofxGenericExceptionSubclassedSingletonInitializedTwice( string className ) throw();
+};

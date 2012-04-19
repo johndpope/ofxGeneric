@@ -40,3 +40,9 @@ void ofxGLog( ofLogLevel level, const char* format, ... )
 	va_end( args );
 	ofLog( ofxGenericModuleName, level, message );
 }
+
+ofxGenericExceptionSubclassedSingletonInitializedTwice::ofxGenericExceptionSubclassedSingletonInitializedTwice( string className ) throw()
+: ofxGenericException( "" )
+{
+   _what = "Subclassed singleton " + className + " initialization was called twice"; 
+}
