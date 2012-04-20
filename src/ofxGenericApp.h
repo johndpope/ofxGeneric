@@ -43,6 +43,8 @@ public:
     
     bool getStatusBarVisible();
     void setStatusBarVisible( bool visible, bool animated );
+    
+    virtual void setup();
 
 #if TARGET_ANDROID
     static const char* ActivityClassName;

@@ -19,6 +19,9 @@
 #include "JNIObject.h"
 #endif
 
+#include <math.h>
+#include <time.h>
+
 #if TARGET_ANDROID
 const char* ofxGenericApp::ActivityClassName = "cc/openframeworks/ofxGeneric/Activity";
 #endif
@@ -283,5 +286,9 @@ string ofxGenericApp::dumpViewGraph()
     return string();
 }
 
-
+void ofxGenericApp::setup()
+{
+    ofBaseApp::setup();
+    srand(time(NULL));
+}
 
