@@ -115,6 +115,31 @@ void ofxGenericScrollView::setShowVerticalScrollIndicator( bool show )
 #endif
 }
 
+void ofxGenericScrollView::scrollRectToVisible( const ofRectangle& rect, bool animated )
+{
+#if TARGET_OS_IPHONE
+    UIScrollView* view = *this;
+    if ( view )
+    {
+        [ view scrollRectToVisible:CGRectMake(rect.x, rect.y, rect.width, rect.height) animated:(animated ? YES : NO) ];
+    } 
+#elif TARGET_ANDROID
+#endif
+}
+
+ofPoint ofxGenericScrollView::getContentSize()
+{
+#if TARGET_OS_IPHONE
+    UIScrollView* view = *this;
+    if ( view )
+    {
+        CGSize s = view.contentSize;
+        return ofPoint( s.width, s.height );
+    } 
+#elif TARGET_ANDROID
+#endif  
+    return ofPoint(0,0);
+}
 
 #if TARGET_OS_IPHONE
 
