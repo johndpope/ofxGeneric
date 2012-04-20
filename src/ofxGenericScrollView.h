@@ -25,6 +25,10 @@ public:
     void setShowHorizontalScrollIndicator( bool show );
     void setShowVerticalScrollIndicator( bool show );
     
+    void scrollRectToVisible( const ofRectangle& rect, bool animated );
+    
+    ofPoint getContentSize();
+    
 #if TARGET_OS_IPHONE
     operator UIScrollView*();
 #endif
