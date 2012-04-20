@@ -69,3 +69,17 @@ ofxGenericExceptionSubclassedSingletonInitializedTwice::~ofxGenericExceptionSubc
         _className = NULL;
     }
 }
+
+string ofxGIntegerToString( int value )
+{
+    char buffer[ 1024 ];
+    snprintf( buffer, 1024, "%d", value );
+    return string( buffer );
+}
+
+string ofxGFloatToString( float value )
+{
+    char buffer[ 1024 ];
+    snprintf( buffer, 1024, "%f", value );
+    return string( buffer );
+}

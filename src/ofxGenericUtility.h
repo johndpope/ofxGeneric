@@ -104,6 +104,9 @@ void ofxGLogVerbose( const string & message );
 void ofxGLogWarning( const string & message );
 void ofxGLog( ofLogLevel level, const char* format, ... );
 
+string ofxGIntegerToString( int value );
+string ofxGFloatToString( float value );
+
 class ofxGenericExceptionSubclassedSingletonInitializedTwice : public ofxGenericException
 {
 public:
