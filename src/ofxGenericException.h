@@ -18,7 +18,7 @@
 class ofxGenericException : public std::exception
 {
 public:
-    ofxGenericException( string what ) throw();
+    ofxGenericException( const char* what ) throw();
     ofxGenericException( std::exception translate ) throw();
 #if TARGET_OS_IPHONE
     ofxGenericException( NSException* translate ) throw();
@@ -28,5 +28,6 @@ public:
     virtual const char* what() const throw();    
     
 protected:
-    string _what;
+    void setWhat( const char* what );
+    char* _what;
 };

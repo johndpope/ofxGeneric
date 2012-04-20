@@ -107,5 +107,13 @@ void ofxGLog( ofLogLevel level, const char* format, ... );
 class ofxGenericExceptionSubclassedSingletonInitializedTwice : public ofxGenericException
 {
 public:
-    ofxGenericExceptionSubclassedSingletonInitializedTwice( string className ) throw();
+    ofxGenericExceptionSubclassedSingletonInitializedTwice( const char* className ) throw();
+    
+    virtual const char* what() const throw();    
+    virtual const char* className() const throw();
+    
+    virtual ~ofxGenericExceptionSubclassedSingletonInitializedTwice() throw();
+    
+protected:
+    char* _className;
 };

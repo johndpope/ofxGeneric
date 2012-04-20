@@ -9,35 +9,53 @@
 #include "ofxGenericException.h"
 #include "ofxGenericUtility.h"
 
-ofxGenericException::ofxGenericException( string what ) throw()
-: _what( what )
+ofxGenericException::ofxGenericException( const char* what ) throw()
+: _what( NULL )
 {    
+    setWhat( what );
 }
 
 ofxGenericException::ofxGenericException( std::exception translate ) throw()
+: _what( NULL )
 {
-    _what = translate.what();
+    setWhat( translate.what() );
 }
 
 #if TARGET_OS_IPHONE
 ofxGenericException::ofxGenericException( NSException* translate ) throw()
+: _what( NULL )
 {
     if ( translate )
     {
         NSString* nsWhat = [ NSString stringWithFormat:@"%@ - %@ - %@ - %@ - %@", translate.name, translate.reason, translate.userInfo, translate.callStackReturnAddresses, translate.callStackSymbols ];
-        _what = ofxNSStringToString( nsWhat );
+        setWhat( [ nsWhat UTF8String ] );
     } else
     {
-        _what = "Unknown exception";
+        setWhat( "Unknown exception" );
     }
 }
 #endif
 
 ofxGenericException::~ofxGenericException() throw()
 {
+    if ( _what )
+    {
+        delete [] _what;
+        _what = NULL;
+    }
+}
+
+void ofxGenericException::setWhat( const char* what )
+{
+    if ( _what )
+    {
+        delete [] _what;
+    }
+    _what = new char[ strlen( what ) + 1 ];
+    strcpy( _what, what );
 }
 
 const char* ofxGenericException::what() const throw()
 {
-    return _what.c_str();
+    return _what;
 }

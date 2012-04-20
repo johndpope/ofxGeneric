@@ -41,8 +41,31 @@ void ofxGLog( ofLogLevel level, const char* format, ... )
 	ofLog( ofxGenericModuleName, level, message );
 }
 
-ofxGenericExceptionSubclassedSingletonInitializedTwice::ofxGenericExceptionSubclassedSingletonInitializedTwice( string className ) throw()
-: ofxGenericException( "" )
+ofxGenericExceptionSubclassedSingletonInitializedTwice::ofxGenericExceptionSubclassedSingletonInitializedTwice( const char* className ) throw()
+: ofxGenericException( "" ), _className( NULL )
 {
-   _what = "Subclassed singleton " + className + " initialization was called twice"; 
+    if ( className )
+    {   
+        _className = new char[ strlen( className ) + 1 ];
+        strcpy( _className, className );
+    }
+}
+
+const char* ofxGenericExceptionSubclassedSingletonInitializedTwice::what() const throw()
+{
+    return "Subclassed singleton initialization was called twice";
+}
+
+const char* ofxGenericExceptionSubclassedSingletonInitializedTwice::className() const throw()
+{
+    return _className;
+}
+
+ofxGenericExceptionSubclassedSingletonInitializedTwice::~ofxGenericExceptionSubclassedSingletonInitializedTwice() throw()
+{
+    if ( _className )
+    {
+        delete [] _className;
+        _className = NULL;
+    }
 }
