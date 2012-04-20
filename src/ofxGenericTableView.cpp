@@ -43,6 +43,7 @@ NativeView ofxGenericTableView::createNativeView( const ofRectangle& frame )
     _forwarder = [ [ ofxGenericTableViewForwarder alloc ] initWithDelegate:this ];
     [ newView setDelegate:_forwarder ];
     [ newView setDataSource:_forwarder ];
+    [ newView setAllowsSelection:NO ];
     return newView;
 #endif
 }
