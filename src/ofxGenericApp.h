@@ -50,7 +50,7 @@ public:
     static const char* ActivityClassName;
 #endif
     
-    virtual void handleUncaughtException( ofxGenericException exception );
+    virtual void handleUncaughtException( ofxGenericException& exception );
     virtual void handleSignal( int signal );
     virtual void showFatalErrorAndQuit( string title, string message );
     virtual void fatalErrorDismissed();

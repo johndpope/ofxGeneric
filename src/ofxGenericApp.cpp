@@ -51,6 +51,9 @@ void ofxGenericApp::setofxGenericAppInstanceToThis()
     if ( !ofxGenericApp::_this )
     {
         ofxGenericApp::_this = ofPtr< ofxGenericApp >( this );
+    } else
+    {
+        throw ofxGenericExceptionSubclassedSingletonInitializedTwice( "ofxGenericApp" );        
     }
 }
 
@@ -58,7 +61,6 @@ void ofxGenericApp::runViaInfiniteLoop( ofPtr< ofxAppGenericWindow > window )
 {
     try
     {
-            
         ofLog( ofxGenericModuleName, OF_LOG_VERBOSE, "App loop starting..." );
         // TODO: strong references
         _window = window;
@@ -82,9 +84,17 @@ void ofxGenericApp::runViaInfiniteLoop( ofPtr< ofxAppGenericWindow > window )
         
     #endif
         
-    } catch( exception uncaught )
+    } catch( ofxGenericException& uncaught )
     {
-        handleUncaughtException( ofxGenericException( uncaught ) );
+        handleUncaughtException( uncaught );
+    } catch( std::exception& uncaught )
+    {
+        ofxGenericException catchIt( uncaught );
+        handleUncaughtException( catchIt );        
+    } catch( ... )
+    {
+        ofxGenericException catchIt( "Unknown exception" );
+        handleUncaughtException( catchIt );
     }
 }
 
@@ -230,7 +240,7 @@ void ofxGenericApp::setStatusBarVisible( bool visible, bool animated )
 #endif
 }
 
-void ofxGenericApp::handleUncaughtException( ofxGenericException exception )
+void ofxGenericApp::handleUncaughtException( ofxGenericException& exception )
 {
 }
 
@@ -291,4 +301,3 @@ void ofxGenericApp::setup()
     ofBaseApp::setup();
     srand(time(NULL));
 }
-
