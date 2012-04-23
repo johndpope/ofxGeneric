@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3C0AC1511522C34500872B70 /* ofxGenericPlatform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C0AC1501522C34500872B70 /* ofxGenericPlatform.cpp */; };
+		3C175687154527EF00B429E8 /* ofxGenericSliderView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C175686154527EF00B429E8 /* ofxGenericSliderView.cpp */; };
 		3C17BC04150AA08E00DA1034 /* ofxGenericActivityView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C17BC03150AA08E00DA1034 /* ofxGenericActivityView.cpp */; };
 		3C1E7B441508288D007B6723 /* ofxGenericLaunchView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C1E7B421508288D007B6723 /* ofxGenericLaunchView.cpp */; };
 		3C1E7B451508288D007B6723 /* ofxGenericLaunchView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C1E7B431508288D007B6723 /* ofxGenericLaunchView.h */; };
@@ -95,6 +96,8 @@
 /* Begin PBXFileReference section */
 		3C0AC14E1522C2E700872B70 /* ofxGenericPlatform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericPlatform.h; sourceTree = "<group>"; };
 		3C0AC1501522C34500872B70 /* ofxGenericPlatform.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericPlatform.cpp; sourceTree = "<group>"; };
+		3C1756841545275700B429E8 /* ofxGenericSliderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericSliderView.h; sourceTree = "<group>"; };
+		3C175686154527EF00B429E8 /* ofxGenericSliderView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericSliderView.cpp; sourceTree = "<group>"; };
 		3C17BC01150A9F9A00DA1034 /* ofxGenericActivityView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericActivityView.h; sourceTree = "<group>"; };
 		3C17BC03150AA08E00DA1034 /* ofxGenericActivityView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericActivityView.cpp; sourceTree = "<group>"; };
 		3C1E7B421508288D007B6723 /* ofxGenericLaunchView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericLaunchView.cpp; sourceTree = "<group>"; };
@@ -295,6 +298,8 @@
 				3C7B4E9F14FC7CBF003121FE /* ofxGenericView.h */,
 				3C2A68F2154374F400BDB696 /* ofxGenericOpenGLView.h */,
 				3C2A68F51543786700BDB696 /* ofxGenericOpenGLView.cpp */,
+				3C1756841545275700B429E8 /* ofxGenericSliderView.h */,
+				3C175686154527EF00B429E8 /* ofxGenericSliderView.cpp */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -583,6 +588,7 @@
 				3C5336EB153F6ED60046AFD8 /* UIDevice+Model.mm in Sources */,
 				454496151540C66600B21064 /* ofxGenericAlertView.cpp in Sources */,
 				3C2A68F61543786700BDB696 /* ofxGenericOpenGLView.cpp in Sources */,
+				3C175687154527EF00B429E8 /* ofxGenericSliderView.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
