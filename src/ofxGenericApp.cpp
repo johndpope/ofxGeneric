@@ -63,8 +63,15 @@ void ofxGenericApp::runViaInfiniteLoop( ofPtr< ofxAppGenericWindow > window )
         _window = window;
 
     #if TARGET_OS_IPHONE
+        @try
+        {
         NSString* delegateClassName = NSStringFromClass( [ ofxGenericAppDelegate class ] );
         UIApplicationMain( nil, nil, nil, delegateClassName );
+        } @catch( NSException* exception )
+        {
+            ofxGenericException uncaught( exception );
+            handleUncaughtException( uncaught );
+        }
         
     #elif TARGET_ANDROID
     /*    JNIMethod setWindow(
