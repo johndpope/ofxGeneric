@@ -19,6 +19,7 @@
 
 #include "ofEvents.h"
 
+// TODO: depth, fsaa, retina
 class ofxGenericOpenGLView : public ofxGenericView
 {
 public:
@@ -31,7 +32,9 @@ public:
     void didDisappear();
     
     void update( ofEventArgs &args );
-    
+
+    void deleteFramebuffer();
+
 protected:
     ofxGenericOpenGLView();
     virtual void init( ofPtr< ofxGenericOpenGLView > setThis, const ofRectangle& setFrame );
@@ -40,6 +43,18 @@ protected:
 
     NativeView createNativeView( const ofRectangle& frame );
     
+#if TARGET_OS_IPHONE
+    EAGLContext* _context;
+    void setContext( EAGLContext* newContext );
+#endif
+    
+    void createFramebuffer();
     void setFramebuffer();
-    void presentFramebuffer();
+    bool presentFramebuffer();
+  
+    // The OpenGL ES names for the framebuffer and renderbuffer used to render to this view.
+    GLint _framebufferWidth;
+    GLint _framebufferHeight;    
+    GLuint _defaultFramebuffer;
+    GLuint _colorRenderbuffer;    
 };

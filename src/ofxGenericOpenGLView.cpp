@@ -17,21 +17,11 @@
 
 @interface ofxGenericOpenGLViewNative : UIView
 {
-    // The OpenGL ES names for the framebuffer and renderbuffer used to render to this view.
-    GLuint _defaultFramebuffer;
-    GLuint _colorRenderbuffer;    
-    
-    // The pixel dimensions of the CAEAGLLayer.
-    GLint _framebufferWidth;
-    GLint _framebufferHeight;    
+    ofPtrWeak< ofxGenericOpenGLView > _ownerView;
 }
--( id )initWithFrame:( CGRect )frame;
-@property ( nonatomic, retain ) EAGLContext* context;
+-( id )initWithFrame:( CGRect )frame owner:( ofPtrWeak< ofxGenericOpenGLView > )ownerView;
+-( void )setRenderbufferStorageOnContext:( EAGLContext* )context;
 
--( void )createFramebuffer;
--( void )setFramebuffer;
--( void )deleteFramebuffer;
--( BOOL )presentFramebuffer;
 @end
 
 #endif
@@ -46,22 +36,25 @@ ofPtr< ofxGenericOpenGLView > ofxGenericOpenGLView::create( const ofRectangle& s
 void ofxGenericOpenGLView::init( ofPtr< ofxGenericOpenGLView > setThis, const ofRectangle& setFrame )
 {
     ofxGenericView::init( setThis, setFrame );
+    
+    _framebufferWidth = setFrame.width;
+    _framebufferHeight = setFrame.height;
 }
                  
 ofxGenericOpenGLView::ofxGenericOpenGLView()
+#if TARGET_OS_IPHONE
+: _context( nil ),
+#endif
+_framebufferWidth( 0 ), _framebufferHeight( 0 ), _defaultFramebuffer( 0 ), _colorRenderbuffer( 0 )
 {    
 }
 
 ofxGenericOpenGLView::~ofxGenericOpenGLView()
 {
-#if TARGET_OS_IPHONE    
-    if ( [ _view isKindOfClass:[ ofxGenericOpenGLViewNative class ] ] )
-    {
-        ofxGenericOpenGLViewNative* nativeView = ( ofxGenericOpenGLViewNative* )_view;
-        [ nativeView setContext:nil ];
-    }
+#if TARGET_OS_IPHONE
+    setContext( nil );
 #endif
-
+    deleteFramebuffer();
 }
 
 NativeView ofxGenericOpenGLView::createNativeView( const ofRectangle& frame )
@@ -76,37 +69,22 @@ NativeView ofxGenericOpenGLView::createNativeView( const ofRectangle& frame )
 void ofxGenericOpenGLView::didLoad()
 {
 #if TARGET_OS_IPHONE
-    EAGLContext* context = nil;
-//    context = [ [ EAGLContext alloc ] initWithAPI:kEAGLRenderingAPIOpenGLES2 ];
-    if ( !context )
-    {
-        context = [ [ EAGLContext alloc ] initWithAPI:kEAGLRenderingAPIOpenGLES1 ];
-    }
-    if ( !context )
+    // TODO: break into ES1 and ES2 classes?
+    _context = [ [ [ EAGLContext alloc ] initWithAPI:kEAGLRenderingAPIOpenGLES1 ] autorelease ];
+
+    if ( !_context )
     {
         // TODO: exception
         ofxGLogFatalError( "Could not create OpenGL ES context" );
     }
     
-    if ( ![ EAGLContext setCurrentContext:context ] )
+    if ( ![ EAGLContext setCurrentContext:_context ] )
     {
         // TODO: exception
         ofxGLogFatalError( "Could not set OpenGL ES context" );
     }
     
-    if ( [ _view isKindOfClass:[ ofxGenericOpenGLViewNative class ] ] )
-    {
-        ofxGenericOpenGLViewNative* nativeView = ( ofxGenericOpenGLViewNative* )_view;
-        [ nativeView setContext:context ];
-        [ nativeView setFramebuffer ];
-    }
-    if ( [ context API ] == kEAGLRenderingAPIOpenGLES2 )
-    {
-        // loadShaders();
-    }
-    
-    [ context release ];
-    
+    setFramebuffer(); 
 #endif
 }
 
@@ -136,86 +114,26 @@ void ofxGenericOpenGLView::drawFrame()
     
 }
 
-void ofxGenericOpenGLView::setFramebuffer()
+#if TARGET_OS_IPHONE    
+void ofxGenericOpenGLView::setContext( EAGLContext* newContext )
 {
-#if TARGET_OS_IPHONE
-    if ( [ _view isKindOfClass:[ ofxGenericOpenGLViewNative class ] ] )
+    if ( _context != newContext ) 
     {
-        ofxGenericOpenGLViewNative* nativeView = ( ofxGenericOpenGLViewNative* )_view;
-        [ nativeView setFramebuffer ];
-    }
-#endif
-}
-
-void ofxGenericOpenGLView::presentFramebuffer()
-{
-#if TARGET_OS_IPHONE
-    if ( [ _view isKindOfClass:[ ofxGenericOpenGLViewNative class ] ] )
-    {
-        ofxGenericOpenGLViewNative* nativeView = ( ofxGenericOpenGLViewNative* )_view;
-        [ nativeView presentFramebuffer ];
-    }
-#endif
-}
-
-
-#if TARGET_OS_IPHONE
-
-@implementation ofxGenericOpenGLViewNative
-
-@synthesize context;
-
-+( Class )layerClass
-{
-    return [ CAEAGLLayer class ];
-}
-
--( id )initWithFrame:( CGRect )frame
-{
-    self = [ super initWithFrame:frame ];
-	if ( self ) 
-    {
-        CAEAGLLayer* eaglLayer = ( CAEAGLLayer* )self.layer;
-        
-        eaglLayer.opaque = TRUE;
-        eaglLayer.drawableProperties = [ NSDictionary dictionaryWithObjectsAndKeys:
-                                        [ NSNumber numberWithBool:FALSE ], kEAGLDrawablePropertyRetainedBacking,
-                                        kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat,
-                                        nil ];
-        
-        _framebufferWidth = frame.size.width;
-        _framebufferHeight = frame.size.height;
-    }
-    
-    return self;
-}
-
--( void )dealloc
-{
-    [ self deleteFramebuffer ];    
-    [ context release ];
-    
-    [ super dealloc ];
-}
-
--( void )setContext:( EAGLContext* )newContext
-{
-    if ( context != newContext ) 
-    {
-        [ self deleteFramebuffer ];
-        
-        [ context release ];
-        context = [ newContext retain ];
+        [ _context release ];
+        _context = [ newContext retain ];
         
         [ EAGLContext setCurrentContext:nil ];
     }
 }
+#endif
 
--( void )createFramebuffer
+void ofxGenericOpenGLView::createFramebuffer()
 {
-    if ( context && !_defaultFramebuffer ) 
+    if ( _context && !_defaultFramebuffer ) 
     {
-        [ EAGLContext setCurrentContext:context ];
+#if TARGET_OS_IPHONE
+        [ EAGLContext setCurrentContext:_context ];
+#endif
         
         // Create default framebuffer object.
         glGenFramebuffers( 1, &_defaultFramebuffer );
@@ -224,25 +142,71 @@ void ofxGenericOpenGLView::presentFramebuffer()
         // Create color render buffer and allocate backing store.
         glGenRenderbuffers( 1, &_colorRenderbuffer );
         glBindRenderbuffer( GL_RENDERBUFFER, _colorRenderbuffer );
-        [ context renderbufferStorage:GL_RENDERBUFFER fromDrawable:( CAEAGLLayer* )self.layer ];
+#if TARGET_OS_IPHONE
+        if ( [ _view isKindOfClass:[ ofxGenericOpenGLViewNative class ] ] )
+        {
+            ofxGenericOpenGLViewNative* nativeView = ( ofxGenericOpenGLViewNative* )_view;
+            [ nativeView setRenderbufferStorageOnContext:_context ];
+        }
+#endif
         glGetRenderbufferParameteriv( GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &_framebufferWidth );
-        glGetRenderbufferParameteriv( GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &_framebufferHeight );
+        glGetRenderbufferParameteriv( GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &_framebufferHeight );    
         
         glFramebufferRenderbuffer( GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, _colorRenderbuffer);
         
         if ( glCheckFramebufferStatus( GL_FRAMEBUFFER ) != GL_FRAMEBUFFER_COMPLETE )
         {
-            NSLog( @"Failed to make complete framebuffer object %x", glCheckFramebufferStatus( GL_FRAMEBUFFER ) );
+            ofxGLogFatalError( "Failed to make complete framebuffer object" );
         }
     }
 }
 
--( void )deleteFramebuffer
+void ofxGenericOpenGLView::setFramebuffer()
 {
-    if ( context ) 
+    if ( _context ) 
     {
-        [ EAGLContext setCurrentContext:context ];
+#if TARGET_OS_IPHONE
+        [ EAGLContext setCurrentContext:_context ];
+#endif
         
+        if ( !_defaultFramebuffer )
+        {
+            createFramebuffer();
+        }
+        
+        glBindFramebuffer( GL_FRAMEBUFFER, _defaultFramebuffer );
+        
+        glViewport( 0, 0, _framebufferWidth, _framebufferHeight );
+    }
+}
+
+bool ofxGenericOpenGLView::presentFramebuffer()
+{
+    bool success = false;
+    
+    if ( _context ) 
+    {
+#if TARGET_OS_IPHONE
+        [ EAGLContext setCurrentContext:_context ];
+#endif
+        
+        glBindRenderbuffer( GL_RENDERBUFFER, _colorRenderbuffer );
+        
+#if TARGET_OS_IPHONE
+        success = [ _context presentRenderbuffer:GL_RENDERBUFFER ];
+#endif
+    }
+    
+    return success;
+}
+
+void ofxGenericOpenGLView::deleteFramebuffer()
+{
+    if ( _context ) 
+    {
+#if TARGET_OS_IPHONE
+        [ EAGLContext setCurrentContext:nil ];
+#endif        
         if ( _defaultFramebuffer) 
         {
             glDeleteFramebuffers( 1, &_defaultFramebuffer );
@@ -254,46 +218,52 @@ void ofxGenericOpenGLView::presentFramebuffer()
             glDeleteRenderbuffers( 1, &_colorRenderbuffer );
             _colorRenderbuffer = 0;
         }
-    }
+    }    
 }
 
--( void )setFramebuffer
+
+
+#if TARGET_OS_IPHONE
+
+@implementation ofxGenericOpenGLViewNative
+
++( Class )layerClass
 {
-    if ( context ) 
-    {
-        [ EAGLContext setCurrentContext:context ];
-        
-        if ( !_defaultFramebuffer )
-        {
-            [ self createFramebuffer ];
-        }
-        
-        glBindFramebuffer( GL_FRAMEBUFFER, _defaultFramebuffer );
-        
-        glViewport( 0, 0, _framebufferWidth, _framebufferHeight );
-    }
+    return [ CAEAGLLayer class ];
 }
 
--( BOOL )presentFramebuffer
+-( id )initWithFrame:( CGRect )frame owner:( ofPtrWeak< ofxGenericOpenGLView > )ownerView
 {
-    BOOL success = FALSE;
-    
-    if ( context ) 
+    self = [ super initWithFrame:frame ];
+	if ( self ) 
     {
-        [ EAGLContext setCurrentContext:context ];
+        CAEAGLLayer* eaglLayer = ( CAEAGLLayer* )self.layer;
         
-        glBindRenderbuffer( GL_RENDERBUFFER, _colorRenderbuffer );
+        // TODO: configurable
+        BOOL retainBacking = NO;
+        BOOL isOpaque = YES;
+        NSString* colorFormat = kEAGLColorFormatRGBA8;
         
-        success = [ context presentRenderbuffer:GL_RENDERBUFFER ];
+        eaglLayer.opaque = isOpaque;
+        eaglLayer.drawableProperties = [ NSDictionary dictionaryWithObjectsAndKeys: [ NSNumber numberWithBool:retainBacking ], kEAGLDrawablePropertyRetainedBacking,
+                                         colorFormat, kEAGLDrawablePropertyColorFormat, nil ];
+        _ownerView = ownerView;
     }
     
-    return success;
+    return self;
+}
+
+-( void )setRenderbufferStorageOnContext:( EAGLContext* )context
+{
+    [ context renderbufferStorage:GL_RENDERBUFFER fromDrawable:( CAEAGLLayer* )self.layer ];
 }
 
 -( void )layoutSubviews
 {
-    // The framebuffer will be re-created at the beginning of the next setFramebuffer method call.
-    [ self deleteFramebuffer ];
+    if ( _ownerView )
+    {
+        _ownerView.lock()->deleteFramebuffer();
+    }
 }
 
 @end
