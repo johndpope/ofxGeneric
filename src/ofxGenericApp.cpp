@@ -154,6 +154,11 @@ void ofxGenericApp::didReceiveMemoryWarning()
 {
 }
 
+bool ofxGenericApp::shouldAutorotate( ofOrientation toOrientation )
+{
+    return true;
+}
+
 void ofxGenericApp::deviceOrientationDidChange( ofOrientation newOrientation )
 {
 }

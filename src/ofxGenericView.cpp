@@ -7,6 +7,7 @@
 
 #include "ofxGenericView.h"
 #include "ofxGenericUtility.h"
+#include "ofxGenericApp.h"
 
 #if TARGET_OS_IPHONE
 
@@ -776,6 +777,32 @@ void ofxGenericView::registerJNIMethods()
     }
 }
 */
+
+-( BOOL )shouldAutorotateToInterfaceOrientation:( UIInterfaceOrientation )interfaceOrientation
+{
+    if ( _delegate )
+    {
+        ofOrientation orientation = OF_ORIENTATION_DEFAULT;
+        switch ( interfaceOrientation ) 
+        {
+            case UIInterfaceOrientationPortrait:
+                orientation = OF_ORIENTATION_DEFAULT;
+                break;
+            case UIInterfaceOrientationPortraitUpsideDown:
+                orientation = OF_ORIENTATION_180;
+                break;
+            case UIInterfaceOrientationLandscapeLeft:
+                orientation = OF_ORIENTATION_90_RIGHT;
+                break;
+            case UIInterfaceOrientationLandscapeRight:
+                orientation = OF_ORIENTATION_90_LEFT;
+                break;
+        }
+        return ofxGenericApp::getInstance()->shouldAutorotate( orientation );
+    }
+    return YES;
+}
+
 @end
 
 @implementation ofxGenericViewAnimationForwarder

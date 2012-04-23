@@ -30,6 +30,7 @@ public:
     
     virtual void didReceiveMemoryWarning();
     
+    virtual bool shouldAutorotate( ofOrientation toOrientation );
     virtual void deviceOrientationDidChange( ofOrientation newOrientation );
     
     ofPtr< ofxAppGenericWindow > getWindow() const;
