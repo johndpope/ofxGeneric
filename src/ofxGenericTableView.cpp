@@ -50,16 +50,28 @@ NativeView ofxGenericTableView::createNativeView( const ofRectangle& frame )
 
 unsigned int ofxGenericTableView::getNumberOfCells( unsigned int section )
 {
+    if (_delegate)
+    {
+        return _delegate->getNumberOfCells( dynamic_pointer_cast< ofxGenericTableView >( _this.lock() ), section );
+    }
     return 0;
 }
 
 ofPtr< ofxGenericTableViewCell > ofxGenericTableView::getCell( unsigned int section, unsigned int index )
 {
+    if (_delegate)
+    {
+        return _delegate->getCell( dynamic_pointer_cast< ofxGenericTableView >( _this.lock() ), section, index );
+    }
     return ofPtr< ofxGenericTableViewCell >();
 }
 
 float ofxGenericTableView::getHeightForCell( unsigned int section, unsigned int index )
 {
+    if (_delegate)
+    {
+        return _delegate->getHeightForCell( dynamic_pointer_cast< ofxGenericTableView >( _this.lock() ), section, index );
+    }
     ofPtr< ofxGenericTableViewCell > cell = getCell( section, index );
     if ( cell )
     {
@@ -90,6 +102,10 @@ void ofxGenericTableView::setSeparatorStyle( ofxGenericTableViewSeparatorStyle s
 #endif    
 }
 
+void ofxGenericTableView::setDelegate( ofPtr< ofxGenericTableViewDelegate > delegate )
+{
+    _delegate = delegate;
+}
 
 #if TARGET_OS_IPHONE
 ofxGenericUIViewCastOperator( ofxGenericTableView, UITableView );
@@ -113,6 +129,28 @@ void ofxGenericTableViewCell::init( ofPtr< ofxGenericTableViewCell > setThis, of
     _view = createUITableViewCell( ofRectangleToCGRect( setBounds ) );
     [ _view setFrame:ofRectangleToCGRect( setBounds ) ];
 #endif
+}
+
+void ofxGenericTableViewCell::setText( string text )
+{
+#if TARGET_OS_IPHONE
+    UITableViewCell* cell = ( UITableViewCell* )_view;
+    if (cell)
+    {
+        cell.textLabel.text = [NSString stringWithCString:text.c_str() encoding:NSUTF8StringEncoding];
+    }
+#endif
+}
+
+void ofxGenericTableViewCell::setImage( string imagePath )
+{
+#if TARGET_OS_IPHONE
+    UITableViewCell* cell = ( UITableViewCell* )_view;
+    if (cell)
+    {
+        cell.imageView.image = [UIImage imageNamed:[NSString stringWithCString:imagePath.c_str() encoding:NSUTF8StringEncoding]];
+    }
+#endif    
 }
 
 #if TARGET_OS_IPHONE

@@ -45,8 +45,8 @@ public:
     ofRectangle getFrame();
     virtual void setFrame( const ofRectangle& setFrame );
     
-    ofColor getBackgroundColor();
-    void setBackgroundColor( const ofColor& setColor );
+    virtual ofColor getBackgroundColor();
+    virtual void setBackgroundColor( const ofColor& setColor );
     
     void addChildView( ofPtr< ofxGenericView > add );
     void addChildView( ofPtr< ofxGenericView > add, ofPtr< ofxGenericView > before );

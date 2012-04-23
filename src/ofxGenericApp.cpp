@@ -19,6 +19,9 @@
 #include "JNIObject.h"
 #endif
 
+#include <math.h>
+#include <time.h>
+
 #if TARGET_ANDROID
 const char* ofxGenericApp::ActivityClassName = "cc/openframeworks/ofxGeneric/Activity";
 #endif
@@ -156,6 +159,11 @@ void ofxGenericApp::willTerminate()
 
 void ofxGenericApp::didReceiveMemoryWarning()
 {
+}
+
+bool ofxGenericApp::shouldAutorotate( ofOrientation toOrientation )
+{
+    return true;
 }
 
 void ofxGenericApp::deviceOrientationDidChange( ofOrientation newOrientation )
@@ -300,3 +308,8 @@ string ofxGenericApp::dumpViewGraph()
     return string();
 }
 
+void ofxGenericApp::setup()
+{
+    ofBaseApp::setup();
+    srand(time(NULL));
+}

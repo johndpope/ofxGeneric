@@ -30,6 +30,7 @@ public:
     
     virtual void didReceiveMemoryWarning();
     
+    virtual bool shouldAutorotate( ofOrientation toOrientation );
     virtual void deviceOrientationDidChange( ofOrientation newOrientation );
     
     ofPtr< ofxAppGenericWindow > getWindow() const;
@@ -43,6 +44,8 @@ public:
     
     bool getStatusBarVisible();
     void setStatusBarVisible( bool visible, bool animated );
+    
+    virtual void setup();
 
 #if TARGET_ANDROID
     static const char* ActivityClassName;
