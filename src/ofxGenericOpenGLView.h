@@ -35,6 +35,9 @@ public:
 
     void deleteFramebuffer();
 
+    virtual ofColor getBackgroundColor();
+    virtual void setBackgroundColor( const ofColor& setColor );
+
 protected:
     ofxGenericOpenGLView();
     virtual void init( ofPtr< ofxGenericOpenGLView > setThis, const ofRectangle& setFrame );

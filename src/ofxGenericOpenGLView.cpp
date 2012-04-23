@@ -10,6 +10,8 @@
 #include "ofxGenericUtility.h"
 #include "ofxGenericApp.h"
 
+#include "ofGraphics.h"
+
 #if TARGET_OS_IPHONE
 #import <QuartzCore/QuartzCore.h>
 
@@ -68,6 +70,9 @@ NativeView ofxGenericOpenGLView::createNativeView( const ofRectangle& frame )
 
 void ofxGenericOpenGLView::didLoad()
 {
+    ofGetCurrentRenderer()->setBackgroundAuto( true );
+    ofGetCurrentRenderer()->background( ofColor( 0, 0, 0, 255 ) );
+
 #if TARGET_OS_IPHONE
     // TODO: break into ES1 and ES2 classes?
     _context = [ [ [ EAGLContext alloc ] initWithAPI:kEAGLRenderingAPIOpenGLES1 ] autorelease ];
@@ -104,6 +109,24 @@ void ofxGenericOpenGLView::update( ofEventArgs &args )
 {
     setFramebuffer();
     
+    if ( ofGetCurrentRenderer()->bClearBg() )
+    {
+        ofFloatColor clearColor = ofGetCurrentRenderer()->getBgColor();
+		glClearColor( clearColor.r, clearColor.g, clearColor.b, clearColor.a );
+        
+        GLbitfield clear = 0;
+        if ( _colorRenderbuffer )
+        {
+            clear |= GL_COLOR_BUFFER_BIT;
+        }
+/*        if ( _depthRenderbuffer )
+        {
+            clear |= GL_DEPTH_BUFFER_BIT;
+        }
+ */
+		glClear( clear );
+	}
+
     drawFrame();
     
     presentFramebuffer();
@@ -112,6 +135,18 @@ void ofxGenericOpenGLView::update( ofEventArgs &args )
 void ofxGenericOpenGLView::drawFrame()
 {
     
+}
+
+ofColor ofxGenericOpenGLView::getBackgroundColor()
+{
+    ofFloatColor backgroundColor = ofGetCurrentRenderer()->getBgColor();
+    ofColor result( ( int )( backgroundColor.r * 255 ), ( int )( backgroundColor.g * 255 ), ( int )( backgroundColor.b * 255 ), ( int )( backgroundColor.a * 255 ) );
+    return result;
+}
+
+void ofxGenericOpenGLView::setBackgroundColor( const ofColor& setColor )
+{
+    ofGetCurrentRenderer()->background( setColor );
 }
 
 #if TARGET_OS_IPHONE    
