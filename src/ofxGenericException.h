@@ -31,3 +31,32 @@ protected:
     void setWhat( const char* what );
     char* _what;
 };
+
+///////////////////////////////////////////////////////////////
+
+class ofxGenericExceptionForClass : public ofxGenericException
+{
+public:
+    ofxGenericExceptionForClass( const char* what, const char* className ) throw();
+    virtual const char* className() const throw();
+    
+    virtual ~ofxGenericExceptionForClass() throw();
+protected:
+    char* _className;
+};
+
+///////////////////////////////////////////////////////////////
+
+class ofxGenericExceptionSubclassedSingletonInitializedTwice : public ofxGenericExceptionForClass
+{
+public:
+    ofxGenericExceptionSubclassedSingletonInitializedTwice( const char* className ) throw();
+};
+
+///////////////////////////////////////////////////////////////
+
+class ofxGenericExceptionSingletonNotInstantiated : public ofxGenericExceptionForClass
+{
+public:
+    ofxGenericExceptionSingletonNotInstantiated( const char* className ) throw();
+};

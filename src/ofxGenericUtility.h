@@ -106,17 +106,3 @@ void ofxGLog( ofLogLevel level, const char* format, ... );
 
 string ofxGIntegerToString( int value );
 string ofxGFloatToString( float value );
-
-class ofxGenericExceptionSubclassedSingletonInitializedTwice : public ofxGenericException
-{
-public:
-    ofxGenericExceptionSubclassedSingletonInitializedTwice( const char* className ) throw();
-    
-    virtual const char* what() const throw();    
-    virtual const char* className() const throw();
-    
-    virtual ~ofxGenericExceptionSubclassedSingletonInitializedTwice() throw();
-    
-protected:
-    char* _className;
-};
