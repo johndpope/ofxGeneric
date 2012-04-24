@@ -18,8 +18,8 @@
 class ofxGenericCache
 {
 public:
+    static ofPtr< ofxGenericCache > create();
     virtual ~ofxGenericCache();
-    static ofxGenericCache* getInstance();
     
     virtual bool cache(string key, float val);
     virtual bool cache(string key, int val);
@@ -30,6 +30,8 @@ public:
     virtual int loadInt(string key);
     virtual bool loadBool(string key);
     virtual string loadString(string key);
+    
+    void setFileName( string fileName );
     
     //loads the cache from disk
     virtual bool readFromDisk();
@@ -42,10 +44,11 @@ public:
     
 protected:
     ofxGenericCache();
-    static ofxGenericCache* _instance;
-    void setofxGenericCacheInstanceToThis();
+    virtual void init( ofPtrWeak< ofxGenericCache > setThis );
+    ofPtrWeak< ofxGenericCache > _this;
     
     ofxJSONElement _map;
     
     //Json::Value resolvePath( );
+    string _fileName;
 };

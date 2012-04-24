@@ -17,35 +17,25 @@
 #include <algorithm>
 #include <iterator>
 
-ofxGenericCache* ofxGenericCache::_instance = NULL;
+ofPtr< ofxGenericCache > ofxGenericCache::create()
+{
+    ofPtr< ofxGenericCache > create( new ofxGenericCache() );
+    create->init( create );
+    return create;
+}
 
 ofxGenericCache::ofxGenericCache()
 : _map( "{}" )
 {
 }
 
+void ofxGenericCache::init( ofPtrWeak< ofxGenericCache > setThis )
+{
+    _this = setThis;
+}
+
 ofxGenericCache::~ofxGenericCache()
 {
-}
-
-ofxGenericCache* ofxGenericCache::getInstance()
-{
-    if ( ofxGenericCache::_instance == NULL )
-    {
-        ( new ofxGenericCache() )->setofxGenericCacheInstanceToThis();
-    }
-    return ofxGenericCache::_instance;
-}
-
-void ofxGenericCache::setofxGenericCacheInstanceToThis()
-{
-    if ( ofxGenericCache::_instance == NULL )
-    {
-        ofxGenericCache::_instance = this;
-    } else
-    {
-        // TODO: exception
-    }
 }
 
 bool ofxGenericCache::cache(string key, float val)
@@ -101,23 +91,36 @@ bool ofxGenericCache::loadBool(string key)
 
 string ofxGenericCache::loadString(string key)
 {
-    if (_map[key] == NULL)
+    if ( _map[key] == NULL )
     {
         return "";
     }
     return (string) _map[key].asString();
 }
 
+void ofxGenericCache::setFileName( string fileName )
+{
+    _fileName = fileName;
+}
+
 //loads the cache from disk
 bool ofxGenericCache::readFromDisk()
 {
-    return _map.openLocal("local_cache.json", true);
+    if ( _fileName.length() > 0 )
+    {
+        return _map.openLocal( _fileName, true );
+    }
+    return false;
 }
 
 //writes the cache to disk
 bool ofxGenericCache::writeToDisk()
 {
-    return _map.save("local_cache.json", true, true);
+    if ( _fileName.length() > 0 )
+    {
+        return _map.save( _fileName, true, true );
+    }
+    return false;
 }
 
 //empties the entire cache. a sync call must still be made to put this change onto the disk
