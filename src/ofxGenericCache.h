@@ -14,6 +14,7 @@
 
 #include "ofxGenericMain.h"
 #include "ofxJSONElement.h"
+#include "ofxGenericException.h"
 
 class ofxGenericCache
 {
@@ -53,9 +54,28 @@ protected:
     virtual void init( ofPtrWeak< ofxGenericCache > setThis );
     ofPtrWeak< ofxGenericCache > _this;
     
-    ofxJSONElement _map;
+    ofxJSONElement _root;
     
     //Json::Value resolvePath( );
     string _fileName;
     bool _fileInDocuments;
+    
+    static bool checkNotNullThrowIfUnexpectedType( string key, Json::Value& element, Json::ValueType expected );
+};
+
+class ofxGenericExceptionKeyValueUnexpectedType : public ofxGenericException
+{
+public:
+    ofxGenericExceptionKeyValueUnexpectedType( const char* key, Json::ValueType expected, Json::ValueType actual ) throw();
+
+    virtual const char* key() const throw();
+    virtual const char* excepted() const throw();
+    virtual const char* actual() const throw();
+    
+    virtual ~ofxGenericExceptionKeyValueUnexpectedType() throw();
+    
+protected:
+    char* _key;
+    char* _expected;
+    char* _actual;
 };

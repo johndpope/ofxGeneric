@@ -25,7 +25,7 @@ ofPtr< ofxGenericCache > ofxGenericCache::create()
 }
 
 ofxGenericCache::ofxGenericCache()
-: _map( "{}" ), _fileInDocuments( false )
+: _root( "{}" ), _fileInDocuments( false )
 {
 }
 
@@ -40,31 +40,44 @@ ofxGenericCache::~ofxGenericCache()
 
 void ofxGenericCache::write(string key, float val)
 {
-    _map[key] = val;
+    _root[key] = val;
 }
 
 void ofxGenericCache::write(string key, int val)
 {
-    _map[key] = val;
+    _root[key] = val;
 }
 
 void ofxGenericCache::write(string key, bool val)
 {
-    _map[key] = val;
+    _root[key] = val;
 }
 
 void ofxGenericCache::write(string key, string val)
 {
-    _map[key] = val;
+    _root[key] = val;
+}
+
+bool ofxGenericCache::checkNotNullThrowIfUnexpectedType( string key, Json::Value& element, Json::ValueType expected )
+{
+    if ( element.type() == Json::nullValue )
+    {
+        return false;
+    }
+    if ( element.type() != expected )
+    {
+        throw ofxGenericExceptionKeyValueUnexpectedType( key.c_str(), expected, element.type() );
+    }
+    return true;
 }
 
 bool ofxGenericCache::read(string key, float& val)
 {
-    Json::Value& element = _map[ key ];
-    if ( element.type() != Json::nullValue )
+    Json::Value& element = _root[ key ];
+    if ( checkNotNullThrowIfUnexpectedType( key, element, Json::realValue ) )
     {
         val = element.asDouble();
-        return true;
+        return true;        
     }
     return false;
 }
@@ -81,8 +94,8 @@ bool ofxGenericCache::read( string key, float& val, float defaultValue )
 
 bool ofxGenericCache::read(string key, int& val)
 {
-    Json::Value& element = _map[ key ];
-    if ( element.type() != Json::nullValue )
+    Json::Value& element = _root[ key ];
+    if ( checkNotNullThrowIfUnexpectedType( key, element, Json::intValue ) )
     {
         val = element.asInt();
         return true;
@@ -102,8 +115,8 @@ bool ofxGenericCache::read( string key, int& val, int defaultValue )
 
 bool ofxGenericCache::read(string key, bool& val)
 {
-    Json::Value& element = _map[ key ];
-    if ( element.type() != Json::nullValue )
+    Json::Value& element = _root[ key ];
+    if ( checkNotNullThrowIfUnexpectedType( key, element, Json::booleanValue ) )
     {
         val = element.asBool();
         return true;
@@ -123,8 +136,8 @@ bool ofxGenericCache::read( string key, bool& val, bool defaultValue )
 
 bool ofxGenericCache::read(string key, string& val)
 {
-    Json::Value& element = _map[ key ];
-    if ( element.type() != Json::nullValue )
+    Json::Value& element = _root[ key ];
+    if ( checkNotNullThrowIfUnexpectedType( key, element, Json::stringValue ) )
     {
         val = element.asString();
         return true;
@@ -144,7 +157,7 @@ bool ofxGenericCache::read( string key, string& val, string defaultValue )
 
 bool ofxGenericCache::drop( string key )
 {
-    const Json::Value& element = _map.removeMember( key );
+    const Json::Value& element = _root.removeMember( key );
     return element.type() != Json::nullValue;
 }
 
@@ -159,7 +172,7 @@ bool ofxGenericCache::readFromDisk()
 {
     if ( _fileName.length() > 0 )
     {
-        return _map.openLocal( _fileName, _fileInDocuments );
+        return _root.openLocal( _fileName, _fileInDocuments );
     }
     return false;
 }
@@ -169,7 +182,7 @@ bool ofxGenericCache::writeToDisk()
 {
     if ( _fileName.length() > 0 )
     {
-        return _map.save( _fileName, true, _fileInDocuments );
+        return _root.save( _fileName, true, _fileInDocuments );
     }
     return false;
 }
@@ -179,7 +192,7 @@ void ofxGenericCache::purge( string path )
 {
     if (path == "")
     {
-        _map.parse( "{}" );
+        _root.parse( "{}" );
     }
     else
     {
@@ -195,4 +208,37 @@ void ofxGenericCache::purge( string path )
             
         }*/
     }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+ofxGenericExceptionKeyValueUnexpectedType::ofxGenericExceptionKeyValueUnexpectedType( const char* key, Json::ValueType expected, Json::ValueType actual ) throw()
+: ofxGenericException( "Unexcepted key value type" ), _key( NULL ), _expected( NULL ), _actual( NULL )
+{
+    allocAndCopy( _key, key );
+    allocAndCopy( _expected, valueTypeToString( expected ) );
+    allocAndCopy( _actual, valueTypeToString( actual ) );
+}
+
+const char* ofxGenericExceptionKeyValueUnexpectedType::key() const throw()
+{
+    return _key;
+}
+
+const char* ofxGenericExceptionKeyValueUnexpectedType::excepted() const throw()
+{
+    return _expected;
+}
+
+const char* ofxGenericExceptionKeyValueUnexpectedType::actual() const throw()
+{
+    return _actual;
+}
+
+ofxGenericExceptionKeyValueUnexpectedType::~ofxGenericExceptionKeyValueUnexpectedType() throw()
+{
+    dealloc( _key );
+    dealloc( _expected );
+    dealloc( _actual );    
 }
