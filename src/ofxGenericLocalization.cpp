@@ -57,11 +57,8 @@ string ofxGenericLocalization::getString( string key, string defaultValue )
     }
     if ( ofxGenericLocalization::_this )
     {
-        string value = ofxGenericLocalization::_this->_cache->loadString( key );
-        if ( value.length() == 0 )
-        {
-            value = defaultValue;
-        }
+        string value;
+        ofxGenericLocalization::_this->_cache->read( key, value, defaultValue );
         return value;
     }
     return defaultValue;

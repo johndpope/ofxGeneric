@@ -21,15 +21,19 @@ public:
     static ofPtr< ofxGenericCache > create();
     virtual ~ofxGenericCache();
     
-    virtual bool cache(string key, float val);
-    virtual bool cache(string key, int val);
-    virtual bool cache(string key, bool val);
-    virtual bool cache(string key, string val);
+    virtual void write(string key, float val);
+    virtual void write(string key, int val);
+    virtual void write(string key, bool val);
+    virtual void write(string key, string val);
     
-    virtual float loadFloat(string key);
-    virtual int loadInt(string key);
-    virtual bool loadBool(string key);
-    virtual string loadString(string key);
+    virtual bool read(string key, float& value);
+    virtual bool read(string key, float& value, float defaultValue );
+    virtual bool read(string key, int& value);
+    virtual bool read(string key, int& value, int defaultValue );
+    virtual bool read(string key, bool& value);
+    virtual bool read(string key, bool& value, bool defaultValue );
+    virtual bool read(string key, string& value);
+    virtual bool read(string key, string& value, string defaultValue );
     
     void setFileName( string fileName, bool fileInDocuments );
     

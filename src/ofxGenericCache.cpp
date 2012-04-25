@@ -38,64 +38,108 @@ ofxGenericCache::~ofxGenericCache()
 {
 }
 
-bool ofxGenericCache::cache(string key, float val)
+void ofxGenericCache::write(string key, float val)
 {
     _map[key] = val;
-    return true;
 }
 
-bool ofxGenericCache::cache(string key, int val)
+void ofxGenericCache::write(string key, int val)
 {
     _map[key] = val;
-    return true;
 }
 
-bool ofxGenericCache::cache(string key, bool val)
+void ofxGenericCache::write(string key, bool val)
 {
     _map[key] = val;
-    return true;
 }
 
-bool ofxGenericCache::cache(string key, string val)
+void ofxGenericCache::write(string key, string val)
 {
     _map[key] = val;
-    return true;
 }
 
-float ofxGenericCache::loadFloat(string key)
+bool ofxGenericCache::read(string key, float& val)
 {
-    if (_map[key] == NULL)
+    Json::Value& element = _map[ key ];
+    if ( element.type() != Json::nullValue )
     {
-        return 0.0f;
+        val = element.asDouble();
+        return true;
     }
-    return _map[key].asDouble();
+    return false;
 }
 
-int ofxGenericCache::loadInt(string key)
+bool ofxGenericCache::read( string key, float& val, float defaultValue )
 {
-    if (_map[key] == NULL)
+    if ( !read( key, val ) )
     {
-        return 0;
-    }
-    return _map[key].asInt();
-}
-
-bool ofxGenericCache::loadBool(string key)
-{
-    if (_map[key] == NULL)
-    {
+        val = defaultValue;
         return false;
     }
-    return (bool) _map[key].asBool();
+    return true;
 }
 
-string ofxGenericCache::loadString(string key)
+bool ofxGenericCache::read(string key, int& val)
 {
-    if ( _map[key] == NULL )
+    Json::Value& element = _map[ key ];
+    if ( element.type() != Json::nullValue )
     {
-        return "";
+        val = element.asInt();
+        return true;
     }
-    return (string) _map[key].asString();
+    return false;
+}
+
+bool ofxGenericCache::read( string key, int& val, int defaultValue )
+{
+    if ( !read( key, val ) )
+    {
+        val = defaultValue;
+        return false;
+    }
+    return true;
+}
+
+bool ofxGenericCache::read(string key, bool& val)
+{
+    Json::Value& element = _map[ key ];
+    if ( element.type() != Json::nullValue )
+    {
+        val = element.asBool();
+        return true;
+    }
+    return false;
+}
+
+bool ofxGenericCache::read( string key, bool& val, bool defaultValue )
+{
+    if ( !read( key, val ) )
+    {
+        val = defaultValue;
+        return false;
+    }
+    return true;
+}
+
+bool ofxGenericCache::read(string key, string& val)
+{
+    Json::Value& element = _map[ key ];
+    if ( element.type() != Json::nullValue )
+    {
+        val = element.asString();
+        return true;
+    }
+    return false;
+}
+
+bool ofxGenericCache::read( string key, string& val, string defaultValue )
+{
+    if ( !read( key, val ) )
+    {
+        val = defaultValue;
+        return false;
+    }
+    return true;
 }
 
 void ofxGenericCache::setFileName( string fileName, bool fileInDocuments )
