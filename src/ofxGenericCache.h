@@ -31,7 +31,7 @@ public:
     virtual bool loadBool(string key);
     virtual string loadString(string key);
     
-    void setFileName( string fileName );
+    void setFileName( string fileName, bool fileInDocuments );
     
     //loads the cache from disk
     virtual bool readFromDisk();
@@ -51,4 +51,5 @@ protected:
     
     //Json::Value resolvePath( );
     string _fileName;
+    bool _fileInDocuments;
 };

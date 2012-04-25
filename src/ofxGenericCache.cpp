@@ -25,7 +25,7 @@ ofPtr< ofxGenericCache > ofxGenericCache::create()
 }
 
 ofxGenericCache::ofxGenericCache()
-: _map( "{}" )
+: _map( "{}" ), _fileInDocuments( false )
 {
 }
 
@@ -98,9 +98,10 @@ string ofxGenericCache::loadString(string key)
     return (string) _map[key].asString();
 }
 
-void ofxGenericCache::setFileName( string fileName )
+void ofxGenericCache::setFileName( string fileName, bool fileInDocuments )
 {
     _fileName = fileName;
+    _fileInDocuments = fileInDocuments;
 }
 
 //loads the cache from disk
@@ -108,7 +109,7 @@ bool ofxGenericCache::readFromDisk()
 {
     if ( _fileName.length() > 0 )
     {
-        return _map.openLocal( _fileName, true );
+        return _map.openLocal( _fileName, _fileInDocuments );
     }
     return false;
 }
@@ -118,7 +119,7 @@ bool ofxGenericCache::writeToDisk()
 {
     if ( _fileName.length() > 0 )
     {
-        return _map.save( _fileName, true, true );
+        return _map.save( _fileName, true, _fileInDocuments );
     }
     return false;
 }
