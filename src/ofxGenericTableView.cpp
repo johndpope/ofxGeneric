@@ -52,7 +52,7 @@ unsigned int ofxGenericTableView::getNumberOfCells( unsigned int section )
 {
     if (_delegate)
     {
-        return _delegate->getNumberOfCells( dynamic_pointer_cast< ofxGenericTableView >( _this.lock() ), section );
+        return _delegate.lock()->getNumberOfCells( dynamic_pointer_cast< ofxGenericTableView >( _this.lock() ), section );
     }
     return 0;
 }
@@ -61,7 +61,7 @@ ofPtr< ofxGenericTableViewCell > ofxGenericTableView::getCell( unsigned int sect
 {
     if (_delegate)
     {
-        return _delegate->getCell( dynamic_pointer_cast< ofxGenericTableView >( _this.lock() ), section, index );
+        return _delegate.lock()->getCell( dynamic_pointer_cast< ofxGenericTableView >( _this.lock() ), section, index );
     }
     return ofPtr< ofxGenericTableViewCell >();
 }
@@ -70,7 +70,7 @@ float ofxGenericTableView::getHeightForCell( unsigned int section, unsigned int 
 {
     if (_delegate)
     {
-        return _delegate->getHeightForCell( dynamic_pointer_cast< ofxGenericTableView >( _this.lock() ), section, index );
+        return _delegate.lock()->getHeightForCell( dynamic_pointer_cast< ofxGenericTableView >( _this.lock() ), section, index );
     }
     ofPtr< ofxGenericTableViewCell > cell = getCell( section, index );
     if ( cell )
@@ -102,9 +102,116 @@ void ofxGenericTableView::setSeparatorStyle( ofxGenericTableViewSeparatorStyle s
 #endif    
 }
 
-void ofxGenericTableView::setDelegate( ofPtr< ofxGenericTableViewDelegate > delegate )
+void ofxGenericTableView::setDelegate( ofPtrWeak< ofxGenericTableViewDelegate > delegate )
 {
     _delegate = delegate;
+}
+
+void ofxGenericTableView::reloadData()
+{
+#if TARGET_OS_IPHONE
+    UITableView* view = ( UITableView* )*this;
+    if ( view )
+    {
+        [ view reloadData ];
+    }
+#endif
+}
+
+void ofxGenericTableView::selectedRow( unsigned int section, unsigned int index)
+{
+    if (_delegate)
+    {
+        _delegate.lock()->selectedRow( dynamic_pointer_cast< ofxGenericTableView >( _this.lock() ), section, index );
+    }
+}
+
+void ofxGenericTableView::setAllowsSelection( bool allow )
+{
+#if TARGET_OS_IPHONE
+    UITableView* view = ( UITableView* )*this;
+    if ( view )
+    {
+        view.allowsSelection = allow ? YES : NO;
+    }
+#endif    
+}
+
+bool ofxGenericTableView::allowsSelection()
+{
+#if TARGET_OS_IPHONE
+    UITableView* view = ( UITableView* )*this;
+    if ( view )
+    {
+        return view.allowsSelection == YES ? true : false;
+    }
+#endif    
+    return false;
+}
+
+void ofxGenericTableView::setCellIsSelected( unsigned int section, unsigned int index, bool selected)
+{
+#if TARGET_OS_IPHONE    
+    UITableView* view = ( UITableView* )*this;
+    if ( view )
+    {
+        if (selected)
+        {
+            [ view selectRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:section] animated:NO scrollPosition:UITableViewScrollPositionNone];
+        }
+        else
+        {
+            [ view deselectRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:section] animated:NO];
+        }
+    }
+    
+#endif    
+}
+
+int ofxGenericTableView::getSelectedIndex()
+{
+#if TARGET_OS_IPHONE    
+    UITableView* view = ( UITableView* )*this;
+    if ( view )
+    {
+        NSIndexPath *p = [ view indexPathForSelectedRow ];
+        if (!p)
+        {
+            return -1;
+        }
+        return p.row;
+    }
+#endif
+    return -1;
+}
+
+int ofxGenericTableView::getSelectedSection()
+{
+#if TARGET_OS_IPHONE    
+    UITableView* view = ( UITableView* )*this;
+    if ( view )
+    {
+        NSIndexPath *p = [ view indexPathForSelectedRow ];
+        if (!p)
+        {
+            return -1;
+        }
+        return p.section;
+    }
+#endif
+    return -1;
+}
+
+bool ofxGenericTableView::deselectAllCells()
+{
+    int s = getSelectedSection();
+    int i = getSelectedIndex();
+    if (s >= 0 && i >= 0)
+    {
+        setCellIsSelected( s, i, false );
+        return true;
+    }
+    return false;
 }
 
 #if TARGET_OS_IPHONE
@@ -116,6 +223,13 @@ ofxGenericTableViewCell::~ofxGenericTableViewCell()
 #if TARGET_OS_IPHONE
     releaseView( _view );
 #endif
+}
+
+ofPtr< ofxGenericTableViewCell > ofxGenericTableViewCell::create( ofPtrWeak< ofxGenericTableView > table, const ofRectangle& setBounds  )
+{
+    ofPtr< ofxGenericTableViewCell > c = ofPtr< ofxGenericTableViewCell >( new ofxGenericTableViewCell() );
+    c->init(c, table, setBounds);
+    return c;
 }
 
 void ofxGenericTableViewCell::init( ofPtr< ofxGenericTableViewCell > setThis, ofPtrWeak< ofxGenericTableView > table, const ofRectangle& setBounds )
@@ -202,6 +316,14 @@ ofxGenericUIViewCastOperator( ofxGenericTableViewCell, UITableViewCell );
         return _delegate->getHeightForCell( [ indexPath section ], [ indexPath row ] );
     }
     return 0;
+}
+
+-( void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ( _delegate )
+    {
+        _delegate->selectedRow( indexPath.section, indexPath.row );
+    }
 }
 
 
