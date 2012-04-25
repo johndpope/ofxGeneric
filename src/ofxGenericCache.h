@@ -35,6 +35,8 @@ public:
     virtual bool read(string key, string& value);
     virtual bool read(string key, string& value, string defaultValue );
     
+    virtual bool drop( string key );
+    
     void setFileName( string fileName, bool fileInDocuments );
     
     //loads the cache from disk

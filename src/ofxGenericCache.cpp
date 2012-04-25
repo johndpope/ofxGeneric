@@ -142,6 +142,12 @@ bool ofxGenericCache::read( string key, string& val, string defaultValue )
     return true;
 }
 
+bool ofxGenericCache::drop( string key )
+{
+    const Json::Value& element = _map.removeMember( key );
+    return element.type() != Json::nullValue;
+}
+
 void ofxGenericCache::setFileName( string fileName, bool fileInDocuments )
 {
     _fileName = fileName;
