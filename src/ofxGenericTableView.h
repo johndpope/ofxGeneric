@@ -30,7 +30,16 @@ public:
     virtual void setSeparatorColor( const ofColor& separatorColor );
     virtual void setSeparatorStyle( ofxGenericTableViewSeparatorStyle separatorStyle );
 
-    virtual void setDelegate( ofPtr< ofxGenericTableViewDelegate > delegate );
+    virtual void setDelegate( ofPtrWeak< ofxGenericTableViewDelegate > delegate );
+    virtual void reloadData();
+    
+    virtual void selectedRow( unsigned int section, unsigned int index);
+    virtual void setAllowsSelection( bool allow );
+    virtual bool allowsSelection();
+    virtual void setCellIsSelected( unsigned int section, unsigned int index, bool selected);
+    virtual bool deselectAllCells();
+    virtual int getSelectedIndex();
+    virtual int getSelectedSection();
     
 #if TARGET_OS_IPHONE
     operator UITableView*();
@@ -41,13 +50,14 @@ protected:
 #if TARGET_OS_IPHONE
     ofxGenericTableViewForwarder* _forwarder;    
 #endif
-    ofPtr< ofxGenericTableViewDelegate > _delegate;
+    ofPtrWeak< ofxGenericTableViewDelegate > _delegate;
 };
 
 class ofxGenericTableViewCell : public ofxGenericView
 {
 public:
     virtual ~ofxGenericTableViewCell();
+    static ofPtr< ofxGenericTableViewCell > create( ofPtrWeak< ofxGenericTableView > table, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 )  );
     virtual void init( ofPtr< ofxGenericTableViewCell > setThis, ofPtrWeak< ofxGenericTableView > table, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 )  );
     virtual void setText( string text );
     virtual void setImage( string imagePath );
@@ -71,4 +81,5 @@ public:
     virtual unsigned int getNumberOfCells( ofPtr< ofxGenericTableView > tableView, unsigned int section ) = 0;
     virtual ofPtr< ofxGenericTableViewCell > getCell( ofPtr< ofxGenericTableView > tableView, unsigned int section, unsigned int index ) = 0;
     virtual float getHeightForCell( ofPtr< ofxGenericTableView > tableView, unsigned int section, unsigned int index ) = 0;
+    virtual void selectedRow( ofPtr< ofxGenericTableView > tableView, unsigned int section, unsigned int index) {};
 };
