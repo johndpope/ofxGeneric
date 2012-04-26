@@ -29,6 +29,11 @@ ofxGenericCache::ofxGenericCache()
 {
 }
 
+ofxGenericCache::ofxGenericCache( ofxJSONElement& root )
+: _root( root ), _fileInDocuments( false )
+{
+}
+
 void ofxGenericCache::init( ofPtrWeak< ofxGenericCache > setThis )
 {
     _this = setThis;
@@ -58,6 +63,11 @@ void ofxGenericCache::write(string key, string val)
     _root[key] = val;
 }
 
+void ofxGenericCache::write(string key, ofPtr< ofxGenericCache >& val )
+{
+    _root[ key ] = val->_root;
+}
+
 bool ofxGenericCache::checkNotNullThrowIfUnexpectedType( string key, Json::Value& element, Json::ValueType expected )
 {
     if ( element.type() == Json::nullValue )
@@ -73,13 +83,7 @@ bool ofxGenericCache::checkNotNullThrowIfUnexpectedType( string key, Json::Value
 
 bool ofxGenericCache::read(string key, float& val)
 {
-    Json::Value& element = _root[ key ];
-    if ( checkNotNullThrowIfUnexpectedType( key, element, Json::realValue ) )
-    {
-        val = element.asDouble();
-        return true;        
-    }
-    return false;
+    return read( key, _root[ key ], val );
 }
 
 bool ofxGenericCache::read( string key, float& val, float defaultValue )
@@ -94,13 +98,7 @@ bool ofxGenericCache::read( string key, float& val, float defaultValue )
 
 bool ofxGenericCache::read(string key, int& val)
 {
-    Json::Value& element = _root[ key ];
-    if ( checkNotNullThrowIfUnexpectedType( key, element, Json::intValue ) )
-    {
-        val = element.asInt();
-        return true;
-    }
-    return false;
+    return read( key, _root[ key ], val );
 }
 
 bool ofxGenericCache::read( string key, int& val, int defaultValue )
@@ -115,13 +113,7 @@ bool ofxGenericCache::read( string key, int& val, int defaultValue )
 
 bool ofxGenericCache::read(string key, bool& val)
 {
-    Json::Value& element = _root[ key ];
-    if ( checkNotNullThrowIfUnexpectedType( key, element, Json::booleanValue ) )
-    {
-        val = element.asBool();
-        return true;
-    }
-    return false;
+    return read( key, _root[ key ], val );
 }
 
 bool ofxGenericCache::read( string key, bool& val, bool defaultValue )
@@ -136,13 +128,7 @@ bool ofxGenericCache::read( string key, bool& val, bool defaultValue )
 
 bool ofxGenericCache::read(string key, string& val)
 {
-    Json::Value& element = _root[ key ];
-    if ( checkNotNullThrowIfUnexpectedType( key, element, Json::stringValue ) )
-    {
-        val = element.asString();
-        return true;
-    }
-    return false;
+    return read( key, _root[ key ], val );
 }
 
 bool ofxGenericCache::read( string key, string& val, string defaultValue )
@@ -153,6 +139,72 @@ bool ofxGenericCache::read( string key, string& val, string defaultValue )
         return false;
     }
     return true;
+}
+
+bool ofxGenericCache::read( string key, ofPtr< ofxGenericCache >& val )
+{
+    return read( key, _root[ key ], val );
+}
+
+{
+    if ( !read( key, val ) )
+    {
+        val = defaultValue;
+        return false;
+    }
+    return true;
+}
+
+bool ofxGenericCache::read( string key, Json::Value& element, float& value )
+{
+    if ( checkNotNullThrowIfUnexpectedType( key, element, Json::realValue ) )
+    {
+        value = element.asDouble();
+        return true;        
+    }
+    return false;
+}
+
+bool ofxGenericCache::read( string key, Json::Value& element, int& value )
+{
+    if ( checkNotNullThrowIfUnexpectedType( key, element, Json::intValue ) )
+    {
+        value = element.asInt();
+        return true;
+    }
+    return false;
+}
+
+bool ofxGenericCache::read( string key, Json::Value& element, bool& value )
+{
+    if ( checkNotNullThrowIfUnexpectedType( key, element, Json::booleanValue ) )
+    {
+        value = element.asBool();
+        return true;
+    }
+    return false;
+}
+
+bool ofxGenericCache::read( string key, Json::Value& element, string& value )
+{
+    if ( checkNotNullThrowIfUnexpectedType( key, element, Json::stringValue ) )
+    {
+        value = element.asString();
+        return true;
+    }
+    return false;
+}
+
+bool ofxGenericCache::read( string key, Json::Value& element, ofPtr< ofxGenericCache >& value )
+{
+    if ( checkNotNullThrowIfUnexpectedType( key, element, Json::objectValue ) )
+    {
+        ofxJSONElement jsonElement( element );
+        ofxGenericCache* wrap = new ofxGenericCache( jsonElement );
+        value = ofPtr< ofxGenericCache >( wrap );
+        return true;
+    }
+    return false;
 }
 
 bool ofxGenericCache::drop( string key )

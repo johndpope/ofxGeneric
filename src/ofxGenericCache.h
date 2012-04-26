@@ -26,6 +26,7 @@ public:
     virtual void write(string key, int val);
     virtual void write(string key, bool val);
     virtual void write(string key, string val);
+    virtual void write(string key, ofPtr< ofxGenericCache >& val );
     
     virtual bool read(string key, float& value);
     virtual bool read(string key, float& value, float defaultValue );
@@ -36,6 +37,7 @@ public:
     virtual bool read(string key, string& value);
     virtual bool read(string key, string& value, string defaultValue );
     
+    virtual bool read(string key, ofPtr< ofxGenericCache >& val );
     virtual bool drop( string key );
     
     void setFileName( string fileName, bool fileInDocuments );
@@ -51,6 +53,7 @@ public:
     
 protected:
     ofxGenericCache();
+    ofxGenericCache( ofxJSONElement& root );
     virtual void init( ofPtrWeak< ofxGenericCache > setThis );
     ofPtrWeak< ofxGenericCache > _this;
     
@@ -61,6 +64,11 @@ protected:
     bool _fileInDocuments;
     
     static bool checkNotNullThrowIfUnexpectedType( string key, Json::Value& element, Json::ValueType expected );
+    virtual bool read( string key, Json::Value& element, float& value );
+    virtual bool read( string key, Json::Value& element, int& value );
+    virtual bool read( string key, Json::Value& element, bool& value );
+    virtual bool read( string key, Json::Value& element, string& value );
+    virtual bool read( string key, Json::Value& element, ofPtr< ofxGenericCache >& value );
 };
 
 class ofxGenericExceptionKeyValueUnexpectedType : public ofxGenericException
