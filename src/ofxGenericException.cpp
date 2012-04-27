@@ -12,13 +12,15 @@
 ofxGenericException::ofxGenericException( const char* what ) throw()
 : _what( NULL )
 {    
-    setWhat( what );
+    allocAndCopy( _what, what );
+    ofxGLog( OF_LOG_VERBOSE, "ofxGenericException thrown: %s", _what );
 }
 
 ofxGenericException::ofxGenericException( std::exception translate ) throw()
 : _what( NULL )
 {
-    setWhat( translate.what() );
+    allocAndCopy( _what, translate.what() );
+    ofxGLog( OF_LOG_VERBOSE, "ofxGenericException thrown: %s", _what );
 }
 
 #if TARGET_OS_IPHONE
@@ -28,31 +30,40 @@ ofxGenericException::ofxGenericException( NSException* translate ) throw()
     if ( translate )
     {
         NSString* nsWhat = [ NSString stringWithFormat:@"%@ - %@ - %@ - %@ - %@", translate.name, translate.reason, translate.userInfo, translate.callStackReturnAddresses, translate.callStackSymbols ];
-        setWhat( [ nsWhat UTF8String ] );
+        allocAndCopy( _what, [ nsWhat UTF8String ] );
     } else
     {
-        setWhat( "Unknown exception" );
+        allocAndCopy( _what, "Unknown exception" );
     }
+    ofxGLog( OF_LOG_VERBOSE, "ofxGenericException thrown: %s", _what );
 }
 #endif
 
 ofxGenericException::~ofxGenericException() throw()
 {
-    if ( _what )
+    dealloc( _what );
+}
+
+void ofxGenericException::allocAndCopy( char*& to, const char* from )
+{
+    if ( from )
     {
-        delete [] _what;
-        _what = NULL;
+        int length = strlen( from ) + 1;
+        to = new char[ length ];
+        strcpy( to, from );
+    } else 
+    {
+        to = NULL;
     }
 }
 
-void ofxGenericException::setWhat( const char* what )
+void ofxGenericException::dealloc( char*& from )
 {
-    if ( _what )
+    if ( from )
     {
-        delete [] _what;
+        delete [] from;
+        from = NULL;
     }
-    _what = new char[ strlen( what ) + 1 ];
-    strcpy( _what, what );
 }
 
 const char* ofxGenericException::what() const throw()
@@ -65,11 +76,7 @@ const char* ofxGenericException::what() const throw()
 ofxGenericExceptionForClass::ofxGenericExceptionForClass( const char* what, const char* className ) throw()
 : ofxGenericException( what ), _className( NULL )
 {
-    if ( className )
-    {   
-        _className = new char[ strlen( className ) + 1 ];
-        strcpy( _className, className );
-    }    
+    allocAndCopy( _className, className );
 }
 
 const char* ofxGenericExceptionForClass::className() const throw()
@@ -79,11 +86,7 @@ const char* ofxGenericExceptionForClass::className() const throw()
 
 ofxGenericExceptionForClass::~ofxGenericExceptionForClass() throw()
 {
-    if ( _className )
-    {
-        delete [] _className;
-        _className = NULL;
-    }
+    dealloc( _className );
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////

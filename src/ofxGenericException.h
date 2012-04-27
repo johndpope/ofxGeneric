@@ -28,7 +28,8 @@ public:
     virtual const char* what() const throw();    
     
 protected:
-    void setWhat( const char* what );
+    void allocAndCopy( char*& to, const char* from );
+    void dealloc( char*& from );
     char* _what;
 };
 
