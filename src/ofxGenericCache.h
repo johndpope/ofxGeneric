@@ -36,8 +36,27 @@ public:
     virtual bool read(string key, bool& value, bool defaultValue );
     virtual bool read(string key, string& value);
     virtual bool read(string key, string& value, string defaultValue );
+    virtual bool read(string key, ofPtr< ofxGenericCache >& val, bool asArray = false );
     
-    virtual bool read(string key, ofPtr< ofxGenericCache >& val );
+    static ofPtr< ofxGenericCache > createArray();
+    bool isArray();
+    int length();
+    virtual void write( int index, float val);
+    virtual void write( int index, int val);
+    virtual void write( int index, bool val);
+    virtual void write( int index, string val);
+    virtual void write( int index, ofPtr< ofxGenericCache >& val );
+    
+    virtual bool read( int index, float& value);
+    virtual bool read( int index, float& value, float defaultValue );
+    virtual bool read( int index, int& value);
+    virtual bool read( int index, int& value, int defaultValue );
+    virtual bool read( int index, bool& value);
+    virtual bool read( int index, bool& value, bool defaultValue );
+    virtual bool read( int index, string& value);
+    virtual bool read( int index, string& value, string defaultValue );
+    virtual bool read( int index, ofPtr< ofxGenericCache >& val, bool asArray = false );
+
     virtual bool drop( string key );
     
     void setFileName( string fileName, bool fileInDocuments );
@@ -64,18 +83,19 @@ protected:
     bool _fileInDocuments;
     
     static bool checkNotNullThrowIfUnexpectedType( string key, Json::Value& element, Json::ValueType expected );
+    
     virtual bool read( string key, Json::Value& element, float& value );
     virtual bool read( string key, Json::Value& element, int& value );
     virtual bool read( string key, Json::Value& element, bool& value );
     virtual bool read( string key, Json::Value& element, string& value );
-    virtual bool read( string key, Json::Value& element, ofPtr< ofxGenericCache >& value );
+    virtual bool read( string key, Json::Value& element, ofPtr< ofxGenericCache >& value, bool asArray = false );
 };
 
 class ofxGenericExceptionKeyValueUnexpectedType : public ofxGenericException
 {
 public:
     ofxGenericExceptionKeyValueUnexpectedType( const char* key, Json::ValueType expected, Json::ValueType actual ) throw();
-
+    
     virtual const char* key() const throw();
     virtual const char* excepted() const throw();
     virtual const char* actual() const throw();
