@@ -19,7 +19,7 @@
 class ofxGenericCache
 {
 public:
-    static ofPtr< ofxGenericCache > create();
+    static ofPtr< ofxGenericCache > create( bool asArray = false );
     virtual ~ofxGenericCache();
     
     virtual void write(string key, float val);
@@ -37,8 +37,7 @@ public:
     virtual bool read(string key, string& value);
     virtual bool read(string key, string& value, string defaultValue );
     virtual bool read(string key, ofPtr< ofxGenericCache >& val, bool asArray = false );
-    
-    static ofPtr< ofxGenericCache > createArray();
+
     bool isArray();
     int length();
     virtual void write( int index, float val);

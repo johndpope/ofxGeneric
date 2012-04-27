@@ -18,9 +18,18 @@
 #include <algorithm>
 #include <iterator>
 
-ofPtr< ofxGenericCache > ofxGenericCache::create()
+ofPtr< ofxGenericCache > ofxGenericCache::create( bool asArray )
 {
-    ofPtr< ofxGenericCache > create( new ofxGenericCache() );
+    ofPtr< ofxGenericCache > create;
+    if ( asArray )
+    {
+        Json::Value jsonValue( Json::arrayValue );
+        ofxJSONElement jsonElement( jsonValue );
+        create = ofPtr< ofxGenericCache >( new ofxGenericCache( jsonElement ) );
+    } else 
+    {
+        create = ofPtr< ofxGenericCache >( new ofxGenericCache() );
+    }
     create->init( create );
     return create;
 }
@@ -149,13 +158,6 @@ bool ofxGenericCache::read( string key, ofPtr< ofxGenericCache >& val, bool asAr
 
 
 #pragma Array
-
-ofPtr< ofxGenericCache > ofxGenericCache::createArray()
-{
-    Json::Value jsonValue( Json::arrayValue );
-    ofxJSONElement jsonElement( jsonValue );
-    return ofPtr< ofxGenericCache >( new ofxGenericCache( jsonElement ) );
-}
 
 void ofxGenericCache::write( int index, float val)
 {
