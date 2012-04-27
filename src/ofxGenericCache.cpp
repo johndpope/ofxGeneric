@@ -319,6 +319,11 @@ bool  ofxGenericCache::isArray()
     return _root.type() == Json::arrayValue;
 }
 
+unsigned int ofxGenericCache::length()
+{
+    return _root.size();
+}
+
 bool ofxGenericCache::drop( string key )
 {
     const Json::Value& element = _root.removeMember( key );

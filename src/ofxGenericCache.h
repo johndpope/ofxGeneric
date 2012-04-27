@@ -39,7 +39,7 @@ public:
     virtual bool read(string key, ofPtr< ofxGenericCache >& val, bool asArray = false );
 
     bool isArray();
-    int length();
+    unsigned int length();
     virtual void write( int index, float val);
     virtual void write( int index, int val);
     virtual void write( int index, bool val);
