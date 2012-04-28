@@ -105,6 +105,11 @@ protected:
     ofxGenericView();
     virtual void init( ofPtrWeak< ofxGenericView > smartPointer, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 ) );
     
+#if TARGET_OS_IPHONE
+    virtual UIView* allocNativeView( const ofRectangle& frame );
+#elif TARGET_ANDROID
+    virtual jobject allocNativeView( const ofRectangle& frame );
+#endif
     virtual NativeView createNativeView( const ofRectangle& frame );
     NativeView _view;
 

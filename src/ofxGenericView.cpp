@@ -107,10 +107,22 @@ jobject ofxGenericView::getJNIInstance()
 
 #endif
 
+#if TARGET_OS_IPHONE
+UIView* ofxGenericView::allocNativeView( const ofRectangle& setFrame )
+{
+    return [ [ UIView alloc ] initWithFrame:ofRectangleToCGRect( setFrame ) ];
+}
+#elif TARGET_ANDROID
+jobject ofxGenericView::allocNativeView( const ofRectangle& frame )
+{
+    return createJNIInstance( _jniMethods, JNIMethod_constructor );
+}
+#endif
+
 NativeView ofxGenericView::createNativeView( const ofRectangle& setFrame )
 {
 #if TARGET_OS_IPHONE
-	UIView* newView = [ [ UIView alloc ] initWithFrame:ofRectangleToCGRect( setFrame ) ];
+	UIView* newView = allocNativeView( setFrame );
 
 	// TODO: move to shared code override-able function after _view assigned? or just assign _view in here
     [ newView setBackgroundColor:[ UIColor whiteColor ] ];
@@ -121,13 +133,13 @@ NativeView ofxGenericView::createNativeView( const ofRectangle& setFrame )
     return newView;
 
 #elif TARGET_ANDROID
-
     // TODO: exception handling
-    jobject newView = createJNIInstance( _jniMethods, JNIMethod_constructor );
+    jobject newView = allocNativeView( setFrame );
     // set background white
     // set opaque
     // set not hidden
     return createJNIReference( newView );
+    
 #endif
 }
 
