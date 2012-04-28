@@ -568,6 +568,18 @@ void ofxGenericView::setAnimationTransition( ofxGenericViewAnimationTransition t
 #endif    
 }
 
+void ofxGenericView::replaceViewWithView( ofPtr< ofxGenericView > replace, ofPtr< ofxGenericView > with )
+{
+    if ( replace && replace->getParent() && with )
+    {
+        ofPtr< ofxGenericView > parent = replace->getParent().lock();
+        // TODO: match autosizing?
+        with->setFrame( replace->getFrame() );
+        parent->addChildView( with, replace );
+        parent->removeChildView( replace );
+    }
+}
+
 string ofxGenericView::dumpViewGraph( int depth )
 {
 #if defined(DEBUG) || defined(TEST)
