@@ -32,6 +32,7 @@ public:
     
     virtual int getDrawCallCount();
     virtual ofxGenericDrawCall getDrawCallAt(int i);
+    virtual void clearDrawCalls();
     
 protected:
     ofxGenericDrawableView();

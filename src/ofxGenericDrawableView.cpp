@@ -97,7 +97,6 @@ void ofxGenericDrawableView::repaint()
 #if TARGET_OS_IPHONE
     [(ofxDrawableUIView *)_view setNeedsDisplay];
 #endif
-    _drawCalls.clear();
 }
 
 int ofxGenericDrawableView::getDrawCallCount()
@@ -108,6 +107,11 @@ int ofxGenericDrawableView::getDrawCallCount()
 ofxGenericDrawCall ofxGenericDrawableView::getDrawCallAt(int i)
 {
     return _drawCalls[i];
+}
+
+void ofxGenericDrawableView::clearDrawCalls()
+{
+    _drawCalls.clear();
 }
 
 //////////////////////////ofxGenericDrawCall////////////////////////
@@ -194,6 +198,7 @@ ofColor ofxGenericDrawCall::getColor()
 
 - (void) drawRect:(CGRect)rect
 {
+    //TODO use CGContextAddLines if we need more speed
     ofPtr< ofxGenericDrawableView > own = drawOwner.lock();
     if (own->getDrawCallCount() > 0)
     {
@@ -228,7 +233,10 @@ ofColor ofxGenericDrawCall::getColor()
                 lastPoint = call.getEnd();
             }
         }
+        
+        CGContextDrawPath(context, kCGPathStroke);
     }
+    own->clearDrawCalls();
 }
 
 @end
