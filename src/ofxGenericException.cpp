@@ -8,19 +8,18 @@
 
 #include "ofxGenericException.h"
 #include "ofxGenericUtility.h"
+#include <execinfo.h>
 
 ofxGenericException::ofxGenericException( const char* what ) throw()
 : _what( NULL )
 {    
-    allocAndCopy( _what, what );
-    ofxGLog( OF_LOG_VERBOSE, "ofxGenericException thrown: %s", _what );
+    captureStackWithWhat( what );
 }
 
 ofxGenericException::ofxGenericException( std::exception translate ) throw()
 : _what( NULL )
 {
-    allocAndCopy( _what, translate.what() );
-    ofxGLog( OF_LOG_VERBOSE, "ofxGenericException thrown: %s", _what );
+    captureStackWithWhat( translate.what() );
 }
 
 #if TARGET_OS_IPHONE
@@ -35,7 +34,6 @@ ofxGenericException::ofxGenericException( NSException* translate ) throw()
     {
         allocAndCopy( _what, "Unknown exception" );
     }
-    ofxGLog( OF_LOG_VERBOSE, "ofxGenericException thrown: %s", _what );
 }
 #endif
 
@@ -44,7 +42,7 @@ ofxGenericException::~ofxGenericException() throw()
     dealloc( _what );
 }
 
-void ofxGenericException::allocAndCopy( char*& to, const char* from )
+void ofxGenericException::allocAndCopy( char*& to, const char* from ) throw()
 {
     if ( from )
     {
@@ -57,13 +55,29 @@ void ofxGenericException::allocAndCopy( char*& to, const char* from )
     }
 }
 
-void ofxGenericException::dealloc( char*& from )
+void ofxGenericException::dealloc( char*& from ) throw()
 {
     if ( from )
     {
         delete [] from;
         from = NULL;
     }
+}
+
+void ofxGenericException::captureStackWithWhat( const char* what ) throw()
+{
+    void* callstack[ 128 ];
+    int frames = backtrace( callstack, 128 );
+    char** strs = backtrace_symbols( callstack, frames );
+    
+    char buffer[ 10000 ];
+    int offset = snprintf( buffer, 10000, "%s\n", what );
+    for ( int i = 0; i < frames && offset < 10000; ++i ) 
+    {
+        offset += snprintf( buffer + offset, 10000 - offset, "%s\n", strs[ i ] );
+    }
+    free( strs );
+    allocAndCopy( _what, buffer );
 }
 
 const char* ofxGenericException::what() const throw()
