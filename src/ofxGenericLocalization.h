@@ -27,4 +27,5 @@ protected:
     ofPtr< ofxGenericCache > _cache;
 };
 
-string ofxGLocalized( string key, string defaultValue = string() );
+string ofxGLocalized( string key );
+string ofxGLocalized( string key, string defaultValue );

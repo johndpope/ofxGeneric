@@ -72,6 +72,11 @@ ofxGenericLocalization::~ofxGenericLocalization()
 {
 }
 
+string ofxGLocalized( string key )
+{
+    return ofxGenericLocalization::getString( key );
+}
+
 string ofxGLocalized( string key, string defaultValue )
 {
     return ofxGenericLocalization::getString( key, defaultValue );
