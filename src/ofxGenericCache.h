@@ -16,6 +16,9 @@
 #include "ofxJSONElement.h"
 #include "ofxGenericException.h"
 
+typedef Json::Value::iterator ofxGenericCacheIterator;
+typedef Json::Value::const_iterator ofxGenericCacheConstIterator;
+
 class ofxGenericCache
 {
 public:
@@ -68,6 +71,11 @@ public:
     
     //empties the entire cache. a sync call must still be made to put this change onto the disk
     virtual void purge( string path="" );
+    
+    ofxGenericCacheIterator begin();
+    ofxGenericCacheConstIterator begin() const;
+    ofxGenericCacheIterator end();
+    ofxGenericCacheConstIterator end() const;
     
 protected:
     ofxGenericCache();
