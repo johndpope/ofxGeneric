@@ -91,18 +91,21 @@ void ofxGenericApp::runViaInfiniteLoop( ofPtr< ofxAppGenericWindow > window )
         
     #endif
         
-    } catch( ofxGenericException& uncaught )
+    } catch( ofxGenericException& uncaughtofxGeneric )
     {
-        handleUncaughtException( uncaught );
-    } catch( std::exception& uncaught )
+        handleUncaughtException( uncaughtofxGeneric );
+    } catch( std::exception& uncaughtStd )
     {
-        ofxGenericException catchIt( uncaught );
-        handleUncaughtException( catchIt );        
-    } catch( ... )
-    {
-        ofxGenericException catchIt( "Unknown exception" );
-        handleUncaughtException( catchIt );
+        ofxGenericException uncaughtStdofxGeneric( uncaughtStd );
+        handleUncaughtException( uncaughtStdofxGeneric );        
     }
+#if !defined (DEBUG)
+    catch( ... )
+    {
+        ofxGenericException uncaughtUnknown( "Unknown exception" );
+        handleUncaughtException( uncaughtUnknown );
+    }
+#endif
 }
 
 // TODO: come up with calling scheme, friending doesn't seem to be possible :(
