@@ -266,6 +266,7 @@ void ofxGenericApp::showFatalErrorAndQuit( string title, string message )
     fatalErrorAlert->show();
     
 #if TARGET_OS_IPHONE
+    // Keep app alive while error popup is displayed
     CFRunLoopRef runLoop = CFRunLoopGetCurrent();
 	CFArrayRef allModes = CFRunLoopCopyAllModes(runLoop);
     
