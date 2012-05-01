@@ -68,8 +68,9 @@ void ofxGenericApp::runViaInfiniteLoop( ofPtr< ofxAppGenericWindow > window )
     #if TARGET_OS_IPHONE
         @try
         {
-        NSString* delegateClassName = NSStringFromClass( [ ofxGenericAppDelegate class ] );
-        UIApplicationMain( nil, nil, nil, delegateClassName );
+            NSString* delegateClassName = NSStringFromClass( [ ofxGenericAppDelegate class ] );
+            UIApplicationMain( nil, nil, nil, delegateClassName );
+            finishedLaunching();
         } @catch( NSException* exception )
         {
             ofxGenericException uncaught( exception );
@@ -87,22 +88,24 @@ void ofxGenericApp::runViaInfiniteLoop( ofPtr< ofxAppGenericWindow > window )
 
         JNICallStaticVoidMethod( setWindow.getClass(), setWindow.getID(), _window->getNativeWindow() );
     */
-        finishedLaunching();
         
     #endif
         
-    } catch( ofxGenericException& uncaught )
+    } catch( ofxGenericException& uncaughtofxGeneric )
     {
-        handleUncaughtException( uncaught );
-    } catch( std::exception& uncaught )
+        handleUncaughtException( uncaughtofxGeneric );
+    } catch( std::exception& uncaughtStd )
     {
-        ofxGenericException catchIt( uncaught );
-        handleUncaughtException( catchIt );        
-    } catch( ... )
-    {
-        ofxGenericException catchIt( "Unknown exception" );
-        handleUncaughtException( catchIt );
+        ofxGenericException uncaughtStdofxGeneric( uncaughtStd );
+        handleUncaughtException( uncaughtStdofxGeneric );        
     }
+#if !defined (DEBUG)
+    catch( ... )
+    {
+        ofxGenericException uncaughtUnknown( "Unknown exception" );
+        handleUncaughtException( uncaughtUnknown );
+    }
+#endif
 }
 
 // TODO: come up with calling scheme, friending doesn't seem to be possible :(
@@ -266,6 +269,7 @@ void ofxGenericApp::showFatalErrorAndQuit( string title, string message )
     fatalErrorAlert->show();
     
 #if TARGET_OS_IPHONE
+    // Keep app alive while error popup is displayed
     CFRunLoopRef runLoop = CFRunLoopGetCurrent();
 	CFArrayRef allModes = CFRunLoopCopyAllModes(runLoop);
     

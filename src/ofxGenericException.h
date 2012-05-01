@@ -28,9 +28,11 @@ public:
     virtual const char* what() const throw();    
     
 protected:
-    void allocAndCopy( char*& to, const char* from );
-    void dealloc( char*& from );
+    void allocAndCopy( char*& to, const char* from ) throw();
+    void dealloc( char*& from ) throw();
     char* _what;
+    
+    void captureStackWithWhat( const char* what ) throw();
 };
 
 ///////////////////////////////////////////////////////////////

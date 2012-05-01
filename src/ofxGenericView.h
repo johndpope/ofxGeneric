@@ -99,6 +99,8 @@ public:
     virtual string dumpViewGraph( int depth );
     virtual string toString();
     
+    static void replaceViewWithView( ofPtr< ofxGenericView > replace, ofPtr< ofxGenericView > with );
+    
 protected:        
     ofxGenericView();
     virtual void init( ofPtrWeak< ofxGenericView > smartPointer, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 ) );

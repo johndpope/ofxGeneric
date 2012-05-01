@@ -379,6 +379,25 @@ void ofxGenericCache::purge( string path )
     }
 }
 
+ofxGenericCacheIterator ofxGenericCache::begin()
+{
+    return _root.begin();
+}
+
+ofxGenericCacheConstIterator ofxGenericCache::begin() const
+{
+    return _root.begin();
+}
+
+ofxGenericCacheIterator ofxGenericCache::end()
+{
+    return _root.end();
+}
+
+ofxGenericCacheConstIterator ofxGenericCache::end() const
+{
+    return _root.end();
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -411,3 +430,4 @@ ofxGenericExceptionKeyValueUnexpectedType::~ofxGenericExceptionKeyValueUnexpecte
     dealloc( _expected );
     dealloc( _actual );    
 }
+
