@@ -112,17 +112,17 @@ void ofxGenericApp::runViaInfiniteLoop( ofPtr< ofxAppGenericWindow > window )
 void ofxGenericApp::finishedLaunching()
 {
     createRootView();
-
-#ifdef TARGET_ANDROID
     
-#else
+#if TARGET_OS_IPHONE
     NSString *dataPath = [NSString stringWithFormat:@"%@/",[[NSBundle mainBundle] resourcePath]];
     string dpath = [dataPath UTF8String];
     ofSetDataPathRoot(dpath);
     NSString *documentsPath = [NSString stringWithFormat:@"%@/",[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]];
     string docpath = [documentsPath UTF8String];
     ofSetDocumentsPathRoot(docpath);
-    ofLogVerbose("Setting data path to: " + dpath + " documents path to: " + docpath);
+    ofxGLogVerbose("Setting data path to: " + dpath + " documents path to: " + docpath);
+#elif TARGET_ANDROID
+
 #endif
     
     /*

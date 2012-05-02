@@ -256,7 +256,7 @@ bool ofxGenericCache::read( int index, ofPtr< ofxGenericCache >& val, bool asArr
 
 bool ofxGenericCache::read( string key, Json::Value& element, float& value )
 {
-    if ( checkNotNullThrowIfUnexpectedType( key, element, Json::realValue ) )
+    if ( element.type() == Json::intValue || checkNotNullThrowIfUnexpectedType( key, element, Json::realValue ) )
     {
         value = element.asDouble();
         return true;        
