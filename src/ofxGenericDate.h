@@ -22,6 +22,8 @@ public:
     virtual ~ofxGenericDate();
     static ofPtr< ofxGenericDate > create();
     static ofPtr< ofxGenericDate > create( long time );
+    //expecting a format like: 2012-05-01 09:24:14
+    static ofPtr< ofxGenericDate > create( string date );
     
 #if TARGET_OS_IPHONE
     operator NSDate*();
