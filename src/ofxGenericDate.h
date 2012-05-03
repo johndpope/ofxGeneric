@@ -16,12 +16,13 @@
 #import <Foundation/Foundation.h>
 #endif
 
+//time is always in seconds
 class ofxGenericDate
 {
 public:
     virtual ~ofxGenericDate();
     static ofPtr< ofxGenericDate > create();
-    static ofPtr< ofxGenericDate > create( long time );
+    static ofPtr< ofxGenericDate > create( double time );
     //expecting a format like: 2012-05-01 09:24:14
     static ofPtr< ofxGenericDate > create( string date );
     
@@ -29,9 +30,9 @@ public:
     operator NSDate*();
 #endif
     
-    virtual long getTime();
+    virtual double getTime();
     
-    ofPtr< ofxGenericDate > dateByAddingTime( long time );
+    ofPtr< ofxGenericDate > dateByAddingTime( double time );
     virtual bool isEqualToDate( ofPtr< ofxGenericDate > date );
     virtual ofPtr< ofxGenericDate > earlierDate( ofPtr< ofxGenericDate > date );
     virtual ofPtr< ofxGenericDate > laterDate( ofPtr< ofxGenericDate > date );
@@ -55,12 +56,14 @@ public:
     
     virtual string getDescription();
     
+    virtual string getStringRepresentation( string format = "yyyy-MM-dd" );
+    
 protected:
     ofxGenericDate();
-    virtual void init( ofPtrWeak< ofxGenericDate > setThis, long time );
+    virtual void init( ofPtrWeak< ofxGenericDate > setThis, double time );
     
     ofPtrWeak< ofxGenericDate > _this;
-    long _time;
+    double _time;
     
     int _year;
     unsigned int _month;
