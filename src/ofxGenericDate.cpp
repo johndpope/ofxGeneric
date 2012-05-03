@@ -11,6 +11,8 @@
 #include "ofxGenericDate.h"
 #include "ofUtils.h"
 
+#define SecondsInADay 86400.0
+
 ofxGenericDate::~ofxGenericDate()
 {
     
@@ -59,6 +61,11 @@ ofPtr< ofxGenericDate > ofxGenericDate::create( string date )
 ofPtr< ofxGenericDate > ofxGenericDate::dateByAddingTime( double time )
 {
     return ofxGenericDate::create( _time + time );
+}
+
+ofPtr< ofxGenericDate > ofxGenericDate::dateByAddingDays( int days )
+{
+    return ofxGenericDate::create( _time + days * SecondsInADay );
 }
 
 double ofxGenericDate::getTime()

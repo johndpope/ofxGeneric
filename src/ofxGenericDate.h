@@ -33,6 +33,7 @@ public:
     virtual double getTime();
     
     ofPtr< ofxGenericDate > dateByAddingTime( double time );
+    ofPtr< ofxGenericDate > dateByAddingDays( int days );
     virtual bool isEqualToDate( ofPtr< ofxGenericDate > date );
     virtual ofPtr< ofxGenericDate > earlierDate( ofPtr< ofxGenericDate > date );
     virtual ofPtr< ofxGenericDate > laterDate( ofPtr< ofxGenericDate > date );
