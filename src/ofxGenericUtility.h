@@ -104,5 +104,7 @@ void ofxGLogVerbose( const string & message );
 void ofxGLogWarning( const string & message );
 void ofxGLog( ofLogLevel level, const char* format, ... );
 
+#define intToString( value ) ofxGIntegerToString( value )
 string ofxGIntegerToString( int value );
+#define floatToString( value ) ofxGFloatToString( value )
 string ofxGFloatToString( float value );

@@ -49,6 +49,22 @@ void ofxGenericLocalization::init( ofPtrWeak< ofxGenericLocalization > setThis )
     }
 }
 
+string ofxGenericLocalization::getString( string key )
+{
+    if ( !ofxGenericLocalization::_this )
+    {
+        ofxGenericLocalization::create();
+    }
+    if ( ofxGenericLocalization::_this )
+    {
+        string value;
+        ofxGenericLocalization::_this->_cache->read( key, value, key );
+        return value;
+    }
+    return key;
+}
+
+
 string ofxGenericLocalization::getString( string key, string defaultValue )
 {
     if ( !ofxGenericLocalization::_this )

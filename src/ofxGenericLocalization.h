@@ -15,7 +15,8 @@ class ofxGenericCache;
 class ofxGenericLocalization
 {
 public:
-    static string getString( string key, string defaultValue = string() );
+    static string getString( string key );
+    static string getString( string key, string defaultValue );
     
     virtual ~ofxGenericLocalization();
 protected:
