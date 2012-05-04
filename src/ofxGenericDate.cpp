@@ -9,6 +9,9 @@
 //
 
 #include "ofxGenericDate.h"
+#include "ofUtils.h"
+
+#define SecondsInADay 86400.0
 
 ofxGenericDate::~ofxGenericDate()
 {
@@ -24,27 +27,48 @@ ofPtr< ofxGenericDate > ofxGenericDate::create()
 {
     
 #if TARGET_OS_IPHONE
-    long now = [NSDate timeIntervalSinceReferenceDate]; 
+    double now = [NSDate timeIntervalSinceReferenceDate]; 
 #elif TARGET_ANDROID
-    long now = 0;
+    double now = 0;
 #endif
     
     return ofxGenericDate::create( now );
 }
 
-ofPtr< ofxGenericDate > ofxGenericDate::create( long time )
+ofPtr< ofxGenericDate > ofxGenericDate::create( double time )
 {
     ofPtr< ofxGenericDate > d = ofPtr< ofxGenericDate > ( new ofxGenericDate() );
     d->init(d, time);
     return d;
 }
 
-ofPtr< ofxGenericDate > ofxGenericDate::dateByAddingTime( long time )
+//expecting a format like: 2012-05-01 09:24:14
+ofPtr< ofxGenericDate > ofxGenericDate::create( string date )
+{
+    
+#if TARGET_OS_IPHONE
+    NSDateFormatter *f = [[[NSDateFormatter alloc] init] autorelease];
+    [f setDateFormat:@"yyyy'-'MM'-'dd' 'HH':'mm':'ss"];
+    NSDate *d = [f dateFromString:[NSString stringWithCString:date.c_str() encoding:NSUTF8StringEncoding]];
+    double time = [d timeIntervalSinceReferenceDate];
+#elif TARGET_ANDROID
+    double time = 0;
+#endif
+    
+    return ofxGenericDate::create( time );
+}
+
+ofPtr< ofxGenericDate > ofxGenericDate::dateByAddingTime( double time )
 {
     return ofxGenericDate::create( _time + time );
 }
 
-long ofxGenericDate::getTime()
+ofPtr< ofxGenericDate > ofxGenericDate::dateByAddingDays( int days )
+{
+    return ofxGenericDate::create( _time + days * SecondsInADay );
+}
+
+double ofxGenericDate::getTime()
 {
     return _time;
 }
@@ -119,7 +143,7 @@ string ofxGenericDate::getDescription()
     return desc;
 }
 
-void ofxGenericDate::init( ofPtrWeak< ofxGenericDate > setThis, long time )
+void ofxGenericDate::init( ofPtrWeak< ofxGenericDate > setThis, double time )
 {
     _this = setThis;
     _time = time;
@@ -138,4 +162,17 @@ void ofxGenericDate::init( ofPtrWeak< ofxGenericDate > setThis, long time )
 #else
     
 #endif
+}
+
+string ofxGenericDate::getStringRepresentation( string format )
+{
+#if TARGET_OS_IPHONE
+    NSDateFormatter *f = [[[NSDateFormatter alloc] init] autorelease];
+    [f setDateFormat:[NSString stringWithCString:format.c_str() encoding:NSUTF8StringEncoding]];
+    string str = string([[f stringFromDate:[NSDate dateWithTimeIntervalSinceReferenceDate:_time]] cStringUsingEncoding:NSUTF8StringEncoding]);
+#elif TARGET_ANDROID
+    string str = "";
+#endif
+    
+    return str;
 }
