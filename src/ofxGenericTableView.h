@@ -27,6 +27,8 @@ public:
     virtual ofPtr< ofxGenericTableViewCell > getCell( unsigned int section, unsigned int index );
     virtual float getHeightForCell( unsigned int section, unsigned int index );
     
+    void setAutoresizeToFit( bool autoResizeToFit );
+    
     virtual void setSeparatorColor( const ofColor& separatorColor );
     virtual void setSeparatorStyle( ofxGenericTableViewSeparatorStyle separatorStyle );
 
@@ -51,6 +53,10 @@ protected:
     ofxGenericTableViewForwarder* _forwarder;    
 #endif
     ofPtrWeak< ofxGenericTableViewDelegate > _delegate;
+    
+    virtual void resizeToFitContents();
+    bool _autoResizeToFit;
+    float _maximumHeight;
 };
 
 class ofxGenericTableViewCell : public ofxGenericView

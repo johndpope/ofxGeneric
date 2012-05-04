@@ -80,6 +80,38 @@ float ofxGenericTableView::getHeightForCell( unsigned int section, unsigned int 
     return 0;
 }
 
+void ofxGenericTableView::setAutoresizeToFit( bool autoResizeToFit )
+{
+    _autoResizeToFit = autoResizeToFit;
+    if ( _autoResizeToFit )
+    {
+        _maximumHeight = getFrame().height;
+        resizeToFitContents();
+    }
+}
+
+void ofxGenericTableView::resizeToFitContents()
+{
+    // TODO: support multiple sections
+    unsigned int section = 0;
+    unsigned int cellsPerSection = getNumberOfCells( section );
+    unsigned int height = 0;
+    for( int travCells = 0; travCells < cellsPerSection; travCells++ )
+    {
+        height += getHeightForCell( section, travCells );
+    }
+    if ( height > _maximumHeight )
+    {
+        height = _maximumHeight;
+    } 
+    ofRectangle resized = getFrame();
+    if ( resized.height != height )
+    {
+        resized.height = height;
+        setFrame( resized );
+    }
+}
+
 void ofxGenericTableView::setSeparatorColor( const ofColor& separatorColor )
 {
 #if TARGET_OS_IPHONE
@@ -116,6 +148,10 @@ void ofxGenericTableView::reloadData()
         [ view reloadData ];
     }
 #endif
+    if ( _autoResizeToFit )
+    {
+        resizeToFitContents();
+    }
 }
 
 void ofxGenericTableView::selectedRow( unsigned int section, unsigned int index)
