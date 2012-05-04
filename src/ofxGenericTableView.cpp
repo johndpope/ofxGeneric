@@ -268,17 +268,11 @@ ofPtr< ofxGenericTableViewCell > ofxGenericTableViewCell::create( ofPtrWeak< ofx
     return c;
 }
 
-void ofxGenericTableViewCell::init( ofPtr< ofxGenericTableViewCell > setThis, ofPtrWeak< ofxGenericTableView > table, const ofRectangle& setBounds )
+void ofxGenericTableViewCell::init( ofPtrWeak< ofxGenericTableViewCell > setThis, ofPtrWeak< ofxGenericTableView > table, const ofRectangle& setBounds )
 {
-    // TODO: skipping parent init is too careless and potentially dangerous, come up with better scheme so we aren't creating unnecessary _view in parent init
-    //    ofxGenericView::init( setThis, setBounds );
-    _this = setThis;
+    ofxGenericView::init( setThis );
 
     _table = table;
-#if TARGET_OS_IPHONE
-    _view = createUITableViewCell( ofRectangleToCGRect( setBounds ) );
-    [ _view setFrame:ofRectangleToCGRect( setBounds ) ];
-#endif
 }
 
 void ofxGenericTableViewCell::setText( string text )
@@ -303,12 +297,14 @@ void ofxGenericTableViewCell::setImage( string imagePath )
 #endif    
 }
 
-#if TARGET_OS_IPHONE
-UITableViewCell* ofxGenericTableViewCell::createUITableViewCell( const CGRect& frame )
+NativeView ofxGenericTableViewCell::createNativeView( const ofRectangle& frame )
 {
-    return [ [ UITableViewCell alloc ] initWithFrame:frame ];
+#if TARGET_OS_IPHONE
+    return [ [ UITableViewCell alloc ] initWithFrame:ofRectangleToCGRect( frame ) ];
+#endif
 }
 
+#if TARGET_OS_IPHONE
 ofxGenericUIViewCastOperator( ofxGenericTableViewCell, UITableViewCell );
 
 @implementation ofxGenericTableViewForwarder

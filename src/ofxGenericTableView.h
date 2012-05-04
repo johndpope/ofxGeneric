@@ -64,7 +64,6 @@ class ofxGenericTableViewCell : public ofxGenericView
 public:
     virtual ~ofxGenericTableViewCell();
     static ofPtr< ofxGenericTableViewCell > create( ofPtrWeak< ofxGenericTableView > table, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 )  );
-    virtual void init( ofPtr< ofxGenericTableViewCell > setThis, ofPtrWeak< ofxGenericTableView > table, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 )  );
     virtual void setText( string text );
     virtual void setImage( string imagePath );
     
@@ -74,10 +73,9 @@ public:
 
 protected:
     ofPtrWeak< ofxGenericTableView > _table;
+    virtual void init( ofPtrWeak< ofxGenericTableViewCell > setThis, ofPtrWeak< ofxGenericTableView > table, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 )  );
     
-#if TARGET_OS_IPHONE
-    virtual UITableViewCell* createUITableViewCell( const CGRect& frame );
-#endif
+    virtual NativeView createNativeView( const ofRectangle& frame );
 };
 
 class ofxGenericTableViewDelegate
