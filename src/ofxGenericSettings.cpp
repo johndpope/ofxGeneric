@@ -16,6 +16,7 @@ ofxGenericSettings::~ofxGenericSettings()
 void ofxGenericSettings::init( ofPtrWeak< ofxGenericSettings > setThis )
 {
     _this = setThis;
+    load();
 }
 
 void ofxGenericSettings::load()
