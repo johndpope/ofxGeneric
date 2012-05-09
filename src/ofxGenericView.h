@@ -24,7 +24,7 @@ class ofxGenericView
 #endif
 {
 public:
-    static ofPtr< ofxGenericView > create( const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ) );
+    static ofPtr< ofxGenericView > create( const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ), NativeView nativeView = NativeNull );
     virtual ~ofxGenericView();
     
     NativeView getNativeView();
@@ -48,9 +48,9 @@ public:
     virtual ofColor getBackgroundColor();
     virtual void setBackgroundColor( const ofColor& setColor );
     
-    void addChildView( ofPtr< ofxGenericView > add );
-    void addChildView( ofPtr< ofxGenericView > add, ofPtr< ofxGenericView > before );
-    void removeChildView( ofPtr< ofxGenericView > remove );
+    virtual void addChildView( ofPtr< ofxGenericView > add );
+    virtual void addChildView( ofPtr< ofxGenericView > add, ofPtr< ofxGenericView > before );
+    virtual void removeChildView( ofPtr< ofxGenericView > remove );
     void removeFromParent();
     void removeChildViews();
     
@@ -103,7 +103,7 @@ public:
     
 protected:        
     ofxGenericView();
-    virtual void init( ofPtrWeak< ofxGenericView > smartPointer, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 ) );
+    virtual void init( ofPtrWeak< ofxGenericView > smartPointer, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 ), NativeView nativeView = NativeNull );
     
 #if TARGET_OS_IPHONE
     virtual UIView* allocNativeView( const ofRectangle& frame );
@@ -113,6 +113,12 @@ protected:
     virtual NativeView createNativeView( const ofRectangle& frame );
     NativeView _view;
 
+    //used for special situations like a table view cell where the parent may not be this view, but for all
+    //external purposes appears to be.
+    void addChildViewTo( ofPtr< ofxGenericView > parent, ofPtr< ofxGenericView > add );
+    void addChildViewTo( ofPtr< ofxGenericView > parent, ofPtr< ofxGenericView > add, ofPtr< ofxGenericView > before );
+    void removeChildViewFrom( ofPtr< ofxGenericView > parent, ofPtr< ofxGenericView > remove );
+    
 #if TARGET_OS_IPHONE
 
     virtual ofxUIGenericViewController* createUIViewController();

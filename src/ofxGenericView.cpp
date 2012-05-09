@@ -29,10 +29,10 @@ jclass ofxGenericView::_jniClass = NULL;
 const char* ofxGenericView::className = "cc/openframeworks/ofxGeneric/View";
 #endif
 
-ofPtr< ofxGenericView > ofxGenericView::create( const ofRectangle& setFrame )
+ofPtr< ofxGenericView > ofxGenericView::create( const ofRectangle& setFrame, NativeView nativeView )
 {
     ofPtr< ofxGenericView > create = ofPtr< ofxGenericView >( new ofxGenericView() );
-    create->init( create, setFrame );
+    create->init( create, setFrame, nativeView );
     return create;
 }
 
@@ -59,7 +59,7 @@ ofxGenericView::~ofxGenericView()
 #endif
 }
 
-void ofxGenericView::init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setFrame )
+void ofxGenericView::init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setFrame, NativeView nativeView )
 {
     _this = setThis;
 
@@ -69,7 +69,8 @@ void ofxGenericView::init( ofPtrWeak< ofxGenericView > setThis, const ofRectangl
     
     willLoad();
 
-    _view = createNativeView( setFrame );
+    _view = (nativeView == NativeNull) ? createNativeView( setFrame ) : nativeView;
+    
 #if TARGET_OS_IPHONE
     _viewController = createUIViewController();
     [ _viewController setView:_view ];
@@ -211,6 +212,16 @@ void ofxGenericView::setBackgroundColor( const ofColor& setColor )
 
 void ofxGenericView::addChildView( ofPtr< ofxGenericView > add )
 {
+    addChildViewTo( _this.lock(), add );
+}
+
+void ofxGenericView::addChildView( ofPtr< ofxGenericView > add, ofPtr< ofxGenericView > before )
+{
+    addChildViewTo( _this.lock(), add, before );
+}
+
+void ofxGenericView::addChildViewTo( ofPtr< ofxGenericView > parent, ofPtr< ofxGenericView > add )
+{
     if ( add )
     {
         if ( _isAttachedToRoot )
@@ -218,12 +229,12 @@ void ofxGenericView::addChildView( ofPtr< ofxGenericView > add )
             add->willAppear();
         }
         
-        _children.push_back( add );
+        parent->_children.push_back( add );
         NativeView nativeView = add->getNativeView();
         if ( nativeView )
         {
 #if TARGET_OS_IPHONE
-          	[ _view addSubview:nativeView ];
+          	[ parent->_view addSubview:nativeView ];
 #elif TARGET_ANDROID
           	callJNIVoidMethod(
           			_jniMethods,
@@ -235,7 +246,7 @@ void ofxGenericView::addChildView( ofPtr< ofxGenericView > add )
         {
             // TODO:
         }
-        add->_parent = _this;
+        add->_parent = parent;
         
         if ( _isAttachedToRoot )
         {
@@ -248,38 +259,38 @@ void ofxGenericView::addChildView( ofPtr< ofxGenericView > add )
     }
 }
 
-void ofxGenericView::addChildView( ofPtr< ofxGenericView > add, ofPtr< ofxGenericView > before )
+void ofxGenericView::addChildViewTo( ofPtr< ofxGenericView > parent, ofPtr< ofxGenericView > add, ofPtr< ofxGenericView > before )
 {
     if ( add )
     {
-        if ( before && before->getParent() == _this )
+        if ( before && before->getParent().lock() == parent )
         {
             if ( _isAttachedToRoot )
             {
                 add->willAppear();
             }
 
-            std::list< ofPtr< ofxGenericView > >::iterator findIndex = _children.begin();
-            while ( findIndex != _children.end() && ( *findIndex ) != before )
+            std::list< ofPtr< ofxGenericView > >::iterator findIndex = parent->_children.begin();
+            while ( findIndex != parent->_children.end() && ( *findIndex ) != before )
             {
                 findIndex ++;
             }
             // TODO: extra error check
-            _children.insert( findIndex, add );
+            parent->_children.insert( findIndex, add );
             
             NativeView addNativeView = add->getNativeView();
             NativeView beforeNativeView = before->getNativeView();
             if ( addNativeView )
             {
 #if TARGET_OS_IPHONE
-                [ _view insertSubview:addNativeView belowSubview:beforeNativeView ];
+                [ parent->_view insertSubview:addNativeView belowSubview:beforeNativeView ];
 #elif TARGET_ANDROID
 #endif
             } else
             {
                 // TODO:
             }
-            add->_parent = _this;
+            add->_parent = parent;
             
             if ( _isAttachedToRoot )
             {
@@ -288,7 +299,7 @@ void ofxGenericView::addChildView( ofPtr< ofxGenericView > add, ofPtr< ofxGeneri
             }
         } else 
         {
-            addChildView( add );
+            addChildViewTo( parent, add );
         }
     } else
     {
@@ -298,9 +309,14 @@ void ofxGenericView::addChildView( ofPtr< ofxGenericView > add, ofPtr< ofxGeneri
 
 void ofxGenericView::removeChildView( ofPtr< ofxGenericView > remove )
 {
-    if ( remove && _this && remove->_parent == _this )
+    removeChildViewFrom( _this.lock(), remove );
+}
+
+void ofxGenericView::removeChildViewFrom( ofPtr< ofxGenericView > parent, ofPtr< ofxGenericView > remove )
+{
+    if ( remove && parent && remove->_parent.lock() == parent )
     {
-		if ( *( remove->_parent.lock() ) == *( _this.lock() ) )
+		if ( *( remove->_parent.lock() ) == *( parent ) )
 		{
             if ( _isAttachedToRoot )
             {
@@ -323,7 +339,7 @@ void ofxGenericView::removeChildView( ofPtr< ofxGenericView > remove )
 			{
 				// TODO:
 			}
-			_children.remove( remove );
+			parent->_children.remove( remove );
 			remove->_parent = ofPtrWeak< ofxGenericView >();
             
             if ( _isAttachedToRoot )
