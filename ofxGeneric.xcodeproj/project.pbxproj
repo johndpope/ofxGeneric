@@ -15,6 +15,7 @@
 		3C2A68F3154374F400BDB696 /* ofxGenericOpenGLView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C2A68F2154374F400BDB696 /* ofxGenericOpenGLView.h */; };
 		3C2A68F61543786700BDB696 /* ofxGenericOpenGLView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C2A68F51543786700BDB696 /* ofxGenericOpenGLView.cpp */; };
 		3C2DB20A15474D8100000034 /* ofxGenericLocalization.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C2DB20915474D8100000034 /* ofxGenericLocalization.cpp */; };
+		3C4D9C0D1559E69900C02C92 /* ofxGenericTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C4D9C0C1559E69900C02C92 /* ofxGenericTimer.cpp */; };
 		3C5336E0153F6A420046AFD8 /* OpenUDID.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C5336DD153F6A420046AFD8 /* OpenUDID.h */; };
 		3C5336E1153F6A420046AFD8 /* OpenUDID.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C5336DE153F6A420046AFD8 /* OpenUDID.m */; };
 		3C5336E7153F6ED60046AFD8 /* ofxGenericAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C5336E2153F6ED60046AFD8 /* ofxGenericAppDelegate.h */; };
@@ -109,6 +110,8 @@
 		3C2A68F51543786700BDB696 /* ofxGenericOpenGLView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericOpenGLView.cpp; sourceTree = "<group>"; };
 		3C2DB20715474D1100000034 /* ofxGenericLocalization.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericLocalization.h; sourceTree = "<group>"; };
 		3C2DB20915474D8100000034 /* ofxGenericLocalization.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericLocalization.cpp; sourceTree = "<group>"; };
+		3C4D9C0A1559E64F00C02C92 /* ofxGenericTimer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericTimer.h; sourceTree = "<group>"; };
+		3C4D9C0C1559E69900C02C92 /* ofxGenericTimer.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericTimer.cpp; sourceTree = "<group>"; };
 		3C5336DA153F64A10046AFD8 /* ofxGenericMain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericMain.h; sourceTree = "<group>"; };
 		3C5336DD153F6A420046AFD8 /* OpenUDID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenUDID.h; sourceTree = "<group>"; };
 		3C5336DE153F6A420046AFD8 /* OpenUDID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenUDID.m; sourceTree = "<group>"; };
@@ -315,6 +318,8 @@
 				3C7B4E9F14FC7CBF003121FE /* ofxGenericView.h */,
 				3C6D4B2715584CB6004904CE /* ofxGenericSettings.h */,
 				3C6D4B2A15584E4D004904CE /* ofxGenericSettings.cpp */,
+				3C4D9C0A1559E64F00C02C92 /* ofxGenericTimer.h */,
+				3C4D9C0C1559E69900C02C92 /* ofxGenericTimer.cpp */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -607,6 +612,7 @@
 				3C2DB20A15474D8100000034 /* ofxGenericLocalization.cpp in Sources */,
 				4544F5E91549D061007482B2 /* ofxGenericDrawableView.cpp in Sources */,
 				3C6D4B2B15584E4D004904CE /* ofxGenericSettings.cpp in Sources */,
+				3C4D9C0D1559E69900C02C92 /* ofxGenericTimer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
