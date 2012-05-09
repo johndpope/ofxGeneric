@@ -270,9 +270,49 @@ ofPtr< ofxGenericTableViewCell > ofxGenericTableViewCell::create( ofPtrWeak< ofx
 
 void ofxGenericTableViewCell::init( ofPtrWeak< ofxGenericTableViewCell > setThis, ofPtrWeak< ofxGenericTableView > table, const ofRectangle& setBounds )
 {
-    ofxGenericView::init( setThis );
-
     _table = table;
+    ofxGenericView::init( setThis );
+}
+
+ofPtr< ofxGenericView > ofxGenericTableViewCell::getContentView()
+{
+    return _contentView;
+}
+
+void ofxGenericTableViewCell::addChildView( ofPtr< ofxGenericView > add )
+{
+    if ( _contentView )
+    {
+        _contentView->addChildView( add );
+    }
+    else
+    {
+        ofxGenericView::addChildView( add );
+    }
+}
+
+void ofxGenericTableViewCell::addChildView( ofPtr< ofxGenericView > add, ofPtr< ofxGenericView > before )
+{
+    if ( _contentView )
+    {
+        _contentView->addChildView( add, before );
+    }
+    else
+    {
+        ofxGenericView::addChildView( add, before );
+    }
+}
+
+void ofxGenericTableViewCell::removeChildView( ofPtr< ofxGenericView > remove )
+{
+    if ( _contentView )
+    {
+        _contentView->removeChildView( remove );
+    }
+    else
+    {
+        ofxGenericView::removeChildView( remove );
+    }
 }
 
 void ofxGenericTableViewCell::setText( string text )
@@ -300,8 +340,13 @@ void ofxGenericTableViewCell::setImage( string imagePath )
 NativeView ofxGenericTableViewCell::createNativeView( const ofRectangle& frame )
 {
 #if TARGET_OS_IPHONE
-    return [ [ UITableViewCell alloc ] initWithFrame:ofRectangleToCGRect( frame ) ];
+    UITableViewCell *v = [ [ UITableViewCell alloc ] initWithFrame:ofRectangleToCGRect( frame ) ];
+    
+    _contentView = ofxGenericView::create( CGRectToofRectangle( v.contentView.frame ), v.contentView );
+    
+    return v;
 #endif
+    //TODO android
 }
 
 #if TARGET_OS_IPHONE

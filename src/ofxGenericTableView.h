@@ -66,6 +66,10 @@ public:
     static ofPtr< ofxGenericTableViewCell > create( ofPtrWeak< ofxGenericTableView > table, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 )  );
     virtual void setText( string text );
     virtual void setImage( string imagePath );
+    virtual void addChildView( ofPtr< ofxGenericView > add );
+    virtual void addChildView( ofPtr< ofxGenericView > add, ofPtr< ofxGenericView > before );
+    virtual void removeChildView( ofPtr< ofxGenericView > remove );
+    virtual ofPtr< ofxGenericView > getContentView();
     
 #if TARGET_OS_IPHONE
     operator UITableViewCell*();
@@ -74,6 +78,7 @@ public:
 protected:
     ofPtrWeak< ofxGenericTableView > _table;
     virtual void init( ofPtrWeak< ofxGenericTableViewCell > setThis, ofPtrWeak< ofxGenericTableView > table, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 )  );
+    ofPtr< ofxGenericView > _contentView;
     
     virtual NativeView createNativeView( const ofRectangle& frame );
 };
