@@ -40,6 +40,7 @@ NativeView ofxGenericTableView::createNativeView( const ofRectangle& frame )
 {
 #if TARGET_OS_IPHONE
     UITableView* newView = [ [ UITableView alloc ] initWithFrame:ofRectangleToCGRect( frame ) style:UITableViewStylePlain ];
+    
     _forwarder = [ [ ofxGenericTableViewForwarder alloc ] initWithDelegate:this ];
     [ newView setDelegate:_forwarder ];
     [ newView setDataSource:_forwarder ];
@@ -283,7 +284,7 @@ void ofxGenericTableViewCell::addChildView( ofPtr< ofxGenericView > add )
 {
     if ( _contentView )
     {
-        _contentView->addChildView( add );
+        ofxGenericView::addChildViewTo( _contentView, add );
     }
     else
     {
@@ -295,7 +296,7 @@ void ofxGenericTableViewCell::addChildView( ofPtr< ofxGenericView > add, ofPtr< 
 {
     if ( _contentView )
     {
-        _contentView->addChildView( add, before );
+        ofxGenericView::addChildViewTo( _contentView, add, before );
     }
     else
     {
@@ -307,7 +308,7 @@ void ofxGenericTableViewCell::removeChildView( ofPtr< ofxGenericView > remove )
 {
     if ( _contentView )
     {
-        _contentView->removeChildView( remove );
+        ofxGenericView::removeChildViewFrom( _contentView, remove );
     }
     else
     {
@@ -341,7 +342,6 @@ NativeView ofxGenericTableViewCell::createNativeView( const ofRectangle& frame )
 {
 #if TARGET_OS_IPHONE
     UITableViewCell *v = [ [ UITableViewCell alloc ] initWithFrame:ofRectangleToCGRect( frame ) ];
-    
     _contentView = ofxGenericView::create( CGRectToofRectangle( v.contentView.frame ), v.contentView );
     
     return v;
