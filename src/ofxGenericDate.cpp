@@ -42,13 +42,12 @@ ofPtr< ofxGenericDate > ofxGenericDate::create( double time )
     return d;
 }
 
-//expecting a format like: 2012-05-01 09:24:14
-ofPtr< ofxGenericDate > ofxGenericDate::create( string date )
+ofPtr< ofxGenericDate > ofxGenericDate::create( string date, string format )
 {
     
 #if TARGET_OS_IPHONE
     NSDateFormatter *f = [[[NSDateFormatter alloc] init] autorelease];
-    [f setDateFormat:@"yyyy'-'MM'-'dd' 'HH':'mm':'ss"];
+    [f setDateFormat:[NSString stringWithCString:format.c_str() encoding:NSUTF8StringEncoding]];
     NSDate *d = [f dateFromString:[NSString stringWithCString:date.c_str() encoding:NSUTF8StringEncoding]];
     double time = [d timeIntervalSinceReferenceDate];
 #elif TARGET_ANDROID
