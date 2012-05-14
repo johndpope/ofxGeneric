@@ -34,8 +34,20 @@ ofPtr< ofxGenericCache > ofxGenericCache::create( bool asArray )
     return create;
 }
 
+ofPtr< ofxGenericCache > ofxGenericCache::create( string json )
+{
+    ofPtr< ofxGenericCache > create = ofPtr< ofxGenericCache >( new ofxGenericCache( json ) );
+    create->init( create );
+    return create;
+}
+
 ofxGenericCache::ofxGenericCache()
 : _root( "{}" ), _fileInDocuments( false )
+{
+}
+
+ofxGenericCache::ofxGenericCache( string json )
+: _root( json ), _fileInDocuments( false )
 {
 }
 
@@ -330,6 +342,24 @@ bool ofxGenericCache::drop( string key )
     return element.type() != Json::nullValue;
 }
 
+bool ofxGenericCache::drop( int index )
+{
+    int oldSize = _root.size();
+    if (index >= 0 && index < _root.size())
+    {
+        Json::Value jsonValue( Json::arrayValue );
+        ofxJSONElement jsonElement( jsonValue );
+        
+        jsonElement.resize( _root.size()-1 );
+        for (int i = 0; i < _root.size()-1; i++)
+        {
+            jsonElement[ i ] = _root[ i < index ? i : i+1 ];
+        }
+        _root = jsonElement;
+    }
+    return _root.size() == oldSize - 1;
+}
+
 void ofxGenericCache::setFileName( string fileName, bool fileInDocuments )
 {
     _fileName = fileName;
@@ -377,6 +407,11 @@ void ofxGenericCache::purge( string path )
             
         }*/
     }
+}
+
+string ofxGenericCache::toString()
+{
+    return _root.toStyledString();
 }
 
 ofxGenericCacheIterator ofxGenericCache::begin()

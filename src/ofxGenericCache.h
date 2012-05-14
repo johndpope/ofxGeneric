@@ -23,6 +23,7 @@ class ofxGenericCache
 {
 public:
     static ofPtr< ofxGenericCache > create( bool asArray = false );
+    static ofPtr< ofxGenericCache > create( string json );
     virtual ~ofxGenericCache();
     
     virtual void write(string key, float val);
@@ -60,6 +61,7 @@ public:
     virtual bool read( int index, ofPtr< ofxGenericCache >& val, bool asArray = false );
 
     virtual bool drop( string key );
+    virtual bool drop( int index );
     
     void setFileName( string fileName, bool fileInDocuments );
     
@@ -72,6 +74,9 @@ public:
     //empties the entire cache. a sync call must still be made to put this change onto the disk
     virtual void purge( string path="" );
     
+    //returns the cache as a json string
+    virtual string toString();
+    
     ofxGenericCacheIterator begin();
     ofxGenericCacheConstIterator begin() const;
     ofxGenericCacheIterator end();
@@ -79,6 +84,7 @@ public:
     
 protected:
     ofxGenericCache();
+    ofxGenericCache( string json );
     ofxGenericCache( ofxJSONElement& root );
     virtual void init( ofPtrWeak< ofxGenericCache > setThis );
     ofPtrWeak< ofxGenericCache > _this;
