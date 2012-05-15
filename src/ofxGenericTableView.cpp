@@ -87,7 +87,10 @@ void ofxGenericTableView::setAutoresizeToFit( bool autoResizeToFit )
     if ( _autoResizeToFit )
     {
         _maximumHeight = getFrame().height;
-        resizeToFitContents();
+        if ( _isAttachedToRoot )
+        {
+            resizeToFitContents();
+        }
     }
 }
 
