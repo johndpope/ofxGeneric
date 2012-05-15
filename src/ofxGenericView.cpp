@@ -59,7 +59,7 @@ ofxGenericView::~ofxGenericView()
 #endif
 }
 
-void ofxGenericView::init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setFrame, NativeView nativeView )
+void ofxGenericView::init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setFrameValue, NativeView nativeView )
 {
     _this = setThis;
 
@@ -69,11 +69,22 @@ void ofxGenericView::init( ofPtrWeak< ofxGenericView > setThis, const ofRectangl
     
     willLoad();
 
-    _view = (nativeView == NativeNull) ? createNativeView( setFrame ) : nativeView;
+    if ( nativeView )
+    {
+        _view = nativeView;
+#if TARGET_OS_IPHONE
+        [ _view retain ];
+#endif
+        setFrame( setFrameValue );
+    } else 
+    {
+        _view = createNativeView( setFrameValue );
+    }
     
 #if TARGET_OS_IPHONE
     _viewController = createUIViewController();
     [ _viewController setView:_view ];
+
 #elif TARGET_ANDROID
     JNIRect jniRect = ofRectangleToJNIRect( setFrame );
     callJNIVoidMethod(
@@ -81,6 +92,7 @@ void ofxGenericView::init( ofPtrWeak< ofxGenericView > setThis, const ofRectangl
     		JNIMethod_Init,
     		jniRect.getJNIInstance()
     		);
+
 #endif
     
     didLoad();
