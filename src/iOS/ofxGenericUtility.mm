@@ -315,6 +315,42 @@ ofOrientation iOSToofOrientation( UIDeviceOrientation from )
     return OF_ORIENTATION_UNKNOWN;
 }
 
+UIInterfaceOrientation ofInterfaceOrientationToiOS( ofOrientation from )
+{
+    switch ( from ) 
+    {
+        case OF_ORIENTATION_UNKNOWN:
+            return UIInterfaceOrientationPortrait;
+        case OF_ORIENTATION_DEFAULT:
+            return UIInterfaceOrientationPortrait;
+        case OF_ORIENTATION_180:
+            return UIInterfaceOrientationPortraitUpsideDown;
+        case OF_ORIENTATION_90_RIGHT:
+            return UIInterfaceOrientationLandscapeLeft;
+        case OF_ORIENTATION_90_LEFT:
+            return UIInterfaceOrientationLandscapeRight;
+    }
+    return UIInterfaceOrientationPortrait;    
+}
+
+ofOrientation iOSToofOrientation( UIInterfaceOrientation from )
+{
+    switch ( from ) 
+    {
+        case UIInterfaceOrientationPortrait:
+            return OF_ORIENTATION_DEFAULT;
+        case UIInterfaceOrientationPortraitUpsideDown:
+            return OF_ORIENTATION_180;
+        case UIInterfaceOrientationLandscapeLeft:
+            return OF_ORIENTATION_90_RIGHT;
+        case UIInterfaceOrientationLandscapeRight:
+            return OF_ORIENTATION_90_LEFT;
+        default:
+            return OF_ORIENTATION_DEFAULT;
+    }
+    return OF_ORIENTATION_DEFAULT;    
+}
+
 UIViewAnimationCurve ofxGenericViewAnimationCurveToiOS( ofxGenericViewAnimationCurve from )
 {
     switch( from )

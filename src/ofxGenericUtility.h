@@ -74,6 +74,9 @@ ofxGenericTextAutoCapitalization iOSToofxGenericTextAutoCapitalization( UITextAu
 UIDeviceOrientation ofOrientationToiOS( ofOrientation from );
 ofOrientation iOSToofOrientation( UIDeviceOrientation from );
 
+UIInterfaceOrientation ofInterfaceOrientationToiOS( ofOrientation from );
+ofOrientation iOSToofOrientation( UIInterfaceOrientation from );
+
 UILineBreakMode ofxGenericTextLinebreakModeToiOS( ofxGenericTextLinebreakMode from );
 ofxGenericTextLinebreakMode iOSToofxGenericTextLinebreakMode( UILineBreakMode from );
 
