@@ -479,34 +479,46 @@ ofxGenericTextViewBorderStyle iOSToofxGenericTextViewBorderStyle( UITextBorderSt
 
 UISwipeGestureRecognizerDirection ofxGenericGestureTypeSwipeToiOS( ofxGenericGestureTypeSwipe from )
 {
-    switch ( from )
+    int to = 0;
+    if ( from & ofxGenericGestureTypeSwipeLeft )
     {
-        case ofxGenericGestureTypeSwipeLeft:
-            return UISwipeGestureRecognizerDirectionLeft;
-        case ofxGenericGestureTypeSwipeRight:
-            return UISwipeGestureRecognizerDirectionRight;
-        case ofxGenericGestureTypeSwipeUp:
-            return UISwipeGestureRecognizerDirectionUp;
-        case ofxGenericGestureTypeSwipeDown:
-            return UISwipeGestureRecognizerDirectionDown;
+        to |= UISwipeGestureRecognizerDirectionLeft;
     }
-    return UISwipeGestureRecognizerDirectionLeft;
+    if ( from & ofxGenericGestureTypeSwipeRight )
+    {
+        to |= UISwipeGestureRecognizerDirectionRight;
+    }
+    if ( from & ofxGenericGestureTypeSwipeUp )
+    {
+        to |= UISwipeGestureRecognizerDirectionUp;
+    }
+    if ( from & ofxGenericGestureTypeSwipeDown )
+    {
+        to |= UISwipeGestureRecognizerDirectionDown;
+    }
+    return ( UISwipeGestureRecognizerDirection )to;
 }
 
 ofxGenericGestureTypeSwipe iOSToofxGenericGestureTypeSwipe( UISwipeGestureRecognizerDirection from )
 {
-    switch ( from )
+    int to = 0;
+    if ( from & UISwipeGestureRecognizerDirectionLeft )
     {
-        case UISwipeGestureRecognizerDirectionLeft:
-            return ofxGenericGestureTypeSwipeLeft;
-        case UISwipeGestureRecognizerDirectionRight:
-            return ofxGenericGestureTypeSwipeRight;
-        case UISwipeGestureRecognizerDirectionUp:
-            return ofxGenericGestureTypeSwipeUp;
-        case UISwipeGestureRecognizerDirectionDown:
-            return ofxGenericGestureTypeSwipeDown;
+        to |= ofxGenericGestureTypeSwipeLeft;
     }
-    return ofxGenericGestureTypeSwipeLeft;
+    if ( from & UISwipeGestureRecognizerDirectionRight )
+    {
+        to |= ofxGenericGestureTypeSwipeRight;
+    }
+    if ( from & UISwipeGestureRecognizerDirectionUp )
+    {
+        to |= ofxGenericGestureTypeSwipeUp;
+    }
+    if ( from & UISwipeGestureRecognizerDirectionDown )
+    {
+        to |= ofxGenericGestureTypeSwipeDown;
+    }
+    return ( ofxGenericGestureTypeSwipe )to;
 }
 
 float ofxGFontSizeForText( string text, string fontName, float startingFontSize, const ofPoint& constrainedSize )

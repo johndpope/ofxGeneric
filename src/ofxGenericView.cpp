@@ -24,8 +24,9 @@
 @interface ofxGenericGestureForwarder : NSObject
 {
     ofPtrWeak< ofxGenericViewDelegate > _delegate;
+    int _type;
 }
-- ( id )initWithDelegate:( ofPtrWeak< ofxGenericViewDelegate > )delegate;
+- ( id )initWithDelegate:( ofPtrWeak< ofxGenericViewDelegate > )delegate type:(int)type;
 - (void)gesturePerformed:( UIGestureRecognizer* )recognizer;
 
 @end
@@ -63,6 +64,8 @@ ofxGenericView::~ofxGenericView()
 #if TARGET_OS_IPHONE
     releaseView( _view );
     releaseViewController( _viewController );
+    [gestureForwarders release];
+    gestureForwarders = nil;
 #elif TARGET_ANDROID
 	destroyJNIReference( _view );
 #endif
@@ -102,6 +105,10 @@ void ofxGenericView::init( ofPtrWeak< ofxGenericView > setThis, const ofRectangl
     		jniRect.getJNIInstance()
     		);
 
+#endif
+    
+#if TARGET_OS_IPHONE
+    gestureForwarders = [[NSMutableArray array] retain];
 #endif
     
     didLoad();
@@ -632,11 +639,11 @@ void ofxGenericView::replaceViewWithView( ofPtr< ofxGenericView > replace, ofPtr
 void ofxGenericView::addGestureRecognizerSwipe( ofxGenericGestureTypeSwipe type, ofPtrWeak< ofxGenericViewDelegate > delegate )
 {
 #if TARGET_OS_IPHONE
-    ofxGenericGestureForwarder *forwarder = [[ofxGenericGestureForwarder alloc] initWithDelegate:delegate];
-    UISwipeGestureRecognizer *swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:forwarder action:@selector(gesturePerformed:)];
+    ofxGenericGestureForwarder *forwarder = [[[ofxGenericGestureForwarder alloc] initWithDelegate:delegate type:(int)type] autorelease];
+    [gestureForwarders addObject:forwarder];
+    UISwipeGestureRecognizer *swipeRecognizer = [[[UISwipeGestureRecognizer alloc] initWithTarget:forwarder action:@selector(gesturePerformed:)] autorelease];
 	[swipeRecognizer setDirection: ofxGenericGestureTypeSwipeToiOS( type ) ];
 	[ _view addGestureRecognizer:swipeRecognizer];
-	[swipeRecognizer release];
 #elif TARGET_ANDROID
 #endif
 }
@@ -817,12 +824,13 @@ void ofxGenericView::registerJNIMethods()
 
 @implementation ofxGenericGestureForwarder
 
--( id )initWithDelegate:( ofPtrWeak< ofxGenericViewDelegate > )delegate
+-( id )initWithDelegate:( ofPtrWeak< ofxGenericViewDelegate > )delegate type:(int)type
 {
     self = [ super init ];
     if ( self )
     {
         _delegate = delegate;
+        _type = type;
     }
     return self;    
 }
@@ -833,7 +841,7 @@ void ofxGenericView::registerJNIMethods()
     {
         if ( [recognizer isKindOfClass:[UISwipeGestureRecognizer class]] )
         {
-            _delegate.lock()->gesturePerformedSwipe( );
+            _delegate.lock()->gesturePerformedSwipe( (ofxGenericGestureTypeSwipe) _type );
         }
     }
 }

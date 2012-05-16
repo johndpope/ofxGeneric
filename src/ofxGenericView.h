@@ -155,6 +155,10 @@ protected:
     std::list< ofPtr< ofxGenericView > > _children;
     ofPtrWeak< ofxGenericView > _parent;
     ofPtrWeak < ofxGenericViewDelegate > _viewDelegate;
+
+#if TARGET_OS_IPHONE
+    NSMutableArray *gestureForwarders;
+#endif
     
     friend class ofxAppGenericWindow;
 };
@@ -175,7 +179,7 @@ public:
     virtual void animationWillStart( string animationId ) {};
     virtual void animationDidStop( string animationId ) {};
     
-    virtual void gesturePerformedSwipe( ) {};
+    virtual void gesturePerformedSwipe( ofxGenericGestureTypeSwipe type ) {};
 };
 
 #if TARGET_OS_IPHONE
