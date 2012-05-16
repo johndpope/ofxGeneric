@@ -164,6 +164,33 @@ void ofxGenericApp::didReceiveMemoryWarning()
 {
 }
 
+void ofxGenericApp::setOrientation( ofOrientation toOrientation )
+{
+#if TARGET_OS_IPHONE
+    CGAffineTransform transform = CGAffineTransformIdentity;
+    
+    switch (ofInterfaceOrientationToiOS( toOrientation ) ) {
+            
+        case UIInterfaceOrientationLandscapeLeft:
+            transform = CGAffineTransformMakeRotation(-M_PI_2);
+            break;
+            
+        case UIInterfaceOrientationLandscapeRight:
+            transform = CGAffineTransformMakeRotation(M_PI_2);
+            break;
+            
+        default:
+            break;
+    }
+    
+    [ [ UIApplication sharedApplication ] setStatusBarOrientation:ofInterfaceOrientationToiOS( toOrientation ) animated:NO ];
+    
+    [getRootView()->getNativeView() setTransform:transform];
+    [getRootView()->getNativeView() setFrame:CGRectMake(0, 0, 320, 480)];
+    [getRootView()->getNativeView() setNeedsLayout];
+#endif
+}
+
 bool ofxGenericApp::shouldAutorotate( ofOrientation toOrientation )
 {
     return true;

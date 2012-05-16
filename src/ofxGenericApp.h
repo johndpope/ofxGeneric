@@ -30,6 +30,7 @@ public:
     
     virtual void didReceiveMemoryWarning();
     
+    void setOrientation( ofOrientation toOrientation );
     virtual bool shouldAutorotate( ofOrientation toOrientation );
     virtual void deviceOrientationDidChange( ofOrientation newOrientation );
     
