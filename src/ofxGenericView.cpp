@@ -834,25 +834,8 @@ void ofxGenericView::registerJNIMethods()
 {
     if ( _delegate )
     {
-        ofOrientation orientation = OF_ORIENTATION_DEFAULT;
-        switch ( interfaceOrientation ) 
-        {
-            case UIInterfaceOrientationPortrait:
-                orientation = OF_ORIENTATION_DEFAULT;
-                break;
-            case UIInterfaceOrientationPortraitUpsideDown:
-                orientation = OF_ORIENTATION_180;
-                break;
-            case UIInterfaceOrientationLandscapeLeft:
-                orientation = OF_ORIENTATION_90_RIGHT;
-                break;
-            case UIInterfaceOrientationLandscapeRight:
-                orientation = OF_ORIENTATION_90_LEFT;
-                break;
-        }
-        return ofxGenericApp::getInstance()->shouldAutorotate( orientation );
     }
-    return YES;
+    return ofxGenericApp::getInstance()->shouldAutorotate( iOSToofOrientation( interfaceOrientation ) );
 }
 
 @end
