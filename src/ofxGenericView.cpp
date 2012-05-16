@@ -579,6 +579,7 @@ void ofxGenericView::beginAnimation( string animationId, ofPtr< ofxGenericViewDe
         [ UIView setAnimationDelegate:forwarder ];
         [ UIView setAnimationWillStartSelector:@selector( animationWillStart:finished:context: ) ];
         [ UIView setAnimationDidStopSelector:@selector( animationDidStop:finished:context: ) ];
+        [ forwarder release ];
     }
 #elif TARGET_ANDROID
 #endif
