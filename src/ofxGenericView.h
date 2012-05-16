@@ -95,6 +95,8 @@ public:
 //    + (void)setAnimationsEnabled:(BOOL)enabled;                         // ignore any attribute changes while set.
 //    + (BOOL)areAnimationsEnabled;
 
+    //you can add gesture recognizers for various actions, they will call gesturePerformed in the view delegate when they are performed
+    virtual void addGestureRecognizerSwipe( ofxGenericGestureTypeSwipe type, ofPtrWeak< ofxGenericViewDelegate > delegate );
     
     virtual string dumpViewGraph( int depth );
     virtual string toString();
@@ -172,6 +174,8 @@ public:
     
     virtual void animationWillStart( string animationId ) {};
     virtual void animationDidStop( string animationId ) {};
+    
+    virtual void gesturePerformedSwipe( ) {};
 };
 
 #if TARGET_OS_IPHONE
