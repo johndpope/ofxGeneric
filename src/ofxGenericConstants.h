@@ -117,6 +117,8 @@ enum ofxGenericViewAutoresizing
     ofxGenericViewAutoresizingBottomMargin   = 1 << 5  //UIViewAutoresizingFlexibleBottomMargin = 1 << 5
 };
 
+const int ofxGenericViewAutoresizingFull = ofxGenericViewAutoresizingLeftMargin | ofxGenericViewAutoresizingFlexibleWidth | ofxGenericViewAutoresizingRightMargin | ofxGenericViewAutoresizingTopMargin | ofxGenericViewAutoresizingFlexibleHeight | ofxGenericViewAutoresizingBottomMargin;
+
 enum ofxGenericTextViewBorderStyle
 {
     ofxGenericTextViewBorderNone, //UITextBorderStyleNone,
