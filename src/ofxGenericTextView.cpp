@@ -34,6 +34,10 @@ void ofxGenericTextView::setText( string newText )
     {
         UILabel* labelView = ( UILabel* )_view;
         [ labelView setText:ofxStringToNSString( newText ) ];
+        if ( getAutosizeFontToFitText() && getNumberOfLines() != 1 )
+        {
+            autosizeFontForMultiline();
+        }
     }
 #endif
 }
@@ -176,6 +180,46 @@ string ofxGenericTextView::getFontName()
 #endif
     return "Helvetica";
 }
+
+
+void ofxGenericTextView::setAutosizeFontToFitText( bool autosize )
+{
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[ UILabel class ] ] )
+    {
+        UILabel* labelView = ( UILabel* )_view;
+        [ labelView setAdjustsFontSizeToFitWidth:( BOOL )autosize ];
+        if ( autosize && getNumberOfLines() != 1 )
+        {
+            autosizeFontForMultiline();
+        }
+    }
+#endif
+}
+
+bool ofxGenericTextView::getAutosizeFontToFitText()
+{
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[ UILabel class ] ] )
+    {
+        UILabel* labelView = ( UILabel* )_view;
+        return ( bool )labelView.adjustsFontSizeToFitWidth;
+    }
+#endif
+    return false;
+}
+
+#if TARGET_OS_IPHONE
+void ofxGenericTextView::autosizeFontForMultiline()
+{
+    float newFontSize = ofxGFontSizeForText( getText(), getFontName(), getFontSize(), ofPoint( getFrame().width, getFrame().height ) );
+    if ( newFontSize != getFontSize() )
+    {
+        setFont( getFontName(), newFontSize );
+    }
+}
+#endif
+
                                 
 #if TARGET_OS_IPHONE
 ofxGenericUIViewCastOperator( ofxGenericTextView, UILabel );
