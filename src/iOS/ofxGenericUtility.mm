@@ -477,6 +477,38 @@ ofxGenericTextViewBorderStyle iOSToofxGenericTextViewBorderStyle( UITextBorderSt
     return ofxGenericTextViewBorderNone;
 }
 
+UISwipeGestureRecognizerDirection ofxGenericGestureTypeSwipeToiOS( ofxGenericGestureTypeSwipe from )
+{
+    switch ( from )
+    {
+        case ofxGenericGestureTypeSwipeLeft:
+            return UISwipeGestureRecognizerDirectionLeft;
+        case ofxGenericGestureTypeSwipeRight:
+            return UISwipeGestureRecognizerDirectionRight;
+        case ofxGenericGestureTypeSwipeUp:
+            return UISwipeGestureRecognizerDirectionUp;
+        case ofxGenericGestureTypeSwipeDown:
+            return UISwipeGestureRecognizerDirectionDown;
+    }
+    return UISwipeGestureRecognizerDirectionLeft;
+}
+
+ofxGenericGestureTypeSwipe iOSToofxGenericGestureTypeSwipe( UISwipeGestureRecognizerDirection from )
+{
+    switch ( from )
+    {
+        case UISwipeGestureRecognizerDirectionLeft:
+            return ofxGenericGestureTypeSwipeLeft;
+        case UISwipeGestureRecognizerDirectionRight:
+            return ofxGenericGestureTypeSwipeRight;
+        case UISwipeGestureRecognizerDirectionUp:
+            return ofxGenericGestureTypeSwipeUp;
+        case UISwipeGestureRecognizerDirectionDown:
+            return ofxGenericGestureTypeSwipeDown;
+    }
+    return ofxGenericGestureTypeSwipeLeft;
+}
+
 float ofxGFontSizeForText( string text, string fontName, float startingFontSize, const ofPoint& constrainedSize )
 {
     // http://stackoverflow.com/questions/4382976/multiline-uilabel-with-adjustsfontsizetofitwidth

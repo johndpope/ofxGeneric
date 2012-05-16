@@ -15,9 +15,18 @@
 {
     ofPtrWeak< ofxGenericViewDelegate > _delegate;
 }
--( id )initWithDelegate:( ofPtrWeak< ofxGenericViewDelegate > )delegate;
+- ( id )initWithDelegate:( ofPtrWeak< ofxGenericViewDelegate > )delegate;
 - (void)animationWillStart:( NSString* )animationID finished:( NSNumber* )finished context:( void* )context;
 - (void)animationDidStop:( NSString* )animationID finished:( NSNumber* )finished context:( void* )context;
+
+@end
+
+@interface ofxGenericGestureForwarder : NSObject
+{
+    ofPtrWeak< ofxGenericViewDelegate > _delegate;
+}
+- ( id )initWithDelegate:( ofPtrWeak< ofxGenericViewDelegate > )delegate;
+- (void)gesturePerformed:( UIGestureRecognizer* )recognizer;
 
 @end
 
@@ -621,6 +630,18 @@ void ofxGenericView::replaceViewWithView( ofPtr< ofxGenericView > replace, ofPtr
     }
 }
 
+void ofxGenericView::addGestureRecognizerSwipe( ofxGenericGestureTypeSwipe type, ofPtrWeak< ofxGenericViewDelegate > delegate )
+{
+#if TARGET_OS_IPHONE
+    ofxGenericGestureForwarder *forwarder = [[ofxGenericGestureForwarder alloc] initWithDelegate:delegate];
+    UISwipeGestureRecognizer *swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:forwarder action:@selector(gesturePerformed:)];
+	[swipeRecognizer setDirection: ofxGenericGestureTypeSwipeToiOS( type ) ];
+	[ _view addGestureRecognizer:swipeRecognizer];
+	[swipeRecognizer release];
+#elif TARGET_ANDROID
+#endif
+}
+
 string ofxGenericView::dumpViewGraph( int depth )
 {
 #if defined(DEBUG) || defined(TEST)
@@ -790,6 +811,31 @@ void ofxGenericView::registerJNIMethods()
     if ( _delegate )
     {
         _delegate.lock()->animationDidStop( ofxNSStringToString( animationID ) );
+    }
+}
+
+@end
+
+@implementation ofxGenericGestureForwarder
+
+-( id )initWithDelegate:( ofPtrWeak< ofxGenericViewDelegate > )delegate
+{
+    self = [ super init ];
+    if ( self )
+    {
+        _delegate = delegate;
+    }
+    return self;    
+}
+
+- (void)gesturePerformed:( UIGestureRecognizer* )recognizer
+{
+    if ( _delegate )
+    {
+        if ( [recognizer isKindOfClass:[UISwipeGestureRecognizer class]] )
+        {
+            _delegate.lock()->gesturePerformedSwipe( );
+        }
     }
 }
 

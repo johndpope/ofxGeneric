@@ -126,3 +126,11 @@ enum ofxGenericTextViewBorderStyle
     ofxGenericTextViewBorderBezel, //UITextBorderStyleBezel,
     ofxGenericTextViewBorderRoundedRect //UITextBorderStyleRoundedRect
 };
+
+enum ofxGenericGestureTypeSwipe
+{
+    ofxGenericGestureTypeSwipeRight     = 1 << 0,   //UISwipeGestureRecognizerDirectionRight = 1 << 0,
+    ofxGenericGestureTypeSwipeLeft      = 1 << 1,   //UISwipeGestureRecognizerDirectionLeft  = 1 << 1,
+    ofxGenericGestureTypeSwipeUp        = 1 << 2,   //UISwipeGestureRecognizerDirectionUp    = 1 << 2,
+    ofxGenericGestureTypeSwipeDown      = 1 << 3    //UISwipeGestureRecognizerDirectionDown  = 1 << 3
+};

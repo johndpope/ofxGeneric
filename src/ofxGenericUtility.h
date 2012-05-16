@@ -89,6 +89,9 @@ ofxGenericViewAutoresizing iOSToofxGenericViewAutoresizing( UIViewAutoresizing f
 UITextBorderStyle ofxGenericTextViewBorderStyleToiOS( ofxGenericTextViewBorderStyle from );
 ofxGenericTextViewBorderStyle iOSToofxGenericTextViewBorderStyle( UITextBorderStyle from );
 
+UISwipeGestureRecognizerDirection ofxGenericGestureTypeSwipeToiOS( ofxGenericGestureTypeSwipe from );
+ofxGenericGestureTypeSwipe iOSToofxGenericGestureTypeSwipe( UISwipeGestureRecognizerDirection from );
+
 #elif TARGET_ANDROID
 
 JNIRect ofRectangleToJNIRect( const ofRectangle& from );
