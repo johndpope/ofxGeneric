@@ -92,6 +92,9 @@ ofxGenericTextViewBorderStyle iOSToofxGenericTextViewBorderStyle( UITextBorderSt
 UISwipeGestureRecognizerDirection ofxGenericGestureTypeSwipeToiOS( ofxGenericGestureTypeSwipe from );
 ofxGenericGestureTypeSwipe iOSToofxGenericGestureTypeSwipe( UISwipeGestureRecognizerDirection from );
 
+UIButtonType ofxGenericButtonTypeToiOS( ofxGenericButtonType from );
+ofxGenericButtonType iOSToofxGenericButtonType( UIButtonType from );
+
 #elif TARGET_ANDROID
 
 JNIRect ofRectangleToJNIRect( const ofRectangle& from );

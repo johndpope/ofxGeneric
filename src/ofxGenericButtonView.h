@@ -20,7 +20,7 @@ class ofxGenericButtonViewTouchDelegate;
 class ofxGenericButtonView : public ofxGenericView
 {
 public:
-    static ofPtr< ofxGenericButtonView > create( const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ), ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate = ofPtrWeak< ofxGenericButtonViewTouchDelegate >() );
+    static ofPtr< ofxGenericButtonView > create( ofxGenericButtonType buttonType = ofxGenericButtonTypeRoundedRect, const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ), ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate = ofPtrWeak< ofxGenericButtonViewTouchDelegate >() );
     virtual ~ofxGenericButtonView();
     
     void setText( std::string newText );
@@ -65,7 +65,7 @@ public:
 
 protected:
     ofxGenericButtonView();
-    virtual void init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ), ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate = ofPtrWeak< ofxGenericButtonViewTouchDelegate >() );
+    virtual void init( ofPtrWeak< ofxGenericView > setThis, ofxGenericButtonType buttonType = ofxGenericButtonTypeRoundedRect, const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ), ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate = ofPtrWeak< ofxGenericButtonViewTouchDelegate >() );
 
     ofPtrWeak< ofxGenericButtonViewTouchDelegate > _touchDelegate;
     

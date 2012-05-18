@@ -134,3 +134,13 @@ enum ofxGenericGestureTypeSwipe
     ofxGenericGestureTypeSwipeUp        = 1 << 2,   //UISwipeGestureRecognizerDirectionUp    = 1 << 2,
     ofxGenericGestureTypeSwipeDown      = 1 << 3    //UISwipeGestureRecognizerDirectionDown  = 1 << 3
 };
+
+enum ofxGenericButtonType
+{
+    ofxGenericButtonTypeCustom              = 0,    //UIButtonTypeCustom = 0
+    ofxGenericButtonTypeRoundedRect         = 1,    //UIButtonTypeRoundedRect = 1
+    ofxGenericButtonTypeDetailDisclosure    = 2,    //UIButtonTypeDetailDisclosure = 2
+    ofxGenericButtonTypeInfoLight           = 3,    //UIButtonTypeInfoLight = 3
+    ofxGenericButtonTypeInfoDark            = 4,    //UIButtonTypeInfoDark = 4
+    ofxGenericButtonTypeContactAdd          = 5     //UIButtonTypeContactAdd = 5
+};

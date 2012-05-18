@@ -39,10 +39,10 @@ const char* ofxGenericButtonView::className = "cc/openframeworks/ofxGeneric/Butt
 std::vector< ofxGenericButtonView* > ofxGenericButtonView::_nativeMap;
 #endif
 
-ofPtr< ofxGenericButtonView > ofxGenericButtonView::create( const ofRectangle& setFrame, ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate )
+ofPtr< ofxGenericButtonView > ofxGenericButtonView::create( ofxGenericButtonType buttonType, const ofRectangle& setFrame, ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate )
 {
     ofPtr< ofxGenericButtonView > create = ofPtr< ofxGenericButtonView >( new ofxGenericButtonView() );
-    create->init( create, setFrame, touchDelegate );
+    create->init( create, buttonType, setFrame, touchDelegate );
     return create;
 }
 
@@ -57,8 +57,11 @@ ofxGenericButtonView::~ofxGenericButtonView()
 #endif
 }
 
-void ofxGenericButtonView::init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setFrame, ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate )
+//stupid hack to add another param to createNativeView
+static ofxGenericButtonType lastButtonType = ofxGenericButtonTypeRoundedRect;
+void ofxGenericButtonView::init( ofPtrWeak< ofxGenericView > setThis, ofxGenericButtonType buttonType, const ofRectangle& setFrame, ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate )
 {
+    lastButtonType = buttonType;
     ofxGenericView::init( setThis, setFrame );
     setDelegate( touchDelegate );
 
@@ -73,7 +76,7 @@ NativeView ofxGenericButtonView::createNativeView( const ofRectangle& frame )
 {
 #if TARGET_OS_IPHONE
     // TODO: configurable type
-    UIButton* newView = [ [ UIButton buttonWithType:UIButtonTypeRoundedRect ] retain ];
+    UIButton* newView = [ [ UIButton buttonWithType:ofxGenericButtonTypeToiOS(lastButtonType) ] retain ];
     [ newView setFrame:ofRectangleToCGRect( frame ) ];
     [ newView setTitleColor:[ UIColor blackColor ] forState:UIControlStateNormal ];
     [ newView setBackgroundColor:[ UIColor clearColor ] ];

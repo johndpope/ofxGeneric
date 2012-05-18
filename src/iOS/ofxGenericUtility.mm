@@ -521,6 +521,46 @@ ofxGenericGestureTypeSwipe iOSToofxGenericGestureTypeSwipe( UISwipeGestureRecogn
     return ( ofxGenericGestureTypeSwipe )to;
 }
 
+UIButtonType ofxGenericButtonTypeToiOS( ofxGenericButtonType from )
+{
+    switch (from)
+    {
+        case ofxGenericButtonTypeCustom:
+            return UIButtonTypeCustom;
+        case ofxGenericButtonTypeRoundedRect:
+            return UIButtonTypeRoundedRect;
+        case ofxGenericButtonTypeDetailDisclosure:
+            return UIButtonTypeDetailDisclosure;
+        case ofxGenericButtonTypeInfoLight:
+            return UIButtonTypeInfoLight;
+        case ofxGenericButtonTypeInfoDark:
+            return UIButtonTypeInfoDark;
+        case ofxGenericButtonTypeContactAdd:
+            return UIButtonTypeContactAdd;
+    }
+    return UIButtonTypeCustom;
+}
+
+ofxGenericButtonType iOSToofxGenericButtonType( UIButtonType from )
+{
+    switch (from)
+    {
+        case UIButtonTypeCustom:
+            return ofxGenericButtonTypeCustom;
+        case UIButtonTypeRoundedRect:
+            return ofxGenericButtonTypeRoundedRect;
+        case UIButtonTypeDetailDisclosure:
+            return ofxGenericButtonTypeDetailDisclosure;
+        case UIButtonTypeInfoLight:
+            return ofxGenericButtonTypeInfoLight;
+        case UIButtonTypeInfoDark:
+            return ofxGenericButtonTypeInfoDark;
+        case UIButtonTypeContactAdd:
+            return ofxGenericButtonTypeContactAdd;
+    }
+    return ofxGenericButtonTypeCustom;
+}
+
 float ofxGFontSizeForText( string text, string fontName, float startingFontSize, const ofPoint& constrainedSize )
 {
     // http://stackoverflow.com/questions/4382976/multiline-uilabel-with-adjustsfontsizetofitwidth
