@@ -46,7 +46,6 @@
     release( objectiveCView );
 
 #define releaseViewController( objectCViewController ) \
-    [ objectCViewController removeFromParentViewController ]; \
     [ objectCViewController release ]; \
     objectCViewController = nil;
 #endif

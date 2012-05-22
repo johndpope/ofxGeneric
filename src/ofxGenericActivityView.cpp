@@ -88,7 +88,10 @@ void ofxGenericActivityView::setColor( const ofColor& color )
     UIActivityIndicatorView* nativeView = ( UIActivityIndicatorView* )*this;
     if ( nativeView )
     {
-        nativeView.color = ofColorToUIColor( color );
+         if ( [ nativeView respondsToSelector:@selector(setColor:) ] ) // not available in iOS < 5.0
+         {
+             [ nativeView setColor:ofColorToUIColor( color ) ];
+         }
     }
 #endif    
 }
@@ -99,7 +102,10 @@ ofColor ofxGenericActivityView::getColor()
     UIActivityIndicatorView* nativeView = ( UIActivityIndicatorView* )*this;
     if ( nativeView )
     {
-        return UIColorToofColor( nativeView.color );
+        if ( [ nativeView respondsToSelector:@selector(setColor:) ] ) // not available in iOS < 5.0
+        {
+            return UIColorToofColor( nativeView.color );
+        }
     }
 #endif
     return ofColor( 255, 255, 255, 255 );
