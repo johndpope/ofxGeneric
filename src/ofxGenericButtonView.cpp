@@ -177,6 +177,157 @@ void ofxGenericButtonView::setDelegate( ofPtrWeak< ofxGenericButtonViewTouchDele
     _touchDelegate = delegate;
 }
 
+void ofxGenericButtonView::setTextAlignment( ofxGenericTextHorizontalAlignment alignment )
+{
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[UIButton class]] )
+    {
+        UILabel *titleLabel = ((UIButton *)_view).titleLabel;
+        titleLabel.textAlignment = ofxGenericTextHorizontalAlignmentToiOS( alignment );
+    }
+#endif
+}
+
+ofxGenericTextHorizontalAlignment ofxGenericButtonView::getTextAlignment()
+{
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[UIButton class]] )
+    {
+        UILabel *titleLabel = ((UIButton *)_view).titleLabel;
+        return iOSToofxGenericTextHorizontalAlignment( titleLabel.textAlignment );
+    }
+#endif
+    return ofxGenericTextHorizontalAlignmentLeft;
+}
+
+void ofxGenericButtonView::setTextColor ( const ofColor& setColor )
+{
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[UIButton class]] )
+    {
+        UILabel *titleLabel = ((UIButton *)_view).titleLabel;
+        titleLabel.textColor = ofColorToUIColor( setColor );
+        [((UIButton *) _view) setTitleColor:titleLabel.textColor forState:UIControlStateNormal];
+    }
+#endif    
+}
+
+ofColor ofxGenericButtonView::getTextColor ()
+{
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[UIButton class]] )
+    {
+        UILabel *titleLabel = ((UIButton *)_view).titleLabel;
+        return UIColorToofColor( titleLabel.textColor );
+    }
+#endif
+    return ofColor::black;
+}
+
+void ofxGenericButtonView::setLineBreakMode ( ofxGenericTextLinebreakMode mode )
+{
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[UIButton class]] )
+    {
+        UILabel *titleLabel = ((UIButton *)_view).titleLabel;
+        titleLabel.lineBreakMode = ofxGenericTextLinebreakModeToiOS( mode );
+    }
+#endif    
+}
+
+ofxGenericTextLinebreakMode ofxGenericButtonView::getLineBreakMode ()
+{
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[UIButton class]] )
+    {
+        UILabel *titleLabel = ((UIButton *)_view).titleLabel;
+        return iOSToofxGenericTextLinebreakMode( ((UILabel *)titleLabel).lineBreakMode );
+    }
+#endif
+    return ofxGenericTextLinebreakModeClip;
+}
+
+void ofxGenericButtonView::setNumberOfLines ( int n )
+{
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[UIButton class]] )
+    {
+        UILabel *titleLabel = ((UIButton *)_view).titleLabel;
+        titleLabel.numberOfLines = n;
+    }
+#endif    
+}
+
+int ofxGenericButtonView::getNumberOfLines ()
+{
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[UIButton class]] )
+    {
+        UILabel *titleLabel = ((UIButton *)_view).titleLabel;
+        return titleLabel.numberOfLines;
+    }
+#endif
+    return 1;
+}
+
+int ofxGenericButtonView::getMinimumFontSize()
+{
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[UIButton class]] )
+    {
+        UILabel *titleLabel = ((UIButton *)_view).titleLabel;
+        return titleLabel.minimumFontSize;
+    }
+#endif
+    return 10;
+}
+
+void ofxGenericButtonView::setMinimumFontSize( int s )
+{
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[UIButton class]] )
+    {
+        UILabel *titleLabel = ((UIButton *)_view).titleLabel;
+        titleLabel.minimumFontSize = s;
+    }
+#endif
+}
+
+void ofxGenericButtonView::setFont ( string name, float size )
+{
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[UIButton class]] )
+    {
+        UILabel *titleLabel = ((UIButton *)_view).titleLabel;
+        titleLabel.font = [UIFont fontWithName:[NSString stringWithCString:name.c_str() encoding:NSUTF8StringEncoding] size:size];
+    }
+#endif
+}
+
+float ofxGenericButtonView::getFontSize()
+{
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[UIButton class]] )
+    {
+        UILabel *titleLabel = ((UIButton *)_view).titleLabel;
+        return titleLabel.font.pointSize;
+    }
+#endif
+    return 12.0f;
+}
+
+string ofxGenericButtonView::getFontName()
+{
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[UIButton class]] )
+    {
+        UILabel *titleLabel = ((UIButton *)_view).titleLabel;
+        return [titleLabel.font.fontName cStringUsingEncoding:NSUTF8StringEncoding];
+    }
+#endif
+    return "";
+}
+
 #if DEBUG
 string ofxGenericButtonView::toString()
 {

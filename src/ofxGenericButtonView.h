@@ -31,6 +31,25 @@ public:
     // void setImage
     void setBackgroundImage( std::string fileName );
     
+    void setTextAlignment( ofxGenericTextHorizontalAlignment alignment );
+    ofxGenericTextHorizontalAlignment getTextAlignment();
+    
+    void setTextColor ( const ofColor& setColor );
+    ofColor getTextColor ();
+    
+    void setLineBreakMode ( ofxGenericTextLinebreakMode mode );
+    ofxGenericTextLinebreakMode getLineBreakMode();
+    
+    void setNumberOfLines ( int n );
+    int getNumberOfLines ();
+    
+    int getMinimumFontSize();
+    void setMinimumFontSize( int s );
+    
+    void setFont ( string name, float size );
+    float getFontSize();
+    string getFontName();
+    
     // TODO: scheme so that UIButtonDelegateForwarder is the only one that can call these
     // TODO: scheme so we can pass a reference of this to delegate
     virtual void touchCancel();
