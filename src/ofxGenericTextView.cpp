@@ -213,12 +213,39 @@ bool ofxGenericTextView::getAutosizeFontToFitText()
 void ofxGenericTextView::autosizeFontForMultiline()
 {
     float newFontSize = ofxGFontSizeForText( getText(), getFontName(), getFontSize(), ofPoint( getFrame().width, getFrame().height ) );
+    
+    if ( newFontSize < getMinimumFontSize() )
+    {
+        newFontSize = getMinimumFontSize();
+    }
+    
     if ( newFontSize != getFontSize() )
     {
         setFont( getFontName(), newFontSize );
     }
 }
 #endif
+
+int ofxGenericTextView::getMinimumFontSize()
+{
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[ UILabel class ] ] )
+    {
+        return ((UILabel *)_view).minimumFontSize;
+    }
+#endif
+    return 0;
+}
+
+void ofxGenericTextView::setMinimumFontSize( int s )
+{
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[ UILabel class ] ] )
+    {
+        ((UILabel *)_view).minimumFontSize = s;
+    }
+#endif
+}
 
                                 
 #if TARGET_OS_IPHONE
