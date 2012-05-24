@@ -31,7 +31,7 @@ void ofxGenericLocalization::init( ofPtrWeak< ofxGenericLocalization > setThis )
         throw ofxGenericExceptionSubclassedSingletonInitializedTwice( "ofxGenericLocalization" );
     }
     
-    _cache = ofxGenericCache::create();
+    _cache = ofxGenericCache::create( false );
     
     string isoLanguage;
 #if TARGET_OS_IPHONE
@@ -57,9 +57,7 @@ string ofxGenericLocalization::getString( string key )
     }
     if ( ofxGenericLocalization::_this )
     {
-        string value;
-        ofxGenericLocalization::_this->_cache->read( key, value, key );
-        return value;
+        return ofxGenericLocalization::_this->_cache->read( key, key );
     }
     return key;
 }
@@ -73,9 +71,7 @@ string ofxGenericLocalization::getString( string key, string defaultValue )
     }
     if ( ofxGenericLocalization::_this )
     {
-        string value;
-        ofxGenericLocalization::_this->_cache->read( key, value, defaultValue );
-        return value;
+        return ofxGenericLocalization::_this->_cache->read( key, defaultValue );
     }
     return defaultValue;
 }

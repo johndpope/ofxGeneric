@@ -23,6 +23,7 @@
 		3C5336E9153F6ED60046AFD8 /* ofxGenericUtility.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3C5336E4153F6ED60046AFD8 /* ofxGenericUtility.mm */; };
 		3C5336EA153F6ED60046AFD8 /* UIDevice+Model.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C5336E5153F6ED60046AFD8 /* UIDevice+Model.h */; };
 		3C5336EB153F6ED60046AFD8 /* UIDevice+Model.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3C5336E6153F6ED60046AFD8 /* UIDevice+Model.mm */; };
+		3C6CC8A1156DAEE200845BF4 /* ofxGenericCacheIterator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C6CC8A0156DAEE200845BF4 /* ofxGenericCacheIterator.cpp */; };
 		3C6D4B2B15584E4D004904CE /* ofxGenericSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C6D4B2A15584E4D004904CE /* ofxGenericSettings.cpp */; };
 		3C7B4DDE14FC78A1003121FE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C7B4DDD14FC78A1003121FE /* Foundation.framework */; };
 		3C7B4EB514FC7CBF003121FE /* ofxAppGenericWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C7B4E8A14FC7CBF003121FE /* ofxAppGenericWindow.cpp */; };
@@ -121,6 +122,8 @@
 		3C5336E4153F6ED60046AFD8 /* ofxGenericUtility.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxGenericUtility.mm; sourceTree = "<group>"; };
 		3C5336E5153F6ED60046AFD8 /* UIDevice+Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+Model.h"; sourceTree = "<group>"; };
 		3C5336E6153F6ED60046AFD8 /* UIDevice+Model.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "UIDevice+Model.mm"; sourceTree = "<group>"; };
+		3C6CC89E156DAECF00845BF4 /* ofxGenericCacheIterator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericCacheIterator.h; sourceTree = "<group>"; };
+		3C6CC8A0156DAEE200845BF4 /* ofxGenericCacheIterator.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericCacheIterator.cpp; sourceTree = "<group>"; };
 		3C6D4B2715584CB6004904CE /* ofxGenericSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericSettings.h; sourceTree = "<group>"; };
 		3C6D4B2A15584E4D004904CE /* ofxGenericSettings.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericSettings.cpp; sourceTree = "<group>"; };
 		3C7B4DDA14FC78A1003121FE /* libofxGeneric.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libofxGeneric.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -320,6 +323,8 @@
 				3C6D4B2A15584E4D004904CE /* ofxGenericSettings.cpp */,
 				3C4D9C0A1559E64F00C02C92 /* ofxGenericTimer.h */,
 				3C4D9C0C1559E69900C02C92 /* ofxGenericTimer.cpp */,
+				3C6CC89E156DAECF00845BF4 /* ofxGenericCacheIterator.h */,
+				3C6CC8A0156DAEE200845BF4 /* ofxGenericCacheIterator.cpp */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -613,6 +618,7 @@
 				4544F5E91549D061007482B2 /* ofxGenericDrawableView.cpp in Sources */,
 				3C6D4B2B15584E4D004904CE /* ofxGenericSettings.cpp in Sources */,
 				3C4D9C0D1559E69900C02C92 /* ofxGenericTimer.cpp in Sources */,
+				3C6CC8A1156DAEE200845BF4 /* ofxGenericCacheIterator.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

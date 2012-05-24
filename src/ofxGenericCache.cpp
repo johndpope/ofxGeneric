@@ -20,344 +20,397 @@
 
 ofPtr< ofxGenericCache > ofxGenericCache::create( bool asArray )
 {
-    ofPtr< ofxGenericCache > create;
+    ofPtr< ofxGenericCache > create( new ofxGenericCache() );
+    Type type;
     if ( asArray )
     {
-        Json::Value jsonValue( Json::arrayValue );
-        ofxJSONElement jsonElement( jsonValue );
-        create = ofPtr< ofxGenericCache >( new ofxGenericCache( jsonElement ) );
+        type = ofxGenericCacheTypeArray;
     } else 
     {
-        create = ofPtr< ofxGenericCache >( new ofxGenericCache() );
+        type = ofxGenericCacheTypeObject;
     }
-    create->init( create );
+    create->init( create, type );
     return create;
 }
 
-ofPtr< ofxGenericCache > ofxGenericCache::create( string json )
+ofPtr< ofxGenericCache > ofxGenericCache::createWithValue( float value )
 {
-    ofPtr< ofxGenericCache > create = ofPtr< ofxGenericCache >( new ofxGenericCache( json ) );
-    create->init( create );
+    ofPtr< ofxGenericCache > create( new ofxGenericCache() );
+    create->init( create, ofxGenericCacheTypeFloat );
+    create->_floatValue = value;
+    return create;
+}
+
+ofPtr< ofxGenericCache > ofxGenericCache::createWithValue( int value )
+{
+    ofPtr< ofxGenericCache > create( new ofxGenericCache() );
+    create->init( create, ofxGenericCacheTypeInt );
+    create->_intValue = value;
+    return create;
+}
+
+ofPtr< ofxGenericCache > ofxGenericCache::createWithValue( bool value )
+{
+    ofPtr< ofxGenericCache > create( new ofxGenericCache() );
+    create->init( create, ofxGenericCacheTypeBool );
+    create->_boolValue = value;
+    return create;
+}
+
+ofPtr< ofxGenericCache > ofxGenericCache::createWithValue( string value )
+{
+    ofPtr< ofxGenericCache > create( new ofxGenericCache() );
+    create->init( create, ofxGenericCacheTypeString );
+    *( create->_stringValue ) = value;
     return create;
 }
 
 ofxGenericCache::ofxGenericCache()
-: _root( "{}" ), _fileInDocuments( false )
+: _type( ofxGenericCacheTypeUninitialized ), _fileInDocuments( false )
 {
 }
 
-ofxGenericCache::ofxGenericCache( string json )
-: _root( json ), _fileInDocuments( false )
-{
-}
-
-ofxGenericCache::ofxGenericCache( ofxJSONElement& root )
-: _root( root ), _fileInDocuments( false )
-{
-}
-
-void ofxGenericCache::init( ofPtrWeak< ofxGenericCache > setThis )
+void ofxGenericCache::init( ofPtrWeak< ofxGenericCache > setThis, Type type )
 {
     _this = setThis;
+    _type = type;
+    if ( _type == ofxGenericCacheTypeString )
+    {
+        _stringValue = new string();
+    } else if ( _type == ofxGenericCacheTypeArray )
+    {
+        _arrayValue = new std::vector< ofPtr< ofxGenericCache > >();
+    } else if ( _type == ofxGenericCacheTypeObject )
+    {
+        _objectValue = new std::map< string, ofPtr< ofxGenericCache > >();
+    }
 }
 
 ofxGenericCache::~ofxGenericCache()
 {
-}
-
-void ofxGenericCache::write(string key, float val)
-{
-    _root[key] = val;
-}
-
-void ofxGenericCache::write(string key, int val)
-{
-    _root[key] = val;
-}
-
-void ofxGenericCache::write(string key, bool val)
-{
-    _root[key] = val;
-}
-
-void ofxGenericCache::write(string key, string val)
-{
-    _root[key] = val;
-}
-
-void ofxGenericCache::write(string key, ofPtr< ofxGenericCache >& val )
-{
-    _root[ key ] = val->_root;
-}
-
-bool ofxGenericCache::checkNotNullThrowIfUnexpectedType( string key, Json::Value& element, Json::ValueType expected )
-{
-    if ( element.type() == Json::nullValue )
+    if ( _type == ofxGenericCacheTypeString )
     {
-        return false;
-    }
-    if ( element.type() != expected )
+        delete _stringValue;
+    } else if ( _type == ofxGenericCacheTypeArray )
     {
-        throw ofxGenericExceptionKeyValueUnexpectedType( key.c_str(), expected, element.type() );
-    }
-    return true;
-}
-
-bool ofxGenericCache::read(string key, float& val)
-{
-    return read( key, _root[ key ], val );
-}
-
-bool ofxGenericCache::read( string key, float& val, float defaultValue )
-{
-    if ( !read( key, val ) )
+        delete _arrayValue;
+    } else if ( _type == ofxGenericCacheTypeObject )
     {
-        val = defaultValue;
-        return false;
+        delete _objectValue;
     }
-    return true;
 }
 
-bool ofxGenericCache::read(string key, int& val)
+ofxGenericCache::Type ofxGenericCache::getType() const
 {
-    return read( key, _root[ key ], val );
+    return _type;
 }
 
-bool ofxGenericCache::read( string key, int& val, int defaultValue )
+bool ofxGenericCache::isFloat() const
 {
-    if ( !read( key, val ) )
+    return getType() == ofxGenericCacheTypeFloat;
+}
+
+bool ofxGenericCache::isInt() const
+{
+    return getType() == ofxGenericCacheTypeInt;
+}
+
+bool ofxGenericCache::isBool() const
+{
+    return getType() == ofxGenericCacheTypeBool;
+}
+
+bool ofxGenericCache::isString() const
+{
+    return getType() == ofxGenericCacheTypeString;
+}
+
+bool ofxGenericCache::isObject() const
+{
+    return getType() == ofxGenericCacheTypeObject;
+}
+
+bool ofxGenericCache::isArray() const
+{
+    return getType() == ofxGenericCacheTypeArray;
+}
+
+float ofxGenericCache::asFloat( float defaultValue )
+{
+    if ( isFloat() )
     {
-        val = defaultValue;
-        return false;
+        return _floatValue;
     }
-    return true;
+    return defaultValue;
 }
 
-bool ofxGenericCache::read(string key, bool& val)
+int ofxGenericCache::asInt( int defaultValue )
 {
-    return read( key, _root[ key ], val );
-}
-
-bool ofxGenericCache::read( string key, bool& val, bool defaultValue )
-{
-    if ( !read( key, val ) )
+    if ( isInt() )
     {
-        val = defaultValue;
-        return false;
+        return _intValue;
     }
-    return true;
+    return defaultValue;
 }
 
-bool ofxGenericCache::read(string key, string& val)
+bool ofxGenericCache::asBool( bool defaultValue )
 {
-    return read( key, _root[ key ], val );
-}
-
-bool ofxGenericCache::read( string key, string& val, string defaultValue )
-{
-    if ( !read( key, val ) )
+    if ( isBool() )
     {
-        val = defaultValue;
-        return false;
+        return _boolValue;
     }
-    return true;
+    return defaultValue;
 }
 
-bool ofxGenericCache::read( string key, ofPtr< ofxGenericCache >& val, bool asArray )
+string ofxGenericCache::asString( string defaultValue )
 {
-    return read( key, _root[ key ], val, asArray );
+    if ( isString() )
+    {
+        return *_stringValue;
+    }
+    return defaultValue;
 }
 
+
+void ofxGenericCache::write(string key, float value )
+{
+    if ( isObject() )
+    {
+        ( *_objectValue )[ key ] = createWithValue( value );
+    }
+}
+
+void ofxGenericCache::write( string key, int value )
+{
+    if ( isObject() )
+    {
+        ( *_objectValue )[ key ] = createWithValue( value );
+    }
+}
+
+void ofxGenericCache::write( string key, bool value )
+{
+    if ( isObject() )
+    {
+        ( *_objectValue )[ key ] = createWithValue( value );
+    }
+}
+
+void ofxGenericCache::write( string key, string value )
+{
+    if ( isObject() )
+    {
+        ( *_objectValue )[ key ] = createWithValue( value );
+    }
+}
+
+void ofxGenericCache::write(string key, ofPtr< ofxGenericCache > value )
+{
+    if ( isObject() )
+    {
+        ( *_objectValue )[ key ] = value;
+    }
+}
+
+float ofxGenericCache::read( string key, float defaultValue )
+{
+    if ( isObject() )
+    {
+        ofPtr< ofxGenericCache > value = ( *_objectValue )[ key ];
+        if ( value )
+        {
+            return value->asFloat();
+        }
+    }
+    return defaultValue;
+}
+
+int ofxGenericCache::read( string key, int defaultValue )
+{
+    if ( isObject() )
+    {
+        ofPtr< ofxGenericCache > value = ( *_objectValue )[ key ];
+        if ( value )
+        {
+            return value->asInt();
+        }
+    }
+    return defaultValue;
+}
+
+bool ofxGenericCache::read( string key, bool defaultValue )
+{
+    if ( isObject() )
+    {
+        ofPtr< ofxGenericCache > value = ( *_objectValue )[ key ];
+        if ( value )
+        {
+            return value->asBool();
+        }
+    }
+    return defaultValue;
+}
+
+string ofxGenericCache::read( string key, string defaultValue )
+{
+    if ( isObject() )
+    {
+        ofPtr< ofxGenericCache > value = ( *_objectValue )[ key ];
+        if ( value )
+        {
+            return value->asString();
+        }
+    }
+    return defaultValue;
+}
+
+ofPtr< ofxGenericCache > ofxGenericCache::read( string key )
+{
+    if ( isObject() )
+    {
+        return ( *_objectValue )[ key ];
+    }
+    return ofPtr< ofxGenericCache >();
+}
+
+void ofxGenericCache::drop( string key )
+{
+    if ( isObject() )
+    {
+        ( *_objectValue ).erase( key );
+    }
+}
 
 #pragma Array
 
-void ofxGenericCache::write( int index, float val)
+void ofxGenericCache::write( int index, float value )
 {
-    _root[ index ] = val;
-}
-
-void ofxGenericCache::write( int index, int val)
-{
-    _root[ index ] = val;
-}
-
-void ofxGenericCache::write( int index, bool val)
-{
-    _root[ index ] = val;
-}
-
-void ofxGenericCache::write( int index, string val)
-{
-    _root[ index ] = val;
-}
-
-void ofxGenericCache::write( int index, ofPtr< ofxGenericCache >& val )
-{
-    _root[ index ] = val->_root;
-}
-
-bool ofxGenericCache::read( int index, float& val)
-{
-    checkNotNullThrowIfUnexpectedType( "root", _root, Json::arrayValue );
-    return read( string( "Index " ) + ofxGIntegerToString( index ), _root[ index ], val );
-}
-
-bool ofxGenericCache::read( int index, float& val, float defaultValue )
-{
-    if ( !read( index, val ) )
+    if ( isArray() )
     {
-        val = defaultValue;
-        return false;
+        ( *_arrayValue )[ index ] = createWithValue( value );
     }
-    return true;
 }
 
-bool ofxGenericCache::read(int index, int& val)
+void ofxGenericCache::write( int index, int value )
 {
-    checkNotNullThrowIfUnexpectedType( "root", _root, Json::arrayValue );
-    return read( string( "Index " ) + ofxGIntegerToString( index ), _root[ index ], val );
-}
-
-bool ofxGenericCache::read( int index, int& val, int defaultValue )
-{
-    if ( !read( index, val ) )
+    if ( isArray() )
     {
-        val = defaultValue;
-        return false;
+        ( *_arrayValue )[ index ] = createWithValue( value );
     }
-    return true;
 }
 
-bool ofxGenericCache::read(int index, bool& val)
+void ofxGenericCache::write( int index, bool value )
 {
-    checkNotNullThrowIfUnexpectedType( "root", _root, Json::arrayValue );
-    return read( string( "Index " ) + ofxGIntegerToString( index ), _root[ index ], val );
-}
-
-bool ofxGenericCache::read( int index, bool& val, bool defaultValue )
-{
-    if ( !read( index, val ) )
+    if ( isArray() )
     {
-        val = defaultValue;
-        return false;
+        ( *_arrayValue )[ index ] = createWithValue( value );
     }
-    return true;
 }
 
-bool ofxGenericCache::read(int index, string& val)
+void ofxGenericCache::write( int index, string value )
 {
-    checkNotNullThrowIfUnexpectedType( "root", _root, Json::arrayValue );
-    return read( string( "Index " ) + ofxGIntegerToString( index ), _root[ index ], val );
-}
-
-bool ofxGenericCache::read( int key, string& val, string defaultValue )
-{
-    if ( !read( key, val ) )
+    if ( isArray() )
     {
-        val = defaultValue;
-        return false;
+        ( *_arrayValue )[ index ] = createWithValue( value );
     }
-    return true;
 }
 
-bool ofxGenericCache::read( int index, ofPtr< ofxGenericCache >& val, bool asArray )
+void ofxGenericCache::write( int index, ofPtr< ofxGenericCache > value )
 {
-    checkNotNullThrowIfUnexpectedType( "root", _root, Json::arrayValue );
-    return read( string( "Index " ) + ofxGIntegerToString( index ), _root[ index ], val, asArray );
-}
-
-bool ofxGenericCache::read( string key, Json::Value& element, float& value )
-{
-    if ( element.type() == Json::intValue || checkNotNullThrowIfUnexpectedType( key, element, Json::realValue ) )
+    if ( isArray() )
     {
-        value = element.asDouble();
-        return true;        
+        ( *_arrayValue )[ index ] = value;
     }
-    return false;
 }
 
-bool ofxGenericCache::read( string key, Json::Value& element, int& value )
+float ofxGenericCache::read( int index, float defaultValue )
 {
-    if ( checkNotNullThrowIfUnexpectedType( key, element, Json::intValue ) )
+    if ( isArray() )
     {
-        value = element.asInt();
-        return true;
-    }
-    return false;
-}
-
-bool ofxGenericCache::read( string key, Json::Value& element, bool& value )
-{
-    if ( checkNotNullThrowIfUnexpectedType( key, element, Json::booleanValue ) )
-    {
-        value = element.asBool();
-        return true;
-    }
-    return false;
-}
-
-bool ofxGenericCache::read( string key, Json::Value& element, string& value )
-{
-    if ( checkNotNullThrowIfUnexpectedType( key, element, Json::stringValue ) )
-    {
-        value = element.asString();
-        return true;
-    }
-    return false;
-}
-
-bool ofxGenericCache::read( string key, Json::Value& element, ofPtr< ofxGenericCache >& value, bool asArray )
-{
-    Json::ValueType expected;
-    if ( asArray )
-    {
-        expected = Json::arrayValue;
-    } else 
-    {
-        expected = Json::objectValue;
-    }
-    if ( checkNotNullThrowIfUnexpectedType( key, element, expected ) )
-    {
-        ofxJSONElement jsonElement( element );
-        ofxGenericCache* wrap = new ofxGenericCache( jsonElement );
-        value = ofPtr< ofxGenericCache >( wrap );
-        return true;
-    }
-    return false;
-}
-
-bool  ofxGenericCache::isArray()
-{
-    return _root.type() == Json::arrayValue;
-}
-
-unsigned int ofxGenericCache::length()
-{
-    return _root.size();
-}
-
-bool ofxGenericCache::drop( string key )
-{
-    const Json::Value& element = _root.removeMember( key );
-    return element.type() != Json::nullValue;
-}
-
-bool ofxGenericCache::drop( int index )
-{
-    int oldSize = _root.size();
-    if (index >= 0 && index < _root.size())
-    {
-        Json::Value jsonValue( Json::arrayValue );
-        ofxJSONElement jsonElement( jsonValue );
-        
-        jsonElement.resize( _root.size()-1 );
-        for (int i = 0; i < _root.size()-1; i++)
+        ofPtr< ofxGenericCache > value = ( *_arrayValue )[ index ];
+        if ( value )
         {
-            jsonElement[ i ] = _root[ i < index ? i : i+1 ];
+            return value->asInt();
         }
-        _root = jsonElement;
     }
-    return _root.size() == oldSize - 1;
+    return defaultValue;
+}
+
+int ofxGenericCache::read( int index, int defaultValue )
+{
+    if ( isArray() )
+    {
+        ofPtr< ofxGenericCache > value = ( *_arrayValue )[ index ];
+        if ( value )
+        {
+            return value->asInt();
+        }
+    }
+    return defaultValue;
+}
+
+bool ofxGenericCache::read( int index, bool defaultValue )
+{
+    if ( isArray() )
+    {
+        ofPtr< ofxGenericCache > value = ( *_arrayValue )[ index ];
+        if ( value )
+        {
+            return value->asBool();
+        }
+    }
+    return defaultValue;
+}
+
+string ofxGenericCache::read( int index, string defaultValue )
+{
+    if ( isArray() )
+    {
+        ofPtr< ofxGenericCache > value = ( *_arrayValue )[ index ];
+        if ( value )
+        {
+            return value->asString();
+        }
+    }
+    return defaultValue;
+}
+
+ofPtr< ofxGenericCache > ofxGenericCache::read( int index )
+{
+    if ( isArray() )
+    {
+        return ( *_arrayValue )[ index ];
+    }
+    return ofPtr< ofxGenericCache >();
+}
+
+unsigned int ofxGenericCache::length() const 
+{
+    if ( isArray() )
+    {
+        return ( *_arrayValue ).size();
+    }
+    return 0;
+}
+
+ofxGenericCacheIterator ofxGenericCache::begin()
+{
+    return ofxGenericCacheIterator( _this.lock() );
+}
+
+ofxGenericCacheIterator ofxGenericCache::end()
+{
+    ofxGenericCacheIterator create( _this.lock() );
+    create.goToEnd();
+    return create;
+}
+
+void ofxGenericCache::drop( int index )
+{
+    if ( isArray() )
+    {
+        ( *_arrayValue )[ index ] = ofPtr< ofxGenericCache >();
+    }
 }
 
 void ofxGenericCache::setFileName( string fileName, bool fileInDocuments )
@@ -371,7 +424,7 @@ bool ofxGenericCache::readFromDisk()
 {
     if ( _fileName.length() > 0 )
     {
-        return _root.openLocal( _fileName, _fileInDocuments );
+//        return _root.openLocal( _fileName, _fileInDocuments );
     }
     return false;
 }
@@ -381,40 +434,24 @@ bool ofxGenericCache::writeToDisk()
 {
     if ( _fileName.length() > 0 )
     {
-        return _root.save( _fileName, true, _fileInDocuments );
+//        return _root.save( _fileName, true, _fileInDocuments );
     }
     return false;
 }
 
 //empties the entire cache. a sync call must still be made to put this change onto the disk
-void ofxGenericCache::purge( string path )
+void ofxGenericCache::purge()
 {
-    if (path == "")
+    if ( isObject() )
     {
-        _root.parse( "{}" );
-    }
-    else
+        ( *_objectValue ).clear();
+    } else if ( isArray() )
     {
-        //todo figure this crap out later
-        /*path.
-        vector<string> tokens;
-        istringstream iss(path);
-        copy(istream_iterator<string>(iss),
-             istream_iterator<string>(),
-             back_inserter<vector<string> >(tokens));
-        for (int i = 0; i < tokens.size(); i++)
-        {
-            
-        }*/
+        ( *_arrayValue ).clear();
     }
 }
 
-string ofxGenericCache::toString()
-{
-    return _root.toStyledString();
-}
-
-ofxGenericCacheIterator ofxGenericCache::begin()
+/*ofxGenericCacheIterator ofxGenericCache::begin()
 {
     return _root.begin();
 }
@@ -432,37 +469,4 @@ ofxGenericCacheIterator ofxGenericCache::end()
 ofxGenericCacheConstIterator ofxGenericCache::end() const
 {
     return _root.end();
-}
-
-///////////////////////////////////////////////////////////////////////////////////////
-
-ofxGenericExceptionKeyValueUnexpectedType::ofxGenericExceptionKeyValueUnexpectedType( const char* key, Json::ValueType expected, Json::ValueType actual ) throw()
-: ofxGenericException( "Unexcepted key value type" ), _key( NULL ), _expected( NULL ), _actual( NULL )
-{
-    allocAndCopy( _key, key );
-    allocAndCopy( _expected, valueTypeToString( expected ) );
-    allocAndCopy( _actual, valueTypeToString( actual ) );
-}
-
-const char* ofxGenericExceptionKeyValueUnexpectedType::key() const throw()
-{
-    return _key;
-}
-
-const char* ofxGenericExceptionKeyValueUnexpectedType::excepted() const throw()
-{
-    return _expected;
-}
-
-const char* ofxGenericExceptionKeyValueUnexpectedType::actual() const throw()
-{
-    return _actual;
-}
-
-ofxGenericExceptionKeyValueUnexpectedType::~ofxGenericExceptionKeyValueUnexpectedType() throw()
-{
-    dealloc( _key );
-    dealloc( _expected );
-    dealloc( _actual );    
-}
-
+}*/

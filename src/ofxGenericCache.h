@@ -13,55 +13,73 @@
 #pragma once
 
 #include "ofxGenericMain.h"
-#include "ofxJSONElement.h"
-#include "ofxGenericException.h"
 
-typedef Json::Value::iterator ofxGenericCacheIterator;
-typedef Json::Value::const_iterator ofxGenericCacheConstIterator;
+class ofxGenericCacheIterator;
+class ofxGenericCacheConstIterator;
 
 class ofxGenericCache
 {
 public:
-    static ofPtr< ofxGenericCache > create( bool asArray = false );
-    static ofPtr< ofxGenericCache > create( string json );
-    virtual ~ofxGenericCache();
+    enum Type
+    {
+        ofxGenericCacheTypeUninitialized,
+        ofxGenericCacheTypeFloat,
+        ofxGenericCacheTypeInt,
+        ofxGenericCacheTypeBool,
+        ofxGenericCacheTypeString,
+        ofxGenericCacheTypeObject,
+        ofxGenericCacheTypeArray
+    };
+    static ofPtr< ofxGenericCache > create( bool asArray );
+    Type getType() const;
+    bool isFloat() const;
+    bool isInt() const;
+    bool isBool() const;
+    bool isString() const;
+    bool isObject() const;
+    bool isArray() const;
     
-    virtual void write(string key, float val);
-    virtual void write(string key, int val);
-    virtual void write(string key, bool val);
-    virtual void write(string key, string val);
-    virtual void write(string key, ofPtr< ofxGenericCache >& val );
-    
-    virtual bool read(string key, float& value);
-    virtual bool read(string key, float& value, float defaultValue );
-    virtual bool read(string key, int& value);
-    virtual bool read(string key, int& value, int defaultValue );
-    virtual bool read(string key, bool& value);
-    virtual bool read(string key, bool& value, bool defaultValue );
-    virtual bool read(string key, string& value);
-    virtual bool read(string key, string& value, string defaultValue );
-    virtual bool read(string key, ofPtr< ofxGenericCache >& val, bool asArray = false );
+    float asFloat( float defaultValue = 0.0f );
+    int asInt( int defaultValue = 0 );
+    bool asBool( bool defaultValue = false );
+    string asString( string defaultValue = string() );
 
-    bool isArray();
-    unsigned int length();
-    virtual void write( int index, float val);
-    virtual void write( int index, int val);
-    virtual void write( int index, bool val);
-    virtual void write( int index, string val);
-    virtual void write( int index, ofPtr< ofxGenericCache >& val );
+    // Object methods    
+    virtual void write( string key, float value );
+    virtual void write( string key, int value );
+    virtual void write( string key, bool value );
+    virtual void write( string key, string value );
+    virtual void write( string key, const char* value );
+    virtual void write( string key, ofPtr< ofxGenericCache > value );
     
-    virtual bool read( int index, float& value);
-    virtual bool read( int index, float& value, float defaultValue );
-    virtual bool read( int index, int& value);
-    virtual bool read( int index, int& value, int defaultValue );
-    virtual bool read( int index, bool& value);
-    virtual bool read( int index, bool& value, bool defaultValue );
-    virtual bool read( int index, string& value);
-    virtual bool read( int index, string& value, string defaultValue );
-    virtual bool read( int index, ofPtr< ofxGenericCache >& val, bool asArray = false );
+    virtual float   read( string key, float defaultValue );
+    virtual int     read( string key, int defaultValue );
+    virtual bool    read( string key, bool defaultValue );
+    virtual string  read( string key, string defaultValue );
+    virtual string  read( string key, const char* defaultValue );
+    virtual ofPtr< ofxGenericCache > read( string key );
+    ofPtr< ofxGenericCache > operator[]( string key );    
 
-    virtual bool drop( string key );
-    virtual bool drop( int index );
+    virtual void drop( string key );
+
+    // Array methods
+    unsigned int length() const;
+    virtual void write( int index, float value );
+    virtual void write( int index, int value );
+    virtual void write( int index, bool value );
+    virtual void write( int index, string value );
+    virtual void write( int index, const char* value );
+    virtual void write( int index, ofPtr< ofxGenericCache > value );
+    
+    virtual float   read( int index, float defaultValue );
+    virtual int     read( int index, int defaultValue );
+    virtual bool    read( int index, bool defaultValue );
+    virtual string  read( int index, string defaultValue );
+    virtual string  read( int index, const char* defaultValue );
+    virtual ofPtr< ofxGenericCache > read( int index );
+    ofPtr< ofxGenericCache > operator[]( int index );
+
+    virtual void drop( int index );
     
     void setFileName( string fileName, bool fileInDocuments );
     
@@ -71,52 +89,38 @@ public:
     //writes the cache to disk
     virtual bool writeToDisk();
     
-    //empties the entire cache. a sync call must still be made to put this change onto the disk
-    virtual void purge( string path="" );
-    
-    //returns the cache as a json string
-    virtual string toString();
+    //empties the entire cache
+    virtual void purge();
     
     ofxGenericCacheIterator begin();
-    ofxGenericCacheConstIterator begin() const;
     ofxGenericCacheIterator end();
-    ofxGenericCacheConstIterator end() const;
     
+    virtual ~ofxGenericCache();
 protected:
     ofxGenericCache();
-    ofxGenericCache( string json );
-    ofxGenericCache( ofxJSONElement& root );
-    virtual void init( ofPtrWeak< ofxGenericCache > setThis );
+    virtual void init( ofPtrWeak< ofxGenericCache > setThis, Type type );
     ofPtrWeak< ofxGenericCache > _this;
+    static ofPtr< ofxGenericCache > createWithValue( float value );
+    static ofPtr< ofxGenericCache > createWithValue( int value );
+    static ofPtr< ofxGenericCache > createWithValue( bool value );
+    static ofPtr< ofxGenericCache > createWithValue( string value );
     
-    ofxJSONElement _root;
-    
-    //Json::Value resolvePath( );
+    Type _type;
+    union
+    {
+        float _floatValue;
+        int _intValue;
+        bool _boolValue;
+        string* _stringValue;
+        std::map< string, ofPtr< ofxGenericCache > >* _objectValue;
+        std::vector< ofPtr< ofxGenericCache > >* _arrayValue;
+    };  
+
     string _fileName;
-    bool _fileInDocuments;
-    
-    static bool checkNotNullThrowIfUnexpectedType( string key, Json::Value& element, Json::ValueType expected );
-    
-    virtual bool read( string key, Json::Value& element, float& value );
-    virtual bool read( string key, Json::Value& element, int& value );
-    virtual bool read( string key, Json::Value& element, bool& value );
-    virtual bool read( string key, Json::Value& element, string& value );
-    virtual bool read( string key, Json::Value& element, ofPtr< ofxGenericCache >& value, bool asArray = false );
+    bool _fileInDocuments;    
+
+    friend class ofxGenericCacheIterator;
+    friend class ofxGenericCacheConstIterator;
 };
 
-class ofxGenericExceptionKeyValueUnexpectedType : public ofxGenericException
-{
-public:
-    ofxGenericExceptionKeyValueUnexpectedType( const char* key, Json::ValueType expected, Json::ValueType actual ) throw();
-    
-    virtual const char* key() const throw();
-    virtual const char* excepted() const throw();
-    virtual const char* actual() const throw();
-    
-    virtual ~ofxGenericExceptionKeyValueUnexpectedType() throw();
-    
-protected:
-    char* _key;
-    char* _expected;
-    char* _actual;
-};
+#include "ofxGenericCacheIterator.h"
