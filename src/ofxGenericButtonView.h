@@ -25,8 +25,6 @@ public:
     
     void setText( std::string newText );
     std::string getText();
-    //    void setTextColor( const ofColor newColor );
-    //    ofColor getTextColor();
     
     // void setImage
     void setBackgroundImage( std::string fileName );
