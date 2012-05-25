@@ -25,6 +25,9 @@ public:
     void setShowHorizontalScrollIndicator( bool show );
     void setShowVerticalScrollIndicator( bool show );
     
+    void setAlwaysBouncesVertical( bool bounce );
+    void setAlwaysBouncesHorizontal( bool bounce );
+    
     void scrollRectToVisible( const ofRectangle& rect, bool animated );
     
     ofPoint getContentSize();

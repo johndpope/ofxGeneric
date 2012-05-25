@@ -141,6 +141,30 @@ ofPoint ofxGenericScrollView::getContentSize()
     return ofPoint(0,0);
 }
 
+void ofxGenericScrollView::setAlwaysBouncesVertical( bool bounce )
+{
+#if TARGET_OS_IPHONE
+    UIScrollView* view = *this;
+    if ( view )
+    {
+        view.alwaysBounceVertical = bounce;
+    } 
+#elif TARGET_ANDROID
+#endif
+}
+
+void ofxGenericScrollView::setAlwaysBouncesHorizontal( bool bounce )
+{
+#if TARGET_OS_IPHONE
+    UIScrollView* view = *this;
+    if ( view )
+    {
+        view.alwaysBounceHorizontal = bounce;
+    } 
+#elif TARGET_ANDROID
+#endif
+}
+
 #if TARGET_OS_IPHONE
 
 ofxGenericUIViewCastOperator( ofxGenericScrollView, UIScrollView );

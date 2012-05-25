@@ -9,6 +9,7 @@
 #pragma once
 
 #include "ofxGenericView.h"
+#include "ofxGenericScrollView.h"
 #include "ofxGenericConstants.h"
 
 #if TARGET_OS_IPHONE
@@ -17,7 +18,7 @@
 class ofxGenericTableViewCell;
 class ofxGenericTableViewDelegate;
 
-class ofxGenericTableView : public ofxGenericView
+class ofxGenericTableView : public ofxGenericScrollView
 {
 public:
     static ofPtr< ofxGenericTableView > create( const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ) );
