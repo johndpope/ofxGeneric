@@ -14,8 +14,12 @@
 
 #include "ofxGenericMain.h"
 
-class ofxGenericCacheIterator;
-class ofxGenericCacheConstIterator;
+class ofxGenericCache;
+namespace Json
+{ class Value; }
+
+typedef std::map< string, ofPtr< ofxGenericCache > >::iterator ofxGenericCacheObjectIterator;
+typedef std::vector< ofPtr< ofxGenericCache > >::iterator ofxGenericCacheArrayIterator;
 
 class ofxGenericCache
 {
@@ -64,20 +68,20 @@ public:
 
     // Array methods
     unsigned int length() const;
-    virtual void write( int index, float value );
-    virtual void write( int index, int value );
-    virtual void write( int index, bool value );
-    virtual void write( int index, string value );
-    virtual void write( int index, const char* value );
-    virtual void write( int index, ofPtr< ofxGenericCache > value );
+    virtual void write( unsigned int index, float value );
+    virtual void write( unsigned int index, int value );
+    virtual void write( unsigned int index, bool value );
+    virtual void write( unsigned int index, string value );
+    virtual void write( unsigned int index, const char* value );
+    virtual void write( unsigned int index, ofPtr< ofxGenericCache > value );
     
-    virtual float   read( int index, float defaultValue );
-    virtual int     read( int index, int defaultValue );
-    virtual bool    read( int index, bool defaultValue );
-    virtual string  read( int index, string defaultValue );
-    virtual string  read( int index, const char* defaultValue );
-    virtual ofPtr< ofxGenericCache > read( int index );
-    ofPtr< ofxGenericCache > operator[]( int index );
+    virtual float   read( unsigned int index, float defaultValue );
+    virtual int     read( unsigned int index, int defaultValue );
+    virtual bool    read( unsigned int index, bool defaultValue );
+    virtual string  read( unsigned int index, string defaultValue );
+    virtual string  read( unsigned int index, const char* defaultValue );
+    virtual ofPtr< ofxGenericCache > read( unsigned int index );
+    ofPtr< ofxGenericCache > operator[]( unsigned int index );
 
     virtual void drop( int index );
     
@@ -92,8 +96,10 @@ public:
     //empties the entire cache
     virtual void purge();
     
-    ofxGenericCacheIterator begin();
-    ofxGenericCacheIterator end();
+    ofxGenericCacheObjectIterator objectBegin();
+    ofxGenericCacheObjectIterator objectEnd();
+    ofxGenericCacheArrayIterator arrayBegin();
+    ofxGenericCacheArrayIterator arrayEnd();
     
     virtual ~ofxGenericCache();
 protected:
@@ -118,9 +124,9 @@ protected:
 
     string _fileName;
     bool _fileInDocuments;    
-
-    friend class ofxGenericCacheIterator;
-    friend class ofxGenericCacheConstIterator;
+    
+    void convertFrom( Json::Value& convert );
+    Json::Value* convertTo();
+    static ofPtr< ofxGenericCache > createFrom( Json::Value& convert );
 };
 
-#include "ofxGenericCacheIterator.h"

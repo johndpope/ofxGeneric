@@ -12,11 +12,8 @@
 
 #include "ofxGenericCache.h"
 #include "ofxGenericUtility.h"
-#include <iostream>
-#include <string>
-#include <sstream>
-#include <algorithm>
-#include <iterator>
+
+#include "ofxJSONElement.h"
 
 ofPtr< ofxGenericCache > ofxGenericCache::create( bool asArray )
 {
@@ -204,6 +201,14 @@ void ofxGenericCache::write( string key, string value )
     }
 }
 
+void ofxGenericCache::write( string key, const char* value )
+{
+    if ( isObject() )
+    {
+        ( *_objectValue )[ key ] = createWithValue( string( value ) );
+    }
+}
+
 void ofxGenericCache::write(string key, ofPtr< ofxGenericCache > value )
 {
     if ( isObject() )
@@ -264,6 +269,19 @@ string ofxGenericCache::read( string key, string defaultValue )
     return defaultValue;
 }
 
+string ofxGenericCache::read( string key, const char* defaultValue )
+{
+    if ( isObject() )
+    {
+        ofPtr< ofxGenericCache > value = ( *_objectValue )[ key ];
+        if ( value )
+        {
+            return value->asString();
+        }
+    }
+    return string( defaultValue );
+}
+
 ofPtr< ofxGenericCache > ofxGenericCache::read( string key )
 {
     if ( isObject() )
@@ -271,6 +289,11 @@ ofPtr< ofxGenericCache > ofxGenericCache::read( string key )
         return ( *_objectValue )[ key ];
     }
     return ofPtr< ofxGenericCache >();
+}
+
+ofPtr< ofxGenericCache > ofxGenericCache::operator[]( string key )
+{
+    return read( key );
 }
 
 void ofxGenericCache::drop( string key )
@@ -283,49 +306,81 @@ void ofxGenericCache::drop( string key )
 
 #pragma Array
 
-void ofxGenericCache::write( int index, float value )
+void ofxGenericCache::write( unsigned int index, float value )
 {
     if ( isArray() )
     {
+        if ( index >= ( *_arrayValue ).size() )
+        {
+            ( *_arrayValue ).resize( index + 1 );
+        }
         ( *_arrayValue )[ index ] = createWithValue( value );
     }
 }
 
-void ofxGenericCache::write( int index, int value )
+void ofxGenericCache::write( unsigned int index, int value )
 {
     if ( isArray() )
     {
+        if ( index >= ( *_arrayValue ).size() )
+        {
+            ( *_arrayValue ).resize( index + 1 );
+        }
         ( *_arrayValue )[ index ] = createWithValue( value );
     }
 }
 
-void ofxGenericCache::write( int index, bool value )
+void ofxGenericCache::write( unsigned int index, bool value )
 {
     if ( isArray() )
     {
+        if ( index >= ( *_arrayValue ).size() )
+        {
+            ( *_arrayValue ).resize( index + 1 );
+        }
         ( *_arrayValue )[ index ] = createWithValue( value );
     }
 }
 
-void ofxGenericCache::write( int index, string value )
+void ofxGenericCache::write( unsigned int index, string value )
 {
     if ( isArray() )
     {
+        if ( index >= ( *_arrayValue ).size() )
+        {
+            ( *_arrayValue ).resize( index + 1 );
+        }
         ( *_arrayValue )[ index ] = createWithValue( value );
     }
 }
 
-void ofxGenericCache::write( int index, ofPtr< ofxGenericCache > value )
+void ofxGenericCache::write( unsigned int index, const char* value )
 {
     if ( isArray() )
     {
+        if ( index >= ( *_arrayValue ).size() )
+        {
+            ( *_arrayValue ).resize( index + 1 );
+        }
+        ( *_arrayValue )[ index ] = createWithValue( string( value ) );
+    }
+}
+
+void ofxGenericCache::write( unsigned int index, ofPtr< ofxGenericCache > value )
+{
+    if ( isArray() )
+    {
+        if ( index >= ( *_arrayValue ).size() )
+        {
+            ( *_arrayValue ).resize( index + 1 );
+        }
         ( *_arrayValue )[ index ] = value;
     }
 }
 
-float ofxGenericCache::read( int index, float defaultValue )
+float ofxGenericCache::read( unsigned int index, float defaultValue )
 {
-    if ( isArray() )
+    if ( isArray() && length() > index )
     {
         ofPtr< ofxGenericCache > value = ( *_arrayValue )[ index ];
         if ( value )
@@ -336,9 +391,9 @@ float ofxGenericCache::read( int index, float defaultValue )
     return defaultValue;
 }
 
-int ofxGenericCache::read( int index, int defaultValue )
+int ofxGenericCache::read( unsigned int index, int defaultValue )
 {
-    if ( isArray() )
+    if ( isArray() && length() > index )
     {
         ofPtr< ofxGenericCache > value = ( *_arrayValue )[ index ];
         if ( value )
@@ -349,9 +404,9 @@ int ofxGenericCache::read( int index, int defaultValue )
     return defaultValue;
 }
 
-bool ofxGenericCache::read( int index, bool defaultValue )
+bool ofxGenericCache::read( unsigned int index, bool defaultValue )
 {
-    if ( isArray() )
+    if ( isArray() && length() > index )
     {
         ofPtr< ofxGenericCache > value = ( *_arrayValue )[ index ];
         if ( value )
@@ -362,9 +417,9 @@ bool ofxGenericCache::read( int index, bool defaultValue )
     return defaultValue;
 }
 
-string ofxGenericCache::read( int index, string defaultValue )
+string ofxGenericCache::read( unsigned int index, string defaultValue )
 {
-    if ( isArray() )
+    if ( isArray() && length() > index )
     {
         ofPtr< ofxGenericCache > value = ( *_arrayValue )[ index ];
         if ( value )
@@ -375,14 +430,33 @@ string ofxGenericCache::read( int index, string defaultValue )
     return defaultValue;
 }
 
-ofPtr< ofxGenericCache > ofxGenericCache::read( int index )
+string ofxGenericCache::read( unsigned int index, const char* defaultValue )
 {
-    if ( isArray() )
+    if ( isArray() && length() > index )
+    {
+        ofPtr< ofxGenericCache > value = ( *_arrayValue )[ index ];
+        if ( value )
+        {
+            return value->asString();
+        }
+    }
+    return string( defaultValue ); 
+}
+
+ofPtr< ofxGenericCache > ofxGenericCache::read( unsigned int index )
+{
+    if ( isArray() && length() > index )
     {
         return ( *_arrayValue )[ index ];
     }
     return ofPtr< ofxGenericCache >();
 }
+
+ofPtr< ofxGenericCache > ofxGenericCache::operator[]( unsigned int index )
+{
+    return read( index );
+}
+
 
 unsigned int ofxGenericCache::length() const 
 {
@@ -393,16 +467,40 @@ unsigned int ofxGenericCache::length() const
     return 0;
 }
 
-ofxGenericCacheIterator ofxGenericCache::begin()
+ofxGenericCacheObjectIterator ofxGenericCache::objectBegin()
 {
-    return ofxGenericCacheIterator( _this.lock() );
+    if ( isObject() )
+    {
+        return _objectValue->begin();
+    }
+    return ofxGenericCacheObjectIterator();
 }
 
-ofxGenericCacheIterator ofxGenericCache::end()
+ofxGenericCacheObjectIterator ofxGenericCache::objectEnd()
 {
-    ofxGenericCacheIterator create( _this.lock() );
-    create.goToEnd();
-    return create;
+    if ( isObject() )
+    {
+        return _objectValue->end();
+    }
+    return ofxGenericCacheObjectIterator();
+}
+
+ofxGenericCacheArrayIterator ofxGenericCache::arrayBegin()
+{
+    if ( isArray() )
+    {
+        return _arrayValue->begin();
+    }
+    return ofxGenericCacheArrayIterator();    
+}
+
+ofxGenericCacheArrayIterator ofxGenericCache::arrayEnd()
+{
+    if ( isArray() )
+    {
+        return _arrayValue->end();
+    }
+    return ofxGenericCacheArrayIterator();   
 }
 
 void ofxGenericCache::drop( int index )
@@ -424,19 +522,160 @@ bool ofxGenericCache::readFromDisk()
 {
     if ( _fileName.length() > 0 )
     {
-//        return _root.openLocal( _fileName, _fileInDocuments );
+        ofxJSONElement read;
+        if ( read.openLocal( _fileName, _fileInDocuments ) )
+        {
+            purge();
+            convertFrom( read );
+            return true;
+        }
     }
     return false;
 }
+
+void ofxGenericCache::convertFrom( Json::Value& convert )
+{
+    if ( convert.type() == Json::realValue && isFloat() )
+    {
+        _floatValue = ( float )convert.asDouble();
+    } else if ( convert.type() == Json::intValue && isInt() )
+    {
+        _intValue = convert.asInt();
+    } else if ( convert.type() == Json::booleanValue && isBool() )
+    {
+        _boolValue = convert.asBool();
+    } else if ( convert.type() == Json::stringValue && isString() )
+    {
+        ( *_stringValue ) = convert.asString();
+    } else if ( convert.type() == Json::objectValue && isObject() )
+    {
+        for( Json::Value::iterator travMembers = convert.begin(); travMembers != convert.end(); travMembers ++ )
+        {
+            string key = travMembers.key().asString();
+            ofPtr< ofxGenericCache > test = createFrom( *travMembers );
+            ( *this )[ key ] = test;
+        }    
+    } else if ( convert.type() == Json::arrayValue && isArray() )
+    {
+        _arrayValue->resize( convert.size() );
+        for( unsigned int index = 0; index < convert.size(); index ++ )
+        {
+            ( *this )[ index ] = ofxGenericCache::createFrom( convert[ index ] ); 
+        }
+    }
+}
+
+ofPtr< ofxGenericCache > ofxGenericCache::createFrom( Json::Value& convert )
+{
+    switch( convert.type() )
+    {
+        case Json::nullValue:
+            return ofPtr< ofxGenericCache >();
+        case Json::intValue:
+            return createWithValue( convert.asInt() );
+        case Json::uintValue:
+            return createWithValue( convert.asInt() ); // TODO: fix range or support uint
+        case Json::realValue:
+            return createWithValue( ( float )convert.asDouble() );
+        case Json::stringValue:
+            return createWithValue( convert.asString() );
+        case Json::booleanValue:
+            return createWithValue( convert.asBool() );
+        case Json::objectValue:
+        {
+            ofPtr< ofxGenericCache > object = ofxGenericCache::create( false );
+            for( Json::Value::iterator travMembers = convert.begin(); travMembers != convert.end(); travMembers ++ )
+            {
+                string key = travMembers.key().asString();
+                ofPtr< ofxGenericCache > test = ofxGenericCache::createFrom( *travMembers );
+                ( *object )[ key ] = test;            
+            }
+            return object;
+        }
+            break;
+        case Json::arrayValue:
+        {
+            ofPtr< ofxGenericCache > array = ofxGenericCache::create( true );
+            for( unsigned int index = 0; index < convert.size(); index ++ )
+            {
+                ( *array )[ index ] = ofxGenericCache::createFrom( convert[ index ] );
+            }    
+            return array;
+        }
+            break;
+    }
+    return ofPtr< ofxGenericCache >();
+}
+
 
 //writes the cache to disk
 bool ofxGenericCache::writeToDisk()
 {
     if ( _fileName.length() > 0 )
     {
-//        return _root.save( _fileName, true, _fileInDocuments );
+        Json::Value* root = convertTo();
+        ofxJSONElement write( *root );
+        delete root;
+        return write.save( _fileName, true, _fileInDocuments );
     }
     return false;
+}
+
+Json::Value* ofxGenericCache::convertTo()
+{
+    Json::Value* node = NULL;
+    if ( isFloat() )
+    {
+        node = new Json::Value( ( double )asFloat() );
+    } else if ( isInt() )
+    {
+        node = new Json::Value( asInt() );
+    } else if ( isBool() )
+    {
+        node = new Json::Value( asBool() );
+    } else if ( isString() )
+    {
+        node = new Json::Value( asString() );
+    } else if ( isObject() )
+    {
+        node = new Json::Value();
+        for( ofxGenericCacheObjectIterator travMembers = objectBegin(); travMembers !=objectEnd(); travMembers ++ )
+        {
+            if ( ( *travMembers ).second )
+            {
+                Json::Value* member = ( *travMembers ).second->convertTo();
+                if ( member )
+                {
+                    ( *node )[ ( *travMembers ).first ] = *member;
+                    delete member;
+                }
+            } else 
+            {
+                ofxGLogError( "In writing to JSON a node " + ( *travMembers ).first + " is empty" );
+            }
+        }
+    } else if ( isArray() )
+    {
+        node = new Json::Value();
+        int indexCount = 0;
+        for( ofxGenericCacheArrayIterator travIndices = arrayBegin(); travIndices !=arrayEnd(); travIndices ++ )
+        {
+            if ( *travIndices )
+            {
+                Json::Value* index = ( *travIndices )->convertTo();
+                if ( index )
+                {
+                    ( *node )[ indexCount ] = *index;
+                    delete index;
+                }
+                indexCount ++;
+            } else 
+            {
+                ofxGLogError( "In writing to JSON a node at index " + ofxGIntegerToString( indexCount ) + " is empty" );
+            }
+        }
+    }
+    return node;
 }
 
 //empties the entire cache. a sync call must still be made to put this change onto the disk
@@ -450,23 +689,3 @@ void ofxGenericCache::purge()
         ( *_arrayValue ).clear();
     }
 }
-
-/*ofxGenericCacheIterator ofxGenericCache::begin()
-{
-    return _root.begin();
-}
-
-ofxGenericCacheConstIterator ofxGenericCache::begin() const
-{
-    return _root.begin();
-}
-
-ofxGenericCacheIterator ofxGenericCache::end()
-{
-    return _root.end();
-}
-
-ofxGenericCacheConstIterator ofxGenericCache::end() const
-{
-    return _root.end();
-}*/
