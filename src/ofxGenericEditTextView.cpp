@@ -198,12 +198,6 @@ void ofxGenericEditTextView::didEndEditing()
     {
         ofxGenericApp::getInstance()->setMoveFromUnderKeyboard( ofPtr< ofxGenericView >() );
     }
-#if TARGET_OS_IPHONE
-    if ( _nextResponder )
-    {
-        [ _nextResponder.lock()->getNativeView() becomeFirstResponder ];
-    }
-#endif
     if ( _delegate )
     {
         _delegate.lock()->editText_didEndEditing( dynamic_pointer_cast< ofxGenericEditTextView >( _this ) );
@@ -230,6 +224,18 @@ bool ofxGenericEditTextView::shouldClear()
 
 bool ofxGenericEditTextView::shouldReturn()
 {  
+    //next responder transfer should happen here only
+#if TARGET_OS_IPHONE
+    if ( _nextResponder )
+    {
+        [ _nextResponder.lock()->getNativeView() becomeFirstResponder ];
+    }
+    else
+    {
+        [ _this.lock()->getNativeView() resignFirstResponder ];
+    }
+#endif
+    
     bool shouldReturn = true;
     if ( _delegate )
     {
