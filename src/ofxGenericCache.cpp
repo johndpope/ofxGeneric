@@ -168,6 +168,15 @@ string ofxGenericCache::asString( string defaultValue )
     return defaultValue;
 }
 
+bool ofxGenericCache::exists( string key )
+{
+    if ( isObject() )
+    {
+        ofxGenericCacheObjectIterator find = _objectValue->find( key );
+        return find != _objectValue->end();
+    }
+    return false;
+}
 
 void ofxGenericCache::write(string key, float value )
 {
@@ -552,15 +561,14 @@ void ofxGenericCache::convertFrom( Json::Value& convert )
         for( Json::Value::iterator travMembers = convert.begin(); travMembers != convert.end(); travMembers ++ )
         {
             string key = travMembers.key().asString();
-            ofPtr< ofxGenericCache > test = createFrom( *travMembers );
-            ( *this )[ key ] = test;
+            write( key, createFrom( *travMembers ) );
         }    
     } else if ( convert.type() == Json::arrayValue && isArray() )
     {
         _arrayValue->resize( convert.size() );
         for( unsigned int index = 0; index < convert.size(); index ++ )
         {
-            ( *this )[ index ] = ofxGenericCache::createFrom( convert[ index ] ); 
+            write( index, ofxGenericCache::createFrom( convert[ index ] ) ); 
         }
     }
 }
@@ -587,8 +595,7 @@ ofPtr< ofxGenericCache > ofxGenericCache::createFrom( Json::Value& convert )
             for( Json::Value::iterator travMembers = convert.begin(); travMembers != convert.end(); travMembers ++ )
             {
                 string key = travMembers.key().asString();
-                ofPtr< ofxGenericCache > test = ofxGenericCache::createFrom( *travMembers );
-                ( *object )[ key ] = test;            
+                object->write( key, ofxGenericCache::createFrom( *travMembers ) );            
             }
             return object;
         }
@@ -598,7 +605,7 @@ ofPtr< ofxGenericCache > ofxGenericCache::createFrom( Json::Value& convert )
             ofPtr< ofxGenericCache > array = ofxGenericCache::create( true );
             for( unsigned int index = 0; index < convert.size(); index ++ )
             {
-                ( *array )[ index ] = ofxGenericCache::createFrom( convert[ index ] );
+                array->write( index, ofxGenericCache::createFrom( convert[ index ] ) );
             }    
             return array;
         }

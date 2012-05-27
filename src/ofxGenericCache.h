@@ -49,6 +49,8 @@ public:
     string asString( string defaultValue = string() );
 
     // Object methods    
+    virtual bool exists( string key );
+    
     virtual void write( string key, float value );
     virtual void write( string key, int value );
     virtual void write( string key, bool value );
