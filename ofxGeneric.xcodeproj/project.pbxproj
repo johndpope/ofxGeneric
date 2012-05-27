@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3C0AC1511522C34500872B70 /* ofxGenericPlatform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C0AC1501522C34500872B70 /* ofxGenericPlatform.cpp */; };
+		3C0B9F9E1571F9FA009F61BE /* ofxGenericCameraPreviewView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C0B9F9D1571F9FA009F61BE /* ofxGenericCameraPreviewView.cpp */; };
+		3C0B9FAC1571FB07009F61BE /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C7B4F1814FD4E1C003121FE /* AVFoundation.framework */; };
 		3C175687154527EF00B429E8 /* ofxGenericSliderView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C175686154527EF00B429E8 /* ofxGenericSliderView.cpp */; };
 		3C17BC04150AA08E00DA1034 /* ofxGenericActivityView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C17BC03150AA08E00DA1034 /* ofxGenericActivityView.cpp */; };
 		3C1E7B441508288D007B6723 /* ofxGenericLaunchView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C1E7B421508288D007B6723 /* ofxGenericLaunchView.cpp */; };
@@ -100,6 +102,8 @@
 /* Begin PBXFileReference section */
 		3C0AC14E1522C2E700872B70 /* ofxGenericPlatform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericPlatform.h; sourceTree = "<group>"; };
 		3C0AC1501522C34500872B70 /* ofxGenericPlatform.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericPlatform.cpp; sourceTree = "<group>"; };
+		3C0B9F9B1571F992009F61BE /* ofxGenericCameraPreviewView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericCameraPreviewView.h; sourceTree = "<group>"; };
+		3C0B9F9D1571F9FA009F61BE /* ofxGenericCameraPreviewView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericCameraPreviewView.cpp; sourceTree = "<group>"; };
 		3C1756841545275700B429E8 /* ofxGenericSliderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericSliderView.h; sourceTree = "<group>"; };
 		3C175686154527EF00B429E8 /* ofxGenericSliderView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericSliderView.cpp; sourceTree = "<group>"; };
 		3C17BC01150A9F9A00DA1034 /* ofxGenericActivityView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericActivityView.h; sourceTree = "<group>"; };
@@ -206,6 +210,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3C0B9FAC1571FB07009F61BE /* AVFoundation.framework in Frameworks */,
 				3CB302171506DB5B00A1A91F /* libofxiPhone_iphoneos.a in Frameworks */,
 				3C7B4DDE14FC78A1003121FE /* Foundation.framework in Frameworks */,
 			);
@@ -320,6 +325,8 @@
 				3C6D4B2A15584E4D004904CE /* ofxGenericSettings.cpp */,
 				3C4D9C0A1559E64F00C02C92 /* ofxGenericTimer.h */,
 				3C4D9C0C1559E69900C02C92 /* ofxGenericTimer.cpp */,
+				3C0B9F9B1571F992009F61BE /* ofxGenericCameraPreviewView.h */,
+				3C0B9F9D1571F9FA009F61BE /* ofxGenericCameraPreviewView.cpp */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -613,6 +620,7 @@
 				4544F5E91549D061007482B2 /* ofxGenericDrawableView.cpp in Sources */,
 				3C6D4B2B15584E4D004904CE /* ofxGenericSettings.cpp in Sources */,
 				3C4D9C0D1559E69900C02C92 /* ofxGenericTimer.cpp in Sources */,
+				3C0B9F9E1571F9FA009F61BE /* ofxGenericCameraPreviewView.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
