@@ -228,7 +228,7 @@ void ofxGenericCache::write(string key, ofPtr< ofxGenericCache > value )
 
 float ofxGenericCache::read( string key, float defaultValue )
 {
-    if ( isObject() )
+    if ( isObject() && exists( key ) )
     {
         ofPtr< ofxGenericCache > value = ( *_objectValue )[ key ];
         if ( value )
@@ -241,7 +241,7 @@ float ofxGenericCache::read( string key, float defaultValue )
 
 int ofxGenericCache::read( string key, int defaultValue )
 {
-    if ( isObject() )
+    if ( isObject() && exists( key ) )
     {
         ofPtr< ofxGenericCache > value = ( *_objectValue )[ key ];
         if ( value )
@@ -254,7 +254,7 @@ int ofxGenericCache::read( string key, int defaultValue )
 
 bool ofxGenericCache::read( string key, bool defaultValue )
 {
-    if ( isObject() )
+    if ( isObject() && exists( key ) )
     {
         ofPtr< ofxGenericCache > value = ( *_objectValue )[ key ];
         if ( value )
@@ -267,7 +267,7 @@ bool ofxGenericCache::read( string key, bool defaultValue )
 
 string ofxGenericCache::read( string key, string defaultValue )
 {
-    if ( isObject() )
+    if ( isObject() && exists( key ) )
     {
         ofPtr< ofxGenericCache > value = ( *_objectValue )[ key ];
         if ( value )
@@ -280,7 +280,7 @@ string ofxGenericCache::read( string key, string defaultValue )
 
 string ofxGenericCache::read( string key, const char* defaultValue )
 {
-    if ( isObject() )
+    if ( isObject() && exists( key ) )
     {
         ofPtr< ofxGenericCache > value = ( *_objectValue )[ key ];
         if ( value )
@@ -293,7 +293,7 @@ string ofxGenericCache::read( string key, const char* defaultValue )
 
 ofPtr< ofxGenericCache > ofxGenericCache::read( string key )
 {
-    if ( isObject() )
+    if ( isObject() && exists( key ) )
     {
         return ( *_objectValue )[ key ];
     }
