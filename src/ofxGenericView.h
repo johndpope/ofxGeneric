@@ -97,6 +97,7 @@ public:
 
     //you can add gesture recognizers for various actions, they will call gesturePerformed in the view delegate when they are performed
     virtual void addGestureRecognizerSwipe( ofxGenericGestureTypeSwipe type, ofPtrWeak< ofxGenericViewDelegate > delegate );
+    virtual void addGestureRecognizerTap( int tapCount, int fingerCount, ofPtrWeak< ofxGenericViewDelegate > delegate );
     
     virtual string dumpViewGraph( int depth );
     virtual string toString();
@@ -179,7 +180,8 @@ public:
     virtual void animationWillStart( string animationId ) {};
     virtual void animationDidStop( string animationId ) {};
     
-    virtual void gesturePerformedSwipe( ofxGenericGestureTypeSwipe type ) {};
+    virtual void gesturePerformedSwipe( ofxGenericGestureTypeSwipe type, ofPoint location ) {};
+    virtual void gesturePerformedTap( int tapCount, int fingerCount, ofPoint location ) {};
 };
 
 #if TARGET_OS_IPHONE
