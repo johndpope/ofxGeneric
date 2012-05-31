@@ -43,6 +43,7 @@ public:
 #endif
 
     ofRectangle getFrame();
+    ofRectangle getFrame( const ofPoint& setTopLeft );
     virtual void setFrame( const ofRectangle& setFrame );
     
     virtual ofColor getBackgroundColor();
