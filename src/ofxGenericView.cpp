@@ -206,6 +206,14 @@ ofRectangle ofxGenericView::getFrame()
 #endif
 }
 
+ofRectangle ofxGenericView::getFrame( const ofPoint& setTopLeft )
+{
+    ofRectangle frame = getFrame();
+    frame.x = setTopLeft.x;
+    frame.y = setTopLeft.y;
+    return frame;
+}
+
 void ofxGenericView::setFrame( const ofRectangle& setFrame )
 {
 #if TARGET_OS_IPHONE
