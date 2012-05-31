@@ -20,7 +20,7 @@ class ofxGenericButtonViewTouchDelegate;
 class ofxGenericButtonView : public ofxGenericView
 {
 public:
-    static ofPtr< ofxGenericButtonView > create( ofxGenericButtonType buttonType = ofxGenericButtonTypeRoundedRect, const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ), ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate = ofPtrWeak< ofxGenericButtonViewTouchDelegate >() );
+    static ofPtr< ofxGenericButtonView > create( ofxGenericButtonType buttonType = ofxGenericButtonTypeRoundedRect, const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ), ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate = ofPtrWeak< ofxGenericButtonViewTouchDelegate >(), bool forwardsTouches = false );
     virtual ~ofxGenericButtonView();
     
     void setText( std::string newText );
@@ -47,6 +47,8 @@ public:
     void setFont ( string name, float size );
     float getFontSize();
     string getFontName();
+    
+    void setForwardsTouches( bool forwards );
     
     // TODO: scheme so that UIButtonDelegateForwarder is the only one that can call these
     // TODO: scheme so we can pass a reference of this to delegate
@@ -82,7 +84,7 @@ public:
 
 protected:
     ofxGenericButtonView();
-    virtual void init( ofPtrWeak< ofxGenericView > setThis, ofxGenericButtonType buttonType = ofxGenericButtonTypeRoundedRect, const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ), ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate = ofPtrWeak< ofxGenericButtonViewTouchDelegate >() );
+    virtual void init( ofPtrWeak< ofxGenericView > setThis, ofxGenericButtonType buttonType = ofxGenericButtonTypeRoundedRect, const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ), ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate = ofPtrWeak< ofxGenericButtonViewTouchDelegate >(), bool forwardsTouches = false );
 
     ofPtrWeak< ofxGenericButtonViewTouchDelegate > _touchDelegate;
     

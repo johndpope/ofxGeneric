@@ -64,6 +64,8 @@ public:
     virtual void willDisappear();
     virtual void didDisappear();
     
+    virtual void hitInView( ofPoint location ) {};
+    
     void setAlpha( float alpha );
     float getAlpha();
     
@@ -79,6 +81,9 @@ public:
     ofPtr< ofxGenericView > getNextResponder();
     
     virtual void setViewDelegate( ofPtrWeak< ofxGenericViewDelegate > delegate );
+    
+    virtual bool containsPoint( ofPoint point );
+    virtual ofPoint convertPointFromView( ofPoint point, ofPtr< ofxGenericView > view );
     
     static void beginAnimation( string animationId, ofPtr< ofxGenericViewDelegate > delegate = ofPtr< ofxGenericViewDelegate >() );
     static void commitAnimation();
@@ -182,6 +187,8 @@ public:
     
     virtual void gesturePerformedSwipe( ofxGenericGestureTypeSwipe type, ofPoint location ) {};
     virtual void gesturePerformedTap( int tapCount, int fingerCount, ofPoint location ) {};
+    
+    virtual void hitInView( ofPoint location ) {};
 };
 
 #if TARGET_OS_IPHONE
