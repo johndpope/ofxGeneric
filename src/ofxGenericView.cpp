@@ -32,6 +32,16 @@
 
 @end
 
+@interface ofxGenericUIView : UIView
+{
+    ofPtrWeak< ofxGenericViewDelegate > _delegate;
+    ofPtrWeak< ofxGenericView > _view;
+}
+- ( void ) setofxGenericView: ( ofPtrWeak< ofxGenericView > ) view;
+- ( void ) setofxGenericViewDelegate: ( ofPtrWeak< ofxGenericViewDelegate > ) delegate;
+
+@end
+
 #elif TARGET_ANDROID
 #include "JNIUtility.h"
 #include "JNIRect.h"
@@ -110,6 +120,12 @@ void ofxGenericView::init( ofPtrWeak< ofxGenericView > setThis, const ofRectangl
     
 #if TARGET_OS_IPHONE
     gestureForwarders = [[NSMutableArray array] retain];
+    
+    if ( [ _view isKindOfClass:[ofxGenericUIView class]] )
+    {
+        [ (ofxGenericUIView *)_view setofxGenericView:_this ];
+    }
+    
 #endif
     
     didLoad();
@@ -140,7 +156,7 @@ jobject ofxGenericView::getJNIInstance()
 #if TARGET_OS_IPHONE
 UIView* ofxGenericView::allocNativeView( const ofRectangle& setFrame )
 {
-    return [ [ UIView alloc ] initWithFrame:ofRectangleToCGRect( setFrame ) ];
+    return [ [ ofxGenericUIView alloc ] initWithFrame:ofRectangleToCGRect( setFrame ) ];
 }
 #elif TARGET_ANDROID
 jobject ofxGenericView::allocNativeView( const ofRectangle& frame )
@@ -159,7 +175,7 @@ NativeView ofxGenericView::createNativeView( const ofRectangle& setFrame )
     [ newView setOpaque:YES ];
     [ newView setHidden:NO ];
     [ newView setClipsToBounds:YES ];
-
+    
     return newView;
 
 #elif TARGET_ANDROID
@@ -576,6 +592,31 @@ void ofxGenericView::didDisappear()
 void ofxGenericView::setViewDelegate( ofPtrWeak< ofxGenericViewDelegate > delegate )
 {
     _viewDelegate = delegate;
+#if TARGET_OS_IPHONE
+    if ( [_view isKindOfClass:[ofxGenericUIView class]] )
+    {
+        [ (ofxGenericUIView *)_view setofxGenericViewDelegate:delegate ];
+    }
+#endif
+}
+
+bool ofxGenericView::containsPoint( ofPoint point )
+{
+#if TARGET_OS_IPHONE
+    return [ _view pointInside:CGPointMake(point.x, point.y) withEvent:nil ];
+#else
+    return false;
+#endif
+}
+
+ofPoint ofxGenericView::convertPointFromView( ofPoint point, ofPtr< ofxGenericView > view )
+{
+#if TARGET_OS_IPHONE
+    CGPoint p = [ _view convertPoint:CGPointMake(point.x, point.y) fromView:view->getNativeView() ];
+    return ofPoint( p.x, p.y );
+#else
+    return ofPoint( 0, 0 );
+#endif
 }
 
 void ofxGenericView::beginAnimation( string animationId, ofPtr< ofxGenericViewDelegate > delegate )
@@ -877,6 +918,37 @@ void ofxGenericView::registerJNIMethods()
             _delegate.lock()->gesturePerformedTap( taps, fingers, p );
         }
     }
+}
+
+@end
+
+@implementation ofxGenericUIView
+
+- ( void ) setofxGenericViewDelegate: ( ofPtrWeak< ofxGenericViewDelegate > ) delegate
+{
+    _delegate = delegate;
+}
+
+- ( void ) setofxGenericView: ( ofPtrWeak< ofxGenericView > ) view
+{
+    _view = view;
+}
+
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
+{
+    if ( event.type == UIEventTypeTouches )
+    {
+        if ( _delegate )
+        {
+            _delegate.lock()->hitInView( ofPoint( point.x, point.y ) );
+        }
+        if ( _view )
+        {
+            _view.lock()->hitInView( ofPoint( point.x, point.y ) );
+        }
+    }
+    
+    return [ super hitTest:point withEvent:event ];
 }
 
 @end
