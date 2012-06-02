@@ -34,11 +34,11 @@
 
 @interface ofxGenericUIView : UIView
 {
-    ofPtrWeak< ofxGenericViewDelegate > _delegate;
-    ofPtrWeak< ofxGenericView > _view;
+@protected
+    ofPtrWeak< ofxGenericView > _forwardTo;
 }
-- ( void ) setofxGenericView: ( ofPtrWeak< ofxGenericView > ) view;
-- ( void ) setofxGenericViewDelegate: ( ofPtrWeak< ofxGenericViewDelegate > ) delegate;
+-( id )initWithForwardTo:( ofPtrWeak< ofxGenericView > )forwardTo frame:( const ofRectangle& )frame;
+-( UIView* )hitTest:( CGPoint )point withEvent:( UIEvent* )event;
 
 @end
 
@@ -121,11 +121,6 @@ void ofxGenericView::init( ofPtrWeak< ofxGenericView > setThis, const ofRectangl
 #if TARGET_OS_IPHONE
     gestureForwarders = [[NSMutableArray array] retain];
     
-    if ( [ _view isKindOfClass:[ofxGenericUIView class]] )
-    {
-        [ (ofxGenericUIView *)_view setofxGenericView:_this ];
-    }
-    
 #endif
     
     didLoad();
@@ -156,7 +151,7 @@ jobject ofxGenericView::getJNIInstance()
 #if TARGET_OS_IPHONE
 UIView* ofxGenericView::allocNativeView( const ofRectangle& setFrame )
 {
-    return [ [ ofxGenericUIView alloc ] initWithFrame:ofRectangleToCGRect( setFrame ) ];
+    return [ [ ofxGenericUIView alloc ] initWithForwardTo:_this frame:setFrame ];
 }
 #elif TARGET_ANDROID
 jobject ofxGenericView::allocNativeView( const ofRectangle& frame )
@@ -200,12 +195,12 @@ ofxGenericView::operator NativeView()
 }
 
 #if TARGET_OS_IPHONE
-ofxUIGenericViewController* ofxGenericView::createUIViewController()
+ofxUIGenericViewControllerForwarder* ofxGenericView::createUIViewController()
 {
-    return [ [ ofxUIGenericViewController alloc ] initWithDelegate:_this ];
+    return [ [ ofxUIGenericViewControllerForwarder alloc ] initWithForwardTo:_this ];
 }
 
-ofxUIGenericViewController* ofxGenericView::getUIViewController()
+ofxUIGenericViewControllerForwarder* ofxGenericView::getUIViewController()
 {
     return _viewController;
 }
@@ -587,17 +582,19 @@ void ofxGenericView::didDisappear()
     {
         ( *travChildren )->didDisappear();
     }
-};
+}
+
+void ofxGenericView::hitInView( ofPoint location )
+{
+    if ( _viewDelegate )
+    {
+        _viewDelegate.lock()->hitInView( location );
+    }
+}
 
 void ofxGenericView::setViewDelegate( ofPtrWeak< ofxGenericViewDelegate > delegate )
 {
     _viewDelegate = delegate;
-#if TARGET_OS_IPHONE
-    if ( [_view isKindOfClass:[ofxGenericUIView class]] )
-    {
-        [ (ofxGenericUIView *)_view setofxGenericViewDelegate:delegate ];
-    }
-#endif
 }
 
 bool ofxGenericView::containsPoint( ofPoint point )
@@ -829,26 +826,21 @@ void ofxGenericView::registerJNIMethods()
 
 #if TARGET_OS_IPHONE
 
-@implementation ofxUIGenericViewController
+@implementation ofxUIGenericViewControllerForwarder
 
--( id )initWithDelegate:( ofPtrWeak< ofxGenericView > ) delegate;
-{
+-( id )initWithForwardTo:( ofPtrWeak< ofxGenericView > )forwardTo
+{ 
     self = [ super init ];
     if ( self )
     {
-        _delegate = delegate;
+        _forwardTo = forwardTo;
     }
     return self;
 }
 
--( void )dealloc
-{
-    [ super dealloc ];
-}
-
 -( BOOL )shouldAutorotateToInterfaceOrientation:( UIInterfaceOrientation )interfaceOrientation
 {
-    if ( _delegate )
+    if ( _forwardTo )
     {
     }
     return ofxGenericApp::getInstance()->shouldAutorotate( iOSToofOrientation( interfaceOrientation ) );
@@ -924,27 +916,23 @@ void ofxGenericView::registerJNIMethods()
 
 @implementation ofxGenericUIView
 
-- ( void ) setofxGenericViewDelegate: ( ofPtrWeak< ofxGenericViewDelegate > ) delegate
+-( id )initWithForwardTo:( ofPtrWeak< ofxGenericView > )forwardTo frame:( const ofRectangle& )frame
 {
-    _delegate = delegate;
-}
-
-- ( void ) setofxGenericView: ( ofPtrWeak< ofxGenericView > ) view
-{
-    _view = view;
+    self = [ super initWithFrame:ofRectangleToCGRect( frame ) ];
+    if ( self )
+    {
+        _forwardTo = forwardTo;
+    }
+    return self;    
 }
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
 {
     if ( event.type == UIEventTypeTouches )
     {
-        if ( _delegate )
+        if ( _forwardTo )
         {
-            _delegate.lock()->hitInView( ofPoint( point.x, point.y ) );
-        }
-        if ( _view )
-        {
-            _view.lock()->hitInView( ofPoint( point.x, point.y ) );
+            _forwardTo.lock()->hitInView( ofPoint( point.x, point.y ) );
         }
     }
     

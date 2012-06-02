@@ -15,7 +15,7 @@
 
 class ofxGenericViewDelegate;
 #if TARGET_OS_IPHONE
-@class ofxUIGenericViewController;
+@class ofxUIGenericViewControllerForwarder;
 #endif
 
 class ofxGenericView
@@ -31,7 +31,7 @@ public:
     operator NativeView();
 #if TARGET_OS_IPHONE
 
-    ofxUIGenericViewController* getUIViewController();
+    ofxUIGenericViewControllerForwarder* getUIViewController();
 
 #elif TARGET_ANDROID
 
@@ -65,7 +65,7 @@ public:
     virtual void willDisappear();
     virtual void didDisappear();
     
-    virtual void hitInView( ofPoint location ) {};
+    virtual void hitInView( ofPoint location );
     
     void setAlpha( float alpha );
     float getAlpha();
@@ -130,8 +130,8 @@ protected:
     
 #if TARGET_OS_IPHONE
 
-    virtual ofxUIGenericViewController* createUIViewController();
-    ofxUIGenericViewController* _viewController;
+    virtual ofxUIGenericViewControllerForwarder* createUIViewController();
+    ofxUIGenericViewControllerForwarder* _viewController;
 
 #elif TARGET_ANDROID
 
@@ -194,13 +194,13 @@ public:
 
 #if TARGET_OS_IPHONE
 
-@interface ofxUIGenericViewController : UIViewController
+@interface ofxUIGenericViewControllerForwarder : UIViewController
 {
 @protected
-    ofPtrWeak< ofxGenericView > _delegate;
+    ofPtrWeak< ofxGenericView > _forwardTo;
     NSMutableDictionary* _activeTouches;
 }
--( id )initWithDelegate:( ofPtrWeak< ofxGenericView > ) delegate;
+-( id )initWithForwardTo:( ofPtrWeak< ofxGenericView > )forwardTo;
 
 @end
 
