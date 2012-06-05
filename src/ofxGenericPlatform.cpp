@@ -98,7 +98,7 @@ string ofxGenericPlatform::dumpSupportedFontNames()
     std::vector< string > supportedList = supportedFontNames();
     for( std::vector< string >::iterator travSupported = supportedList.begin(); travSupported != supportedList.end(); travSupported ++ )
     {
-        supported += ( *travSupported ) + " ";
+        supported += ( *travSupported ) + "\n";
     }
     return supported;
 }
