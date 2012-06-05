@@ -11,6 +11,8 @@
 #include "ofxGenericView.h"
 #include "ofxGenericConstants.h"
 
+class ofxGenericFont;
+
 class ofxGenericTextView : public ofxGenericView
 {
 public:
@@ -34,7 +36,8 @@ public:
     int getMinimumFontSize();
     void setMinimumFontSize( int s );
     
-    void setFont ( string name, float size );
+    void setFont( string name, float size );
+    void setFont( ofPtr< ofxGenericFont > font ); 
     float getFontSize();
     string getFontName();
     

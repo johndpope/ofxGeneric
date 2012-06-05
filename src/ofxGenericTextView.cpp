@@ -6,7 +6,9 @@
 //
 
 #include "ofxGenericTextView.h"
+
 #include "ofxGenericUtility.h"
+#include "ofxGenericFont.h"
 
 ofPtr< ofxGenericTextView > ofxGenericTextView::create( const ofRectangle& setFrame )
 {
@@ -146,13 +148,19 @@ int ofxGenericTextView::getNumberOfLines ()
     return 0;
 }
 
-void ofxGenericTextView::setFont ( string name, float size )
+void ofxGenericTextView::setFont( string name, float size )
+{
+    ofPtr< ofxGenericFont > font = ofxGenericFont::create( name, size );
+    setFont( font );
+}
+
+void ofxGenericTextView::setFont( ofPtr< ofxGenericFont > font )
 {
 #if TARGET_OS_IPHONE
     if ( [ _view isKindOfClass:[ UILabel class ] ] )
     {
         UILabel* labelView = ( UILabel* )_view;
-        [ labelView setFont: [UIFont fontWithName:[NSString stringWithCString:name.c_str() encoding:NSASCIIStringEncoding] size:size] ];
+        [ labelView setFont:font->getNativeFont() ];
     }
 #endif
 }

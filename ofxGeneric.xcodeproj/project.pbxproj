@@ -51,6 +51,7 @@
 		3C85FC6415114B1E001F5854 /* ofxGenericScrollView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C85FC6315114B1E001F5854 /* ofxGenericScrollView.cpp */; };
 		3CA59B33153F4312008EE095 /* ofxGenericException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CA59B32153F4311008EE095 /* ofxGenericException.cpp */; };
 		3CB302171506DB5B00A1A91F /* libofxiPhone_iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C7B4EDC14FC7D2E003121FE /* libofxiPhone_iphoneos.a */; };
+		3CE4B910157D414F0058CC70 /* ofxGenericFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CE4B90F157D414F0058CC70 /* ofxGenericFont.cpp */; };
 		3CF590941506E6EA00963966 /* ofxGenericEditTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CF590931506E6EA00963966 /* ofxGenericEditTextView.h */; };
 		3CF590971506E78E00963966 /* ofxGenericEditTextView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CF590961506E78E00963966 /* ofxGenericEditTextView.cpp */; };
 		45037A491534E6E200ADB7EC /* ofxGenericCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45037A481534E6E100ADB7EC /* ofxGenericCache.cpp */; };
@@ -163,6 +164,8 @@
 		3CBAC5FC14FD4E73002A12C8 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		3CBAC5FE14FD4EA7002A12C8 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		3CBAC60014FD4EC8002A12C8 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		3CE4B90D157D40EA0058CC70 /* ofxGenericFont.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericFont.h; sourceTree = "<group>"; };
+		3CE4B90F157D414F0058CC70 /* ofxGenericFont.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericFont.cpp; sourceTree = "<group>"; };
 		3CF590931506E6EA00963966 /* ofxGenericEditTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericEditTextView.h; sourceTree = "<group>"; };
 		3CF590961506E78E00963966 /* ofxGenericEditTextView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericEditTextView.cpp; sourceTree = "<group>"; };
 		45037A461534E6D700ADB7EC /* ofxGenericCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericCache.h; sourceTree = "<group>"; };
@@ -320,6 +323,8 @@
 				3C6D4B2A15584E4D004904CE /* ofxGenericSettings.cpp */,
 				3C4D9C0A1559E64F00C02C92 /* ofxGenericTimer.h */,
 				3C4D9C0C1559E69900C02C92 /* ofxGenericTimer.cpp */,
+				3CE4B90D157D40EA0058CC70 /* ofxGenericFont.h */,
+				3CE4B90F157D414F0058CC70 /* ofxGenericFont.cpp */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -613,6 +618,8 @@
 				4544F5E91549D061007482B2 /* ofxGenericDrawableView.cpp in Sources */,
 				3C6D4B2B15584E4D004904CE /* ofxGenericSettings.cpp in Sources */,
 				3C4D9C0D1559E69900C02C92 /* ofxGenericTimer.cpp in Sources */,
+				3CE4B910157D414F0058CC70 /* ofxGenericFont.cpp in Sources */,
+				3CE4B913157D54490058CC70 /* ofxGenericFontAssetManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
