@@ -91,3 +91,29 @@ float ofxGenericPlatform::batteryLevel()
     return [ [ UIDevice currentDevice ] batteryLevel ];
 #endif
 }
+
+string ofxGenericPlatform::dumpSupportedFontNames()
+{
+    string supported;
+    std::vector< string > supportedList = supportedFontNames();
+    for( std::vector< string >::iterator travSupported = supportedList.begin(); travSupported != supportedList.end(); travSupported ++ )
+    {
+        supported += ( *travSupported ) + " ";
+    }
+    return supported;
+}
+
+std::vector< string > ofxGenericPlatform::supportedFontNames()
+{
+    std::vector< string > supported;
+#if TARGET_OS_IPHONE
+    for( NSString* name in [ UIFont familyNames ] ) 
+    {
+        for ( NSString* font in [ UIFont fontNamesForFamilyName:name ] ) 
+        {
+            supported.push_back( ofxNSStringToString( name ) );
+        }
+    }
+#endif
+    return supported;
+}

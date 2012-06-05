@@ -14,13 +14,21 @@ class ofxGenericPlatform
 {
 public:
     static bool multitaskingSupported();
+    
     static string deviceName();
     static string deviceModel();
     static string deviceModelVersion();
+    
     static string operatingSystemName();
     static string operatingSystemGroupName();
     static string operatingSystemVersion();
+    
     static string uniqueIdentifier();
+    
     static ofOrientation orientation();
+    
     static float batteryLevel();
+    
+    static string dumpSupportedFontNames();
+    static std::vector< string > supportedFontNames();
 };
