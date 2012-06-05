@@ -107,11 +107,11 @@ std::vector< string > ofxGenericPlatform::supportedFontNames()
 {
     std::vector< string > supported;
 #if TARGET_OS_IPHONE
-    for( NSString* name in [ UIFont familyNames ] ) 
+    for( NSString* familyName in [ UIFont familyNames ] ) 
     {
-        for ( NSString* font in [ UIFont fontNamesForFamilyName:name ] ) 
+        for ( NSString* fontName in [ UIFont fontNamesForFamilyName:familyName ] ) 
         {
-            supported.push_back( ofxNSStringToString( name ) );
+            supported.push_back( ofxNSStringToString( fontName ) );
         }
     }
 #endif
