@@ -83,8 +83,9 @@ public:
     
     virtual void setViewDelegate( ofPtrWeak< ofxGenericViewDelegate > delegate );
     
-    virtual bool containsPoint( ofPoint point );
-    virtual ofPoint convertPointFromView( ofPoint point, ofPtr< ofxGenericView > view );
+    virtual bool containsPoint( const ofPoint& point );
+    ofPoint convertFrom( const ofPoint& point, ofPtr< ofxGenericView > view );
+    ofRectangle convertFrom( const ofRectangle& rectangle, ofPtr< ofxGenericView > view );
     
     static void beginAnimation( string animationId, ofPtr< ofxGenericViewDelegate > delegate = ofPtr< ofxGenericViewDelegate >() );
     static void commitAnimation();

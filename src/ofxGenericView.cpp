@@ -597,7 +597,7 @@ void ofxGenericView::setViewDelegate( ofPtrWeak< ofxGenericViewDelegate > delega
     _viewDelegate = delegate;
 }
 
-bool ofxGenericView::containsPoint( ofPoint point )
+bool ofxGenericView::containsPoint( const ofPoint& point )
 {
 #if TARGET_OS_IPHONE
     return [ _view pointInside:CGPointMake(point.x, point.y) withEvent:nil ];
@@ -606,13 +606,23 @@ bool ofxGenericView::containsPoint( ofPoint point )
 #endif
 }
 
-ofPoint ofxGenericView::convertPointFromView( ofPoint point, ofPtr< ofxGenericView > view )
+ofPoint ofxGenericView::convertFrom( const ofPoint& point, ofPtr< ofxGenericView > view )
 {
 #if TARGET_OS_IPHONE
     CGPoint p = [ _view convertPoint:CGPointMake(point.x, point.y) fromView:view->getNativeView() ];
     return ofPoint( p.x, p.y );
 #else
     return ofPoint( 0, 0 );
+#endif
+}
+
+ofRectangle ofxGenericView::convertFrom( const ofRectangle& rectangle, ofPtr< ofxGenericView > view )
+{
+#if TARGET_OS_IPHONE
+    CGRect converted = [ _view convertRect:ofRectangleToCGRect( rectangle ) fromView:view->getNativeView() ];
+    return CGRectToofRectangle( converted );
+#else
+    return ofRectangle();
 #endif
 }
 
