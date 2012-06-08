@@ -619,7 +619,6 @@
 				3C6D4B2B15584E4D004904CE /* ofxGenericSettings.cpp in Sources */,
 				3C4D9C0D1559E69900C02C92 /* ofxGenericTimer.cpp in Sources */,
 				3CE4B910157D414F0058CC70 /* ofxGenericFont.cpp in Sources */,
-				3CE4B913157D54490058CC70 /* ofxGenericFontAssetManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
