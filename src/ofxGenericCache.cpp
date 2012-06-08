@@ -478,6 +478,9 @@ unsigned int ofxGenericCache::length() const
     if ( isArray() )
     {
         return ( *_arrayValue ).size();
+    } else if ( isObject() )
+    {
+        return ( *_objectValue ).size();
     }
     return 0;
 }
