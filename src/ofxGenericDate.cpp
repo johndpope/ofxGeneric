@@ -10,6 +10,7 @@
 
 #include "ofxGenericDate.h"
 #include "ofUtils.h"
+#include <QuartzCore/QuartzCore.h>
 
 #define SecondsInADay 86400.0
 
@@ -55,6 +56,15 @@ ofPtr< ofxGenericDate > ofxGenericDate::create( string date, string format )
 #endif
     
     return ofxGenericDate::create( time );
+}
+
+double ofxGenericDate::getSystemTime()
+{
+#if TARGET_OS_IPHONE
+    return CACurrentMediaTime();
+#elif TARGET_ANDROID
+    return 0.0;
+#endif
 }
 
 ofPtr< ofxGenericDate > ofxGenericDate::dateByAddingTime( double time )
