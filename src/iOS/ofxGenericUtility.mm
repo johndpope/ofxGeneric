@@ -117,6 +117,8 @@ UITableViewCellSeparatorStyle ofxGenericTableViewSeparatorStyleToiOS( ofxGeneric
             return UITableViewCellSeparatorStyleSingleLine;
         case ofxGenericTableViewSeparatorStyleSingleLineEtched:
             return UITableViewCellSeparatorStyleSingleLineEtched;
+        case ofxGenericTableViewSeparatorStyleSizedPadding:
+            return UITableViewCellSeparatorStyleNone;
     }
     return UITableViewCellSeparatorStyleSingleLine;    
 }

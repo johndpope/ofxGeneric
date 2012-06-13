@@ -29,6 +29,11 @@ ofPtr< ofxGenericTableView > ofxGenericTableView::create( const ofRectangle& set
     return create;
 }
 
+ofxGenericTableView::ofxGenericTableView()
+: _separatorStyle( ofxGenericTableViewSeparatorStyleNone ), _paddedSeparatorHeight( 0.0f )
+{    
+}
+
 ofxGenericTableView::~ofxGenericTableView()
 {
 #if TARGET_OS_IPHONE
@@ -51,25 +56,48 @@ NativeView ofxGenericTableView::createNativeView( const ofRectangle& frame )
 
 unsigned int ofxGenericTableView::getNumberOfCells( unsigned int section )
 {
-    if (_delegate)
+    if ( _delegate )
     {
         return _delegate.lock()->getNumberOfCells( dynamic_pointer_cast< ofxGenericTableView >( _this.lock() ), section );
     }
     return 0;
 }
 
+unsigned int ofxGenericTableView::internalGetNumberOfCells( unsigned int section )
+{
+    unsigned int count = getNumberOfCells( section );
+    if ( getSeparatorStyle() == ofxGenericTableViewSeparatorStyleSizedPadding )
+    {
+        count = MAX( count * 2 - 1, 0 );
+    }
+    return count;
+}
+
 ofPtr< ofxGenericTableViewCell > ofxGenericTableView::getCell( unsigned int section, unsigned int index )
 {
-    if (_delegate)
+    if ( _delegate )
     {
         return _delegate.lock()->getCell( dynamic_pointer_cast< ofxGenericTableView >( _this.lock() ), section, index );
     }
     return ofPtr< ofxGenericTableViewCell >();
 }
 
+ofPtr< ofxGenericTableViewCell > ofxGenericTableView::internalGetCell( unsigned int section, unsigned int index )
+{
+    if ( getSeparatorStyle() == ofxGenericTableViewSeparatorStyleSizedPadding )
+    {
+        if ( index % 2 == 1 )
+        {
+            return _paddedSeparator;
+        }
+        index = index / 2;
+    }
+    return getCell( section, index );
+}
+
 float ofxGenericTableView::getHeightForCell( unsigned int section, unsigned int index )
 {
-    if (_delegate)
+    if ( _delegate )
     {
         return _delegate.lock()->getHeightForCell( dynamic_pointer_cast< ofxGenericTableView >( _this.lock() ), section, index );
     }
@@ -79,6 +107,19 @@ float ofxGenericTableView::getHeightForCell( unsigned int section, unsigned int 
         return cell->getFrame().height;
     }
     return 0;
+}
+
+float ofxGenericTableView::internalGetHeightForCell( unsigned int section, unsigned int index )
+{
+    if ( getSeparatorStyle() == ofxGenericTableViewSeparatorStyleSizedPadding )
+    {
+        if ( index % 2 == 1 )
+        {
+            return _paddedSeparatorHeight;
+        }
+        index = index / 2;
+    }
+    return getHeightForCell( section, index );
 }
 
 void ofxGenericTableView::setAutoresizeToFit( bool autoResizeToFit )
@@ -98,11 +139,11 @@ void ofxGenericTableView::resizeToFitContents()
 {
     // TODO: support multiple sections
     unsigned int section = 0;
-    unsigned int cellsPerSection = getNumberOfCells( section );
+    unsigned int cellsPerSection = internalGetNumberOfCells( section );
     unsigned int height = 0;
     for( int travCells = 0; travCells < cellsPerSection; travCells++ )
     {
-        height += getHeightForCell( section, travCells );
+        height += internalGetHeightForCell( section, travCells );
     }
     if ( height > _maximumHeight )
     {
@@ -129,6 +170,14 @@ void ofxGenericTableView::setSeparatorColor( const ofColor& separatorColor )
 
 void ofxGenericTableView::setSeparatorStyle( ofxGenericTableViewSeparatorStyle separatorStyle )
 {
+    _separatorStyle = separatorStyle;
+    if ( _separatorStyle == ofxGenericTableViewSeparatorStyleSizedPadding )
+    {
+        _paddedSeparator = ofxGenericTableViewCell::create( dynamic_pointer_cast< ofxGenericTableView >( _this ) );
+    } else 
+    {
+        _paddedSeparator = ofPtr< ofxGenericTableViewCell >();
+    }
 #if TARGET_OS_IPHONE
     UITableView* view = ( UITableView* )*this;
     if ( view )
@@ -136,6 +185,16 @@ void ofxGenericTableView::setSeparatorStyle( ofxGenericTableViewSeparatorStyle s
         [ view setSeparatorStyle:ofxGenericTableViewSeparatorStyleToiOS( separatorStyle ) ];
     }
 #endif    
+}
+
+ofxGenericTableViewSeparatorStyle ofxGenericTableView::getSeparatorStyle()
+{
+    return _separatorStyle;
+}
+
+void ofxGenericTableView::setSeparatorPaddedHeight( float height )
+{
+    _paddedSeparatorHeight = height;
 }
 
 void ofxGenericTableView::setDelegate( ofPtrWeak< ofxGenericTableViewDelegate > delegate )
@@ -164,6 +223,19 @@ void ofxGenericTableView::selectedRow( unsigned int section, unsigned int index)
     {
         _delegate.lock()->selectedRow( dynamic_pointer_cast< ofxGenericTableView >( _this.lock() ), section, index );
     }
+}
+
+void ofxGenericTableView::internalSelectedRow( unsigned int section, unsigned int index )
+{
+    if ( getSeparatorStyle() == ofxGenericTableViewSeparatorStyleSizedPadding )
+    {
+        if ( index % 2 == 1 )
+        {
+            return;
+        }
+        index = index / 2;
+    }
+    selectedRow( section, index );
 }
 
 void ofxGenericTableView::setAllowsSelection( bool allow )
@@ -257,6 +329,8 @@ bool ofxGenericTableView::deselectAllCells()
 #if TARGET_OS_IPHONE
 ofxGenericUIViewCastOperator( ofxGenericTableView, UITableView );
 #endif
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ofxGenericTableViewCell::~ofxGenericTableViewCell()
 {
@@ -371,7 +445,7 @@ ofxGenericUIViewCastOperator( ofxGenericTableViewCell, UITableViewCell );
 {
     if ( _delegate )
     {
-        return _delegate->getNumberOfCells( section );
+        return _delegate->internalGetNumberOfCells( section );
     }
     return 0;
 }
@@ -380,7 +454,7 @@ ofxGenericUIViewCastOperator( ofxGenericTableViewCell, UITableViewCell );
 {
     if ( _delegate )
     {
-        ofPtr< ofxGenericTableViewCell > view = _delegate->getCell( [ indexPath section ], [ indexPath row ] );
+        ofPtr< ofxGenericTableViewCell > view = _delegate->internalGetCell( [ indexPath section ], [ indexPath row ] );
         if ( view )
         {
             return *view;
@@ -393,7 +467,7 @@ ofxGenericUIViewCastOperator( ofxGenericTableViewCell, UITableViewCell );
 {
     if ( _delegate )
     {
-        return _delegate->getHeightForCell( [ indexPath section ], [ indexPath row ] );
+        return _delegate->internalGetHeightForCell( [ indexPath section ], [ indexPath row ] );
     }
     return 0;
 }
@@ -402,7 +476,7 @@ ofxGenericUIViewCastOperator( ofxGenericTableViewCell, UITableViewCell );
 {
     if ( _delegate )
     {
-        _delegate->selectedRow( indexPath.section, indexPath.row );
+        _delegate->internalSelectedRow( indexPath.section, indexPath.row );
     }
 }
 

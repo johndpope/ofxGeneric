@@ -45,7 +45,8 @@ enum ofxGenericTableViewSeparatorStyle
 {
     ofxGenericTableViewSeparatorStyleNone,
     ofxGenericTableViewSeparatorStyleSingleLine,
-    ofxGenericTableViewSeparatorStyleSingleLineEtched
+    ofxGenericTableViewSeparatorStyleSingleLineEtched,
+    ofxGenericTableViewSeparatorStyleSizedPadding
 };
 
 enum ofxGenericTextAutoCapitalization

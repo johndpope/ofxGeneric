@@ -32,6 +32,8 @@ public:
     
     virtual void setSeparatorColor( const ofColor& separatorColor );
     virtual void setSeparatorStyle( ofxGenericTableViewSeparatorStyle separatorStyle );
+    ofxGenericTableViewSeparatorStyle getSeparatorStyle();
+    virtual void setSeparatorPaddedHeight( float height );
 
     virtual void setDelegate( ofPtrWeak< ofxGenericTableViewDelegate > delegate );
     virtual void reloadData();
@@ -48,16 +50,27 @@ public:
     operator UITableView*();
 #endif
 
+    virtual unsigned int internalGetNumberOfCells( unsigned int section );
+    virtual ofPtr< ofxGenericTableViewCell > internalGetCell( unsigned int section, unsigned int index );
+    virtual float internalGetHeightForCell( unsigned int section, unsigned int index );
+    virtual void internalSelectedRow( unsigned int section, unsigned int index );
+
 protected:
     virtual NativeView createNativeView( const ofRectangle& frame );
 #if TARGET_OS_IPHONE
     ofxGenericTableViewForwarder* _forwarder;    
 #endif
     ofPtrWeak< ofxGenericTableViewDelegate > _delegate;
+
+    ofxGenericTableViewSeparatorStyle _separatorStyle;
+    float _paddedSeparatorHeight;
+    ofPtr< ofxGenericTableViewCell > _paddedSeparator;
     
     virtual void resizeToFitContents();
     bool _autoResizeToFit;
     float _maximumHeight;
+    
+    ofxGenericTableView();
 };
 
 class ofxGenericTableViewCell : public ofxGenericView
