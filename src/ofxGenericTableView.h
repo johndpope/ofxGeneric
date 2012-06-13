@@ -84,7 +84,12 @@ class ofxGenericTableViewCell : public ofxGenericView
 {
 public:
     virtual ~ofxGenericTableViewCell();
-    static ofPtr< ofxGenericTableViewCell > create( ofPtrWeak< ofxGenericTableView > table, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 )  );
+    static ofPtr< ofxGenericTableViewCell > create( ofPtrWeak< ofxGenericTableView > table, unsigned int section = 0, unsigned int index = 0, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 ) );
+    
+    virtual void setTablePosition( unsigned int section, unsigned int index );
+    unsigned int getSection();
+    unsigned int getIndex();
+        
     virtual void setText( string text );
     virtual void setImage( string imagePath );
     virtual void addChildView( ofPtr< ofxGenericView > add );
@@ -95,13 +100,18 @@ public:
 #if TARGET_OS_IPHONE
     operator UITableViewCell*();
 #endif
-
+    
 protected:
+    virtual void init( ofPtrWeak< ofxGenericTableViewCell > setThis, ofPtrWeak< ofxGenericTableView > table, unsigned int section, unsigned int index, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 )  );
     ofPtrWeak< ofxGenericTableView > _table;
-    virtual void init( ofPtrWeak< ofxGenericTableViewCell > setThis, ofPtrWeak< ofxGenericTableView > table, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 )  );
     ofPtr< ofxGenericView > _contentView;
     
     virtual NativeView createNativeView( const ofRectangle& frame );
+    
+    unsigned int _section;
+    unsigned int _index;
+
+    ofxGenericTableViewCell();
 };
 
 class ofxGenericTableViewDelegate

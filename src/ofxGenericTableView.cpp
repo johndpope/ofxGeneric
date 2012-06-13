@@ -55,6 +55,22 @@ NativeView ofxGenericTableView::createNativeView( const ofRectangle& frame )
 #endif
 }
 
+void ofxGenericTableViewCell::setTablePosition( unsigned int section, unsigned int index )
+{
+    _section = section;
+    _index = index;
+}
+
+unsigned int ofxGenericTableViewCell::getSection()
+{
+    return _section;
+}
+
+unsigned int ofxGenericTableViewCell::getIndex()
+{
+    return _index;
+}
+
 unsigned int ofxGenericTableView::getNumberOfCells( unsigned int section )
 {
     if ( _delegate )
@@ -379,16 +395,24 @@ ofxGenericTableViewCell::~ofxGenericTableViewCell()
 #endif
 }
 
-ofPtr< ofxGenericTableViewCell > ofxGenericTableViewCell::create( ofPtrWeak< ofxGenericTableView > table, const ofRectangle& setBounds  )
+ofPtr< ofxGenericTableViewCell > ofxGenericTableViewCell::create( ofPtrWeak< ofxGenericTableView > table, unsigned int section, unsigned int index, const ofRectangle& setBounds  )
 {
     ofPtr< ofxGenericTableViewCell > c = ofPtr< ofxGenericTableViewCell >( new ofxGenericTableViewCell() );
-    c->init(c, table, setBounds);
+    c->init(c, table, section, index, setBounds);
     return c;
 }
 
-void ofxGenericTableViewCell::init( ofPtrWeak< ofxGenericTableViewCell > setThis, ofPtrWeak< ofxGenericTableView > table, const ofRectangle& setBounds )
+ofxGenericTableViewCell::ofxGenericTableViewCell()
+: _section( 0 ), _index( 0 )
+{
+    
+}
+
+void ofxGenericTableViewCell::init( ofPtrWeak< ofxGenericTableViewCell > setThis, ofPtrWeak< ofxGenericTableView > table, unsigned int section, unsigned int index, const ofRectangle& setBounds )
 {
     _table = table;
+    _section = section;
+    _index = index;
     ofxGenericView::init( setThis );
 }
 
