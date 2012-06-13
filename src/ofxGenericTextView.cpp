@@ -56,6 +56,11 @@ string ofxGenericTextView::getText()
 #endif
 }
 
+ofxGenericTextView::operator string()
+{
+    return getText();
+}
+
 void ofxGenericTextView::setTextAlignment( ofxGenericTextHorizontalAlignment alignment )
 {
 #if TARGET_OS_IPHONE

@@ -28,10 +28,17 @@ public:
     virtual ofPtr< ofxGenericTableViewCell > getCell( unsigned int section, unsigned int index );
     virtual float getHeightForCell( unsigned int section, unsigned int index );
     
+    virtual int getNumberOfSections();
+    
+    virtual float getHeightForHeaderInSection( unsigned int section );
+    virtual ofPtr< ofxGenericView > getHeaderForSection( unsigned int section );
+    
     void setAutoresizeToFit( bool autoResizeToFit );
     
     virtual void setSeparatorColor( const ofColor& separatorColor );
     virtual void setSeparatorStyle( ofxGenericTableViewSeparatorStyle separatorStyle );
+    ofxGenericTableViewSeparatorStyle getSeparatorStyle();
+    virtual void setSeparatorPaddedHeight( float height );
 
     virtual void setDelegate( ofPtrWeak< ofxGenericTableViewDelegate > delegate );
     virtual void reloadData();
@@ -48,23 +55,41 @@ public:
     operator UITableView*();
 #endif
 
+    virtual unsigned int internalGetNumberOfCells( unsigned int section );
+    virtual ofPtr< ofxGenericTableViewCell > internalGetCell( unsigned int section, unsigned int index );
+    virtual float internalGetHeightForCell( unsigned int section, unsigned int index );
+    virtual void internalSelectedRow( unsigned int section, unsigned int index );
+
 protected:
     virtual NativeView createNativeView( const ofRectangle& frame );
 #if TARGET_OS_IPHONE
     ofxGenericTableViewForwarder* _forwarder;    
 #endif
     ofPtrWeak< ofxGenericTableViewDelegate > _delegate;
+
+    ofxGenericTableViewSeparatorStyle _separatorStyle;
+    float _paddedSeparatorHeight;
+    ofPtr< ofxGenericTableViewCell > _paddedSeparator;
     
+    
+    float getContentHeight();
     virtual void resizeToFitContents();
     bool _autoResizeToFit;
     float _maximumHeight;
+    
+    ofxGenericTableView();
 };
 
 class ofxGenericTableViewCell : public ofxGenericView
 {
 public:
     virtual ~ofxGenericTableViewCell();
-    static ofPtr< ofxGenericTableViewCell > create( ofPtrWeak< ofxGenericTableView > table, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 )  );
+    static ofPtr< ofxGenericTableViewCell > create( ofPtrWeak< ofxGenericTableView > table, unsigned int section = 0, unsigned int index = 0, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 ) );
+    
+    virtual void setTablePosition( unsigned int section, unsigned int index );
+    unsigned int getSection();
+    unsigned int getIndex();
+        
     virtual void setText( string text );
     virtual void setImage( string imagePath );
     virtual void addChildView( ofPtr< ofxGenericView > add );
@@ -75,13 +100,18 @@ public:
 #if TARGET_OS_IPHONE
     operator UITableViewCell*();
 #endif
-
+    
 protected:
+    virtual void init( ofPtrWeak< ofxGenericTableViewCell > setThis, ofPtrWeak< ofxGenericTableView > table, unsigned int section, unsigned int index, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 )  );
     ofPtrWeak< ofxGenericTableView > _table;
-    virtual void init( ofPtrWeak< ofxGenericTableViewCell > setThis, ofPtrWeak< ofxGenericTableView > table, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 )  );
     ofPtr< ofxGenericView > _contentView;
     
     virtual NativeView createNativeView( const ofRectangle& frame );
+    
+    unsigned int _section;
+    unsigned int _index;
+
+    ofxGenericTableViewCell();
 };
 
 class ofxGenericTableViewDelegate
@@ -91,5 +121,11 @@ public:
     virtual unsigned int getNumberOfCells( ofPtr< ofxGenericTableView > tableView, unsigned int section ) = 0;
     virtual ofPtr< ofxGenericTableViewCell > getCell( ofPtr< ofxGenericTableView > tableView, unsigned int section, unsigned int index ) = 0;
     virtual float getHeightForCell( ofPtr< ofxGenericTableView > tableView, unsigned int section, unsigned int index ) = 0;
+    
     virtual void selectedRow( ofPtr< ofxGenericTableView > tableView, unsigned int section, unsigned int index) {};
+
+    virtual ofPtr< ofxGenericView > getHeaderForSection( unsigned int section ) { return ofPtr< ofxGenericView >(); };
+    virtual float getHeightForHeaderInSection( unsigned int section ) { return 0.0f; };
+
+    virtual unsigned int getNumberOfSections() { return 1; };
 };
