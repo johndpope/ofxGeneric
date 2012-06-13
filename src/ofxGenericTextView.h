@@ -20,7 +20,8 @@ public:
     
     void setText( string newText );
     string getText();
-    
+    operator string();
+        
     void setTextAlignment( ofxGenericTextHorizontalAlignment alignment );
     ofxGenericTextHorizontalAlignment getTextAlignment();
     
@@ -50,7 +51,7 @@ public:
 #if TARGET_OS_IPHONE
     operator UILabel*();
 #endif
-
+    
 protected:
     ofxGenericTextView() {};
     
