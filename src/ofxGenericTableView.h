@@ -71,6 +71,8 @@ protected:
     float _paddedSeparatorHeight;
     ofPtr< ofxGenericTableViewCell > _paddedSeparator;
     
+    
+    float getContentHeight();
     virtual void resizeToFitContents();
     bool _autoResizeToFit;
     float _maximumHeight;

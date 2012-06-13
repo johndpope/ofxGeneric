@@ -168,16 +168,23 @@ void ofxGenericTableView::setAutoresizeToFit( bool autoResizeToFit )
     }
 }
 
+float ofxGenericTableView::getContentHeight()
+{
+    float height = 0.0f;
+    for( unsigned int travSections = 0; travSections < getNumberOfSections(); travSections ++ )
+    {
+        height += getHeightForHeaderInSection( travSections );
+        for ( unsigned int travCells = 0; travCells < getNumberOfCells( travSections ); travCells ++ )
+        {
+            height += getHeightForCell( travSections, travCells );
+        }
+    }
+    return height;
+}
+
 void ofxGenericTableView::resizeToFitContents()
 {
-    // TODO: support multiple sections
-    unsigned int section = 0;
-    unsigned int cellsPerSection = internalGetNumberOfCells( section );
-    unsigned int height = 0;
-    for( int travCells = 0; travCells < cellsPerSection; travCells++ )
-    {
-        height += internalGetHeightForCell( section, travCells );
-    }
+    float height = getContentHeight();
     if ( height > _maximumHeight )
     {
         height = _maximumHeight;
