@@ -28,6 +28,11 @@ public:
     virtual ofPtr< ofxGenericTableViewCell > getCell( unsigned int section, unsigned int index );
     virtual float getHeightForCell( unsigned int section, unsigned int index );
     
+    virtual int getNumberOfSections();
+    
+    virtual float getHeightForHeaderInSection( unsigned int section );
+    virtual ofPtr< ofxGenericView > getHeaderForSection( unsigned int section );
+    
     void setAutoresizeToFit( bool autoResizeToFit );
     
     virtual void setSeparatorColor( const ofColor& separatorColor );
@@ -104,5 +109,11 @@ public:
     virtual unsigned int getNumberOfCells( ofPtr< ofxGenericTableView > tableView, unsigned int section ) = 0;
     virtual ofPtr< ofxGenericTableViewCell > getCell( ofPtr< ofxGenericTableView > tableView, unsigned int section, unsigned int index ) = 0;
     virtual float getHeightForCell( ofPtr< ofxGenericTableView > tableView, unsigned int section, unsigned int index ) = 0;
+    
     virtual void selectedRow( ofPtr< ofxGenericTableView > tableView, unsigned int section, unsigned int index) {};
+
+    virtual ofPtr< ofxGenericView > getHeaderForSection( unsigned int section ) { return ofPtr< ofxGenericView >(); };
+    virtual float getHeightForHeaderInSection( unsigned int section ) { return 0.0f; };
+
+    virtual unsigned int getNumberOfSections() { return 1; };
 };

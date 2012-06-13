@@ -50,6 +50,7 @@ NativeView ofxGenericTableView::createNativeView( const ofRectangle& frame )
     [ newView setDelegate:_forwarder ];
     [ newView setDataSource:_forwarder ];
     [ newView setAllowsSelection:NO ];
+    
     return newView;
 #endif
 }
@@ -107,6 +108,38 @@ float ofxGenericTableView::getHeightForCell( unsigned int section, unsigned int 
         return cell->getFrame().height;
     }
     return 0;
+}
+
+int ofxGenericTableView::getNumberOfSections()
+{
+    if ( _delegate )
+    {
+        return _delegate.lock()->getNumberOfSections();
+    }
+    return 1;
+}
+
+ofPtr< ofxGenericView > ofxGenericTableView::getHeaderForSection( unsigned int section )
+{
+    if ( _delegate )
+    {
+        return _delegate.lock()->getHeaderForSection( section );
+    }
+    return ofPtr< ofxGenericView >();
+}
+
+float ofxGenericTableView::getHeightForHeaderInSection( unsigned int section )
+{
+    if ( _delegate )
+    {
+        return _delegate.lock()->getHeightForHeaderInSection( section );
+    }
+    ofPtr< ofxGenericView > header = getHeaderForSection( section );
+    if ( header )
+    {
+        return header->getFrame().height;
+    }
+    return 0.0f;
 }
 
 float ofxGenericTableView::internalGetHeightForCell( unsigned int section, unsigned int index )
@@ -441,6 +474,28 @@ ofxGenericUIViewCastOperator( ofxGenericTableViewCell, UITableViewCell );
     return self;
 }
 
+-( CGFloat )tableView:( UITableView* )tableView heightForHeaderInSection:( NSInteger )section
+{
+    if ( _delegate )
+    {
+        return _delegate->getHeightForHeaderInSection( section );
+    }
+    return 0.0f;
+}
+
+-( UIView* )tableView:( UITableView* )tableView viewForHeaderInSection:( NSInteger )section
+{
+    if ( _delegate )
+    {
+        ofPtr< ofxGenericView > header = _delegate->getHeaderForSection( section );
+        if ( header )
+        {
+            return header->getNativeView();
+        }
+    }
+    return nil;
+}
+
 -( NSInteger )tableView:( UITableView* )tableView numberOfRowsInSection:( NSInteger )section
 {
     if ( _delegate )
@@ -469,7 +524,7 @@ ofxGenericUIViewCastOperator( ofxGenericTableViewCell, UITableViewCell );
     {
         return _delegate->internalGetHeightForCell( [ indexPath section ], [ indexPath row ] );
     }
-    return 0;
+    return 0.0f;
 }
 
 -( void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -480,6 +535,14 @@ ofxGenericUIViewCastOperator( ofxGenericTableViewCell, UITableViewCell );
     }
 }
 
+-( NSInteger )numberOfSectionsInTableView:( UITableView* )tableView
+{
+    if ( _delegate )
+    {
+        return _delegate->getNumberOfSections();
+    }
+    return 1;
+}
 
 @end
 #endif
