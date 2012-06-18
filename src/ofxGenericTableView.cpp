@@ -275,6 +275,11 @@ void ofxGenericTableView::reloadData()
 
 void ofxGenericTableView::selectedRow( unsigned int section, unsigned int index)
 {
+    ofPtr< ofxGenericTableViewCell > cell = getCell( section, index );
+    if ( cell )
+    {
+        cell->selected();
+    }
     if (_delegate)
     {
         _delegate.lock()->selectedRow( dynamic_pointer_cast< ofxGenericTableView >( _this.lock() ), section, index );
@@ -419,6 +424,10 @@ void ofxGenericTableViewCell::init( ofPtrWeak< ofxGenericTableViewCell > setThis
 ofPtr< ofxGenericView > ofxGenericTableViewCell::getContentView()
 {
     return _contentView;
+}
+
+void ofxGenericTableViewCell::selected()
+{
 }
 
 void ofxGenericTableViewCell::addChildView( ofPtr< ofxGenericView > add )

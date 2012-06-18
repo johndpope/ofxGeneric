@@ -97,6 +97,8 @@ public:
     virtual void removeChildView( ofPtr< ofxGenericView > remove );
     virtual ofPtr< ofxGenericView > getContentView();
     
+    virtual void selected();
+    
 #if TARGET_OS_IPHONE
     operator UITableViewCell*();
 #endif
