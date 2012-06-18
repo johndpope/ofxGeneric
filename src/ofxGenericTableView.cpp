@@ -482,10 +482,11 @@ void ofxGenericTableViewCell::setImage( string imagePath )
 NativeView ofxGenericTableViewCell::createNativeView( const ofRectangle& frame )
 {
 #if TARGET_OS_IPHONE
-    UITableViewCell *v = [ [ UITableViewCell alloc ] initWithFrame:ofRectangleToCGRect( frame ) ];
-    _contentView = ofxGenericView::create( CGRectToofRectangle( v.contentView.frame ), v.contentView );
+    UITableViewCell* nativeView = [ [ UITableViewCell alloc ] initWithFrame:ofRectangleToCGRect( frame ) ];
+    _contentView = ofxGenericView::create( CGRectToofRectangle( nativeView.contentView.frame ), nativeView.contentView );
+    [ nativeView setSelectionStyle:UITableViewCellSelectionStyleNone ];
     
-    return v;
+    return nativeView;
 #endif
     //TODO android
 }
