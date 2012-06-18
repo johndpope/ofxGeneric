@@ -10,7 +10,10 @@
 
 #include "ofxGenericDate.h"
 #include "ofUtils.h"
+
+#if TARGET_OS_IPHONE
 #include <QuartzCore/QuartzCore.h>
+#endif
 
 #define SecondsInADay 86400.0
 
