@@ -71,7 +71,6 @@ protected:
     float _paddedSeparatorHeight;
     ofPtr< ofxGenericTableViewCell > _paddedSeparator;
     
-    
     float getContentHeight();
     virtual void resizeToFitContents();
     bool _autoResizeToFit;
@@ -120,14 +119,14 @@ class ofxGenericTableViewDelegate
 {
 public:
     virtual ~ofxGenericTableViewDelegate() {};
-    virtual unsigned int getNumberOfCells( ofPtr< ofxGenericTableView > tableView, unsigned int section ) = 0;
-    virtual ofPtr< ofxGenericTableViewCell > getCell( ofPtr< ofxGenericTableView > tableView, unsigned int section, unsigned int index ) = 0;
-    virtual float getHeightForCell( ofPtr< ofxGenericTableView > tableView, unsigned int section, unsigned int index ) = 0;
+    virtual unsigned int getNumberOfCells( ofPtr< ofxGenericTableView > tableView, unsigned int section ) { return 0; };
+    virtual ofPtr< ofxGenericTableViewCell > getCell( ofPtr< ofxGenericTableView > tableView, unsigned int section, unsigned int index ) { return ofPtr< ofxGenericTableViewCell >(); };
+    virtual float getHeightForCell( ofPtr< ofxGenericTableView > tableView, unsigned int section, unsigned int index ) { return 0.0f; };
     
     virtual void selectedRow( ofPtr< ofxGenericTableView > tableView, unsigned int section, unsigned int index) {};
 
-    virtual ofPtr< ofxGenericView > getHeaderForSection( unsigned int section ) { return ofPtr< ofxGenericView >(); };
-    virtual float getHeightForHeaderInSection( unsigned int section ) { return 0.0f; };
+    virtual ofPtr< ofxGenericView > getHeaderForSection( ofPtr< ofxGenericTableView > tableView, unsigned int section ) { return ofPtr< ofxGenericView >(); };
+    virtual float getHeightForHeaderInSection( ofPtr< ofxGenericTableView > tableView, unsigned int section ) { return 0.0f; };
 
-    virtual unsigned int getNumberOfSections() { return 1; };
+    virtual unsigned int getNumberOfSections( ofPtr< ofxGenericTableView > tableView ) { return 1; };
 };

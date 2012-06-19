@@ -130,7 +130,7 @@ unsigned int ofxGenericTableView::getNumberOfSections()
 {
     if ( _delegate )
     {
-        return _delegate.lock()->getNumberOfSections();
+        return _delegate.lock()->getNumberOfSections( dynamic_pointer_cast< ofxGenericTableView >( _this.lock() ) );
     }
     return 1;
 }
@@ -139,7 +139,7 @@ ofPtr< ofxGenericView > ofxGenericTableView::getHeaderForSection( unsigned int s
 {
     if ( _delegate )
     {
-        return _delegate.lock()->getHeaderForSection( section );
+        return _delegate.lock()->getHeaderForSection( dynamic_pointer_cast< ofxGenericTableView >( _this.lock() ), section );
     }
     return ofPtr< ofxGenericView >();
 }
@@ -148,7 +148,7 @@ float ofxGenericTableView::getHeightForHeaderInSection( unsigned int section )
 {
     if ( _delegate )
     {
-        return _delegate.lock()->getHeightForHeaderInSection( section );
+        return _delegate.lock()->getHeightForHeaderInSection( dynamic_pointer_cast< ofxGenericTableView >( _this.lock() ), section );
     }
     ofPtr< ofxGenericView > header = getHeaderForSection( section );
     if ( header )
