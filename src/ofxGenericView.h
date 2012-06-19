@@ -15,7 +15,7 @@
 
 class ofxGenericViewDelegate;
 #if TARGET_OS_IPHONE
-@class ofxUIGenericViewController;
+@class ofxUIGenericViewControllerForwarder;
 #endif
 
 class ofxGenericView
@@ -31,7 +31,7 @@ public:
     operator NativeView();
 #if TARGET_OS_IPHONE
 
-    ofxUIGenericViewController* getUIViewController();
+    ofxUIGenericViewControllerForwarder* getUIViewController();
 
 #elif TARGET_ANDROID
 
@@ -43,6 +43,7 @@ public:
 #endif
 
     ofRectangle getFrame();
+    ofRectangle getFrame( const ofPoint& setTopLeft );
     virtual void setFrame( const ofRectangle& setFrame );
     
     virtual ofColor getBackgroundColor();
@@ -64,6 +65,8 @@ public:
     virtual void willDisappear();
     virtual void didDisappear();
     
+    virtual void hitInView( ofPoint location );
+    
     void setAlpha( float alpha );
     float getAlpha();
     
@@ -79,6 +82,10 @@ public:
     ofPtr< ofxGenericView > getNextResponder();
     
     virtual void setViewDelegate( ofPtrWeak< ofxGenericViewDelegate > delegate );
+    
+    virtual bool containsPoint( const ofPoint& point );
+    ofPoint convertFrom( const ofPoint& point, ofPtr< ofxGenericView > view );
+    ofRectangle convertFrom( const ofRectangle& rectangle, ofPtr< ofxGenericView > view );
     
     static void beginAnimation( string animationId, ofPtr< ofxGenericViewDelegate > delegate = ofPtr< ofxGenericViewDelegate >() );
     static void commitAnimation();
@@ -97,6 +104,7 @@ public:
 
     //you can add gesture recognizers for various actions, they will call gesturePerformed in the view delegate when they are performed
     virtual void addGestureRecognizerSwipe( ofxGenericGestureTypeSwipe type, ofPtrWeak< ofxGenericViewDelegate > delegate );
+    virtual void addGestureRecognizerTap( int tapCount, int fingerCount, ofPtrWeak< ofxGenericViewDelegate > delegate );
     
     virtual string dumpViewGraph( int depth );
     virtual string toString();
@@ -123,8 +131,8 @@ protected:
     
 #if TARGET_OS_IPHONE
 
-    virtual ofxUIGenericViewController* createUIViewController();
-    ofxUIGenericViewController* _viewController;
+    virtual ofxUIGenericViewControllerForwarder* createUIViewController();
+    ofxUIGenericViewControllerForwarder* _viewController;
 
 #elif TARGET_ANDROID
 
@@ -179,18 +187,21 @@ public:
     virtual void animationWillStart( string animationId ) {};
     virtual void animationDidStop( string animationId ) {};
     
-    virtual void gesturePerformedSwipe( ofxGenericGestureTypeSwipe type ) {};
+    virtual void gesturePerformedSwipe( ofxGenericGestureTypeSwipe type, ofPoint location ) {};
+    virtual void gesturePerformedTap( int tapCount, int fingerCount, ofPoint location ) {};
+    
+    virtual void hitInView( ofPoint location ) {};
 };
 
 #if TARGET_OS_IPHONE
 
-@interface ofxUIGenericViewController : UIViewController
+@interface ofxUIGenericViewControllerForwarder : UIViewController
 {
 @protected
-    ofPtrWeak< ofxGenericView > _delegate;
+    ofPtrWeak< ofxGenericView > _forwardTo;
     NSMutableDictionary* _activeTouches;
 }
--( id )initWithDelegate:( ofPtrWeak< ofxGenericView > ) delegate;
+-( id )initWithForwardTo:( ofPtrWeak< ofxGenericView > )forwardTo;
 
 @end
 

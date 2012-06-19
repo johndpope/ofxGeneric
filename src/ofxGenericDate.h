@@ -27,6 +27,7 @@ public:
     static ofPtr< ofxGenericDate > create();
     static ofPtr< ofxGenericDate > create( double time );
     static ofPtr< ofxGenericDate > create( string date, string format = OFXGDATE_FORMAT_COMMON );
+    static double getSystemTime();
     
 #if TARGET_OS_IPHONE
     operator NSDate*();

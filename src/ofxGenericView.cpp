@@ -25,9 +25,20 @@
 {
     ofPtrWeak< ofxGenericViewDelegate > _delegate;
     int _type;
+    UIView *_view;
 }
-- ( id )initWithDelegate:( ofPtrWeak< ofxGenericViewDelegate > )delegate type:(int)type;
+- ( id )initWithDelegate:( ofPtrWeak< ofxGenericViewDelegate > )delegate type:(int)type view:(UIView *)view;
 - (void)gesturePerformed:( UIGestureRecognizer* )recognizer;
+
+@end
+
+@interface ofxGenericUIView : UIView
+{
+@protected
+    ofPtrWeak< ofxGenericView > _forwardTo;
+}
+-( id )initWithForwardTo:( ofPtrWeak< ofxGenericView > )forwardTo frame:( const ofRectangle& )frame;
+-( UIView* )hitTest:( CGPoint )point withEvent:( UIEvent* )event;
 
 @end
 
@@ -109,6 +120,7 @@ void ofxGenericView::init( ofPtrWeak< ofxGenericView > setThis, const ofRectangl
     
 #if TARGET_OS_IPHONE
     gestureForwarders = [[NSMutableArray array] retain];
+    
 #endif
     
     didLoad();
@@ -139,7 +151,7 @@ jobject ofxGenericView::getJNIInstance()
 #if TARGET_OS_IPHONE
 UIView* ofxGenericView::allocNativeView( const ofRectangle& setFrame )
 {
-    return [ [ UIView alloc ] initWithFrame:ofRectangleToCGRect( setFrame ) ];
+    return [ [ ofxGenericUIView alloc ] initWithForwardTo:_this frame:setFrame ];
 }
 #elif TARGET_ANDROID
 jobject ofxGenericView::allocNativeView( const ofRectangle& frame )
@@ -158,7 +170,7 @@ NativeView ofxGenericView::createNativeView( const ofRectangle& setFrame )
     [ newView setOpaque:YES ];
     [ newView setHidden:NO ];
     [ newView setClipsToBounds:YES ];
-
+    
     return newView;
 
 #elif TARGET_ANDROID
@@ -183,12 +195,12 @@ ofxGenericView::operator NativeView()
 }
 
 #if TARGET_OS_IPHONE
-ofxUIGenericViewController* ofxGenericView::createUIViewController()
+ofxUIGenericViewControllerForwarder* ofxGenericView::createUIViewController()
 {
-    return [ [ ofxUIGenericViewController alloc ] initWithDelegate:_this ];
+    return [ [ ofxUIGenericViewControllerForwarder alloc ] initWithForwardTo:_this ];
 }
 
-ofxUIGenericViewController* ofxGenericView::getUIViewController()
+ofxUIGenericViewControllerForwarder* ofxGenericView::getUIViewController()
 {
     return _viewController;
 }
@@ -203,6 +215,14 @@ ofRectangle ofxGenericView::getFrame()
     JNIRect jniRect( jniFrame );
     return JNIRectToofRectangle( jniRect );
 #endif
+}
+
+ofRectangle ofxGenericView::getFrame( const ofPoint& setTopLeft )
+{
+    ofRectangle frame = getFrame();
+    frame.x = setTopLeft.x;
+    frame.y = setTopLeft.y;
+    return frame;
 }
 
 void ofxGenericView::setFrame( const ofRectangle& setFrame )
@@ -562,11 +582,48 @@ void ofxGenericView::didDisappear()
     {
         ( *travChildren )->didDisappear();
     }
-};
+}
+
+void ofxGenericView::hitInView( ofPoint location )
+{
+    if ( _viewDelegate )
+    {
+        _viewDelegate.lock()->hitInView( location );
+    }
+}
 
 void ofxGenericView::setViewDelegate( ofPtrWeak< ofxGenericViewDelegate > delegate )
 {
     _viewDelegate = delegate;
+}
+
+bool ofxGenericView::containsPoint( const ofPoint& point )
+{
+#if TARGET_OS_IPHONE
+    return [ _view pointInside:CGPointMake(point.x, point.y) withEvent:nil ];
+#else
+    return false;
+#endif
+}
+
+ofPoint ofxGenericView::convertFrom( const ofPoint& point, ofPtr< ofxGenericView > view )
+{
+#if TARGET_OS_IPHONE
+    CGPoint p = [ _view convertPoint:CGPointMake(point.x, point.y) fromView:view->getNativeView() ];
+    return ofPoint( p.x, p.y );
+#else
+    return ofPoint( 0, 0 );
+#endif
+}
+
+ofRectangle ofxGenericView::convertFrom( const ofRectangle& rectangle, ofPtr< ofxGenericView > view )
+{
+#if TARGET_OS_IPHONE
+    CGRect converted = [ _view convertRect:ofRectangleToCGRect( rectangle ) fromView:view->getNativeView() ];
+    return CGRectToofRectangle( converted );
+#else
+    return ofRectangle();
+#endif
 }
 
 void ofxGenericView::beginAnimation( string animationId, ofPtr< ofxGenericViewDelegate > delegate )
@@ -640,11 +697,24 @@ void ofxGenericView::replaceViewWithView( ofPtr< ofxGenericView > replace, ofPtr
 void ofxGenericView::addGestureRecognizerSwipe( ofxGenericGestureTypeSwipe type, ofPtrWeak< ofxGenericViewDelegate > delegate )
 {
 #if TARGET_OS_IPHONE
-    ofxGenericGestureForwarder *forwarder = [[[ofxGenericGestureForwarder alloc] initWithDelegate:delegate type:(int)type] autorelease];
+    ofxGenericGestureForwarder *forwarder = [[[ofxGenericGestureForwarder alloc] initWithDelegate:delegate type:(int)type view:_view] autorelease];
     [gestureForwarders addObject:forwarder];
     UISwipeGestureRecognizer *swipeRecognizer = [[[UISwipeGestureRecognizer alloc] initWithTarget:forwarder action:@selector(gesturePerformed:)] autorelease];
 	[swipeRecognizer setDirection: ofxGenericGestureTypeSwipeToiOS( type ) ];
 	[ _view addGestureRecognizer:swipeRecognizer];
+#elif TARGET_ANDROID
+#endif
+}
+
+void ofxGenericView::addGestureRecognizerTap( int tapCount, int fingerCount, ofPtrWeak< ofxGenericViewDelegate > delegate )
+{
+#if TARGET_OS_IPHONE
+    ofxGenericGestureForwarder *forwarder = [[[ofxGenericGestureForwarder alloc] initWithDelegate:delegate type:(tapCount * 100 + fingerCount) view:_view] autorelease];
+    [gestureForwarders addObject:forwarder];
+    UITapGestureRecognizer *recognizer = [[[UITapGestureRecognizer alloc] initWithTarget:forwarder action:@selector(gesturePerformed:)] autorelease];
+	recognizer.numberOfTapsRequired = tapCount;
+    recognizer.numberOfTouchesRequired = fingerCount;
+	[ _view addGestureRecognizer:recognizer];
 #elif TARGET_ANDROID
 #endif
 }
@@ -766,26 +836,21 @@ void ofxGenericView::registerJNIMethods()
 
 #if TARGET_OS_IPHONE
 
-@implementation ofxUIGenericViewController
+@implementation ofxUIGenericViewControllerForwarder
 
--( id )initWithDelegate:( ofPtrWeak< ofxGenericView > ) delegate;
-{
+-( id )initWithForwardTo:( ofPtrWeak< ofxGenericView > )forwardTo
+{ 
     self = [ super init ];
     if ( self )
     {
-        _delegate = delegate;
+        _forwardTo = forwardTo;
     }
     return self;
 }
 
--( void )dealloc
-{
-    [ super dealloc ];
-}
-
 -( BOOL )shouldAutorotateToInterfaceOrientation:( UIInterfaceOrientation )interfaceOrientation
 {
-    if ( _delegate )
+    if ( _forwardTo )
     {
     }
     return ofxGenericApp::getInstance()->shouldAutorotate( iOSToofOrientation( interfaceOrientation ) );
@@ -825,13 +890,14 @@ void ofxGenericView::registerJNIMethods()
 
 @implementation ofxGenericGestureForwarder
 
--( id )initWithDelegate:( ofPtrWeak< ofxGenericViewDelegate > )delegate type:(int)type
+-( id )initWithDelegate:( ofPtrWeak< ofxGenericViewDelegate > )delegate type:(int)type view:(UIView *)view
 {
     self = [ super init ];
     if ( self )
     {
         _delegate = delegate;
         _type = type;
+        _view = view;
     }
     return self;    
 }
@@ -840,11 +906,47 @@ void ofxGenericView::registerJNIMethods()
 {
     if ( _delegate )
     {
+        CGPoint cgp = [recognizer locationInView:_view];
+        ofPoint p = ofPoint(cgp.x, cgp.y);
+        
         if ( [recognizer isKindOfClass:[UISwipeGestureRecognizer class]] )
         {
-            _delegate.lock()->gesturePerformedSwipe( (ofxGenericGestureTypeSwipe) _type );
+            _delegate.lock()->gesturePerformedSwipe( (ofxGenericGestureTypeSwipe) _type, p );
+        }
+        else if ( [recognizer isKindOfClass:[UITapGestureRecognizer class]] )
+        {
+            int taps = _type / 100;
+            int fingers = _type - taps * 100;
+            _delegate.lock()->gesturePerformedTap( taps, fingers, p );
         }
     }
+}
+
+@end
+
+@implementation ofxGenericUIView
+
+-( id )initWithForwardTo:( ofPtrWeak< ofxGenericView > )forwardTo frame:( const ofRectangle& )frame
+{
+    self = [ super initWithFrame:ofRectangleToCGRect( frame ) ];
+    if ( self )
+    {
+        _forwardTo = forwardTo;
+    }
+    return self;    
+}
+
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
+{
+    if ( event.type == UIEventTypeTouches )
+    {
+        if ( _forwardTo )
+        {
+            _forwardTo.lock()->hitInView( ofPoint( point.x, point.y ) );
+        }
+    }
+    
+    return [ super hitTest:point withEvent:event ];
 }
 
 @end

@@ -137,6 +137,9 @@ float ofxGenericCache::asFloat( float defaultValue )
     if ( isFloat() )
     {
         return _floatValue;
+    } else if ( isInt() )
+    {
+        return ( float )_intValue;
     }
     return defaultValue;
 }
@@ -146,6 +149,9 @@ int ofxGenericCache::asInt( int defaultValue )
     if ( isInt() )
     {
         return _intValue;
+    } else if ( isFloat() )
+    {
+        return ( int )_floatValue;
     }
     return defaultValue;
 }
@@ -472,6 +478,9 @@ unsigned int ofxGenericCache::length() const
     if ( isArray() )
     {
         return ( *_arrayValue ).size();
+    } else if ( isObject() )
+    {
+        return ( *_objectValue ).size();
     }
     return 0;
 }

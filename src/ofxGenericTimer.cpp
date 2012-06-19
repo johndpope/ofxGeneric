@@ -57,6 +57,27 @@ void ofxGenericTimer::fire()
     }
 }
 
+void ofxGenericTimer::stop()
+{
+#if TARGET_OS_IPHONE
+    if ( _timer )
+    {
+        [ _timer invalidate ];
+    }
+#endif
+}
+
+bool ofxGenericTimer::isRunning()
+{
+#if TARGET_OS_IPHONE
+    if ( _timer )
+    {
+        return ( [ _timer isValid ] ? true : false );
+    }
+#endif
+    return false;
+}
+
 #if TARGET_OS_IPHONE
               
 @implementation ofxGenericTimerForwarder

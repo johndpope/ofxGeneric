@@ -22,6 +22,8 @@ public:
     virtual ~ofxGenericTimer();
     
     void fire();
+    void stop();
+    bool isRunning();
     
 protected:
     virtual void init( ofPtrWeak< ofxGenericTimer > setThis, float timeInterval, bool repeats, ofPtrWeak< ofxGenericTimerDelegate > delegate );
