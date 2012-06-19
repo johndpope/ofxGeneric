@@ -401,6 +401,17 @@ void ofxGenericTableView::reloadCell( unsigned int section, unsigned int index )
 #endif
 }
 
+void ofxGenericTableView::scrollToCell( unsigned int section, unsigned int index )
+{
+#if TARGET_OS_IPHONE
+    UITableView* view = *this;
+    if ( view )
+    {
+        [ view scrollToRowAtIndexPath:[ NSIndexPath indexPathForRow:index inSection:section ] atScrollPosition:UITableViewScrollPositionTop animated:YES ];
+    }    
+#endif
+}
+
 #if TARGET_OS_IPHONE
 ofxGenericUIViewCastOperator( ofxGenericTableView, UITableView );
 #endif
