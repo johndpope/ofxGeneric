@@ -8,10 +8,12 @@
 
 #include "ofxGenericCameraPreviewView.h"
 
-ofPtr< ofxGenericCameraPreviewView > ofxGenericCameraPreviewView::create( const ofRectangle& setFrame )
+#include "ofxiPhoneExtras.h"
+
+ofPtr< ofxGenericCameraPreviewView > ofxGenericCameraPreviewView::create( ofPtrWeak< ofxGenericCameraPreviewViewDelegate > delegate, const ofRectangle& setFrame )
 {
     ofPtr< ofxGenericCameraPreviewView > create( new ofxGenericCameraPreviewView() );
-    create->init( create, setFrame );
+    create->init( create, delegate, setFrame );
     return create;
 }
 
@@ -34,9 +36,10 @@ ofxGenericCameraPreviewView::ofxGenericCameraPreviewView()
 {
 }
 
-void ofxGenericCameraPreviewView::init( ofPtrWeak< ofxGenericCameraPreviewView > setThis, const ofRectangle& setBounds )
+void ofxGenericCameraPreviewView::init( ofPtrWeak< ofxGenericCameraPreviewView > setThis, ofPtrWeak< ofxGenericCameraPreviewViewDelegate > delegate, const ofRectangle& setBounds )
 {
     ofxGenericView::init( setThis, setBounds );
+    _delegate = delegate;
 }
 
 void ofxGenericCameraPreviewView::didLoad()
@@ -94,4 +97,61 @@ void ofxGenericCameraPreviewView::didDisappear()
 #if TARGET_OS_IPHONE
     [ _captureSession stopRunning ];
 #endif    
+}
+
+void ofxGenericCameraPreviewView::takePicture()
+{
+#if TARGET_OS_IPHONE
+    
+#if TARGET_IPHONE_SIMULATOR
+    ofImage ofImage;
+    ofxiPhoneUIImageToOFImage( [ UIImage imageNamed:@"Default.png" ], ofImage, getFrame().width, getFrame().height );
+    pictureTaken( ofImage );
+#else
+
+    AVCaptureConnection* videoConnection = nil;
+    for ( AVCaptureConnection* connection in _captureStillImageOutput.connections ) 
+    {
+        for (AVCaptureInputPort *port in [ connection inputPorts ] ) 
+        {
+            if ( [ [ port mediaType ] isEqual:AVMediaTypeVideo ] ) 
+            {
+                videoConnection = connection;
+                break;
+            }
+        }
+        if ( videoConnection ) 
+        { break; }
+    }
+    
+    if ( videoConnection )
+    {
+        [ _captureStillImageOutput
+         captureStillImageAsynchronouslyFromConnection:videoConnection 
+         completionHandler:^( CMSampleBufferRef imageDataSampleBuffer, NSError *error )
+         {
+             if ( imageDataSampleBuffer != NULL )
+             {
+                 NSData* imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
+                 UIImage* image = [ [ UIImage alloc ] initWithData:imageData ];
+                 
+                 ofImage ofImage;
+                 ofxiPhoneUIImageToOFImage( image, ofImage, getFrame().width, getFrame().height );
+                 pictureTaken( ofImage );
+             }
+         }
+         ];
+    }
+
+#endif
+    
+#endif
+}
+
+void ofxGenericCameraPreviewView::pictureTaken( ofImage& image )
+{
+    if ( _delegate )
+    {
+        _delegate.lock()->pictureTaken( image );
+    }
 }

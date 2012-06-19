@@ -14,10 +14,12 @@
 #import <AVFoundation/AVFoundation.h>
 #endif
 
+class ofxGenericCameraPreviewViewDelegate;
+
 class ofxGenericCameraPreviewView : public ofxGenericView
 {
 public:
-    static ofPtr< ofxGenericCameraPreviewView > create( const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ) );
+    static ofPtr< ofxGenericCameraPreviewView > create( ofPtrWeak< ofxGenericCameraPreviewViewDelegate > delegate, const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ) );
     virtual ~ofxGenericCameraPreviewView();
     
     virtual void didLoad();
@@ -25,9 +27,14 @@ public:
     virtual void willAppear();
     virtual void didDisappear();
     
+    virtual void takePicture();
+    virtual void pictureTaken( ofImage& image );
+    
 protected:
     ofxGenericCameraPreviewView();
-    virtual void init( ofPtrWeak< ofxGenericCameraPreviewView > setThis, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 ) );
+    virtual void init( ofPtrWeak< ofxGenericCameraPreviewView > setThis, ofPtrWeak< ofxGenericCameraPreviewViewDelegate > delegate, const ofRectangle& setBounds );
+    
+    ofPtrWeak< ofxGenericCameraPreviewViewDelegate > _delegate;
     
 #if TARGET_OS_IPHONE
     AVCaptureSession*   _captureSession;
@@ -37,4 +44,12 @@ protected:
     AVCaptureDevice*    _captureDevice;
     AVCaptureVideoPreviewLayer* _captureLayer;
 #endif    
+};
+
+class ofxGenericCameraPreviewViewDelegate
+{
+public:
+    virtual ~ofxGenericCameraPreviewViewDelegate() {};
+    
+    virtual void pictureTaken( ofImage& image ) {};
 };
