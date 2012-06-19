@@ -28,7 +28,7 @@ public:
     virtual ofPtr< ofxGenericTableViewCell > getCell( unsigned int section, unsigned int index );
     virtual float getHeightForCell( unsigned int section, unsigned int index );
     
-    virtual int getNumberOfSections();
+    virtual unsigned int getNumberOfSections();
     
     virtual float getHeightForHeaderInSection( unsigned int section );
     virtual ofPtr< ofxGenericView > getHeaderForSection( unsigned int section );

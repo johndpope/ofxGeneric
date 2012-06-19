@@ -126,7 +126,7 @@ float ofxGenericTableView::getHeightForCell( unsigned int section, unsigned int 
     return 0;
 }
 
-int ofxGenericTableView::getNumberOfSections()
+unsigned int ofxGenericTableView::getNumberOfSections()
 {
     if ( _delegate )
     {
