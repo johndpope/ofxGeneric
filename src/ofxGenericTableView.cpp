@@ -387,6 +387,20 @@ bool ofxGenericTableView::deselectAllCells()
     return false;
 }
 
+void ofxGenericTableView::reloadCell( unsigned int section, unsigned int index )
+{
+#if TARGET_OS_IPHONE
+    UITableView* view = *this;
+    if ( view )
+    {
+        NSArray* updateIndexPaths = [ NSArray arrayWithObjects:[ NSIndexPath indexPathForRow:index inSection:section ], nil ];
+        [ view beginUpdates ];
+        [ view reloadRowsAtIndexPaths:updateIndexPaths withRowAnimation:UITableViewRowAnimationNone ];
+        [ view endUpdates ];
+    }    
+#endif
+}
+
 #if TARGET_OS_IPHONE
 ofxGenericUIViewCastOperator( ofxGenericTableView, UITableView );
 #endif
