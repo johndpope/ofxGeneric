@@ -89,6 +89,7 @@ public:
     unsigned int getSection();
     unsigned int getIndex();
         
+    virtual void setBackgroundColor( const ofColor& color );    
     virtual void setText( string text );
     virtual void setImage( string imagePath );
     virtual void addChildView( ofPtr< ofxGenericView > add );

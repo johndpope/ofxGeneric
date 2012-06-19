@@ -466,6 +466,15 @@ void ofxGenericTableViewCell::removeChildView( ofPtr< ofxGenericView > remove )
     }
 }
 
+void ofxGenericTableViewCell::setBackgroundColor( const ofColor& color )
+{
+    if ( _contentView )
+    {
+        _contentView->setBackgroundColor( color );
+    }
+    ofxGenericView::setBackgroundColor( color );
+}
+
 void ofxGenericTableViewCell::setText( string text )
 {
 #if TARGET_OS_IPHONE
