@@ -94,6 +94,8 @@ ofxGenericGestureTypeSwipe iOSToofxGenericGestureTypeSwipe( UISwipeGestureRecogn
 UIButtonType ofxGenericButtonTypeToiOS( ofxGenericButtonType from );
 ofxGenericButtonType iOSToofxGenericButtonType( UIButtonType from );
 
+UIImage* OFImageToUIImage( ofImage& image );
+
 #elif TARGET_ANDROID
 
 JNIRect ofRectangleToJNIRect( const ofRectangle& from );
