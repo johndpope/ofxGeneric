@@ -128,16 +128,16 @@ void ofxGenericCameraPreviewView::takePicture()
     {
         [ _captureStillImageOutput
          captureStillImageAsynchronouslyFromConnection:videoConnection 
-         completionHandler:^( CMSampleBufferRef imageDataSampleBuffer, NSError *error )
+         completionHandler:^( CMSampleBufferRef imageDataSampleBuffer, NSError *error )         
          {
              if ( imageDataSampleBuffer != NULL )
              {
                  NSData* imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
                  UIImage* image = [ [ UIImage alloc ] initWithData:imageData ];
-                 
-                 ofImage ofImage;
-                 ofxiPhoneUIImageToOFImage( image, ofImage, getFrame().width, getFrame().height );
-                 pictureTaken( ofImage );
+                                 
+                 ofImage convertedImage;
+                 ofxiPhoneUIImageToOFImage( image, convertedImage );
+                 pictureTaken( convertedImage );
              }
          }
          ];
