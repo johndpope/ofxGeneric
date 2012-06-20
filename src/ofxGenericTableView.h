@@ -51,6 +51,10 @@ public:
     virtual int getSelectedIndex();
     virtual int getSelectedSection();
     
+    virtual void reloadCell( unsigned int section, unsigned int index );
+    
+    virtual void scrollToCell( unsigned int section, unsigned int index );
+    
 #if TARGET_OS_IPHONE
     operator UITableView*();
 #endif
