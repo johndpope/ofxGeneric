@@ -604,3 +604,19 @@ int ofxGmkdir( string loc, bool useDocuments )
     //http://pubs.opengroup.org/onlinepubs/009695399/functions/mkdir.html
     return mkdir( filename.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH ); //wtf omg wow I hate C++
 }
+
+UIImage* OFImageToUIImage( ofImage& image )
+{
+//    NSData* pixelData = [ NSData dataWithBytes:image.getPixels() length:image.width * image.height * image.bpp / 8 ];
+    
+//    CGImageRef imgRef = CGBitmapContextCreateImage( context );
+//    return [ UIImage imageWithCGImage:imgRef ];
+//    return [ UIImage imageWithData:pixelData ];
+    unsigned char* pixels = image.getPixels();
+    CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();
+    CGBitmapInfo bitmapInfo = kCGBitmapByteOrderDefault | kCGImageAlphaLast;
+    CGColorRenderingIntent renderingIntent = kCGRenderingIntentDefault;
+    CGDataProviderRef provider = CGDataProviderCreateWithData( NULL, pixels, image.width * image.height * image.bpp / 8, NULL );
+    CGImageRef imageRef = CGImageCreate( image.width, image.height, image.bpp / 4, image.bpp, image.width * image.bpp / 8, colorSpaceRef, bitmapInfo, provider, NULL, false, renderingIntent );
+    return [ UIImage imageWithCGImage:imageRef ];
+}

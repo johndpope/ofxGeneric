@@ -8,7 +8,10 @@
 #include "ofxGenericImageView.h"
 #include "ofxGenericUtility.h"
 
-#if TARGET_ANDROID
+#if TARGET_OS_IPHONE
+#include "ofxiPhoneExtras.h"
+
+#elif TARGET_ANDROID
 #include "JNIUtility.h"
 
 jclass ofxGenericImageView::_jniClass = NULL;
@@ -53,6 +56,19 @@ void ofxGenericImageView::setImage( std::string fileName )
     		JNIMethod_SetImage
     		// , fileName
     		);
+#endif
+}
+
+void ofxGenericImageView::setImage( ofImage &image )
+{
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[ UIImageView class ] ] )
+    {
+        UIImageView* view = ( UIImageView* )_view;
+        UIImage* uiImage = [ OFImageToUIImage( image ) retain ];
+        [ view setImage:[ UIImage imageWithData:UIImagePNGRepresentation( uiImage ) ] ]; // sanity check, was crashing for unknown reasons before :(
+        [ uiImage release ];
+    }
 #endif
 }
 

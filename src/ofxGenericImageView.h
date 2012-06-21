@@ -14,7 +14,9 @@ class ofxGenericImageView : public ofxGenericView
 {
 public:
     static ofPtr< ofxGenericImageView > create( const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ), string fileName = string() );
+    
     virtual void setImage( string fileName );
+    virtual void setImage( ofImage& image );
     
 #if TARGET_OS_IPHONE
     operator UIImageView*();

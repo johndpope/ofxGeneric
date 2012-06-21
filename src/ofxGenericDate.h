@@ -12,6 +12,7 @@
 
 #include "ofxGenericMain.h"
 
+#define OFXGDATE_FORMAT_FULL_FILESAFE "yyyy-MM-dd HH-mm-ss"
 #define OFXGDATE_FORMAT_SERVER "yyyy-MM-dd HH:mm:ss"
 #define OFXGDATE_FORMAT_COMMON "yyyy-MM-dd"
 
