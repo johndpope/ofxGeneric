@@ -50,10 +50,11 @@
     objectCViewController = nil;
 #endif
 
+string ofxGPathToDataFolder( string fileName = string() );
+string ofxGPathToDocumentsFolder( string fileName = string() );
+
 #if TARGET_OS_IPHONE
 // iOS utilities
-NSString* pathToBundle( NSString* resourceFileName = nil );
-
 CGFloat getWindowScale();
 
 UITextAlignment ofxGenericTextHorizontalAlignmentToiOS( ofxGenericTextHorizontalAlignment from );

@@ -191,7 +191,7 @@ void ofxGenericButtonView::setBackgroundImage( std::string fileName )
     if ( [ _view isKindOfClass:[ UIButton class ] ] )
     {
         UIButton* view = ( UIButton* )_view;
-        [ view setBackgroundImage:[ UIImage imageWithContentsOfFile:pathToBundle( ofxStringToNSString( fileName ) )  ]
+        [ view setBackgroundImage:[ UIImage imageWithContentsOfFile:ofxStringToNSString( ofxGPathToDataFolder( fileName ) )  ]
                          forState:UIControlStateNormal ];
     }
 #elif TARGET_ANDROID

@@ -2,6 +2,16 @@
 #include "ofLog.h"
 #include "ofxGenericConstants.h"
 
+string ofxGPathToDataFolder( string fileName )
+{
+    return ofToDataPath( fileName, true, false );
+}
+
+string ofxGPathToDocumentsFolder( string fileName )
+{
+    return ofToDataPath( fileName, true, false );
+}
+
 void ofxGLog( ofLogLevel level, const string & message )
 {
 	ofLog( ofxGenericModuleName, level, message );

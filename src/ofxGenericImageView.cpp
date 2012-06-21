@@ -48,7 +48,7 @@ void ofxGenericImageView::setImage( std::string fileName )
     if ( [ _view isKindOfClass:[ UIImageView class ] ] )
     {
         UIImageView* view = ( UIImageView* )_view;
-        [ view setImage:[ UIImage imageWithContentsOfFile:pathToBundle( ofxStringToNSString( fileName ) )  ] ];
+        [ view setImage:[ UIImage imageWithContentsOfFile:ofxStringToNSString( ofxGPathToDataFolder( fileName ) ) ] ];
     }
 #elif TARGET_ANDROID
     callJNIVoidMethod(
