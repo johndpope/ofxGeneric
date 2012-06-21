@@ -8,9 +8,9 @@
 
 #pragma once
 
-#include "ofxGenericCache.h"
+#include "ofxGenericValueStore.h"
 
-class ofxGenericCache;
+class ofxGenericValueStore;
 
 class ofxGenericLocalization
 {
@@ -25,7 +25,7 @@ protected:
     virtual void init( ofPtrWeak< ofxGenericLocalization > setThis );
     static ofPtr< ofxGenericLocalization > _this;
     
-    ofPtr< ofxGenericCache > _cache;
+    ofPtr< ofxGenericValueStore > _cache;
 };
 
 string ofxGLocalized( string key );

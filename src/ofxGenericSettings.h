@@ -10,7 +10,7 @@
 
 #include "ofxGenericMain.h"
 
-class ofxGenericCache;
+class ofxGenericValueStore;
 
 class ofxGenericSettings
 {
@@ -25,5 +25,5 @@ protected:
     ofPtrWeak< ofxGenericSettings > _this;
 
     virtual string getFileName() = 0;
-    virtual void parse( ofPtr< ofxGenericCache >& settings ) = 0;
+    virtual void parse( ofPtr< ofxGenericValueStore >& settings ) = 0;
 };

@@ -1,5 +1,5 @@
 //
-//  ofxGenericCacheUtility.h
+//  ofxGenericValueStoreUtility.h
 //  ofxGeneric
 //
 //  Created by Ian Grossberg on 6/8/12.
@@ -8,6 +8,6 @@
 
 #pragma once
 
-#include "ofxGenericCache.h"
+#include "ofxGenericValueStore.h"
 
-ofColor toofColor( ofPtr< ofxGenericCache > from );
+ofColor toofColor( ofPtr< ofxGenericValueStore > from );

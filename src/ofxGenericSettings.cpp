@@ -7,7 +7,7 @@
 //
 
 #include "ofxGenericSettings.h"
-#include "ofxGenericCache.h"
+#include "ofxGenericValueStore.h"
 
 ofxGenericSettings::~ofxGenericSettings()
 {
@@ -21,7 +21,7 @@ void ofxGenericSettings::init( ofPtrWeak< ofxGenericSettings > setThis )
 
 void ofxGenericSettings::load()
 {
-    ofPtr< ofxGenericCache > loaded = ofxGenericCache::create( false );
+    ofPtr< ofxGenericValueStore > loaded = ofxGenericValueStore::create( false );
     loaded->setFileName( getFileName(), false );
     
     // TODO: merge binary's settings with downloaded settings

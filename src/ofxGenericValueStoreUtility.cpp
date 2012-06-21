@@ -1,19 +1,19 @@
 //
-//  ofxGenericCacheUtility.cpp
+//  ofxGenericValueStoreUtility.cpp
 //  ofxGeneric
 //
 //  Created by Ian Grossberg on 6/8/12.
 //  Copyright (c) 2012 Lumos Labs. All rights reserved.
 //
 
-#include "ofxGenericCacheUtility.h"
+#include "ofxGenericValueStoreUtility.h"
 
 #define ColorRedCacheKey "red"
 #define ColorGreenCacheKey "green"
 #define ColorBlueCacheKey "blue"
 #define ColorAlphaCacheKey "alpha"
 
-ofColor toofColor( ofPtr< ofxGenericCache > from )
+ofColor toofColor( ofPtr< ofxGenericValueStore > from )
 {
     if ( from && from->isObject() )
     {
