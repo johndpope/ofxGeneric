@@ -17,3 +17,5 @@
 #include "JNIObject.h"
 
 #endif
+
+#include "ofxGenericUtility.h"
