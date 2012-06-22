@@ -18,21 +18,21 @@ class ofxGenericValueStore;
 namespace Json
 { class Value; }
 
-typedef std::map< string, ofPtr< ofxGenericValueStore > >::iterator ofxGenericCacheObjectIterator;
-typedef std::vector< ofPtr< ofxGenericValueStore > >::iterator ofxGenericCacheArrayIterator;
+typedef std::map< string, ofPtr< ofxGenericValueStore > >::iterator ofxGenericValueStoreObjectIterator;
+typedef std::vector< ofPtr< ofxGenericValueStore > >::iterator ofxGenericValueStoreArrayIterator;
 
 class ofxGenericValueStore
 {
 public:
     enum Type
     {
-        ofxGenericCacheTypeUninitialized,
-        ofxGenericCacheTypeFloat,
-        ofxGenericCacheTypeInt,
-        ofxGenericCacheTypeBool,
-        ofxGenericCacheTypeString,
-        ofxGenericCacheTypeObject,
-        ofxGenericCacheTypeArray
+        ofxGenericValueStoreTypeUninitialized,
+        ofxGenericValueStoreTypeFloat,
+        ofxGenericValueStoreTypeInt,
+        ofxGenericValueStoreTypeBool,
+        ofxGenericValueStoreTypeString,
+        ofxGenericValueStoreTypeObject,
+        ofxGenericValueStoreTypeArray
     };
     static ofPtr< ofxGenericValueStore > create( bool asArray );
     Type getType() const;
@@ -98,10 +98,10 @@ public:
     //empties the entire cache
     virtual void purge();
     
-    ofxGenericCacheObjectIterator objectBegin();
-    ofxGenericCacheObjectIterator objectEnd();
-    ofxGenericCacheArrayIterator arrayBegin();
-    ofxGenericCacheArrayIterator arrayEnd();
+    ofxGenericValueStoreObjectIterator objectBegin();
+    ofxGenericValueStoreObjectIterator objectEnd();
+    ofxGenericValueStoreArrayIterator arrayBegin();
+    ofxGenericValueStoreArrayIterator arrayEnd();
     
     virtual ~ofxGenericValueStore();
 protected:

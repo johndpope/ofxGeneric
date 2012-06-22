@@ -180,7 +180,7 @@
 		3CF590931506E6EA00963966 /* ofxGenericEditTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericEditTextView.h; sourceTree = "<group>"; };
 		3CF590961506E78E00963966 /* ofxGenericEditTextView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericEditTextView.cpp; sourceTree = "<group>"; };
 		45037A461534E6D700ADB7EC /* ofxGenericValueStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericValueStore.h; sourceTree = "<group>"; };
-		45037A481534E6E100ADB7EC /* ofxGenericValueStore.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericValueStore.cpp; sourceTree = "<group>"; };
+		45037A481534E6E100ADB7EC /* ofxGenericValueStore.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; lineEnding = 0; path = ofxGenericValueStore.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		453C813315192A39005ED622 /* install.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = install.xml; sourceTree = "<group>"; };
 		453C813515192A39005ED622 /* tinyxml.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = tinyxml.cpp; sourceTree = "<group>"; };
 		453C813615192A39005ED622 /* tinyxml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tinyxml.h; sourceTree = "<group>"; };
