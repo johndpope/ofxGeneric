@@ -26,3 +26,19 @@ ofColor toofColor( ofPtr< ofxGenericValueStore > from )
     }
     return ofColor();
 }
+
+std::vector< unsigned int > toVectorOfUnsignedInts( ofPtr< ofxGenericValueStore > from )
+{
+    std::vector< unsigned int > ints;
+    if ( from && from->isArray() )
+    {
+        for( ofxGenericValueStoreArrayIterator travValues = from->arrayBegin(); travValues != from->arrayEnd(); travValues ++ )
+        {
+            if ( ( *travValues ) )
+            {
+                ints.push_back( ( unsigned int )( *travValues )->asInt() ); // TODO: Uint support
+            }
+        }
+    }
+    return ints;
+}
