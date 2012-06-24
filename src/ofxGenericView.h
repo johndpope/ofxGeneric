@@ -113,7 +113,7 @@ public:
     
 protected:        
     ofxGenericView();
-    virtual void init( ofPtrWeak< ofxGenericView > smartPointer, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 ), NativeView nativeView = NativeNull );
+    virtual void init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 ), NativeView nativeView = NativeNull );
     
 #if TARGET_OS_IPHONE
     virtual UIView* allocNativeView( const ofRectangle& frame );
