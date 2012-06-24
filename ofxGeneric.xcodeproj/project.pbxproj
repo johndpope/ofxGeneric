@@ -53,6 +53,7 @@
 		3C85FC6415114B1E001F5854 /* ofxGenericScrollView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C85FC6315114B1E001F5854 /* ofxGenericScrollView.cpp */; };
 		3CA59B33153F4312008EE095 /* ofxGenericException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CA59B32153F4311008EE095 /* ofxGenericException.cpp */; };
 		3CB302171506DB5B00A1A91F /* libofxiPhone_iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C7B4EDC14FC7D2E003121FE /* libofxiPhone_iphoneos.a */; };
+		3CB572AD1596512C0060F9BE /* ofxGenericSelectorView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CB572AC1596512C0060F9BE /* ofxGenericSelectorView.cpp */; };
 		3CE4B910157D414F0058CC70 /* ofxGenericFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CE4B90F157D414F0058CC70 /* ofxGenericFont.cpp */; };
 		3CEBF17815890F9A008D2937 /* ofxGenericBarGraphView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CEBF17615890F9A008D2937 /* ofxGenericBarGraphView.cpp */; };
 		3CEBF17915890F9A008D2937 /* ofxGenericBarGraphView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CEBF17715890F9A008D2937 /* ofxGenericBarGraphView.h */; };
@@ -167,6 +168,8 @@
 		3C85FC6315114B1E001F5854 /* ofxGenericScrollView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericScrollView.cpp; sourceTree = "<group>"; };
 		3CA59B30153F40E7008EE095 /* ofxGenericException.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericException.h; sourceTree = "<group>"; };
 		3CA59B32153F4311008EE095 /* ofxGenericException.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericException.cpp; sourceTree = "<group>"; };
+		3CB572AA1596506A0060F9BE /* ofxGenericSelectorView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericSelectorView.h; sourceTree = "<group>"; };
+		3CB572AC1596512C0060F9BE /* ofxGenericSelectorView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericSelectorView.cpp; sourceTree = "<group>"; };
 		3CBAC5F914FD4E60002A12C8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		3CBAC5FC14FD4E73002A12C8 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		3CBAC5FE14FD4EA7002A12C8 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
@@ -343,6 +346,8 @@
 				3CE4B90F157D414F0058CC70 /* ofxGenericFont.cpp */,
 				3CF50AB01582ACF700D6F7DA /* ofxGenericCacheUtility.h */,
 				3CF50AB21582AD9D00D6F7DA /* ofxGenericCacheUtility.cpp */,
+				3CB572AA1596506A0060F9BE /* ofxGenericSelectorView.h */,
+				3CB572AC1596512C0060F9BE /* ofxGenericSelectorView.cpp */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -641,6 +646,7 @@
 				3CE4B910157D414F0058CC70 /* ofxGenericFont.cpp in Sources */,
 				3CF50AB31582AD9D00D6F7DA /* ofxGenericCacheUtility.cpp in Sources */,
 				3CEBF17815890F9A008D2937 /* ofxGenericBarGraphView.cpp in Sources */,
+				3CB572AD1596512C0060F9BE /* ofxGenericSelectorView.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
