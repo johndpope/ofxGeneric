@@ -2,6 +2,16 @@
 #include "ofLog.h"
 #include "ofxGenericConstants.h"
 
+string ofxGPathToDataFolder( string fileName )
+{
+    return ofToDataPath( fileName, true, false );
+}
+
+string ofxGPathToDocumentsFolder( string fileName )
+{
+    return ofToDataPath( fileName, true, false );
+}
+
 void ofxGLog( ofLogLevel level, const string & message )
 {
 	ofLog( ofxGenericModuleName, level, message );
@@ -53,4 +63,9 @@ string ofxGFloatToString( float value )
     char buffer[ 1024 ];
     snprintf( buffer, 1024, "%f", value );
     return string( buffer );
+}
+
+int ofxRandomInRange( int minimum, int maximum )
+{
+    return minimum + ( rand() % ( int )( maximum - minimum + 1 ) );
 }

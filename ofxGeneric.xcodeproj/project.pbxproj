@@ -57,10 +57,10 @@
 		3CE4B910157D414F0058CC70 /* ofxGenericFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CE4B90F157D414F0058CC70 /* ofxGenericFont.cpp */; };
 		3CEBF17815890F9A008D2937 /* ofxGenericBarGraphView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CEBF17615890F9A008D2937 /* ofxGenericBarGraphView.cpp */; };
 		3CEBF17915890F9A008D2937 /* ofxGenericBarGraphView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CEBF17715890F9A008D2937 /* ofxGenericBarGraphView.h */; };
-		3CF50AB31582AD9D00D6F7DA /* ofxGenericCacheUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CF50AB21582AD9D00D6F7DA /* ofxGenericCacheUtility.cpp */; };
+		3CF50AB31582AD9D00D6F7DA /* ofxGenericValueStoreUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CF50AB21582AD9D00D6F7DA /* ofxGenericValueStoreUtility.cpp */; };
 		3CF590941506E6EA00963966 /* ofxGenericEditTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CF590931506E6EA00963966 /* ofxGenericEditTextView.h */; };
 		3CF590971506E78E00963966 /* ofxGenericEditTextView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CF590961506E78E00963966 /* ofxGenericEditTextView.cpp */; };
-		45037A491534E6E200ADB7EC /* ofxGenericCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45037A481534E6E100ADB7EC /* ofxGenericCache.cpp */; };
+		45037A491534E6E200ADB7EC /* ofxGenericValueStore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45037A481534E6E100ADB7EC /* ofxGenericValueStore.cpp */; };
 		453C813C15192A39005ED622 /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 453C813515192A39005ED622 /* tinyxml.cpp */; };
 		453C813D15192A39005ED622 /* tinyxml.h in Headers */ = {isa = PBXBuildFile; fileRef = 453C813615192A39005ED622 /* tinyxml.h */; };
 		453C813E15192A39005ED622 /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 453C813715192A39005ED622 /* tinyxmlerror.cpp */; };
@@ -178,12 +178,12 @@
 		3CE4B90F157D414F0058CC70 /* ofxGenericFont.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericFont.cpp; sourceTree = "<group>"; };
 		3CEBF17615890F9A008D2937 /* ofxGenericBarGraphView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericBarGraphView.cpp; sourceTree = "<group>"; };
 		3CEBF17715890F9A008D2937 /* ofxGenericBarGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericBarGraphView.h; sourceTree = "<group>"; };
-		3CF50AB01582ACF700D6F7DA /* ofxGenericCacheUtility.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericCacheUtility.h; sourceTree = "<group>"; };
-		3CF50AB21582AD9D00D6F7DA /* ofxGenericCacheUtility.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericCacheUtility.cpp; sourceTree = "<group>"; };
+		3CF50AB01582ACF700D6F7DA /* ofxGenericValueStoreUtility.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericValueStoreUtility.h; sourceTree = "<group>"; };
+		3CF50AB21582AD9D00D6F7DA /* ofxGenericValueStoreUtility.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericValueStoreUtility.cpp; sourceTree = "<group>"; };
 		3CF590931506E6EA00963966 /* ofxGenericEditTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericEditTextView.h; sourceTree = "<group>"; };
 		3CF590961506E78E00963966 /* ofxGenericEditTextView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericEditTextView.cpp; sourceTree = "<group>"; };
-		45037A461534E6D700ADB7EC /* ofxGenericCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericCache.h; sourceTree = "<group>"; };
-		45037A481534E6E100ADB7EC /* ofxGenericCache.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericCache.cpp; sourceTree = "<group>"; };
+		45037A461534E6D700ADB7EC /* ofxGenericValueStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericValueStore.h; sourceTree = "<group>"; };
+		45037A481534E6E100ADB7EC /* ofxGenericValueStore.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; lineEnding = 0; path = ofxGenericValueStore.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		453C813315192A39005ED622 /* install.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = install.xml; sourceTree = "<group>"; };
 		453C813515192A39005ED622 /* tinyxml.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = tinyxml.cpp; sourceTree = "<group>"; };
 		453C813615192A39005ED622 /* tinyxml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tinyxml.h; sourceTree = "<group>"; };
@@ -297,8 +297,10 @@
 				3C7B4E8D14FC7CBF003121FE /* ofxGenericApp.h */,
 				3C7B4E8E14FC7CBF003121FE /* ofxGenericButtonView.cpp */,
 				3C7B4E8F14FC7CBF003121FE /* ofxGenericButtonView.h */,
-				45037A481534E6E100ADB7EC /* ofxGenericCache.cpp */,
-				45037A461534E6D700ADB7EC /* ofxGenericCache.h */,
+				45037A481534E6E100ADB7EC /* ofxGenericValueStore.cpp */,
+				45037A461534E6D700ADB7EC /* ofxGenericValueStore.h */,
+				3CF50AB01582ACF700D6F7DA /* ofxGenericValueStoreUtility.h */,
+				3CF50AB21582AD9D00D6F7DA /* ofxGenericValueStoreUtility.cpp */,
 				3C7B4E9014FC7CBF003121FE /* ofxGenericConstants.h */,
 				456BACAC153DE6A50097D5D4 /* ofxGenericDate.cpp */,
 				456BACAA153DE6960097D5D4 /* ofxGenericDate.h */,
@@ -344,8 +346,6 @@
 				3C0B9F9D1571F9FA009F61BE /* ofxGenericCameraPreviewView.cpp */,
 				3CE4B90D157D40EA0058CC70 /* ofxGenericFont.h */,
 				3CE4B90F157D414F0058CC70 /* ofxGenericFont.cpp */,
-				3CF50AB01582ACF700D6F7DA /* ofxGenericCacheUtility.h */,
-				3CF50AB21582AD9D00D6F7DA /* ofxGenericCacheUtility.cpp */,
 				3CB572AA1596506A0060F9BE /* ofxGenericSelectorView.h */,
 				3CB572AC1596512C0060F9BE /* ofxGenericSelectorView.cpp */,
 			);
@@ -624,7 +624,7 @@
 				453C813F15192A39005ED622 /* tinyxmlparser.cpp in Sources */,
 				453C814015192A39005ED622 /* ofxXmlSettings.cpp in Sources */,
 				3C0AC1511522C34500872B70 /* ofxGenericPlatform.cpp in Sources */,
-				45037A491534E6E200ADB7EC /* ofxGenericCache.cpp in Sources */,
+				45037A491534E6E200ADB7EC /* ofxGenericValueStore.cpp in Sources */,
 				453E462115365E1C00C66514 /* json_reader.cpp in Sources */,
 				453E462215365E1C00C66514 /* json_value.cpp in Sources */,
 				453E462315365E1C00C66514 /* json_writer.cpp in Sources */,
@@ -644,7 +644,7 @@
 				3C4D9C0D1559E69900C02C92 /* ofxGenericTimer.cpp in Sources */,
 				3C0B9F9E1571F9FA009F61BE /* ofxGenericCameraPreviewView.cpp in Sources */,
 				3CE4B910157D414F0058CC70 /* ofxGenericFont.cpp in Sources */,
-				3CF50AB31582AD9D00D6F7DA /* ofxGenericCacheUtility.cpp in Sources */,
+				3CF50AB31582AD9D00D6F7DA /* ofxGenericValueStoreUtility.cpp in Sources */,
 				3CEBF17815890F9A008D2937 /* ofxGenericBarGraphView.cpp in Sources */,
 				3CB572AD1596512C0060F9BE /* ofxGenericSelectorView.cpp in Sources */,
 			);

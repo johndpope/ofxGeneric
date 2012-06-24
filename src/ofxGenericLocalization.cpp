@@ -8,7 +8,7 @@
 
 #include "ofxGenericLocalization.h"
 #include "ofxGenericUtility.h"
-#include "ofxGenericCache.h"
+#include "ofxGenericValueStore.h"
 
 // http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 
@@ -31,7 +31,7 @@ void ofxGenericLocalization::init( ofPtrWeak< ofxGenericLocalization > setThis )
         throw ofxGenericExceptionSubclassedSingletonInitializedTwice( "ofxGenericLocalization" );
     }
     
-    _cache = ofxGenericCache::create( false );
+    _cache = ofxGenericValueStore::create( false );
     
     string isoLanguage;
 #if TARGET_OS_IPHONE

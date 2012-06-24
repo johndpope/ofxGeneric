@@ -50,10 +50,11 @@
     objectCViewController = nil;
 #endif
 
+string ofxGPathToDataFolder( string fileName = string() );
+string ofxGPathToDocumentsFolder( string fileName = string() );
+
 #if TARGET_OS_IPHONE
 // iOS utilities
-NSString* pathToBundle( NSString* resourceFileName = nil );
-
 CGFloat getWindowScale();
 
 UITextAlignment ofxGenericTextHorizontalAlignmentToiOS( ofxGenericTextHorizontalAlignment from );
@@ -123,3 +124,5 @@ string ofxGFloatToString( float value );
 
 //returns 0 on success, -1 on failure (including if the file already exists)
 int ofxGmkdir( string loc, bool useDocuments );
+
+int ofxRandomInRange( int minimum, int maximum );

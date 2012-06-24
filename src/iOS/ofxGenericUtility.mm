@@ -12,16 +12,6 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-NSString* pathToBundle( NSString* resourceFileName )
-{
-    NSString* bundlePath = [ [ NSBundle mainBundle ] resourcePath ];
-    if ( resourceFileName != nil )
-    {
-        return [ NSString stringWithFormat:@"%@/%@", bundlePath, resourceFileName ];
-    }
-    return [ NSString stringWithFormat:@"%@/", bundlePath ];
-}
-
 CGFloat getWindowScale()
 {
     if ( [ [ UIScreen mainScreen ] respondsToSelector:@selector( scale ) ] ) 

@@ -1,5 +1,5 @@
 //
-//  ofxGenericCache.cpp
+//  ofxGenericValueStore.cpp
 //  ofxGeneric
 //
 //  Handles saving and loading cache data. Cache is stored in the documents directory
@@ -10,129 +10,129 @@
 //  Copyright (c) 2012 Lumos Labs. All rights reserved.
 //
 
-#include "ofxGenericCache.h"
+#include "ofxGenericValueStore.h"
 #include "ofxGenericUtility.h"
 
 #include "ofxJSONElement.h"
 
-ofPtr< ofxGenericCache > ofxGenericCache::create( bool asArray )
+ofPtr< ofxGenericValueStore > ofxGenericValueStore::create( bool asArray )
 {
-    ofPtr< ofxGenericCache > create( new ofxGenericCache() );
+    ofPtr< ofxGenericValueStore > create( new ofxGenericValueStore() );
     Type type;
     if ( asArray )
     {
-        type = ofxGenericCacheTypeArray;
+        type = ofxGenericValueStoreTypeArray;
     } else 
     {
-        type = ofxGenericCacheTypeObject;
+        type = ofxGenericValueStoreTypeObject;
     }
     create->init( create, type );
     return create;
 }
 
-ofPtr< ofxGenericCache > ofxGenericCache::createWithValue( float value )
+ofPtr< ofxGenericValueStore > ofxGenericValueStore::createWithValue( float value )
 {
-    ofPtr< ofxGenericCache > create( new ofxGenericCache() );
-    create->init( create, ofxGenericCacheTypeFloat );
+    ofPtr< ofxGenericValueStore > create( new ofxGenericValueStore() );
+    create->init( create, ofxGenericValueStoreTypeFloat );
     create->_floatValue = value;
     return create;
 }
 
-ofPtr< ofxGenericCache > ofxGenericCache::createWithValue( int value )
+ofPtr< ofxGenericValueStore > ofxGenericValueStore::createWithValue( int value )
 {
-    ofPtr< ofxGenericCache > create( new ofxGenericCache() );
-    create->init( create, ofxGenericCacheTypeInt );
+    ofPtr< ofxGenericValueStore > create( new ofxGenericValueStore() );
+    create->init( create, ofxGenericValueStoreTypeInt );
     create->_intValue = value;
     return create;
 }
 
-ofPtr< ofxGenericCache > ofxGenericCache::createWithValue( bool value )
+ofPtr< ofxGenericValueStore > ofxGenericValueStore::createWithValue( bool value )
 {
-    ofPtr< ofxGenericCache > create( new ofxGenericCache() );
-    create->init( create, ofxGenericCacheTypeBool );
+    ofPtr< ofxGenericValueStore > create( new ofxGenericValueStore() );
+    create->init( create, ofxGenericValueStoreTypeBool );
     create->_boolValue = value;
     return create;
 }
 
-ofPtr< ofxGenericCache > ofxGenericCache::createWithValue( string value )
+ofPtr< ofxGenericValueStore > ofxGenericValueStore::createWithValue( string value )
 {
-    ofPtr< ofxGenericCache > create( new ofxGenericCache() );
-    create->init( create, ofxGenericCacheTypeString );
+    ofPtr< ofxGenericValueStore > create( new ofxGenericValueStore() );
+    create->init( create, ofxGenericValueStoreTypeString );
     *( create->_stringValue ) = value;
     return create;
 }
 
-ofxGenericCache::ofxGenericCache()
-: _type( ofxGenericCacheTypeUninitialized ), _fileInDocuments( false )
+ofxGenericValueStore::ofxGenericValueStore()
+: _type( ofxGenericValueStoreTypeUninitialized ), _fileInDocuments( false )
 {
 }
 
-void ofxGenericCache::init( ofPtrWeak< ofxGenericCache > setThis, Type type )
+void ofxGenericValueStore::init( ofPtrWeak< ofxGenericValueStore > setThis, Type type )
 {
     _this = setThis;
     _type = type;
-    if ( _type == ofxGenericCacheTypeString )
+    if ( _type == ofxGenericValueStoreTypeString )
     {
         _stringValue = new string();
-    } else if ( _type == ofxGenericCacheTypeArray )
+    } else if ( _type == ofxGenericValueStoreTypeArray )
     {
-        _arrayValue = new std::vector< ofPtr< ofxGenericCache > >();
-    } else if ( _type == ofxGenericCacheTypeObject )
+        _arrayValue = new std::vector< ofPtr< ofxGenericValueStore > >();
+    } else if ( _type == ofxGenericValueStoreTypeObject )
     {
-        _objectValue = new std::map< string, ofPtr< ofxGenericCache > >();
+        _objectValue = new std::map< string, ofPtr< ofxGenericValueStore > >();
     }
 }
 
-ofxGenericCache::~ofxGenericCache()
+ofxGenericValueStore::~ofxGenericValueStore()
 {
-    if ( _type == ofxGenericCacheTypeString )
+    if ( _type == ofxGenericValueStoreTypeString )
     {
         delete _stringValue;
-    } else if ( _type == ofxGenericCacheTypeArray )
+    } else if ( _type == ofxGenericValueStoreTypeArray )
     {
         delete _arrayValue;
-    } else if ( _type == ofxGenericCacheTypeObject )
+    } else if ( _type == ofxGenericValueStoreTypeObject )
     {
         delete _objectValue;
     }
 }
 
-ofxGenericCache::Type ofxGenericCache::getType() const
+ofxGenericValueStore::Type ofxGenericValueStore::getType() const
 {
     return _type;
 }
 
-bool ofxGenericCache::isFloat() const
+bool ofxGenericValueStore::isFloat() const
 {
-    return getType() == ofxGenericCacheTypeFloat;
+    return getType() == ofxGenericValueStoreTypeFloat;
 }
 
-bool ofxGenericCache::isInt() const
+bool ofxGenericValueStore::isInt() const
 {
-    return getType() == ofxGenericCacheTypeInt;
+    return getType() == ofxGenericValueStoreTypeInt;
 }
 
-bool ofxGenericCache::isBool() const
+bool ofxGenericValueStore::isBool() const
 {
-    return getType() == ofxGenericCacheTypeBool;
+    return getType() == ofxGenericValueStoreTypeBool;
 }
 
-bool ofxGenericCache::isString() const
+bool ofxGenericValueStore::isString() const
 {
-    return getType() == ofxGenericCacheTypeString;
+    return getType() == ofxGenericValueStoreTypeString;
 }
 
-bool ofxGenericCache::isObject() const
+bool ofxGenericValueStore::isObject() const
 {
-    return getType() == ofxGenericCacheTypeObject;
+    return getType() == ofxGenericValueStoreTypeObject;
 }
 
-bool ofxGenericCache::isArray() const
+bool ofxGenericValueStore::isArray() const
 {
-    return getType() == ofxGenericCacheTypeArray;
+    return getType() == ofxGenericValueStoreTypeArray;
 }
 
-float ofxGenericCache::asFloat( float defaultValue )
+float ofxGenericValueStore::asFloat( float defaultValue )
 {
     if ( isFloat() )
     {
@@ -144,7 +144,7 @@ float ofxGenericCache::asFloat( float defaultValue )
     return defaultValue;
 }
 
-int ofxGenericCache::asInt( int defaultValue )
+int ofxGenericValueStore::asInt( int defaultValue )
 {
     if ( isInt() )
     {
@@ -156,7 +156,7 @@ int ofxGenericCache::asInt( int defaultValue )
     return defaultValue;
 }
 
-bool ofxGenericCache::asBool( bool defaultValue )
+bool ofxGenericValueStore::asBool( bool defaultValue )
 {
     if ( isBool() )
     {
@@ -165,7 +165,7 @@ bool ofxGenericCache::asBool( bool defaultValue )
     return defaultValue;
 }
 
-string ofxGenericCache::asString( string defaultValue )
+string ofxGenericValueStore::asString( string defaultValue )
 {
     if ( isString() )
     {
@@ -174,17 +174,17 @@ string ofxGenericCache::asString( string defaultValue )
     return defaultValue;
 }
 
-bool ofxGenericCache::exists( string key )
+bool ofxGenericValueStore::exists( string key )
 {
     if ( isObject() )
     {
-        ofxGenericCacheObjectIterator find = _objectValue->find( key );
+        ofxGenericValueStoreObjectIterator find = _objectValue->find( key );
         return find != _objectValue->end();
     }
     return false;
 }
 
-void ofxGenericCache::write(string key, float value )
+void ofxGenericValueStore::write(string key, float value )
 {
     if ( isObject() )
     {
@@ -192,7 +192,7 @@ void ofxGenericCache::write(string key, float value )
     }
 }
 
-void ofxGenericCache::write( string key, int value )
+void ofxGenericValueStore::write( string key, int value )
 {
     if ( isObject() )
     {
@@ -200,7 +200,7 @@ void ofxGenericCache::write( string key, int value )
     }
 }
 
-void ofxGenericCache::write( string key, bool value )
+void ofxGenericValueStore::write( string key, bool value )
 {
     if ( isObject() )
     {
@@ -208,7 +208,7 @@ void ofxGenericCache::write( string key, bool value )
     }
 }
 
-void ofxGenericCache::write( string key, string value )
+void ofxGenericValueStore::write( string key, string value )
 {
     if ( isObject() )
     {
@@ -216,7 +216,7 @@ void ofxGenericCache::write( string key, string value )
     }
 }
 
-void ofxGenericCache::write( string key, const char* value )
+void ofxGenericValueStore::write( string key, const char* value )
 {
     if ( isObject() )
     {
@@ -224,7 +224,7 @@ void ofxGenericCache::write( string key, const char* value )
     }
 }
 
-void ofxGenericCache::write(string key, ofPtr< ofxGenericCache > value )
+void ofxGenericValueStore::write(string key, ofPtr< ofxGenericValueStore > value )
 {
     if ( isObject() )
     {
@@ -232,11 +232,11 @@ void ofxGenericCache::write(string key, ofPtr< ofxGenericCache > value )
     }
 }
 
-float ofxGenericCache::read( string key, float defaultValue )
+float ofxGenericValueStore::read( string key, float defaultValue )
 {
     if ( isObject() && exists( key ) )
     {
-        ofPtr< ofxGenericCache > value = ( *_objectValue )[ key ];
+        ofPtr< ofxGenericValueStore > value = ( *_objectValue )[ key ];
         if ( value )
         {
             return value->asFloat();
@@ -245,11 +245,11 @@ float ofxGenericCache::read( string key, float defaultValue )
     return defaultValue;
 }
 
-int ofxGenericCache::read( string key, int defaultValue )
+int ofxGenericValueStore::read( string key, int defaultValue )
 {
     if ( isObject() && exists( key ) )
     {
-        ofPtr< ofxGenericCache > value = ( *_objectValue )[ key ];
+        ofPtr< ofxGenericValueStore > value = ( *_objectValue )[ key ];
         if ( value )
         {
             return value->asInt();
@@ -258,11 +258,11 @@ int ofxGenericCache::read( string key, int defaultValue )
     return defaultValue;
 }
 
-bool ofxGenericCache::read( string key, bool defaultValue )
+bool ofxGenericValueStore::read( string key, bool defaultValue )
 {
     if ( isObject() && exists( key ) )
     {
-        ofPtr< ofxGenericCache > value = ( *_objectValue )[ key ];
+        ofPtr< ofxGenericValueStore > value = ( *_objectValue )[ key ];
         if ( value )
         {
             return value->asBool();
@@ -271,11 +271,11 @@ bool ofxGenericCache::read( string key, bool defaultValue )
     return defaultValue;
 }
 
-string ofxGenericCache::read( string key, string defaultValue )
+string ofxGenericValueStore::read( string key, string defaultValue )
 {
     if ( isObject() && exists( key ) )
     {
-        ofPtr< ofxGenericCache > value = ( *_objectValue )[ key ];
+        ofPtr< ofxGenericValueStore > value = ( *_objectValue )[ key ];
         if ( value )
         {
             return value->asString();
@@ -284,11 +284,11 @@ string ofxGenericCache::read( string key, string defaultValue )
     return defaultValue;
 }
 
-string ofxGenericCache::read( string key, const char* defaultValue )
+string ofxGenericValueStore::read( string key, const char* defaultValue )
 {
     if ( isObject() && exists( key ) )
     {
-        ofPtr< ofxGenericCache > value = ( *_objectValue )[ key ];
+        ofPtr< ofxGenericValueStore > value = ( *_objectValue )[ key ];
         if ( value )
         {
             return value->asString();
@@ -297,21 +297,21 @@ string ofxGenericCache::read( string key, const char* defaultValue )
     return string( defaultValue );
 }
 
-ofPtr< ofxGenericCache > ofxGenericCache::read( string key )
+ofPtr< ofxGenericValueStore > ofxGenericValueStore::read( string key )
 {
     if ( isObject() && exists( key ) )
     {
         return ( *_objectValue )[ key ];
     }
-    return ofPtr< ofxGenericCache >();
+    return ofPtr< ofxGenericValueStore >();
 }
 
-ofPtr< ofxGenericCache > ofxGenericCache::operator[]( string key )
+ofPtr< ofxGenericValueStore > ofxGenericValueStore::operator[]( string key )
 {
     return read( key );
 }
 
-void ofxGenericCache::drop( string key )
+void ofxGenericValueStore::drop( string key )
 {
     if ( isObject() )
     {
@@ -321,7 +321,7 @@ void ofxGenericCache::drop( string key )
 
 #pragma Array
 
-void ofxGenericCache::write( unsigned int index, float value )
+void ofxGenericValueStore::write( unsigned int index, float value )
 {
     if ( isArray() )
     {
@@ -333,7 +333,7 @@ void ofxGenericCache::write( unsigned int index, float value )
     }
 }
 
-void ofxGenericCache::write( unsigned int index, int value )
+void ofxGenericValueStore::write( unsigned int index, int value )
 {
     if ( isArray() )
     {
@@ -345,7 +345,7 @@ void ofxGenericCache::write( unsigned int index, int value )
     }
 }
 
-void ofxGenericCache::write( unsigned int index, bool value )
+void ofxGenericValueStore::write( unsigned int index, bool value )
 {
     if ( isArray() )
     {
@@ -357,7 +357,7 @@ void ofxGenericCache::write( unsigned int index, bool value )
     }
 }
 
-void ofxGenericCache::write( unsigned int index, string value )
+void ofxGenericValueStore::write( unsigned int index, string value )
 {
     if ( isArray() )
     {
@@ -369,7 +369,7 @@ void ofxGenericCache::write( unsigned int index, string value )
     }
 }
 
-void ofxGenericCache::write( unsigned int index, const char* value )
+void ofxGenericValueStore::write( unsigned int index, const char* value )
 {
     if ( isArray() )
     {
@@ -381,7 +381,7 @@ void ofxGenericCache::write( unsigned int index, const char* value )
     }
 }
 
-void ofxGenericCache::write( unsigned int index, ofPtr< ofxGenericCache > value )
+void ofxGenericValueStore::write( unsigned int index, ofPtr< ofxGenericValueStore > value )
 {
     if ( isArray() )
     {
@@ -393,11 +393,11 @@ void ofxGenericCache::write( unsigned int index, ofPtr< ofxGenericCache > value 
     }
 }
 
-float ofxGenericCache::read( unsigned int index, float defaultValue )
+float ofxGenericValueStore::read( unsigned int index, float defaultValue )
 {
     if ( isArray() && length() > index )
     {
-        ofPtr< ofxGenericCache > value = ( *_arrayValue )[ index ];
+        ofPtr< ofxGenericValueStore > value = ( *_arrayValue )[ index ];
         if ( value )
         {
             return value->asInt();
@@ -406,11 +406,11 @@ float ofxGenericCache::read( unsigned int index, float defaultValue )
     return defaultValue;
 }
 
-int ofxGenericCache::read( unsigned int index, int defaultValue )
+int ofxGenericValueStore::read( unsigned int index, int defaultValue )
 {
     if ( isArray() && length() > index )
     {
-        ofPtr< ofxGenericCache > value = ( *_arrayValue )[ index ];
+        ofPtr< ofxGenericValueStore > value = ( *_arrayValue )[ index ];
         if ( value )
         {
             return value->asInt();
@@ -419,11 +419,11 @@ int ofxGenericCache::read( unsigned int index, int defaultValue )
     return defaultValue;
 }
 
-bool ofxGenericCache::read( unsigned int index, bool defaultValue )
+bool ofxGenericValueStore::read( unsigned int index, bool defaultValue )
 {
     if ( isArray() && length() > index )
     {
-        ofPtr< ofxGenericCache > value = ( *_arrayValue )[ index ];
+        ofPtr< ofxGenericValueStore > value = ( *_arrayValue )[ index ];
         if ( value )
         {
             return value->asBool();
@@ -432,11 +432,11 @@ bool ofxGenericCache::read( unsigned int index, bool defaultValue )
     return defaultValue;
 }
 
-string ofxGenericCache::read( unsigned int index, string defaultValue )
+string ofxGenericValueStore::read( unsigned int index, string defaultValue )
 {
     if ( isArray() && length() > index )
     {
-        ofPtr< ofxGenericCache > value = ( *_arrayValue )[ index ];
+        ofPtr< ofxGenericValueStore > value = ( *_arrayValue )[ index ];
         if ( value )
         {
             return value->asString();
@@ -445,11 +445,11 @@ string ofxGenericCache::read( unsigned int index, string defaultValue )
     return defaultValue;
 }
 
-string ofxGenericCache::read( unsigned int index, const char* defaultValue )
+string ofxGenericValueStore::read( unsigned int index, const char* defaultValue )
 {
     if ( isArray() && length() > index )
     {
-        ofPtr< ofxGenericCache > value = ( *_arrayValue )[ index ];
+        ofPtr< ofxGenericValueStore > value = ( *_arrayValue )[ index ];
         if ( value )
         {
             return value->asString();
@@ -458,22 +458,22 @@ string ofxGenericCache::read( unsigned int index, const char* defaultValue )
     return string( defaultValue ); 
 }
 
-ofPtr< ofxGenericCache > ofxGenericCache::read( unsigned int index )
+ofPtr< ofxGenericValueStore > ofxGenericValueStore::read( unsigned int index )
 {
     if ( isArray() && length() > index )
     {
         return ( *_arrayValue )[ index ];
     }
-    return ofPtr< ofxGenericCache >();
+    return ofPtr< ofxGenericValueStore >();
 }
 
-ofPtr< ofxGenericCache > ofxGenericCache::operator[]( unsigned int index )
+ofPtr< ofxGenericValueStore > ofxGenericValueStore::operator[]( unsigned int index )
 {
     return read( index );
 }
 
 
-unsigned int ofxGenericCache::length() const 
+unsigned int ofxGenericValueStore::length() const 
 {
     if ( isArray() )
     {
@@ -485,58 +485,58 @@ unsigned int ofxGenericCache::length() const
     return 0;
 }
 
-ofxGenericCacheObjectIterator ofxGenericCache::objectBegin()
+ofxGenericValueStoreObjectIterator ofxGenericValueStore::objectBegin()
 {
     if ( isObject() )
     {
         return _objectValue->begin();
     }
-    return ofxGenericCacheObjectIterator();
+    return ofxGenericValueStoreObjectIterator();
 }
 
-ofxGenericCacheObjectIterator ofxGenericCache::objectEnd()
+ofxGenericValueStoreObjectIterator ofxGenericValueStore::objectEnd()
 {
     if ( isObject() )
     {
         return _objectValue->end();
     }
-    return ofxGenericCacheObjectIterator();
+    return ofxGenericValueStoreObjectIterator();
 }
 
-ofxGenericCacheArrayIterator ofxGenericCache::arrayBegin()
+ofxGenericValueStoreArrayIterator ofxGenericValueStore::arrayBegin()
 {
     if ( isArray() )
     {
         return _arrayValue->begin();
     }
-    return ofxGenericCacheArrayIterator();    
+    return ofxGenericValueStoreArrayIterator();    
 }
 
-ofxGenericCacheArrayIterator ofxGenericCache::arrayEnd()
+ofxGenericValueStoreArrayIterator ofxGenericValueStore::arrayEnd()
 {
     if ( isArray() )
     {
         return _arrayValue->end();
     }
-    return ofxGenericCacheArrayIterator();   
+    return ofxGenericValueStoreArrayIterator();   
 }
 
-void ofxGenericCache::drop( int index )
+void ofxGenericValueStore::drop( int index )
 {
     if ( isArray() )
     {
-        ( *_arrayValue )[ index ] = ofPtr< ofxGenericCache >();
+        ( *_arrayValue )[ index ] = ofPtr< ofxGenericValueStore >();
     }
 }
 
-void ofxGenericCache::setFileName( string fileName, bool fileInDocuments )
+void ofxGenericValueStore::setFileName( string fileName, bool fileInDocuments )
 {
     _fileName = fileName;
     _fileInDocuments = fileInDocuments;
 }
 
 //loads the cache from disk
-bool ofxGenericCache::readFromDisk()
+bool ofxGenericValueStore::readFromDisk()
 {
     if ( _fileName.length() > 0 )
     {
@@ -551,7 +551,7 @@ bool ofxGenericCache::readFromDisk()
     return false;
 }
 
-void ofxGenericCache::convertFrom( Json::Value& convert )
+void ofxGenericValueStore::convertFrom( Json::Value& convert )
 {
     if ( convert.type() == Json::realValue && isFloat() )
     {
@@ -577,17 +577,17 @@ void ofxGenericCache::convertFrom( Json::Value& convert )
         _arrayValue->resize( convert.size() );
         for( unsigned int index = 0; index < convert.size(); index ++ )
         {
-            write( index, ofxGenericCache::createFrom( convert[ index ] ) ); 
+            write( index, ofxGenericValueStore::createFrom( convert[ index ] ) ); 
         }
     }
 }
 
-ofPtr< ofxGenericCache > ofxGenericCache::createFrom( Json::Value& convert )
+ofPtr< ofxGenericValueStore > ofxGenericValueStore::createFrom( Json::Value& convert )
 {
     switch( convert.type() )
     {
         case Json::nullValue:
-            return ofPtr< ofxGenericCache >();
+            return ofPtr< ofxGenericValueStore >();
         case Json::intValue:
             return createWithValue( convert.asInt() );
         case Json::uintValue:
@@ -600,32 +600,32 @@ ofPtr< ofxGenericCache > ofxGenericCache::createFrom( Json::Value& convert )
             return createWithValue( convert.asBool() );
         case Json::objectValue:
         {
-            ofPtr< ofxGenericCache > object = ofxGenericCache::create( false );
+            ofPtr< ofxGenericValueStore > object = ofxGenericValueStore::create( false );
             for( Json::Value::iterator travMembers = convert.begin(); travMembers != convert.end(); travMembers ++ )
             {
                 string key = travMembers.key().asString();
-                object->write( key, ofxGenericCache::createFrom( *travMembers ) );            
+                object->write( key, ofxGenericValueStore::createFrom( *travMembers ) );            
             }
             return object;
         }
             break;
         case Json::arrayValue:
         {
-            ofPtr< ofxGenericCache > array = ofxGenericCache::create( true );
+            ofPtr< ofxGenericValueStore > array = ofxGenericValueStore::create( true );
             for( unsigned int index = 0; index < convert.size(); index ++ )
             {
-                array->write( index, ofxGenericCache::createFrom( convert[ index ] ) );
+                array->write( index, ofxGenericValueStore::createFrom( convert[ index ] ) );
             }    
             return array;
         }
             break;
     }
-    return ofPtr< ofxGenericCache >();
+    return ofPtr< ofxGenericValueStore >();
 }
 
 
 //writes the cache to disk
-bool ofxGenericCache::writeToDisk()
+bool ofxGenericValueStore::writeToDisk()
 {
     if ( _fileName.length() > 0 )
     {
@@ -637,7 +637,7 @@ bool ofxGenericCache::writeToDisk()
     return false;
 }
 
-Json::Value* ofxGenericCache::convertTo()
+Json::Value* ofxGenericValueStore::convertTo()
 {
     Json::Value* node = NULL;
     if ( isFloat() )
@@ -655,7 +655,7 @@ Json::Value* ofxGenericCache::convertTo()
     } else if ( isObject() )
     {
         node = new Json::Value();
-        for( ofxGenericCacheObjectIterator travMembers = objectBegin(); travMembers !=objectEnd(); travMembers ++ )
+        for( ofxGenericValueStoreObjectIterator travMembers = objectBegin(); travMembers !=objectEnd(); travMembers ++ )
         {
             if ( ( *travMembers ).second )
             {
@@ -674,7 +674,7 @@ Json::Value* ofxGenericCache::convertTo()
     {
         node = new Json::Value();
         int indexCount = 0;
-        for( ofxGenericCacheArrayIterator travIndices = arrayBegin(); travIndices !=arrayEnd(); travIndices ++ )
+        for( ofxGenericValueStoreArrayIterator travIndices = arrayBegin(); travIndices !=arrayEnd(); travIndices ++ )
         {
             if ( *travIndices )
             {
@@ -695,7 +695,7 @@ Json::Value* ofxGenericCache::convertTo()
 }
 
 //empties the entire cache. a sync call must still be made to put this change onto the disk
-void ofxGenericCache::purge()
+void ofxGenericValueStore::purge()
 {
     if ( isObject() )
     {

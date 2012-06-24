@@ -114,13 +114,9 @@ void ofxGenericApp::finishedLaunching()
     createRootView();
     
 #if TARGET_OS_IPHONE
-    NSString *dataPath = [NSString stringWithFormat:@"%@/",[[NSBundle mainBundle] resourcePath]];
-    string dpath = [dataPath UTF8String];
-    ofSetDataPathRoot(dpath);
-    NSString *documentsPath = [NSString stringWithFormat:@"%@/",[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]];
-    string docpath = [documentsPath UTF8String];
-    ofSetDocumentsPathRoot(docpath);
-    ofxGLogVerbose("Setting data path to: " + dpath + " documents path to: " + docpath);
+    ofSetDataPathRoot( ofxNSStringToString( [ NSString stringWithFormat:@"%@/", [ [ NSBundle mainBundle ] resourcePath ] ] ) );
+    
+    ofSetDocumentsPathRoot( ofxNSStringToString( [ NSString stringWithFormat:@"%@/", [ NSSearchPathForDirectoriesInDomains( NSDocumentDirectory, NSUserDomainMask, YES ) objectAtIndex:0 ] ] ) );
 #elif TARGET_ANDROID
 
 #endif
@@ -342,5 +338,5 @@ string ofxGenericApp::dumpViewGraph()
 void ofxGenericApp::setup()
 {
     ofBaseApp::setup();
-    srand(time(NULL));
+    srand( time( NULL ) );
 }
