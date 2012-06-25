@@ -64,7 +64,7 @@ ofPtr< ofxGenericDate > ofxGenericDate::create( string date, string format )
 double ofxGenericDate::getSystemTime()
 {
 #if TARGET_OS_IPHONE
-    return CACurrentMediaTime();
+    return [NSDate timeIntervalSinceReferenceDate]; //CACurrentMediaTime(); //not compatible with what we're using for date
 #elif TARGET_ANDROID
     return 0.0;
 #endif
