@@ -49,6 +49,7 @@ public:
     string asString( string defaultValue = string() );
 
     // Object methods    
+    virtual const std::vector< string >& getObjectKeys();
     virtual bool exists( string key );
     
     virtual void write( string key, float value );
@@ -122,7 +123,11 @@ protected:
         string* _stringValue;
         std::map< string, ofPtr< ofxGenericValueStore > >* _objectValue;
         std::vector< ofPtr< ofxGenericValueStore > >* _arrayValue;
-    };  
+    };
+    std::vector< string > _objectKeys;
+    void addObjectKey( string key );
+    bool objectKeyExists( string key );
+    void dropObjectKey( string key );
 
     string _fileName;
     bool _fileInDocuments;    

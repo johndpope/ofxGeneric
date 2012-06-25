@@ -184,11 +184,51 @@ bool ofxGenericValueStore::exists( string key )
     return false;
 }
 
+const std::vector< string >& ofxGenericValueStore::getObjectKeys()
+{
+    return _objectKeys;
+}
+
+
+void ofxGenericValueStore::addObjectKey( string key )
+{
+    if ( isObject() )
+    {
+        if ( !objectKeyExists( key ) )
+        {
+            _objectKeys.push_back( key );
+        }
+    }
+}
+
+bool ofxGenericValueStore::objectKeyExists( string key )
+{
+    if ( isObject() )
+    {
+        std::vector< string >::iterator findKey = find( _objectKeys.begin(), _objectKeys.end(), key );
+        return findKey != _objectKeys.end();
+    }
+    return false;
+}
+
+void ofxGenericValueStore::dropObjectKey( string key )
+{
+    if ( isObject() )
+    {
+        std::vector< string >::iterator eraseKey = find( _objectKeys.begin(), _objectKeys.end(), key );
+        if ( eraseKey != _objectKeys.end() )
+        {
+            _objectKeys.erase( eraseKey );
+        }
+    }
+}
+
 void ofxGenericValueStore::write(string key, float value )
 {
     if ( isObject() )
     {
         ( *_objectValue )[ key ] = createWithValue( value );
+        addObjectKey( key );
     }
 }
 
@@ -197,6 +237,7 @@ void ofxGenericValueStore::write( string key, int value )
     if ( isObject() )
     {
         ( *_objectValue )[ key ] = createWithValue( value );
+        addObjectKey( key );
     }
 }
 
@@ -205,6 +246,7 @@ void ofxGenericValueStore::write( string key, bool value )
     if ( isObject() )
     {
         ( *_objectValue )[ key ] = createWithValue( value );
+        addObjectKey( key );
     }
 }
 
@@ -213,6 +255,7 @@ void ofxGenericValueStore::write( string key, string value )
     if ( isObject() )
     {
         ( *_objectValue )[ key ] = createWithValue( value );
+        addObjectKey( key );
     }
 }
 
@@ -221,6 +264,7 @@ void ofxGenericValueStore::write( string key, const char* value )
     if ( isObject() )
     {
         ( *_objectValue )[ key ] = createWithValue( string( value ) );
+        addObjectKey( key );
     }
 }
 
@@ -229,6 +273,7 @@ void ofxGenericValueStore::write(string key, ofPtr< ofxGenericValueStore > value
     if ( isObject() )
     {
         ( *_objectValue )[ key ] = value;
+        addObjectKey( key );
     }
 }
 
@@ -316,6 +361,7 @@ void ofxGenericValueStore::drop( string key )
     if ( isObject() )
     {
         ( *_objectValue ).erase( key );
+        dropObjectKey( key );
     }
 }
 
