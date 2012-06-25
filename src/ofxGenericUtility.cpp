@@ -64,3 +64,8 @@ string ofxGFloatToString( float value )
     snprintf( buffer, 1024, "%f", value );
     return string( buffer );
 }
+
+int ofxRandomInRange( int minimum, int maximum )
+{
+    return minimum + ( rand() % ( int )( maximum - minimum + 1 ) );
+}

@@ -124,3 +124,5 @@ string ofxGFloatToString( float value );
 
 //returns 0 on success, -1 on failure (including if the file already exists)
 int ofxGmkdir( string loc, bool useDocuments );
+
+int ofxRandomInRange( int minimum, int maximum );

@@ -59,15 +59,20 @@ void ofxGenericImageView::setImage( std::string fileName )
 #endif
 }
 
-void ofxGenericImageView::setImage( ofImage &image )
+void ofxGenericImageView::setImage( ofPtr< ofImage > image )
 {
+    _image = image;
 #if TARGET_OS_IPHONE
     if ( [ _view isKindOfClass:[ UIImageView class ] ] )
     {
         UIImageView* view = ( UIImageView* )_view;
-        UIImage* uiImage = [ OFImageToUIImage( image ) retain ];
-        [ view setImage:[ UIImage imageWithData:UIImagePNGRepresentation( uiImage ) ] ]; // sanity check, was crashing for unknown reasons before :(
-        [ uiImage release ];
+        if ( _image )
+        {
+            [ view setImage:[ UIImage imageWithData:UIImagePNGRepresentation( OFImageToUIImage( *image ) ) ] ]; // sanity check, was crashing for unknown reasons before :(
+        } else
+        {
+            [ view setImage:nil ];
+        }
     }
 #endif
 }

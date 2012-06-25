@@ -18,21 +18,21 @@ class ofxGenericValueStore;
 namespace Json
 { class Value; }
 
-typedef std::map< string, ofPtr< ofxGenericValueStore > >::iterator ofxGenericCacheObjectIterator;
-typedef std::vector< ofPtr< ofxGenericValueStore > >::iterator ofxGenericCacheArrayIterator;
+typedef std::map< string, ofPtr< ofxGenericValueStore > >::iterator ofxGenericValueStoreObjectIterator;
+typedef std::vector< ofPtr< ofxGenericValueStore > >::iterator ofxGenericValueStoreArrayIterator;
 
 class ofxGenericValueStore
 {
 public:
     enum Type
     {
-        ofxGenericCacheTypeUninitialized,
-        ofxGenericCacheTypeFloat,
-        ofxGenericCacheTypeInt,
-        ofxGenericCacheTypeBool,
-        ofxGenericCacheTypeString,
-        ofxGenericCacheTypeObject,
-        ofxGenericCacheTypeArray
+        ofxGenericValueStoreTypeUninitialized,
+        ofxGenericValueStoreTypeFloat,
+        ofxGenericValueStoreTypeInt,
+        ofxGenericValueStoreTypeBool,
+        ofxGenericValueStoreTypeString,
+        ofxGenericValueStoreTypeObject,
+        ofxGenericValueStoreTypeArray
     };
     static ofPtr< ofxGenericValueStore > create( bool asArray );
     Type getType() const;
@@ -49,6 +49,7 @@ public:
     string asString( string defaultValue = string() );
 
     // Object methods    
+    virtual const std::vector< string >& getObjectKeys();
     virtual bool exists( string key );
     
     virtual void write( string key, float value );
@@ -98,10 +99,10 @@ public:
     //empties the entire cache
     virtual void purge();
     
-    ofxGenericCacheObjectIterator objectBegin();
-    ofxGenericCacheObjectIterator objectEnd();
-    ofxGenericCacheArrayIterator arrayBegin();
-    ofxGenericCacheArrayIterator arrayEnd();
+    ofxGenericValueStoreObjectIterator objectBegin();
+    ofxGenericValueStoreObjectIterator objectEnd();
+    ofxGenericValueStoreArrayIterator arrayBegin();
+    ofxGenericValueStoreArrayIterator arrayEnd();
     
     virtual ~ofxGenericValueStore();
 protected:
@@ -122,7 +123,11 @@ protected:
         string* _stringValue;
         std::map< string, ofPtr< ofxGenericValueStore > >* _objectValue;
         std::vector< ofPtr< ofxGenericValueStore > >* _arrayValue;
-    };  
+    };
+    std::vector< string > _objectKeys;
+    void addObjectKey( string key );
+    bool objectKeyExists( string key );
+    void dropObjectKey( string key );
 
     string _fileName;
     bool _fileInDocuments;    

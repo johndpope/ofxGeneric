@@ -1,0 +1,64 @@
+//
+//  ofxGenericSelectorView.h
+//  ofxGeneric
+//
+//  Created by Ian Grossberg on 6/23/12.
+//  Copyright (c) 2012 Lumos Labs. All rights reserved.
+//
+
+#pragma once
+
+
+#include "ofxGenericView.h"
+
+#if TARGET_OS_IPHONE
+@class ofxGenericSelectorViewForwarder;
+#endif
+class ofxGenericSelectorViewDelegate;
+
+class ofxGenericSelectorView : public ofxGenericView
+{
+public:
+    static ofPtr< ofxGenericSelectorView > create( const ofRectangle& setFrame = ofRectangle(), ofPtr< ofxGenericSelectorViewDelegate > delegate = ofPtr< ofxGenericSelectorViewDelegate >() );
+#if TARGET_OS_IPHONE
+    operator UIPickerView*();
+#endif
+    
+    virtual ~ofxGenericSelectorView();
+    
+    virtual unsigned int getNumberOfComponents();
+    virtual unsigned int getNumberOfRowsInComponent( unsigned int component );
+    
+    virtual float getWidthOfComponent( unsigned int component );
+    virtual float getHeightOfRowsInComponent( unsigned int component );
+    
+    virtual ofPtr< ofxGenericView > getViewForRowInComponent( unsigned int component, unsigned int row );
+    
+    virtual void selectedRow( unsigned int component, unsigned int row );
+    
+    virtual void reloadData();
+    
+protected:
+    virtual NativeView createNativeView( const ofRectangle& frame );
+#if TARGET_OS_IPHONE
+    ofxGenericSelectorViewForwarder* _forwarder;
+#endif
+    virtual void init( ofPtrWeak< ofxGenericSelectorView > setThis, const ofRectangle& setFrame, ofPtrWeak< ofxGenericSelectorViewDelegate > delegate );
+    ofPtrWeak< ofxGenericSelectorViewDelegate > _delegate;
+};
+
+class ofxGenericSelectorViewDelegate
+{
+public:
+    virtual ~ofxGenericSelectorViewDelegate() {};
+
+    virtual unsigned int selectorView_getNumberOfComponents( ofPtr< ofxGenericSelectorView > selectorView ) { return 0; };
+    virtual unsigned int selectorView_getNumberOfRowsInComponent( ofPtr< ofxGenericSelectorView > selectorView, unsigned int component ) { return 0; };
+    
+    virtual float selectorView_getWidthOfComponent( ofPtr< ofxGenericSelectorView > selectorView, unsigned int component ) { return 0.0f; };
+    virtual float selectorView_getHeightOfRowsInComponent( ofPtr< ofxGenericSelectorView > selectorView, unsigned int component ) { return 0.0f; };
+    
+    virtual ofPtr< ofxGenericView > selectorView_getViewForRowInComponent( ofPtr< ofxGenericSelectorView > selectorView, unsigned int component, unsigned int row ) { return ofPtr< ofxGenericView >(); };
+    
+    virtual void selectorView_selectedRow( ofPtr< ofxGenericSelectorView > selectorView, unsigned int component, unsigned int row ) {};
+};
