@@ -14,7 +14,7 @@
 
 #define ofxGenericDateFormatFullFileSafe "yyyy-MM-dd HH-mm-ss"
 #define ofxGenericDateFormatFull "yyyy-MM-dd HH:mm:ss"
-#define ofxGenericDateCommon "yyyy-MM-dd"
+#define ofxGenericDateFormatDateOnly "yyyy-MM-dd"
 
 #if TARGET_OS_IPHONE
 #import <Foundation/Foundation.h>
@@ -61,7 +61,7 @@ public:
     
     virtual string getDescription();
     
-    virtual string getStringRepresentation( string format = ofxGenericDateFormatFull );
+    virtual string getStringRepresentation( string format = ofxGenericDateFormatDateOnly );
     
 protected:
     ofxGenericDate();
