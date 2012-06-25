@@ -12,9 +12,9 @@
 
 #include "ofxGenericMain.h"
 
-#define OFXGDATE_FORMAT_FULL_FILESAFE "yyyy-MM-dd HH-mm-ss"
-#define OFXGDATE_FORMAT_SERVER "yyyy-MM-dd HH:mm:ss"
-#define OFXGDATE_FORMAT_COMMON "yyyy-MM-dd"
+#define ofxGenericDateFormatFullFileSafe "yyyy-MM-dd HH-mm-ss"
+#define ofxGenericDateFormatFull "yyyy-MM-dd HH:mm:ss"
+#define ofxGenericDateCommon "yyyy-MM-dd"
 
 #if TARGET_OS_IPHONE
 #import <Foundation/Foundation.h>
@@ -27,7 +27,7 @@ public:
     virtual ~ofxGenericDate();
     static ofPtr< ofxGenericDate > create();
     static ofPtr< ofxGenericDate > create( double time );
-    static ofPtr< ofxGenericDate > create( string date, string format = OFXGDATE_FORMAT_COMMON );
+    static ofPtr< ofxGenericDate > create( string date, string format = ofxGenericDateFormatFull );
     static double getSystemTime();
     
 #if TARGET_OS_IPHONE
@@ -61,7 +61,7 @@ public:
     
     virtual string getDescription();
     
-    virtual string getStringRepresentation( string format = OFXGDATE_FORMAT_COMMON );
+    virtual string getStringRepresentation( string format = ofxGenericDateFormatFull );
     
 protected:
     ofxGenericDate();
