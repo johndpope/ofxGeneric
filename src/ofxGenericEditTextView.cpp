@@ -87,6 +87,40 @@ string ofxGenericEditTextView::getText()
 #endif
     return string();
 }
+
+void ofxGenericEditTextView::setTextAlignment( ofxGenericTextHorizontalAlignment alignment )
+{
+#if TARGET_OS_IPHONE
+    UITextField* textField = ( UITextField* )*this;
+    if ( textField )
+    {
+        [ textField setTextAlignment:ofxGenericTextHorizontalAlignmentToiOS( alignment ) ];
+    }
+#endif
+}
+
+ofxGenericTextHorizontalAlignment ofxGenericEditTextView::getTextAlignment()
+{
+#if TARGET_OS_IPHONE
+    UITextField* textField = ( UITextField* )*this;
+    if ( textField )
+    {
+        return iOSToofxGenericTextHorizontalAlignment( textField.textAlignment );
+    }
+#endif
+    return ofxGenericTextHorizontalAlignmentLeft;
+}
+
+void ofxGenericEditTextView::setBackgroundImage( string imageFileName )
+{
+#if TARGET_OS_IPHONE
+    UITextField* textField = ( UITextField* )*this;
+    if ( textField )
+    {
+        [ textField setBackground:[ UIImage imageWithContentsOfFile:ofxStringToNSString( ofxGPathToDataFolder( imageFileName ) ) ] ];
+    }    
+#endif
+}
 /*
 void ofxGenericEditTextView::setTextAlignment( ofxGenericTextHorizontalAlignment alignment )
 {

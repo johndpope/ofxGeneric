@@ -27,7 +27,10 @@ public:
     
     void setText( string newText );
     string getText();
-//    void setTextAlignment( ofxGenericTextHorizontalAlignment alignment );
+    void setTextAlignment( ofxGenericTextHorizontalAlignment alignment );
+    ofxGenericTextHorizontalAlignment getTextAlignment();
+    
+    void setBackgroundImage( string imageFileName );
     
     void setPlaceholderText( string placeholderText );
     string getPlaceholderText();
