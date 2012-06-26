@@ -23,12 +23,11 @@
 
 @interface ofxGenericGestureForwarder : NSObject
 {
-    ofPtrWeak< ofxGenericViewDelegate > _delegate;
+    ofPtrWeak< ofxGenericView > _forwardTo;
     int _type;
-    UIView *_view;
 }
-- ( id )initWithDelegate:( ofPtrWeak< ofxGenericViewDelegate > )delegate type:(int)type view:(UIView *)view;
-- (void)gesturePerformed:( UIGestureRecognizer* )recognizer;
+-( id )initWithForwardTo:( ofPtrWeak< ofxGenericView > )forwardTo type:( int )type;
+-( void )gesturePerformed:( UIGestureRecognizer* )recognizer;
 
 @end
 
@@ -75,8 +74,8 @@ ofxGenericView::~ofxGenericView()
 #if TARGET_OS_IPHONE
     releaseView( _view );
     releaseViewController( _viewController );
-    [gestureForwarders release];
-    gestureForwarders = nil;
+    [_gestureForwarders release];
+    _gestureForwarders = nil;
 #elif TARGET_ANDROID
 	destroyJNIReference( _view );
 #endif
@@ -119,7 +118,7 @@ void ofxGenericView::init( ofPtrWeak< ofxGenericView > setThis, const ofRectangl
 #endif
     
 #if TARGET_OS_IPHONE
-    gestureForwarders = [[NSMutableArray array] retain];
+    _gestureForwarders = [[NSMutableArray array] retain];
     
 #endif
     
@@ -708,8 +707,8 @@ void ofxGenericView::replaceViewWithView( ofPtr< ofxGenericView > replace, ofPtr
 void ofxGenericView::addGestureRecognizerSwipe( ofxGenericGestureTypeSwipe type, ofPtrWeak< ofxGenericViewDelegate > delegate )
 {
 #if TARGET_OS_IPHONE
-    ofxGenericGestureForwarder *forwarder = [[[ofxGenericGestureForwarder alloc] initWithDelegate:delegate type:(int)type view:_view] autorelease];
-    [gestureForwarders addObject:forwarder];
+    ofxGenericGestureForwarder *forwarder = [[[ofxGenericGestureForwarder alloc] initWithForwardTo:_this type:(int)type ] autorelease];
+    [ _gestureForwarders addObject:forwarder];
     UISwipeGestureRecognizer *swipeRecognizer = [[[UISwipeGestureRecognizer alloc] initWithTarget:forwarder action:@selector(gesturePerformed:)] autorelease];
 	[swipeRecognizer setDirection: ofxGenericGestureTypeSwipeToiOS( type ) ];
 	[ _view addGestureRecognizer:swipeRecognizer];
@@ -720,8 +719,8 @@ void ofxGenericView::addGestureRecognizerSwipe( ofxGenericGestureTypeSwipe type,
 void ofxGenericView::addGestureRecognizerTap( int tapCount, int fingerCount, ofPtrWeak< ofxGenericViewDelegate > delegate )
 {
 #if TARGET_OS_IPHONE
-    ofxGenericGestureForwarder *forwarder = [[[ofxGenericGestureForwarder alloc] initWithDelegate:delegate type:(tapCount * 100 + fingerCount) view:_view] autorelease];
-    [gestureForwarders addObject:forwarder];
+    ofxGenericGestureForwarder *forwarder = [[[ofxGenericGestureForwarder alloc] initWithForwardTo:_this type:(tapCount * 100 + fingerCount) ] autorelease];
+    [ _gestureForwarders addObject:forwarder];
     UITapGestureRecognizer *recognizer = [[[UITapGestureRecognizer alloc] initWithTarget:forwarder action:@selector(gesturePerformed:)] autorelease];
 	recognizer.numberOfTapsRequired = tapCount;
     recognizer.numberOfTouchesRequired = fingerCount;
@@ -729,6 +728,23 @@ void ofxGenericView::addGestureRecognizerTap( int tapCount, int fingerCount, ofP
 #elif TARGET_ANDROID
 #endif
 }
+
+void ofxGenericView::gesturePerformedSwipe( ofxGenericGestureTypeSwipe type, ofPoint location )
+{
+    if ( _viewDelegate )
+    {
+        _viewDelegate.lock()->gesturePerformedSwipe( type, location );
+    }
+}
+
+void ofxGenericView::gesturePerformedTap( int tapCount, int fingerCount, ofPoint location )
+{
+    if ( _viewDelegate )
+    {
+        _viewDelegate.lock()->gesturePerformedTap( tapCount, fingerCount, location );
+    }
+}
+
 
 string ofxGenericView::dumpViewGraph( int depth )
 {
@@ -901,34 +917,34 @@ void ofxGenericView::registerJNIMethods()
 
 @implementation ofxGenericGestureForwarder
 
--( id )initWithDelegate:( ofPtrWeak< ofxGenericViewDelegate > )delegate type:(int)type view:(UIView *)view
+-( id )initWithForwardTo:( ofPtrWeak< ofxGenericView > )forwardTo type:(int)type
 {
     self = [ super init ];
     if ( self )
     {
-        _delegate = delegate;
+        _forwardTo = forwardTo;
         _type = type;
-        _view = view;
     }
     return self;    
 }
 
 - (void)gesturePerformed:( UIGestureRecognizer* )recognizer
 {
-    if ( _delegate )
+    if ( _forwardTo )
     {
-        CGPoint cgp = [recognizer locationInView:_view];
+        UIView* view = *_forwardTo.lock();
+        CGPoint cgp = [recognizer locationInView:view];
         ofPoint p = ofPoint(cgp.x, cgp.y);
         
         if ( [recognizer isKindOfClass:[UISwipeGestureRecognizer class]] )
         {
-            _delegate.lock()->gesturePerformedSwipe( (ofxGenericGestureTypeSwipe) _type, p );
+            _forwardTo.lock()->gesturePerformedSwipe( (ofxGenericGestureTypeSwipe) _type, p );
         }
         else if ( [recognizer isKindOfClass:[UITapGestureRecognizer class]] )
         {
             int taps = _type / 100;
             int fingers = _type - taps * 100;
-            _delegate.lock()->gesturePerformedTap( taps, fingers, p );
+            _forwardTo.lock()->gesturePerformedTap( taps, fingers, p );
         }
     }
 }
