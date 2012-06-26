@@ -105,9 +105,11 @@ public:
 
     virtual void addGestureRecognizerSwipe( ofxGenericGestureTypeSwipe type );
     virtual void addGestureRecognizerTap( int tapCount, int fingerCount );
+    virtual void addGestureRecognizerHold( float minimumPressDuration, unsigned int fingerCount, float allowableMovement );
     
     virtual void gesturePerformedSwipe( ofxGenericGestureTypeSwipe type, ofPoint location );
     virtual void gesturePerformedTap( int tapCount, int fingerCount, ofPoint location );
+    virtual void gesturePerformedHold( float minimumPressDuration, unsigned int fingerCount, float allowableMovement, ofPoint location );
 
     virtual string dumpViewGraph( int depth );
     virtual string toString();
@@ -192,6 +194,7 @@ public:
     
     virtual void gesturePerformedSwipe( ofPtr< ofxGenericView > view, ofxGenericGestureTypeSwipe type, ofPoint location ) {};
     virtual void gesturePerformedTap( ofPtr< ofxGenericView > view, int tapCount, int fingerCount, ofPoint location ) {};
+    virtual void gesturePerformedHold( ofPtr< ofxGenericView > view, float minimumPressDuration, unsigned int fingerCount, float allowableMovement, ofPoint location ) {};
     
     virtual void hitInView( ofPoint location ) {};
 };

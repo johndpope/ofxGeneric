@@ -728,6 +728,24 @@ void ofxGenericView::addGestureRecognizerTap( int tapCount, int fingerCount )
 #endif
 }
 
+void ofxGenericView::addGestureRecognizerHold( float minimumPressDuration, unsigned int fingerCount, float allowableMovement )
+{
+#if TARGET_OS_IPHONE
+    ofxGenericGestureForwarder* forwarder = [ [ [ ofxGenericGestureForwarder alloc ] initWithForwardTo:_this ] autorelease ];
+    
+    UILongPressGestureRecognizer* recognizer = [ [ [ UILongPressGestureRecognizer alloc ] initWithTarget:forwarder action:@selector( gesturePerformed: ) ] autorelease ];
+    recognizer.minimumPressDuration = minimumPressDuration;
+    recognizer.numberOfTapsRequired = 0;
+    recognizer.numberOfTouchesRequired = fingerCount;
+    recognizer.allowableMovement = allowableMovement;
+    
+	[ _view addGestureRecognizer:recognizer ];
+    [ _gestureForwarders addObject:forwarder ];
+    
+#elif TARGET_ANDROID
+#endif
+}
+
 void ofxGenericView::gesturePerformedSwipe( ofxGenericGestureTypeSwipe type, ofPoint location )
 {
     if ( _viewDelegate )
@@ -744,6 +762,13 @@ void ofxGenericView::gesturePerformedTap( int tapCount, int fingerCount, ofPoint
     }
 }
 
+void ofxGenericView::gesturePerformedHold( float minimumPressDuration, unsigned int fingerCount, float allowableMovement, ofPoint location )
+{
+    if ( _viewDelegate )
+    {
+        _viewDelegate.lock()->gesturePerformedHold( _this.lock(), minimumPressDuration, fingerCount, allowableMovement, location );
+    }
+}
 
 string ofxGenericView::dumpViewGraph( int depth )
 {
@@ -944,6 +969,15 @@ void ofxGenericView::registerJNIMethods()
         {
             UITapGestureRecognizer* tapGesture = ( UITapGestureRecognizer* )recognizer;
             _forwardTo.lock()->gesturePerformedTap( [ tapGesture numberOfTapsRequired ], [ tapGesture numberOfTouches ], p );
+        } else if ( [ recognizer isKindOfClass:[ UILongPressGestureRecognizer class ] ] )
+        {
+            UILongPressGestureRecognizer* longPressGesture = ( UILongPressGestureRecognizer* )recognizer;
+            _forwardTo.lock()->gesturePerformedHold(
+                                                    [ longPressGesture minimumPressDuration ],
+                                                    [ longPressGesture numberOfTouches ],
+                                                    [ longPressGesture allowableMovement ],
+                                                    p
+                                                    );
         }
     }
 }
