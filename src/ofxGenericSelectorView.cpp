@@ -63,6 +63,17 @@ void ofxGenericSelectorView::selectedRow( unsigned int component, unsigned int r
     }
 }
 
+void ofxGenericSelectorView::selectRow( unsigned int component, unsigned int row, bool animated )
+{
+#if TARGET_OS_IPHONE
+    UIPickerView* view = *this;
+    if ( view )
+    {
+        [ view selectRow:row inComponent:component animated:( BOOL )animated ];
+    }
+#endif
+}
+
 void ofxGenericSelectorView::reloadData()
 {
 #if TARGET_OS_IPHONE

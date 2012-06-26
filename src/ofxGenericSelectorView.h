@@ -36,6 +36,8 @@ public:
     
     virtual void selectedRow( unsigned int component, unsigned int row );
     
+    virtual void selectRow( unsigned int component, unsigned int row, bool animated = true );
+    
     virtual void reloadData();
     
 protected:
