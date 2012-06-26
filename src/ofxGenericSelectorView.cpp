@@ -55,15 +55,18 @@ ofPtr< ofxGenericView > ofxGenericSelectorView::getViewForRowInComponent( unsign
     return ofPtr< ofxGenericView >();
 }
 
-void ofxGenericSelectorView::selectedRow( unsigned int component, unsigned int row )
+void ofxGenericSelectorView::setFocusOn()
 {
-    if ( _delegate )
+#if TARGET_OS_IPHONE
+    UIPickerView* view = *this;
+    if ( view )
     {
-        _delegate.lock()->selectorView_selectedRow( dynamic_pointer_cast< ofxGenericSelectorView >( _this.lock() ), component, row );
-    }
+        [ view becomeFirstResponder ];
+    }    
+#endif
 }
 
-void ofxGenericSelectorView::selectRow( unsigned int component, unsigned int row, bool animated )
+void ofxGenericSelectorView::scrollToRow( unsigned int component, unsigned int row, bool animated )
 {
 #if TARGET_OS_IPHONE
     UIPickerView* view = *this;
@@ -72,6 +75,14 @@ void ofxGenericSelectorView::selectRow( unsigned int component, unsigned int row
         [ view selectRow:row inComponent:component animated:( BOOL )animated ];
     }
 #endif
+}
+
+void ofxGenericSelectorView::selectedRow( unsigned int component, unsigned int row )
+{
+    if ( _delegate )
+    {
+        _delegate.lock()->selectorView_selectedRow( dynamic_pointer_cast< ofxGenericSelectorView >( _this.lock() ), component, row );
+    }
 }
 
 void ofxGenericSelectorView::reloadData()
