@@ -172,6 +172,17 @@ bool ofxGenericEditTextView::shouldBeginEditing()
     return true;
 }
 
+void ofxGenericEditTextView::beginEditing()
+{
+#if TARGET_OS_IPHONE
+    UITextField* view = *this;
+    if ( view )
+    {
+        [ view becomeFirstResponder ];
+    }
+#endif
+}
+
 void ofxGenericEditTextView::didBeginEditing()
 {    
     if ( _moveFromUnderKeyboardOnBeginEdit )
