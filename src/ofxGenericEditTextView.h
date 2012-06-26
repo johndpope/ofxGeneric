@@ -42,7 +42,7 @@ public:
     void setClearsOnBeginEditing( bool clear );
     bool getClearsOnBeginEditing();
     
-    virtual void beginEditing();
+    virtual void setFocusOn();
     virtual bool shouldBeginEditing();
     virtual void didBeginEditing();
     virtual bool shouldEndEditing();

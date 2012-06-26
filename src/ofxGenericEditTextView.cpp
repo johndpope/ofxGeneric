@@ -172,7 +172,7 @@ bool ofxGenericEditTextView::shouldBeginEditing()
     return true;
 }
 
-void ofxGenericEditTextView::beginEditing()
+void ofxGenericEditTextView::setFocusOn()
 {
 #if TARGET_OS_IPHONE
     UITextField* view = *this;
