@@ -12,6 +12,8 @@
 #include "ofxGenericView.h"
 #include "ofxGenericAlertView.h"
 
+#include "ofEvents.h"
+
 class ofxGenericException;
 
 class ofxGenericApp : public ofBaseApp, public ofxGenericAlertViewDelegate
@@ -19,7 +21,6 @@ class ofxGenericApp : public ofBaseApp, public ofxGenericAlertViewDelegate
 public:
     static ofPtr< ofxGenericApp > getInstance();
     
-public:
     virtual void runViaInfiniteLoop( ofPtr< ofxAppGenericWindow > window );
     
     // TODO: come up with calling scheme, friending doesn't seem to be possible :(
@@ -79,3 +80,40 @@ protected:
     static ofPtr< ofxGenericApp > _this;
     void setofxGenericAppInstanceToThis();
 };
+
+class ofxGenericOrientationEventArgs : public ofEventArgs
+{
+public:
+    ofOrientation orientation;
+};
+
+class ofxGenericEventsClass
+{
+public:
+    ofEvent< ofxGenericOrientationEventArgs  > orientation;
+    
+    void disable()
+    {
+        orientation.disable();
+    }
+    void enable()
+    {
+        orientation.enable();
+    }
+};
+
+extern ofxGenericEventsClass ofxGenericEvents;
+
+template< class ListenerClass >
+void ofxGRegisterOrientationEvents( ListenerClass* listener )
+{
+    ofAddListener( ofxGenericEvents.orientation, listener, &ListenerClass::deviceOrientationChanged );
+}
+
+template< class ListenerClass >
+void ofxGUnregisterOrientationEvents( ListenerClass* listener )
+{
+    ofRemoveListener( ofxGenericEvents.orientation, listener, &ListenerClass::deviceOrientationChanged );
+}
+
+void ofNotifyDeviceOrientationChanged( ofOrientation orientation );

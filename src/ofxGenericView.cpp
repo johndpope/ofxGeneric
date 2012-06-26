@@ -502,6 +502,17 @@ void ofxGenericView::setAutoresizingMask( int autoresizing )
 #endif
 }
 
+int ofxGenericView::getAutoresizingMask( )
+{
+#if TARGET_OS_IPHONE
+    if ( _view )
+    {
+        return  iOSToofxGenericViewAutoresizing( _view.autoresizingMask );
+    }
+#endif
+    return 0;
+}
+
 void ofxGenericView::setNextResponder( ofPtrWeak< ofxGenericView > view )
 {
     _nextResponder = view;

@@ -14,6 +14,8 @@
 #import <AVFoundation/AVFoundation.h>
 #endif
 
+#include "ofxGenericApp.h"
+
 class ofxGenericCameraPreviewViewDelegate;
 
 class ofxGenericCameraPreviewView : public ofxGenericView
@@ -29,6 +31,8 @@ public:
     
     virtual void takePicture();
     virtual void pictureTaken( ofImage& image );
+    
+    virtual void deviceOrientationChanged( ofxGenericOrientationEventArgs& orientationArgs );
     
 protected:
     ofxGenericCameraPreviewView();

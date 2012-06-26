@@ -33,6 +33,10 @@ public:
     virtual float getHeightOfRowsInComponent( unsigned int component );
     
     virtual ofPtr< ofxGenericView > getViewForRowInComponent( unsigned int component, unsigned int row );
+
+    virtual void setFocusOn();
+    
+    virtual void scrollToRow( unsigned int component, unsigned int row, bool animated = true );
     
     virtual void selectedRow( unsigned int component, unsigned int row );
     

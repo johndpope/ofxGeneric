@@ -89,6 +89,8 @@ void ofxGenericCameraPreviewView::willAppear()
 #if TARGET_OS_IPHONE
     [ _captureSession startRunning ];
 #endif
+    
+    ofxGRegisterOrientationEvents( this );
 }
 
 void ofxGenericCameraPreviewView::didDisappear()
@@ -97,6 +99,34 @@ void ofxGenericCameraPreviewView::didDisappear()
 #if TARGET_OS_IPHONE
     [ _captureSession stopRunning ];
 #endif    
+    
+    ofxGUnregisterOrientationEvents( this );
+}
+
+void ofxGenericCameraPreviewView::deviceOrientationChanged( ofxGenericOrientationEventArgs& orientationArgs )
+{
+#if TARGET_OS_IPHONE
+    AVCaptureVideoOrientation avOrientation;
+    switch ( orientationArgs.orientation ) 
+    {
+        case OF_ORIENTATION_DEFAULT:
+            avOrientation = AVCaptureVideoOrientationPortrait;
+            break;
+        case OF_ORIENTATION_180:
+            avOrientation = AVCaptureVideoOrientationPortraitUpsideDown;
+            break;
+        case OF_ORIENTATION_90_LEFT:
+            avOrientation = AVCaptureVideoOrientationLandscapeLeft;
+            break;
+        case OF_ORIENTATION_90_RIGHT:
+            avOrientation = AVCaptureVideoOrientationLandscapeRight;
+            break;
+        default:
+            avOrientation = AVCaptureVideoOrientationPortrait;
+            break;
+    }
+    [ _captureLayer setOrientation:avOrientation ];
+#endif
 }
 
 void ofxGenericCameraPreviewView::takePicture()

@@ -55,6 +55,28 @@ ofPtr< ofxGenericView > ofxGenericSelectorView::getViewForRowInComponent( unsign
     return ofPtr< ofxGenericView >();
 }
 
+void ofxGenericSelectorView::setFocusOn()
+{
+#if TARGET_OS_IPHONE
+    UIPickerView* view = *this;
+    if ( view )
+    {
+        [ view becomeFirstResponder ];
+    }    
+#endif
+}
+
+void ofxGenericSelectorView::scrollToRow( unsigned int component, unsigned int row, bool animated )
+{
+#if TARGET_OS_IPHONE
+    UIPickerView* view = *this;
+    if ( view )
+    {
+        [ view selectRow:row inComponent:component animated:( BOOL )animated ];
+    }
+#endif
+}
+
 void ofxGenericSelectorView::selectedRow( unsigned int component, unsigned int row )
 {
     if ( _delegate )

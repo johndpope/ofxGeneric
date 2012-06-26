@@ -41,16 +41,17 @@ public:
     operator UITextField*();
 #endif
     
-    bool currentlyEditing();
     
     void setClearsOnBeginEditing( bool clear );
     bool getClearsOnBeginEditing();
     
+    virtual void setFocusOn();
     virtual bool shouldBeginEditing();
     virtual void didBeginEditing();
     virtual bool shouldEndEditing();
     virtual void didEndEditing();
     virtual bool shouldChangeCharactersInRange( int from, int count, string replacement );
+    bool currentlyEditing();
     virtual bool shouldClear();
     virtual bool shouldReturn();
     
