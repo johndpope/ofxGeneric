@@ -190,8 +190,8 @@ public:
     virtual void animationWillStart( string animationId ) {};
     virtual void animationDidStop( string animationId ) {};
     
-    virtual void gesturePerformedSwipe( ofxGenericGestureTypeSwipe type, ofPoint location ) {};
-    virtual void gesturePerformedTap( int tapCount, int fingerCount, ofPoint location ) {};
+    virtual void gesturePerformedSwipe( ofPtr< ofxGenericView > view, ofxGenericGestureTypeSwipe type, ofPoint location ) {};
+    virtual void gesturePerformedTap( ofPtr< ofxGenericView > view, int tapCount, int fingerCount, ofPoint location ) {};
     
     virtual void hitInView( ofPoint location ) {};
 };

@@ -733,7 +733,7 @@ void ofxGenericView::gesturePerformedSwipe( ofxGenericGestureTypeSwipe type, ofP
 {
     if ( _viewDelegate )
     {
-        _viewDelegate.lock()->gesturePerformedSwipe( type, location );
+        _viewDelegate.lock()->gesturePerformedSwipe( _this.lock(), type, location );
     }
 }
 
@@ -741,7 +741,7 @@ void ofxGenericView::gesturePerformedTap( int tapCount, int fingerCount, ofPoint
 {
     if ( _viewDelegate )
     {
-        _viewDelegate.lock()->gesturePerformedTap( tapCount, fingerCount, location );
+        _viewDelegate.lock()->gesturePerformedTap( _this.lock(), tapCount, fingerCount, location );
     }
 }
 
