@@ -103,8 +103,8 @@ public:
 //    + (void)setAnimationsEnabled:(BOOL)enabled;                         // ignore any attribute changes while set.
 //    + (BOOL)areAnimationsEnabled;
 
-    virtual void addGestureRecognizerSwipe( ofxGenericGestureTypeSwipe type, ofPtrWeak< ofxGenericViewDelegate > delegate );
-    virtual void addGestureRecognizerTap( int tapCount, int fingerCount, ofPtrWeak< ofxGenericViewDelegate > delegate );
+    virtual void addGestureRecognizerSwipe( ofxGenericGestureTypeSwipe type );
+    virtual void addGestureRecognizerTap( int tapCount, int fingerCount );
     
     virtual void gesturePerformedSwipe( ofxGenericGestureTypeSwipe type, ofPoint location );
     virtual void gesturePerformedTap( int tapCount, int fingerCount, ofPoint location );

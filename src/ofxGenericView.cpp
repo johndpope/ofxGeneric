@@ -704,7 +704,7 @@ void ofxGenericView::replaceViewWithView( ofPtr< ofxGenericView > replace, ofPtr
     }
 }
 
-void ofxGenericView::addGestureRecognizerSwipe( ofxGenericGestureTypeSwipe type, ofPtrWeak< ofxGenericViewDelegate > delegate )
+void ofxGenericView::addGestureRecognizerSwipe( ofxGenericGestureTypeSwipe type )
 {
 #if TARGET_OS_IPHONE
     ofxGenericGestureForwarder *forwarder = [[[ofxGenericGestureForwarder alloc] initWithForwardTo:_this type:(int)type ] autorelease];
@@ -716,7 +716,7 @@ void ofxGenericView::addGestureRecognizerSwipe( ofxGenericGestureTypeSwipe type,
 #endif
 }
 
-void ofxGenericView::addGestureRecognizerTap( int tapCount, int fingerCount, ofPtrWeak< ofxGenericViewDelegate > delegate )
+void ofxGenericView::addGestureRecognizerTap( int tapCount, int fingerCount )
 {
 #if TARGET_OS_IPHONE
     ofxGenericGestureForwarder *forwarder = [[[ofxGenericGestureForwarder alloc] initWithForwardTo:_this type:(tapCount * 100 + fingerCount) ] autorelease];
