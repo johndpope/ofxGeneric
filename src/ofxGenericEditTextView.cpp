@@ -43,8 +43,8 @@ ofxGenericEditTextView::~ofxGenericEditTextView()
 
 void ofxGenericEditTextView::init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setFrame, ofPtrWeak< ofxGenericEditTextViewDelegate > delegate )
 {
-    ofxGenericView::init( setThis, setFrame );
     setDelegate( delegate );
+    ofxGenericView::init( setThis, setFrame );
 }
 
 NativeView ofxGenericEditTextView::createNativeView( const ofRectangle& frame )
@@ -56,6 +56,7 @@ NativeView ofxGenericEditTextView::createNativeView( const ofRectangle& frame )
     [ newView setBackgroundColor:[ UIColor whiteColor ] ];
     [ newView setTextColor:[ UIColor blackColor ] ];
     [ newView setAdjustsFontSizeToFitWidth:YES ];
+    [ newView setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter ];
     return newView;
 #endif
 }
