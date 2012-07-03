@@ -72,6 +72,17 @@ int ofxRandomInRange( int minimum, int maximum )
 {
     return minimum + ( rand() % ( int )( maximum - minimum + 1 ) );
 }
+
+string ofxGGetPathFromFileName( string fileName )
+{
+    int slashPos = fileName.find_last_of( "/\\" );
+    if ( slashPos != fileName.npos )
+    {
+        return fileName.substr( 0, slashPos );
+    }
+    return "";
+}
+
 int ofxGmkdir( string loc, bool useDocuments )
 {
     if ( !loc.empty() )

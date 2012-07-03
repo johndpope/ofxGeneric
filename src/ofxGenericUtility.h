@@ -122,6 +122,7 @@ string ofxGIntegerToString( int value );
 #define floatToString( value ) ofxGFloatToString( value )
 string ofxGFloatToString( float value );
 
+string ofxGGetPathFromFileName( string fileName );
 //returns 0 on success, -1 on failure (including if the file already exists)
 int ofxGmkdir( string loc, bool useDocuments );
 
