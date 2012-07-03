@@ -9,8 +9,6 @@
 #include "ofxGenericUtility.h"
 
 #include "ofUtils.h"
-#include <sys/stat.h>
-#include <sys/types.h>
 
 CGFloat getWindowScale()
 {
@@ -586,13 +584,6 @@ float ofxGFontSizeForText( string text, string fontName, float startingFontSize,
         }
     }
     return ( float )fontSize;   
-}
-
-int ofxGmkdir( string loc, bool useDocuments )
-{
-    string filename = ofToDataPath( loc, true, useDocuments );
-    //http://pubs.opengroup.org/onlinepubs/009695399/functions/mkdir.html
-    return mkdir( filename.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH ); //wtf omg wow I hate C++
 }
 
 UIImage* OFImageToUIImage( ofImage& image )

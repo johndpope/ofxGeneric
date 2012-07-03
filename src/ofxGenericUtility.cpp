@@ -2,6 +2,9 @@
 #include "ofLog.h"
 #include "ofxGenericConstants.h"
 
+#include <sys/stat.h>
+#include <sys/types.h>
+
 string ofxGPathToDataFolder( string fileName )
 {
     return ofToDataPath( fileName, true, false );
@@ -68,4 +71,14 @@ string ofxGFloatToString( float value )
 int ofxRandomInRange( int minimum, int maximum )
 {
     return minimum + ( rand() % ( int )( maximum - minimum + 1 ) );
+}
+int ofxGmkdir( string loc, bool useDocuments )
+{
+    if ( !loc.empty() )
+    {
+        string filename = ofToDataPath( loc, true, useDocuments );
+        //http://pubs.opengroup.org/onlinepubs/009695399/functions/mkdir.html
+        return mkdir( filename.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH ); //wtf omg wow I hate C++
+    }
+    return 0;
 }
