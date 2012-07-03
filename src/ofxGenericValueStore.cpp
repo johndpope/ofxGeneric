@@ -700,7 +700,7 @@ Json::Value* ofxGenericValueStore::convertTo()
         node = new Json::Value( asString() );
     } else if ( isObject() )
     {
-        node = new Json::Value();
+        node = new Json::Value( Json::objectValue );
         for( ofxGenericValueStoreObjectIterator travMembers = objectBegin(); travMembers !=objectEnd(); travMembers ++ )
         {
             if ( ( *travMembers ).second )
@@ -718,7 +718,7 @@ Json::Value* ofxGenericValueStore::convertTo()
         }
     } else if ( isArray() )
     {
-        node = new Json::Value();
+        node = new Json::Value( Json::arrayValue );
         int indexCount = 0;
         for( ofxGenericValueStoreArrayIterator travIndices = arrayBegin(); travIndices !=arrayEnd(); travIndices ++ )
         {
