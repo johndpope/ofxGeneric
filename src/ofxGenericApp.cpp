@@ -26,6 +26,10 @@
 const char* ofxGenericApp::ActivityClassName = "cc/openframeworks/ofxGeneric/Activity";
 #endif
 
+#ifdef OF_USING_POCO
+ofxGenericEventsClass ofxGenericEvents;
+#endif
+
 ofxGenericApp::ofxGenericApp()
 : _keyboardIsVisible( false )
 {
@@ -194,6 +198,10 @@ bool ofxGenericApp::shouldAutorotate( ofOrientation toOrientation )
 
 void ofxGenericApp::deviceOrientationDidChange( ofOrientation newOrientation )
 {
+    if ( shouldAutorotate( newOrientation ) )
+    {
+        ofNotifyDeviceOrientationChanged( newOrientation );
+    }
 }
 
 
@@ -339,4 +347,19 @@ void ofxGenericApp::setup()
 {
     ofBaseApp::setup();
     srand( time( NULL ) );
+}
+
+void ofNotifyDeviceOrientationChanged( ofOrientation orientation )
+{
+//    ofBaseApp * ofAppPtr = ofGetAppPtr();
+    static ofxGenericOrientationEventArgs orientationEventArgs;
+    
+//	if(ofAppPtr){
+//		ofAppPtr->dragEvent(info);
+//	}
+	
+#ifdef OF_USING_POCO
+    orientationEventArgs.orientation = orientation;
+    ofNotifyEvent( ofxGenericEvents.orientation, orientationEventArgs );
+#endif
 }

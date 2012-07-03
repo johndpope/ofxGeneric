@@ -43,8 +43,8 @@ ofxGenericEditTextView::~ofxGenericEditTextView()
 
 void ofxGenericEditTextView::init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setFrame, ofPtrWeak< ofxGenericEditTextViewDelegate > delegate )
 {
-    ofxGenericView::init( setThis, setFrame );
     setDelegate( delegate );
+    ofxGenericView::init( setThis, setFrame );
 }
 
 NativeView ofxGenericEditTextView::createNativeView( const ofRectangle& frame )
@@ -56,6 +56,7 @@ NativeView ofxGenericEditTextView::createNativeView( const ofRectangle& frame )
     [ newView setBackgroundColor:[ UIColor whiteColor ] ];
     [ newView setTextColor:[ UIColor blackColor ] ];
     [ newView setAdjustsFontSizeToFitWidth:YES ];
+    [ newView setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter ];
     return newView;
 #endif
 }
@@ -86,6 +87,40 @@ string ofxGenericEditTextView::getText()
     }
 #endif
     return string();
+}
+
+void ofxGenericEditTextView::setTextAlignment( ofxGenericTextHorizontalAlignment alignment )
+{
+#if TARGET_OS_IPHONE
+    UITextField* textField = ( UITextField* )*this;
+    if ( textField )
+    {
+        [ textField setTextAlignment:ofxGenericTextHorizontalAlignmentToiOS( alignment ) ];
+    }
+#endif
+}
+
+ofxGenericTextHorizontalAlignment ofxGenericEditTextView::getTextAlignment()
+{
+#if TARGET_OS_IPHONE
+    UITextField* textField = ( UITextField* )*this;
+    if ( textField )
+    {
+        return iOSToofxGenericTextHorizontalAlignment( textField.textAlignment );
+    }
+#endif
+    return ofxGenericTextHorizontalAlignmentLeft;
+}
+
+void ofxGenericEditTextView::setBackgroundImage( string imageFileName )
+{
+#if TARGET_OS_IPHONE
+    UITextField* textField = ( UITextField* )*this;
+    if ( textField )
+    {
+        [ textField setBackground:[ UIImage imageWithContentsOfFile:ofxStringToNSString( ofxGPathToDataFolder( imageFileName ) ) ] ];
+    }    
+#endif
 }
 /*
 void ofxGenericEditTextView::setTextAlignment( ofxGenericTextHorizontalAlignment alignment )
@@ -170,6 +205,17 @@ bool ofxGenericEditTextView::shouldBeginEditing()
         return _delegate.lock()->editText_shouldBeginEditing( dynamic_pointer_cast< ofxGenericEditTextView >( _this ) );
     }
     return true;
+}
+
+void ofxGenericEditTextView::setFocusOn()
+{
+#if TARGET_OS_IPHONE
+    UITextField* view = *this;
+    if ( view )
+    {
+        [ view becomeFirstResponder ];
+    }
+#endif
 }
 
 void ofxGenericEditTextView::didBeginEditing()
