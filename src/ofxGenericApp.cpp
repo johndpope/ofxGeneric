@@ -286,6 +286,13 @@ void ofxGenericApp::setStatusBarVisible( bool visible, bool animated )
 #endif
 }
 
+void ofxGenericApp::vibrate()
+{
+#if TARGET_OS_IPHONE
+    AudioServicesPlaySystemSound( kSystemSoundID_Vibrate );
+#endif
+}
+
 void ofxGenericApp::handleUncaughtException( ofxGenericException& exception )
 {
 }

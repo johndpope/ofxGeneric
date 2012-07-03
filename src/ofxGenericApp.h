@@ -47,6 +47,8 @@ public:
     bool getStatusBarVisible();
     void setStatusBarVisible( bool visible, bool animated );
     
+    static void vibrate();
+    
     virtual void setup();
 
 #if TARGET_ANDROID
