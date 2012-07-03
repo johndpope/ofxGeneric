@@ -675,6 +675,7 @@ bool ofxGenericValueStore::writeToDisk()
 {
     if ( _fileName.length() > 0 )
     {
+        ofxGmkdir( ofxGGetPathFromFileName( _fileName ), _fileInDocuments );
         Json::Value* root = convertTo();
         ofxJSONElement write( *root );
         delete root;
