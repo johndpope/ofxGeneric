@@ -27,7 +27,7 @@ public:
     virtual ~ofxGenericDate();
     static ofPtr< ofxGenericDate > create();
     static ofPtr< ofxGenericDate > create( double time );
-    static ofPtr< ofxGenericDate > create( string date, string format = ofxGenericDateFormatFull );
+    static ofPtr< ofxGenericDate > create( string date, string format = ofxGenericDateFormatDateOnly );
     static double getSystemTime();
     
 #if TARGET_OS_IPHONE
