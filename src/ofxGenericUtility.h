@@ -108,6 +108,7 @@ ofColor JNIColorToofColor( const jint& from );
 #endif
 
 float ofxGFontSizeForText( string text, string fontName, float startingFontSize, const ofPoint& constrainedSize );
+ofPoint ofxGPointSizeForText( string text, string fontName, float fontSize, float constrainedWidth );
 
 void ofxGLog( ofLogLevel level, const string & message );
 void ofxGLogError( const string & message );

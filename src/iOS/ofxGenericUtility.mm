@@ -586,6 +586,19 @@ float ofxGFontSizeForText( string text, string fontName, float startingFontSize,
     return ( float )fontSize;   
 }
 
+ofPoint ofxGPointSizeForText( string text, string fontName, float fontSize, float constrainedWidth )
+{
+#if TARGET_OS_IPHONE
+    NSString* nsFontName = [ NSString stringWithCString:fontName.c_str() encoding:NSUTF8StringEncoding ];
+    UIFont* font = [ UIFont fontWithName:nsFontName size:fontSize ];
+    NSString* nsText = [ NSString stringWithCString:text.c_str() encoding:NSUTF8StringEncoding ];
+    CGSize size = [ nsText sizeWithFont:font constrainedToSize:CGSizeMake( constrainedWidth, FLT_MAX ) lineBreakMode:UILineBreakModeWordWrap ];
+    return ofPoint( size.width, size.height );
+#else
+    return ofPoint( 0, 0 );
+#endif
+}
+
 UIImage* OFImageToUIImage( ofImage& image )
 {
 //    NSData* pixelData = [ NSData dataWithBytes:image.getPixels() length:image.width * image.height * image.bpp / 8 ];
