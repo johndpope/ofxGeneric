@@ -42,3 +42,19 @@ std::vector< unsigned int > toVectorOfUnsignedInts( ofPtr< ofxGenericValueStore 
     }
     return ints;
 }
+
+std::vector< string > toVectorOfStrings( ofPtr< ofxGenericValueStore > from )
+{
+    std::vector< string > strings;
+    if ( from && from->isArray() )
+    {
+        for( ofxGenericValueStoreArrayIterator travValues = from->arrayBegin(); travValues != from->arrayEnd(); travValues ++ )
+        {
+            if ( ( *travValues ) )
+            {
+                strings.push_back( ( *travValues )->asString() );
+            }
+        }
+    }
+    return strings;    
+}
