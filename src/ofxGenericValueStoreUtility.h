@@ -13,3 +13,5 @@
 ofColor toofColor( ofPtr< ofxGenericValueStore > from );
 
 std::vector< unsigned int > toVectorOfUnsignedInts( ofPtr< ofxGenericValueStore > from );
+
+std::vector< string > toVectorOfStrings( ofPtr< ofxGenericValueStore > from );
