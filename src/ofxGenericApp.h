@@ -29,6 +29,9 @@ public:
     virtual void willResignActive();
     virtual void willTerminate();
     
+    string getAppVersion();
+    string getBuildVersion();
+    
     virtual void didReceiveMemoryWarning();
     
     void setOrientation( ofOrientation toOrientation );

@@ -164,6 +164,20 @@ void ofxGenericApp::didReceiveMemoryWarning()
 {
 }
 
+string ofxGenericApp::getAppVersion()
+{
+#if TARGET_OS_IPHONE
+    return ofxNSStringToString( [ [ [ NSBundle mainBundle ] infoDictionary ] objectForKey:@"CFBundleVersion" ] );
+#endif    
+}
+
+string ofxGenericApp::getBuildVersion()
+{
+#if TARGET_OS_IPHONE
+    return ofxNSStringToString( [ [ [ NSBundle mainBundle ] infoDictionary ] objectForKey:@"CFBundleShortVersionString" ] );
+#endif
+}
+
 void ofxGenericApp::setOrientation( ofOrientation toOrientation )
 {
 #if TARGET_OS_IPHONE
