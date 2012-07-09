@@ -553,52 +553,6 @@ ofxGenericButtonType iOSToofxGenericButtonType( UIButtonType from )
     return ofxGenericButtonTypeCustom;
 }
 
-float ofxGFontSizeForText( string text, string fontName, float startingFontSize, const ofPoint& constrainedSize )
-{
-    // http://stackoverflow.com/questions/4382976/multiline-uilabel-with-adjustsfontsizetofitwidth
-    CGFloat fontSize = startingFontSize;
-    NSString* nsFontName = [ NSString stringWithCString:fontName.c_str() encoding:NSUTF8StringEncoding ];
-    UIFont* font = [ UIFont fontWithName:nsFontName size:fontSize ];
-    
-    NSString* nsText = [ NSString stringWithCString:text.c_str() encoding:NSUTF8StringEncoding ];
-    CGFloat height = [ nsText sizeWithFont:font constrainedToSize:CGSizeMake( constrainedSize.x, FLT_MAX ) lineBreakMode:UILineBreakModeWordWrap ].height;
-    UIFont *newFont = font;
-    
-    //Reduce font size while too large, break if no height (empty string)
-    while ( height > constrainedSize.y && height != 0 ) 
-    {   
-        fontSize--;  
-        newFont = [ UIFont fontWithName:nsFontName size:fontSize ];   
-        height = [ nsText sizeWithFont:newFont constrainedToSize:CGSizeMake( constrainedSize.x, FLT_MAX ) lineBreakMode:UILineBreakModeWordWrap ].height;
-    };
-    
-    // Loop through words in string and resize to fit
-    for ( NSString* word in [ nsText componentsSeparatedByCharactersInSet:[ NSCharacterSet whitespaceAndNewlineCharacterSet ] ] ) 
-    {
-        CGFloat width = [ word sizeWithFont:newFont ].width;
-        while ( width > constrainedSize.x && width != 0 ) 
-        {
-            fontSize--;
-            newFont = [ UIFont fontWithName:nsFontName size:fontSize ];   
-            width = [ word sizeWithFont:newFont ].width;
-        }
-    }
-    return ( float )fontSize;   
-}
-
-ofPoint ofxGPointSizeForText( string text, string fontName, float fontSize, float constrainedWidth )
-{
-#if TARGET_OS_IPHONE
-    NSString* nsFontName = [ NSString stringWithCString:fontName.c_str() encoding:NSUTF8StringEncoding ];
-    UIFont* font = [ UIFont fontWithName:nsFontName size:fontSize ];
-    NSString* nsText = [ NSString stringWithCString:text.c_str() encoding:NSUTF8StringEncoding ];
-    CGSize size = [ nsText sizeWithFont:font constrainedToSize:CGSizeMake( constrainedWidth, FLT_MAX ) lineBreakMode:UILineBreakModeWordWrap ];
-    return ofPoint( size.width, size.height );
-#else
-    return ofPoint( 0, 0 );
-#endif
-}
-
 UIImage* OFImageToUIImage( ofImage& image )
 {
 //    NSData* pixelData = [ NSData dataWithBytes:image.getPixels() length:image.width * image.height * image.bpp / 8 ];

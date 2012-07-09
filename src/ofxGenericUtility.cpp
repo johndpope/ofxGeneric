@@ -5,6 +5,8 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
+//////////////////////////////// Path //////////////////////////////////
+
 string ofxGPathToDataFolder( string fileName )
 {
     return ofToDataPath( fileName, true, false );
@@ -14,6 +16,81 @@ string ofxGPathToDocumentsFolder( string fileName )
 {
     return ofToDataPath( fileName, true, false );
 }
+
+string ofxGGetPathFromFileName( string fileName )
+{
+    int slashPos = fileName.find_last_of( "/\\" );
+    if ( slashPos != fileName.npos )
+    {
+        return fileName.substr( 0, slashPos );
+    }
+    return "";
+}
+
+int ofxGmkdir( string loc, bool useDocuments )
+{
+    if ( !loc.empty() )
+    {
+        string filename = ofToDataPath( loc, true, useDocuments );
+        //http://pubs.opengroup.org/onlinepubs/009695399/functions/mkdir.html
+        return mkdir( filename.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH ); //wtf omg wow I hate C++
+    }
+    return 0;
+}
+
+//////////////////////////////// Font //////////////////////////////////
+
+float ofxGFontSizeForText( string text, string fontName, float startingFontSize, const ofPoint& constrainedSize )
+{
+#if TARGET_OS_IPHONE
+    // http://stackoverflow.com/questions/4382976/multiline-uilabel-with-adjustsfontsizetofitwidth
+    CGFloat fontSize = startingFontSize;
+    NSString* nsFontName = [ NSString stringWithCString:fontName.c_str() encoding:NSUTF8StringEncoding ];
+    UIFont* font = [ UIFont fontWithName:nsFontName size:fontSize ];
+    
+    NSString* nsText = [ NSString stringWithCString:text.c_str() encoding:NSUTF8StringEncoding ];
+    CGFloat height = [ nsText sizeWithFont:font constrainedToSize:CGSizeMake( constrainedSize.x, FLT_MAX ) lineBreakMode:UILineBreakModeWordWrap ].height;
+    UIFont *newFont = font;
+    
+    //Reduce font size while too large, break if no height (empty string)
+    while ( height > constrainedSize.y && height != 0 ) 
+    {   
+        fontSize--;  
+        newFont = [ UIFont fontWithName:nsFontName size:fontSize ];   
+        height = [ nsText sizeWithFont:newFont constrainedToSize:CGSizeMake( constrainedSize.x, FLT_MAX ) lineBreakMode:UILineBreakModeWordWrap ].height;
+    };
+    
+    // Loop through words in string and resize to fit
+    for ( NSString* word in [ nsText componentsSeparatedByCharactersInSet:[ NSCharacterSet whitespaceAndNewlineCharacterSet ] ] ) 
+    {
+        CGFloat width = [ word sizeWithFont:newFont ].width;
+        while ( width > constrainedSize.x && width != 0 ) 
+        {
+            fontSize--;
+            newFont = [ UIFont fontWithName:nsFontName size:fontSize ];   
+            width = [ word sizeWithFont:newFont ].width;
+        }
+    }
+    return ( float )fontSize;   
+#else
+    return 0.0f;
+#endif
+}
+
+ofPoint ofxGPointSizeForText( string text, string fontName, float fontSize, float constrainedWidth )
+{
+#if TARGET_OS_IPHONE
+    NSString* nsFontName = [ NSString stringWithCString:fontName.c_str() encoding:NSUTF8StringEncoding ];
+    UIFont* font = [ UIFont fontWithName:nsFontName size:fontSize ];
+    NSString* nsText = [ NSString stringWithCString:text.c_str() encoding:NSUTF8StringEncoding ];
+    CGSize size = [ nsText sizeWithFont:font constrainedToSize:CGSizeMake( constrainedWidth, FLT_MAX ) lineBreakMode:UILineBreakModeWordWrap ];
+    return ofPoint( size.width, size.height );
+#else
+    return ofPoint( 0, 0 );
+#endif
+}
+
+//////////////////////////////// Logging //////////////////////////////////
 
 void ofxGLog( ofLogLevel level, const string & message )
 {
@@ -54,6 +131,8 @@ void ofxGLog( ofLogLevel level, const char* format, ... )
 	ofLog( ofxGenericModuleName, level, message );
 }
 
+//////////////////////////////// String conversions //////////////////////////////////
+
 string ofxGIntegerToString( int value )
 {
     char buffer[ 1024 ];
@@ -68,28 +147,10 @@ string ofxGFloatToString( float value )
     return string( buffer );
 }
 
+//////////////////////////////// Math //////////////////////////////////
+
 int ofxRandomInRange( int minimum, int maximum )
 {
     return minimum + ( rand() % ( int )( maximum - minimum + 1 ) );
 }
 
-string ofxGGetPathFromFileName( string fileName )
-{
-    int slashPos = fileName.find_last_of( "/\\" );
-    if ( slashPos != fileName.npos )
-    {
-        return fileName.substr( 0, slashPos );
-    }
-    return "";
-}
-
-int ofxGmkdir( string loc, bool useDocuments )
-{
-    if ( !loc.empty() )
-    {
-        string filename = ofToDataPath( loc, true, useDocuments );
-        //http://pubs.opengroup.org/onlinepubs/009695399/functions/mkdir.html
-        return mkdir( filename.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH ); //wtf omg wow I hate C++
-    }
-    return 0;
-}
