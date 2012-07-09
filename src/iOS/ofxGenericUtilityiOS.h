@@ -10,6 +10,21 @@
 
 #include "ofxGenericMain.h"
 
+#import "ofxiPhoneExtras.h"
+
+// memory macros
+#define release( objectiveCObject ) \
+[ objectiveCObject release ]; \
+objectiveCObject = nil;
+
+#define releaseView( objectiveCView ) \
+[ objectiveCView removeFromSuperview ]; \
+release( objectiveCView );
+
+#define releaseViewController( objectCViewController ) \
+[ objectCViewController release ]; \
+objectCViewController = nil;
+
 CGFloat getWindowScale();
 
 UITextAlignment ofxGenericTextHorizontalAlignmentToiOS( ofxGenericTextHorizontalAlignment from );

@@ -11,42 +11,13 @@
 #include "ofxGenericMain.h"
 
 #if TARGET_OS_IPHONE
-#import "ofxiPhoneExtras.h"
+#include "ofxGenericUtilityiOS.h"
 #elif TARGET_ANDROID
-#include "JNIRect.h"
-#endif
-
-// memory macros
-#if TARGET_OS_IPHONE
-#define release( objectiveCObject ) \
-    [ objectiveCObject release ]; \
-    objectiveCObject = nil;
-
-#define releaseView( objectiveCView ) \
-    [ objectiveCView removeFromSuperview ]; \
-    release( objectiveCView );
-
-#define releaseViewController( objectCViewController ) \
-    [ objectCViewController release ]; \
-    objectCViewController = nil;
+#include "ofxGenericUtilityAndroid.h"
 #endif
 
 string ofxGPathToDataFolder( string fileName = string() );
 string ofxGPathToDocumentsFolder( string fileName = string() );
-
-#if TARGET_OS_IPHONE
-
-#include "ofxGenericUtilityiOS.h"
-
-#elif TARGET_ANDROID
-
-JNIRect ofRectangleToJNIRect( const ofRectangle& from );
-ofRectangle JNIRectToofRectangle( JNIRect& from );
-
-jint ofColorToJNIColor( const ofColor& from );
-ofColor JNIColorToofColor( const jint& from );
-
-#endif
 
 float ofxGFontSizeForText( string text, string fontName, float startingFontSize, const ofPoint& constrainedSize );
 ofPoint ofxGPointSizeForText( string text, string fontName, float fontSize, float constrainedWidth );
