@@ -149,7 +149,7 @@ string ofxGFloatToString( float value )
 
 #define ofxSPrintfReplace "%s"
 
-string ofxSPrintf( string format, const std::vector< string >& replaceWith )
+string ofxGSPrintf( string format, const std::vector< string >& replaceWith )
 {
     string replace = ofxSPrintfReplace;
     
@@ -184,29 +184,28 @@ string ofxSPrintf( string format, const std::vector< string >& replaceWith )
     return result;
 }
 
-string ofxSPrintf( string format, string first )
+string ofxGSPrintf( string format, string first )
 {
     std::vector< string > replaceWith;
     replaceWith.push_back( first );
-    return ofxSPrintf( format, replaceWith );
-
+    return ofxGSPrintf( format, replaceWith );
 }
 
-string ofxSPrintf( string format, string first, string second )
+string ofxGSPrintf( string format, string first, string second )
 {
     std::vector< string > replaceWith;
     replaceWith.push_back( first );
     replaceWith.push_back( second );
-    return ofxSPrintf( format, replaceWith );
+    return ofxGSPrintf( format, replaceWith );
 }
 
-string ofxSPrintf( string format, string first, string second, string third )
+string ofxGSPrintf( string format, string first, string second, string third )
 {
     std::vector< string > replaceWith;
     replaceWith.push_back( first );
     replaceWith.push_back( second );
     replaceWith.push_back( third );
-    return ofxSPrintf( format, replaceWith );
+    return ofxGSPrintf( format, replaceWith );
 }
 
 //////////////////////////////// Math //////////////////////////////////

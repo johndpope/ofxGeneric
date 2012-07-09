@@ -48,10 +48,10 @@ string ofxGIntegerToString( int value );
 #define floatToString( value ) ofxGFloatToString( value )
 string ofxGFloatToString( float value );
 
-string ofxSPrintf( string format, const std::vector< string >& replaceWith );
-string ofxSPrintf( string format, string first );
-string ofxSPrintf( string format, string first, string second );
-string ofxSPrintf( string format, string first, string second, string third );
+string ofxGSPrintf( string format, const std::vector< string >& replaceWith );
+string ofxGSPrintf( string format, string first );
+string ofxGSPrintf( string format, string first, string second );
+string ofxGSPrintf( string format, string first, string second, string third );
 
 //////////////////////////////// Math //////////////////////////////////
 
