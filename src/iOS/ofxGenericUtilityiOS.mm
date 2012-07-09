@@ -1,12 +1,12 @@
 //
-//  ofxGenericUtility.mm
+//  ofxGenericUtilityiOS.mm
 //  iPhone+OF Lib
 //
 //  Created by Ian Grossberg on 12/30/11.
 //  Copyright (c) 2011 Lumos Labs. All rights reserved.
 //
 
-#include "ofxGenericUtility.h"
+#include "ofxGenericUtilityiOS.h"
 
 #include "ofUtils.h"
 

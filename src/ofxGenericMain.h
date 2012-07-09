@@ -18,4 +18,5 @@
 
 #endif
 
+#include "ofxGenericConstants.h"
 #include "ofxGenericUtility.h"

@@ -16,8 +16,6 @@
 #include "JNIRect.h"
 #endif
 
-#include "ofxGenericConstants.h"
-
 // memory macros
 #if TARGET_OS_IPHONE
 #define release( objectiveCObject ) \
@@ -37,48 +35,8 @@ string ofxGPathToDataFolder( string fileName = string() );
 string ofxGPathToDocumentsFolder( string fileName = string() );
 
 #if TARGET_OS_IPHONE
-// iOS utilities
-CGFloat getWindowScale();
 
-UITextAlignment ofxGenericTextHorizontalAlignmentToiOS( ofxGenericTextHorizontalAlignment from );
-ofxGenericTextHorizontalAlignment iOSToofxGenericTextHorizontalAlignment( UITextAlignment from );
-
-UITableViewCellSeparatorStyle ofxGenericTableViewSeparatorStyleToiOS( ofxGenericTableViewSeparatorStyle from );
-
-UIReturnKeyType     ofxGenericKeyboardReturnKeyToiOS( ofxGenericKeyboardReturnKey from );
-ofxGenericKeyboardReturnKey iOSToofxGenericKeyboardReturnKey( UIReturnKeyType from );
-
-UIKeyboardType ofxGenericKeyboardTypeToiOS( ofxGenericKeyboardType from );
-ofxGenericKeyboardType iOSToofxGenericKeyboardType( UIKeyboardType from );
-
-UITextAutocapitalizationType ofxGenericTextAutoCapitalizationToiOS( ofxGenericTextAutoCapitalization from );
-ofxGenericTextAutoCapitalization iOSToofxGenericTextAutoCapitalization( UITextAutocapitalizationType from );
-
-UIDeviceOrientation ofOrientationToiOS( ofOrientation from );
-ofOrientation iOSToofOrientation( UIDeviceOrientation from );
-
-UIInterfaceOrientation ofInterfaceOrientationToiOS( ofOrientation from );
-ofOrientation iOSToofOrientation( UIInterfaceOrientation from );
-
-UILineBreakMode ofxGenericTextLinebreakModeToiOS( ofxGenericTextLinebreakMode from );
-ofxGenericTextLinebreakMode iOSToofxGenericTextLinebreakMode( UILineBreakMode from );
-
-UIViewAnimationCurve ofxGenericViewAnimationCurveToiOS( ofxGenericViewAnimationCurve from );
-UIViewAnimationTransition ofxGenericViewAnimationTransitionToiOS( ofxGenericViewAnimationTransition from );
-
-UIViewAutoresizing ofxGenericViewAutoresizingToiOS( ofxGenericViewAutoresizing from );
-ofxGenericViewAutoresizing iOSToofxGenericViewAutoresizing( UIViewAutoresizing from );
-
-UITextBorderStyle ofxGenericTextViewBorderStyleToiOS( ofxGenericTextViewBorderStyle from );
-ofxGenericTextViewBorderStyle iOSToofxGenericTextViewBorderStyle( UITextBorderStyle from );
-
-UISwipeGestureRecognizerDirection ofxGenericGestureTypeSwipeToiOS( ofxGenericGestureTypeSwipe from );
-ofxGenericGestureTypeSwipe iOSToofxGenericGestureTypeSwipe( UISwipeGestureRecognizerDirection from );
-
-UIButtonType ofxGenericButtonTypeToiOS( ofxGenericButtonType from );
-ofxGenericButtonType iOSToofxGenericButtonType( UIButtonType from );
-
-UIImage* OFImageToUIImage( ofImage& image );
+#include "ofxGenericUtilityiOS.h"
 
 #elif TARGET_ANDROID
 

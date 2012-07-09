@@ -22,7 +22,7 @@
 		3C5336E1153F6A420046AFD8 /* OpenUDID.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C5336DE153F6A420046AFD8 /* OpenUDID.m */; };
 		3C5336E7153F6ED60046AFD8 /* ofxGenericAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C5336E2153F6ED60046AFD8 /* ofxGenericAppDelegate.h */; };
 		3C5336E8153F6ED60046AFD8 /* ofxGenericAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3C5336E3153F6ED60046AFD8 /* ofxGenericAppDelegate.mm */; };
-		3C5336E9153F6ED60046AFD8 /* ofxGenericUtility.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3C5336E4153F6ED60046AFD8 /* ofxGenericUtility.mm */; };
+		3C5336E9153F6ED60046AFD8 /* ofxGenericUtilityiOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3C5336E4153F6ED60046AFD8 /* ofxGenericUtilityiOS.mm */; };
 		3C5336EA153F6ED60046AFD8 /* UIDevice+Model.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C5336E5153F6ED60046AFD8 /* UIDevice+Model.h */; };
 		3C5336EB153F6ED60046AFD8 /* UIDevice+Model.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3C5336E6153F6ED60046AFD8 /* UIDevice+Model.mm */; };
 		3C6D4B2B15584E4D004904CE /* ofxGenericSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C6D4B2A15584E4D004904CE /* ofxGenericSettings.cpp */; };
@@ -54,6 +54,7 @@
 		3CA59B33153F4312008EE095 /* ofxGenericException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CA59B32153F4311008EE095 /* ofxGenericException.cpp */; };
 		3CB302171506DB5B00A1A91F /* libofxiPhone_iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C7B4EDC14FC7D2E003121FE /* libofxiPhone_iphoneos.a */; };
 		3CB572AD1596512C0060F9BE /* ofxGenericSelectorView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CB572AC1596512C0060F9BE /* ofxGenericSelectorView.cpp */; };
+		3CC6222415AB930D009849CE /* ofxGenericUtilityiOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CC6222315AB930D009849CE /* ofxGenericUtilityiOS.h */; };
 		3CE4B910157D414F0058CC70 /* ofxGenericFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CE4B90F157D414F0058CC70 /* ofxGenericFont.cpp */; };
 		3CEBF17815890F9A008D2937 /* ofxGenericBarGraphView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CEBF17615890F9A008D2937 /* ofxGenericBarGraphView.cpp */; };
 		3CEBF17915890F9A008D2937 /* ofxGenericBarGraphView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CEBF17715890F9A008D2937 /* ofxGenericBarGraphView.h */; };
@@ -128,7 +129,7 @@
 		3C5336DF153F6A420046AFD8 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		3C5336E2153F6ED60046AFD8 /* ofxGenericAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericAppDelegate.h; sourceTree = "<group>"; };
 		3C5336E3153F6ED60046AFD8 /* ofxGenericAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxGenericAppDelegate.mm; sourceTree = "<group>"; };
-		3C5336E4153F6ED60046AFD8 /* ofxGenericUtility.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxGenericUtility.mm; sourceTree = "<group>"; };
+		3C5336E4153F6ED60046AFD8 /* ofxGenericUtilityiOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxGenericUtilityiOS.mm; sourceTree = "<group>"; };
 		3C5336E5153F6ED60046AFD8 /* UIDevice+Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+Model.h"; sourceTree = "<group>"; };
 		3C5336E6153F6ED60046AFD8 /* UIDevice+Model.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "UIDevice+Model.mm"; sourceTree = "<group>"; };
 		3C6D4B2715584CB6004904CE /* ofxGenericSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericSettings.h; sourceTree = "<group>"; };
@@ -175,6 +176,7 @@
 		3CBAC5FC14FD4E73002A12C8 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		3CBAC5FE14FD4EA7002A12C8 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		3CBAC60014FD4EC8002A12C8 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		3CC6222315AB930D009849CE /* ofxGenericUtilityiOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericUtilityiOS.h; sourceTree = "<group>"; };
 		3CE4B90D157D40EA0058CC70 /* ofxGenericFont.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericFont.h; sourceTree = "<group>"; };
 		3CE4B90F157D414F0058CC70 /* ofxGenericFont.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericFont.cpp; sourceTree = "<group>"; };
 		3CEBF17615890F9A008D2937 /* ofxGenericBarGraphView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericBarGraphView.cpp; sourceTree = "<group>"; };
@@ -362,7 +364,8 @@
 			children = (
 				3C5336E2153F6ED60046AFD8 /* ofxGenericAppDelegate.h */,
 				3C5336E3153F6ED60046AFD8 /* ofxGenericAppDelegate.mm */,
-				3C5336E4153F6ED60046AFD8 /* ofxGenericUtility.mm */,
+				3CC6222315AB930D009849CE /* ofxGenericUtilityiOS.h */,
+				3C5336E4153F6ED60046AFD8 /* ofxGenericUtilityiOS.mm */,
 				3C5336E5153F6ED60046AFD8 /* UIDevice+Model.h */,
 				3C5336E6153F6ED60046AFD8 /* UIDevice+Model.mm */,
 			);
@@ -539,6 +542,7 @@
 				454496161540C66600B21064 /* ofxGenericAlertView.h in Headers */,
 				3C2A68F3154374F400BDB696 /* ofxGenericOpenGLView.h in Headers */,
 				3CEBF17915890F9A008D2937 /* ofxGenericBarGraphView.h in Headers */,
+				3CC6222415AB930D009849CE /* ofxGenericUtilityiOS.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -638,7 +642,7 @@
 				3CA59B33153F4312008EE095 /* ofxGenericException.cpp in Sources */,
 				3C5336E1153F6A420046AFD8 /* OpenUDID.m in Sources */,
 				3C5336E8153F6ED60046AFD8 /* ofxGenericAppDelegate.mm in Sources */,
-				3C5336E9153F6ED60046AFD8 /* ofxGenericUtility.mm in Sources */,
+				3C5336E9153F6ED60046AFD8 /* ofxGenericUtilityiOS.mm in Sources */,
 				3C5336EB153F6ED60046AFD8 /* UIDevice+Model.mm in Sources */,
 				454496151540C66600B21064 /* ofxGenericAlertView.cpp in Sources */,
 				3C2A68F61543786700BDB696 /* ofxGenericOpenGLView.cpp in Sources */,
