@@ -147,6 +147,68 @@ string ofxGFloatToString( float value )
     return string( buffer );
 }
 
+#define ofxSPrintfReplace "%s"
+
+string ofxSPrintf( string format, const std::vector< string >& replaceWith )
+{
+    string replace = ofxSPrintfReplace;
+    
+    string result;
+    
+    size_t start = 0;
+    unsigned int replaceWithIndex = 0;
+    for( size_t foundAt = format.find( replace, start ); foundAt != format.npos; foundAt = format.find( replace, start ) )
+    {
+        result += format.substr( start, foundAt - start );
+        if ( replaceWithIndex < replaceWith.size() )
+        {
+            result += replaceWith[ replaceWithIndex ];
+        } else
+        {
+            ofxGLogError( "ofxSPrintf called expecting more replacement strings" );
+        }
+
+        start = foundAt + replace.size();
+        replaceWithIndex ++;
+    }
+    if ( start < format.size() - 1 )
+    {
+        result += format.substr( start, format.size() - start );
+    }
+    
+    if ( replaceWithIndex != replaceWith.size() )
+    {
+        ofxGLogError( "ofxSPrintf called with more replacement strings than format calls for" );
+    }
+    
+    return result;
+}
+
+string ofxSPrintf( string format, string first )
+{
+    std::vector< string > replaceWith;
+    replaceWith.push_back( first );
+    return ofxSPrintf( format, replaceWith );
+
+}
+
+string ofxSPrintf( string format, string first, string second )
+{
+    std::vector< string > replaceWith;
+    replaceWith.push_back( first );
+    replaceWith.push_back( second );
+    return ofxSPrintf( format, replaceWith );
+}
+
+string ofxSPrintf( string format, string first, string second, string third )
+{
+    std::vector< string > replaceWith;
+    replaceWith.push_back( first );
+    replaceWith.push_back( second );
+    replaceWith.push_back( third );
+    return ofxSPrintf( format, replaceWith );
+}
+
 //////////////////////////////// Math //////////////////////////////////
 
 int ofxRandomInRange( int minimum, int maximum )
