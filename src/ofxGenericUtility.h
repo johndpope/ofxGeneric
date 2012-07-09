@@ -18,24 +18,7 @@
 
 #include "ofxGenericConstants.h"
 
-#include "ofxGenericException.h"
-
 // memory macros
-#define deleteSafe( cPlusPlusObject ) \
-    if ( cPlusPlusObject ) \
-    { \
-        delete cPlusPlusObject; \
-        cPlusPlusObject = NULL; \
-    }
-
-#define deleteThreadSafe( cPlusPlusObject, type ) \
-    if ( cPlusPlusObject ) \
-    { \
-    	type buffer = cPlusPlusObject; \
-        cPlusPlusObject = NULL; \
-        delete buffer; \
-    }
-
 #if TARGET_OS_IPHONE
 #define release( objectiveCObject ) \
     [ objectiveCObject release ]; \

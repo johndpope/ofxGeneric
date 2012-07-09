@@ -9,6 +9,7 @@
 #include "ofxGenericLocalization.h"
 #include "ofxGenericUtility.h"
 #include "ofxGenericValueStore.h"
+#include "ofxGenericException.h"
 
 // http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 
