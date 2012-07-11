@@ -133,18 +133,65 @@ void ofxGLog( ofLogLevel level, const char* format, ... )
 
 //////////////////////////////// String conversions //////////////////////////////////
 
-string ofxGIntegerToString( int value )
+string ofxGToString( int value )
 {
     char buffer[ 1024 ];
     snprintf( buffer, 1024, "%d", value );
     return string( buffer );
 }
 
-string ofxGFloatToString( float value )
+string ofxGToString( long int value )
+{
+    char buffer[ 1024 ];
+    snprintf( buffer, 1024, "%ld", value );
+    return string( buffer );
+}
+
+string ofxGToString( unsigned int value )
+{
+    char buffer[ 1024 ];
+    snprintf( buffer, 1024, "%u", value );
+    return string( buffer );
+}
+
+string ofxGToString( unsigned long int value )
+{
+    char buffer[ 1024 ];
+    snprintf( buffer, 1024, "%lu", value );
+    return string( buffer );
+}
+
+string ofxGToString( double value )
 {
     char buffer[ 1024 ];
     snprintf( buffer, 1024, "%f", value );
     return string( buffer );
+}
+
+string ofxGToString( float value )
+{
+    char buffer[ 1024 ];
+    snprintf( buffer, 1024, "%f", value );
+    return string( buffer );
+}
+
+string ofxGToString( bool value )
+{
+    if ( value )
+    {
+        return "true";
+    }
+    return "false";
+}
+
+bool ofxGToBool( string value )
+{
+    std::transform( value.begin(), value.end(), value.begin(), ::tolower );
+    if ( value == "true" || value == "t" )
+    {
+        return true;
+    }
+    return false;
 }
 
 #define ofxSPrintfReplace "%s"

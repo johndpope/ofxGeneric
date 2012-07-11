@@ -43,10 +43,14 @@ void ofxGLog( ofLogLevel level, const char* format, ... ); // TODO: remove, unsa
 
 //////////////////////////////// String conversions //////////////////////////////////
 
-#define intToString( value ) ofxGIntegerToString( value )
-string ofxGIntegerToString( int value );
-#define floatToString( value ) ofxGFloatToString( value )
-string ofxGFloatToString( float value );
+string ofxGToString( int value );
+string ofxGToString( long int value );
+string ofxGToString( unsigned int value );
+string ofxGToString( unsigned long int value );
+string ofxGToString( double value );
+string ofxGToString( float value );
+string ofxGToString( bool value );
+bool ofxGToBool( string value );
 
 string ofxGSPrintf( string format, const std::vector< string >& replaceWith );
 string ofxGSPrintf( string format, string first );
