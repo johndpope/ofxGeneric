@@ -17,8 +17,7 @@
 
 ofPtr< ofxGenericValueStore > ofxGenericValueStore::create( bool asArray )
 {
-    ofPtr< ofxGenericValueStore > create( new ofxGenericValueStore() );
-    Type type;
+    ofxGenericValueStore::Type type;
     if ( asArray )
     {
         type = ofxGenericValueStoreTypeArray;
@@ -26,15 +25,25 @@ ofPtr< ofxGenericValueStore > ofxGenericValueStore::create( bool asArray )
     {
         type = ofxGenericValueStoreTypeObject;
     }
-    create->init( create, type );
-    return create;
+    return create( type );
+}
+
+ofPtr< ofxGenericValueStore > ofxGenericValueStore::create( ofxGenericValueStore::Type type )
+{
+    if ( type != ofxGenericValueStoreTypeUninitialized )
+    {
+        ofPtr< ofxGenericValueStore > create( new ofxGenericValueStore() );
+        create->init( create, type );
+        return create;   
+    }
+    return ofPtr< ofxGenericValueStore >();
 }
 
 ofPtr< ofxGenericValueStore > ofxGenericValueStore::createWithValue( float value )
 {
     ofPtr< ofxGenericValueStore > create( new ofxGenericValueStore() );
     create->init( create, ofxGenericValueStoreTypeFloat );
-    create->_floatValue = value;
+    create->write( value );
     return create;
 }
 
@@ -42,7 +51,7 @@ ofPtr< ofxGenericValueStore > ofxGenericValueStore::createWithValue( int value )
 {
     ofPtr< ofxGenericValueStore > create( new ofxGenericValueStore() );
     create->init( create, ofxGenericValueStoreTypeInt );
-    create->_intValue = value;
+    create->write( value );
     return create;
 }
 
@@ -50,7 +59,7 @@ ofPtr< ofxGenericValueStore > ofxGenericValueStore::createWithValue( bool value 
 {
     ofPtr< ofxGenericValueStore > create( new ofxGenericValueStore() );
     create->init( create, ofxGenericValueStoreTypeBool );
-    create->_boolValue = value;
+    create->write( value );
     return create;
 }
 
@@ -58,7 +67,7 @@ ofPtr< ofxGenericValueStore > ofxGenericValueStore::createWithValue( string valu
 {
     ofPtr< ofxGenericValueStore > create( new ofxGenericValueStore() );
     create->init( create, ofxGenericValueStoreTypeString );
-    *( create->_stringValue ) = value;
+    create->write( value );
     return create;
 }
 
@@ -102,6 +111,132 @@ ofxGenericValueStore::Type ofxGenericValueStore::getType() const
     return _type;
 }
 
+void ofxGenericValueStore::write( float value )
+{
+    if ( isFloat() )
+    {
+        _floatValue = value;
+    } else if ( isInt() )
+    {
+        write( ( int )value );
+    } else if ( isBool() )
+    {
+        write( ( bool )value );
+    } else if ( isString() )
+    {
+        write( ofxGToString( value ) );
+    }
+}
+
+void ofxGenericValueStore::write( int value )
+{
+    if ( isFloat() )
+    {
+        write( ( float )value );
+    } else if ( isInt() )
+    {
+        _intValue = value;
+    } else if ( isBool() )
+    {
+        write( ( bool )value );
+    } else if ( isString() )
+    {
+        write( ofxGToString( value ) );
+    }
+}
+
+void ofxGenericValueStore::write( bool value )
+{
+    if ( isFloat() )
+    {
+        write( ( float )value );
+    } else if ( isInt() )
+    {
+        write( ( int )value );
+    } else if ( isBool() )
+    {
+        _boolValue = value;
+    } else if ( isString() )
+    {
+        write( ofxGToString( value ) );
+    }
+}
+
+void ofxGenericValueStore::write( string value )
+{
+    if ( isFloat() )
+    {
+        write( ( float )atof( value.c_str() ) );
+    } else if ( isInt() )
+    {
+        write( ( int )atoi( value.c_str() ) );
+    } else if ( isBool() )
+    {
+        write( ofxGToBool( value ) );
+    } else if ( isString() )
+    {
+        ( *_stringValue ) = value;
+    }
+}
+
+void ofxGenericValueStore::write( const char* value )
+{
+    write( string( value ) );
+}
+
+void ofxGenericValueStore::operator=( float value )
+{
+    write( value );
+}
+
+void ofxGenericValueStore::operator=( int value )
+{
+    write( value );
+}
+
+void ofxGenericValueStore::operator=( bool value )
+{    
+    write( value );
+}
+
+void ofxGenericValueStore::operator=( string value )
+{    
+    write( value );
+}
+
+void ofxGenericValueStore::operator=( const char* value )
+{
+    write( value );
+}
+
+void ofxGenericValueStore::operator++()
+{
+    if ( isFloat() )
+    {
+        write( asFloat() + 1 );
+    } else if ( isInt() )
+    {
+        write( asInt() + 1 );
+    } else if ( isBool() )
+    {
+        write( !asBool() );
+    }
+}
+
+void ofxGenericValueStore::operator--()
+{
+    if ( isFloat() )
+    {
+        write( asFloat() - 1 );
+    } else if ( isInt() )
+    {
+        write( asInt() - 1 );
+    } else if ( isBool() )
+    {
+        write( !asBool() );
+    }
+}
+
 bool ofxGenericValueStore::isFloat() const
 {
     return getType() == ofxGenericValueStoreTypeFloat;
@@ -140,6 +275,9 @@ float ofxGenericValueStore::asFloat( float defaultValue )
     } else if ( isInt() )
     {
         return ( float )_intValue;
+    } else if ( isString() )
+    {
+        return atof( asString().c_str() );
     }
     return defaultValue;
 }
@@ -152,6 +290,9 @@ int ofxGenericValueStore::asInt( int defaultValue )
     } else if ( isFloat() )
     {
         return ( int )_floatValue;
+    } else if ( isString() )
+    {
+        return atoi( asString().c_str() );
     }
     return defaultValue;
 }
@@ -167,11 +308,36 @@ bool ofxGenericValueStore::asBool( bool defaultValue )
 
 string ofxGenericValueStore::asString( string defaultValue )
 {
-    if ( isString() )
+    if ( isFloat() )
+    {
+        return ofxGToString( asFloat() );
+    } else if ( isInt() )
+    {
+        return ofxGToString( asInt() );
+    } else if ( isBool() )
+    {
+        return ofxGToString( asBool() );
+    } else if ( isString() )
     {
         return *_stringValue;
+    } else if ( isObject() )
+    {
+        return "object";
+    } else if ( isArray() )
+    {
+        return "array";
     }
     return defaultValue;
+}
+
+bool ofxGenericValueStore::operator==( ofPtr< ofxGenericValueStore > compare )
+{
+    // TODO: real object and array comparision?
+    if ( !isObject() && !isArray() && compare )
+    {
+        return asString() == compare->asString();
+    }
+    return false;
 }
 
 bool ofxGenericValueStore::exists( string key )
@@ -223,6 +389,7 @@ void ofxGenericValueStore::dropObjectKey( string key )
     }
 }
 
+// TODO: only create new if incorrect type?
 void ofxGenericValueStore::write(string key, float value )
 {
     if ( isObject() )
@@ -734,7 +901,7 @@ Json::Value* ofxGenericValueStore::convertTo()
                 indexCount ++;
             } else 
             {
-                ofxGLogError( "In writing to JSON a node at index " + ofxGIntegerToString( indexCount ) + " is empty" );
+                ofxGLogError( "In writing to JSON a node at index " + ofxGToString( indexCount ) + " is empty" );
             }
         }
     }

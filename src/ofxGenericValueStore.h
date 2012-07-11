@@ -35,7 +35,30 @@ public:
         ofxGenericValueStoreTypeArray
     };
     static ofPtr< ofxGenericValueStore > create( bool asArray );
+    static ofPtr< ofxGenericValueStore > create( Type type );
+    
+    static ofPtr< ofxGenericValueStore > createWithValue( float value );
+    static ofPtr< ofxGenericValueStore > createWithValue( int value );
+    static ofPtr< ofxGenericValueStore > createWithValue( bool value );
+    static ofPtr< ofxGenericValueStore > createWithValue( string value );
+
     Type getType() const;
+    
+    virtual void write( float value );
+    virtual void write( int value );
+    virtual void write( bool value );
+    virtual void write( string value );
+    virtual void write( const char* value );
+
+    void operator=( float value );
+    void operator=( int value );
+    void operator=( bool value );
+    void operator=( string value );
+    void operator=( const char* value );
+    
+    void operator++();
+    void operator--();
+
     bool isFloat() const;
     bool isInt() const;
     bool isBool() const;
@@ -47,6 +70,8 @@ public:
     int asInt( int defaultValue = 0 );
     bool asBool( bool defaultValue = false );
     string asString( string defaultValue = string() );
+
+    bool operator==( ofPtr< ofxGenericValueStore > compare );
 
     // Object methods    
     virtual const std::vector< string >& getObjectKeys();
@@ -109,10 +134,6 @@ protected:
     ofxGenericValueStore();
     virtual void init( ofPtrWeak< ofxGenericValueStore > setThis, Type type );
     ofPtrWeak< ofxGenericValueStore > _this;
-    static ofPtr< ofxGenericValueStore > createWithValue( float value );
-    static ofPtr< ofxGenericValueStore > createWithValue( int value );
-    static ofPtr< ofxGenericValueStore > createWithValue( bool value );
-    static ofPtr< ofxGenericValueStore > createWithValue( string value );
     
     Type _type;
     union
