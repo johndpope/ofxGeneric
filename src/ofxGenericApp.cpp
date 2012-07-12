@@ -167,14 +167,14 @@ void ofxGenericApp::didReceiveMemoryWarning()
 string ofxGenericApp::getAppVersion()
 {
 #if TARGET_OS_IPHONE
-    return ofxNSStringToString( [ [ [ NSBundle mainBundle ] infoDictionary ] objectForKey:@"CFBundleVersion" ] );
+    return ofxNSStringToString( [ [ [ NSBundle mainBundle ] infoDictionary ] objectForKey:@"CFBundleShortVersionString" ] );
 #endif    
 }
 
 string ofxGenericApp::getBuildVersion()
 {
 #if TARGET_OS_IPHONE
-    return ofxNSStringToString( [ [ [ NSBundle mainBundle ] infoDictionary ] objectForKey:@"CFBundleShortVersionString" ] );
+    return ofxNSStringToString( [ [ [ NSBundle mainBundle ] infoDictionary ] objectForKey:@"CFBundleVersion" ] );
 #endif
 }
 
