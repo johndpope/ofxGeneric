@@ -873,10 +873,11 @@ Json::Value* ofxGenericValueStore::convertTo()
         {
             if ( ( *travMembers ).second )
             {
+                string key = ( *travMembers ).first;
                 Json::Value* member = ( *travMembers ).second->convertTo();
                 if ( member )
                 {
-                    ( *node )[ ( *travMembers ).first ] = *member;
+                    ( *node )[ key ] = *member;
                     delete member;
                 }
             } else 
