@@ -15,6 +15,7 @@
 #include "ofEvents.h"
 
 class ofxGenericException;
+class ofxGenericKeyboardDelegate;
 
 class ofxGenericApp : public ofBaseApp, public ofxGenericAlertViewDelegate
 {
@@ -46,6 +47,9 @@ public:
     virtual void keyboardWillShow( const ofRectangle& keyboardFrame );    
     virtual void keyboardWillHide();  
     void setMoveFromUnderKeyboard( ofPtr< ofxGenericView > view ); // TODO: make into a list
+    void addKeyboardDelegate( ofPtr< ofxGenericKeyboardDelegate > delegate );
+    void removeKeyboardDelegate( ofPtr< ofxGenericKeyboardDelegate > delegate );
+    void clearKeyboardDelegates();
     
     bool getStatusBarVisible();
     void setStatusBarVisible( bool visible, bool animated );
@@ -84,6 +88,8 @@ protected:
     ofxGenericApp();
     static ofPtr< ofxGenericApp > _this;
     void setofxGenericAppInstanceToThis();
+    
+    std::vector< ofPtr< ofxGenericKeyboardDelegate > > _keyboardDelegates;
 };
 
 class ofxGenericOrientationEventArgs : public ofEventArgs
@@ -122,3 +128,12 @@ void ofxGUnregisterOrientationEvents( ListenerClass* listener )
 }
 
 void ofNotifyDeviceOrientationChanged( ofOrientation orientation );
+
+class ofxGenericKeyboardDelegate
+{
+public:
+    virtual ~ofxGenericKeyboardDelegate() {};
+    
+    virtual void keyboard_willShow( const ofRectangle& keyboardFrame ) {};
+    virtual void keyboard_willHide( ) {};
+};

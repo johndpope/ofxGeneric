@@ -262,6 +262,14 @@ void ofxGenericApp::keyboardWillShow( const ofRectangle& keyboardFrame )
         }
 #endif
     }
+    
+    for ( int i = 0; i < _keyboardDelegates.size(); i++ )
+    {
+        if ( _keyboardDelegates[i] )
+        {
+            _keyboardDelegates[i]->keyboard_willShow( keyboardFrame );
+        }
+    }
 }
 
 void ofxGenericApp::keyboardWillHide()
@@ -271,11 +279,41 @@ void ofxGenericApp::keyboardWillHide()
     {
         _moveFromUnderKeyboard->setFrame( _moveFromUnderKeyboardOriginalFrame );
     }
+    
+    for ( int i = 0; i < _keyboardDelegates.size(); i++ )
+    {
+        if ( _keyboardDelegates[i] )
+        {
+            _keyboardDelegates[i]->keyboard_willHide( );
+        }
+    }
 }
 
 void ofxGenericApp::setMoveFromUnderKeyboard( ofPtr< ofxGenericView > view )
 {
     _moveFromUnderKeyboard = view;
+}
+
+void ofxGenericApp::addKeyboardDelegate( ofPtr< ofxGenericKeyboardDelegate > delegate )
+{
+    _keyboardDelegates.push_back( delegate );
+}
+
+void ofxGenericApp::removeKeyboardDelegate( ofPtr< ofxGenericKeyboardDelegate > delegate )
+{
+    for ( std::vector< ofPtr< ofxGenericKeyboardDelegate > >::iterator i = _keyboardDelegates.begin(); i != _keyboardDelegates.end(); i++ )
+    {
+        if ( *i == delegate )
+        {
+            _keyboardDelegates.erase( i );
+            return;
+        }
+    }
+}
+
+void ofxGenericApp::clearKeyboardDelegates()
+{
+    _keyboardDelegates.clear();
 }
 
 bool ofxGenericApp::getStatusBarVisible()
