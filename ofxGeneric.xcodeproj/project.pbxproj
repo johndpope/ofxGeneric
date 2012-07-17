@@ -137,7 +137,6 @@
 		3C7B4DDA14FC78A1003121FE /* libofxGeneric.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libofxGeneric.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C7B4DDD14FC78A1003121FE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3C7B4DED14FC78A1003121FE /* UIKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		3C7B4E6714FC7C56003121FE /* Project.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Project.xcconfig; sourceTree = "<group>"; };
 		3C7B4E8A14FC7CBF003121FE /* ofxAppGenericWindow.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxAppGenericWindow.cpp; sourceTree = "<group>"; };
 		3C7B4E8B14FC7CBF003121FE /* ofxAppGenericWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxAppGenericWindow.h; sourceTree = "<group>"; };
 		3C7B4E8C14FC7CBF003121FE /* ofxGenericApp.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericApp.cpp; sourceTree = "<group>"; };
@@ -168,6 +167,11 @@
 		3C7B4F1814FD4E1C003121FE /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		3C85FC5F151149B7001F5854 /* ofxGenericScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericScrollView.h; sourceTree = "<group>"; };
 		3C85FC6315114B1E001F5854 /* ofxGenericScrollView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericScrollView.cpp; sourceTree = "<group>"; };
+		3CA5336415B61A7900A8D36B /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		3CA5336515B61A7900A8D36B /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		3CA5336615B61A7900A8D36B /* SharedDebug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = SharedDebug.xcconfig; sourceTree = "<group>"; };
+		3CA5336715B61A7900A8D36B /* SharedProject.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = SharedProject.xcconfig; sourceTree = "<group>"; };
+		3CA5336815B61A7900A8D36B /* SharedRelease.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = SharedRelease.xcconfig; sourceTree = "<group>"; };
 		3CA59B30153F40E7008EE095 /* ofxGenericException.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericException.h; sourceTree = "<group>"; };
 		3CA59B32153F4311008EE095 /* ofxGenericException.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericException.cpp; sourceTree = "<group>"; };
 		3CB572AA1596506A0060F9BE /* ofxGenericSelectorView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericSelectorView.h; sourceTree = "<group>"; };
@@ -251,7 +255,7 @@
 			isa = PBXGroup;
 			children = (
 				3C85FC4D150FD108001F5854 /* addons */,
-				3C7B4E6714FC7C56003121FE /* Project.xcconfig */,
+				3CA5336315B61A7900A8D36B /* configs */,
 				3C7B4E6E14FC7CBF003121FE /* src */,
 				3C7B4DDC14FC78A1003121FE /* Frameworks */,
 				3C7B4DDB14FC78A1003121FE /* Products */,
@@ -386,6 +390,18 @@
 				453C813215192A39005ED622 /* ofxXmlSettings */,
 			);
 			name = addons;
+			sourceTree = "<group>";
+		};
+		3CA5336315B61A7900A8D36B /* configs */ = {
+			isa = PBXGroup;
+			children = (
+				3CA5336415B61A7900A8D36B /* Debug.xcconfig */,
+				3CA5336515B61A7900A8D36B /* Release.xcconfig */,
+				3CA5336615B61A7900A8D36B /* SharedDebug.xcconfig */,
+				3CA5336715B61A7900A8D36B /* SharedProject.xcconfig */,
+				3CA5336815B61A7900A8D36B /* SharedRelease.xcconfig */,
+			);
+			path = configs;
 			sourceTree = "<group>";
 		};
 		453C813215192A39005ED622 /* ofxXmlSettings */ = {
@@ -673,65 +689,27 @@
 /* Begin XCBuildConfiguration section */
 		3C7B4DFC14FC78A1003121FE /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3C7B4E6714FC7C56003121FE /* Project.xcconfig */;
 			buildSettings = {
-				ARCHS = (
-					armv6,
-					armv7,
-				);
-				COPY_PHASE_STRIP = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = "";
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
 		3C7B4DFD14FC78A1003121FE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3C7B4E6714FC7C56003121FE /* Project.xcconfig */;
 			buildSettings = {
-				ARCHS = (
-					armv6,
-					armv7,
-				);
-				COPY_PHASE_STRIP = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_VERSION = "";
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				SDKROOT = iphoneos;
-				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
 		3C7B4DFF14FC78A1003121FE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3CA5336415B61A7900A8D36B /* Debug.xcconfig */;
 			buildSettings = {
-				DSTROOT = /tmp/ofxGeneric.dst;
-				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
 		3C7B4E0014FC78A1003121FE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3CA5336515B61A7900A8D36B /* Release.xcconfig */;
 			buildSettings = {
-				DSTROOT = /tmp/ofxGeneric.dst;
-				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
