@@ -615,6 +615,13 @@ bool ofxGenericView::containsPoint( const ofPoint& point )
 #endif
 }
 
+bool ofxGenericView::containsPoint( const ofPoint& point, ofPtr< ofxGenericView > pointRelativeTo )
+{
+    ofPoint local = convertFrom( point, pointRelativeTo );
+    return containsPoint( local );
+}
+
+
 ofPoint ofxGenericView::convertFrom( const ofPoint& point, ofPtr< ofxGenericView > view )
 {
 #if TARGET_OS_IPHONE

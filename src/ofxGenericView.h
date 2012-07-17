@@ -85,6 +85,7 @@ public:
     virtual void setViewDelegate( ofPtrWeak< ofxGenericViewDelegate > delegate );
     
     virtual bool containsPoint( const ofPoint& point );
+    virtual bool containsPoint( const ofPoint& point, ofPtr< ofxGenericView > pointRelativeTo );
     ofPoint convertFrom( const ofPoint& point, ofPtr< ofxGenericView > view );
     ofRectangle convertFrom( const ofRectangle& rectangle, ofPtr< ofxGenericView > view );
     
