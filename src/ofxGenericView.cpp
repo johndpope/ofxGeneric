@@ -980,7 +980,7 @@ void ofxGenericView::registerJNIMethods()
         {
             UILongPressGestureRecognizer* longPressGesture = ( UILongPressGestureRecognizer* )recognizer;
             _forwardTo.lock()->gesturePerformedHold(
-                                                    [ longPressGesture minimumPressDuration ],
+                                                    (float)[ longPressGesture minimumPressDuration ],
                                                     [ longPressGesture numberOfTouches ],
                                                     [ longPressGesture allowableMovement ],
                                                     p
