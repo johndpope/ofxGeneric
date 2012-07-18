@@ -27,6 +27,25 @@ ofColor toofColor( ofPtr< ofxGenericValueStore > from )
     return ofColor();
 }
 
+#define RectangleXCacheKey "X"
+#define RectangleYCacheKey "Y"
+#define RectangleWidthCacheKey "Width"
+#define RectangleHeightCacheKey "Height"
+
+ofRectangle toofRectangle( ofPtr< ofxGenericValueStore > from )
+{
+    if ( from && from->isObject() )
+    {
+        return ofRectangle( 
+                       from->read( RectangleXCacheKey,   0 ),
+                       from->read( RectangleYCacheKey, 0 ),
+                       from->read( RectangleWidthCacheKey,  0 ),
+                       from->read( RectangleHeightCacheKey, 0 ) 
+                       );
+    }
+    return ofRectangle();
+}
+
 std::vector< unsigned int > toVectorOfUnsignedInts( ofPtr< ofxGenericValueStore > from )
 {
     std::vector< unsigned int > ints;
