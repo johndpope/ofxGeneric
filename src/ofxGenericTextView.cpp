@@ -239,23 +239,23 @@ void ofxGenericTextView::autosizeFontForMultiline()
 }
 #endif
 
-int ofxGenericTextView::getMinimumFontSize()
+float ofxGenericTextView::getMinimumFontSize()
 {
 #if TARGET_OS_IPHONE
     if ( [ _view isKindOfClass:[ UILabel class ] ] )
     {
-        return ((UILabel *)_view).minimumFontSize;
+        return ( float )((UILabel *)_view).minimumFontSize;
     }
 #endif
     return 0;
 }
 
-void ofxGenericTextView::setMinimumFontSize( int s )
+void ofxGenericTextView::setMinimumFontSize( float s )
 {
 #if TARGET_OS_IPHONE
     if ( [ _view isKindOfClass:[ UILabel class ] ] )
     {
-        ((UILabel *)_view).minimumFontSize = s;
+        ((UILabel *)_view).minimumFontSize = ( CGFloat )s;
     }
 #endif
 }

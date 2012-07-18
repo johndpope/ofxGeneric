@@ -34,8 +34,8 @@ public:
     void setNumberOfLines ( int n );
     int getNumberOfLines ();
     
-    int getMinimumFontSize();
-    void setMinimumFontSize( int s );
+    float getMinimumFontSize();
+    void setMinimumFontSize( float s );
     
     void setFont( string name, float size );
     void setFont( ofPtr< ofxGenericFont > font ); 

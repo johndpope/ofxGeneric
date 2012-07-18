@@ -324,25 +324,25 @@ int ofxGenericButtonView::getNumberOfLines ()
     return 1;
 }
 
-int ofxGenericButtonView::getMinimumFontSize()
+float ofxGenericButtonView::getMinimumFontSize()
 {
 #if TARGET_OS_IPHONE
     if ( [ _view isKindOfClass:[UIButton class]] )
     {
         UILabel *titleLabel = ((UIButton *)_view).titleLabel;
-        return titleLabel.minimumFontSize;
+        return ( float )titleLabel.minimumFontSize;
     }
 #endif
     return 10;
 }
 
-void ofxGenericButtonView::setMinimumFontSize( int s )
+void ofxGenericButtonView::setMinimumFontSize( float s )
 {
 #if TARGET_OS_IPHONE
     if ( [ _view isKindOfClass:[UIButton class]] )
     {
         UILabel *titleLabel = ((UIButton *)_view).titleLabel;
-        titleLabel.minimumFontSize = s;
+        titleLabel.minimumFontSize = ( CGFloat )s;
     }
 #endif
 }
