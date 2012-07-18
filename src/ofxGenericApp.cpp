@@ -186,11 +186,11 @@ void ofxGenericApp::setOrientation( ofOrientation toOrientation )
     switch (ofInterfaceOrientationToiOS( toOrientation ) ) {
             
         case UIInterfaceOrientationLandscapeLeft:
-            transform = CGAffineTransformMakeRotation(-M_PI_2);
+            transform = CGAffineTransformMakeRotation( ( CGFloat )-M_PI_2 );
             break;
             
         case UIInterfaceOrientationLandscapeRight:
-            transform = CGAffineTransformMakeRotation(M_PI_2);
+            transform = CGAffineTransformMakeRotation( ( CGFloat )M_PI_2 );
             break;
             
         default:
@@ -263,7 +263,7 @@ void ofxGenericApp::keyboardWillShow( const ofRectangle& keyboardFrame )
 #endif
     }
     
-    for ( int i = 0; i < _keyboardDelegates.size(); i++ )
+    for ( unsigned int i = 0; i < _keyboardDelegates.size(); i++ )
     {
         if ( _keyboardDelegates[i] )
         {
@@ -280,7 +280,7 @@ void ofxGenericApp::keyboardWillHide()
         _moveFromUnderKeyboard->setFrame( _moveFromUnderKeyboardOriginalFrame );
     }
     
-    for ( int i = 0; i < _keyboardDelegates.size(); i++ )
+    for ( unsigned int i = 0; i < _keyboardDelegates.size(); i++ )
     {
         if ( _keyboardDelegates[i] )
         {

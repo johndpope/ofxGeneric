@@ -277,7 +277,7 @@ float ofxGenericValueStore::asFloat( float defaultValue )
         return ( float )_intValue;
     } else if ( isString() )
     {
-        return atof( asString().c_str() );
+        return ( float )atof( asString().c_str() );
     }
     return defaultValue;
 }

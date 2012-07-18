@@ -57,7 +57,7 @@ void ofxGenericDrawableView::drawLine( const ofPoint &p1, const ofPoint &p2 )
 
 void ofxGenericDrawableView::drawLines( std::vector< ofPoint > points )
 {
-    for (int i = 0; i < points.size(); i++)
+    for ( unsigned int i = 0; i < points.size(); i++)
     {
         _drawCalls.push_back( ofxGenericDrawCall( points[0].x, points[1].y ) );
     }

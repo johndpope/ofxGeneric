@@ -39,8 +39,8 @@ void ofxGenericOpenGLView::init( ofPtr< ofxGenericOpenGLView > setThis, const of
 {
     ofxGenericView::init( setThis, setFrame );
     
-    _framebufferWidth = setFrame.width;
-    _framebufferHeight = setFrame.height;
+    _framebufferWidth = ( GLint )setFrame.width;
+    _framebufferHeight = ( GLint )setFrame.height;
 }
                  
 ofxGenericOpenGLView::ofxGenericOpenGLView()

@@ -19,7 +19,7 @@ string ofxGPathToDocumentsFolder( string fileName )
 
 string ofxGGetPathFromFileName( string fileName )
 {
-    int slashPos = fileName.find_last_of( "/\\" );
+    unsigned int slashPos = fileName.find_last_of( "/\\" );
     if ( slashPos != fileName.npos )
     {
         return fileName.substr( 0, slashPos );
