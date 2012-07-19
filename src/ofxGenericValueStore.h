@@ -18,8 +18,10 @@ class ofxGenericValueStore;
 namespace Json
 { class Value; }
 
-typedef std::map< string, ofPtr< ofxGenericValueStore > >::iterator ofxGenericValueStoreObjectIterator;
-typedef std::vector< ofPtr< ofxGenericValueStore > >::iterator ofxGenericValueStoreArrayIterator;
+typedef std::map< string, ofPtr< ofxGenericValueStore > > ofxGenericValueStoreObject;
+typedef ofxGenericValueStoreObject::iterator ofxGenericValueStoreObjectIterator;
+typedef std::vector< ofPtr< ofxGenericValueStore > > ofxGenericValueStoreArray;
+typedef ofxGenericValueStoreArray::iterator ofxGenericValueStoreArrayIterator;
 
 class ofxGenericValueStore
 {
@@ -56,8 +58,11 @@ public:
     void operator=( string value );
     void operator=( const char* value );
     
-    void operator++();
-    void operator--();
+    ofxGenericValueStore& operator++();
+    ofxGenericValueStore& operator--();
+    
+    ofxGenericValueStore operator++( int );
+    ofxGenericValueStore operator--( int );
 
     bool isFloat() const;
     bool isInt() const;
@@ -142,9 +147,9 @@ protected:
         int _intValue;
         bool _boolValue;
         string* _stringValue;
-        std::map< string, ofPtr< ofxGenericValueStore > >* _objectValue;
-        std::vector< ofPtr< ofxGenericValueStore > >* _arrayValue;
-    };
+        ofxGenericValueStoreObject* _objectValue;
+        ofxGenericValueStoreArray* _arrayValue;
+    } _values;
     std::vector< string > _objectKeys;
     void addObjectKey( string key );
     bool objectKeyExists( string key );
@@ -156,5 +161,10 @@ protected:
     void convertFrom( Json::Value& convert );
     Json::Value* convertTo();
     static ofPtr< ofxGenericValueStore > createFrom( Json::Value& convert );
+    
+    ofxGenericValueStoreObject* asObject() const;
+    ofxGenericValueStoreArray* asArray() const;
+    
+    void ensureIndexAvailable( unsigned int index );
 };
 
