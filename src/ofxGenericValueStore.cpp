@@ -915,8 +915,11 @@ Json::Value* ofxGenericValueStore::convertTo()
                 {
                     ( *node )[ indexCount ] = *index;
                     delete index;
+                    indexCount ++;
+                } else 
+                {
+                    // TODO: proper verbose report
                 }
-                indexCount ++;
             } else 
             {
                 ofxGLogError( "In writing to JSON a node at index " + ofxGToString( indexCount ) + " is empty" );

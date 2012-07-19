@@ -159,7 +159,7 @@ protected:
     bool _fileInDocuments;    
     
     void convertFrom( Json::Value& convert );
-    Json::Value* convertTo();
+    virtual Json::Value* convertTo();
     static ofPtr< ofxGenericValueStore > createFrom( Json::Value& convert );
     
     ofxGenericValueStoreObject* asObject() const;
