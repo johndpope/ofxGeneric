@@ -74,7 +74,7 @@ void ofxGenericHTTPRequest::init( ofPtrWeak< ofxGenericHTTPRequest > setThis, st
         }
     }
 
-    ofxGLog( OF_LOG_VERBOSE, "HTTPRequest - " + urlWithFormat + " " + method );
+    ofxGLogVerbose( "HTTPRequest - " + urlWithFormat + " " + method );
 
 #if TARGET_OS_IPHONE
     // TODO: allow caching specification
@@ -87,7 +87,7 @@ void ofxGenericHTTPRequest::init( ofPtrWeak< ofxGenericHTTPRequest > setThis, st
     if ( data && dataByteLength > 0 )
     {
         NSString* dataString = [ [ [ NSString alloc ] initWithBytes:data length:dataByteLength encoding:NSUTF8StringEncoding ] autorelease ];
-        NSLog( @"HTTPRequest - \nBody: %@", dataString );
+        ofxGLogVerbose( "HTTPRequest - \nBody: " + ofxNSStringToString( dataString ) );
         [ _request setHTTPBody:[ NSData dataWithBytes:data length:dataByteLength ] ];
     }
 

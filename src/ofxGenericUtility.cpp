@@ -212,7 +212,7 @@ string ofxGSPrintf( string format, const std::vector< string >& replaceWith )
             result += replaceWith[ replaceWithIndex ];
         } else
         {
-            ofxGLogError( "ofxSPrintf called expecting more replacement strings" );
+            ofxGLogVerbose( "ofxSPrintf called expecting more replacement strings - \"" + format + "\"" );
         }
 
         start = foundAt + replace.size();
@@ -225,7 +225,7 @@ string ofxGSPrintf( string format, const std::vector< string >& replaceWith )
     
     if ( replaceWithIndex != replaceWith.size() )
     {
-        ofxGLogError( "ofxSPrintf called with more replacement strings than format calls for" );
+        ofxGLogVerbose( "ofxSPrintf called with more replacement strings than format calls for - \"" + format + "\"" );
     }
     
     return result;
