@@ -209,7 +209,7 @@ void ofxGenericValueStore::operator=( const char* value )
     write( value );
 }
 
-ofxGenericValueStore& ofxGenericValueStore::operator++()
+void ofxGenericValueStore::operator++()
 {
     if ( isFloat() )
     {
@@ -221,10 +221,9 @@ ofxGenericValueStore& ofxGenericValueStore::operator++()
     {
         write( !asBool() );
     }
-    return *this;
 }
 
-ofxGenericValueStore& ofxGenericValueStore::operator--()
+void ofxGenericValueStore::operator--()
 {
     if ( isFloat() )
     {
@@ -236,17 +235,16 @@ ofxGenericValueStore& ofxGenericValueStore::operator--()
     {
         write( !asBool() );
     }
-    return *this;
 }
 
-ofxGenericValueStore ofxGenericValueStore::operator++( int )
+void ofxGenericValueStore::operator++( int )
 {
-    return ++( *this );
+    ++( *this );
 }
 
-ofxGenericValueStore ofxGenericValueStore::operator--( int )
+void ofxGenericValueStore::operator--( int )
 {
-    return --( *this );
+    --( *this );
 }
 
 

@@ -58,11 +58,11 @@ public:
     void operator=( string value );
     void operator=( const char* value );
     
-    ofxGenericValueStore& operator++();
-    ofxGenericValueStore& operator--();
+    void operator++();
+    void operator--();
     
-    ofxGenericValueStore operator++( int );
-    ofxGenericValueStore operator--( int );
+    void operator++( int );
+    void operator--( int );
 
     bool isFloat() const;
     bool isInt() const;
