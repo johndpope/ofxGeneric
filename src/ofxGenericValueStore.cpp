@@ -381,7 +381,27 @@ bool ofxGenericValueStore::operator==( ofPtr< ofxGenericValueStore > compare )
 
 bool ofxGenericValueStore::exists( string key )
 {
-    return objectKeyExists( key );
+    if ( objectKeyExists( key ) )
+    {
+#if DEBUG
+        ofxGenericValueStoreObjectIterator find = asObject()->find( key );
+        if ( find != asObject()->end() )
+        {
+            return true;
+        }
+        ofxGLogFatalError( "ofxGenericValueStore of object type has found key " + key + " in key list but not in object map" );
+#endif
+    }
+    
+#if DEBUG
+    ofxGenericValueStoreObjectIterator find = asObject()->find( key );
+    if ( find != asObject()->end() )
+    {
+        ofxGLogFatalError( "ofxGenericValueStore of object type has found key " + key + " in object map but not in key list" );
+        return true;
+    }
+#endif
+    return false;
 }
 
 const std::vector< string >& ofxGenericValueStore::getObjectKeys()
