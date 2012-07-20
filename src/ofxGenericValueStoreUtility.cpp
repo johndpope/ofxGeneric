@@ -46,6 +46,21 @@ ofRectangle toofRectangle( ofPtr< ofxGenericValueStore > from )
     return ofRectangle();
 }
 
+#define PointWidthCacheKey "Width"
+#define PointHeightCacheKey "Height"
+
+ofPoint toofPoint( ofPtr< ofxGenericValueStore > from )
+{
+    if ( from && from->isObject() )
+    {
+        return ofPoint( 
+                           from->read( PointWidthCacheKey,   0 ),
+                           from->read( PointHeightCacheKey, 0 )
+                           );
+    }
+    return ofPoint();
+}
+
 std::vector< unsigned int > toVectorOfUnsignedInts( ofPtr< ofxGenericValueStore > from )
 {
     std::vector< unsigned int > ints;
