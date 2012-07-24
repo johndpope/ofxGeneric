@@ -387,7 +387,9 @@ bool ofxGenericValueStore::exists( string key )
         ofxGenericValueStoreObjectIterator find = asObject()->find( key );
         if ( find != asObject()->end() )
         {
+#endif
             return true;
+#if DEBUG
         }
         ofxGLogFatalError( "ofxGenericValueStore of object type has found key " + key + " in key list but not in object map" );
 #endif
