@@ -405,7 +405,6 @@ string ofxGenericApp::dumpViewGraph()
 void ofxGenericApp::setup()
 {
     ofBaseApp::setup();
-    srand( time( NULL ) );
 }
 
 void ofNotifyDeviceOrientationChanged( ofOrientation orientation )
