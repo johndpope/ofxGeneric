@@ -23,8 +23,8 @@ string ofxGPathToDocumentsFolder( string fileName = string() );
 
 string ofxGGetPathFromFileName( string fileName );
 
-//returns 0 on success, -1 on failure (including if the file already exists)
-int ofxGmkdir( string loc, bool useDocuments );
+bool ofxGmkdir( string loc, bool useDocuments );
+bool ofxGrmdir( string loc, bool useDocuments, bool onlyIfEmpty = true );
 
 //////////////////////////////// Font //////////////////////////////////
 

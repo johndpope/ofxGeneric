@@ -4,6 +4,7 @@
 
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <unistd.h>
 
 //////////////////////////////// Path //////////////////////////////////
 
@@ -27,15 +28,44 @@ string ofxGGetPathFromFileName( string fileName )
     return "";
 }
 
-int ofxGmkdir( string loc, bool useDocuments )
+bool ofxGmkdir( string loc, bool useDocuments )
 {
     if ( !loc.empty() )
     {
         string filename = ofToDataPath( loc, true, useDocuments );
-        //http://pubs.opengroup.org/onlinepubs/009695399/functions/mkdir.html
-        return mkdir( filename.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH ); //wtf omg wow I hate C++
+        return mkdir( filename.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH ) == 0;
     }
-    return 0;
+    return false;
+}
+
+bool ofxGrmdir( string loc, bool useDocuments, bool onlyIfEmpty )
+{
+    if ( !loc.empty() )
+    {
+        string fileName = ofToDataPath( loc, true, useDocuments );
+#if TARGET_OS_IPHONE
+        while ( fileName.length() > 0 && ( fileName[ fileName.length() - 1 ] == '\\' || fileName[ fileName.length() - 1 ] == '/' ) )
+        {
+            fileName = fileName.substr( 0, fileName.length() - 1 );
+        }
+                                                                   
+        NSError* error = nil;
+        NSFileManager* fileManager = [ NSFileManager defaultManager ];
+        if ( onlyIfEmpty )
+        {
+            NSArray* contents = [ fileManager contentsOfDirectoryAtPath:ofxStringToNSString( fileName ) error:&error ];
+            if ( [ contents count ] > 0 )
+            {
+                return false;
+            }
+        }
+        return [ fileManager removeItemAtPath:ofxStringToNSString( fileName ) error:&error ] == YES;
+#elif TARGET_ANDROID
+        // TODO: onlyIfEmpty == false
+        return rmdir( fileName.c_str() ) == 0;
+#endif
+    }
+    return false;
 }
 
 //////////////////////////////// Font //////////////////////////////////
