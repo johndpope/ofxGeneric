@@ -287,8 +287,17 @@ string ofxGSPrintf( string format, string first, string second, string third )
 
 //////////////////////////////// Math //////////////////////////////////
 
-int ofxRandomInRange( int minimum, int maximum )
+int ofxGRandom()
 {
-    return minimum + ( rand() % ( int )( maximum - minimum + 1 ) );
+    return arc4random();
 }
 
+int ofxGRandomInRange( int minimum, int maximum )
+{
+    return minimum + ( ofxGRandom() % ( int )( maximum - minimum + 1 ) );
+}
+
+int ofxGRandomInRangeExclusive( int minimumInclusive, int maximumExclusive )
+{
+    return ofxGRandomInRange( minimumInclusive, maximumExclusive - 1 );
+}

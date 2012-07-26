@@ -59,4 +59,6 @@ string ofxGSPrintf( string format, string first, string second, string third );
 
 //////////////////////////////// Math //////////////////////////////////
 
-int ofxRandomInRange( int minimum, int maximum );
+int ofxGRandom();
+int ofxGRandomInRange( int minimum, int maximum );
+int ofxGRandomInRangeExclusive( int minimumInclusive, int maximumExclusive );
