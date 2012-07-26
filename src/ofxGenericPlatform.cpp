@@ -81,7 +81,7 @@ string ofxGenericPlatform::uniqueIdentifier()
 ofOrientation ofxGenericPlatform::orientation()
 {
 #if TARGET_OS_IPHONE
-    return iOSToofOrientation( [ [ UIDevice currentDevice ] orientation ] );
+    return iOSDeviceToofOrientation( [ [ UIDevice currentDevice ] orientation ] );
 #endif
 }
 

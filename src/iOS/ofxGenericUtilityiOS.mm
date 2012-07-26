@@ -225,6 +225,7 @@ ofxGenericKeyboardType iOSToofxGenericKeyboardType( UIKeyboardType from )
             return ofxGenericKeyboardTypeTwitter;
 #endif
     }
+    return ofxGenericKeyboardTypeDefault;
 }
 
 UITextAutocapitalizationType ofxGenericTextAutoCapitalizationToiOS( ofxGenericTextAutoCapitalization from )
@@ -282,7 +283,7 @@ UIDeviceOrientation ofOrientationToiOS( ofOrientation from )
     return UIDeviceOrientationUnknown;
 }
 
-ofOrientation iOSToofOrientation( UIDeviceOrientation from )
+ofOrientation iOSDeviceToofOrientation( UIDeviceOrientation from )
 {
     switch ( from ) 
     {

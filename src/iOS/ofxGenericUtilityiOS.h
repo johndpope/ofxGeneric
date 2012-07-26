@@ -42,7 +42,7 @@ UITextAutocapitalizationType ofxGenericTextAutoCapitalizationToiOS( ofxGenericTe
 ofxGenericTextAutoCapitalization iOSToofxGenericTextAutoCapitalization( UITextAutocapitalizationType from );
 
 UIDeviceOrientation ofOrientationToiOS( ofOrientation from );
-ofOrientation iOSToofOrientation( UIDeviceOrientation from );
+ofOrientation iOSDeviceToofOrientation( UIDeviceOrientation from );
 
 UIInterfaceOrientation ofInterfaceOrientationToiOS( ofOrientation from );
 ofOrientation iOSToofOrientation( UIInterfaceOrientation from );
