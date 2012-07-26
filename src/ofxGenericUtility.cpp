@@ -289,7 +289,7 @@ string ofxGSPrintf( string format, string first, string second, string third )
 
 int ofxGRandom()
 {
-    return arc4random();
+    return abs( (int)arc4random() );
 }
 
 int ofxGRandomInRange( int minimum, int maximum )
