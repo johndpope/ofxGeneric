@@ -70,6 +70,8 @@ public:
     void alertView_cancelled();
     
     static string dumpViewGraph();
+    
+    static bool isDebuggerAttached();
 
     virtual ~ofxGenericApp();
 protected:
