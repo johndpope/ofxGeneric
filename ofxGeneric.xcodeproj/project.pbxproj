@@ -49,6 +49,7 @@
 		3C7B4EC814FC7CBF003121FE /* ofxGenericUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C7B4E9D14FC7CBF003121FE /* ofxGenericUtility.h */; };
 		3C7B4EC914FC7CBF003121FE /* ofxGenericView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C7B4E9E14FC7CBF003121FE /* ofxGenericView.cpp */; };
 		3C7B4ECA14FC7CBF003121FE /* ofxGenericView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C7B4E9F14FC7CBF003121FE /* ofxGenericView.h */; };
+		3C8349F215C301410044DED3 /* ofxGenericAnimatedImageView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C8349F115C301410044DED3 /* ofxGenericAnimatedImageView.cpp */; };
 		3C85FC60151149B7001F5854 /* ofxGenericScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C85FC5F151149B7001F5854 /* ofxGenericScrollView.h */; };
 		3C85FC6415114B1E001F5854 /* ofxGenericScrollView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C85FC6315114B1E001F5854 /* ofxGenericScrollView.cpp */; };
 		3CA59B33153F4312008EE095 /* ofxGenericException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CA59B32153F4311008EE095 /* ofxGenericException.cpp */; };
@@ -165,6 +166,8 @@
 		3C7B4F1414FC861A003121FE /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		3C7B4F1614FD4E13003121FE /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		3C7B4F1814FD4E1C003121FE /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		3C8349EF15C301170044DED3 /* ofxGenericAnimatedImageView.h */ = {isa = PBXFileReference; path = ofxGenericAnimatedImageView.h; sourceTree = "<group>"; };
+		3C8349F115C301410044DED3 /* ofxGenericAnimatedImageView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericAnimatedImageView.cpp; sourceTree = "<group>"; };
 		3C85FC5F151149B7001F5854 /* ofxGenericScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericScrollView.h; sourceTree = "<group>"; };
 		3C85FC6315114B1E001F5854 /* ofxGenericScrollView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericScrollView.cpp; sourceTree = "<group>"; };
 		3CA5336415B61A7900A8D36B /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
@@ -359,6 +362,8 @@
 				3CB572AC1596512C0060F9BE /* ofxGenericSelectorView.cpp */,
 				457D35A215A37D98000B40C8 /* ofxGenericObject.h */,
 				457D35A415A37DA3000B40C8 /* ofxGenericObject.cpp */,
+				3C8349EF15C301170044DED3 /* ofxGenericAnimatedImageView.h */,
+				3C8349F115C301410044DED3 /* ofxGenericAnimatedImageView.cpp */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -673,6 +678,7 @@
 				3CEBF17815890F9A008D2937 /* ofxGenericBarGraphView.cpp in Sources */,
 				3CB572AD1596512C0060F9BE /* ofxGenericSelectorView.cpp in Sources */,
 				457D35A515A37DA3000B40C8 /* ofxGenericObject.cpp in Sources */,
+				3C8349F215C301410044DED3 /* ofxGenericAnimatedImageView.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
