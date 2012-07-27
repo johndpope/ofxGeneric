@@ -30,8 +30,8 @@ public:
     virtual void willResignActive();
     virtual void willTerminate();
     
-    string getAppVersion();
-    string getBuildVersion();
+    static string getAppVersion();
+    static string getBuildVersion();
     
     virtual void didReceiveMemoryWarning();
     
