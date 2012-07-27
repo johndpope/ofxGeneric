@@ -69,55 +69,66 @@ void ofxGenericApp::setofxGenericAppInstanceToThis()
     }
 }
 
+void ofxGenericApp::realRun()
+{
+    NSString* delegateClassName = NSStringFromClass( [ ofxGenericAppDelegate class ] );
+    UIApplicationMain( nil, nil, nil, delegateClassName );
+    finishedLaunching();
+}
+
 void ofxGenericApp::runViaInfiniteLoop( ofPtr< ofxAppGenericWindow > window )
 {
-    try
-    {
-        ofLog( ofxGenericModuleName, OF_LOG_VERBOSE, "App loop starting..." );
-        // TODO: strong references
-        _window = window;
+    ofLog( ofxGenericModuleName, OF_LOG_VERBOSE, "App loop starting..." );
+    // TODO: strong references
+    _window = window;
 
-    #if TARGET_OS_IPHONE
-        @try
+    if ( true )
+    {
+        realRun();
+    } else
+    {
+        try
         {
-            NSString* delegateClassName = NSStringFromClass( [ ofxGenericAppDelegate class ] );
-            UIApplicationMain( nil, nil, nil, delegateClassName );
-            finishedLaunching();
-        } @catch( NSException* exception )
+        #if TARGET_OS_IPHONE
+            @try
+            {
+                realRun();
+            } @catch( NSException* exception )
+            {
+                ofxGenericException uncaught( exception );
+                handleUncaughtException( uncaught );
+            }
+            
+        #elif TARGET_ANDROID
+        /*    JNIMethod setWindow(
+                    JNIFindClass(ofxGenericApp::ActivityClassName ),
+                    true,
+                    "setWindow",
+                    JNIEncodeMethodSignature( 1, JNIType_void, JNIType_object, ofxGenericView::className ), //"(Lcc/openframeworks/ofxGeneric/View;)V",
+                    true
+                    );
+
+            JNICallStaticVoidMethod( setWindow.getClass(), setWindow.getID(), _window->getNativeWindow() );
+        */
+            
+        #endif
+            
+        } catch( ofxGenericException& uncaughtofxGeneric )
         {
-            ofxGenericException uncaught( exception );
-            handleUncaughtException( uncaught );
+            handleUncaughtException( uncaughtofxGeneric );
+        } catch( std::exception& uncaughtStd )
+        {
+            ofxGenericException uncaughtStdofxGeneric( uncaughtStd );
+            handleUncaughtException( uncaughtStdofxGeneric );        
         }
-        
-    #elif TARGET_ANDROID
-    /*    JNIMethod setWindow(
-                JNIFindClass(ofxGenericApp::ActivityClassName ),
-                true,
-                "setWindow",
-                JNIEncodeMethodSignature( 1, JNIType_void, JNIType_object, ofxGenericView::className ), //"(Lcc/openframeworks/ofxGeneric/View;)V",
-                true
-                );
-
-        JNICallStaticVoidMethod( setWindow.getClass(), setWindow.getID(), _window->getNativeWindow() );
-    */
-        
+    #if !defined (DEBUG)
+        catch( ... )
+        {
+            ofxGenericException uncaughtUnknown( "Unknown exception" );
+            handleUncaughtException( uncaughtUnknown );
+        }
     #endif
-        
-    } catch( ofxGenericException& uncaughtofxGeneric )
-    {
-        handleUncaughtException( uncaughtofxGeneric );
-    } catch( std::exception& uncaughtStd )
-    {
-        ofxGenericException uncaughtStdofxGeneric( uncaughtStd );
-        handleUncaughtException( uncaughtStdofxGeneric );        
     }
-#if !defined (DEBUG)
-    catch( ... )
-    {
-        ofxGenericException uncaughtUnknown( "Unknown exception" );
-        handleUncaughtException( uncaughtUnknown );
-    }
-#endif
 }
 
 // TODO: come up with calling scheme, friending doesn't seem to be possible :(

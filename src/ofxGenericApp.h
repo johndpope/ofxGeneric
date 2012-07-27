@@ -91,6 +91,8 @@ protected:
     static ofPtr< ofxGenericApp > _this;
     void setofxGenericAppInstanceToThis();
     
+    void realRun();
+    
     std::vector< ofPtr< ofxGenericKeyboardDelegate > > _keyboardDelegates;
 };
 
