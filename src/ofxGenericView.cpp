@@ -782,10 +782,9 @@ void ofxGenericView::gesturePerformedHold( UILongPressGestureRecognizer* recogni
 
 void ofxGenericView::gesturePerformedPan( UIPanGestureRecognizer* recognizer )
 {
-    CGPoint cgp = [recognizer locationInView:getNativeView()];
+//    CGPoint cgp = [recognizer locationInView:getNativeView()];
     CGPoint velocity = [ recognizer velocityInView:getNativeView() ];
     gesturePerformedPan( [ recognizer numberOfTouches ], ofPoint( velocity.x, velocity.y ) );
-    
 }
 
 #endif
