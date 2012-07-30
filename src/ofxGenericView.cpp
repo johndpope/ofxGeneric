@@ -11,6 +11,12 @@
 
 #if TARGET_OS_IPHONE
 
+@interface ofxUIGenericViewControllerForwarder( Gesture )
+
+- (void)gesturePerformed:( UIGestureRecognizer* )recognizer;
+
+@end
+
 @interface ofxGenericViewAnimationForwarder : NSObject
 {
     ofPtrWeak< ofxGenericViewDelegate > _delegate;
@@ -18,15 +24,6 @@
 - ( id )initWithDelegate:( ofPtrWeak< ofxGenericViewDelegate > )delegate;
 - (void)animationWillStart:( NSString* )animationID finished:( NSNumber* )finished context:( void* )context;
 - (void)animationDidStop:( NSString* )animationID finished:( NSNumber* )finished context:( void* )context;
-
-@end
-
-@interface ofxGenericGestureForwarder : NSObject
-{
-    ofPtrWeak< ofxGenericView > _forwardTo;
-}
--( id )initWithForwardTo:( ofPtrWeak< ofxGenericView > )forwardTo;
--( void )gesturePerformed:( UIGestureRecognizer* )recognizer;
 
 @end
 
@@ -73,8 +70,6 @@ ofxGenericView::~ofxGenericView()
 #if TARGET_OS_IPHONE
     releaseView( _view );
     releaseViewController( _viewController );
-    [_gestureForwarders release];
-    _gestureForwarders = nil;
 #elif TARGET_ANDROID
 	destroyJNIReference( _view );
 #endif
@@ -114,11 +109,6 @@ void ofxGenericView::init( ofPtrWeak< ofxGenericView > setThis, const ofRectangl
     		jniRect.getJNIInstance()
     		);
 
-#endif
-    
-#if TARGET_OS_IPHONE
-    _gestureForwarders = [[NSMutableArray array] retain];
-    
 #endif
     
     didLoad();
@@ -713,9 +703,7 @@ void ofxGenericView::replaceViewWithView( ofPtr< ofxGenericView > replace, ofPtr
 void ofxGenericView::addGestureRecognizerSwipe( ofxGenericGestureTypeSwipe type )
 {
 #if TARGET_OS_IPHONE
-    ofxGenericGestureForwarder *forwarder = [[[ofxGenericGestureForwarder alloc] initWithForwardTo:_this ] autorelease];
-    [ _gestureForwarders addObject:forwarder];
-    UISwipeGestureRecognizer *swipeRecognizer = [[[UISwipeGestureRecognizer alloc] initWithTarget:forwarder action:@selector(gesturePerformed:)] autorelease];
+    UISwipeGestureRecognizer *swipeRecognizer = [[[UISwipeGestureRecognizer alloc] initWithTarget:_viewController action:@selector(gesturePerformed:)] autorelease];
 	[swipeRecognizer setDirection: ofxGenericGestureTypeSwipeToiOS( type ) ];
 	[ _view addGestureRecognizer:swipeRecognizer];
 #elif TARGET_ANDROID
@@ -725,9 +713,7 @@ void ofxGenericView::addGestureRecognizerSwipe( ofxGenericGestureTypeSwipe type 
 void ofxGenericView::addGestureRecognizerTap( int tapCount, int fingerCount )
 {
 #if TARGET_OS_IPHONE
-    ofxGenericGestureForwarder *forwarder = [[[ofxGenericGestureForwarder alloc] initWithForwardTo:_this ] autorelease];
-    [ _gestureForwarders addObject:forwarder];
-    UITapGestureRecognizer *recognizer = [[[UITapGestureRecognizer alloc] initWithTarget:forwarder action:@selector(gesturePerformed:)] autorelease];
+    UITapGestureRecognizer *recognizer = [[[UITapGestureRecognizer alloc] initWithTarget:_viewController action:@selector(gesturePerformed:)] autorelease];
 	recognizer.numberOfTapsRequired = tapCount;
     recognizer.numberOfTouchesRequired = fingerCount;
 	[ _view addGestureRecognizer:recognizer];
@@ -738,16 +724,13 @@ void ofxGenericView::addGestureRecognizerTap( int tapCount, int fingerCount )
 void ofxGenericView::addGestureRecognizerHold( float minimumPressDuration, unsigned int fingerCount, float allowableMovement )
 {
 #if TARGET_OS_IPHONE
-    ofxGenericGestureForwarder* forwarder = [ [ [ ofxGenericGestureForwarder alloc ] initWithForwardTo:_this ] autorelease ];
-    
-    UILongPressGestureRecognizer* recognizer = [ [ [ UILongPressGestureRecognizer alloc ] initWithTarget:forwarder action:@selector( gesturePerformed: ) ] autorelease ];
+    UILongPressGestureRecognizer* recognizer = [ [ [ UILongPressGestureRecognizer alloc ] initWithTarget:_viewController action:@selector( gesturePerformed: ) ] autorelease ];
     recognizer.minimumPressDuration = minimumPressDuration;
     recognizer.numberOfTapsRequired = 0;
     recognizer.numberOfTouchesRequired = fingerCount;
     recognizer.allowableMovement = allowableMovement;
     
 	[ _view addGestureRecognizer:recognizer ];
-    [ _gestureForwarders addObject:forwarder ];
     
 #elif TARGET_ANDROID
 #endif
@@ -756,15 +739,11 @@ void ofxGenericView::addGestureRecognizerHold( float minimumPressDuration, unsig
 void ofxGenericView::addGestureRecognizerPan( unsigned int minimumFingerCount, unsigned int maximumFingerCount )
 {
 #if TARGET_OS_IPHONE
-    ofxGenericGestureForwarder* forwarder = [ [ [ ofxGenericGestureForwarder alloc ] initWithForwardTo:_this ] autorelease ];
-    
-    UIPanGestureRecognizer* recognizer = [ [ [ UIPanGestureRecognizer alloc ] initWithTarget:forwarder action:@selector( gesturePerformed: ) ] autorelease ];
+    UIPanGestureRecognizer* recognizer = [ [ [ UIPanGestureRecognizer alloc ] initWithTarget:_viewController action:@selector( gesturePerformed: ) ] autorelease ];
     recognizer.minimumNumberOfTouches = minimumFingerCount;
     recognizer.maximumNumberOfTouches = maximumFingerCount;
     
 	[ _view addGestureRecognizer:recognizer ];
-    [ _gestureForwarders addObject:forwarder ];
-    
 #elif TARGET_ANDROID
 #endif
 }
@@ -938,50 +917,6 @@ void ofxGenericView::registerJNIMethods()
     return ofxGenericApp::getInstance()->shouldAutorotate( iOSToofOrientation( interfaceOrientation ) );
 }
 
-@end
-
-@implementation ofxGenericViewAnimationForwarder
-
--( id )initWithDelegate:( ofPtrWeak< ofxGenericViewDelegate > )delegate
-{
-    self = [ super init ];
-    if ( self )
-    {
-        _delegate = delegate;
-    }
-    return self;    
-}
-
-- (void)animationWillStart:( NSString* )animationID finished:( NSNumber* )finished context:( void* )context
-{
-    if ( _delegate )
-    {
-        _delegate.lock()->animationWillStart( ofxNSStringToString( animationID ) );
-    }
-}
-
-- (void)animationDidStop:( NSString* )animationID finished:( NSNumber* )finished context:( void* )context
-{
-    if ( _delegate )
-    {
-        _delegate.lock()->animationDidStop( ofxNSStringToString( animationID ) );
-    }
-}
-
-@end
-
-@implementation ofxGenericGestureForwarder
-
--( id )initWithForwardTo:( ofPtrWeak< ofxGenericView > )forwardTo
-{
-    self = [ super init ];
-    if ( self )
-    {
-        _forwardTo = forwardTo;
-    }
-    return self;    
-}
-
 - (void)gesturePerformed:( UIGestureRecognizer* )recognizer
 {
     if ( _forwardTo )
@@ -1015,6 +950,36 @@ void ofxGenericView::registerJNIMethods()
             CGPoint distance = [ panGesture velocityInView:view ];
             _forwardTo.lock()->gesturePerformedPan( [ panGesture numberOfTouches ], ofPoint( distance.x, distance.y ) );
         }
+    }
+}
+
+@end
+
+@implementation ofxGenericViewAnimationForwarder
+
+-( id )initWithDelegate:( ofPtrWeak< ofxGenericViewDelegate > )delegate
+{
+    self = [ super init ];
+    if ( self )
+    {
+        _delegate = delegate;
+    }
+    return self;    
+}
+
+- (void)animationWillStart:( NSString* )animationID finished:( NSNumber* )finished context:( void* )context
+{
+    if ( _delegate )
+    {
+        _delegate.lock()->animationWillStart( ofxNSStringToString( animationID ) );
+    }
+}
+
+- (void)animationDidStop:( NSString* )animationID finished:( NSNumber* )finished context:( void* )context
+{
+    if ( _delegate )
+    {
+        _delegate.lock()->animationDidStop( ofxNSStringToString( animationID ) );
     }
 }
 

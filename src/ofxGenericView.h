@@ -172,10 +172,6 @@ protected:
     ofPtrWeak< ofxGenericView > _parent;
     ofPtrWeak < ofxGenericViewDelegate > _viewDelegate;
 
-#if TARGET_OS_IPHONE
-    NSMutableArray* _gestureForwarders;
-#endif
-    
     friend class ofxAppGenericWindow;
 };
 
