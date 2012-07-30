@@ -819,6 +819,7 @@ string ofxGenericView::toString()
 #else
 #endif
     result += " frame: " + getFrame().toString();
+    result += " visible: " + ofxGToString( getVisible() );
     return result;
     
 #else
