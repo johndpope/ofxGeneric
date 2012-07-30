@@ -753,6 +753,22 @@ void ofxGenericView::addGestureRecognizerHold( float minimumPressDuration, unsig
 #endif
 }
 
+void ofxGenericView::addGestureRecognizerPan( unsigned int minimumFingerCount, unsigned int maximumFingerCount )
+{
+#if TARGET_OS_IPHONE
+    ofxGenericGestureForwarder* forwarder = [ [ [ ofxGenericGestureForwarder alloc ] initWithForwardTo:_this ] autorelease ];
+    
+    UIPanGestureRecognizer* recognizer = [ [ [ UIPanGestureRecognizer alloc ] initWithTarget:forwarder action:@selector( gesturePerformed: ) ] autorelease ];
+    recognizer.minimumNumberOfTouches = minimumFingerCount;
+    recognizer.maximumNumberOfTouches = maximumFingerCount;
+    
+	[ _view addGestureRecognizer:recognizer ];
+    [ _gestureForwarders addObject:forwarder ];
+    
+#elif TARGET_ANDROID
+#endif
+}
+
 void ofxGenericView::gesturePerformedSwipe( ofxGenericGestureTypeSwipe type, ofPoint location )
 {
     if ( _viewDelegate )
@@ -774,6 +790,14 @@ void ofxGenericView::gesturePerformedHold( float minimumPressDuration, unsigned 
     if ( _viewDelegate )
     {
         _viewDelegate.lock()->gesturePerformedHold( _this.lock(), minimumPressDuration, fingerCount, allowableMovement, location );
+    }
+}
+
+void ofxGenericView::gesturePerformedPan( unsigned int fingerCount, ofPoint distance )
+{
+    if ( _viewDelegate )
+    {
+        _viewDelegate.lock()->gesturePerformedPan( _this.lock(), fingerCount, distance );
     }
 }
 
@@ -985,6 +1009,11 @@ void ofxGenericView::registerJNIMethods()
                                                     [ longPressGesture allowableMovement ],
                                                     p
                                                     );
+        } else if ( [recognizer isKindOfClass:[ UIPanGestureRecognizer class ] ] )
+        {
+            UIPanGestureRecognizer* panGesture = ( UIPanGestureRecognizer* )recognizer;
+            CGPoint distance = [ panGesture velocityInView:view ];
+            _forwardTo.lock()->gesturePerformedPan( [ panGesture numberOfTouches ], ofPoint( distance.x, distance.y ) );
         }
     }
 }
