@@ -471,11 +471,11 @@ void ofxGenericTableViewCell::addChildView( ofPtr< ofxGenericView > add, ofPtr< 
 {
     if ( _contentView )
     {
-        ofxGenericView::addChildViewTo( _contentView, add, before );
+        ofxGenericView::addChildViewToBefore( _contentView, add, before );
     }
     else
     {
-        ofxGenericView::addChildView( add, before );
+        ofxGenericView::addChildViewBefore( add, before );
     }
 }
 

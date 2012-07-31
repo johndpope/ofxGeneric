@@ -50,7 +50,7 @@ public:
     virtual void setBackgroundColor( const ofColor& setColor );
     
     virtual void addChildView( ofPtr< ofxGenericView > add );
-    virtual void addChildView( ofPtr< ofxGenericView > add, ofPtr< ofxGenericView > before );
+    virtual void addChildViewBefore( ofPtr< ofxGenericView > add, ofPtr< ofxGenericView > before );
     virtual void removeChildView( ofPtr< ofxGenericView > remove );
     void removeFromParent();
     void removeChildViews();
@@ -132,7 +132,7 @@ protected:
     //used for special situations like a table view cell where the parent may not be this view, but for all
     //external purposes appears to be.
     void addChildViewTo( ofPtr< ofxGenericView > parent, ofPtr< ofxGenericView > add );
-    void addChildViewTo( ofPtr< ofxGenericView > parent, ofPtr< ofxGenericView > add, ofPtr< ofxGenericView > before );
+    void addChildViewToBefore( ofPtr< ofxGenericView > parent, ofPtr< ofxGenericView > add, ofPtr< ofxGenericView > before );
     void removeChildViewFrom( ofPtr< ofxGenericView > parent, ofPtr< ofxGenericView > remove );
     
 #if TARGET_OS_IPHONE

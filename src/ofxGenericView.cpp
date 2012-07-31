@@ -261,9 +261,9 @@ void ofxGenericView::addChildView( ofPtr< ofxGenericView > add )
     addChildViewTo( _this.lock(), add );
 }
 
-void ofxGenericView::addChildView( ofPtr< ofxGenericView > add, ofPtr< ofxGenericView > before )
+void ofxGenericView::addChildViewBefore( ofPtr< ofxGenericView > add, ofPtr< ofxGenericView > before )
 {
-    addChildViewTo( _this.lock(), add, before );
+    addChildViewToBefore( _this.lock(), add, before );
 }
 
 void ofxGenericView::addChildViewTo( ofPtr< ofxGenericView > parent, ofPtr< ofxGenericView > add )
@@ -305,7 +305,7 @@ void ofxGenericView::addChildViewTo( ofPtr< ofxGenericView > parent, ofPtr< ofxG
     }
 }
 
-void ofxGenericView::addChildViewTo( ofPtr< ofxGenericView > parent, ofPtr< ofxGenericView > add, ofPtr< ofxGenericView > before )
+void ofxGenericView::addChildViewToBefore( ofPtr< ofxGenericView > parent, ofPtr< ofxGenericView > add, ofPtr< ofxGenericView > before )
 {
     if ( add )
     {
@@ -705,7 +705,7 @@ void ofxGenericView::replaceViewWithView( ofPtr< ofxGenericView > replace, ofPtr
         ofPtr< ofxGenericView > parent = replace->getParent().lock();
         // TODO: match autosizing?
         with->setFrame( replace->getFrame() );
-        parent->addChildView( with, replace );
+        parent->addChildViewBefore( with, replace );
         parent->removeChildView( replace );
     }
 }
