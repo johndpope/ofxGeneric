@@ -136,12 +136,6 @@ protected:
 #endif
     virtual NativeView createNativeView( const ofRectangle& frame );
     NativeView _view;
-
-    //used for special situations like a table view cell where the parent may not be this view, but for all
-    //external purposes appears to be.
-    void addChildViewTo( ofPtr< ofxGenericView > parent, ofPtr< ofxGenericView > add );
-    void addChildViewToBefore( ofPtr< ofxGenericView > parent, ofPtr< ofxGenericView > add, ofPtr< ofxGenericView > before );
-    void removeChildViewFrom( ofPtr< ofxGenericView > parent, ofPtr< ofxGenericView > remove );
     
 #if TARGET_OS_IPHONE
 
@@ -181,8 +175,8 @@ protected:
     friend class ofxAppGenericWindow;
     
 private:
-    void addChildViewToPre( ofPtr< ofxGenericView > add );
-    void addChildViewToPost( ofPtr< ofxGenericView > add, ofPtr< ofxGenericView > parent );
+    void addChildViewPre( ofPtr< ofxGenericView > add );
+    void addChildViewPost( ofPtr< ofxGenericView > add );
 };
 
 class ofxGenericViewDelegate

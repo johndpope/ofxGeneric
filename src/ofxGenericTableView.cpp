@@ -459,7 +459,7 @@ void ofxGenericTableViewCell::addChildView( ofPtr< ofxGenericView > add )
 {
     if ( _contentView )
     {
-        ofxGenericView::addChildViewTo( _contentView, add );
+        _contentView->addChildView( add );
     }
     else
     {
@@ -467,11 +467,11 @@ void ofxGenericTableViewCell::addChildView( ofPtr< ofxGenericView > add )
     }
 }
 
-void ofxGenericTableViewCell::addChildView( ofPtr< ofxGenericView > add, ofPtr< ofxGenericView > before )
+void ofxGenericTableViewCell::addChildViewBefore( ofPtr< ofxGenericView > add, ofPtr< ofxGenericView > before )
 {
     if ( _contentView )
     {
-        ofxGenericView::addChildViewToBefore( _contentView, add, before );
+        _contentView->addChildViewBefore( add, before );
     }
     else
     {
@@ -483,7 +483,7 @@ void ofxGenericTableViewCell::removeChildView( ofPtr< ofxGenericView > remove )
 {
     if ( _contentView )
     {
-        ofxGenericView::removeChildViewFrom( _contentView, remove );
+        _contentView->removeChildView( remove );
     }
     else
     {

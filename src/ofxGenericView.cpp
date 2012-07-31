@@ -251,15 +251,62 @@ void ofxGenericView::setBackgroundColor( const ofColor& setColor )
 
 void ofxGenericView::addChildView( ofPtr< ofxGenericView > add )
 {
-    addChildViewTo( _this.lock(), add );
+    if ( add )
+    {
+        addChildViewPre( add );
+        
+        _children.push_back( add );
+        if ( add->getNativeView() )
+        {
+#if TARGET_OS_IPHONE
+          	[ getNativeView() addSubview:add->getNativeView() ];
+#elif TARGET_ANDROID
+          	callJNIVoidMethod(
+                              _jniMethods,
+                              JNIMethod_AddChildView,
+                              add->getNativeView()
+                              );
+#endif
+        } else
+        {
+            // TODO:
+        }
+        addChildViewPost( add );
+    }
 }
 
 void ofxGenericView::addChildViewBefore( ofPtr< ofxGenericView > add, ofPtr< ofxGenericView > before )
 {
-    addChildViewToBefore( _this.lock(), add, before );
+    if ( add )
+    {
+        if ( before && before->getParent().lock() == _this.lock() )
+        {
+            addChildViewPre( add );
+            
+            std::list< ofPtr< ofxGenericView > >::iterator findIndex = _children.begin();
+            while ( findIndex != _children.end() && ( *findIndex ) != before )
+            {
+                findIndex ++;
+            }
+            // TODO: extra error check
+            _children.insert( findIndex, add );
+            
+            if ( getNativeView() && add->getNativeView() )
+            {
+#if TARGET_OS_IPHONE
+                [ getNativeView() insertSubview:add->getNativeView() belowSubview:before->getNativeView() ];
+#elif TARGET_ANDROID
+#endif
+            }
+            addChildViewPost( add );
+        } else
+        {
+            addChildView( add );
+        }
+    }    
 }
 
-void ofxGenericView::addChildViewToPre( ofPtr< ofxGenericView > add )
+void ofxGenericView::addChildViewPre( ofPtr< ofxGenericView > add )
 {
     if ( add )
     {
@@ -270,11 +317,11 @@ void ofxGenericView::addChildViewToPre( ofPtr< ofxGenericView > add )
     }
 }
 
-void ofxGenericView::addChildViewToPost( ofPtr< ofxGenericView > add, ofPtr< ofxGenericView > parent )
+void ofxGenericView::addChildViewPost( ofPtr< ofxGenericView > add )
 {
     if ( add )
     {
-        add->_parent = parent;
+        add->_parent = _this;
         
         if ( _isAttachedToRoot )
         {
@@ -284,114 +331,36 @@ void ofxGenericView::addChildViewToPost( ofPtr< ofxGenericView > add, ofPtr< ofx
     }
 }
 
-
-void ofxGenericView::addChildViewTo( ofPtr< ofxGenericView > parent, ofPtr< ofxGenericView > add )
+void ofxGenericView::removeChildView( ofPtr< ofxGenericView > remove )
 {
-    if ( add )
+    if ( remove && remove->_parent.lock() == _this.lock() )
     {
-        addChildViewToPre( add );
+        if ( _isAttachedToRoot )
+        {
+            remove->willDisappear();
+        }
         
-        parent->_children.push_back( add );
-        NativeView nativeView = add->getNativeView();
+        NativeView nativeView = remove->getNativeView();
         if ( nativeView )
         {
 #if TARGET_OS_IPHONE
-          	[ parent->_view addSubview:nativeView ];
+            [ nativeView removeFromSuperview ];
 #elif TARGET_ANDROID
-          	callJNIVoidMethod(
-          			_jniMethods,
-          			JNIMethod_AddChildView,
-          			nativeView
-          			);
+            callJNIVoidMethod(
+                              _jniMethods,
+                              JNIMethod_RemoveChildView,
+                              nativeView
+                              );
 #endif
-        } else
-        {
-            // TODO:
         }
-        addChildViewToPost( add, parent );
-    }
-}
-
-void ofxGenericView::addChildViewToBefore( ofPtr< ofxGenericView > parent, ofPtr< ofxGenericView > add, ofPtr< ofxGenericView > before )
-{
-    if ( add )
-    {
-        if ( before && before->getParent().lock() == parent )
+        _children.remove( remove );
+        remove->_parent = ofPtrWeak< ofxGenericView >();
+        
+        if ( _isAttachedToRoot )
         {
-            addChildViewToPre( add );
-
-            std::list< ofPtr< ofxGenericView > >::iterator findIndex = parent->_children.begin();
-            while ( findIndex != parent->_children.end() && ( *findIndex ) != before )
-            {
-                findIndex ++;
-            }
-            // TODO: extra error check
-            parent->_children.insert( findIndex, add );
-            
-            NativeView addNativeView = add->getNativeView();
-            NativeView beforeNativeView = before->getNativeView();
-            if ( addNativeView )
-            {
-#if TARGET_OS_IPHONE
-                [ parent->_view insertSubview:addNativeView belowSubview:beforeNativeView ];
-#elif TARGET_ANDROID
-#endif
-            }
-            addChildViewToPost( add, parent );
-        } else 
-        {
-            addChildViewTo( parent, add );
+            remove->setIsAttachedToRoot( false );
+            remove->didDisappear();
         }
-    }    
-}
-
-void ofxGenericView::removeChildView( ofPtr< ofxGenericView > remove )
-{
-    removeChildViewFrom( _this.lock(), remove );
-}
-
-void ofxGenericView::removeChildViewFrom( ofPtr< ofxGenericView > parent, ofPtr< ofxGenericView > remove )
-{
-    if ( remove && parent && remove->_parent.lock() == parent )
-    {
-		if ( *( remove->_parent.lock() ) == *( parent ) )
-		{
-            if ( _isAttachedToRoot )
-            {
-                remove->willDisappear();
-            }
-            
-            NativeView nativeView = remove->getNativeView();
-			if ( nativeView )
-			{
-#if TARGET_OS_IPHONE
-				[ nativeView removeFromSuperview ];
-#elif TARGET_ANDROID
-				callJNIVoidMethod(
-						_jniMethods,
-						JNIMethod_RemoveChildView,
-						nativeView
-						);
-#endif
-			} else
-			{
-				// TODO:
-			}
-			parent->_children.remove( remove );
-			remove->_parent = ofPtrWeak< ofxGenericView >();
-            
-            if ( _isAttachedToRoot )
-            {
-                remove->setIsAttachedToRoot( false );
-                remove->didDisappear();
-            }
-        } else
-        {
-            // TODO:
-        }
-    } else
-    {
-        // TODO:
     }
 }
 
