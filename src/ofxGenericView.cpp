@@ -259,7 +259,7 @@ void ofxGenericView::addChildViewBefore( ofPtr< ofxGenericView > add, ofPtr< ofx
     addChildViewToBefore( _this.lock(), add, before );
 }
 
-void ofxGenericView::addChildViewTo( ofPtr< ofxGenericView > parent, ofPtr< ofxGenericView > add )
+void ofxGenericView::addChildViewToPre( ofPtr< ofxGenericView > add )
 {
     if ( add )
     {
@@ -267,6 +267,29 @@ void ofxGenericView::addChildViewTo( ofPtr< ofxGenericView > parent, ofPtr< ofxG
         {
             add->willAppear();
         }
+    }
+}
+
+void ofxGenericView::addChildViewToPost( ofPtr< ofxGenericView > add, ofPtr< ofxGenericView > parent )
+{
+    if ( add )
+    {
+        add->_parent = parent;
+        
+        if ( _isAttachedToRoot )
+        {
+            add->setIsAttachedToRoot( true );
+            add->didAppear();
+        }
+    }
+}
+
+
+void ofxGenericView::addChildViewTo( ofPtr< ofxGenericView > parent, ofPtr< ofxGenericView > add )
+{
+    if ( add )
+    {
+        addChildViewToPre( add );
         
         parent->_children.push_back( add );
         NativeView nativeView = add->getNativeView();
@@ -285,16 +308,7 @@ void ofxGenericView::addChildViewTo( ofPtr< ofxGenericView > parent, ofPtr< ofxG
         {
             // TODO:
         }
-        add->_parent = parent;
-        
-        if ( _isAttachedToRoot )
-        {
-            add->setIsAttachedToRoot( true );
-            add->didAppear();
-        }
-    } else
-    {
-        // TODO:
+        addChildViewToPost( add, parent );
     }
 }
 
@@ -304,10 +318,7 @@ void ofxGenericView::addChildViewToBefore( ofPtr< ofxGenericView > parent, ofPtr
     {
         if ( before && before->getParent().lock() == parent )
         {
-            if ( _isAttachedToRoot )
-            {
-                add->willAppear();
-            }
+            addChildViewToPre( add );
 
             std::list< ofPtr< ofxGenericView > >::iterator findIndex = parent->_children.begin();
             while ( findIndex != parent->_children.end() && ( *findIndex ) != before )
@@ -325,24 +336,12 @@ void ofxGenericView::addChildViewToBefore( ofPtr< ofxGenericView > parent, ofPtr
                 [ parent->_view insertSubview:addNativeView belowSubview:beforeNativeView ];
 #elif TARGET_ANDROID
 #endif
-            } else
-            {
-                // TODO:
             }
-            add->_parent = parent;
-            
-            if ( _isAttachedToRoot )
-            {
-                add->setIsAttachedToRoot( true );
-                add->didAppear();
-            }
+            addChildViewToPost( add, parent );
         } else 
         {
             addChildViewTo( parent, add );
         }
-    } else
-    {
-        // TODO:
     }    
 }
 

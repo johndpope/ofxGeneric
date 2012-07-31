@@ -179,6 +179,10 @@ protected:
     ofPtrWeak < ofxGenericViewDelegate > _viewDelegate;
 
     friend class ofxAppGenericWindow;
+    
+private:
+    void addChildViewToPre( ofPtr< ofxGenericView > add );
+    void addChildViewToPost( ofPtr< ofxGenericView > add, ofPtr< ofxGenericView > parent );
 };
 
 class ofxGenericViewDelegate
