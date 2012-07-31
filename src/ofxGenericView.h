@@ -51,6 +51,7 @@ public:
     
     virtual void addChildView( ofPtr< ofxGenericView > add );
     virtual void addChildViewBefore( ofPtr< ofxGenericView > add, ofPtr< ofxGenericView > before );
+    virtual void addChildViewAfter( ofPtr< ofxGenericView > add, ofPtr< ofxGenericView > after );
     virtual void removeChildView( ofPtr< ofxGenericView > remove );
     void removeFromParent();
     void removeChildViews();

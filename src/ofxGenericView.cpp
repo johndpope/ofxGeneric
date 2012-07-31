@@ -306,6 +306,38 @@ void ofxGenericView::addChildViewBefore( ofPtr< ofxGenericView > add, ofPtr< ofx
     }    
 }
 
+void ofxGenericView::addChildViewAfter( ofPtr< ofxGenericView > add, ofPtr< ofxGenericView > after )
+{
+    if ( add )
+    {
+        if ( after && after->getParent().lock() == _this.lock() )
+        {
+            addChildViewPre( add );
+            
+            std::list< ofPtr< ofxGenericView > >::iterator findIndex = _children.begin();
+            while ( findIndex != _children.end() && ( *findIndex ) != after )
+            {
+                findIndex ++;
+            }
+            // TODO: extra error check
+            _children.insert( findIndex, add );
+            
+            if ( getNativeView() && add->getNativeView() )
+            {
+#if TARGET_OS_IPHONE
+                [ getNativeView() insertSubview:add->getNativeView() aboveSubview:after->getNativeView() ];
+#elif TARGET_ANDROID
+#endif
+            }
+            addChildViewPost( add );
+        } else
+        {
+            addChildView( add );
+        }
+    }
+}
+
+
 void ofxGenericView::addChildViewPre( ofPtr< ofxGenericView > add )
 {
     if ( add )

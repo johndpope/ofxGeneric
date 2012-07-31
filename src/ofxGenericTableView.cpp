@@ -479,6 +479,18 @@ void ofxGenericTableViewCell::addChildViewBefore( ofPtr< ofxGenericView > add, o
     }
 }
 
+void ofxGenericTableViewCell::addChildViewAfter( ofPtr< ofxGenericView > add, ofPtr< ofxGenericView > after )
+{
+    if ( _contentView )
+    {
+        _contentView->addChildViewAfter( add, after );
+    }
+    else
+    {
+        ofxGenericView::addChildViewAfter( add, after );
+    }
+}
+
 void ofxGenericTableViewCell::removeChildView( ofPtr< ofxGenericView > remove )
 {
     if ( _contentView )
