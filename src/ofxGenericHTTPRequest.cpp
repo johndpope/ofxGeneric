@@ -109,8 +109,10 @@ ofxGenericHTTPRequest::~ofxGenericHTTPRequest()
 {
     cancel();
 #if TARGET_OS_IPHONE
-    release( _forwarder );
-    release( _request );
+    [ _forwarder release ];
+    _forwarder = nil;
+    [ _request release ];
+    _request = nil;
 #endif
 }
 
@@ -133,7 +135,8 @@ void ofxGenericHTTPRequest::cancel()
 {
 #if TARGET_OS_IPHONE
     [ _connection cancel ];
-    release( _connection );
+    [ _connection release ];
+    _connection = nil;
 #endif
 }
 
@@ -178,7 +181,8 @@ void ofxGenericHTTPRequest::finishedWithError( NSError* error )
                       ofxNSStringToString( [ error localizedFailureReason ] ),
                       ofxNSStringToString( [ error localizedRecoverySuggestion ] )
                       );
-    release( _connection );
+    [ _connection release ];
+    _connection = nil;
 }
 
 void ofxGenericHTTPRequest::finishedSuccessfully( NSURLResponse* response, NSData* data )
@@ -206,7 +210,8 @@ void ofxGenericHTTPRequest::finishedSuccessfully( NSURLResponse* response, NSDat
     {
         getLastResponse()->retainData( data );
     }
-    release( _connection );
+    [ _connection release ];
+    _connection = nil;
 }
 #endif
 
@@ -232,8 +237,10 @@ ofPtr< ofxGenericHTTPResponse > ofxGenericHTTPRequest::getLastResponse()
 
 -( void )dealloc
 {
-    release( _receivedData );
-    release( _response );
+    [ _receivedData release ];
+    _receivedData = nil;
+    [ _response release ];
+    _response = nil;
     [ super dealloc ];
 }
 
