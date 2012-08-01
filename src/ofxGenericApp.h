@@ -56,6 +56,8 @@ public:
     
     static void vibrate();
     
+    static void saveImageToLibrary( ofImage& image );
+    
     virtual void setup();
 
 #if TARGET_ANDROID

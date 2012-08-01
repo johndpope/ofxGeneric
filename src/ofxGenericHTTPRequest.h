@@ -14,7 +14,7 @@
 class ofxGenericHTTPRequestDelegate;
 class ofxGenericHTTPResponse;
 #if TARGET_OS_IPHONE
-@class NSURLConnectionForwarder;
+@class ofxGenericHTTPConnectionForwarder;
 #endif
 
 class ofxGenericHTTPRequest
@@ -23,6 +23,11 @@ public:
     static ofPtr< ofxGenericHTTPRequest > create( string url, string method, string format, void* data = 0, int dataByteLength = 0, float timeout = 20.0f, ofPtr< ofxGenericHTTPRequestDelegate > delegate = ofPtr< ofxGenericHTTPRequestDelegate >() );
     static ofPtr< ofxGenericHTTPRequest > create( string url, string method, string format, string data, float timeout = 20.0f, ofPtr< ofxGenericHTTPRequestDelegate > delegate = ofPtr< ofxGenericHTTPRequestDelegate >() );
     virtual ~ofxGenericHTTPRequest();
+    
+    virtual void setBody( string body );
+    virtual void setBody( void* body, unsigned int bodyByteLength );
+    virtual void setHeaderField( string field, string value );
+    virtual void setTimeout( float timeout );
     
     virtual void start();
     virtual void cancel();
@@ -38,6 +43,9 @@ public:
     
     ofPtr< ofxGenericHTTPResponse > getLastResponse();
     
+    static string getWithPercentEscapes( string unencoded );
+    static string getFromPercentEscapes( string encoded );
+    
 protected:
     ofxGenericHTTPRequest();
     virtual void init( ofPtrWeak< ofxGenericHTTPRequest > setThis, string url, string method, string format, void* data = 0, int dataByteLength = 0, float timeout = 20.0f, ofPtr< ofxGenericHTTPRequestDelegate > delegate = ofPtr< ofxGenericHTTPRequestDelegate >() );
@@ -51,11 +59,13 @@ protected:
 #if TARGET_OS_IPHONE
     NSMutableURLRequest* _request;
     NSURLConnection* _connection;
-    NSURLConnectionForwarder* _forwarder;
+    ofxGenericHTTPConnectionForwarder* _forwarder;
 #endif
     
     virtual ofPtr< ofxGenericHTTPResponse > createResponse();
     ofPtr< ofxGenericHTTPResponse > _lastResponse;
+    
+    virtual void setMethod( string method );
 };
 
 class ofxGenericHTTPRequestDelegate

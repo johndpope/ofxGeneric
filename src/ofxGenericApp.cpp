@@ -372,6 +372,13 @@ void ofxGenericApp::vibrate()
 #endif
 }
 
+void ofxGenericApp::saveImageToLibrary( ofImage& image )
+{
+#if TARGET_OS_IPHONE
+    UIImageWriteToSavedPhotosAlbum( [ UIImage imageWithData:UIImagePNGRepresentation( OFImageToUIImage( image ) ) ], nil, nil, nil );
+#endif
+}
+
 void ofxGenericApp::handleUncaughtException( ofxGenericException& exception )
 {
 }
