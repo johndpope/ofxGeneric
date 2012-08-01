@@ -132,12 +132,15 @@ ofPtr< ofxGenericView > ofxAppGenericWindow::getRootView()
 
 void ofxAppGenericWindow::setRootView( ofPtr< ofxGenericView > view )
 {
-    view->willAppear();
     _rootView = view;
-    view->setIsAttachedToRoot( true );
+    if ( _rootView )
+    {
+        _rootView->willAppear();
+        _rootView->setAutoresizingMask( ofxGenericViewAutoresizingFull );
+        _rootView->setIsAttachedToRoot( true );
     
 #if TARGET_OS_IPHONE
-    [ _window setRootViewController:_rootView->getUIViewController() ];
+        [ _window setRootViewController:_rootView->getUIViewController() ];
 #elif TARGET_ANDROID
     JNIMethod setRootView(
     		JNIFindClass( ofxGenericApp::ActivityClassName ),
@@ -150,7 +153,8 @@ void ofxAppGenericWindow::setRootView( ofPtr< ofxGenericView > view )
     setRootView.callVoidMethod( setRootView.getClass(), _rootView->getNativeView() );
 #endif
 
-    view->didAppear();
+        _rootView->didAppear();
+    }
 }
 
 ofOrientation ofxAppGenericWindow::getOrientation()
