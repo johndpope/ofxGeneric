@@ -89,7 +89,6 @@
 		454496161540C66600B21064 /* ofxGenericAlertView.h in Headers */ = {isa = PBXBuildFile; fileRef = 454496141540C66600B21064 /* ofxGenericAlertView.h */; };
 		4544F5E91549D061007482B2 /* ofxGenericDrawableView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4544F5E81549D061007482B2 /* ofxGenericDrawableView.cpp */; };
 		456BACAD153DE6A50097D5D4 /* ofxGenericDate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 456BACAC153DE6A50097D5D4 /* ofxGenericDate.cpp */; };
-		457D35A515A37DA3000B40C8 /* ofxGenericObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 457D35A415A37DA3000B40C8 /* ofxGenericObject.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -232,8 +231,6 @@
 		4544F5E81549D061007482B2 /* ofxGenericDrawableView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericDrawableView.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		456BACAA153DE6960097D5D4 /* ofxGenericDate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericDate.h; sourceTree = "<group>"; };
 		456BACAC153DE6A50097D5D4 /* ofxGenericDate.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericDate.cpp; sourceTree = "<group>"; };
-		457D35A215A37D98000B40C8 /* ofxGenericObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericObject.h; sourceTree = "<group>"; };
-		457D35A415A37DA3000B40C8 /* ofxGenericObject.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericObject.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -366,8 +363,6 @@
 				3CE4B90F157D414F0058CC70 /* ofxGenericFont.cpp */,
 				3CB572AA1596506A0060F9BE /* ofxGenericSelectorView.h */,
 				3CB572AC1596512C0060F9BE /* ofxGenericSelectorView.cpp */,
-				457D35A215A37D98000B40C8 /* ofxGenericObject.h */,
-				457D35A415A37DA3000B40C8 /* ofxGenericObject.cpp */,
 				3C8349EF15C301170044DED3 /* ofxGenericAnimatedImageView.h */,
 				3C8349F115C301410044DED3 /* ofxGenericAnimatedImageView.cpp */,
 				3C5C788B15C780920099C59A /* ofxGenericFrameView.h */,
@@ -687,7 +682,6 @@
 				3CF50AB31582AD9D00D6F7DA /* ofxGenericValueStoreUtility.cpp in Sources */,
 				3CEBF17815890F9A008D2937 /* ofxGenericBarGraphView.cpp in Sources */,
 				3CB572AD1596512C0060F9BE /* ofxGenericSelectorView.cpp in Sources */,
-				457D35A515A37DA3000B40C8 /* ofxGenericObject.cpp in Sources */,
 				3C8349F215C301410044DED3 /* ofxGenericAnimatedImageView.cpp in Sources */,
 				3C5C788E15C7809F0099C59A /* ofxGenericFrameView.cpp in Sources */,
 				3C16BB2415C7B8AF0062017A /* ofxGenericMicrophone.cpp in Sources */,
