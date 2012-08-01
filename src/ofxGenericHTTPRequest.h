@@ -24,6 +24,11 @@ public:
     static ofPtr< ofxGenericHTTPRequest > create( string url, string method, string format, string data, float timeout = 20.0f, ofPtr< ofxGenericHTTPRequestDelegate > delegate = ofPtr< ofxGenericHTTPRequestDelegate >() );
     virtual ~ofxGenericHTTPRequest();
     
+    virtual void setBody( string body );
+    virtual void setBody( void* body, unsigned int bodyByteLength );
+    virtual void setHeaderField( string field, string value );
+    virtual void setTimeout( float timeout );
+    
     virtual void start();
     virtual void cancel();
     
@@ -37,6 +42,9 @@ public:
     void setDelegate( ofPtr< ofxGenericHTTPRequestDelegate > delegate );
     
     ofPtr< ofxGenericHTTPResponse > getLastResponse();
+    
+    static string getWithPercentEscapes( string unencoded );
+    static string getFromPercentEscapes( string encoded );
     
 protected:
     ofxGenericHTTPRequest();
@@ -56,6 +64,8 @@ protected:
     
     virtual ofPtr< ofxGenericHTTPResponse > createResponse();
     ofPtr< ofxGenericHTTPResponse > _lastResponse;
+    
+    virtual void setMethod( string method );
 };
 
 class ofxGenericHTTPRequestDelegate
