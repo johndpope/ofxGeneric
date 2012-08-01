@@ -45,6 +45,7 @@ void ofxGenericCameraPreviewView::init( ofPtrWeak< ofxGenericCameraPreviewView >
 void ofxGenericCameraPreviewView::didLoad()
 {
     ofxGenericView::didLoad();
+    setBackgroundColor( ofColor( 0, 0, 0 ) );
 #if TARGET_OS_IPHONE
     _captureSession = [ [ AVCaptureSession alloc ] init ];
     if ( _captureSession )
