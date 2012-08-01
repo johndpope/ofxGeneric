@@ -45,6 +45,7 @@ void ofxGenericCameraPreviewView::init( ofPtrWeak< ofxGenericCameraPreviewView >
 void ofxGenericCameraPreviewView::didLoad()
 {
     ofxGenericView::didLoad();
+    setBackgroundColor( ofColor( 0, 0, 0 ) );
 #if TARGET_OS_IPHONE
     _captureSession = [ [ AVCaptureSession alloc ] init ];
     if ( _captureSession )
@@ -126,6 +127,9 @@ void ofxGenericCameraPreviewView::deviceOrientationChanged( ofxGenericOrientatio
             break;
     }
     [ _captureLayer setOrientation:avOrientation ];
+    _captureLayer.bounds = _view.layer.bounds;
+    _captureLayer.position = CGPointMake( CGRectGetMidX( _view.layer.bounds ), CGRectGetMidY( _view.layer.bounds ) );
+
 #endif
 }
 
