@@ -12,7 +12,7 @@
 #include "ofxGenericUtility.h"
 
 #if TARGET_OS_IPHONE
-@interface NSURLConnectionForwarder : NSObject< NSURLConnectionDelegate >
+@interface ofxGenericHTTPConnectionForwarder : NSObject< NSURLConnectionDelegate >
 {
 @protected
     ofPtrWeak< ofxGenericHTTPRequest > _delegate;
@@ -91,7 +91,7 @@ void ofxGenericHTTPRequest::init( ofPtrWeak< ofxGenericHTTPRequest > setThis, st
         [ _request setHTTPBody:[ NSData dataWithBytes:data length:dataByteLength ] ];
     }
 
-    _forwarder = [ [ NSURLConnectionForwarder alloc ] initWithDelegate:_this ];
+    _forwarder = [ [ ofxGenericHTTPConnectionForwarder alloc ] initWithDelegate:_this ];
 #endif
     
     _format = format;
@@ -221,7 +221,7 @@ ofPtr< ofxGenericHTTPResponse > ofxGenericHTTPRequest::getLastResponse()
 }
 
 #if TARGET_OS_IPHONE
-@implementation NSURLConnectionForwarder
+@implementation ofxGenericHTTPConnectionForwarder
 
 -( id )initWithDelegate:( ofPtrWeak< ofxGenericHTTPRequest > )delegate
 {

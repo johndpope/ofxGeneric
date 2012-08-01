@@ -14,7 +14,7 @@
 class ofxGenericHTTPRequestDelegate;
 class ofxGenericHTTPResponse;
 #if TARGET_OS_IPHONE
-@class NSURLConnectionForwarder;
+@class ofxGenericHTTPConnectionForwarder;
 #endif
 
 class ofxGenericHTTPRequest
@@ -51,7 +51,7 @@ protected:
 #if TARGET_OS_IPHONE
     NSMutableURLRequest* _request;
     NSURLConnection* _connection;
-    NSURLConnectionForwarder* _forwarder;
+    ofxGenericHTTPConnectionForwarder* _forwarder;
 #endif
     
     virtual ofPtr< ofxGenericHTTPResponse > createResponse();
