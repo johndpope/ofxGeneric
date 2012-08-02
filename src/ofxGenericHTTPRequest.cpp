@@ -12,7 +12,7 @@
 #include "ofxGenericUtility.h"
 
 #if TARGET_OS_IPHONE
-@interface NSURLConnectionForwarder : NSObject< NSURLConnectionDelegate >
+@interface ofxGenericHTTPConnectionForwarder : NSObject< NSURLConnectionDelegate >
 {
 @protected
     ofPtrWeak< ofxGenericHTTPRequest > _delegate;
@@ -79,29 +79,25 @@ void ofxGenericHTTPRequest::init( ofPtrWeak< ofxGenericHTTPRequest > setThis, st
 #if TARGET_OS_IPHONE
     // TODO: allow caching specification
     
-    NSString* urlStringEncoded = [ ofxStringToNSString( urlWithFormat ) stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ];
-    _request = [ [ NSMutableURLRequest alloc ] initWithURL:[ NSURL URLWithString:urlStringEncoded ] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:timeout ];
+    NSURL* nsUrl = [ NSURL URLWithString:ofxStringToNSString( getWithPercentEscapes( urlWithFormat ) ) ];
+    _request = [ [ NSMutableURLRequest alloc ] initWithURL:nsUrl cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:timeout ];
     [ _request setHTTPShouldHandleCookies:YES ];
-    [ _request setHTTPMethod:[ NSString stringWithCString:method.c_str() encoding:NSUTF8StringEncoding ] ];
-    
-    if ( data && dataByteLength > 0 )
-    {
-        NSString* dataString = [ [ [ NSString alloc ] initWithBytes:data length:dataByteLength encoding:NSUTF8StringEncoding ] autorelease ];
-        ofxGLogVerbose( "HTTPRequest - \nBody: " + ofxNSStringToString( dataString ) );
-        [ _request setHTTPBody:[ NSData dataWithBytes:data length:dataByteLength ] ];
-    }
-
-    _forwarder = [ [ NSURLConnectionForwarder alloc ] initWithDelegate:_this ];
+    _forwarder = [ [ ofxGenericHTTPConnectionForwarder alloc ] initWithDelegate:_this ];
 #endif
     
+    setMethod( method );
+    setBody( data, dataByteLength );    
+    setHeaderField( "Accept", "application/json,application/xml" );
+
     _format = format;
-    std::transform( _format.begin(), _format.end(), _format.begin(), ::tolower );    
+    std::transform( _format.begin(), _format.end(), _format.begin(), ::tolower );
+    
     if ( _format == "xml" )
     {
-#if TARGET_OS_IPHONE
-        [ _request setValue:@"application/xml" forHTTPHeaderField:@"Accept" ];
-        [ _request setValue:@"application/xml" forHTTPHeaderField:@"Content-Type" ];        
-#endif
+        setHeaderField( "Content-Type", "application/xml" );
+    } else if ( _format == "json" )
+    {
+        setHeaderField( "Content-Type", "application/json" );
     }
 }
 
@@ -109,14 +105,62 @@ ofxGenericHTTPRequest::~ofxGenericHTTPRequest()
 {
     cancel();
 #if TARGET_OS_IPHONE
-    release( _forwarder );
-    release( _request );
+    [ _forwarder release ];
+    _forwarder = nil;
+    [ _request release ];
+    _request = nil;
 #endif
 }
 
 void ofxGenericHTTPRequest::setDelegate( ofPtr< ofxGenericHTTPRequestDelegate > delegate )
 {
     _delegate = delegate;
+}
+
+void ofxGenericHTTPRequest::setMethod( string method )
+{
+#if TARGET_OS_IPHONE
+    [ _request setHTTPMethod:ofxStringToNSString( method ) ];
+#endif
+}
+
+void ofxGenericHTTPRequest::setBody( string body )
+{
+    setBody( ( void* )body.c_str(), body.length() );
+}
+
+void ofxGenericHTTPRequest::setBody( void* body, unsigned int bodyByteLength )
+{
+    if ( body && bodyByteLength > 0 )
+    {
+#if DEBUG
+        if ( ofGetLogLevel() == OF_LOG_VERBOSE )
+        {
+            char* dumpBody = new char[ bodyByteLength + 1 ];
+            memcpy( ( void* )dumpBody, body, bodyByteLength );
+            dumpBody[ bodyByteLength ] = '\0';
+            ofxGLogVerbose( "HTTPRequest Set Body: " + string( dumpBody ) );
+        }
+#endif
+        
+#if TARGET_OS_IPHONE
+        [ _request setHTTPBody:[ NSData dataWithBytes:body length:bodyByteLength ] ];
+#endif
+    }
+}
+
+void ofxGenericHTTPRequest::setHeaderField( string field, string value )
+{
+#if TARGET_OS_IPHONE
+    [ _request setValue:ofxStringToNSString( value ) forHTTPHeaderField:ofxStringToNSString( field ) ];
+#endif
+}
+
+void ofxGenericHTTPRequest::setTimeout( float timeout )
+{
+#if TARGET_OS_IPHONE
+    [ _request setTimeoutInterval:( NSTimeInterval )timeout ];
+#endif
 }
 
 void ofxGenericHTTPRequest::start()
@@ -133,7 +177,8 @@ void ofxGenericHTTPRequest::cancel()
 {
 #if TARGET_OS_IPHONE
     [ _connection cancel ];
-    release( _connection );
+    [ _connection release ];
+    _connection = nil;
 #endif
 }
 
@@ -178,7 +223,8 @@ void ofxGenericHTTPRequest::finishedWithError( NSError* error )
                       ofxNSStringToString( [ error localizedFailureReason ] ),
                       ofxNSStringToString( [ error localizedRecoverySuggestion ] )
                       );
-    release( _connection );
+    [ _connection release ];
+    _connection = nil;
 }
 
 void ofxGenericHTTPRequest::finishedSuccessfully( NSURLResponse* response, NSData* data )
@@ -206,7 +252,8 @@ void ofxGenericHTTPRequest::finishedSuccessfully( NSURLResponse* response, NSDat
     {
         getLastResponse()->retainData( data );
     }
-    release( _connection );
+    [ _connection release ];
+    _connection = nil;
 }
 #endif
 
@@ -215,8 +262,24 @@ ofPtr< ofxGenericHTTPResponse > ofxGenericHTTPRequest::getLastResponse()
     return _lastResponse;
 }
 
+string ofxGenericHTTPRequest::getWithPercentEscapes( string unencoded )
+{
 #if TARGET_OS_IPHONE
-@implementation NSURLConnectionForwarder
+    NSString* encoded = [ ofxStringToNSString( unencoded ) stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ];
+    return ofxNSStringToString( encoded );
+#endif
+}
+
+string ofxGenericHTTPRequest::getFromPercentEscapes( string encoded )
+{
+#if TARGET_OS_IPHONE
+    NSString* unencoded = [ ofxStringToNSString( encoded ) stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding ];
+    return ofxNSStringToString( unencoded );
+#endif
+}
+
+#if TARGET_OS_IPHONE
+@implementation ofxGenericHTTPConnectionForwarder
 
 -( id )initWithDelegate:( ofPtrWeak< ofxGenericHTTPRequest > )delegate
 {
@@ -232,8 +295,10 @@ ofPtr< ofxGenericHTTPResponse > ofxGenericHTTPRequest::getLastResponse()
 
 -( void )dealloc
 {
-    release( _receivedData );
-    release( _response );
+    [ _receivedData release ];
+    _receivedData = nil;
+    [ _response release ];
+    _response = nil;
     [ super dealloc ];
 }
 
