@@ -348,13 +348,13 @@ UIViewAnimationCurve ofxGenericViewAnimationCurveToiOS( ofxGenericViewAnimationC
 {
     switch( from )
     {
-        case ofxViewAnimationCurveEaseInOut:
+        case ofxGenericViewAnimationCurveEaseInOut:
             return UIViewAnimationCurveEaseInOut;
-        case ofxViewAnimationCurveEaseIn:
+        case ofxGenericViewAnimationCurveEaseIn:
             return UIViewAnimationCurveEaseIn;
-        case ofxViewAnimationCurveEaseOut:
+        case ofxGenericViewAnimationCurveEaseOut:
             return UIViewAnimationCurveEaseOut;
-        case ofxViewAnimationCurveLinear:
+        case ofxGenericViewAnimationCurveLinear:
             return UIViewAnimationCurveLinear;
     }
     return UIViewAnimationCurveLinear;

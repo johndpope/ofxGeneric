@@ -92,10 +92,10 @@ enum ofxGenericKeyboardType
 
 enum ofxGenericViewAnimationCurve
 {
-    ofxViewAnimationCurveEaseInOut, //UIViewAnimationCurveEaseInOut,         // slow at beginning and end
-    ofxViewAnimationCurveEaseIn, //UIViewAnimationCurveEaseIn,            // slow at beginning
-    ofxViewAnimationCurveEaseOut, //UIViewAnimationCurveEaseOut,           // slow at end
-    ofxViewAnimationCurveLinear //UIViewAnimationCurveLinear
+    ofxGenericViewAnimationCurveEaseInOut, //UIViewAnimationCurveEaseInOut,         // slow at beginning and end
+    ofxGenericViewAnimationCurveEaseIn, //UIViewAnimationCurveEaseIn,            // slow at beginning
+    ofxGenericViewAnimationCurveEaseOut, //UIViewAnimationCurveEaseOut,           // slow at end
+    ofxGenericViewAnimationCurveLinear //UIViewAnimationCurveLinear
 };
 
 enum ofxGenericViewAnimationTransition
