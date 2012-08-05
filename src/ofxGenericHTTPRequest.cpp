@@ -77,17 +77,18 @@ void ofxGenericHTTPRequest::init( ofPtrWeak< ofxGenericHTTPRequest > setThis, st
     
     setMethod( method );
     setBody( data, dataByteLength );    
-    setHeaderField( "Accept", "application/json,application/xml" );
 
     _format = format;
     std::transform( _format.begin(), _format.end(), _format.begin(), ::tolower );
     
     if ( _format == "xml" )
     {
-        setHeaderField( "Content-Type", "application/xml" );
+        setContentTypeHeader( "application/xml" );
+        setAcceptHeader( "application/xml" );
     } else if ( _format == "json" )
     {
-        setHeaderField( "Content-Type", "application/json" );
+        setContentTypeHeader( "application/json" );
+        setAcceptHeader( "application/json" );
     }
 }
 
@@ -151,6 +152,21 @@ void ofxGenericHTTPRequest::setTimeout( float timeout )
 #if TARGET_OS_IPHONE
     [ _request setTimeoutInterval:( NSTimeInterval )timeout ];
 #endif
+}
+
+void ofxGenericHTTPRequest::setContentTypeHeader( string value )
+{
+    setHeaderField( "Content-Type", value );
+}
+
+void ofxGenericHTTPRequest::setAcceptHeader( string value )
+{
+    setHeaderField( "Accept", value );
+}
+
+void ofxGenericHTTPRequest::setAuthorizationHeader( string value )
+{
+    setHeaderField( "Authorization", value );
 }
 
 void ofxGenericHTTPRequest::start()

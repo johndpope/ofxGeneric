@@ -27,6 +27,10 @@ public:
     virtual void setBody( void* body, unsigned int bodyByteLength );
     virtual void setHeaderField( string field, string value );
     virtual void setTimeout( float timeout );
+
+    virtual void setContentTypeHeader( string value );
+    virtual void setAcceptHeader( string value );
+    virtual void setAuthorizationHeader( string value );
     
     virtual void start();
     virtual void cancel();
