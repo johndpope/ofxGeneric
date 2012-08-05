@@ -19,9 +19,12 @@ namespace Json
 { class Value; }
 
 typedef std::map< string, ofPtr< ofxGenericValueStore > > ofxGenericValueStoreObject;
-typedef ofxGenericValueStoreObject::iterator ofxGenericValueStoreObjectIterator;
 typedef std::vector< ofPtr< ofxGenericValueStore > > ofxGenericValueStoreArray;
+
+typedef ofxGenericValueStoreObject::iterator ofxGenericValueStoreObjectIterator;
 typedef ofxGenericValueStoreArray::iterator ofxGenericValueStoreArrayIterator;
+typedef ofxGenericValueStoreObject::const_iterator ofxGenericValueStoreObjectConstIterator;
+typedef ofxGenericValueStoreArray::const_iterator ofxGenericValueStoreArrayConstIterator;
 
 class ofxGenericValueStore
 {
@@ -71,16 +74,16 @@ public:
     bool isObject() const;
     bool isArray() const;
     
-    float asFloat( float defaultValue = 0.0f );
-    int asInt( int defaultValue = 0 );
-    bool asBool( bool defaultValue = false );
-    string asString( string defaultValue = string() );
+    float asFloat( float defaultValue = 0.0f ) const;
+    int asInt( int defaultValue = 0 ) const;
+    bool asBool( bool defaultValue = false ) const;
+    string asString( string defaultValue = string() ) const;
 
-    bool operator==( ofPtr< ofxGenericValueStore > compare );
+    bool operator==( ofPtr< ofxGenericValueStore > compare ) const;
 
     // Object methods    
-    virtual const std::vector< string >& getObjectKeys();
-    virtual bool exists( string key );
+    virtual const std::vector< string >& getObjectKeys() const;
+    virtual bool exists( string key ) const;
     
     virtual void write( string key, float value );
     virtual void write( string key, int value );
@@ -89,13 +92,13 @@ public:
     virtual void write( string key, const char* value );
     virtual void write( string key, ofPtr< ofxGenericValueStore > value );
     
-    virtual float   read( string key, float defaultValue );
-    virtual int     read( string key, int defaultValue );
-    virtual bool    read( string key, bool defaultValue );
-    virtual string  read( string key, string defaultValue );
-    virtual string  read( string key, const char* defaultValue );
-    virtual ofPtr< ofxGenericValueStore > read( string key );
-    ofPtr< ofxGenericValueStore > operator[]( string key );    
+    virtual float   read( string key, float defaultValue ) const;
+    virtual int     read( string key, int defaultValue ) const;
+    virtual bool    read( string key, bool defaultValue ) const;
+    virtual string  read( string key, string defaultValue ) const;
+    virtual string  read( string key, const char* defaultValue ) const;
+    virtual ofPtr< ofxGenericValueStore > read( string key ) const;
+    ofPtr< ofxGenericValueStore > operator[]( string key ) const;    
 
     virtual void drop( string key );
 
@@ -108,13 +111,13 @@ public:
     virtual void write( unsigned int index, const char* value );
     virtual void write( unsigned int index, ofPtr< ofxGenericValueStore > value );
     
-    virtual float   read( unsigned int index, float defaultValue );
-    virtual int     read( unsigned int index, int defaultValue );
-    virtual bool    read( unsigned int index, bool defaultValue );
-    virtual string  read( unsigned int index, string defaultValue );
-    virtual string  read( unsigned int index, const char* defaultValue );
-    virtual ofPtr< ofxGenericValueStore > read( unsigned int index );
-    ofPtr< ofxGenericValueStore > operator[]( unsigned int index );
+    virtual float   read( unsigned int index, float defaultValue ) const;
+    virtual int     read( unsigned int index, int defaultValue ) const;
+    virtual bool    read( unsigned int index, bool defaultValue ) const;
+    virtual string  read( unsigned int index, string defaultValue ) const;
+    virtual string  read( unsigned int index, const char* defaultValue ) const;
+    virtual ofPtr< ofxGenericValueStore > read( unsigned int index ) const;
+    ofPtr< ofxGenericValueStore > operator[]( unsigned int index ) const;
 
     virtual void drop( int index );
     
@@ -133,6 +136,11 @@ public:
     ofxGenericValueStoreObjectIterator objectEnd();
     ofxGenericValueStoreArrayIterator arrayBegin();
     ofxGenericValueStoreArrayIterator arrayEnd();
+
+    ofxGenericValueStoreObjectConstIterator objectBegin() const;
+    ofxGenericValueStoreObjectConstIterator objectEnd() const;
+    ofxGenericValueStoreArrayConstIterator arrayBegin() const;
+    ofxGenericValueStoreArrayConstIterator arrayEnd() const;
     
     virtual ~ofxGenericValueStore();
 protected:
@@ -152,14 +160,14 @@ protected:
     } _values;
     std::vector< string > _objectKeys;
     void addObjectKey( string key );
-    bool objectKeyExists( string key );
+    bool objectKeyExists( string key ) const;
     void dropObjectKey( string key );
 
     string _fileName;
     bool _fileInDocuments;    
     
     void convertFrom( Json::Value& convert );
-    virtual Json::Value* convertTo();
+    virtual Json::Value* convertTo() const;
     static ofPtr< ofxGenericValueStore > createFrom( Json::Value& convert );
     
     ofxGenericValueStoreObject* asObject() const;
