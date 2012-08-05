@@ -98,37 +98,37 @@ ofxGenericHTTPResponse::~ofxGenericHTTPResponse()
 #endif
 }
 
-int ofxGenericHTTPResponse::getStatusCode()
+int ofxGenericHTTPResponse::getStatusCode() const
 {
     return _statusCode;
 }
 
-string ofxGenericHTTPResponse::getMIMEType()
+string ofxGenericHTTPResponse::getMIMEType() const
 {
     return _MIMEType;
 }
 
-string ofxGenericHTTPResponse::getTextEncoding()
+string ofxGenericHTTPResponse::getTextEncoding() const
 {
     return _textEncoding;
 }
 
-string ofxGenericHTTPResponse::getSuggestedFilename()
+string ofxGenericHTTPResponse::getSuggestedFilename() const
 {
     return _suggestedFilename;
 }
 
-void* ofxGenericHTTPResponse::getData()
+void* ofxGenericHTTPResponse::getData() const
 {
     return _data;
 }
 
-int ofxGenericHTTPResponse::getDataByteLength()
+int ofxGenericHTTPResponse::getDataByteLength() const
 {
     return _dataByteLength;
 }
 
-string ofxGenericHTTPResponse::getDataAsString()
+string ofxGenericHTTPResponse::getDataAsString() const
 {
     char* dataBuffer = new char[ _dataByteLength + 1 ];
     snprintf( dataBuffer, _dataByteLength + 1, "%s", _data );

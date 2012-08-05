@@ -19,15 +19,15 @@ class ofxGenericHTTPResponse
     friend class ofxGenericHTTPRequest;
     
 public:    
-    int getStatusCode();
+    int getStatusCode() const;
     
-    string getMIMEType();
-    string getTextEncoding();
-    string getSuggestedFilename();    
-    void* getData();
-    int getDataByteLength();    
-    string getDataAsString();
     ofPtr< ofxXmlSettings > getDataAsXML();
+    string getMIMEType() const;
+    string getTextEncoding() const;
+    string getSuggestedFilename() const;
+    void* getData() const;
+    int getDataByteLength() const;
+    string getDataAsString() const;
     
     virtual string getErrorDescription();
     string getErrorFailureReason();
