@@ -35,14 +35,14 @@ public:
     virtual void start();
     virtual void cancel();
     
+    void setDelegate( ofPtr< ofxGenericHTTPRequestDelegate > delegate );
+    
     void finishedWithError( string errorDescription, string errorFailureReason = "", string errorRecoverySuggestion = "" );
     void finishedSuccessfully( int statusCode, string MIMEType, string textEncoding, void* data, int dataByteLength, string suggestedFilename = "" );
 #if TARGET_OS_IPHONE
     virtual void finishedWithError( NSError* error );
     virtual void finishedSuccessfully( NSURLResponse* urlResponse, NSData* receivedData );
 #endif
-    
-    void setDelegate( ofPtr< ofxGenericHTTPRequestDelegate > delegate );
     
     ofPtr< ofxGenericHTTPResponse > getLastResponse();
     bool isLastResponseOk();
