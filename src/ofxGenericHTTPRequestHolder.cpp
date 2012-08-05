@@ -47,7 +47,7 @@ void ofxGenericHTTPRequestHolder::setofxGenericHTTPRequestHolderInstanceToThis()
 
 void ofxGenericHTTPRequestHolder::holdRequestUntilComplete( ofPtr< ofxGenericHTTPRequest > request )
 {
-    std::list< ofPtr< ofxGenericHTTPRequest > >::iterator find = _holdRequestUntilComplete.find( request );
+    std::list< ofPtr< ofxGenericHTTPRequest > >::iterator find = std::find( _holdRequestUntilComplete.begin(), _holdRequestUntilComplete.end(), request );
     if ( find != _holdRequestUntilComplete.end() )
     {
         return;
