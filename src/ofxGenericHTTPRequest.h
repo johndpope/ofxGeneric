@@ -79,22 +79,3 @@ public:
 
 /////////////////////////////////////////////////////////
 
-class ofxGenericHTTPRequestHolder : public ofxGenericHTTPRequestDelegate
-{
-public:
-    virtual ~ofxGenericHTTPRequestHolder();
-    static ofPtr< ofxGenericHTTPRequestHolder > getInstance();
-
-    void holdRequestUntilComplete( ofPtr< ofxGenericHTTPRequest > request );
-    
-    void httpRequest_finishedWithError( ofPtr< ofxGenericHTTPRequest > request );
-    void httpRequest_finishedSuccessfully( ofPtr< ofxGenericHTTPRequest > request );
-    
-protected:
-    ofxGenericHTTPRequestHolder();
-    static ofPtr< ofxGenericHTTPRequestHolder > _instance;
-    void setofxGenericHTTPRequestHolderInstanceToThis();
-    
-    std::list< ofPtr< ofxGenericHTTPRequest > > _holdRequestUntilComplete;
-    void removeHeldRequest( ofPtr< ofxGenericHTTPRequest > request );
-};

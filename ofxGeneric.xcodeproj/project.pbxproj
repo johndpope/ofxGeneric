@@ -18,6 +18,7 @@
 		3C2A68F3154374F400BDB696 /* ofxGenericOpenGLView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C2A68F2154374F400BDB696 /* ofxGenericOpenGLView.h */; };
 		3C2A68F61543786700BDB696 /* ofxGenericOpenGLView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C2A68F51543786700BDB696 /* ofxGenericOpenGLView.cpp */; };
 		3C2DB20A15474D8100000034 /* ofxGenericLocalization.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C2DB20915474D8100000034 /* ofxGenericLocalization.cpp */; };
+		3C3ECD5E15CF103C002A6B5C /* ofxGenericHTTPRequestHolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C3ECD5D15CF103C002A6B5C /* ofxGenericHTTPRequestHolder.cpp */; };
 		3C4D9C0D1559E69900C02C92 /* ofxGenericTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C4D9C0C1559E69900C02C92 /* ofxGenericTimer.cpp */; };
 		3C5336E0153F6A420046AFD8 /* OpenUDID.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C5336DD153F6A420046AFD8 /* OpenUDID.h */; };
 		3C5336E1153F6A420046AFD8 /* OpenUDID.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C5336DE153F6A420046AFD8 /* OpenUDID.m */; };
@@ -125,6 +126,8 @@
 		3C2A68F51543786700BDB696 /* ofxGenericOpenGLView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericOpenGLView.cpp; sourceTree = "<group>"; };
 		3C2DB20715474D1100000034 /* ofxGenericLocalization.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericLocalization.h; sourceTree = "<group>"; };
 		3C2DB20915474D8100000034 /* ofxGenericLocalization.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericLocalization.cpp; sourceTree = "<group>"; };
+		3C3ECD5B15CF1032002A6B5C /* ofxGenericHTTPRequestHolder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericHTTPRequestHolder.h; sourceTree = "<group>"; };
+		3C3ECD5D15CF103C002A6B5C /* ofxGenericHTTPRequestHolder.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericHTTPRequestHolder.cpp; sourceTree = "<group>"; };
 		3C4D9C0A1559E64F00C02C92 /* ofxGenericTimer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericTimer.h; sourceTree = "<group>"; };
 		3C4D9C0C1559E69900C02C92 /* ofxGenericTimer.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericTimer.cpp; sourceTree = "<group>"; };
 		3C5336DA153F64A10046AFD8 /* ofxGenericMain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericMain.h; sourceTree = "<group>"; };
@@ -327,6 +330,8 @@
 				3CA59B30153F40E7008EE095 /* ofxGenericException.h */,
 				3C7B4E9114FC7CBF003121FE /* ofxGenericHTTPRequest.cpp */,
 				3C7B4E9214FC7CBF003121FE /* ofxGenericHTTPRequest.h */,
+				3C3ECD5B15CF1032002A6B5C /* ofxGenericHTTPRequestHolder.h */,
+				3C3ECD5D15CF103C002A6B5C /* ofxGenericHTTPRequestHolder.cpp */,
 				3C7B4E9314FC7CBF003121FE /* ofxGenericHTTPResponse.cpp */,
 				3C7B4E9414FC7CBF003121FE /* ofxGenericHTTPResponse.h */,
 				3C7B4E9514FC7CBF003121FE /* ofxGenericImageView.cpp */,
@@ -685,6 +690,7 @@
 				3C8349F215C301410044DED3 /* ofxGenericAnimatedImageView.cpp in Sources */,
 				3C5C788E15C7809F0099C59A /* ofxGenericFrameView.cpp in Sources */,
 				3C16BB2415C7B8AF0062017A /* ofxGenericMicrophone.cpp in Sources */,
+				3C3ECD5E15CF103C002A6B5C /* ofxGenericHTTPRequestHolder.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
