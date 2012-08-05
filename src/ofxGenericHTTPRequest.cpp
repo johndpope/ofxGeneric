@@ -63,25 +63,13 @@ void ofxGenericHTTPRequest::init( ofPtrWeak< ofxGenericHTTPRequest > setThis, st
     _this = setThis;
     
     _delegate = delegate;
-    
-    string urlWithFormat = url;
-    if ( !format.empty() )
-    {
-        if ( urlWithFormat.find( "?" ) == string::npos )
-        {
-            urlWithFormat += "?format=" + format;
-        } else
-        {
-            urlWithFormat += "&format=" + format;
-        }
-    }
 
-    ofxGLogVerbose( "HTTPRequest - " + urlWithFormat + " " + method );
+    ofxGLogVerbose( "HTTPRequest - " + url + " " + method );
 
 #if TARGET_OS_IPHONE
     // TODO: allow caching specification
     
-    NSURL* nsUrl = [ NSURL URLWithString:ofxStringToNSString( getWithPercentEscapes( urlWithFormat ) ) ];
+    NSURL* nsUrl = [ NSURL URLWithString:ofxStringToNSString( getWithPercentEscapes( url ) ) ];
     _request = [ [ NSMutableURLRequest alloc ] initWithURL:nsUrl cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:timeout ];
     [ _request setHTTPShouldHandleCookies:YES ];
     _forwarder = [ [ ofxGenericHTTPConnectionForwarder alloc ] initWithDelegate:_this ];
