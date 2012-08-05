@@ -41,6 +41,7 @@ public:
     void setDelegate( ofPtr< ofxGenericHTTPRequestDelegate > delegate );
     
     ofPtr< ofxGenericHTTPResponse > getLastResponse();
+    bool isLastResponseOk();
     
     static string getWithPercentEscapes( string unencoded );
     static string getFromPercentEscapes( string encoded );

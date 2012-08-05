@@ -264,6 +264,13 @@ ofPtr< ofxGenericHTTPResponse > ofxGenericHTTPRequest::getLastResponse()
     return _lastResponse;
 }
 
+bool ofxGenericHTTPRequest::isLastResponseOk()
+{
+    ofPtr< ofxGenericHTTPResponse > response = getLastResponse();
+    return response && response->isOk();
+}
+
+
 string ofxGenericHTTPRequest::getWithPercentEscapes( string unencoded )
 {
 #if TARGET_OS_IPHONE
