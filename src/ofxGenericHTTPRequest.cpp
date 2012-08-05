@@ -9,6 +9,8 @@
 // TODO: test reusing same instance multiple times
 
 #include "ofxGenericHTTPRequest.h"
+
+#include "ofxGenericHTTPResponse.h"
 #include "ofxGenericUtility.h"
 
 #if TARGET_OS_IPHONE
