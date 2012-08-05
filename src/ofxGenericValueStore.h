@@ -15,6 +15,7 @@
 #include "ofxGenericMain.h"
 
 class ofxGenericValueStore;
+
 namespace Json
 { class Value; }
 
@@ -47,6 +48,7 @@ public:
     static ofPtr< ofxGenericValueStore > createWithValue( bool value );
     static ofPtr< ofxGenericValueStore > createWithValue( string value );
 
+    static ofPtr< ofxGenericValueStore > createFromJSON( string JSON );
     Type getType() const;
     
     virtual void write( float value );
@@ -141,6 +143,8 @@ public:
     ofxGenericValueStoreObjectConstIterator objectEnd() const;
     ofxGenericValueStoreArrayConstIterator arrayBegin() const;
     ofxGenericValueStoreArrayConstIterator arrayEnd() const;
+
+    string toJSONString() const;
     
     virtual ~ofxGenericValueStore();
 protected:

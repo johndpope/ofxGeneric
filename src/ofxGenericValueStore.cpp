@@ -71,6 +71,15 @@ ofPtr< ofxGenericValueStore > ofxGenericValueStore::createWithValue( string valu
     return create;
 }
 
+ofPtr< ofxGenericValueStore > ofxGenericValueStore::createFromJSON( string JSON )
+{
+    ofPtr< ofxGenericValueStore > create( new ofxGenericValueStore() );
+    create->init( create, ofxGenericValueStoreTypeObject );
+    ofxJSONElement parse( JSON );
+    create->convertFrom( parse );
+    return create;
+}
+
 ofxGenericValueStore::ofxGenericValueStore()
 : _type( ofxGenericValueStoreTypeUninitialized ), _fileInDocuments( false )
 {
@@ -904,6 +913,16 @@ bool ofxGenericValueStore::writeToDisk()
         return write.save( _fileName, true, _fileInDocuments );
     }
     return false;
+}
+
+string ofxGenericValueStore::toJSONString() const
+{
+    Json::Value* asJSON = convertTo();
+    if ( asJSON )
+    {
+        return ofxJSONElement( *asJSON ).getRawString();
+    }
+    return string();
 }
 
 Json::Value* ofxGenericValueStore::convertTo() const
