@@ -8,7 +8,13 @@
 
 #include "ofxGenericUtilityiOS.h"
 
+#include "ofxGenericUtility.h"
 #include "ofUtils.h"
+
+string ofxGToString( NSData* data )
+{
+    return ofxGToString( [ data bytes ], ( unsigned int )[ data length ] );
+}
 
 CGFloat getWindowScale()
 {

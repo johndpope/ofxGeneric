@@ -25,6 +25,8 @@ release( objectiveCView );
 [ objectCViewController release ]; \
 objectCViewController = nil;
 
+string ofxGToString( NSData* data );
+
 CGFloat getWindowScale();
 
 UITextAlignment ofxGenericTextHorizontalAlignmentToiOS( ofxGenericTextHorizontalAlignment from );
