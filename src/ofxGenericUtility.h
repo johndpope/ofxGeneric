@@ -57,6 +57,8 @@ string ofxGSPrintf( string format, string first );
 string ofxGSPrintf( string format, string first, string second );
 string ofxGSPrintf( string format, string first, string second, string third );
 
+std::vector< string > ofxGSplit( string value, char splitOn );
+
 //////////////////////////////// Math //////////////////////////////////
 
 int ofxGRandom();

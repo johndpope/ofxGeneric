@@ -285,6 +285,28 @@ string ofxGSPrintf( string format, string first, string second, string third )
     return ofxGSPrintf( format, replaceWith );
 }
 
+std::vector< string > ofxGSplit( string value, char splitOn )
+{
+    std::vector< string > strings;
+    
+    unsigned int lastPosition = 0;
+    for( unsigned int position = value.find( splitOn, 0 ); position < value.size(); position = value.find( splitOn, position ) )
+    {
+        if ( position == lastPosition + 1 )
+        {
+            continue;
+        }
+        strings.push_back( value.substr( lastPosition, position - lastPosition ) );
+        position ++;
+        lastPosition = position;
+    }
+    if ( value[ value.size() - 1 ] != splitOn )
+    {
+        strings.push_back( value.substr( lastPosition, value.size() - lastPosition ) );
+    }
+    return strings;
+}
+
 //////////////////////////////// Math //////////////////////////////////
 
 int ofxGRandom()
