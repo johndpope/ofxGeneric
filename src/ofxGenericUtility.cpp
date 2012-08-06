@@ -214,6 +214,18 @@ string ofxGToString( bool value )
     return "false";
 }
 
+string ofxGToString( const void* value, unsigned int byteSize )
+{
+    char* dataBuffer = new char[ byteSize + 1 ];
+    snprintf( dataBuffer, byteSize + 1, "%s", value );
+    
+    string dataString( dataBuffer );
+    
+    delete [] dataBuffer;
+    
+    return dataString;
+}
+
 bool ofxGToBool( string value )
 {
     std::transform( value.begin(), value.end(), value.begin(), ::tolower );

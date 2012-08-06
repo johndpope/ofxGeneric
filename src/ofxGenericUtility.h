@@ -50,6 +50,7 @@ string ofxGToString( unsigned long int value );
 string ofxGToString( double value );
 string ofxGToString( float value );
 string ofxGToString( bool value );
+string ofxGToString( const void* value, unsigned int byteSize );
 bool ofxGToBool( string value );
 
 string ofxGSPrintf( string format, const std::vector< string >& replaceWith );
