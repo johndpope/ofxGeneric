@@ -90,8 +90,8 @@ public:
     virtual void write( string key, float value );
     virtual void write( string key, int value );
     virtual void write( string key, bool value );
-    virtual void write( string key, string value );
-    virtual void write( string key, const char* value );
+    virtual void write( string key, string value, bool onlyIfFilled = false );
+    virtual void write( string key, const char* value, bool onlyIfFilled = false );
     virtual void write( string key, ofPtr< ofxGenericValueStore > value );
     
     virtual float   read( string key, float defaultValue ) const;
@@ -109,8 +109,8 @@ public:
     virtual void write( unsigned int index, float value );
     virtual void write( unsigned int index, int value );
     virtual void write( unsigned int index, bool value );
-    virtual void write( unsigned int index, string value );
-    virtual void write( unsigned int index, const char* value );
+    virtual void write( unsigned int index, string value, bool onlyIfFilled = false );
+    virtual void write( unsigned int index, const char* value, bool onlyIfFilled = false );
     virtual void write( unsigned int index, ofPtr< ofxGenericValueStore > value );
     
     virtual float   read( unsigned int index, float defaultValue ) const;

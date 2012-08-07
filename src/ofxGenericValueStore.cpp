@@ -481,22 +481,21 @@ void ofxGenericValueStore::write( string key, bool value )
     }
 }
 
-void ofxGenericValueStore::write( string key, string value )
+void ofxGenericValueStore::write( string key, string value, bool onlyIfFilled )
 {
     if ( asObject() )
     {
-        ( *asObject() )[ key ] = createWithValue( value );
-        addObjectKey( key );
+        if ( !onlyIfFilled || value.size() > 0 )
+        {
+            ( *asObject() )[ key ] = createWithValue( value );
+            addObjectKey( key );
+        }
     }
 }
 
-void ofxGenericValueStore::write( string key, const char* value )
+void ofxGenericValueStore::write( string key, const char* value, bool onlyIfFilled )
 {
-    if ( asObject() )
-    {
-        ( *asObject() )[ key ] = createWithValue( string( value ) );
-        addObjectKey( key );
-    }
+    write( key, string( value ), onlyIfFilled );
 }
 
 void ofxGenericValueStore::write(string key, ofPtr< ofxGenericValueStore > value )
@@ -621,22 +620,21 @@ void ofxGenericValueStore::write( unsigned int index, bool value )
     }
 }
 
-void ofxGenericValueStore::write( unsigned int index, string value )
+void ofxGenericValueStore::write( unsigned int index, string value, bool onlyIfFilled  )
 {
     if ( asArray() )
     {
-        ensureIndexAvailable( index );
-        ( *asArray() )[ index ] = createWithValue( value );
+        if ( !onlyIfFilled || value.size() )
+        {
+            ensureIndexAvailable( index );
+            ( *asArray() )[ index ] = createWithValue( value );
+        }
     }
 }
 
-void ofxGenericValueStore::write( unsigned int index, const char* value )
+void ofxGenericValueStore::write( unsigned int index, const char* value, bool onlyIfFilled  )
 {
-    if ( asArray() )
-    {
-        ensureIndexAvailable( index );
-        ( *asArray() )[ index ] = createWithValue( string( value ) );
-    }
+    write( index, string( value ), onlyIfFilled );
 }
 
 void ofxGenericValueStore::write( unsigned int index, ofPtr< ofxGenericValueStore > value )
