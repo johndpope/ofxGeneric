@@ -145,3 +145,11 @@ enum ofxGenericButtonType
     ofxGenericButtonTypeInfoDark            = 4,    //UIButtonTypeInfoDark = 4
     ofxGenericButtonTypeContactAdd          = 5     //UIButtonTypeContactAdd = 5
 };
+
+enum ofxGenericAnimatedImageLoopType
+{
+    ofxGenericAnimatedImageLoopTypeWrap     = 0,    //after last frame, plays first frame again
+    ofxGenericAnimatedImageLoopTypePingPong = 1,    //after last frame, plays in reverse order
+    ofxGenericAnimatedImageLoopTypeClamp    = 2,    //after last frame, stops animating
+    ofxGenericAnimatedImageLoopTypeOnce     = 3     //after last frame, plays first frame and stops animating
+};
