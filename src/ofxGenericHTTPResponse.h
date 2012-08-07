@@ -9,43 +9,42 @@
 #pragma once
 
 #include "ofxGenericMain.h"
-#include "ofxXmlSettings.h"
 
-class ofxGenericHTTPRequest;
-class ofxXmlSettings;
+#define MIMEType_xml "application/xml"
+#define MIMEType_json "application/json"
+
+class ofxGenericValueStore;
 
 class ofxGenericHTTPResponse
 {
-    friend class ofxGenericHTTPRequest;
+public:
+    static ofPtr< ofxGenericHTTPResponse > create( int statusCode, string MIMEType, string textEncoding, void* data, unsigned int dataByteLength, string suggestedFileName = "" );
     
-public:    
     int getStatusCode() const;
     
-    ofPtr< ofxXmlSettings > getDataAsXML();
     string getMIMEType() const;
     string getTextEncoding() const;
-    string getSuggestedFilename() const;
+    string getSuggestedFileName() const;
     void* getData() const;
-    int getDataByteLength() const;
+    unsigned int getDataByteLength() const;
     string getDataAsString() const;
     
-    virtual string getErrorDescription();
-    string getErrorFailureReason();
-    string getErrorRecoverySuggestions();
+    string getErrorName() const;
+    string getErrorDescription() const;
+    string getErrorRecoverySuggestions() const;
         
-    virtual bool isOk();
+    virtual bool isOk() const;
     
     virtual ~ofxGenericHTTPResponse();
+    
+    string toString() const;
+    
+    static ofPtr< ofxGenericValueStore > createBody( string errorName, string errorDescription = "", string errorRecoverySuggestions = "" );
     
 protected:
     ofxGenericHTTPResponse();
     
-    virtual void init( ofPtrWeak< ofxGenericHTTPResponse > setThis );
-    virtual void init( ofPtrWeak< ofxGenericHTTPResponse > setThis, int statusCode, string MIMEType, string textEncoding, void* data, int dataByteLength, string suggestedFilename = "" );
-    virtual void init( ofPtrWeak< ofxGenericHTTPResponse > setThis, string setErrorDescription, string setErrorFailureReason = "", string setErrorRecoverySuggestions = ""  );
-#if TARGET_OS_IPHONE
-    void retainData( NSData* data );
-#endif
+    virtual void init( ofPtrWeak< ofxGenericHTTPResponse > setThis, int statusCode, string MIMEType, string textEncoding, void* data, unsigned int dataByteLength, string suggestedFilename = "" );
 
     ofPtrWeak< ofxGenericHTTPResponse > _this;
     
@@ -53,20 +52,13 @@ protected:
     
     string _MIMEType;
     string _textEncoding;
-    string _suggestedFilename;
+    string _suggestedFileName;
+    void setData( void* data, unsigned int dataByteLength );
+    typedef unsigned char* DataType;
     void* _data;
-    int _dataByteLength;
-#if TARGET_OS_IPHONE
-    NSData* _dataSource;
-#endif
+    unsigned int _dataByteLength;
     
-    string _errorDescription;
-    string _errorFailureReason;
-    string _errorRecoverySuggestions;
-    
-    ofPtr< ofxXmlSettings > _xml;
-    
-    virtual TiXmlElement* findMainElement(){return NULL;};
-    virtual TiXmlElement* getMainElement();
-    TiXmlElement* _mainElement;
+    static bool isParsable( string MIMEType, string textEncoding );
+    ofPtr< ofxGenericValueStore > _parsedData;
+    ofPtr< ofxGenericValueStore > getParsedData() const;
 };

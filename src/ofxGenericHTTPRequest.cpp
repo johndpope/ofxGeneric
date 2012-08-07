@@ -13,6 +13,8 @@
 #include "ofxGenericHTTPResponse.h"
 #include "ofxGenericUtility.h"
 
+#include "ofxGenericValueStore.h"
+
 #if TARGET_OS_IPHONE
 @interface ofxGenericHTTPConnectionForwarder : NSObject< NSURLConnectionDelegate >
 {
@@ -63,24 +65,31 @@ void ofxGenericHTTPRequest::init( ofPtrWeak< ofxGenericHTTPRequest > setThis, st
     _this = setThis;
     
     _delegate = delegate;
-
-    ofxGLogVerbose( "HTTPRequest - " + url + " " + method );
+    
+    _format = format;
+    std::transform( _format.begin(), _format.end(), _format.begin(), ::tolower );    
+    string urlWithFormat = url;
+    if ( _format == "xml" )
+    {
+        urlWithFormat += ".xml";
+    } else if ( _format == "json" )
+    {
+        urlWithFormat += ".json";
+    }
 
 #if TARGET_OS_IPHONE
     // TODO: allow caching specification
     
-    NSURL* nsUrl = [ NSURL URLWithString:ofxStringToNSString( getWithPercentEscapes( url ) ) ];
+    NSURL* nsUrl = [ NSURL URLWithString:ofxStringToNSString( getWithPercentEscapes( urlWithFormat ) ) ];
     _request = [ [ NSMutableURLRequest alloc ] initWithURL:nsUrl cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:timeout ];
     [ _request setHTTPShouldHandleCookies:YES ];
     _forwarder = [ [ ofxGenericHTTPConnectionForwarder alloc ] initWithDelegate:_this ];
 #endif
     
     setMethod( method );
-    setBody( data, dataByteLength );    
+    setBody( data, dataByteLength );
+    setTimeout( timeout );
 
-    _format = format;
-    std::transform( _format.begin(), _format.end(), _format.begin(), ::tolower );
-    
     if ( _format == "xml" )
     {
         setContentTypeHeader( "application/xml" );
@@ -130,7 +139,6 @@ void ofxGenericHTTPRequest::setBody( void* body, unsigned int bodyByteLength )
             char* dumpBody = new char[ bodyByteLength + 1 ];
             memcpy( ( void* )dumpBody, body, bodyByteLength );
             dumpBody[ bodyByteLength ] = '\0';
-            ofxGLogVerbose( "HTTPRequest Set Body: " + string( dumpBody ) );
         }
 #endif
         
@@ -177,44 +185,96 @@ void ofxGenericHTTPRequest::start()
         _connection = [ [ NSURLConnection alloc ] initWithRequest:_request delegate:_forwarder startImmediately:YES ];
     }
 #endif
+    ofxGLogVerbose( toString() );
 }
 
 void ofxGenericHTTPRequest::cancel()
 {
 #if TARGET_OS_IPHONE
     [ _connection cancel ];
+#endif
+    stop();
+}
+
+void ofxGenericHTTPRequest::stop()
+{
+#if TARGET_OS_IPHONE
     [ _connection release ];
     _connection = nil;
 #endif
 }
 
-ofPtr< ofxGenericHTTPResponse > ofxGenericHTTPRequest::createResponse()
+string ofxGenericHTTPRequest::getUrl() const
 {
-    return ofPtr< ofxGenericHTTPResponse >( new ofxGenericHTTPResponse() );
+#if TARGET_OS_IPHONE
+    return ofxNSStringToString( [ [ _request URL ] absoluteString ] );
+#endif
 }
 
-void ofxGenericHTTPRequest::finishedWithError( string errorDescription, string errorFailureReason, string errorRecoverySuggestion )
+string ofxGenericHTTPRequest::getMethod() const
 {
-    _lastResponse = createResponse();
-    _lastResponse->init( _lastResponse, errorDescription, errorFailureReason, errorRecoverySuggestion );
-    if ( _delegate )
+#if TARGET_OS_IPHONE
+    return ofxNSStringToString( [ _request HTTPMethod ] );
+#endif
+}
+
+float ofxGenericHTTPRequest::getTimeout() const
+{
+#if TARGET_OS_IPHONE
+    return ( float )[ _request timeoutInterval ];
+#endif
+}
+
+string ofxGenericHTTPRequest::getHeaders() const
+{
+#if TARGET_OS_IPHONE
+    NSDictionary* headers = [ _request allHTTPHeaderFields ];
+    NSArray* names = [ headers allKeys ];
+
+    string result;
+    for( NSString* name in names )
     {
-        _delegate->httpRequest_finishedWithError( _this.lock() );
+        NSString* value = [ headers objectForKey:name ];
+        result += "\n" + ofxNSStringToString( name ) + ": " + ofxNSStringToString( value );
     }
+    return result;
+#endif
 }
 
-void ofxGenericHTTPRequest::finishedSuccessfully( int statusCode, string MIMEType, string textEncoding, void* data, int dataByteLength, string suggestedFilename )
+string ofxGenericHTTPRequest::getBodyAsString() const
 {
-    _lastResponse = createResponse();
-    _lastResponse->init( _lastResponse, statusCode, MIMEType, textEncoding, data, dataByteLength, suggestedFilename );
+#if TARGET_OS_IPHONE
+    return ofxGToString( [ _request HTTPBody ] );
+#endif
+}
+
+string ofxGenericHTTPRequest::toString() const
+{
+    string result = "HTTPRequest -";
+    result += " Url: " + getUrl();
+    result += "\nMethod: " + getMethod();
+    result += "\nTimeout: " + ofxGToString( getTimeout() );
+    result += "\nHeaders:\n" + getHeaders();
+    result += "\nBody:\n" + getBodyAsString();
+    return result;
+}
+
+ofPtr< ofxGenericHTTPResponse > ofxGenericHTTPRequest::createResponse( int statusCode, string MIMEType, string textEncoding, void* data, int dataByteLength, string suggestedFileName )
+{
+    return ofxGenericHTTPResponse::create( statusCode, MIMEType, textEncoding, data, dataByteLength, suggestedFileName );
+}
+
+void ofxGenericHTTPRequest::finished( int statusCode, string MIMEType, string textEncoding, void* data, int dataByteLength, string suggestedFileName )
+{
+    _lastResponse = createResponse( statusCode, MIMEType, textEncoding, data, dataByteLength, suggestedFileName );
     
+    stop();
     if ( _delegate )
     {
-        if ( _lastResponse->isOk() )
+        if ( isLastResponseOk() )
         {
             _delegate->httpRequest_finishedSuccessfully( _this.lock() );
-        }
-        else
+        } else
         {
             _delegate->httpRequest_finishedWithError( _this.lock() );
         }
@@ -224,13 +284,21 @@ void ofxGenericHTTPRequest::finishedSuccessfully( int statusCode, string MIMETyp
 #if TARGET_OS_IPHONE
 void ofxGenericHTTPRequest::finishedWithError( NSError* error )
 {
-    finishedWithError( 
-                      ofxNSStringToString( [ error localizedDescription ] ), 
-                      ofxNSStringToString( [ error localizedFailureReason ] ),
-                      ofxNSStringToString( [ error localizedRecoverySuggestion ] )
-                      );
-    [ _connection release ];
-    _connection = nil;
+    string JSONBody;
+    
+    ofPtr< ofxGenericValueStore > body = ofxGenericHTTPResponse::createBody( ofxNSStringToString( [ error localizedDescription ] ), ofxNSStringToString( [ error localizedFailureReason ] ), ofxNSStringToString( [ error localizedRecoverySuggestion ] ) );
+    if ( body )
+    {
+        JSONBody = body->toJSONString();
+    }
+
+    finished(
+             400,
+             MIMEType_json,
+             "utf-8",
+             ( void* )JSONBody.c_str(),
+             JSONBody.size()
+             );
 }
 
 void ofxGenericHTTPRequest::finishedSuccessfully( NSURLResponse* response, NSData* data )
@@ -242,24 +310,17 @@ void ofxGenericHTTPRequest::finishedSuccessfully( NSURLResponse* response, NSDat
         statusCode = [ httpResponse statusCode ];
     } else
     {
-        statusCode = -1;
+        statusCode = 200;
     }
     
-    finishedSuccessfully(
-                         statusCode,
-                         ofxNSStringToString( [ response MIMEType ] ),
-                         ofxNSStringToString( [ response textEncodingName ] ),
-                         ( void* )[ data bytes ],
-                         [ data length ],
-                         ofxNSStringToString( [ response suggestedFilename ] )
-                         );
-
-    if ( getLastResponse() )
-    {
-        getLastResponse()->retainData( data );
-    }
-    [ _connection release ];
-    _connection = nil;
+    finished(
+             statusCode,
+             ofxNSStringToString( [ response MIMEType ] ),
+             ofxNSStringToString( [ response textEncodingName ] ),
+             ( void* )[ data bytes ],
+             [ data length ],
+             ofxNSStringToString( [ response suggestedFilename ] )
+            );
 }
 #endif
 
@@ -363,7 +424,3 @@ string ofxGenericHTTPRequest::getFromPercentEscapes( string encoded )
 
 @end
 #endif
-
-/////////////////////////////////////////////////////////
-
-

@@ -23,6 +23,12 @@ public:
     static ofPtr< ofxGenericHTTPRequest > create( string url, string method, string format, string data, float timeout = 20.0f, ofPtr< ofxGenericHTTPRequestDelegate > delegate = ofPtr< ofxGenericHTTPRequestDelegate >() );
     virtual ~ofxGenericHTTPRequest();
     
+    string getUrl() const;
+    string getMethod() const;
+    float getTimeout() const;
+    string getHeaders() const;
+    string getBodyAsString() const;
+    
     virtual void setBody( string body );
     virtual void setBody( void* body, unsigned int bodyByteLength );
     virtual void setHeaderField( string field, string value );
@@ -37,8 +43,9 @@ public:
     
     void setDelegate( ofPtr< ofxGenericHTTPRequestDelegate > delegate );
     
-    void finishedWithError( string errorDescription, string errorFailureReason = "", string errorRecoverySuggestion = "" );
-    void finishedSuccessfully( int statusCode, string MIMEType, string textEncoding, void* data, int dataByteLength, string suggestedFilename = "" );
+    string toString() const;
+    
+    void finished( int statusCode, string MIMEType, string textEncoding, void* data, int dataByteLength, string suggestedFileName = "" );
 #if TARGET_OS_IPHONE
     virtual void finishedWithError( NSError* error );
     virtual void finishedSuccessfully( NSURLResponse* urlResponse, NSData* receivedData );
@@ -66,10 +73,12 @@ protected:
     ofxGenericHTTPConnectionForwarder* _forwarder;
 #endif
     
-    virtual ofPtr< ofxGenericHTTPResponse > createResponse();
+    virtual ofPtr< ofxGenericHTTPResponse > createResponse( int statusCode, string MIMEType, string textEncoding, void* data, int dataByteLength, string suggestedFileName );
     ofPtr< ofxGenericHTTPResponse > _lastResponse;
     
     virtual void setMethod( string method );
+    
+    virtual void stop();
 };
 
 class ofxGenericHTTPRequestDelegate
@@ -80,6 +89,3 @@ public:
     virtual void httpRequest_finishedWithError( ofPtr< ofxGenericHTTPRequest > request ) = 0;
     virtual void httpRequest_finishedSuccessfully( ofPtr< ofxGenericHTTPRequest > request ) = 0;
 };
-
-/////////////////////////////////////////////////////////
-

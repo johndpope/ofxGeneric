@@ -8,94 +8,77 @@
 #include "ofxGenericHTTPResponse.h"
 #include "ofxGenericUtility.h"
 
-#define MIMEType_xml "application/xml"
+#include "ofxGenericValueStore.h"
+#include "ofxXMLSettings.h"
 
-#if TARGET_OS_IPHONE
-void ofxGenericHTTPResponse::retainData( NSData* data )
+#define ErrorCacheKey "error"
+#define ErrorDescriptionCacheKey "error_description"
+#define ErrorRecoverySuggestionsCacheKey "error_recovery"
+
+ofPtr< ofxGenericHTTPResponse > ofxGenericHTTPResponse::create( int statusCode, string MIMEType, string textEncoding, void* data, unsigned int dataByteLength, string suggestedFileName )
 {
-    if ( data != _dataSource )
-    {
-        if ( _dataSource )
-        {
-            release( _dataSource );
-        }
-        _dataSource = [ data retain ];
-    }
+    ofPtr< ofxGenericHTTPResponse > create( new ofxGenericHTTPResponse() );
+    create->init( create, statusCode, MIMEType, textEncoding, data, dataByteLength, suggestedFileName );
+    return create;
 }
-#endif
 
 ofxGenericHTTPResponse::ofxGenericHTTPResponse()
-: _data( NULL ), _dataByteLength( 0 ), _mainElement( NULL )
-#if TARGET_OS_IPHONE
-, _dataSource( nil )
-#endif
+: _statusCode( -1 ), _data( NULL ), _dataByteLength( 0 )
 {
-
-}
-
-void ofxGenericHTTPResponse::init( ofPtrWeak<ofxGenericHTTPResponse> setThis )
-{
-    _this = setThis;
-    _mainElement = findMainElement();
-}
-
-void ofxGenericHTTPResponse::init( ofPtrWeak<ofxGenericHTTPResponse> setThis, string errorDescription, string errorFailureReason , string errorRecoverySuggestions )
-{
-    init( setThis );
-    
-    _errorDescription = errorDescription;
-    _errorFailureReason = errorFailureReason;
-    _errorRecoverySuggestions = errorRecoverySuggestions;
-    _mainElement = findMainElement();
-    
-    ofxGLog( OF_LOG_ERROR, "HTTPResponse - Error: " + _errorDescription + " " + _errorFailureReason + " " + _errorRecoverySuggestions );
-}
-
-void ofxGenericHTTPResponse::init( ofPtrWeak< ofxGenericHTTPResponse > setThis, int setStatusCode, string setMIMEType, string setTextEncoding, void* setData, int setDataByteLength, string setSuggestedFilename )
-{
-    init( setThis );
-    
-    _statusCode = setStatusCode;
-    _MIMEType = setMIMEType;
-    _textEncoding = setTextEncoding;
-    _data = setData;
-    _dataByteLength = setDataByteLength;
-    _suggestedFilename = setSuggestedFilename;
-
-    ofxGLog( OF_LOG_VERBOSE, 
-            "HTTPResponse - Status: %d MIMEType: %s Text Encoding: %s Suggested File Name: %s\nBody: %s", 
-            _statusCode, _MIMEType.c_str(), _textEncoding.c_str(), _suggestedFilename.c_str(), getDataAsString().c_str() );
-    
-    if ( _MIMEType == MIMEType_xml )
-    {
-        _xml = ofPtr< ofxXmlSettings >( new ofxXmlSettings() );
-        TiXmlEncoding encoding = TIXML_DEFAULT_ENCODING;
-        if ( _textEncoding == "utf-8" )
-        {
-            encoding = TIXML_ENCODING_UTF8;
-        }
-        _xml->doc.Parse( getDataAsString().c_str(), NULL, encoding );
-    }
-    _mainElement = findMainElement();
-}
-
-bool ofxGenericHTTPResponse::isOk()
-{
-    if ( _xml )
-    {
-        if ( _xml->tagExists( "response" ) )
-        {
-            return ( bool )_xml->getAttribute( "response", "success", 0 );
-        }
-    }
-    return false;
 }
 
 ofxGenericHTTPResponse::~ofxGenericHTTPResponse()
 {
-#if TARGET_OS_IPHONE
-    release( _dataSource );
-#endif
+    if ( _data )
+    {
+        delete [] ( DataType )_data;
+        _data = NULL;
+        _dataByteLength = 0;
+    }
+}
+
+void ofxGenericHTTPResponse::init( ofPtrWeak< ofxGenericHTTPResponse > setThis, int statusCode, string MIMEType, string textEncoding, void* data, unsigned int setDataByteLength, string suggestedFileName )
+{
+    _this = setThis;;
+    
+    _statusCode = statusCode;
+    _MIMEType = MIMEType;
+    _textEncoding = textEncoding;
+    setData( data, setDataByteLength );
+    _suggestedFileName = suggestedFileName;
+
+    if ( isParsable( _MIMEType, _textEncoding ) )
+    {
+        string dataAsString = getDataAsString();
+        if ( !dataAsString.empty() )
+        {
+            if ( _MIMEType == MIMEType_json )
+            {
+                _parsedData = ofxGenericValueStore::createFromJSON( dataAsString );
+            } else if ( _MIMEType == MIMEType_xml )
+            {
+//                _parsedData = ofxGenericValueStore::createFromXML( dataAsString );
+            }
+        }
+    }
+
+    if ( isOk() )
+    {
+        ofxGLogVerbose( toString() );
+    } else
+    {
+        ofxGLogNotice( toString() );
+    }
+}
+
+ofPtr< ofxGenericValueStore > ofxGenericHTTPResponse::getParsedData() const
+{
+    return _parsedData;
+}
+
+bool ofxGenericHTTPResponse::isOk() const
+{
+    return _statusCode >= 200 && _statusCode <= 299;
 }
 
 int ofxGenericHTTPResponse::getStatusCode() const
@@ -113,9 +96,23 @@ string ofxGenericHTTPResponse::getTextEncoding() const
     return _textEncoding;
 }
 
-string ofxGenericHTTPResponse::getSuggestedFilename() const
+string ofxGenericHTTPResponse::getSuggestedFileName() const
 {
-    return _suggestedFilename;
+    return _suggestedFileName;
+}
+
+void ofxGenericHTTPResponse::setData( void* data, unsigned int dataByteLength )
+{
+    if ( data != NULL & dataByteLength > 0 )
+    {
+        _dataByteLength = dataByteLength;
+        _data = new DataType[ _dataByteLength ];
+        memcpy( _data, data, _dataByteLength );
+    } else
+    {
+        _dataByteLength = 0;
+        _data = 0;
+    }
 }
 
 void* ofxGenericHTTPResponse::getData() const
@@ -123,79 +120,92 @@ void* ofxGenericHTTPResponse::getData() const
     return _data;
 }
 
-int ofxGenericHTTPResponse::getDataByteLength() const
+unsigned int ofxGenericHTTPResponse::getDataByteLength() const
 {
     return _dataByteLength;
 }
 
+bool ofxGenericHTTPResponse::isParsable( string MIMEType, string textEncoding )
+{
+    return textEncoding == "utf-8" && ( MIMEType == MIMEType_json || MIMEType == MIMEType_xml );
+}
+
 string ofxGenericHTTPResponse::getDataAsString() const
 {
-    char* dataBuffer = new char[ _dataByteLength + 1 ];
-    snprintf( dataBuffer, _dataByteLength + 1, "%s", _data );
-    
-    string dataString( dataBuffer );
-    
-    delete [] dataBuffer;
-    
-    return dataString;
+    return ofxGToString( _data, _dataByteLength );
 }
 
-ofPtr< ofxXmlSettings >ofxGenericHTTPResponse::getDataAsXML()
+string ofxGenericHTTPResponse::getErrorName() const
 {
-    return _xml;
-}
-
-string ofxGenericHTTPResponse::getErrorDescription()
-{
-    //this will be set early by HTTP errors, in that case we won't continue
-    if ( _errorDescription.empty() )
+    ofPtr< ofxGenericValueStore > parsedData = getParsedData();
+    if ( parsedData )
     {
-        //if there was an XML parsing error, then report that
-        if ( _xml && _xml->doc.Error() )
-        {
-            _errorDescription = _xml->doc.ErrorDesc();
-        }
-        //otherwise, look through the XML to see if there are any errors within
-        else
-        {
-            TiXmlElement* mainElement = getMainElement();
-            if ( mainElement )
-            {
-                TiXmlElement* errors = mainElement->FirstChildElement( "errors" );
-                
-                if ( errors )
-                {
-                    TiXmlElement* error = errors->FirstChildElement( "error" );
-                    if ( error )
-                    {
-                        _errorDescription = error->GetText();
-                    }
-                }
-            }
-        }
+        return parsedData->read( ErrorCacheKey, "" );
+    }
+    return string();
+}
+
+string ofxGenericHTTPResponse::getErrorDescription() const
+{
+    ofPtr< ofxGenericValueStore > parsedData = getParsedData();
+    if ( parsedData )
+    {
+        return parsedData->read( ErrorDescriptionCacheKey, "" );
+    }
+    return string();
+}
+
+string ofxGenericHTTPResponse::getErrorRecoverySuggestions() const
+{
+    ofPtr< ofxGenericValueStore > parsedData = getParsedData();
+    if ( parsedData )
+    {
+        return parsedData->read( ErrorRecoverySuggestionsCacheKey, "" );
+    }
+    return string();
+}
+
+string ofxGenericHTTPResponse::toString() const
+{
+    string result = "HTTPResponse - Status: " + ofxGToString( _statusCode );
+    if ( isOk() )
+    {
+        result += " MIMEType: " + getMIMEType() + " Text Encoding: " + getTextEncoding() + " Suggested File Name: " + getSuggestedFileName();
         
-        //if we still haven't set an error, report an unknown one
-        if ( _errorDescription.empty() )
+        string bodyAsString = getDataAsString();
+        if ( !bodyAsString.empty() )
         {
-            _errorDescription = string("Unknown Error");
+            result += " Body:\n " + bodyAsString;
+        }
+    } else
+    {
+        result += " Error ";
+        if ( !getErrorName().empty() )
+        {
+            result += " Name: " + getErrorName();
+        }
+        if ( !getErrorDescription().empty() )
+        {
+            result += " Description: " + getErrorDescription();
+        }
+        if ( !getErrorRecoverySuggestions().empty() )
+        {
+            result += " Suggestions: " + getErrorRecoverySuggestions();
+        }
+        string bodyAsString = getDataAsString();
+        if ( !bodyAsString.empty() )
+        {
+            result += " Body:\n " + bodyAsString;
         }
     }
-    
-    return _errorDescription;
+    return result;
 }
 
-string ofxGenericHTTPResponse::getErrorFailureReason()
+ofPtr< ofxGenericValueStore > ofxGenericHTTPResponse::createBody( string errorName, string errorDescription, string errorRecoverySuggestions )
 {
-    return _errorFailureReason;
+    ofPtr< ofxGenericValueStore > body = ofxGenericValueStore::create( false );
+    body->write( ErrorCacheKey, errorName );
+    body->write( ErrorDescriptionCacheKey, errorDescription );
+    body->write( ErrorRecoverySuggestionsCacheKey, errorRecoverySuggestions );
+    return body;
 }
-
-string ofxGenericHTTPResponse::getErrorRecoverySuggestions()
-{
-    return _errorRecoverySuggestions;
-}
-
-TiXmlElement* ofxGenericHTTPResponse::getMainElement()
-{
-    return _mainElement;
-}
-
