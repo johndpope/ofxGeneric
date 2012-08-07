@@ -18,16 +18,24 @@ class ofxGenericValueStore;
 class ofxGenericHTTPResponse
 {
 public:
-    static ofPtr< ofxGenericHTTPResponse > create( int statusCode, string MIMEType, string textEncoding, void* data, unsigned int dataByteLength, string suggestedFileName = "" );
+    static ofPtr< ofxGenericHTTPResponse > create(
+                                                  int statusCode,
+                                                  string MIMEType,
+                                                  string textEncoding,
+                                                  void* body,
+                                                  unsigned int bodyByteLength,
+                                                  string suggestedFileName
+                                                  );
     
     int getStatusCode() const;
     
     string getMIMEType() const;
     string getTextEncoding() const;
     string getSuggestedFileName() const;
-    void* getData() const;
-    unsigned int getDataByteLength() const;
-    string getDataAsString() const;
+    
+    void* getBody() const;
+    unsigned int getBodyByteLength() const;
+    string getBodyAsString() const;
     
     string getErrorName() const;
     string getErrorDescription() const;
@@ -39,12 +47,12 @@ public:
     
     string toString() const;
     
-    static ofPtr< ofxGenericValueStore > createBody( string errorName, string errorDescription = "", string errorRecoverySuggestions = "" );
+    static ofPtr< ofxGenericValueStore > createErrorBody( string errorName, string errorDescription = "", string errorRecoverySuggestions = "" );
     
 protected:
     ofxGenericHTTPResponse();
     
-    virtual void init( ofPtrWeak< ofxGenericHTTPResponse > setThis, int statusCode, string MIMEType, string textEncoding, void* data, unsigned int dataByteLength, string suggestedFilename = "" );
+    virtual void init( ofPtrWeak< ofxGenericHTTPResponse > setThis, int statusCode, string MIMEType, string textEncoding, void* body, unsigned int bodyByteLength, string suggestedFilename = "" );
 
     ofPtrWeak< ofxGenericHTTPResponse > _this;
     
@@ -53,12 +61,12 @@ protected:
     string _MIMEType;
     string _textEncoding;
     string _suggestedFileName;
-    void setData( void* data, unsigned int dataByteLength );
-    typedef unsigned char* DataType;
-    void* _data;
-    unsigned int _dataByteLength;
+    void setBody( void* body, unsigned int bodyByteLength );
+    typedef unsigned char* BodyType;
+    void* _body;
+    unsigned int _bodyByteLength;
     
     static bool isParsable( string MIMEType, string textEncoding );
-    ofPtr< ofxGenericValueStore > _parsedData;
-    ofPtr< ofxGenericValueStore > getParsedData() const;
+    ofPtr< ofxGenericValueStore > _parsedBody;
+    ofPtr< ofxGenericValueStore > getParsedBody() const;
 };

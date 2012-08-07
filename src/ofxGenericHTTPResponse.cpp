@@ -15,49 +15,72 @@
 #define ErrorDescriptionCacheKey "error_description"
 #define ErrorRecoverySuggestionsCacheKey "error_recovery"
 
-ofPtr< ofxGenericHTTPResponse > ofxGenericHTTPResponse::create( int statusCode, string MIMEType, string textEncoding, void* data, unsigned int dataByteLength, string suggestedFileName )
+ofPtr< ofxGenericHTTPResponse > ofxGenericHTTPResponse::create(
+                                                               int statusCode,
+                                                               string MIMEType,
+                                                               string textEncoding,
+                                                               void* body,
+                                                               unsigned int bodyByteLength,
+                                                               string suggestedFileName
+                                                               )
 {
     ofPtr< ofxGenericHTTPResponse > create( new ofxGenericHTTPResponse() );
-    create->init( create, statusCode, MIMEType, textEncoding, data, dataByteLength, suggestedFileName );
+    create->init(
+                 create,
+                 statusCode,
+                 MIMEType,
+                 textEncoding,
+                 body,
+                 bodyByteLength,
+                 suggestedFileName
+                 );
     return create;
 }
 
 ofxGenericHTTPResponse::ofxGenericHTTPResponse()
-: _statusCode( -1 ), _data( NULL ), _dataByteLength( 0 )
+: _statusCode( -1 ), _body( NULL ), _bodyByteLength( 0 )
 {
 }
 
 ofxGenericHTTPResponse::~ofxGenericHTTPResponse()
 {
-    if ( _data )
+    if ( _body )
     {
-        delete [] ( DataType )_data;
-        _data = NULL;
-        _dataByteLength = 0;
+        delete [] ( BodyType )_body;
+        _body = NULL;
+        _bodyByteLength = 0;
     }
 }
 
-void ofxGenericHTTPResponse::init( ofPtrWeak< ofxGenericHTTPResponse > setThis, int statusCode, string MIMEType, string textEncoding, void* data, unsigned int setDataByteLength, string suggestedFileName )
+void ofxGenericHTTPResponse::init(
+                                  ofPtrWeak< ofxGenericHTTPResponse > setThis,
+                                  int statusCode,
+                                  string MIMEType,
+                                  string textEncoding,
+                                  void* body,
+                                  unsigned int bodyByteLength,
+                                  string suggestedFileName
+                                  )
 {
     _this = setThis;;
     
     _statusCode = statusCode;
     _MIMEType = MIMEType;
     _textEncoding = textEncoding;
-    setData( data, setDataByteLength );
+    setBody( body, bodyByteLength );
     _suggestedFileName = suggestedFileName;
 
     if ( isParsable( _MIMEType, _textEncoding ) )
     {
-        string dataAsString = getDataAsString();
-        if ( !dataAsString.empty() )
+        string bodyAsString = getBodyAsString();
+        if ( !bodyAsString.empty() )
         {
             if ( _MIMEType == MIMEType_json )
             {
-                _parsedData = ofxGenericValueStore::createFromJSON( dataAsString );
+                _parsedBody = ofxGenericValueStore::createFromJSON( bodyAsString );
             } else if ( _MIMEType == MIMEType_xml )
             {
-//                _parsedData = ofxGenericValueStore::createFromXML( dataAsString );
+//                _parsedBody = ofxGenericValueStore::createFromXML( bodyAsString );
             }
         }
     }
@@ -71,9 +94,9 @@ void ofxGenericHTTPResponse::init( ofPtrWeak< ofxGenericHTTPResponse > setThis, 
     }
 }
 
-ofPtr< ofxGenericValueStore > ofxGenericHTTPResponse::getParsedData() const
+ofPtr< ofxGenericValueStore > ofxGenericHTTPResponse::getParsedBody() const
 {
-    return _parsedData;
+    return _parsedBody;
 }
 
 bool ofxGenericHTTPResponse::isOk() const
@@ -101,28 +124,28 @@ string ofxGenericHTTPResponse::getSuggestedFileName() const
     return _suggestedFileName;
 }
 
-void ofxGenericHTTPResponse::setData( void* data, unsigned int dataByteLength )
+void ofxGenericHTTPResponse::setBody( void* body, unsigned int bodyByteLength )
 {
-    if ( data != NULL & dataByteLength > 0 )
+    if ( body != NULL & bodyByteLength > 0 )
     {
-        _dataByteLength = dataByteLength;
-        _data = new DataType[ _dataByteLength ];
-        memcpy( _data, data, _dataByteLength );
+        _bodyByteLength = bodyByteLength;
+        _body = new BodyType[ _bodyByteLength ];
+        memcpy( _body, body, _bodyByteLength );
     } else
     {
-        _dataByteLength = 0;
-        _data = 0;
+        _bodyByteLength = 0;
+        _body = 0;
     }
 }
 
-void* ofxGenericHTTPResponse::getData() const
+void* ofxGenericHTTPResponse::getBody() const
 {
-    return _data;
+    return _body;
 }
 
-unsigned int ofxGenericHTTPResponse::getDataByteLength() const
+unsigned int ofxGenericHTTPResponse::getBodyByteLength() const
 {
-    return _dataByteLength;
+    return _bodyByteLength;
 }
 
 bool ofxGenericHTTPResponse::isParsable( string MIMEType, string textEncoding )
@@ -130,14 +153,14 @@ bool ofxGenericHTTPResponse::isParsable( string MIMEType, string textEncoding )
     return textEncoding == "utf-8" && ( MIMEType == MIMEType_json || MIMEType == MIMEType_xml );
 }
 
-string ofxGenericHTTPResponse::getDataAsString() const
+string ofxGenericHTTPResponse::getBodyAsString() const
 {
-    return ofxGToString( _data, _dataByteLength );
+    return ofxGToString( _body, _bodyByteLength );
 }
 
 string ofxGenericHTTPResponse::getErrorName() const
 {
-    ofPtr< ofxGenericValueStore > parsedData = getParsedData();
+    ofPtr< ofxGenericValueStore > parsedData = getParsedBody();
     if ( parsedData )
     {
         return parsedData->read( ErrorCacheKey, "" );
@@ -147,20 +170,20 @@ string ofxGenericHTTPResponse::getErrorName() const
 
 string ofxGenericHTTPResponse::getErrorDescription() const
 {
-    ofPtr< ofxGenericValueStore > parsedData = getParsedData();
-    if ( parsedData )
+    ofPtr< ofxGenericValueStore > parsedBody = getParsedBody();
+    if ( parsedBody )
     {
-        return parsedData->read( ErrorDescriptionCacheKey, "" );
+        return parsedBody->read( ErrorDescriptionCacheKey, "" );
     }
     return string();
 }
 
 string ofxGenericHTTPResponse::getErrorRecoverySuggestions() const
 {
-    ofPtr< ofxGenericValueStore > parsedData = getParsedData();
-    if ( parsedData )
+    ofPtr< ofxGenericValueStore > parsedBody = getParsedBody();
+    if ( parsedBody )
     {
-        return parsedData->read( ErrorRecoverySuggestionsCacheKey, "" );
+        return parsedBody->read( ErrorRecoverySuggestionsCacheKey, "" );
     }
     return string();
 }
@@ -172,7 +195,7 @@ string ofxGenericHTTPResponse::toString() const
     {
         result += " MIMEType: " + getMIMEType() + " Text Encoding: " + getTextEncoding() + " Suggested File Name: " + getSuggestedFileName();
         
-        string bodyAsString = getDataAsString();
+        string bodyAsString = getBodyAsString();
         if ( !bodyAsString.empty() )
         {
             result += " Body:\n " + bodyAsString;
@@ -192,7 +215,7 @@ string ofxGenericHTTPResponse::toString() const
         {
             result += " Suggestions: " + getErrorRecoverySuggestions();
         }
-        string bodyAsString = getDataAsString();
+        string bodyAsString = getBodyAsString();
         if ( !bodyAsString.empty() )
         {
             result += " Body:\n " + bodyAsString;
@@ -201,7 +224,7 @@ string ofxGenericHTTPResponse::toString() const
     return result;
 }
 
-ofPtr< ofxGenericValueStore > ofxGenericHTTPResponse::createBody( string errorName, string errorDescription, string errorRecoverySuggestions )
+ofPtr< ofxGenericValueStore > ofxGenericHTTPResponse::createErrorBody( string errorName, string errorDescription, string errorRecoverySuggestions )
 {
     ofPtr< ofxGenericValueStore > body = ofxGenericValueStore::create( false );
     body->write( ErrorCacheKey, errorName );

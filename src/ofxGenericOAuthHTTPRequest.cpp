@@ -16,38 +16,37 @@ ofxGenericOAuthHTTPRequest::ofxGenericOAuthHTTPRequest()
 {
 }
 
-void ofxGenericOAuthHTTPRequest::init( ofPtrWeak< ofxGenericOAuthHTTPRequest > setThis, string url, string method, ofPtr< ofxGenericOAuthToken > token, string body, float timeout, ofPtr< ofxGenericHTTPRequestDelegate > delegate )
+void ofxGenericOAuthHTTPRequest::init(
+                                      ofPtrWeak< ofxGenericOAuthHTTPRequest > setThis,
+                                      string url,
+                                      string method,
+                                      ofPtr< ofxGenericOAuthToken > token,
+                                      string format,
+                                      ofPtr< ofxGenericValueStore > body,
+                                      ofPtr< ofxGenericHTTPRequestDelegate > delegate,
+                                      float timeout,
+                                      string clientId,
+                                      string clientSecretKey
+                                      )
 {
-    ofxGenericHTTPRequest::init( setThis, url, method, "json", body, timeout, delegate );
+    if ( body )
+    {
+        ofxGenericOAuthHTTPRequest::addClientInfo( body, clientId, clientSecretKey );
+    }
+    
+    ofxGenericHTTPRequest::init( setThis, url, method, format, body, delegate, timeout );
 
     if ( token )
     {
         setAuthorizationHeader( "OAuth " + token->getAccessToken() );
-    }
+    }    
 }
 
-void ofxGenericOAuthHTTPRequest::init( ofPtrWeak< ofxGenericOAuthHTTPRequest > setThis, string url, string method, ofPtr< ofxGenericOAuthToken > token, ofPtr< ofxGenericValueStore > body, float timeout, ofPtr< ofxGenericHTTPRequestDelegate > delegate )
+void ofxGenericOAuthHTTPRequest::addClientInfo( ofPtr< ofxGenericValueStore > body, string clientId, string clientSecretKey )
 {
-    string JSONBodyString;
     if ( body )
     {
-        JSONBodyString = body->toJSONString();
+        body->write( "client_id", clientId, true );
+        body->write( "client_secret", clientSecretKey, true );
     }
-    init( setThis, url, method, token, JSONBodyString, timeout, delegate );
-}
-
-ofPtr< ofxGenericValueStore > ofxGenericOAuthHTTPRequest::createBody( string clientId, string clientSecretKey )
-{
-    ofPtr< ofxGenericValueStore > body = ofxGenericValueStore::create( ofxGenericValueStore::ofxGenericValueStoreTypeObject );
-    if ( body )
-    {
-        body->write( "client_id", clientId );
-        body->write( "client_secret", clientSecretKey );
-    }
-    return body;
-}
-
-void ofxGenericOAuthHTTPRequest::setAcceptHeader( string value )
-{
-    ofxGenericHTTPRequest::setAcceptHeader( value + "; application/vnd.lumoslabs.com; version=v2" );
 }

@@ -33,17 +33,41 @@
 @end
 #endif
 
-ofPtr< ofxGenericHTTPRequest > ofxGenericHTTPRequest::create( string url, string method, string format, void* data, int dataByteLength, float timeout, ofPtr< ofxGenericHTTPRequestDelegate > delegate )
+ofPtr< ofxGenericHTTPRequest > ofxGenericHTTPRequest::create(
+                                                             string url,
+                                                             string method,
+                                                             string format,
+                                                             string body,
+                                                             ofPtr< ofxGenericHTTPRequestDelegate > delegate,
+                                                             float timeout
+                                                             )
 {
     ofPtr< ofxGenericHTTPRequest > create = ofPtr< ofxGenericHTTPRequest >( new ofxGenericHTTPRequest() );
-    create->init( create, url, method, format, data, dataByteLength, timeout, delegate );
+    create->init( create, url, method, format, body, delegate, timeout );
     return create;
 }
 
-ofPtr< ofxGenericHTTPRequest > ofxGenericHTTPRequest::create( string url, string method, string format, string data, float timeout, ofPtr< ofxGenericHTTPRequestDelegate > delegate )
+ofPtr< ofxGenericHTTPRequest > ofxGenericHTTPRequest::create(
+                                                             string url,
+                                                             string method,
+                                                             string format,
+                                                             void* body,
+                                                             unsigned int bodyByteLength,
+                                                             ofPtr< ofxGenericHTTPRequestDelegate > delegate,
+                                                             float timeout
+                                                             )
 {
     ofPtr< ofxGenericHTTPRequest > create = ofPtr< ofxGenericHTTPRequest >( new ofxGenericHTTPRequest() );
-    create->init( create, url, method, format, data, timeout, delegate );
+    create->init(
+                 create,
+                 url,
+                 method,
+                 format,
+                 body,
+                 bodyByteLength,
+                 delegate,
+                 timeout
+                 );
     return create;
 }
 
@@ -55,12 +79,73 @@ ofxGenericHTTPRequest::ofxGenericHTTPRequest()
 {
 }
 
-void ofxGenericHTTPRequest::init( ofPtrWeak< ofxGenericHTTPRequest > setThis, string url, string method, string format, string data, float timeout, ofPtr< ofxGenericHTTPRequestDelegate > delegate )
+void ofxGenericHTTPRequest::init(
+                                 ofPtrWeak< ofxGenericHTTPRequest > setThis,
+                                 string url,
+                                 string method,
+                                 string format,
+                                 ofPtr< ofxGenericValueStore > body,
+                                 ofPtr< ofxGenericHTTPRequestDelegate > delegate,
+                                 float timeout
+                                 )
 {
-    ofxGenericHTTPRequest::init( setThis, url, method, format, (void*) data.c_str(), data.length(), timeout, delegate );
+    string bodyAsString;
+    
+    if ( body )
+    {
+        if ( format == MIMEType_json )
+        {
+            bodyAsString = body->toJSONString();
+        } else if ( format == MIMEType_xml )
+        {
+// TODO:
+//            bodyAsString = body->toXMLString();
+        }
+    }
+    
+    ofxGenericHTTPRequest::init(
+                                setThis,
+                                url,
+                                method,
+                                format,
+                                bodyAsString,
+                                delegate,
+                                timeout
+                                );
 }
 
-void ofxGenericHTTPRequest::init( ofPtrWeak< ofxGenericHTTPRequest > setThis, string url, string method, string format, void* data, int dataByteLength, float timeout, ofPtr< ofxGenericHTTPRequestDelegate > delegate )
+void ofxGenericHTTPRequest::init(
+                                 ofPtrWeak< ofxGenericHTTPRequest > setThis,
+                                 string url,
+                                 string method,
+                                 string format,
+                                 string body,
+                                 ofPtr< ofxGenericHTTPRequestDelegate > delegate,
+                                 float timeout
+                                 )
+{
+    ofxGenericHTTPRequest::init(
+                                setThis,
+                                url,
+                                method,
+                                format,
+                                ( void* )body.c_str(),
+                                body.length(),
+                                delegate,
+                                timeout
+                                );
+}
+
+void ofxGenericHTTPRequest::init(
+                                 ofPtrWeak< ofxGenericHTTPRequest > setThis,
+                                 string url,
+                                 string method,
+                                 string format,
+                                 void* body,
+                                 unsigned int bodyByteLength,
+                                 ofPtr< ofxGenericHTTPRequestDelegate > delegate,
+                                 float timeout
+                                 )
 {
     _this = setThis;
     
@@ -87,7 +172,7 @@ void ofxGenericHTTPRequest::init( ofPtrWeak< ofxGenericHTTPRequest > setThis, st
 #endif
     
     setMethod( method );
-    setBody( data, dataByteLength );
+    setBody( body, bodyByteLength );
     setTimeout( timeout );
 
     if ( _format == "xml" )
@@ -259,12 +344,25 @@ string ofxGenericHTTPRequest::toString() const
     return result;
 }
 
-ofPtr< ofxGenericHTTPResponse > ofxGenericHTTPRequest::createResponse( int statusCode, string MIMEType, string textEncoding, void* data, int dataByteLength, string suggestedFileName )
+ofPtr< ofxGenericHTTPResponse > ofxGenericHTTPRequest::createResponse(
+                                                                      int statusCode,
+                                                                      string MIMEType,
+                                                                      string textEncoding,
+                                                                      void* body,
+                                                                      unsigned int bodyByteLength,
+                                                                      string suggestedFileName
+                                                                      )
 {
-    return ofxGenericHTTPResponse::create( statusCode, MIMEType, textEncoding, data, dataByteLength, suggestedFileName );
+    return ofxGenericHTTPResponse::create(
+                                          statusCode,
+                                          MIMEType,
+                                          textEncoding,
+                                          body,
+                                          bodyByteLength,
+                                          suggestedFileName );
 }
 
-void ofxGenericHTTPRequest::finished( int statusCode, string MIMEType, string textEncoding, void* data, int dataByteLength, string suggestedFileName )
+void ofxGenericHTTPRequest::finished( int statusCode, string MIMEType, string textEncoding, void* data, unsigned int dataByteLength, string suggestedFileName )
 {
     _lastResponse = createResponse( statusCode, MIMEType, textEncoding, data, dataByteLength, suggestedFileName );
     
@@ -286,7 +384,7 @@ void ofxGenericHTTPRequest::finishedWithError( NSError* error )
 {
     string JSONBody;
     
-    ofPtr< ofxGenericValueStore > body = ofxGenericHTTPResponse::createBody( ofxNSStringToString( [ error localizedDescription ] ), ofxNSStringToString( [ error localizedFailureReason ] ), ofxNSStringToString( [ error localizedRecoverySuggestion ] ) );
+    ofPtr< ofxGenericValueStore > body = ofxGenericHTTPResponse::createErrorBody( ofxNSStringToString( [ error localizedDescription ] ), ofxNSStringToString( [ error localizedFailureReason ] ), ofxNSStringToString( [ error localizedRecoverySuggestion ] ) );
     if ( body )
     {
         JSONBody = body->toJSONString();
@@ -297,7 +395,8 @@ void ofxGenericHTTPRequest::finishedWithError( NSError* error )
              MIMEType_json,
              "utf-8",
              ( void* )JSONBody.c_str(),
-             JSONBody.size()
+             JSONBody.size(),
+             ""
              );
 }
 

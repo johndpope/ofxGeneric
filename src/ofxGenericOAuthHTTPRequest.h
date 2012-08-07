@@ -18,12 +18,21 @@ class ofxGenericOAuthHTTPRequest : public ofxGenericHTTPRequest
 public:
     virtual void setAcceptHeader( string value );
     
+    static void addClientInfo( ofPtr< ofxGenericValueStore > body, string clientId, string clientSecretKey );
+    
 protected:
     ofxGenericOAuthHTTPRequest();
     
-    virtual void init( ofPtrWeak< ofxGenericOAuthHTTPRequest > setThis, string url, string method, ofPtr< ofxGenericOAuthToken > token, ofPtr< ofxGenericValueStore > body, float timeout = 20.0f, ofPtr< ofxGenericHTTPRequestDelegate > delegate = ofPtr< ofxGenericHTTPRequestDelegate >() );
-    
-    virtual void init( ofPtrWeak< ofxGenericOAuthHTTPRequest > setThis, string url, string method, ofPtr< ofxGenericOAuthToken > token, string body, float timeout = 20.0f, ofPtr< ofxGenericHTTPRequestDelegate > delegate = ofPtr< ofxGenericHTTPRequestDelegate >() );
-
-    static ofPtr< ofxGenericValueStore > createBody( string clientId, string clientSecretKey );
+    virtual void init(
+                      ofPtrWeak< ofxGenericOAuthHTTPRequest > setThis,
+                      string url,
+                      string method,
+                      ofPtr< ofxGenericOAuthToken > token,
+                      string format,
+                      ofPtr< ofxGenericValueStore > body,
+                      ofPtr< ofxGenericHTTPRequestDelegate > delegate = ofPtr< ofxGenericHTTPRequestDelegate >(),
+                      float timeout = ofxGenericHTTPRequestDefaultTimeout,
+                      string clientId = "",
+                      string clientSecretKey = ""
+                      );
 };

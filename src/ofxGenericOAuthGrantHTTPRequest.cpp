@@ -14,27 +14,33 @@
 #define AccessTokenCacheKey "access_token"
 #define ScopeCacheKey "scope"
 
-ofPtr< ofxGenericValueStore > ofxGenericOAuthGrantHTTPRequest::createBody( string clientId, string clientSecretKey, string grantType )
+
+void ofxGenericOAuthGrantHTTPRequest::addGrantType( ofPtr< ofxGenericValueStore > body, string grantType )
 {
-    ofPtr< ofxGenericValueStore > body = ofxGenericOAuthHTTPRequest::createBody( clientId, clientSecretKey );
     if ( body )
     {
         body->write( "grant_type", grantType );
     }
-    return body;
 }
 
-ofPtr< ofxGenericHTTPResponse > ofxGenericOAuthGrantHTTPRequest::createResponse( int statusCode, string MIMEType, string textEncoding, void* data, int dataByteLength, string suggestedFileName )
+ofPtr< ofxGenericHTTPResponse > ofxGenericOAuthGrantHTTPRequest::createResponse(
+                                                                                int statusCode,
+                                                                                string MIMEType,
+                                                                                string textEncoding,
+                                                                                void* body,
+                                                                                unsigned int bodyByteLength,
+                                                                                string suggestedFileName
+                                                                                )
 {
-    return ofxGenericOAuthGrantHTTPResponse::create( statusCode, MIMEType, textEncoding, data, dataByteLength, suggestedFileName );
+    return ofxGenericOAuthGrantHTTPResponse::create( statusCode, MIMEType, textEncoding, body, bodyByteLength, suggestedFileName );
 }
 
 //////////////////////////////////////////////////////////////////////
 
-ofPtr< ofxGenericOAuthGrantHTTPResponse > ofxGenericOAuthGrantHTTPResponse::create( int statusCode, string MIMEType, string textEncoding, void* data, unsigned int dataByteLength, string suggestedFileName )
+ofPtr< ofxGenericOAuthGrantHTTPResponse > ofxGenericOAuthGrantHTTPResponse::create( int statusCode, string MIMEType, string textEncoding, void* body, unsigned int bodyByteLength, string suggestedFileName )
 {
     ofPtr< ofxGenericOAuthGrantHTTPResponse > create( new ofxGenericOAuthGrantHTTPResponse() );
-    create->init( create, statusCode, MIMEType, textEncoding, data, dataByteLength, suggestedFileName );
+    create->init( create, statusCode, MIMEType, textEncoding, body, bodyByteLength, suggestedFileName );
     return create;
 }
 
@@ -49,18 +55,18 @@ ofPtr< ofxGenericOAuthToken > ofxGenericOAuthGrantHTTPResponse::getToken()
 
 string ofxGenericOAuthGrantHTTPResponse::getAccessToken()
 {
-    if ( getParsedData() )
+    if ( getParsedBody() )
     {
-        return getParsedData()->read( AccessTokenCacheKey, "" );
+        return getParsedBody()->read( AccessTokenCacheKey, "" );
     }
     return string();
 }
 
 string ofxGenericOAuthGrantHTTPResponse::getScope()
 {
-    if ( getParsedData() )
+    if ( getParsedBody() )
     {
-        return getParsedData()->read( ScopeCacheKey, "" );
+        return getParsedBody()->read( ScopeCacheKey, "" );
     }
     return "";
 }

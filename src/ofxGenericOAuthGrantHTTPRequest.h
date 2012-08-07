@@ -15,10 +15,32 @@ class ofxGenericOAuthToken;
 
 class ofxGenericOAuthGrantHTTPRequest : public ofxGenericOAuthHTTPRequest
 {
+public:    
+    static void addGrantType( ofPtr< ofxGenericValueStore > body, string grantType );
+
 protected:
-    static ofPtr< ofxGenericValueStore > createBody( string clientId, string clientSecretKey, string grantType );
+    virtual void init(
+                      ofPtrWeak< ofxGenericOAuthGrantHTTPRequest > setThis,
+                      string url,
+                      string method,
+                      ofPtr< ofxGenericOAuthToken > token,
+                      string grantType,
+                      string format,
+                      ofPtr< ofxGenericValueStore > body,
+                      ofPtr< ofxGenericHTTPRequestDelegate > delegate = ofPtr< ofxGenericHTTPRequestDelegate >(),
+                      float timeout = ofxGenericHTTPRequestDefaultTimeout,
+                      string clientId = "",
+                      string clientSecretKey = ""
+                      );
     
-    ofPtr< ofxGenericHTTPResponse > createResponse( int statusCode, string MIMEType, string textEncoding, void* data, int dataByteLength, string suggestedFileName );
+    ofPtr< ofxGenericHTTPResponse > createResponse(
+                                                   int statusCode,
+                                                   string MIMEType,
+                                                   string textEncoding,
+                                                   void* body,
+                                                   unsigned int bodyByteLength,
+                                                   string suggestedFileName
+                                                   );
 };
 
 class ofxGenericOAuthGrantHTTPResponse : public ofxGenericHTTPResponse

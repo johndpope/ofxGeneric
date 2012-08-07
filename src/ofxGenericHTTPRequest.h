@@ -16,11 +16,32 @@ class ofxGenericHTTPResponse;
 @class ofxGenericHTTPConnectionForwarder;
 #endif
 
+class ofxGenericValueStore;
+
+#define ofxGenericHTTPRequestDefaultTimeout 20.0f
+
 class ofxGenericHTTPRequest
 {
 public:
-    static ofPtr< ofxGenericHTTPRequest > create( string url, string method, string format, void* data = 0, int dataByteLength = 0, float timeout = 20.0f, ofPtr< ofxGenericHTTPRequestDelegate > delegate = ofPtr< ofxGenericHTTPRequestDelegate >() );
-    static ofPtr< ofxGenericHTTPRequest > create( string url, string method, string format, string data, float timeout = 20.0f, ofPtr< ofxGenericHTTPRequestDelegate > delegate = ofPtr< ofxGenericHTTPRequestDelegate >() );
+    static ofPtr< ofxGenericHTTPRequest > create(
+                                                 string url,
+                                                 string method,
+                                                 string format,
+                                                 string body,
+                                                 ofPtr< ofxGenericHTTPRequestDelegate > delegate = ofPtr< ofxGenericHTTPRequestDelegate >(),
+                                                 float timeout = ofxGenericHTTPRequestDefaultTimeout
+                                                 );
+    
+    static ofPtr< ofxGenericHTTPRequest > create(
+                                                 string url,
+                                                 string method,
+                                                 string format,
+                                                 void* body = 0,
+                                                 unsigned int bodyByteLength = 0,
+                                                 ofPtr< ofxGenericHTTPRequestDelegate > delegate = ofPtr< ofxGenericHTTPRequestDelegate >(),
+                                                 float timeout = ofxGenericHTTPRequestDefaultTimeout
+                                                 );
+    
     virtual ~ofxGenericHTTPRequest();
     
     string getUrl() const;
@@ -45,7 +66,14 @@ public:
     
     string toString() const;
     
-    void finished( int statusCode, string MIMEType, string textEncoding, void* data, int dataByteLength, string suggestedFileName = "" );
+    void finished(
+                  int statusCode,
+                  string MIMEType,
+                  string textEncoding,
+                  void* data,
+                  unsigned int dataByteLength,
+                  string suggestedFileName
+                  );
 #if TARGET_OS_IPHONE
     virtual void finishedWithError( NSError* error );
     virtual void finishedSuccessfully( NSURLResponse* urlResponse, NSData* receivedData );
@@ -59,8 +87,39 @@ public:
     
 protected:
     ofxGenericHTTPRequest();
-    virtual void init( ofPtrWeak< ofxGenericHTTPRequest > setThis, string url, string method, string format, void* data = 0, int dataByteLength = 0, float timeout = 20.0f, ofPtr< ofxGenericHTTPRequestDelegate > delegate = ofPtr< ofxGenericHTTPRequestDelegate >() );
-    virtual void init( ofPtrWeak< ofxGenericHTTPRequest > setThis, string url, string method, string format, string data = "", float timeout = 20.0f, ofPtr< ofxGenericHTTPRequestDelegate > delegate = ofPtr< ofxGenericHTTPRequestDelegate >() );
+
+    virtual void init(
+                      ofPtrWeak< ofxGenericHTTPRequest > setThis,
+                      string url,
+                      string method,
+                      string format,
+                      ofPtr< ofxGenericValueStore > body,
+                      ofPtr< ofxGenericHTTPRequestDelegate > delegate,
+                      float timeout
+                      );
+    
+    virtual void init(
+                      ofPtrWeak< ofxGenericHTTPRequest > setThis,
+                      string url,
+                      string method,
+                      string format,
+                      string body,
+                      ofPtr< ofxGenericHTTPRequestDelegate > delegate,
+                      float timeout
+                      );
+    
+    virtual void init(
+                      ofPtrWeak< ofxGenericHTTPRequest > setThis,
+                      string url,
+                      string method,
+                      string format,
+                      void* body,
+                      unsigned int bodyByteLength,
+                      ofPtr< ofxGenericHTTPRequestDelegate > delegate,
+                      float timeout
+                      );
+
+    
     ofPtrWeak< ofxGenericHTTPRequest > _this;
     
     ofPtr< ofxGenericHTTPRequestDelegate > _delegate;
@@ -73,7 +132,14 @@ protected:
     ofxGenericHTTPConnectionForwarder* _forwarder;
 #endif
     
-    virtual ofPtr< ofxGenericHTTPResponse > createResponse( int statusCode, string MIMEType, string textEncoding, void* data, int dataByteLength, string suggestedFileName );
+    virtual ofPtr< ofxGenericHTTPResponse > createResponse(
+                                                           int statusCode,
+                                                           string MIMEType,
+                                                           string textEncoding,
+                                                           void* body,
+                                                           unsigned int bodyByteLength,
+                                                           string suggestedFileName
+                                                           );
     ofPtr< ofxGenericHTTPResponse > _lastResponse;
     
     virtual void setMethod( string method );
