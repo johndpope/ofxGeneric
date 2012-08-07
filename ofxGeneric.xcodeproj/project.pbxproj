@@ -18,6 +18,8 @@
 		3C2A68F3154374F400BDB696 /* ofxGenericOpenGLView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C2A68F2154374F400BDB696 /* ofxGenericOpenGLView.h */; };
 		3C2A68F61543786700BDB696 /* ofxGenericOpenGLView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C2A68F51543786700BDB696 /* ofxGenericOpenGLView.cpp */; };
 		3C2DB20A15474D8100000034 /* ofxGenericLocalization.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C2DB20915474D8100000034 /* ofxGenericLocalization.cpp */; };
+		3C3B1BA315CF71AC002A671A /* ofxGenericOAuthToken.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C3B1BA115CF71AC002A671A /* ofxGenericOAuthToken.cpp */; };
+		3C3B1BA415CF71AC002A671A /* ofxGenericOAuthToken.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C3B1BA215CF71AC002A671A /* ofxGenericOAuthToken.h */; };
 		3C3ECD5E15CF103C002A6B5C /* ofxGenericHTTPRequestHolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C3ECD5D15CF103C002A6B5C /* ofxGenericHTTPRequestHolder.cpp */; };
 		3C4D9C0D1559E69900C02C92 /* ofxGenericTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C4D9C0C1559E69900C02C92 /* ofxGenericTimer.cpp */; };
 		3C5336E0153F6A420046AFD8 /* OpenUDID.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C5336DD153F6A420046AFD8 /* OpenUDID.h */; };
@@ -126,6 +128,8 @@
 		3C2A68F51543786700BDB696 /* ofxGenericOpenGLView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericOpenGLView.cpp; sourceTree = "<group>"; };
 		3C2DB20715474D1100000034 /* ofxGenericLocalization.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericLocalization.h; sourceTree = "<group>"; };
 		3C2DB20915474D8100000034 /* ofxGenericLocalization.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericLocalization.cpp; sourceTree = "<group>"; };
+		3C3B1BA115CF71AC002A671A /* ofxGenericOAuthToken.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericOAuthToken.cpp; sourceTree = "<group>"; };
+		3C3B1BA215CF71AC002A671A /* ofxGenericOAuthToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericOAuthToken.h; sourceTree = "<group>"; };
 		3C3ECD5B15CF1032002A6B5C /* ofxGenericHTTPRequestHolder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericHTTPRequestHolder.h; sourceTree = "<group>"; };
 		3C3ECD5D15CF103C002A6B5C /* ofxGenericHTTPRequestHolder.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericHTTPRequestHolder.cpp; sourceTree = "<group>"; };
 		3C4D9C0A1559E64F00C02C92 /* ofxGenericTimer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericTimer.h; sourceTree = "<group>"; };
@@ -302,6 +306,8 @@
 		3C7B4E6E14FC7CBF003121FE /* src */ = {
 			isa = PBXGroup;
 			children = (
+				3C3B1BA115CF71AC002A671A /* ofxGenericOAuthToken.cpp */,
+				3C3B1BA215CF71AC002A671A /* ofxGenericOAuthToken.h */,
 				3CEBF17615890F9A008D2937 /* ofxGenericBarGraphView.cpp */,
 				3CEBF17715890F9A008D2937 /* ofxGenericBarGraphView.h */,
 				3C7B4E8614FC7CBF003121FE /* iOS */,
@@ -574,6 +580,7 @@
 				3C2A68F3154374F400BDB696 /* ofxGenericOpenGLView.h in Headers */,
 				3CEBF17915890F9A008D2937 /* ofxGenericBarGraphView.h in Headers */,
 				3CC6222415AB930D009849CE /* ofxGenericUtilityiOS.h in Headers */,
+				3C3B1BA415CF71AC002A671A /* ofxGenericOAuthToken.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -691,6 +698,7 @@
 				3C5C788E15C7809F0099C59A /* ofxGenericFrameView.cpp in Sources */,
 				3C16BB2415C7B8AF0062017A /* ofxGenericMicrophone.cpp in Sources */,
 				3C3ECD5E15CF103C002A6B5C /* ofxGenericHTTPRequestHolder.cpp in Sources */,
+				3C3B1BA315CF71AC002A671A /* ofxGenericOAuthToken.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
