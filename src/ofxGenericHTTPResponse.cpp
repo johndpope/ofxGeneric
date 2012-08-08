@@ -62,7 +62,7 @@ void ofxGenericHTTPResponse::init(
                                   string suggestedFileName
                                   )
 {
-    _this = setThis;;
+    _this = setThis;
     
     _statusCode = statusCode;
     _MIMEType = MIMEType;
@@ -80,7 +80,7 @@ void ofxGenericHTTPResponse::init(
                 _parsedBody = ofxGenericValueStore::createFromJSON( bodyAsString );
             } else if ( _MIMEType == MIMEType_xml )
             {
-//                _parsedBody = ofxGenericValueStore::createFromXML( bodyAsString );
+                _parsedBody = ofxGenericValueStore::createFromXML( bodyAsString );
             }
         }
     }
