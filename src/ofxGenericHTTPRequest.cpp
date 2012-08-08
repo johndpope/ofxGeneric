@@ -376,6 +376,7 @@ void ofxGenericHTTPRequest::finished( int statusCode, string MIMEType, string te
         {
             _delegate.lock()->httpRequest_finishedWithError( _this.lock() );
         }
+        _delegate.lock()->httpRequest_finished( _this.lock() );
     }
 }
 

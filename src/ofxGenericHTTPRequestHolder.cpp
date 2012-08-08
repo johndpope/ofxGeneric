@@ -56,12 +56,7 @@ void ofxGenericHTTPRequestHolder::holdRequestUntilComplete( ofPtr< ofxGenericHTT
     _holdRequestUntilComplete.push_back( request );
 }
 
-void ofxGenericHTTPRequestHolder::httpRequest_finishedWithError( ofPtr< ofxGenericHTTPRequest > request )
-{
-    removeHeldRequest( request );
-}
-
-void ofxGenericHTTPRequestHolder::httpRequest_finishedSuccessfully( ofPtr< ofxGenericHTTPRequest > request )
+void ofxGenericHTTPRequestHolder::httpRequest_finished( ofPtr< ofxGenericHTTPRequest > request )
 {
     removeHeldRequest( request );
 }

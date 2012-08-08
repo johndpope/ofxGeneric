@@ -18,9 +18,8 @@ public:
     
     void holdRequestUntilComplete( ofPtr< ofxGenericHTTPRequest > request );
     
-    void httpRequest_finishedWithError( ofPtr< ofxGenericHTTPRequest > request );
-    void httpRequest_finishedSuccessfully( ofPtr< ofxGenericHTTPRequest > request );
-    
+    void httpRequest_finished( ofPtr< ofxGenericHTTPRequest > request );
+
     virtual ~ofxGenericHTTPRequestHolder();
     
 protected:

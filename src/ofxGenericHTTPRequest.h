@@ -152,6 +152,9 @@ class ofxGenericHTTPRequestDelegate
 public:
     virtual ~ofxGenericHTTPRequestDelegate(){};
 
-    virtual void httpRequest_finishedWithError( ofPtr< ofxGenericHTTPRequest > request ) = 0;
-    virtual void httpRequest_finishedSuccessfully( ofPtr< ofxGenericHTTPRequest > request ) = 0;
+    // get rid of error and success
+    virtual void httpRequest_finishedWithError( ofPtr< ofxGenericHTTPRequest > request ) {};
+    virtual void httpRequest_finishedSuccessfully( ofPtr< ofxGenericHTTPRequest > request ) {};
+
+    virtual void httpRequest_finished( ofPtr< ofxGenericHTTPRequest > request ) {};
 };
