@@ -14,6 +14,7 @@
 #include "ofxGenericUtility.h"
 
 #include "ofxJSONElement.h"
+#include <tinyxml.h>
 
 ofPtr< ofxGenericValueStore > ofxGenericValueStore::create( bool asArray )
 {
@@ -81,8 +82,21 @@ ofPtr< ofxGenericValueStore > ofxGenericValueStore::createFromJSON( string JSON 
     ofPtr< ofxGenericValueStore > create( new ofxGenericValueStore() );
     create->init( create, ofxGenericValueStoreTypeObject );
     ofxJSONElement parse( JSON );
-    create->convertFrom( parse );
-    return create;
+    return createFrom( parse );
+}
+
+ofPtr< ofxGenericValueStore > ofxGenericValueStore::createFromXML( string xml )
+{
+    //TIXML_ENCODING_UTF8
+    // tODO:
+    TiXmlDocument doc;
+    doc.Parse( xml.c_str() );
+    return ofxGenericValueStore::createFromXML( doc );
+}
+
+ofPtr< ofxGenericValueStore > ofxGenericValueStore::createFromXML( TiXmlDocument& xml )
+{
+    return ofxGenericValueStore::createFrom( &xml );
 }
 
 ofxGenericValueStore::ofxGenericValueStore()
@@ -814,7 +828,6 @@ void ofxGenericValueStore::setFileName( string fileName, bool fileInDocuments )
     _fileInDocuments = fileInDocuments;
 }
 
-//loads the cache from disk
 bool ofxGenericValueStore::readFromDisk()
 {
     if ( _fileName.length() > 0 )
@@ -899,6 +912,96 @@ ofPtr< ofxGenericValueStore > ofxGenericValueStore::createFrom( Json::Value& con
             return array;
         }
             break;
+    }
+    return ofPtr< ofxGenericValueStore >();
+}
+
+ofPtr< ofxGenericValueStore > ofxGenericValueStore::createFrom( TiXmlNode* xml )
+{
+    if ( xml )
+    {
+        switch( xml->Type() )
+        {
+            case TiXmlNode::DOCUMENT:
+            case TiXmlNode::ELEMENT:
+            {
+                unsigned int children = 0;
+                
+                TiXmlElement* element = xml->ToElement();
+                if ( element && element->FirstAttribute() != NULL )
+                {
+                    children += 2;
+                }
+                if ( xml->FirstChild() != NULL )
+                {
+                    if ( xml->FirstChild() == xml->LastChild() )
+                    {
+                        children += 1;
+                    } else
+                    {
+                        children += 2;
+                    }
+                }
+                if ( children == 0 )
+                {
+                    return ofPtr< ofxGenericValueStore >();
+                } else if ( children == 1 )
+                {
+                    return createFrom( xml->FirstChild() );
+                } else
+                {
+                    ofPtr< ofxGenericValueStore > node = ofxGenericValueStore::create( false );
+
+                    if ( element )
+                    {
+                        for( TiXmlAttribute* travAttributes = element->FirstAttribute(); travAttributes != NULL; travAttributes = travAttributes->Next() )
+                        {
+                            node->write( travAttributes->Name(), travAttributes->Value() );
+                        }
+                    }
+                    
+                    for( TiXmlNode* travNodes = xml->FirstChild(); travNodes != NULL; travNodes = travNodes->NextSibling() )
+                    {
+                        string value = travNodes->Value();
+                        ofPtr< ofxGenericValueStore > originally = node->read( value );
+                        if ( originally )
+                        {
+                            if ( !originally->isArray() )
+                            {
+                                ofPtr< ofxGenericValueStore > array = ofxGenericValueStore::create( true );
+                                array->write( array->length(), originally );
+                                node->write( value, array );
+                                originally = array;
+                            }
+                            originally->write( originally->length(), createFrom( travNodes ) );
+                        } else
+                        {
+                            node->write( value, createFrom( travNodes ) );
+                        }
+                    }
+                    
+                    return node;
+                }
+            }
+                break;
+            case TiXmlNode::COMMENT:
+                break;
+            case TiXmlNode::UNKNOWN:
+                break;
+            case TiXmlNode::TEXT:
+            {
+                TiXmlText* text = xml->ToText();
+                if ( text )
+                {
+                    return createWithValue( text->Value() );
+                }
+            }
+                break;
+            case TiXmlNode::DECLARATION:
+                break;
+            case TiXmlNode::TYPECOUNT:
+                break;
+        }
     }
     return ofPtr< ofxGenericValueStore >();
 }

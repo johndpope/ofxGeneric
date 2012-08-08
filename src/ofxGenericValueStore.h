@@ -19,6 +19,10 @@ class ofxGenericValueStore;
 namespace Json
 { class Value; }
 
+class TiXmlDocument;
+class TiXmlElement;
+class TiXmlNode;
+
 typedef std::map< string, ofPtr< ofxGenericValueStore > > ofxGenericValueStoreObject;
 typedef std::vector< ofPtr< ofxGenericValueStore > > ofxGenericValueStoreArray;
 
@@ -50,6 +54,9 @@ public:
     static ofPtr< ofxGenericValueStore > createWithValue( const char* value );
 
     static ofPtr< ofxGenericValueStore > createFromJSON( string JSON );
+    static ofPtr< ofxGenericValueStore > createFromXML( string xml );
+    static ofPtr< ofxGenericValueStore > createFromXML( TiXmlDocument& xml );
+    
     Type getType() const;
     
     virtual void write( float value );
@@ -172,8 +179,11 @@ protected:
     bool _fileInDocuments;    
     
     void convertFrom( Json::Value& convert );
-    virtual Json::Value* convertTo() const;
     static ofPtr< ofxGenericValueStore > createFrom( Json::Value& convert );
+
+    static ofPtr< ofxGenericValueStore > createFrom( TiXmlNode* convert );
+
+    virtual Json::Value* convertTo() const;
     
     ofxGenericValueStoreObject* asObject() const;
     ofxGenericValueStoreArray* asArray() const;
