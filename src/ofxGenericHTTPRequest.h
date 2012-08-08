@@ -94,7 +94,7 @@ protected:
                       string method,
                       string format,
                       ofPtr< ofxGenericValueStore > body,
-                      ofPtr< ofxGenericHTTPRequestDelegate > delegate,
+                      ofPtrWeak< ofxGenericHTTPRequestDelegate > delegate,
                       float timeout
                       );
     
@@ -104,7 +104,7 @@ protected:
                       string method,
                       string format,
                       string body,
-                      ofPtr< ofxGenericHTTPRequestDelegate > delegate,
+                      ofPtrWeak< ofxGenericHTTPRequestDelegate > delegate,
                       float timeout
                       );
     
@@ -115,14 +115,14 @@ protected:
                       string format,
                       void* body,
                       unsigned int bodyByteLength,
-                      ofPtr< ofxGenericHTTPRequestDelegate > delegate,
+                      ofPtrWeak< ofxGenericHTTPRequestDelegate > delegate,
                       float timeout
                       );
 
     
     ofPtrWeak< ofxGenericHTTPRequest > _this;
     
-    ofPtr< ofxGenericHTTPRequestDelegate > _delegate;
+    ofPtrWeak< ofxGenericHTTPRequestDelegate > _delegate;
     
     string _format;
     

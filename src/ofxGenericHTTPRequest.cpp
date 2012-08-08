@@ -85,7 +85,7 @@ void ofxGenericHTTPRequest::init(
                                  string method,
                                  string format,
                                  ofPtr< ofxGenericValueStore > body,
-                                 ofPtr< ofxGenericHTTPRequestDelegate > delegate,
+                                 ofPtrWeak< ofxGenericHTTPRequestDelegate > delegate,
                                  float timeout
                                  )
 {
@@ -120,7 +120,7 @@ void ofxGenericHTTPRequest::init(
                                  string method,
                                  string format,
                                  string body,
-                                 ofPtr< ofxGenericHTTPRequestDelegate > delegate,
+                                 ofPtrWeak< ofxGenericHTTPRequestDelegate > delegate,
                                  float timeout
                                  )
 {
@@ -143,7 +143,7 @@ void ofxGenericHTTPRequest::init(
                                  string format,
                                  void* body,
                                  unsigned int bodyByteLength,
-                                 ofPtr< ofxGenericHTTPRequestDelegate > delegate,
+                                 ofPtrWeak< ofxGenericHTTPRequestDelegate > delegate,
                                  float timeout
                                  )
 {
@@ -371,10 +371,10 @@ void ofxGenericHTTPRequest::finished( int statusCode, string MIMEType, string te
     {
         if ( isLastResponseOk() )
         {
-            _delegate->httpRequest_finishedSuccessfully( _this.lock() );
+            _delegate.lock()->httpRequest_finishedSuccessfully( _this.lock() );
         } else
         {
-            _delegate->httpRequest_finishedWithError( _this.lock() );
+            _delegate.lock()->httpRequest_finishedWithError( _this.lock() );
         }
     }
 }
