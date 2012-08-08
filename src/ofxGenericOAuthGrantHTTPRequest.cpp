@@ -14,6 +14,40 @@
 #define AccessTokenCacheKey "access_token"
 #define ScopeCacheKey "scope"
 
+void ofxGenericOAuthGrantHTTPRequest::init(
+                  ofPtrWeak< ofxGenericOAuthGrantHTTPRequest > setThis,
+                  string url,
+                  string method,
+                  ofPtr< ofxGenericOAuthToken > token,
+                  string grantType,
+                  string format,
+                  ofPtr< ofxGenericValueStore > body,
+                  ofPtr< ofxGenericHTTPRequestDelegate > delegate,
+                  float timeout,
+                  string clientId,
+                  string clientSecretKey
+                  )
+{
+    if ( !body )
+    {
+        body = ofxGenericValueStore::create( false );
+    }
+    addGrantType( body, grantType );
+    
+    ofxGenericOAuthHTTPRequest::init(
+                                    setThis,
+                                     url,
+                                     method,
+                                     token,
+                                     format,
+                                     body,
+                                     delegate,
+                                     timeout,
+                                     clientId,
+                                     clientSecretKey
+                                     );
+}
+
 
 void ofxGenericOAuthGrantHTTPRequest::addGrantType( ofPtr< ofxGenericValueStore > body, string grantType )
 {

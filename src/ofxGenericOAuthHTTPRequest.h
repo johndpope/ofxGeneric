@@ -16,8 +16,6 @@ class ofxGenericOAuthToken;
 class ofxGenericOAuthHTTPRequest : public ofxGenericHTTPRequest
 {
 public:
-    virtual void setAcceptHeader( string value );
-    
     static void addClientInfo( ofPtr< ofxGenericValueStore > body, string clientId, string clientSecretKey );
     
 protected:
