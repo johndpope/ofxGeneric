@@ -28,7 +28,7 @@ void ofxGenericOAuthGrantHTTPRequest::init(
                   string clientSecretKey
                   )
 {
-    if ( !body )
+    if ( !body && !grantType.empty() )
     {
         body = ofxGenericValueStore::create( false );
     }

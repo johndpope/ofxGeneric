@@ -29,10 +29,12 @@ void ofxGenericOAuthHTTPRequest::init(
                                       string clientSecretKey
                                       )
 {
-    if ( body )
+    if ( !body && ( !clientId.empty() || !clientSecretKey.empty() ) )
     {
-        ofxGenericOAuthHTTPRequest::addClientInfo( body, clientId, clientSecretKey );
+        body = ofxGenericValueStore::create( false );
     }
+
+    ofxGenericOAuthHTTPRequest::addClientInfo( body, clientId, clientSecretKey );
     
     ofxGenericHTTPRequest::init( setThis, url, method, format, body, delegate, timeout );
 
