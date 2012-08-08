@@ -21,6 +21,8 @@ public:
     
     virtual void setImage( string fileName );
     virtual void setImage( ofPtr< ofImage > image );
+    virtual void setAtFirstImage();
+    virtual void setAtLastImage();
     
     virtual void setImageFrames( const std::vector< string >& frames, bool reverse = false );
     virtual void setImageFrames( const std::vector< ofPtr< ofImage > >& frames, bool reverse = false );
@@ -40,10 +42,12 @@ protected:
     int _animationDirection;
     
     std::vector< ofPtr< ofImage > > _frames;
+    //std::vector< string > _frameNames; //for debugging
     void showFrame( unsigned int frame );
     void clearFrames();
     float _frameRate;
     unsigned int _currentFrame;
+    unsigned int _lastPlayedFrame;
     ofPtr< ofxGenericTimer > _frameTimer;    
     virtual void clearTimer();
     

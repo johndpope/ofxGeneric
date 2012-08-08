@@ -20,7 +20,7 @@ ofPtr< ofxGenericAnimatedImageView > ofxGenericAnimatedImageView::create( const 
 }
 
 ofxGenericAnimatedImageView::ofxGenericAnimatedImageView()
-: _singleFrame( true ), _frameRate( 1.0f ), _animationDirection( 1 ), _loopMode( ofxGenericAnimatedImageLoopTypeWrap )
+: _singleFrame( true ), _frameRate( 1.0f ), _animationDirection( 1 ), _loopMode( ofxGenericAnimatedImageLoopTypeWrap ), _lastPlayedFrame( -1 )
 {
 }
 
@@ -36,6 +36,26 @@ void ofxGenericAnimatedImageView::setImage( ofPtr< ofImage > image )
     ofxGenericImageView::setImage( image );
 }
 
+void ofxGenericAnimatedImageView::setAtFirstImage()
+{
+    if ( _frames.size() <= 0 )
+    {
+        return;
+    }
+    
+    setImage( _frames[0] );
+}
+
+void ofxGenericAnimatedImageView::setAtLastImage()
+{
+    if ( _frames.size() <= 0 )
+    {
+        return;
+    }
+    
+    setImage( _frames[ _frames.size() - 1 ] );
+}
+
 void ofxGenericAnimatedImageView::setImageFrames( const std::vector< string >& frames, bool reverse )
 {
     std::vector< ofPtr< ofImage > > imageFrames;
@@ -45,6 +65,7 @@ void ofxGenericAnimatedImageView::setImageFrames( const std::vector< string >& f
         imageFrames.push_back( imageFrame );
     }
     setImageFrames( imageFrames, reverse );
+    //_frameNames = frames; //for debugging
 }
 
 void ofxGenericAnimatedImageView::setImageFrames( const std::vector< ofPtr< ofImage > >& frames, bool reverse )
@@ -96,7 +117,7 @@ void ofxGenericAnimatedImageView::timer_fired( ofPtr< ofxGenericTimer > timer )
     {
         int newFrame = _currentFrame + _animationDirection;
         
-        if ( _currentFrame >= _frames.size() )
+        if ( newFrame >= (int) _frames.size() )
         {
             if ( _delegate )
             {
@@ -105,20 +126,21 @@ void ofxGenericAnimatedImageView::timer_fired( ofPtr< ofxGenericTimer > timer )
             
             if ( _loopMode == ofxGenericAnimatedImageLoopTypeWrap )
             {
-                _currentFrame = 0;
+                newFrame = 0;
             }
             else if ( _loopMode == ofxGenericAnimatedImageLoopTypePingPong )
             {
                 _animationDirection = -1;
-                _currentFrame = _frames.size() - 1;
+                newFrame = _frames.size() - 1;
             }
             else if ( _loopMode == ofxGenericAnimatedImageLoopTypeClamp )
             {
+                newFrame = _frames.size() - 1;
                 clearTimer();
             }
             else if ( _loopMode == ofxGenericAnimatedImageLoopTypeOnce )
             {
-                _currentFrame = 0;
+                newFrame = 0;
                 clearTimer();
             }
         }
@@ -132,7 +154,7 @@ void ofxGenericAnimatedImageView::timer_fired( ofPtr< ofxGenericTimer > timer )
             {
                 clearTimer();
             }
-            _currentFrame = 0;
+            newFrame = 0;
         }
         
         _currentFrame = newFrame;
@@ -152,12 +174,22 @@ void ofxGenericAnimatedImageView::showFrame( unsigned int frame )
         frame = frame % ( _frames.size() );
     }
     
-    if ( frame == 0 && _delegate )
+    //these often get called more than once, so make sure not to set image more than once
+    if ( frame != _lastPlayedFrame )
     {
-        _delegate.lock()->animatedImage_animationStarted( dynamic_pointer_cast< ofxGenericAnimatedImageView >( _this ) );
+        //if ( _frameNames.size() > frame )
+        //{
+        //    ofLogError("Playing frame " + _frameNames[ frame ] ); //for debugging
+        //}
+        
+        if ( frame == 0 && _delegate )
+        {
+            _delegate.lock()->animatedImage_animationStarted( dynamic_pointer_cast< ofxGenericAnimatedImageView >( _this ) );
+        }
+        
+        ofxGenericImageView::setImage( _frames[ frame ] );
+        _lastPlayedFrame = frame;
     }
-    
-    ofxGenericImageView::setImage( _frames[ frame ] );
 }
 
 void ofxGenericAnimatedImageView::clearFrames()
