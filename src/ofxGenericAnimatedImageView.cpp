@@ -154,6 +154,12 @@ void ofxGenericAnimatedImageView::timer_fired( ofPtr< ofxGenericTimer > timer )
             {
                 clearTimer();
             }
+            
+            if ( _animationDirection < 0 && _delegate )
+            {
+                _delegate.lock()->animatedImage_animationEnded( dynamic_pointer_cast< ofxGenericAnimatedImageView >( _this ) );
+            }
+            
             newFrame = 0;
         }
         
@@ -182,7 +188,9 @@ void ofxGenericAnimatedImageView::showFrame( unsigned int frame )
         //    ofLogError("Playing frame " + _frameNames[ frame ] ); //for debugging
         //}
         
-        if ( frame == 0 && _delegate )
+        //if this is the start frame, tell the delegate we started
+        if ( ( frame == 0 && _delegate && _animationDirection > 0 ) ||
+             ( frame == _frames.size() - 1 && _delegate && _animationDirection < 0 ) )
         {
             _delegate.lock()->animatedImage_animationStarted( dynamic_pointer_cast< ofxGenericAnimatedImageView >( _this ) );
         }
