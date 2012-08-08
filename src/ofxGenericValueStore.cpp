@@ -71,6 +71,11 @@ ofPtr< ofxGenericValueStore > ofxGenericValueStore::createWithValue( string valu
     return create;
 }
 
+ofPtr< ofxGenericValueStore > ofxGenericValueStore::createWithValue( const char* value )
+{
+    return createWithValue( string( value ) );
+}
+
 ofPtr< ofxGenericValueStore > ofxGenericValueStore::createFromJSON( string JSON )
 {
     ofPtr< ofxGenericValueStore > create( new ofxGenericValueStore() );
