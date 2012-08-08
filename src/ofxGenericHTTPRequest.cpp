@@ -93,10 +93,10 @@ void ofxGenericHTTPRequest::init(
     
     if ( body )
     {
-        if ( format == MIMEType_json )
+        if ( format == "json" )
         {
             bodyAsString = body->toJSONString();
-        } else if ( format == MIMEType_xml )
+        } else if ( format == "xml" )
         {
 // TODO:
 //            bodyAsString = body->toXMLString();
@@ -270,7 +270,7 @@ void ofxGenericHTTPRequest::start()
         _connection = [ [ NSURLConnection alloc ] initWithRequest:_request delegate:_forwarder startImmediately:YES ];
     }
 #endif
-    ofxGLogVerbose( toString() );
+    ofxGLogNotice( toString() );
 }
 
 void ofxGenericHTTPRequest::cancel()
