@@ -85,13 +85,7 @@ void ofxGenericHTTPResponse::init(
         }
     }
 
-    if ( isOk() )
-    {
-        ofxGLogVerbose( toString() );
-    } else
-    {
-        ofxGLogNotice( toString() );
-    }
+    ofxGLogNotice( toString() + "\n" );
 }
 
 ofPtr< ofxGenericValueStore > ofxGenericHTTPResponse::getParsedBody() const
