@@ -203,6 +203,24 @@ void ofxGenericButtonView::setBackgroundImage( std::string fileName )
 #endif
 }
 
+void ofxGenericButtonView::setDownBackgroundImage( std::string fileName )
+{
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[ UIButton class ] ] )
+    {
+        UIButton* view = ( UIButton* )_view;
+        [ view setBackgroundImage:[ UIImage imageWithContentsOfFile:ofxStringToNSString( ofxGPathToDataFolder( fileName ) )  ]
+                         forState:UIControlStateHighlighted ];
+    }
+#elif TARGET_ANDROID
+    callJNIVoidMethod(
+                      _jniMethods,
+                      JNIMethod_setDownBackgroundImage
+                      //, fileName
+                      );
+#endif
+}
+
 void ofxGenericButtonView::setEnabled( bool enabled )
 {
 #if TARGET_OS_IPHONE
@@ -273,6 +291,29 @@ ofColor ofxGenericButtonView::getTextColor ()
     {
         UILabel *titleLabel = ((UIButton *)_view).titleLabel;
         return UIColorToofColor( titleLabel.textColor );
+    }
+#endif
+    return ofColor::black;
+}
+
+void ofxGenericButtonView::setDownTextColor ( const ofColor& setColor )
+{
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[UIButton class]] )
+    {
+        UILabel *titleLabel = ((UIButton *)_view).titleLabel;
+        titleLabel.textColor = ofColorToUIColor( setColor );
+        [((UIButton *) _view) setTitleColor:titleLabel.textColor forState:UIControlStateHighlighted];
+    }
+#endif
+}
+
+ofColor ofxGenericButtonView::getDownTextColor ()
+{
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[UIButton class]] )
+    {
+        return UIColorToofColor( [(UIButton *)_view titleColorForState:UIControlStateHighlighted] );
     }
 #endif
     return ofColor::black;

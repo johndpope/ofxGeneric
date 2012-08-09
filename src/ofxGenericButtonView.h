@@ -28,12 +28,16 @@ public:
     
     // void setImage
     void setBackgroundImage( std::string fileName );
+    void setDownBackgroundImage( std::string fileName );
     
     void setTextAlignment( ofxGenericTextHorizontalAlignment alignment );
     ofxGenericTextHorizontalAlignment getTextAlignment();
     
     void setTextColor ( const ofColor& setColor );
     ofColor getTextColor ();
+    
+    void setDownTextColor ( const ofColor& setColor );
+    ofColor getDownTextColor ();
     
     void setLineBreakMode ( ofxGenericTextLinebreakMode mode );
     ofxGenericTextLinebreakMode getLineBreakMode();
