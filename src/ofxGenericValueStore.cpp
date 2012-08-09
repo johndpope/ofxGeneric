@@ -212,6 +212,32 @@ void ofxGenericValueStore::write( const char* value )
     write( string( value ) );
 }
 
+void ofxGenericValueStore::write( ofPtr< ofxGenericValueStore > value )
+{
+    if ( value )
+    {
+        if ( value->isFloat() )
+        {
+            write( value->asFloat() );
+        } else if ( value->isInt() )
+        {
+            write( value->asInt() );
+        } else if ( value->isBool() )
+        {
+            write( value->asBool() );
+        } else if ( value->isString() )
+        {
+            write( value->asString() );
+        } else if ( value->isObject() )
+        {
+            // TODO:
+        } else if ( value->isArray() )
+        {
+            // TODO:
+        }
+    }
+}
+
 void ofxGenericValueStore::operator=( float value )
 {
     write( value );

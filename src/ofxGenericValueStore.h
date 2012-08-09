@@ -64,6 +64,7 @@ public:
     virtual void write( bool value );
     virtual void write( string value );
     virtual void write( const char* value );
+    virtual void write( ofPtr< ofxGenericValueStore > value );
 
     void operator=( float value );
     void operator=( int value );
