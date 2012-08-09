@@ -92,10 +92,10 @@ enum ofxGenericKeyboardType
 
 enum ofxGenericViewAnimationCurve
 {
-    ofxViewAnimationCurveEaseInOut, //UIViewAnimationCurveEaseInOut,         // slow at beginning and end
-    ofxViewAnimationCurveEaseIn, //UIViewAnimationCurveEaseIn,            // slow at beginning
-    ofxViewAnimationCurveEaseOut, //UIViewAnimationCurveEaseOut,           // slow at end
-    ofxViewAnimationCurveLinear //UIViewAnimationCurveLinear
+    ofxGenericViewAnimationCurveEaseInOut, //UIViewAnimationCurveEaseInOut,         // slow at beginning and end
+    ofxGenericViewAnimationCurveEaseIn, //UIViewAnimationCurveEaseIn,            // slow at beginning
+    ofxGenericViewAnimationCurveEaseOut, //UIViewAnimationCurveEaseOut,           // slow at end
+    ofxGenericViewAnimationCurveLinear //UIViewAnimationCurveLinear
 };
 
 enum ofxGenericViewAnimationTransition
@@ -144,4 +144,12 @@ enum ofxGenericButtonType
     ofxGenericButtonTypeInfoLight           = 3,    //UIButtonTypeInfoLight = 3
     ofxGenericButtonTypeInfoDark            = 4,    //UIButtonTypeInfoDark = 4
     ofxGenericButtonTypeContactAdd          = 5     //UIButtonTypeContactAdd = 5
+};
+
+enum ofxGenericAnimatedImageLoopType
+{
+    ofxGenericAnimatedImageLoopTypeWrap     = 0,    //after last frame, plays first frame again
+    ofxGenericAnimatedImageLoopTypePingPong = 1,    //after last frame, plays in reverse order
+    ofxGenericAnimatedImageLoopTypeClamp    = 2,    //after last frame, stops animating
+    ofxGenericAnimatedImageLoopTypeOnce     = 3     //after last frame, plays first frame and stops animating
 };
