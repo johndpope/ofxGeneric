@@ -8,23 +8,20 @@
 
 #pragma once
 
-#include "ofxGenericMain.h"
+#include "ofxGenericValueStore.h"
 
-class ofxGenericOAuthToken
+class ofxGenericOAuthToken : public ofxGenericValueStore
 {
 public:
-    static ofPtr< ofxGenericOAuthToken > create( string accessToken, string scopes );
+    static ofPtr< ofxGenericOAuthToken > create( ofPtr< ofxGenericValueStore > from );
+    static ofPtr< ofxGenericOAuthToken > create( string accessToken, string scope );
     
     string getAccessToken();
-    const std::vector< string >& getScopes();
+    std::vector< string > getScope();
     bool hasScope( string scope );
     
     virtual ~ofxGenericOAuthToken();
 protected:
     ofxGenericOAuthToken();
-    virtual void init( ofPtrWeak< ofxGenericOAuthToken > setThis, string accessToken, string scopes );
-    ofPtrWeak< ofxGenericOAuthToken > _this;
-    
-    string _accessToken;
-    std::vector< string > _scopes;
+    virtual void init( ofPtrWeak< ofxGenericOAuthToken > setThis, string accessToken, string scope );
 };

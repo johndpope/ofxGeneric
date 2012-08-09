@@ -7,11 +7,24 @@
 //
 
 #include "ofxGenericOAuthToken.h"
+#include "ofxGenericValueStore.h"
 
-ofPtr< ofxGenericOAuthToken > ofxGenericOAuthToken::create( string accessToken, string scopes )
+#define AccessTokenCacheKey "access_token"
+#define ScopeCacheKey "scope"
+
+ofPtr< ofxGenericOAuthToken > ofxGenericOAuthToken::create( ofPtr< ofxGenericValueStore > from )
+{
+    if ( from )
+    {
+        return ofxGenericOAuthToken::create( from->read( AccessTokenCacheKey, "" ), from->read( ScopeCacheKey, "" ) );
+    }
+    return ofPtr< ofxGenericOAuthToken >();
+}
+
+ofPtr< ofxGenericOAuthToken > ofxGenericOAuthToken::create( string accessToken, string scope )
 {
     ofPtr< ofxGenericOAuthToken > create( new ofxGenericOAuthToken() );
-    create->init( create, accessToken, scopes );
+    create->init( create, accessToken, scope );
     return create;
 }
 
@@ -23,25 +36,26 @@ ofxGenericOAuthToken::~ofxGenericOAuthToken()
 {    
 }
 
-void ofxGenericOAuthToken::init( ofPtrWeak< ofxGenericOAuthToken > setThis, string accessToken, string scopes )
+void ofxGenericOAuthToken::init( ofPtrWeak< ofxGenericOAuthToken > setThis, string accessToken, string scope )
 {
-    _this = setThis;
+    ofxGenericValueStore::init( setThis, ofxGenericValueStoreTypeObject );
 
-    _accessToken = accessToken;
-    _scopes = ofxGSplit( scopes, ' ' );
+    write( AccessTokenCacheKey, accessToken );
+    write( ScopeCacheKey, scope );
 }
 
 string ofxGenericOAuthToken::getAccessToken()
 {
-    return _accessToken;
+    return read( AccessTokenCacheKey, "" );
 }
 
-const std::vector< string >& ofxGenericOAuthToken::getScopes()
+std::vector< string > ofxGenericOAuthToken::getScope()
 {
-    return _scopes;
+    return ofxGSplit( read( ScopeCacheKey, "" ), ' ' );
 }
 
-bool ofxGenericOAuthToken::hasScope( string scope )
+bool ofxGenericOAuthToken::hasScope( string checkScope )
 {
-    return std::find( getScopes().begin(), getScopes().end(), scope ) != getScopes().end();
+    std::vector< string > scope = getScope();
+    return std::find( scope.begin(), scope.end(), checkScope ) != scope.end();
 }
