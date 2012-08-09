@@ -85,7 +85,10 @@ void ofxGenericHTTPResponse::init(
         }
     }
 
-    ofxGLogNotice( toString() + "\n" );
+    ofxGLogNotice( toString( false ) );
+#if DEBUG
+    ofxGLogVerbose( "\nBody:\n" + getBodyAsString() + "\n" );
+#endif
 }
 
 ofPtr< ofxGenericValueStore > ofxGenericHTTPResponse::getParsedBody() const
@@ -182,17 +185,20 @@ string ofxGenericHTTPResponse::getErrorRecoverySuggestions() const
     return string();
 }
 
-string ofxGenericHTTPResponse::toString() const
+string ofxGenericHTTPResponse::toString( bool includeBody ) const
 {
     string result = "HTTPResponse - Status: " + ofxGToString( _statusCode );
     if ( isOk() )
     {
         result += " MIMEType: " + getMIMEType() + " Text Encoding: " + getTextEncoding() + " Suggested File Name: " + getSuggestedFileName();
         
-        string bodyAsString = getBodyAsString();
-        if ( !bodyAsString.empty() )
+        if ( includeBody )
         {
-            result += " Body:\n " + bodyAsString;
+            string bodyAsString = getBodyAsString();
+            if ( !bodyAsString.empty() )
+            {
+                result += " Body:\n " + bodyAsString;
+            }
         }
     } else
     {
@@ -209,10 +215,13 @@ string ofxGenericHTTPResponse::toString() const
         {
             result += " Suggestions: " + getErrorRecoverySuggestions();
         }
-        string bodyAsString = getBodyAsString();
-        if ( !bodyAsString.empty() )
+        if ( includeBody )
         {
-            result += " Body:\n " + bodyAsString;
+            string bodyAsString = getBodyAsString();
+            if ( !bodyAsString.empty() )
+            {
+                result += " Body:\n " + bodyAsString;
+            }
         }
     }
     return result;

@@ -270,7 +270,10 @@ void ofxGenericHTTPRequest::start()
         _connection = [ [ NSURLConnection alloc ] initWithRequest:_request delegate:_forwarder startImmediately:YES ];
     }
 #endif
-    ofxGLogNotice( toString() );
+    ofxGLogNotice( toString( false ) );
+#if DEBUG
+    ofxGLogVerbose( "\nBody:\n" + getBodyAsString() );
+#endif
 }
 
 void ofxGenericHTTPRequest::cancel()
@@ -333,14 +336,17 @@ string ofxGenericHTTPRequest::getBodyAsString() const
 #endif
 }
 
-string ofxGenericHTTPRequest::toString() const
+string ofxGenericHTTPRequest::toString( bool includebody ) const
 {
     string result = "HTTPRequest -";
     result += " Url: " + getUrl();
     result += "\nMethod: " + getMethod();
     result += "\nTimeout: " + ofxGToString( getTimeout() );
     result += "\nHeaders:\n" + getHeaders();
-    result += "\nBody:\n" + getBodyAsString();
+    if ( includebody )
+    {
+        result += "\nBody:\n" + getBodyAsString();
+    }
     return result;
 }
 

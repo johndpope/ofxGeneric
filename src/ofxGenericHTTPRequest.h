@@ -64,7 +64,7 @@ public:
     
     void setDelegate( ofPtr< ofxGenericHTTPRequestDelegate > delegate );
     
-    string toString() const;
+    string toString( bool includeBody = true ) const;
     
     void finished(
                   int statusCode,

@@ -45,7 +45,7 @@ public:
     
     virtual ~ofxGenericHTTPResponse();
     
-    string toString() const;
+    string toString( bool includeBody = true ) const;
     
     static ofPtr< ofxGenericValueStore > createErrorBody( string errorName, string errorDescription = "", string errorRecoverySuggestions = "" );
     
