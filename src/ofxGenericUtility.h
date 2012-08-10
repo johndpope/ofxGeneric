@@ -50,12 +50,15 @@ string ofxGToString( unsigned long int value );
 string ofxGToString( double value );
 string ofxGToString( float value );
 string ofxGToString( bool value );
+string ofxGToString( const void* value, unsigned int byteSize );
 bool ofxGToBool( string value );
 
 string ofxGSPrintf( string format, const std::vector< string >& replaceWith );
 string ofxGSPrintf( string format, string first );
 string ofxGSPrintf( string format, string first, string second );
 string ofxGSPrintf( string format, string first, string second, string third );
+
+std::vector< string > ofxGSplit( string value, char splitOn );
 
 //////////////////////////////// Math //////////////////////////////////
 

@@ -214,6 +214,18 @@ string ofxGToString( bool value )
     return "false";
 }
 
+string ofxGToString( const void* value, unsigned int byteSize )
+{
+    char* dataBuffer = new char[ byteSize + 1 ];
+    snprintf( dataBuffer, byteSize + 1, "%s", value );
+    
+    string dataString( dataBuffer );
+    
+    delete [] dataBuffer;
+    
+    return dataString;
+}
+
 bool ofxGToBool( string value )
 {
     std::transform( value.begin(), value.end(), value.begin(), ::tolower );
@@ -283,6 +295,28 @@ string ofxGSPrintf( string format, string first, string second, string third )
     replaceWith.push_back( second );
     replaceWith.push_back( third );
     return ofxGSPrintf( format, replaceWith );
+}
+
+std::vector< string > ofxGSplit( string value, char splitOn )
+{
+    std::vector< string > strings;
+    
+    unsigned int lastPosition = 0;
+    for( unsigned int position = value.find( splitOn, 0 ); position < value.size(); position = value.find( splitOn, position ) )
+    {
+        if ( position == lastPosition + 1 )
+        {
+            continue;
+        }
+        strings.push_back( value.substr( lastPosition, position - lastPosition ) );
+        position ++;
+        lastPosition = position;
+    }
+    if ( value[ value.size() - 1 ] != splitOn )
+    {
+        strings.push_back( value.substr( lastPosition, value.size() - lastPosition ) );
+    }
+    return strings;
 }
 
 //////////////////////////////// Math //////////////////////////////////
