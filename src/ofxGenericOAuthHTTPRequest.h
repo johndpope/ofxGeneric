@@ -42,7 +42,7 @@ protected:
                       ofPtr< ofxGenericValueStore > body,
                       ofPtr< ofxGenericHTTPRequestDelegate > delegate,
                       float timeout,
-                      string clientId,
-                      string clientSecretKey
+                      string clientId = "",
+                      string clientSecretKey = ""
                       );
 };
