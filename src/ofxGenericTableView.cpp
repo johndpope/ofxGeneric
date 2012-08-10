@@ -253,6 +253,12 @@ void ofxGenericTableView::setSeparatorPaddedHeight( float height )
     _paddedSeparatorHeight = height;
 }
 
+void ofxGenericTableView::setUsePaddedSeparator( float height )
+{
+    setSeparatorStyle( ofxGenericTableViewSeparatorStyleSizedPadding );
+    setSeparatorPaddedHeight( height );
+}
+
 void ofxGenericTableView::setDelegate( ofPtrWeak< ofxGenericTableViewDelegate > delegate )
 {
     _delegate = delegate;

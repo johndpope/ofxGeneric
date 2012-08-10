@@ -38,7 +38,8 @@ public:
     virtual void setSeparatorColor( const ofColor& separatorColor );
     virtual void setSeparatorStyle( ofxGenericTableViewSeparatorStyle separatorStyle );
     ofxGenericTableViewSeparatorStyle getSeparatorStyle();
-    virtual void setSeparatorPaddedHeight( float height );
+    virtual void setSeparatorPaddedHeight( float height );    
+    virtual void setUsePaddedSeparator( float height );
 
     virtual void setDelegate( ofPtrWeak< ofxGenericTableViewDelegate > delegate );
     virtual void reloadData();
