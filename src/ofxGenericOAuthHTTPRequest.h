@@ -16,6 +16,18 @@ class ofxGenericOAuthToken;
 class ofxGenericOAuthHTTPRequest : public ofxGenericHTTPRequest
 {
 public:
+    static ofPtr< ofxGenericOAuthHTTPRequest > create(
+                                                      string url,
+                                                      string method,
+                                                      ofPtr< ofxGenericOAuthToken > token,
+                                                      string format,
+                                                      ofPtr< ofxGenericValueStore > body = ofPtr< ofxGenericValueStore >(),
+                                                      ofPtr< ofxGenericHTTPRequestDelegate > delegate = ofPtr< ofxGenericHTTPRequestDelegate >(),
+                                                      float timeout = ofxGenericHTTPRequestDefaultTimeout,
+                                                      string clientId = "",
+                                                      string clientSecretKey = ""
+                                                      );
+    
     static void addClientInfo( ofPtr< ofxGenericValueStore > body, string clientId, string clientSecretKey );
     
 protected:
@@ -28,9 +40,9 @@ protected:
                       ofPtr< ofxGenericOAuthToken > token,
                       string format,
                       ofPtr< ofxGenericValueStore > body,
-                      ofPtr< ofxGenericHTTPRequestDelegate > delegate = ofPtr< ofxGenericHTTPRequestDelegate >(),
-                      float timeout = ofxGenericHTTPRequestDefaultTimeout,
-                      string clientId = "",
-                      string clientSecretKey = ""
+                      ofPtr< ofxGenericHTTPRequestDelegate > delegate,
+                      float timeout,
+                      string clientId,
+                      string clientSecretKey
                       );
 };

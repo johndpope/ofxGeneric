@@ -36,6 +36,7 @@ public:
     void* getBody() const;
     unsigned int getBodyByteLength() const;
     string getBodyAsString() const;
+    ofPtr< ofxGenericValueStore > getParsedBody() const;
     
     string getErrorName() const;
     string getErrorDescription() const;
@@ -68,5 +69,4 @@ protected:
     
     static bool isParsable( string MIMEType, string textEncoding );
     ofPtr< ofxGenericValueStore > _parsedBody;
-    ofPtr< ofxGenericValueStore > getParsedBody() const;
 };
