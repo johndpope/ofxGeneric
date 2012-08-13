@@ -16,6 +16,35 @@ ofxGenericOAuthHTTPRequest::ofxGenericOAuthHTTPRequest()
 {
 }
 
+ofPtr< ofxGenericOAuthHTTPRequest > ofxGenericOAuthHTTPRequest::create(
+                                                  string url,
+                                                  string method,
+                                                  ofPtr< ofxGenericOAuthToken > token,
+                                                  string format,
+                                                  ofPtr< ofxGenericValueStore > body,
+                                                  ofPtr< ofxGenericHTTPRequestDelegate > delegate,
+                                                  float timeout,
+                                                  string clientId,
+                                                  string clientSecretKey
+                                                  )
+{
+    ofPtr< ofxGenericOAuthHTTPRequest > create( new ofxGenericOAuthHTTPRequest() );
+    create->init(
+                 create,
+                 url,
+                 method,
+                 token,
+                 format,
+                 body,
+                 delegate,
+                 timeout,
+                 clientId,
+                 clientSecretKey
+                 );
+    return create;
+}
+
+
 void ofxGenericOAuthHTTPRequest::init(
                                       ofPtrWeak< ofxGenericOAuthHTTPRequest > setThis,
                                       string url,
