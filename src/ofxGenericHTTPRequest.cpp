@@ -216,21 +216,14 @@ void ofxGenericHTTPRequest::setBody( string body )
 
 void ofxGenericHTTPRequest::setBody( void* body, unsigned int bodyByteLength )
 {
+#if TARGET_OS_IPHONE
+    NSData* bodyAsData = nil;
     if ( body && bodyByteLength > 0 )
     {
-#if DEBUG
-        if ( ofGetLogLevel() == OF_LOG_VERBOSE )
-        {
-            char* dumpBody = new char[ bodyByteLength + 1 ];
-            memcpy( ( void* )dumpBody, body, bodyByteLength );
-            dumpBody[ bodyByteLength ] = '\0';
-        }
-#endif
-        
-#if TARGET_OS_IPHONE
-        [ _request setHTTPBody:[ NSData dataWithBytes:body length:bodyByteLength ] ];
-#endif
+        bodyAsData = [ NSData dataWithBytes:body length:bodyByteLength ];
     }
+    [ _request setHTTPBody:bodyAsData ];
+#endif
 }
 
 void ofxGenericHTTPRequest::setHeaderField( string field, string value )
