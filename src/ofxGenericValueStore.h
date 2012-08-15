@@ -52,6 +52,7 @@ public:
     static ofPtr< ofxGenericValueStore > createWithValue( bool value );
     static ofPtr< ofxGenericValueStore > createWithValue( string value );
     static ofPtr< ofxGenericValueStore > createWithValue( const char* value );
+    static ofPtr< ofxGenericValueStore > createWithValue( ofPtr< ofxGenericValueStore > value );
 
     static ofPtr< ofxGenericValueStore > createFromJSON( string JSON );
     static ofPtr< ofxGenericValueStore > createFromXML( string xml );
