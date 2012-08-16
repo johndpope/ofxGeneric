@@ -87,7 +87,14 @@ void ofxGenericHTTPResponse::init(
 
     ofxGLogNotice( toString( false ) );
 #if DEBUG
-    ofxGLogVerbose( "\nBody:\n" + getBodyAsString() + "\n" );
+    if ( isOk() )
+    {
+        ofxGLogVerbose( "\nBody:\n" + getBodyAsString() + "\n" );
+    }
+    else
+    {
+        ofxGLogNotice( "\nBody:\n" + getBodyAsString() + "\n" );
+    }
 #endif
 }
 
