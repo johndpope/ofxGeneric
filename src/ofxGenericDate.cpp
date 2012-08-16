@@ -167,7 +167,7 @@ void ofxGenericDate::init( ofPtrWeak< ofxGenericDate > setThis, double time )
     _year = [components year];
     _month = [components month];
     _date = [components day];
-    _day = [components weekday];
+    _day = [components weekday] - 1; //returns 1 - 7, where Sunday is 1
     _hour = [components hour];
     _minute = [components minute];
     _second = [components second];    
