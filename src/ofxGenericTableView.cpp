@@ -426,13 +426,13 @@ void ofxGenericTableView::moveRow( unsigned int sourceSection, unsigned int sour
 void ofxGenericTableView::reloadCell( unsigned int section, unsigned int index )
 {
 #if TARGET_OS_IPHONE
-    UITableView* view = *this;
-    if ( view )
+    UITableView* tableView = *this;
+    if ( tableView )
     {
         NSArray* updateIndexPaths = [ NSArray arrayWithObjects:[ NSIndexPath indexPathForRow:index inSection:section ], nil ];
-        [ view beginUpdates ];
-        [ view reloadRowsAtIndexPaths:updateIndexPaths withRowAnimation:UITableViewRowAnimationNone ];
-        [ view endUpdates ];
+        [ tableView beginUpdates ];
+        [ tableView reloadRowsAtIndexPaths:updateIndexPaths withRowAnimation:UITableViewRowAnimationNone ];
+        [ tableView endUpdates ];
     }    
 #endif
 }
@@ -440,10 +440,10 @@ void ofxGenericTableView::reloadCell( unsigned int section, unsigned int index )
 void ofxGenericTableView::scrollToCell( unsigned int section, unsigned int index )
 {
 #if TARGET_OS_IPHONE
-    UITableView* view = *this;
-    if ( view )
+    UITableView* tableView = *this;
+    if ( tableView )
     {
-        [ view scrollToRowAtIndexPath:[ NSIndexPath indexPathForRow:index inSection:section ] atScrollPosition:UITableViewScrollPositionTop animated:YES ];
+        [ tableView scrollToRowAtIndexPath:[ NSIndexPath indexPathForRow:index inSection:section ] atScrollPosition:UITableViewScrollPositionTop animated:YES ];
     }    
 #endif
 }
