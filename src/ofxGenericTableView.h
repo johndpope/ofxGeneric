@@ -52,6 +52,10 @@ public:
     virtual int getSelectedIndex();
     virtual int getSelectedSection();
     
+    virtual void setCellDragging( bool enabled );
+    bool getCellDraggingEnabled( unsigned int section, unsigned int index );
+    virtual void moveRow( unsigned int sourceSection, unsigned int sourceIndex, unsigned int destinationSection, unsigned int destinationIndex );
+    
     virtual void reloadCell( unsigned int section, unsigned int index );
     
     virtual void scrollToCell( unsigned int section, unsigned int index );
@@ -81,45 +85,9 @@ protected:
     bool _autoResizeToFit;
     float _maximumHeight;
     
+    bool _cellDraggingEnabled;
+    
     ofxGenericTableView();
-};
-
-class ofxGenericTableViewCell : public ofxGenericView
-{
-public:
-    virtual ~ofxGenericTableViewCell();
-    static ofPtr< ofxGenericTableViewCell > create( ofPtrWeak< ofxGenericTableView > table, unsigned int section = 0, unsigned int index = 0, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 ) );
-    
-    virtual void setTablePosition( unsigned int section, unsigned int index );
-    unsigned int getSection();
-    unsigned int getIndex();
-        
-    virtual void setBackgroundColor( const ofColor& color );    
-    virtual void setText( string text );
-    virtual void setImage( string imagePath );
-    virtual void addChildView( ofPtr< ofxGenericView > add );
-    virtual void addChildViewBefore( ofPtr< ofxGenericView > add, ofPtr< ofxGenericView > before );
-    virtual void addChildViewAfter( ofPtr< ofxGenericView > add, ofPtr< ofxGenericView > after );
-    virtual void removeChildView( ofPtr< ofxGenericView > remove );
-    virtual ofPtr< ofxGenericView > getContentView();
-    
-    virtual void selected();
-    
-#if TARGET_OS_IPHONE
-    operator UITableViewCell*();
-#endif
-    
-protected:
-    virtual void init( ofPtrWeak< ofxGenericTableViewCell > setThis, ofPtrWeak< ofxGenericTableView > table, unsigned int section, unsigned int index, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 )  );
-    ofPtrWeak< ofxGenericTableView > _table;
-    ofPtr< ofxGenericView > _contentView;
-    
-    virtual NativeView createNativeView( const ofRectangle& frame );
-    
-    unsigned int _section;
-    unsigned int _index;
-
-    ofxGenericTableViewCell();
 };
 
 class ofxGenericTableViewDelegate
@@ -136,4 +104,6 @@ public:
     virtual float getHeightForHeaderInSection( ofPtr< ofxGenericTableView > tableView, unsigned int section ) { return 0.0f; };
 
     virtual unsigned int getNumberOfSections( ofPtr< ofxGenericTableView > tableView ) { return 1; };
+    
+    virtual void moveRow( ofPtr< ofxGenericTableView > tableView, unsigned int sourceSection, unsigned int sourceIndex, unsigned int destinationSection, unsigned int destinationIndex ) {};
 };

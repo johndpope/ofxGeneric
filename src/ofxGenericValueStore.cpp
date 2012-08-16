@@ -74,8 +74,26 @@ ofPtr< ofxGenericValueStore > ofxGenericValueStore::createWithValue( string valu
 
 ofPtr< ofxGenericValueStore > ofxGenericValueStore::createWithValue( const char* value )
 {
-    return createWithValue( string( value ) );
+    string useValue;
+    if ( value != NULL )
+    {
+        useValue = value;
+    }
+    return createWithValue( useValue );
 }
+
+ofPtr< ofxGenericValueStore > ofxGenericValueStore::createWithValue( ofPtr< ofxGenericValueStore > value )
+{
+    if ( value )
+    {
+        ofPtr< ofxGenericValueStore > create( new ofxGenericValueStore() );
+        create->init( create, value->getType() );
+        create->write( value );
+        return create;
+    }
+    return ofPtr< ofxGenericValueStore >();
+}
+
 
 ofPtr< ofxGenericValueStore > ofxGenericValueStore::createFromJSON( string JSON )
 {
@@ -230,10 +248,61 @@ void ofxGenericValueStore::write( ofPtr< ofxGenericValueStore > value )
             write( value->asString() );
         } else if ( value->isObject() )
         {
-            // TODO:
+            for( ofxGenericValueStoreObjectIterator trav = value->objectBegin(); trav != value->objectEnd(); trav ++ )
+            {
+                string key = ( *trav ).first;
+                ofPtr< ofxGenericValueStore > keyValue = ( *trav ).second;
+                if ( isString() )
+                {
+                    string currentValue = asString();
+                    if ( !currentValue.empty() )
+                    {
+                        currentValue += ",\n";
+                    }
+                    currentValue += "\"" + key + "\" : \"";
+                    if ( keyValue )
+                    {
+                        keyValue->asString();
+                    }
+                    currentValue += "\"";
+                    write( currentValue );
+                } else if ( isObject() )
+                {
+                    write( key, createWithValue( keyValue ) );
+                } else if ( isArray() )
+                {
+                    // TODO: save key somehow
+                    write( length(), createWithValue( keyValue ) );
+                }
+            }
         } else if ( value->isArray() )
         {
-            // TODO:
+            
+            for( unsigned int travIndex = 0; travIndex < length(); travIndex++ )
+            {
+                ofPtr< ofxGenericValueStore > keyValue = read( travIndex );
+                if ( isString() )
+                {
+                    string currentValue = asString();
+                    if ( !currentValue.empty() )
+                    {
+                        currentValue += ",\n";
+                    }
+                    currentValue += ofxGToString( travIndex ) + " : \"";
+                    if ( keyValue )
+                    {
+                        keyValue->asString();
+                    }
+                    currentValue += "\"";
+                    write( currentValue );
+                } else if ( isObject() )
+                {
+                    write( ofxGToString( travIndex ), createWithValue( keyValue ) );
+                } else if ( isArray() )
+                {
+                    write( travIndex, createWithValue( keyValue ) );
+                }
+            }
         }
     }
 }
@@ -396,9 +465,11 @@ string ofxGenericValueStore::asString( string defaultValue ) const
         return *_values._stringValue;
     } else if ( isObject() )
     {
+        // TODO: parse?
         return "object";
     } else if ( isArray() )
     {
+        // TODO: parse?
         return "array";
     }
     return defaultValue;

@@ -6,6 +6,9 @@
 //
 
 #include "ofxGenericTableView.h"
+
+#include "ofxGenericTableViewCell.h"
+
 #include "ofxGenericUtility.h"
 
 #if TARGET_OS_IPHONE
@@ -30,7 +33,7 @@ ofPtr< ofxGenericTableView > ofxGenericTableView::create( const ofRectangle& set
 }
 
 ofxGenericTableView::ofxGenericTableView()
-: _separatorStyle( ofxGenericTableViewSeparatorStyleNone ), _paddedSeparatorHeight( 0.0f )
+: _separatorStyle( ofxGenericTableViewSeparatorStyleNone ), _paddedSeparatorHeight( 0.0f ), _cellDraggingEnabled( false )
 {    
 }
 
@@ -53,22 +56,6 @@ NativeView ofxGenericTableView::createNativeView( const ofRectangle& frame )
     
     return newView;
 #endif
-}
-
-void ofxGenericTableViewCell::setTablePosition( unsigned int section, unsigned int index )
-{
-    _section = section;
-    _index = index;
-}
-
-unsigned int ofxGenericTableViewCell::getSection()
-{
-    return _section;
-}
-
-unsigned int ofxGenericTableViewCell::getIndex()
-{
-    return _index;
 }
 
 unsigned int ofxGenericTableView::getNumberOfCells( unsigned int section )
@@ -393,16 +380,46 @@ bool ofxGenericTableView::deselectAllCells()
     return false;
 }
 
+void ofxGenericTableView::setCellDragging( bool enabled )
+{
+    _cellDraggingEnabled = enabled;
+#if TARGET_OS_IPHONE
+    UITableView* tableView = *this;
+    if ( tableView )
+    {
+        [ tableView setEditing:( BOOL )enabled animated:NO ];
+    }
+#endif
+}
+
+bool ofxGenericTableView::getCellDraggingEnabled( unsigned int section, unsigned int index )
+{
+    ofPtr< ofxGenericTableViewCell > cell = getCell( section, index );
+    if ( cell )
+    {
+        return cell->canBeDragged();
+    }
+    return _cellDraggingEnabled;
+}
+
+void ofxGenericTableView::moveRow( unsigned int sourceSection, unsigned int sourceIndex, unsigned int destinationSection, unsigned int destinationIndex )
+{
+    if ( _delegate )
+    {
+        _delegate.lock()->moveRow( dynamic_pointer_cast< ofxGenericTableView >( _this ), sourceSection, sourceIndex, destinationSection, destinationIndex );
+    }
+}
+
 void ofxGenericTableView::reloadCell( unsigned int section, unsigned int index )
 {
 #if TARGET_OS_IPHONE
-    UITableView* view = *this;
-    if ( view )
+    UITableView* tableView = *this;
+    if ( tableView )
     {
         NSArray* updateIndexPaths = [ NSArray arrayWithObjects:[ NSIndexPath indexPathForRow:index inSection:section ], nil ];
-        [ view beginUpdates ];
-        [ view reloadRowsAtIndexPaths:updateIndexPaths withRowAnimation:UITableViewRowAnimationNone ];
-        [ view endUpdates ];
+        [ tableView beginUpdates ];
+        [ tableView reloadRowsAtIndexPaths:updateIndexPaths withRowAnimation:UITableViewRowAnimationNone ];
+        [ tableView endUpdates ];
     }    
 #endif
 }
@@ -410,150 +427,16 @@ void ofxGenericTableView::reloadCell( unsigned int section, unsigned int index )
 void ofxGenericTableView::scrollToCell( unsigned int section, unsigned int index )
 {
 #if TARGET_OS_IPHONE
-    UITableView* view = *this;
-    if ( view )
+    UITableView* tableView = *this;
+    if ( tableView )
     {
-        [ view scrollToRowAtIndexPath:[ NSIndexPath indexPathForRow:index inSection:section ] atScrollPosition:UITableViewScrollPositionTop animated:YES ];
+        [ tableView scrollToRowAtIndexPath:[ NSIndexPath indexPathForRow:index inSection:section ] atScrollPosition:UITableViewScrollPositionTop animated:YES ];
     }    
 #endif
 }
 
 #if TARGET_OS_IPHONE
 ofxGenericUIViewCastOperator( ofxGenericTableView, UITableView );
-#endif
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-ofxGenericTableViewCell::~ofxGenericTableViewCell()
-{
-#if TARGET_OS_IPHONE
-    releaseView( _view );
-#endif
-}
-
-ofPtr< ofxGenericTableViewCell > ofxGenericTableViewCell::create( ofPtrWeak< ofxGenericTableView > table, unsigned int section, unsigned int index, const ofRectangle& setBounds  )
-{
-    ofPtr< ofxGenericTableViewCell > c = ofPtr< ofxGenericTableViewCell >( new ofxGenericTableViewCell() );
-    c->init(c, table, section, index, setBounds);
-    return c;
-}
-
-ofxGenericTableViewCell::ofxGenericTableViewCell()
-: _section( 0 ), _index( 0 )
-{
-    
-}
-
-void ofxGenericTableViewCell::init( ofPtrWeak< ofxGenericTableViewCell > setThis, ofPtrWeak< ofxGenericTableView > table, unsigned int section, unsigned int index, const ofRectangle& setBounds )
-{
-    _table = table;
-    _section = section;
-    _index = index;
-    ofxGenericView::init( setThis );
-}
-
-ofPtr< ofxGenericView > ofxGenericTableViewCell::getContentView()
-{
-    return _contentView;
-}
-
-void ofxGenericTableViewCell::selected()
-{
-}
-
-void ofxGenericTableViewCell::addChildView( ofPtr< ofxGenericView > add )
-{
-    if ( _contentView )
-    {
-        _contentView->addChildView( add );
-    }
-    else
-    {
-        ofxGenericView::addChildView( add );
-    }
-}
-
-void ofxGenericTableViewCell::addChildViewBefore( ofPtr< ofxGenericView > add, ofPtr< ofxGenericView > before )
-{
-    if ( _contentView )
-    {
-        _contentView->addChildViewBefore( add, before );
-    }
-    else
-    {
-        ofxGenericView::addChildViewBefore( add, before );
-    }
-}
-
-void ofxGenericTableViewCell::addChildViewAfter( ofPtr< ofxGenericView > add, ofPtr< ofxGenericView > after )
-{
-    if ( _contentView )
-    {
-        _contentView->addChildViewAfter( add, after );
-    }
-    else
-    {
-        ofxGenericView::addChildViewAfter( add, after );
-    }
-}
-
-void ofxGenericTableViewCell::removeChildView( ofPtr< ofxGenericView > remove )
-{
-    if ( _contentView )
-    {
-        _contentView->removeChildView( remove );
-    }
-    else
-    {
-        ofxGenericView::removeChildView( remove );
-    }
-}
-
-void ofxGenericTableViewCell::setBackgroundColor( const ofColor& color )
-{
-    if ( _contentView )
-    {
-        _contentView->setBackgroundColor( color );
-    }
-    ofxGenericView::setBackgroundColor( color );
-}
-
-void ofxGenericTableViewCell::setText( string text )
-{
-#if TARGET_OS_IPHONE
-    UITableViewCell* cell = ( UITableViewCell* )_view;
-    if (cell)
-    {
-        cell.textLabel.text = [NSString stringWithCString:text.c_str() encoding:NSUTF8StringEncoding];
-    }
-#endif
-}
-
-void ofxGenericTableViewCell::setImage( string imagePath )
-{
-#if TARGET_OS_IPHONE
-    UITableViewCell* cell = ( UITableViewCell* )_view;
-    if (cell)
-    {
-        cell.imageView.image = [UIImage imageNamed:[NSString stringWithCString:imagePath.c_str() encoding:NSUTF8StringEncoding]];
-    }
-#endif    
-}
-
-NativeView ofxGenericTableViewCell::createNativeView( const ofRectangle& frame )
-{
-#if TARGET_OS_IPHONE
-    UITableViewCell* nativeView = [ [ UITableViewCell alloc ] initWithFrame:ofRectangleToCGRect( frame ) ];
-    _contentView = ofxGenericView::create( CGRectToofRectangle( nativeView.contentView.frame ), nativeView.contentView );
-    [ nativeView setSelectionStyle:UITableViewCellSelectionStyleNone ];
-    
-    return nativeView;
-#endif
-    //TODO android
-}
-
-#if TARGET_OS_IPHONE
-ofxGenericUIViewCastOperator( ofxGenericTableViewCell, UITableViewCell );
 
 @implementation ofxGenericTableViewForwarder
 
@@ -635,6 +518,38 @@ ofxGenericUIViewCastOperator( ofxGenericTableViewCell, UITableViewCell );
         return _delegate->getNumberOfSections();
     }
     return 1;
+}
+
+// TODO: support editing for realsies
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ( _delegate )
+    {
+        return ( BOOL )_delegate->getCellDraggingEnabled( indexPath.section, indexPath.row );
+    }
+    return false;
+}
+
+-( BOOL )tableView:( UITableView* )tableView canMoveRowAtIndexPath:( NSIndexPath* )indexPath
+{
+    if ( _delegate )
+    {
+        return ( BOOL )_delegate->getCellDraggingEnabled( indexPath.section, indexPath.row );
+    }
+    return false;
+}
+
+-( void )tableView:( UITableView* )tableView moveRowAtIndexPath:( NSIndexPath* )sourceIndexPath toIndexPath:( NSIndexPath* )destinationIndexPath
+{
+    if ( ( sourceIndexPath.section != destinationIndexPath.section || sourceIndexPath.row != destinationIndexPath.row ) && _delegate )
+    {
+        _delegate->moveRow( sourceIndexPath.section, sourceIndexPath.row, destinationIndexPath.section, destinationIndexPath.row );
+    }
+}
+
+-( UITableViewCellEditingStyle )tableView:( UITableView* )tableView editingStyleForRowAtIndexPath:( NSIndexPath* )indexPath
+{
+    return UITableViewCellEditingStyleNone;
 }
 
 @end
