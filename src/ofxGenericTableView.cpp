@@ -30,7 +30,7 @@ ofPtr< ofxGenericTableView > ofxGenericTableView::create( const ofRectangle& set
 }
 
 ofxGenericTableView::ofxGenericTableView()
-: _separatorStyle( ofxGenericTableViewSeparatorStyleNone ), _paddedSeparatorHeight( 0.0f )
+: _separatorStyle( ofxGenericTableViewSeparatorStyleNone ), _paddedSeparatorHeight( 0.0f ), _cellDraggingEnabled( false )
 {    
 }
 
@@ -393,6 +393,36 @@ bool ofxGenericTableView::deselectAllCells()
     return false;
 }
 
+void ofxGenericTableView::setCellDragging( bool enabled )
+{
+    _cellDraggingEnabled = enabled;
+#if TARGET_OS_IPHONE
+    UITableView* tableView = *this;
+    if ( tableView )
+    {
+        [ tableView setEditing:( BOOL )enabled animated:NO ];
+    }
+#endif
+}
+
+bool ofxGenericTableView::getCellDraggingEnabled( unsigned int section, unsigned int index )
+{
+    ofPtr< ofxGenericTableViewCell > cell = getCell( section, index );
+    if ( cell )
+    {
+        return cell->canBeDragged();
+    }
+    return _cellDraggingEnabled;
+}
+
+void ofxGenericTableView::moveRow( unsigned int sourceSection, unsigned int sourceIndex, unsigned int destinationSection, unsigned int destinationIndex )
+{
+    if ( _delegate )
+    {
+        _delegate.lock()->moveRow( dynamic_pointer_cast< ofxGenericTableView >( _this ), sourceSection, sourceIndex, destinationSection, destinationIndex );
+    }
+}
+
 void ofxGenericTableView::reloadCell( unsigned int section, unsigned int index )
 {
 #if TARGET_OS_IPHONE
@@ -460,6 +490,12 @@ ofPtr< ofxGenericView > ofxGenericTableViewCell::getContentView()
 void ofxGenericTableViewCell::selected()
 {
 }
+
+bool ofxGenericTableViewCell::canBeDragged()
+{
+    return false;
+}
+
 
 void ofxGenericTableViewCell::addChildView( ofPtr< ofxGenericView > add )
 {
@@ -635,6 +671,38 @@ ofxGenericUIViewCastOperator( ofxGenericTableViewCell, UITableViewCell );
         return _delegate->getNumberOfSections();
     }
     return 1;
+}
+
+// TODO: support editing for realsies
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ( _delegate )
+    {
+        return ( BOOL )_delegate->getCellDraggingEnabled( indexPath.section, indexPath.row );
+    }
+    return false;
+}
+
+-( BOOL )tableView:( UITableView* )tableView canMoveRowAtIndexPath:( NSIndexPath* )indexPath
+{
+    if ( _delegate )
+    {
+        return ( BOOL )_delegate->getCellDraggingEnabled( indexPath.section, indexPath.row );
+    }
+    return false;
+}
+
+-( void )tableView:( UITableView* )tableView moveRowAtIndexPath:( NSIndexPath* )sourceIndexPath toIndexPath:( NSIndexPath* )destinationIndexPath
+{
+    if ( ( sourceIndexPath.section != destinationIndexPath.section || sourceIndexPath.row != destinationIndexPath.row ) && _delegate )
+    {
+        _delegate->moveRow( sourceIndexPath.section, sourceIndexPath.row, destinationIndexPath.section, destinationIndexPath.row );
+    }
+}
+
+-( UITableViewCellEditingStyle )tableView:( UITableView* )tableView editingStyleForRowAtIndexPath:( NSIndexPath* )indexPath
+{
+    return UITableViewCellEditingStyleNone;
 }
 
 @end

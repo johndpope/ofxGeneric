@@ -52,6 +52,10 @@ public:
     virtual int getSelectedIndex();
     virtual int getSelectedSection();
     
+    virtual void setCellDragging( bool enabled );
+    bool getCellDraggingEnabled( unsigned int section, unsigned int index );
+    virtual void moveRow( unsigned int sourceSection, unsigned int sourceIndex, unsigned int destinationSection, unsigned int destinationIndex );
+    
     virtual void reloadCell( unsigned int section, unsigned int index );
     
     virtual void scrollToCell( unsigned int section, unsigned int index );
@@ -81,6 +85,8 @@ protected:
     bool _autoResizeToFit;
     float _maximumHeight;
     
+    bool _cellDraggingEnabled;
+    
     ofxGenericTableView();
 };
 
@@ -104,6 +110,8 @@ public:
     virtual ofPtr< ofxGenericView > getContentView();
     
     virtual void selected();
+    
+    virtual bool canBeDragged();
     
 #if TARGET_OS_IPHONE
     operator UITableViewCell*();
@@ -136,4 +144,6 @@ public:
     virtual float getHeightForHeaderInSection( ofPtr< ofxGenericTableView > tableView, unsigned int section ) { return 0.0f; };
 
     virtual unsigned int getNumberOfSections( ofPtr< ofxGenericTableView > tableView ) { return 1; };
+    
+    virtual void moveRow( ofPtr< ofxGenericTableView > tableView, unsigned int sourceSection, unsigned int sourceIndex, unsigned int destinationSection, unsigned int destinationIndex ) {};
 };
