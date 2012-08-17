@@ -444,7 +444,7 @@ bool ofxGenericValueStore::asBool( bool defaultValue ) const
         return ( bool )asFloat();
     } else if ( isString() )
     {
-        return asString() == "true";
+        return ofxGToBool( asString() );
     }
     return defaultValue;
 }
