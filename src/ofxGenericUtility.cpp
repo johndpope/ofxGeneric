@@ -229,7 +229,7 @@ string ofxGToString( const void* value, unsigned int byteSize )
 bool ofxGToBool( string value )
 {
     std::transform( value.begin(), value.end(), value.begin(), ::tolower );
-    if ( value == "true" || value == "t" )
+    if ( value == "true" || value == "t" || value == "1" )
     {
         return true;
     }
