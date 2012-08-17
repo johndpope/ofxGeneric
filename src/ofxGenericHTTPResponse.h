@@ -38,8 +38,8 @@ public:
     string getBodyAsString() const;
     ofPtr< ofxGenericValueStore > getParsedBody() const;
     
-    string getErrorName() const;
-    string getErrorDescription() const;
+    virtual string getErrorName() const;
+    virtual string getErrorDescription() const;
     string getErrorRecoverySuggestions() const;
         
     virtual bool isOk() const;

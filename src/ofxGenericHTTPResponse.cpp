@@ -105,19 +105,6 @@ ofPtr< ofxGenericValueStore > ofxGenericHTTPResponse::getParsedBody() const
 
 bool ofxGenericHTTPResponse::isOk() const
 {
-    // TEMP HACK FOR OUR OLD API
-    if ( getParsedBody() )
-    {
-        ofPtr< ofxGenericValueStore > response = getParsedBody()->read( "response" );
-        if ( response )
-        {
-            ofPtr< ofxGenericValueStore > success = response->read( "success" );
-            if ( success )
-            {
-                return success->asInt() == 1;
-            }
-        }
-    }
     return _statusCode >= 200 && _statusCode <= 299;
 }
 
