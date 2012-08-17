@@ -724,6 +724,18 @@ void ofxGenericView::addGestureRecognizerTap( int tapCount, int fingerCount )
 #endif
 }
 
+void ofxGenericView::removeGestureRecognizers( )
+{
+#if TARGET_OS_IPHONE
+    NSArray *recognizers = [ NSArray arrayWithArray:_view.gestureRecognizers ];
+    for ( unsigned int i = 0; i < [recognizers count]; i++ )
+    {
+        [ _view removeGestureRecognizer:[recognizers objectAtIndex:i] ];
+    }
+#elif TARGET_ANDROID
+#endif
+}
+
 void ofxGenericView::addGestureRecognizerHold( float minimumPressDuration, unsigned int fingerCount, float allowableMovement )
 {
 #if TARGET_OS_IPHONE
