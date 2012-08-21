@@ -709,6 +709,7 @@ void ofxGenericView::addGestureRecognizerSwipe( ofxGenericGestureTypeSwipe type 
     UISwipeGestureRecognizer *swipeRecognizer = [ [ [ UISwipeGestureRecognizer alloc ] initWithTarget:_viewController action:@selector( gesturePerformedSwipe: ) ] autorelease ];
 	[ swipeRecognizer setDirection:ofxGenericGestureTypeSwipeToiOS( type ) ];
     swipeRecognizer.cancelsTouchesInView = NO;
+    swipeRecognizer.delegate = _viewController;
 	[ _view addGestureRecognizer:swipeRecognizer ];
 #elif TARGET_ANDROID
 #endif
@@ -721,6 +722,7 @@ void ofxGenericView::addGestureRecognizerTap( int tapCount, int fingerCount )
 	recognizer.numberOfTapsRequired = tapCount;
     recognizer.numberOfTouchesRequired = fingerCount;
     recognizer.cancelsTouchesInView = NO;
+    recognizer.delegate = _viewController;
 	[ _view addGestureRecognizer:recognizer ];
 #elif TARGET_ANDROID
 #endif
@@ -734,6 +736,7 @@ void ofxGenericView::addGestureRecognizerHold( float minimumPressDuration, unsig
     recognizer.numberOfTapsRequired = 0;
     recognizer.numberOfTouchesRequired = fingerCount;
     recognizer.cancelsTouchesInView = NO;
+    recognizer.delegate = _viewController;
     recognizer.allowableMovement = allowableMovement;
     
 	[ _view addGestureRecognizer:recognizer ];
@@ -749,6 +752,7 @@ void ofxGenericView::addGestureRecognizerPan( unsigned int minimumFingerCount, u
     recognizer.minimumNumberOfTouches = minimumFingerCount;
     recognizer.maximumNumberOfTouches = maximumFingerCount;
     recognizer.cancelsTouchesInView = NO;
+    recognizer.delegate = _viewController;
     
 	[ _view addGestureRecognizer:recognizer ];
 #elif TARGET_ANDROID
@@ -993,6 +997,15 @@ void ofxGenericView::registerJNIMethods()
     {
         _forwardTo.lock()->gesturePerformedPan( ( UIPanGestureRecognizer* )recognizer );
     }
+}
+
+-( BOOL )gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    if ( _forwardTo && touch && touch.view && touch.view != _forwardTo.lock()->getNativeView() )
+    {
+        return NO;
+    }
+    return YES;
 }
 
 @end
