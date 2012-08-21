@@ -109,6 +109,7 @@ public:
     virtual void addGestureRecognizerTap( int tapCount, int fingerCount );
     virtual void addGestureRecognizerHold( float minimumPressDuration, unsigned int fingerCount, float allowableMovement );
     virtual void addGestureRecognizerPan( unsigned int minimumFingerCount, unsigned int maximumFingerCount );
+    virtual void removeGestureRecognizers( );
     
 #if TARGET_OS_IPHONE
     virtual void gesturePerformedSwipe( UISwipeGestureRecognizer* recognizer );
