@@ -96,6 +96,30 @@ void ofxGenericSelectorView::reloadData()
 #endif
 }
 
+void ofxGenericSelectorView::setShowSelectionOverlay( bool showSelectionOverlay )
+{
+#if TARGET_OS_IPHONE
+    UIPickerView* view = *this;
+    if ( view )
+    {
+        view.showsSelectionIndicator = ( BOOL )showSelectionOverlay;
+    }
+#endif
+}
+
+bool ofxGenericSelectorView::getShowSelectionOverlay()
+{
+#if TARGET_OS_IPHONE
+    UIPickerView* view = *this;
+    if ( view )
+    {
+        return (bool) view.showsSelectionIndicator;
+    }
+#endif
+    
+    return false;
+}
+
 #pragma mark Creation
 
 ofPtr< ofxGenericSelectorView > ofxGenericSelectorView::create( const ofRectangle& setFrame, ofPtr< ofxGenericSelectorViewDelegate > delegate )
@@ -141,6 +165,7 @@ NativeView ofxGenericSelectorView::createNativeView( const ofRectangle& frame )
     _forwarder = [ [ ofxGenericSelectorViewForwarder alloc ] initWithForwardTo:dynamic_pointer_cast< ofxGenericSelectorView >( _this ) ];
     [ newView setDelegate:_forwarder ];
     [ newView setDataSource:_forwarder ];
+    newView.showsSelectionIndicator = YES;
     return newView;
 #endif
 }
