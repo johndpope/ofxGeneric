@@ -277,10 +277,9 @@ void ofxGenericValueStore::write( ofPtr< ofxGenericValueStore > value )
             }
         } else if ( value->isArray() )
         {
-            
-            for( unsigned int travIndex = 0; travIndex < length(); travIndex++ )
+            for( unsigned int travIndex = 0; travIndex < value->length(); travIndex++ )
             {
-                ofPtr< ofxGenericValueStore > keyValue = read( travIndex );
+                ofPtr< ofxGenericValueStore > keyValue = value->read( travIndex );
                 if ( isString() )
                 {
                     string currentValue = asString();
