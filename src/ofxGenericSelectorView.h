@@ -42,6 +42,9 @@ public:
     
     virtual void reloadData();
     
+    void setShowSelectionOverlay( bool showSelectionOverlay );
+    bool getShowSelectionOverlay();
+    
 protected:
     virtual NativeView createNativeView( const ofRectangle& frame );
 #if TARGET_OS_IPHONE

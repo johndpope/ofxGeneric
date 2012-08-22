@@ -708,6 +708,8 @@ void ofxGenericView::addGestureRecognizerSwipe( ofxGenericGestureTypeSwipe type 
 #if TARGET_OS_IPHONE
     UISwipeGestureRecognizer *swipeRecognizer = [ [ [ UISwipeGestureRecognizer alloc ] initWithTarget:_viewController action:@selector( gesturePerformedSwipe: ) ] autorelease ];
 	[ swipeRecognizer setDirection:ofxGenericGestureTypeSwipeToiOS( type ) ];
+    swipeRecognizer.cancelsTouchesInView = NO;
+    swipeRecognizer.delegate = _viewController;
 	[ _view addGestureRecognizer:swipeRecognizer ];
 #elif TARGET_ANDROID
 #endif
@@ -719,6 +721,8 @@ void ofxGenericView::addGestureRecognizerTap( int tapCount, int fingerCount )
     UITapGestureRecognizer *recognizer = [ [ [ UITapGestureRecognizer alloc ] initWithTarget:_viewController action:@selector( gesturePerformedTap: ) ] autorelease ];
 	recognizer.numberOfTapsRequired = tapCount;
     recognizer.numberOfTouchesRequired = fingerCount;
+    recognizer.cancelsTouchesInView = NO;
+    recognizer.delegate = _viewController;
 	[ _view addGestureRecognizer:recognizer ];
 #elif TARGET_ANDROID
 #endif
@@ -743,6 +747,8 @@ void ofxGenericView::addGestureRecognizerHold( float minimumPressDuration, unsig
     recognizer.minimumPressDuration = minimumPressDuration;
     recognizer.numberOfTapsRequired = 0;
     recognizer.numberOfTouchesRequired = fingerCount;
+    recognizer.cancelsTouchesInView = NO;
+    recognizer.delegate = _viewController;
     recognizer.allowableMovement = allowableMovement;
     
 	[ _view addGestureRecognizer:recognizer ];
@@ -757,6 +763,8 @@ void ofxGenericView::addGestureRecognizerPan( unsigned int minimumFingerCount, u
     UIPanGestureRecognizer* recognizer = [ [ [ UIPanGestureRecognizer alloc ] initWithTarget:_viewController action:@selector( gesturePerformedPan: ) ] autorelease ];
     recognizer.minimumNumberOfTouches = minimumFingerCount;
     recognizer.maximumNumberOfTouches = maximumFingerCount;
+    recognizer.cancelsTouchesInView = NO;
+    recognizer.delegate = _viewController;
     
 	[ _view addGestureRecognizer:recognizer ];
 #elif TARGET_ANDROID
@@ -1001,6 +1009,15 @@ void ofxGenericView::registerJNIMethods()
     {
         _forwardTo.lock()->gesturePerformedPan( ( UIPanGestureRecognizer* )recognizer );
     }
+}
+
+-( BOOL )gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    if ( _forwardTo && touch && touch.view && touch.view != _forwardTo.lock()->getNativeView() )
+    {
+        return NO;
+    }
+    return YES;
 }
 
 @end

@@ -201,7 +201,7 @@ public:
 
 #if TARGET_OS_IPHONE
 
-@interface ofxUIGenericViewControllerForwarder : UIViewController
+@interface ofxUIGenericViewControllerForwarder : UIViewController< UIGestureRecognizerDelegate >
 {
 @protected
     ofPtrWeak< ofxGenericView > _forwardTo;
