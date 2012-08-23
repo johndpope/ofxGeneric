@@ -173,21 +173,8 @@ void ofxGenericDate::init( ofPtrWeak< ofxGenericDate > setThis, double time )
 {
     _this = setThis;
     _time = time;
-    
-#if TARGET_OS_IPHONE
-    NSDate *date = [NSDate dateWithTimeIntervalSinceReferenceDate:time];
-    NSCalendar *calendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
-    NSDateComponents *components = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit | NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit | NSWeekdayCalendarUnit) fromDate:date];
-    _year = [components year];
-    _month = [components month];
-    _date = [components day];
-    _day = [components weekday] - 1; //returns 1 - 7, where Sunday is 1
-    _hour = [components hour];
-    _minute = [components minute];
-    _second = [components second];    
-#else
-    
-#endif
+
+    setFromSinceReferenceDate( time );
 }
 
 string ofxGenericDate::getStringRepresentation( string format )
@@ -201,6 +188,15 @@ string ofxGenericDate::getStringRepresentation( string format )
 #endif
     
     return str;
+}
+
+void ofxGenericDate::setFromSinceReferenceDate( double time )
+{
+    _time = time;
+    
+#if TARGET_OS_IPHONE
+    setFromNSDate( [ NSDate dateWithTimeIntervalSinceReferenceDate:_time ] );
+#endif
 }
 
 #if TARGET_OS_IPHONE

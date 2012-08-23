@@ -1,24 +1,24 @@
 //
-//  ofxGenericDatePickerView.cpp
+//  ofxGenericDateSelectorView.cpp
 //  ofxGeneric
 //
 //  Created by Konstantin Yavichev on 8/22/12.
 //  Copyright (c) 2012 Lumos Labs. All rights reserved.
 //
 
-#include "ofxGenericDatePickerView.h"
+#include "ofxGenericDateSelectorView.h"
 
 #include "ofxGenericDate.h"
 
 
 #if TARGET_OS_IPHONE
-@interface ofxGenericDatePickerViewForwarder : NSObject
+@interface ofxGenericDateSelectorViewForwarder : NSObject
 {
 @private
-    ofxGenericDatePickerView* _forwardTo;
+    ofxGenericDateSelectorView* _forwardTo;
 }
 
--( void ) setForwardTo:( ofxGenericDatePickerView* )setForwardTo;
+-( void ) setForwardTo:( ofxGenericDateSelectorView* )setForwardTo;
 
 -( void ) valueChanged:( id )sender;
 
@@ -27,20 +27,20 @@
 
 
 
-ofPtr< ofxGenericDatePickerView > ofxGenericDatePickerView::create( const ofRectangle& setFrame )
+ofPtr< ofxGenericDateSelectorView > ofxGenericDateSelectorView::create( const ofRectangle& setFrame )
 {
-    ofPtr< ofxGenericDatePickerView > create = ofPtr< ofxGenericDatePickerView >( new ofxGenericDatePickerView() );
+    ofPtr< ofxGenericDateSelectorView > create = ofPtr< ofxGenericDateSelectorView >( new ofxGenericDateSelectorView() );
     create->init( create, setFrame );
     return create;
 }
 
-NativeView ofxGenericDatePickerView::createNativeView( const ofRectangle& frame )
+NativeView ofxGenericDateSelectorView::createNativeView( const ofRectangle& frame )
 {
 #if TARGET_OS_IPHONE
     UIDatePicker* newView = [ [ UIDatePicker alloc ] initWithFrame:ofRectangleToCGRect( frame ) ];
     
     // TODO: Same as the button, doesn't match createUIView design
-    _forwarder = [ [ ofxGenericDatePickerViewForwarder alloc ] init ];
+    _forwarder = [ [ ofxGenericDateSelectorViewForwarder alloc ] init ];
     [ _forwarder setForwardTo:this ];
     
     [ newView addTarget:_forwarder action:@selector( valueChanged: ) forControlEvents: UIControlEventValueChanged ];
@@ -49,40 +49,40 @@ NativeView ofxGenericDatePickerView::createNativeView( const ofRectangle& frame 
 #endif
 }
 
-void ofxGenericDatePickerView::setDelegate( ofPtrWeak< ofxGenericDatePickerViewDelegate > delegate )
+void ofxGenericDateSelectorView::setDelegate( ofPtrWeak< ofxGenericDateSelectorViewDelegate > delegate )
 {
     _delegate = delegate;
 }
 
-void ofxGenericDatePickerView::setMode( ofxGenericDatePickerMode mode )
+void ofxGenericDateSelectorView::setMode( ofxGenericDateSelectorMode mode )
 {
 #if TARGET_OS_IPHONE
     if ( [ getNativeView() isKindOfClass:[ UIDatePicker class ] ] )
     {
         UIDatePicker* asDatePicker = ( UIDatePicker* )getNativeView();
         
-        asDatePicker.datePickerMode = ofxGenericDatePickerModeToiOS( mode );
+        asDatePicker.datePickerMode = ofxGenericDateSelectorModeToiOS( mode );
     }
 #endif
 }
 
-ofxGenericDatePickerMode ofxGenericDatePickerView::getMode()
+ofxGenericDateSelectorMode ofxGenericDateSelectorView::getMode()
 {
-    ofxGenericDatePickerMode retval = ofxGenericDatePickerModeTime;
+    ofxGenericDateSelectorMode retval = ofxGenericDateSelectorModeTime;
     
 #if TARGET_OS_IPHONE
     if ( [ getNativeView() isKindOfClass:[ UIDatePicker class ] ] )
     {
         UIDatePicker* asDatePicker = ( UIDatePicker* )getNativeView();
         
-        retval = iOSToofxGenericDatePickerMode( asDatePicker.datePickerMode );
+        retval = iOSToofxGenericDateSelectorMode( asDatePicker.datePickerMode );
     }
 #endif
     
     return retval;
 }
 
-void ofxGenericDatePickerView::setDate( ofPtr< ofxGenericDate > value, bool animate )
+void ofxGenericDateSelectorView::setDate( ofPtr< ofxGenericDate > value, bool animate )
 {
     if( value )
     {
@@ -97,7 +97,7 @@ void ofxGenericDatePickerView::setDate( ofPtr< ofxGenericDate > value, bool anim
     }
 }
 
-ofPtr< ofxGenericDate > ofxGenericDatePickerView::getDate()
+ofPtr< ofxGenericDate > ofxGenericDateSelectorView::getDate()
 {    
 #if TARGET_OS_IPHONE
     if ( [ getNativeView() isKindOfClass:[ UIDatePicker class ] ] )
@@ -112,20 +112,20 @@ ofPtr< ofxGenericDate > ofxGenericDatePickerView::getDate()
 }
 
 
-void ofxGenericDatePickerView::valueChanged()
+void ofxGenericDateSelectorView::valueChanged()
 {
     if ( _delegate )
     {
-        ( _delegate.lock() )->picker_valueChanged( dynamic_pointer_cast< ofxGenericDatePickerView >( _this.lock() ) );
+        ( _delegate.lock() )->selector_valueChanged( dynamic_pointer_cast< ofxGenericDateSelectorView >( _this.lock() ) );
     }
 }
 
 
 
 #if TARGET_OS_IPHONE
-@implementation ofxGenericDatePickerViewForwarder
+@implementation ofxGenericDateSelectorViewForwarder
 
--( void )setForwardTo:(ofxGenericDatePickerView *)setForwardTo
+-( void )setForwardTo:(ofxGenericDateSelectorView *)setForwardTo
 {
     _forwardTo = setForwardTo;
 }

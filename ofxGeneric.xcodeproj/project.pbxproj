@@ -97,8 +97,8 @@
 		454496161540C66600B21064 /* ofxGenericAlertView.h in Headers */ = {isa = PBXBuildFile; fileRef = 454496141540C66600B21064 /* ofxGenericAlertView.h */; };
 		4544F5E91549D061007482B2 /* ofxGenericDrawableView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4544F5E81549D061007482B2 /* ofxGenericDrawableView.cpp */; };
 		456BACAD153DE6A50097D5D4 /* ofxGenericDate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 456BACAC153DE6A50097D5D4 /* ofxGenericDate.cpp */; };
-		B54787E315E5759000ACF70F /* ofxGenericDatePickerView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B54787E115E5759000ACF70F /* ofxGenericDatePickerView.cpp */; };
-		B54787E415E5759000ACF70F /* ofxGenericDatePickerView.h in Headers */ = {isa = PBXBuildFile; fileRef = B54787E215E5759000ACF70F /* ofxGenericDatePickerView.h */; };
+		B54787E315E5759000ACF70F /* ofxGenericDateSelectorView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B54787E115E5759000ACF70F /* ofxGenericDateSelectorView.cpp */; };
+		B54787E415E5759000ACF70F /* ofxGenericDateSelectorView.h in Headers */ = {isa = PBXBuildFile; fileRef = B54787E215E5759000ACF70F /* ofxGenericDateSelectorView.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -251,8 +251,8 @@
 		4544F5E81549D061007482B2 /* ofxGenericDrawableView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericDrawableView.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		456BACAA153DE6960097D5D4 /* ofxGenericDate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericDate.h; sourceTree = "<group>"; };
 		456BACAC153DE6A50097D5D4 /* ofxGenericDate.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericDate.cpp; sourceTree = "<group>"; };
-		B54787E115E5759000ACF70F /* ofxGenericDatePickerView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericDatePickerView.cpp; sourceTree = "<group>"; };
-		B54787E215E5759000ACF70F /* ofxGenericDatePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericDatePickerView.h; sourceTree = "<group>"; };
+		B54787E115E5759000ACF70F /* ofxGenericDateSelectorView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericDateSelectorView.cpp; sourceTree = "<group>"; };
+		B54787E215E5759000ACF70F /* ofxGenericDateSelectorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericDateSelectorView.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -321,8 +321,8 @@
 		3C7B4E6E14FC7CBF003121FE /* src */ = {
 			isa = PBXGroup;
 			children = (
-				B54787E115E5759000ACF70F /* ofxGenericDatePickerView.cpp */,
-				B54787E215E5759000ACF70F /* ofxGenericDatePickerView.h */,
+				B54787E115E5759000ACF70F /* ofxGenericDateSelectorView.cpp */,
+				B54787E215E5759000ACF70F /* ofxGenericDateSelectorView.h */,
 				3C3B1BA615CF73F0002A671A /* ofxGenericOAuthGrantHTTPRequest.cpp */,
 				3C3B1BA715CF73F0002A671A /* ofxGenericOAuthGrantHTTPRequest.h */,
 				3C3B1BA815CF73F0002A671A /* ofxGenericOAuthHTTPRequest.cpp */,
@@ -606,7 +606,7 @@
 				3C3B1BA415CF71AC002A671A /* ofxGenericOAuthToken.h in Headers */,
 				3C3B1BAF15CF73F0002A671A /* ofxGenericOAuthGrantHTTPRequest.h in Headers */,
 				3C3B1BB115CF73F0002A671A /* ofxGenericOAuthHTTPRequest.h in Headers */,
-				B54787E415E5759000ACF70F /* ofxGenericDatePickerView.h in Headers */,
+				B54787E415E5759000ACF70F /* ofxGenericDateSelectorView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -728,7 +728,7 @@
 				3C3B1BAE15CF73F0002A671A /* ofxGenericOAuthGrantHTTPRequest.cpp in Sources */,
 				3C3B1BB015CF73F0002A671A /* ofxGenericOAuthHTTPRequest.cpp in Sources */,
 				3C4B96EE15DCCCF8003D0B8C /* ofxGenericTableViewCell.cpp in Sources */,
-				B54787E315E5759000ACF70F /* ofxGenericDatePickerView.cpp in Sources */,
+				B54787E315E5759000ACF70F /* ofxGenericDateSelectorView.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

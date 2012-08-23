@@ -63,6 +63,8 @@ public:
     
     virtual string getStringRepresentation( string format = ofxGenericDateFormatDateOnly );
     
+    void setFromSinceReferenceDate( double time );
+    
 #if TARGET_OS_IPHONE    
     NSDate* convertToNSDate();
     void setFromNSDate( NSDate* date );

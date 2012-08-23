@@ -154,10 +154,9 @@ enum ofxGenericAnimatedImageLoopType
     ofxGenericAnimatedImageLoopTypeOnce     = 3     //after last frame, plays first frame and stops animating
 };
 
-enum ofxGenericDatePickerMode
+enum ofxGenericDateSelectorMode
 {
-    ofxGenericDatePickerModeTime            = 0,
-    ofxGenericDatePickerModeDate            = 1,
-    ofxGenericDatePickerModeDateAndTime     = 2,
-    ofxGenericDatePickerModeCountDownTimer  = 3
+    ofxGenericDateSelectorModeTime,
+    ofxGenericDateSelectorModeDate,
+    ofxGenericDateSelectorModeDateAndTime
 };

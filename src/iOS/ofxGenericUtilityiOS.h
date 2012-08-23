@@ -67,7 +67,7 @@ ofxGenericGestureTypeSwipe iOSToofxGenericGestureTypeSwipe( UISwipeGestureRecogn
 UIButtonType ofxGenericButtonTypeToiOS( ofxGenericButtonType from );
 ofxGenericButtonType iOSToofxGenericButtonType( UIButtonType from );
 
-UIDatePickerMode ofxGenericDatePickerModeToiOS( ofxGenericDatePickerMode from );
-ofxGenericDatePickerMode iOSToofxGenericDatePickerMode( UIDatePickerMode from );
+UIDatePickerMode ofxGenericDateSelectorModeToiOS( ofxGenericDateSelectorMode from );
+ofxGenericDateSelectorMode iOSToofxGenericDateSelectorMode( UIDatePickerMode from );
 
 UIImage* OFImageToUIImage( ofImage& image );
