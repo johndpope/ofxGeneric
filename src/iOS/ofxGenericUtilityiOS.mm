@@ -560,6 +560,38 @@ ofxGenericButtonType iOSToofxGenericButtonType( UIButtonType from )
     return ofxGenericButtonTypeCustom;
 }
 
+UIDatePickerMode ofxGenericDateSelectorModeToiOS( ofxGenericDateSelectorMode from )
+{
+    switch( from )
+    {
+        case ofxGenericDateSelectorModeTime:
+            return UIDatePickerModeTime;
+        case ofxGenericDateSelectorModeDate:
+            return UIDatePickerModeDate;
+        case ofxGenericDateSelectorModeDateAndTime:
+            return UIDatePickerModeDateAndTime;
+    }
+    
+    return UIDatePickerModeTime;
+}
+
+ofxGenericDateSelectorMode iOSToofxGenericDateSelectorMode( UIDatePickerMode from )
+{
+    switch( from )
+    {
+        case UIDatePickerModeTime:
+            return ofxGenericDateSelectorModeTime;
+        case UIDatePickerModeDate:
+            return ofxGenericDateSelectorModeDate;
+        case UIDatePickerModeDateAndTime:
+            return ofxGenericDateSelectorModeDateAndTime;
+            
+        default: return ofxGenericDateSelectorModeTime;
+    }
+    
+    return ofxGenericDateSelectorModeTime;
+}
+
 UIGestureRecognizerState ofxGenericGestureStateToiOS( ofxGenericGestureState from )
 {
     switch ( from )
