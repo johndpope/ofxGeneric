@@ -427,6 +427,13 @@ void ofxGenericView::removeFromParent()
 
 void ofxGenericView::removeChildViews()
 {
+    for( std::list< ofPtr< ofxGenericView > >::iterator remove = _children.begin(); remove != _children.end(); remove ++ )
+    {
+        if ( *remove )
+        {
+            removeChildView( *remove );
+        }
+    }
     _children.clear();
 }
 
