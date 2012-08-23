@@ -560,6 +560,44 @@ ofxGenericButtonType iOSToofxGenericButtonType( UIButtonType from )
     return ofxGenericButtonTypeCustom;
 }
 
+UIGestureRecognizerState ofxGenericGestureStateToiOS( ofxGenericGestureState from )
+{
+    switch ( from )
+    {
+        case ofxGenericGestureStateBegin:
+            return UIGestureRecognizerStateBegan;
+        case ofxGenericGestureStateChanged:
+            return UIGestureRecognizerStateChanged;
+        case ofxGenericGestureStateEnded:
+            return UIGestureRecognizerStateEnded;
+        case ofxGenericGestureStateCancelled:
+            return UIGestureRecognizerStateCancelled;
+        case ofxGenericGestureStateFailed:
+            return UIGestureRecognizerStateFailed;
+    }
+    return UIGestureRecognizerStateFailed;
+}
+
+ofxGenericGestureState iOSToofxGenericGestureState( UIGestureRecognizerState from )
+{
+    switch ( from )
+    {
+        case UIGestureRecognizerStateBegan:
+            return ofxGenericGestureStateBegin;
+        case UIGestureRecognizerStateChanged:
+            return ofxGenericGestureStateChanged;
+        case UIGestureRecognizerStateEnded:
+            return ofxGenericGestureStateEnded;
+        case UIGestureRecognizerStateCancelled:
+            return ofxGenericGestureStateCancelled;
+        case UIGestureRecognizerStateFailed:
+            return ofxGenericGestureStateFailed;
+        default:
+            return ofxGenericGestureStateFailed;
+    }
+    return ofxGenericGestureStateFailed;
+}
+
 ofPtr< ofImage > UIImageToofImage( UIImage* image )
 {
     ofPtr< ofImage > outImage( new ofImage() );

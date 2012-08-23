@@ -67,8 +67,12 @@ ofxGenericGestureTypeSwipe iOSToofxGenericGestureTypeSwipe( UISwipeGestureRecogn
 UIButtonType ofxGenericButtonTypeToiOS( ofxGenericButtonType from );
 ofxGenericButtonType iOSToofxGenericButtonType( UIButtonType from );
 
+UIGestureRecognizerState ofxGenericGestureStateToiOS( ofxGenericGestureState from );
+ofxGenericGestureState iOSToofxGenericGestureState( UIGestureRecognizerState from );
+
 ofPtr< ofImage > UIImageToofImage( UIImage* image );
 UIImage* OFImageToUIImage( ofImage& image ); // fix to use ofPtr?
 
 CGSize ofPointToCGSize( const ofPoint& size );
 ofPoint CGSizeToofPoint( CGSize size );
+

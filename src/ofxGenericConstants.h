@@ -153,3 +153,12 @@ enum ofxGenericAnimatedImageLoopType
     ofxGenericAnimatedImageLoopTypeClamp    = 2,    //after last frame, stops animating
     ofxGenericAnimatedImageLoopTypeOnce     = 3     //after last frame, plays first frame and stops animating
 };
+
+enum ofxGenericGestureState
+{
+    ofxGenericGestureStateBegin,
+    ofxGenericGestureStateChanged,
+    ofxGenericGestureStateEnded,
+    ofxGenericGestureStateCancelled,
+    ofxGenericGestureStateFailed
+};

@@ -910,9 +910,9 @@ void ofxGenericView::gesturePerformedHold( UILongPressGestureRecognizer* recogni
 
 void ofxGenericView::gesturePerformedPan( UIPanGestureRecognizer* recognizer )
 {
-//    CGPoint cgp = [recognizer locationInView:getNativeView()];
     CGPoint velocity = [ recognizer velocityInView:getNativeView() ];
-    gesturePerformedPan( [ recognizer numberOfTouches ], ofPoint( velocity.x, velocity.y ) );
+    CGPoint currentTouchLocation = [ recognizer locationInView:getNativeView() ];
+    gesturePerformedPan( iOSToofxGenericGestureState( [ recognizer state ] ), [ recognizer numberOfTouches ], ofPoint( currentTouchLocation.x, currentTouchLocation.y ), ofPoint( velocity.x, velocity.y ) );
 }
 
 #endif
@@ -941,11 +941,11 @@ void ofxGenericView::gesturePerformedHold( float minimumPressDuration, unsigned 
     }
 }
 
-void ofxGenericView::gesturePerformedPan( unsigned int fingerCount, ofPoint distance )
+void ofxGenericView::gesturePerformedPan( ofxGenericGestureState state, unsigned int fingerCount, const ofPoint& currentTouchLocation, const ofPoint& velocity )
 {
     if ( _viewDelegate )
     {
-        _viewDelegate.lock()->gesturePerformedPan( _this.lock(), fingerCount, distance );
+        _viewDelegate.lock()->gesturePerformedPan( _this.lock(), state, fingerCount, currentTouchLocation, velocity );
     }
 }
 
