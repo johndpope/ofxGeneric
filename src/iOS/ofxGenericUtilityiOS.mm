@@ -560,6 +560,16 @@ ofxGenericButtonType iOSToofxGenericButtonType( UIButtonType from )
     return ofxGenericButtonTypeCustom;
 }
 
+ofPtr< ofImage > UIImageToofImage( UIImage* image )
+{
+    ofPtr< ofImage > outImage( new ofImage() );
+    if ( ofxiPhoneUIImageToOFImage( image, *outImage ) )
+    {
+        return outImage;
+    }
+    return ofPtr< ofImage >();
+}
+
 UIImage* OFImageToUIImage( ofImage& image )
 {
 //    NSData* pixelData = [ NSData dataWithBytes:image.getPixels() length:image.width * image.height * image.bpp / 8 ];
@@ -580,7 +590,6 @@ CGSize ofPointToCGSize( const ofPoint& size )
 {
     return CGSizeMake( size.x, size.y );
 }
-
 
 ofPoint CGSizeToofPoint( CGSize size )
 {
