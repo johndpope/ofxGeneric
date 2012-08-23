@@ -560,6 +560,40 @@ ofxGenericButtonType iOSToofxGenericButtonType( UIButtonType from )
     return ofxGenericButtonTypeCustom;
 }
 
+UIDatePickerMode ofxGenericDatePickerModeToiOS( ofxGenericDatePickerMode from )
+{
+    switch( from )
+    {
+        case ofxGenericDatePickerModeTime:
+            return UIDatePickerModeTime;
+        case ofxGenericDatePickerModeDate:
+            return UIDatePickerModeDate;
+        case ofxGenericDatePickerModeDateAndTime:
+            return UIDatePickerModeDateAndTime;
+        case ofxGenericDatePickerModeCountDownTimer:
+            return UIDatePickerModeCountDownTimer;
+    }
+    
+    return UIDatePickerModeTime;
+}
+
+ofxGenericDatePickerMode iOSToofxGenericDatePickerMode( UIDatePickerMode from )
+{
+    switch( from )
+    {
+        case UIDatePickerModeTime:
+            return ofxGenericDatePickerModeTime;
+        case UIDatePickerModeDate:
+            return ofxGenericDatePickerModeDate;
+        case UIDatePickerModeDateAndTime:
+            return ofxGenericDatePickerModeDateAndTime;
+        case UIDatePickerModeCountDownTimer:
+            return ofxGenericDatePickerModeCountDownTimer;
+    }
+    
+    return ofxGenericDatePickerModeTime;
+}
+
 UIImage* OFImageToUIImage( ofImage& image )
 {
 //    NSData* pixelData = [ NSData dataWithBytes:image.getPixels() length:image.width * image.height * image.bpp / 8 ];

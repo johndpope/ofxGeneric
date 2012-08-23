@@ -61,6 +61,20 @@ ofPtr< ofxGenericDate > ofxGenericDate::create( string date, string format )
     return ofxGenericDate::create( time );
 }
 
+#if TARGET_OS_IPHONE
+ofPtr< ofxGenericDate > ofxGenericDate::createFromNSDate( NSDate* date )
+{
+    if( date )
+    {
+        ofPtr< ofxGenericDate > retval = ofxGenericDate::create();
+        retval->setFromNSDate( date );
+        return retval;
+    }
+
+    return ofPtr< ofxGenericDate >();
+}
+#endif
+
 double ofxGenericDate::getSystemTime()
 {
 #if TARGET_OS_IPHONE
@@ -188,3 +202,28 @@ string ofxGenericDate::getStringRepresentation( string format )
     
     return str;
 }
+
+#if TARGET_OS_IPHONE
+NSDate* ofxGenericDate::convertToNSDate()
+{
+    return [NSDate dateWithTimeIntervalSinceReferenceDate:_time];
+}
+
+void ofxGenericDate::setFromNSDate( NSDate* date )
+{
+    if( date )
+    {
+        _time = [date timeIntervalSinceReferenceDate];
+        
+        NSCalendar *calendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+        NSDateComponents *components = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit | NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit | NSWeekdayCalendarUnit) fromDate:date];
+        _year = [components year];
+        _month = [components month];
+        _date = [components day];
+        _day = [components weekday] - 1; //returns 1 - 7, where Sunday is 1
+        _hour = [components hour];
+        _minute = [components minute];
+        _second = [components second];
+    }
+}
+#endif
