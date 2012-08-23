@@ -70,4 +70,12 @@ ofxGenericButtonType iOSToofxGenericButtonType( UIButtonType from );
 UIDatePickerMode ofxGenericDateSelectorModeToiOS( ofxGenericDateSelectorMode from );
 ofxGenericDateSelectorMode iOSToofxGenericDateSelectorMode( UIDatePickerMode from );
 
-UIImage* OFImageToUIImage( ofImage& image );
+UIGestureRecognizerState ofxGenericGestureStateToiOS( ofxGenericGestureState from );
+ofxGenericGestureState iOSToofxGenericGestureState( UIGestureRecognizerState from );
+
+ofPtr< ofImage > UIImageToofImage( UIImage* image );
+UIImage* OFImageToUIImage( ofImage& image ); // fix to use ofPtr?
+
+CGSize ofPointToCGSize( const ofPoint& size );
+ofPoint CGSizeToofPoint( CGSize size );
+

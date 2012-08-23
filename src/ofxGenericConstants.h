@@ -160,3 +160,12 @@ enum ofxGenericDateSelectorMode
     ofxGenericDateSelectorModeDate,
     ofxGenericDateSelectorModeDateAndTime
 };
+
+enum ofxGenericGestureState
+{
+    ofxGenericGestureStateBegin,
+    ofxGenericGestureStateChanged,
+    ofxGenericGestureStateEnded,
+    ofxGenericGestureStateCancelled,
+    ofxGenericGestureStateFailed
+};

@@ -46,6 +46,9 @@ public:
     ofRectangle getFrame( const ofPoint& setTopLeft );
     virtual void setFrame( const ofRectangle& setFrame );
     
+    ofPoint getSize();
+    virtual void setSize( const ofPoint& setSize );
+    
     virtual ofColor getBackgroundColor();
     virtual void setBackgroundColor( const ofColor& setColor );
     
@@ -80,6 +83,15 @@ public:
     void setAutoresizingMask( int autoresizing );
     int getAutoresizingMask( );
     
+    void setDropShadowColor( const ofColor& color );
+    ofColor getDropShadowColor();
+    void setDropShadowOffset( const ofPoint& offset );
+    ofPoint getDropShadowOffset();
+    void setDropShadowAlpha( float alpha );
+    float getDropShadowAlpha();
+    void setDropShadowRadius( float radius );
+    float getDropShadowRadius();
+    
     void setNextResponder( ofPtrWeak< ofxGenericView > view );
     ofPtr< ofxGenericView > getNextResponder();
     
@@ -93,17 +105,11 @@ public:
     static void beginAnimation( string animationId, ofPtr< ofxGenericViewDelegate > delegate = ofPtr< ofxGenericViewDelegate >() );
     static void commitAnimation();
     
-//    + (void)setAnimationWillStartSelector:(SEL)selector;                // default = NULL. -animationWillStart:(NSString *)animationID context:(void *)context
-//    + (void)setAnimationDidStopSelector:(SEL)selector;                  // default = NULL. -animationDidStop:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context
     static void setAnimationDuration( double seconds = 0.2 );
     static void setAnimationDelay( double seconds = 0.0 );
     static void setAnimationCurve( ofxGenericViewAnimationCurve curve );
   
     static void setAnimationTransition( ofxGenericViewAnimationTransition transition, ofPtr< ofxGenericView > forView );
-//    + (void)setAnimationTransition:(UIViewAnimationTransition)transition forView:(UIView *)view cache:(BOOL)cache;  // current limitation - only one per begin/commit block
-    
-//    + (void)setAnimationsEnabled:(BOOL)enabled;                         // ignore any attribute changes while set.
-//    + (BOOL)areAnimationsEnabled;
 
     virtual void addGestureRecognizerSwipe( ofxGenericGestureTypeSwipe type );
     virtual void addGestureRecognizerTap( int tapCount, int fingerCount );
@@ -120,7 +126,7 @@ public:
     virtual void gesturePerformedSwipe( ofxGenericGestureTypeSwipe type, ofPoint location );
     virtual void gesturePerformedTap( int tapCount, int fingerCount, ofPoint location );
     virtual void gesturePerformedHold( float minimumPressDuration, unsigned int fingerCount, float allowableMovement, ofPoint location );
-    virtual void gesturePerformedPan( unsigned int fingerCount, ofPoint distance );
+    virtual void gesturePerformedPan( ofxGenericGestureState state, unsigned int fingerCount, const ofPoint& currentTouchLocation, const ofPoint& velocity );
 
     virtual string dumpViewGraph( int depth );
     virtual string toString();
@@ -200,7 +206,7 @@ public:
     virtual void gesturePerformedSwipe( ofPtr< ofxGenericView > view, ofxGenericGestureTypeSwipe type, ofPoint location ) {};
     virtual void gesturePerformedTap( ofPtr< ofxGenericView > view, int tapCount, int fingerCount, ofPoint location ) {};
     virtual void gesturePerformedHold( ofPtr< ofxGenericView > view, float minimumPressDuration, unsigned int fingerCount, float allowableMovement, ofPoint location ) {};
-    virtual void gesturePerformedPan( ofPtr< ofxGenericView > view, unsigned int fingerCount, ofPoint distance ) {};
+    virtual void gesturePerformedPan( ofPtr< ofxGenericView > view, ofxGenericGestureState state, unsigned int fingerCount, const ofPoint& currentTouchLocation, const ofPoint& velocity ) {};
     
     virtual void hitInView( ofPoint location ) {};
 };

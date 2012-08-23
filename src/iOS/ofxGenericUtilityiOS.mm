@@ -594,6 +594,54 @@ ofxGenericDateSelectorMode iOSToofxGenericDateSelectorMode( UIDatePickerMode fro
     return ofxGenericDateSelectorModeTime;
 }
 
+UIGestureRecognizerState ofxGenericGestureStateToiOS( ofxGenericGestureState from )
+{
+    switch ( from )
+    {
+        case ofxGenericGestureStateBegin:
+            return UIGestureRecognizerStateBegan;
+        case ofxGenericGestureStateChanged:
+            return UIGestureRecognizerStateChanged;
+        case ofxGenericGestureStateEnded:
+            return UIGestureRecognizerStateEnded;
+        case ofxGenericGestureStateCancelled:
+            return UIGestureRecognizerStateCancelled;
+        case ofxGenericGestureStateFailed:
+            return UIGestureRecognizerStateFailed;
+    }
+    return UIGestureRecognizerStateFailed;
+}
+
+ofxGenericGestureState iOSToofxGenericGestureState( UIGestureRecognizerState from )
+{
+    switch ( from )
+    {
+        case UIGestureRecognizerStateBegan:
+            return ofxGenericGestureStateBegin;
+        case UIGestureRecognizerStateChanged:
+            return ofxGenericGestureStateChanged;
+        case UIGestureRecognizerStateEnded:
+            return ofxGenericGestureStateEnded;
+        case UIGestureRecognizerStateCancelled:
+            return ofxGenericGestureStateCancelled;
+        case UIGestureRecognizerStateFailed:
+            return ofxGenericGestureStateFailed;
+        default:
+            return ofxGenericGestureStateFailed;
+    }
+    return ofxGenericGestureStateFailed;
+}
+
+ofPtr< ofImage > UIImageToofImage( UIImage* image )
+{
+    ofPtr< ofImage > outImage( new ofImage() );
+    if ( ofxiPhoneUIImageToOFImage( image, *outImage ) )
+    {
+        return outImage;
+    }
+    return ofPtr< ofImage >();
+}
+
 UIImage* OFImageToUIImage( ofImage& image )
 {
 //    NSData* pixelData = [ NSData dataWithBytes:image.getPixels() length:image.width * image.height * image.bpp / 8 ];
@@ -608,4 +656,14 @@ UIImage* OFImageToUIImage( ofImage& image )
     CGDataProviderRef provider = CGDataProviderCreateWithData( NULL, pixels, image.width * image.height * image.bpp / 8, NULL );
     CGImageRef imageRef = CGImageCreate( image.width, image.height, image.bpp / 4, image.bpp, image.width * image.bpp / 8, colorSpaceRef, bitmapInfo, provider, NULL, false, renderingIntent );
     return [ UIImage imageWithCGImage:imageRef ];
+}
+
+CGSize ofPointToCGSize( const ofPoint& size )
+{
+    return CGSizeMake( size.x, size.y );
+}
+
+ofPoint CGSizeToofPoint( CGSize size )
+{
+    return ofPoint( size.width, size.height );
 }

@@ -85,15 +85,15 @@ void ofxGenericHTTPResponse::init(
         }
     }
 
-    ofxGLogNotice( toString( false ) );
 #if DEBUG
     if ( isOk() )
     {
+        ofxGLogNotice( toString( false ) );
         ofxGLogVerbose( "\nBody:\n" + getBodyAsString() + "\n" );
     }
     else
     {
-        ofxGLogNotice( "\nBody:\n" + getBodyAsString() + "\n" );
+        ofxGLogWarning( toString( false ) + "\nBody:\n" + getBodyAsString() + "\n" );
     }
 #endif
 }

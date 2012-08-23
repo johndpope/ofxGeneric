@@ -226,6 +226,21 @@ void ofxGenericView::setFrame( const ofRectangle& setFrame )
 #endif
 }
 
+ofPoint ofxGenericView::getSize()
+{
+    ofRectangle frame = getFrame();
+    return ofPoint( frame.width, frame.height );
+}
+
+void ofxGenericView::setSize( const ofPoint& setSize )
+{
+    ofRectangle frame = getFrame();
+    frame.width = setSize.x;
+    frame.height = setSize.y;
+    setFrame( frame );
+}
+
+
 ofColor ofxGenericView::getBackgroundColor()
 {
 #if TARGET_OS_IPHONE
@@ -412,6 +427,13 @@ void ofxGenericView::removeFromParent()
 
 void ofxGenericView::removeChildViews()
 {
+    for( std::list< ofPtr< ofxGenericView > >::iterator remove = _children.begin(); remove != _children.end(); remove ++ )
+    {
+        if ( *remove )
+        {
+            removeChildView( *remove );
+        }
+    }
     _children.clear();
 }
 
@@ -502,6 +524,92 @@ int ofxGenericView::getAutoresizingMask( )
     }
 #endif
     return 0;
+}
+
+void ofxGenericView::setDropShadowColor( const ofColor& color )
+{
+#if TARGET_OS_IPHONE
+    if ( getNativeView() && getNativeView().layer )
+    {
+        [ getNativeView().layer setShadowColor:[ ofColorToUIColor( color ) CGColor ] ];
+    }
+#endif
+}
+
+ofColor ofxGenericView::getDropShadowColor()
+{
+#if TARGET_OS_IPHONE
+    if ( getNativeView() && getNativeView().layer )
+    {
+        UIColor* color = [ UIColor colorWithCGColor:getNativeView().layer.shadowColor ];
+        return UIColorToofColor( color );
+    }
+#endif
+    return ofColor();
+}
+
+void ofxGenericView::setDropShadowOffset( const ofPoint& offset )
+{
+#if TARGET_OS_IPHONE
+    if ( getNativeView() && getNativeView().layer )
+    {
+        [ getNativeView().layer setShadowOffset:ofPointToCGSize( offset ) ];
+    }
+#endif
+}
+
+ofPoint ofxGenericView::getDropShadowOffset()
+{
+#if TARGET_OS_IPHONE
+    if ( getNativeView() && getNativeView().layer )
+    {
+        return CGSizeToofPoint( getNativeView().layer.shadowOffset );
+    }
+#endif
+    return ofPoint();
+}
+
+void ofxGenericView::setDropShadowAlpha( float alpha )
+{
+#if TARGET_OS_IPHONE
+    if ( getNativeView() && getNativeView().layer )
+    {
+        [ getNativeView().layer setShadowOpacity:alpha ];
+    }
+#endif
+}
+
+float ofxGenericView::getDropShadowAlpha()
+{
+#if TARGET_OS_IPHONE
+    if ( getNativeView() && getNativeView().layer )
+    {
+        return getNativeView().layer.shadowOpacity;
+    }
+#endif
+    return 0.0f;
+}
+
+void ofxGenericView::setDropShadowRadius( float radius )
+{
+#if TARGET_OS_IPHONE
+    if ( getNativeView() && getNativeView().layer )
+    {
+        [ getNativeView().layer setShadowRadius:radius ];
+    }
+#endif
+}
+
+float ofxGenericView::getDropShadowRadius()
+{
+#if TARGET_OS_IPHONE
+    if ( getNativeView() && getNativeView().layer )
+    {
+        return getNativeView().layer.shadowRadius;
+    }
+#endif
+    return 0.0f;
+
 }
 
 void ofxGenericView::setNextResponder( ofPtrWeak< ofxGenericView > view )
@@ -802,9 +910,9 @@ void ofxGenericView::gesturePerformedHold( UILongPressGestureRecognizer* recogni
 
 void ofxGenericView::gesturePerformedPan( UIPanGestureRecognizer* recognizer )
 {
-//    CGPoint cgp = [recognizer locationInView:getNativeView()];
     CGPoint velocity = [ recognizer velocityInView:getNativeView() ];
-    gesturePerformedPan( [ recognizer numberOfTouches ], ofPoint( velocity.x, velocity.y ) );
+    CGPoint currentTouchLocation = [ recognizer locationInView:getNativeView() ];
+    gesturePerformedPan( iOSToofxGenericGestureState( [ recognizer state ] ), [ recognizer numberOfTouches ], ofPoint( currentTouchLocation.x, currentTouchLocation.y ), ofPoint( velocity.x, velocity.y ) );
 }
 
 #endif
@@ -833,11 +941,11 @@ void ofxGenericView::gesturePerformedHold( float minimumPressDuration, unsigned 
     }
 }
 
-void ofxGenericView::gesturePerformedPan( unsigned int fingerCount, ofPoint distance )
+void ofxGenericView::gesturePerformedPan( ofxGenericGestureState state, unsigned int fingerCount, const ofPoint& currentTouchLocation, const ofPoint& velocity )
 {
     if ( _viewDelegate )
     {
-        _viewDelegate.lock()->gesturePerformedPan( _this.lock(), fingerCount, distance );
+        _viewDelegate.lock()->gesturePerformedPan( _this.lock(), state, fingerCount, currentTouchLocation, velocity );
     }
 }
 
