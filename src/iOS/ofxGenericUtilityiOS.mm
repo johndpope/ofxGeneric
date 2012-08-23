@@ -570,8 +570,6 @@ UIDatePickerMode ofxGenericDateSelectorModeToiOS( ofxGenericDateSelectorMode fro
             return UIDatePickerModeDate;
         case ofxGenericDateSelectorModeDateAndTime:
             return UIDatePickerModeDateAndTime;
-        case ofxGenericDateSelectorModeCountDownTimer:
-            return UIDatePickerModeCountDownTimer;
     }
     
     return UIDatePickerModeTime;
@@ -587,8 +585,8 @@ ofxGenericDateSelectorMode iOSToofxGenericDateSelectorMode( UIDatePickerMode fro
             return ofxGenericDateSelectorModeDate;
         case UIDatePickerModeDateAndTime:
             return ofxGenericDateSelectorModeDateAndTime;
-        case UIDatePickerModeCountDownTimer:
-            return ofxGenericDateSelectorModeCountDownTimer;
+            
+        default: return ofxGenericDateSelectorModeTime;
     }
     
     return ofxGenericDateSelectorModeTime;
