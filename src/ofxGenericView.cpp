@@ -226,6 +226,21 @@ void ofxGenericView::setFrame( const ofRectangle& setFrame )
 #endif
 }
 
+ofPoint ofxGenericView::getSize()
+{
+    ofRectangle frame = getFrame();
+    return ofPoint( frame.width, frame.height );
+}
+
+void ofxGenericView::setSize( const ofPoint& setSize )
+{
+    ofRectangle frame = getFrame();
+    frame.width = setSize.x;
+    frame.height = setSize.y;
+    setFrame( frame );
+}
+
+
 ofColor ofxGenericView::getBackgroundColor()
 {
 #if TARGET_OS_IPHONE

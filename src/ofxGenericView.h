@@ -46,6 +46,9 @@ public:
     ofRectangle getFrame( const ofPoint& setTopLeft );
     virtual void setFrame( const ofRectangle& setFrame );
     
+    ofPoint getSize();
+    virtual void setSize( const ofPoint& setSize );
+    
     virtual ofColor getBackgroundColor();
     virtual void setBackgroundColor( const ofColor& setColor );
     
