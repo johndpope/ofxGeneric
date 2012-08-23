@@ -3,7 +3,7 @@
 OF_PATH = $(OFXGENERIC_PATH)../../libs/openFrameworks/
 
 //THIS HAS ALL THE HEADER AND LIBS FOR OF CORE
-#include "../../libs/openFrameworks/libs/openFrameworksCompiled/project/iphone/CoreOF.xcconfig"
+#include "../../libs/openFrameworks/libs/openFrameworksCompiled/project/ios/CoreOF.xcconfig"
 
 PRODUCT_NAME = $(TARGET_NAME)
 

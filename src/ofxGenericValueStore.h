@@ -14,6 +14,8 @@
 
 #include "ofxGenericMain.h"
 
+#include <map>
+
 class ofxGenericValueStore;
 
 namespace Json
