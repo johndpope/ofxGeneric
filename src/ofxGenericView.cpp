@@ -504,6 +504,92 @@ int ofxGenericView::getAutoresizingMask( )
     return 0;
 }
 
+void ofxGenericView::setDropShadowColor( const ofColor& color )
+{
+#if TARGET_OS_IPHONE
+    if ( getNativeView() && getNativeView().layer )
+    {
+        [ getNativeView().layer setShadowColor:[ ofColorToUIColor( color ) CGColor ] ];
+    }
+#endif
+}
+
+ofColor ofxGenericView::getDropShadowColor()
+{
+#if TARGET_OS_IPHONE
+    if ( getNativeView() && getNativeView().layer )
+    {
+        UIColor* color = [ UIColor colorWithCGColor:getNativeView().layer.shadowColor ];
+        return UIColorToofColor( color );
+    }
+#endif
+    return ofColor();
+}
+
+void ofxGenericView::setDropShadowOffset( const ofPoint& offset )
+{
+#if TARGET_OS_IPHONE
+    if ( getNativeView() && getNativeView().layer )
+    {
+        [ getNativeView().layer setShadowOffset:ofPointToCGSize( offset ) ];
+    }
+#endif
+}
+
+ofPoint ofxGenericView::getDropShadowOffset()
+{
+#if TARGET_OS_IPHONE
+    if ( getNativeView() && getNativeView().layer )
+    {
+        return CGSizeToofPoint( getNativeView().layer.shadowOffset );
+    }
+#endif
+    return ofPoint();
+}
+
+void ofxGenericView::setDropShadowAlpha( float alpha )
+{
+#if TARGET_OS_IPHONE
+    if ( getNativeView() && getNativeView().layer )
+    {
+        [ getNativeView().layer setShadowOpacity:alpha ];
+    }
+#endif
+}
+
+float ofxGenericView::getDropShadowAlpha()
+{
+#if TARGET_OS_IPHONE
+    if ( getNativeView() && getNativeView().layer )
+    {
+        return getNativeView().layer.shadowOpacity;
+    }
+#endif
+    return 0.0f;
+}
+
+void ofxGenericView::setDropShadowRadius( float radius )
+{
+#if TARGET_OS_IPHONE
+    if ( getNativeView() && getNativeView().layer )
+    {
+        [ getNativeView().layer setShadowRadius:radius ];
+    }
+#endif
+}
+
+float ofxGenericView::getDropShadowRadius()
+{
+#if TARGET_OS_IPHONE
+    if ( getNativeView() && getNativeView().layer )
+    {
+        return getNativeView().layer.shadowRadius;
+    }
+#endif
+    return 0.0f;
+
+}
+
 void ofxGenericView::setNextResponder( ofPtrWeak< ofxGenericView > view )
 {
     _nextResponder = view;

@@ -80,6 +80,15 @@ public:
     void setAutoresizingMask( int autoresizing );
     int getAutoresizingMask( );
     
+    void setDropShadowColor( const ofColor& color );
+    ofColor getDropShadowColor();
+    void setDropShadowOffset( const ofPoint& offset );
+    ofPoint getDropShadowOffset();
+    void setDropShadowAlpha( float alpha );
+    float getDropShadowAlpha();
+    void setDropShadowRadius( float radius );
+    float getDropShadowRadius();
+    
     void setNextResponder( ofPtrWeak< ofxGenericView > view );
     ofPtr< ofxGenericView > getNextResponder();
     
