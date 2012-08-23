@@ -68,3 +68,6 @@ UIButtonType ofxGenericButtonTypeToiOS( ofxGenericButtonType from );
 ofxGenericButtonType iOSToofxGenericButtonType( UIButtonType from );
 
 UIImage* OFImageToUIImage( ofImage& image );
+
+CGSize ofPointToCGSize( const ofPoint& size );
+ofPoint CGSizeToofPoint( CGSize size );
