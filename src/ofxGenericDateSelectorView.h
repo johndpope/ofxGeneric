@@ -18,11 +18,10 @@ class ofxGenericDate;
 class ofxGenericDateSelectorViewDelegate;
 
 
-
 class ofxGenericDateSelectorView : public ofxGenericView
 {
 public:
-    static ofPtr< ofxGenericDateSelectorView > create( const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ) );
+    static ofPtr< ofxGenericDateSelectorView > create( const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ), ofPtrWeak< ofxGenericDateSelectorViewDelegate > delegate = ofPtrWeak< ofxGenericDateSelectorViewDelegate >() );
     
     void setDelegate( ofPtrWeak< ofxGenericDateSelectorViewDelegate > delegate );
 
@@ -34,8 +33,9 @@ public:
     
     virtual void valueChanged();
     
+    virtual ~ofxGenericDateSelectorView();
 protected:
-    ofxGenericDateSelectorView() {};
+    ofxGenericDateSelectorView();
     
     virtual NativeView createNativeView( const ofRectangle& frame );
     
@@ -44,7 +44,6 @@ protected:
     ofxGenericDateSelectorViewForwarder* _forwarder;
 #endif
 };
-
 
 
 class ofxGenericDateSelectorViewDelegate

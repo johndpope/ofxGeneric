@@ -15,10 +15,10 @@
 @interface ofxGenericDateSelectorViewForwarder : NSObject
 {
 @private
-    ofxGenericDateSelectorView* _forwardTo;
+    ofPtrWeak< ofxGenericDateSelectorView > _forwardTo;
 }
 
--( void ) setForwardTo:( ofxGenericDateSelectorView* )setForwardTo;
+-( void ) setForwardTo:( ofPtrWeak< ofxGenericDateSelectorView > )setForwardTo;
 
 -( void ) valueChanged:( id )sender;
 
@@ -27,12 +27,29 @@
 
 
 
-ofPtr< ofxGenericDateSelectorView > ofxGenericDateSelectorView::create( const ofRectangle& setFrame )
+ofPtr< ofxGenericDateSelectorView > ofxGenericDateSelectorView::create( const ofRectangle& setFrame, ofPtrWeak< ofxGenericDateSelectorViewDelegate > delegate )
 {
-    ofPtr< ofxGenericDateSelectorView > create = ofPtr< ofxGenericDateSelectorView >( new ofxGenericDateSelectorView() );
+    ofPtr< ofxGenericDateSelectorView > create( new ofxGenericDateSelectorView() );
     create->init( create, setFrame );
+    create->setDelegate( delegate );
     return create;
 }
+
+ofxGenericDateSelectorView::ofxGenericDateSelectorView()
+{
+}
+
+ofxGenericDateSelectorView::~ofxGenericDateSelectorView()
+{
+#if TARGET_OS_IPHONE
+    if ( _forwarder )
+    {
+        [ _forwarder release ];
+        _forwarder = nil;
+    }
+#endif
+}
+
 
 NativeView ofxGenericDateSelectorView::createNativeView( const ofRectangle& frame )
 {
@@ -41,7 +58,7 @@ NativeView ofxGenericDateSelectorView::createNativeView( const ofRectangle& fram
     
     // TODO: Same as the button, doesn't match createUIView design
     _forwarder = [ [ ofxGenericDateSelectorViewForwarder alloc ] init ];
-    [ _forwarder setForwardTo:this ];
+    [ _forwarder setForwardTo:dynamic_pointer_cast< ofxGenericDateSelectorView >( _this ) ];
     
     [ newView addTarget:_forwarder action:@selector( valueChanged: ) forControlEvents: UIControlEventValueChanged ];
     
@@ -125,14 +142,17 @@ void ofxGenericDateSelectorView::valueChanged()
 #if TARGET_OS_IPHONE
 @implementation ofxGenericDateSelectorViewForwarder
 
--( void )setForwardTo:(ofxGenericDateSelectorView *)setForwardTo
+-( void )setForwardTo:( ofPtrWeak< ofxGenericDateSelectorView > )setForwardTo
 {
     _forwardTo = setForwardTo;
 }
 
 -( void ) valueChanged:( id )sender
 {
-    _forwardTo->valueChanged();
+    if ( _forwardTo )
+    {
+        _forwardTo.lock()->valueChanged();
+    }
 }
 
 @end
