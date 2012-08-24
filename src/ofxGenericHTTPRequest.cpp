@@ -172,7 +172,7 @@ void ofxGenericHTTPRequest::init(
 #endif
     
     setMethod( method );
-    setBody( body, bodyByteLength );
+    setBody( body, bodyByteLength, timeout );
     setTimeout( timeout );
 
     if ( _format == "xml" )
@@ -214,13 +214,15 @@ void ofxGenericHTTPRequest::setBody( string body )
     setBody( ( void* )body.c_str(), body.length() );
 }
 
-void ofxGenericHTTPRequest::setBody( void* body, unsigned int bodyByteLength )
+void ofxGenericHTTPRequest::setBody( void* body, unsigned int bodyByteLength, float timeout )
 {
 #if TARGET_OS_IPHONE
     NSData* bodyAsData = nil;
     if ( body && bodyByteLength > 0 )
     {
         bodyAsData = [ NSData dataWithBytes:body length:bodyByteLength ];
+        
+        _timeoutTimer = ofxGenericTimer::create( timeout, false, dynamic_pointer_cast< ofxGenericTimerDelegate >( _this ) );
     }
     [ _request setHTTPBody:bodyAsData ];
 #endif
@@ -283,6 +285,18 @@ void ofxGenericHTTPRequest::stop()
     [ _connection release ];
     _connection = nil;
 #endif
+}
+
+void ofxGenericHTTPRequest::timer_fired( ofPtr< ofxGenericTimer > timer )
+{
+    if( timer )
+    {
+        if( timer == _timeoutTimer )
+        {
+            string data = "{\"response\":{\"-success\":\"0\",\"login\":{\"errors\":{\"error\":\"Connection to server has timed out.\"}}}}";
+            finished( 408, MIMEType_json, "utf-8", (void*) data.c_str(), data.size(), "" );
+        }
+    }
 }
 
 string ofxGenericHTTPRequest::getUrl() const

@@ -10,6 +10,8 @@
 
 #include "ofxGenericMain.h"
 
+#include "ofxGenericTimer.h"
+
 class ofxGenericHTTPRequestDelegate;
 class ofxGenericHTTPResponse;
 #if TARGET_OS_IPHONE
@@ -20,7 +22,7 @@ class ofxGenericValueStore;
 
 #define ofxGenericHTTPRequestDefaultTimeout 20.0f
 
-class ofxGenericHTTPRequest
+class ofxGenericHTTPRequest : public ofxGenericTimerDelegate
 {
 public:
     static ofPtr< ofxGenericHTTPRequest > create(
@@ -51,7 +53,7 @@ public:
     string getBodyAsString() const;
     
     virtual void setBody( string body );
-    virtual void setBody( void* body, unsigned int bodyByteLength );
+    virtual void setBody( void* body, unsigned int bodyByteLength, float timeout = ofxGenericHTTPRequestDefaultTimeout );
     virtual void setHeaderField( string field, string value );
     virtual void setTimeout( float timeout );
 
@@ -130,6 +132,7 @@ protected:
     NSMutableURLRequest* _request;
     NSURLConnection* _connection;
     ofxGenericHTTPConnectionForwarder* _forwarder;
+    ofPtr< ofxGenericTimer > _timeoutTimer;
 #endif
     
     virtual ofPtr< ofxGenericHTTPResponse > createResponse(
@@ -145,6 +148,8 @@ protected:
     virtual void setMethod( string method );
     
     virtual void stop();
+    
+    void timer_fired( ofPtr< ofxGenericTimer > timer );
 };
 
 class ofxGenericHTTPRequestDelegate
