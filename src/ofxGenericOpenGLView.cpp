@@ -96,13 +96,13 @@ void ofxGenericOpenGLView::didLoad()
 void ofxGenericOpenGLView::willAppear()
 {
     ofxGenericView::willAppear();
-    ofAddListener( ofEvents.update, this, &ofxGenericOpenGLView::update );
+    ofAddListener( ofEvents().update, this, &ofxGenericOpenGLView::update );
 }
 
 void ofxGenericOpenGLView::didDisappear()
 {
     ofxGenericView::didDisappear();
-    ofRemoveListener( ofEvents.update, this, &ofxGenericOpenGLView::update );
+    ofRemoveListener( ofEvents().update, this, &ofxGenericOpenGLView::update );
 }
 
 void ofxGenericOpenGLView::update( ofEventArgs &args )

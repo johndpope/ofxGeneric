@@ -178,6 +178,11 @@ void SignalHandler( int signal );
     }
 }
 
+-( UIViewController* )glViewController
+{
+    return nil;
+}
+
 @end
 
 void HandleUncaughtException( NSException* nsException )
