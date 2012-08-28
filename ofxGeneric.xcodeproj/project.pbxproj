@@ -69,6 +69,16 @@
 		3CE94C8915E65CAE00E1BC73 /* libofxiPhone_iphoneos_Debug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CE94C7515E655F400E1BC73 /* libofxiPhone_iphoneos_Debug.a */; };
 		3CEBF17815890F9A008D2937 /* ofxGenericBarGraphView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CEBF17615890F9A008D2937 /* ofxGenericBarGraphView.cpp */; };
 		3CEBF17915890F9A008D2937 /* ofxGenericBarGraphView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CEBF17715890F9A008D2937 /* ofxGenericBarGraphView.h */; };
+		3CF2D29D15ED8C6E008A56AB /* UIDevice-Capabilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CF2D28B15ED8C6E008A56AB /* UIDevice-Capabilities.h */; };
+		3CF2D29E15ED8C6E008A56AB /* UIDevice-Capabilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CF2D28C15ED8C6E008A56AB /* UIDevice-Capabilities.m */; };
+		3CF2D29F15ED8C6E008A56AB /* UIDevice-Hardware.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CF2D28D15ED8C6E008A56AB /* UIDevice-Hardware.h */; };
+		3CF2D2A015ED8C6E008A56AB /* UIDevice-Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CF2D28E15ED8C6E008A56AB /* UIDevice-Hardware.m */; };
+		3CF2D2A115ED8C6E008A56AB /* UIDevice-IOKitExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CF2D28F15ED8C6E008A56AB /* UIDevice-IOKitExtensions.h */; };
+		3CF2D2A215ED8C6E008A56AB /* UIDevice-IOKitExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CF2D29015ED8C6E008A56AB /* UIDevice-IOKitExtensions.m */; };
+		3CF2D2A315ED8C6E008A56AB /* UIDevice-Orientation.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CF2D29115ED8C6E008A56AB /* UIDevice-Orientation.h */; };
+		3CF2D2A415ED8C6E008A56AB /* UIDevice-Orientation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CF2D29215ED8C6E008A56AB /* UIDevice-Orientation.m */; };
+		3CF2D2A515ED8C6E008A56AB /* UIDevice-Reachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CF2D29315ED8C6E008A56AB /* UIDevice-Reachability.h */; };
+		3CF2D2A615ED8C6E008A56AB /* UIDevice-Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CF2D29415ED8C6E008A56AB /* UIDevice-Reachability.m */; };
 		3CF50AB31582AD9D00D6F7DA /* ofxGenericValueStoreUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CF50AB21582AD9D00D6F7DA /* ofxGenericValueStoreUtility.cpp */; };
 		3CF590941506E6EA00963966 /* ofxGenericEditTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CF590931506E6EA00963966 /* ofxGenericEditTextView.h */; };
 		3CF590971506E78E00963966 /* ofxGenericEditTextView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CF590961506E78E00963966 /* ofxGenericEditTextView.cpp */; };
@@ -213,6 +223,18 @@
 		3CE4B90F157D414F0058CC70 /* ofxGenericFont.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericFont.cpp; sourceTree = "<group>"; };
 		3CEBF17615890F9A008D2937 /* ofxGenericBarGraphView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericBarGraphView.cpp; sourceTree = "<group>"; };
 		3CEBF17715890F9A008D2937 /* ofxGenericBarGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericBarGraphView.h; sourceTree = "<group>"; };
+		3CF2D27B15ED8C6E008A56AB /* Capabilities.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Capabilities.txt; sourceTree = "<group>"; };
+		3CF2D27C15ED8C6E008A56AB /* Capabilities.xlsx */ = {isa = PBXFileReference; lastKnownFileType = file; path = Capabilities.xlsx; sourceTree = "<group>"; };
+		3CF2D28B15ED8C6E008A56AB /* UIDevice-Capabilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice-Capabilities.h"; sourceTree = "<group>"; };
+		3CF2D28C15ED8C6E008A56AB /* UIDevice-Capabilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice-Capabilities.m"; sourceTree = "<group>"; };
+		3CF2D28D15ED8C6E008A56AB /* UIDevice-Hardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice-Hardware.h"; sourceTree = "<group>"; };
+		3CF2D28E15ED8C6E008A56AB /* UIDevice-Hardware.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice-Hardware.m"; sourceTree = "<group>"; };
+		3CF2D28F15ED8C6E008A56AB /* UIDevice-IOKitExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice-IOKitExtensions.h"; sourceTree = "<group>"; };
+		3CF2D29015ED8C6E008A56AB /* UIDevice-IOKitExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice-IOKitExtensions.m"; sourceTree = "<group>"; };
+		3CF2D29115ED8C6E008A56AB /* UIDevice-Orientation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice-Orientation.h"; sourceTree = "<group>"; };
+		3CF2D29215ED8C6E008A56AB /* UIDevice-Orientation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice-Orientation.m"; sourceTree = "<group>"; };
+		3CF2D29315ED8C6E008A56AB /* UIDevice-Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice-Reachability.h"; sourceTree = "<group>"; };
+		3CF2D29415ED8C6E008A56AB /* UIDevice-Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice-Reachability.m"; sourceTree = "<group>"; };
 		3CF50AB01582ACF700D6F7DA /* ofxGenericValueStoreUtility.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericValueStoreUtility.h; sourceTree = "<group>"; };
 		3CF50AB21582AD9D00D6F7DA /* ofxGenericValueStoreUtility.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericValueStoreUtility.cpp; sourceTree = "<group>"; };
 		3CF590931506E6EA00963966 /* ofxGenericEditTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericEditTextView.h; sourceTree = "<group>"; };
@@ -450,9 +472,29 @@
 		3CF2D27515ED8C35008A56AB /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				3CF2D27615ED8C6E008A56AB /* uidevice-extension */,
 				3C5336DC153F6A420046AFD8 /* OpenUDID */,
 			);
 			path = iOS;
+			sourceTree = "<group>";
+		};
+		3CF2D27615ED8C6E008A56AB /* uidevice-extension */ = {
+			isa = PBXGroup;
+			children = (
+				3CF2D27B15ED8C6E008A56AB /* Capabilities.txt */,
+				3CF2D27C15ED8C6E008A56AB /* Capabilities.xlsx */,
+				3CF2D28B15ED8C6E008A56AB /* UIDevice-Capabilities.h */,
+				3CF2D28C15ED8C6E008A56AB /* UIDevice-Capabilities.m */,
+				3CF2D28D15ED8C6E008A56AB /* UIDevice-Hardware.h */,
+				3CF2D28E15ED8C6E008A56AB /* UIDevice-Hardware.m */,
+				3CF2D28F15ED8C6E008A56AB /* UIDevice-IOKitExtensions.h */,
+				3CF2D29015ED8C6E008A56AB /* UIDevice-IOKitExtensions.m */,
+				3CF2D29115ED8C6E008A56AB /* UIDevice-Orientation.h */,
+				3CF2D29215ED8C6E008A56AB /* UIDevice-Orientation.m */,
+				3CF2D29315ED8C6E008A56AB /* UIDevice-Reachability.h */,
+				3CF2D29415ED8C6E008A56AB /* UIDevice-Reachability.m */,
+			);
+			path = "uidevice-extension";
 			sourceTree = "<group>";
 		};
 		453C813215192A39005ED622 /* ofxXmlSettings */ = {
@@ -613,6 +655,11 @@
 				3C3B1BAF15CF73F0002A671A /* ofxGenericOAuthGrantHTTPRequest.h in Headers */,
 				3C3B1BB115CF73F0002A671A /* ofxGenericOAuthHTTPRequest.h in Headers */,
 				B54787E415E5759000ACF70F /* ofxGenericDateSelectorView.h in Headers */,
+				3CF2D29D15ED8C6E008A56AB /* UIDevice-Capabilities.h in Headers */,
+				3CF2D29F15ED8C6E008A56AB /* UIDevice-Hardware.h in Headers */,
+				3CF2D2A115ED8C6E008A56AB /* UIDevice-IOKitExtensions.h in Headers */,
+				3CF2D2A315ED8C6E008A56AB /* UIDevice-Orientation.h in Headers */,
+				3CF2D2A515ED8C6E008A56AB /* UIDevice-Reachability.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -735,6 +782,11 @@
 				3C3B1BB015CF73F0002A671A /* ofxGenericOAuthHTTPRequest.cpp in Sources */,
 				3C4B96EE15DCCCF8003D0B8C /* ofxGenericTableViewCell.cpp in Sources */,
 				B54787E315E5759000ACF70F /* ofxGenericDateSelectorView.cpp in Sources */,
+				3CF2D29E15ED8C6E008A56AB /* UIDevice-Capabilities.m in Sources */,
+				3CF2D2A015ED8C6E008A56AB /* UIDevice-Hardware.m in Sources */,
+				3CF2D2A215ED8C6E008A56AB /* UIDevice-IOKitExtensions.m in Sources */,
+				3CF2D2A415ED8C6E008A56AB /* UIDevice-Orientation.m in Sources */,
+				3CF2D2A615ED8C6E008A56AB /* UIDevice-Reachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -4,3 +4,6 @@
 [submodule "libs/iOS/OpenUDID"]
 	path = libs/iOS/OpenUDID
 	url = git@github.com:lumoslabs/OpenUDID.git
+[submodule "libs/iOS/uidevice-extension"]
+	path = libs/iOS/uidevice-extension
+	url = git@github.com:lumoslabs/uidevice-extension.git
