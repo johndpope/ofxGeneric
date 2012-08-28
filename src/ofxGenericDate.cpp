@@ -10,6 +10,7 @@
 
 #include "ofxGenericDate.h"
 #include "ofUtils.h"
+#include "ofxGenericLocalization.h"
 
 #if TARGET_OS_IPHONE
 #include <QuartzCore/QuartzCore.h>
@@ -82,6 +83,28 @@ double ofxGenericDate::getSystemTime()
 #elif TARGET_ANDROID
     return 0.0;
 #endif
+}
+
+string  ofxGenericDate::getDayName(int day)
+{
+    switch (day)
+    {
+        case 0:
+            return ofxGLocalized("Sunday", "Sunday");
+        case 1:
+            return ofxGLocalized("Monday", "Monday");
+        case 2:
+            return ofxGLocalized("Tuesday", "Tuesday");
+        case 3:
+            return ofxGLocalized("Wednesday", "Wednesday");
+        case 4:
+            return ofxGLocalized("Thursday", "Thursday");
+        case 5:
+            return ofxGLocalized("Friday", "Friday");
+        case 6:
+            return ofxGLocalized("Saturday", "Saturday");
+    }
+    return "";
 }
 
 ofPtr< ofxGenericDate > ofxGenericDate::dateByAddingTime( double time )
