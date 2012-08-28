@@ -134,6 +134,7 @@ public:
     ofPtr< ofxGenericValueStore > operator[]( unsigned int index ) const;
 
     virtual void drop( int index );
+    virtual void dropAll();
     
     void setFileName( string fileName, bool fileInDocuments );
     
