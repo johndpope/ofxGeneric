@@ -32,7 +32,9 @@ public:
     
     virtual float getHeightForHeaderInSection( unsigned int section );
     virtual ofPtr< ofxGenericView > getHeaderForSection( unsigned int section );
-    
+
+    float getContentHeight();
+
     void setAutoresizeToFit( bool autoResizeToFit );
     
     virtual void setSeparatorColor( const ofColor& separatorColor );
@@ -68,6 +70,7 @@ public:
     virtual ofPtr< ofxGenericTableViewCell > internalGetCell( unsigned int section, unsigned int index );
     virtual float internalGetHeightForCell( unsigned int section, unsigned int index );
     virtual void internalSelectedRow( unsigned int section, unsigned int index );
+    virtual float internalGetContentHeight();
 
 protected:
     virtual NativeView createNativeView( const ofRectangle& frame );
@@ -80,7 +83,6 @@ protected:
     float _paddedSeparatorHeight;
     ofPtr< ofxGenericTableViewCell > _paddedSeparator;
     
-    float getContentHeight();
     virtual void resizeToFitContents();
     bool _autoResizeToFit;
     float _maximumHeight;

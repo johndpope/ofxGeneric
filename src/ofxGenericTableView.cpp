@@ -185,9 +185,23 @@ float ofxGenericTableView::getContentHeight()
     return height;
 }
 
+float ofxGenericTableView::internalGetContentHeight()
+{
+    float height = 0.0f;
+    for( unsigned int travSections = 0; travSections < getNumberOfSections(); travSections ++ )
+    {
+        height += getHeightForHeaderInSection( travSections );
+        for ( unsigned int travCells = 0; travCells < internalGetNumberOfCells( travSections ); travCells ++ )
+        {
+            height += internalGetHeightForCell( travSections, travCells );
+        }
+    }
+    return height;
+}
+
 void ofxGenericTableView::resizeToFitContents()
 {
-    float height = getContentHeight();
+    float height = internalGetContentHeight();
     if ( height > _maximumHeight )
     {
         height = _maximumHeight;
