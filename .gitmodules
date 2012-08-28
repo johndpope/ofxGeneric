@@ -1,6 +1,6 @@
 [submodule "libs/ofxJSON"]
 	path = libs/ofxJSON
 	url = git@github.com:lumoslabs/ofxJSON.git
-[submodule "libs/OpenUDID"]
-	path = libs/OpenUDID
+[submodule "libs/iOS/OpenUDID"]
+	path = libs/iOS/OpenUDID
 	url = git@github.com:lumoslabs/OpenUDID.git

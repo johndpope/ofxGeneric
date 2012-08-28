@@ -447,6 +447,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		3CF2D27515ED8C35008A56AB /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				3C5336DC153F6A420046AFD8 /* OpenUDID */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
 		453C813215192A39005ED622 /* ofxXmlSettings */ = {
 			isa = PBXGroup;
 			children = (
@@ -480,7 +488,7 @@
 		453E45B415365E1C00C66514 /* libs */ = {
 			isa = PBXGroup;
 			children = (
-				3C5336DC153F6A420046AFD8 /* OpenUDID */,
+				3CF2D27515ED8C35008A56AB /* iOS */,
 				453E45B515365E1C00C66514 /* ofxJSON */,
 			);
 			path = libs;
