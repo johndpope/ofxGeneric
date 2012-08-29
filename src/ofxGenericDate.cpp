@@ -62,6 +62,15 @@ ofPtr< ofxGenericDate > ofxGenericDate::create( string date, string format )
     return ofxGenericDate::create( time );
 }
 
+ofPtr< ofxGenericDate > ofxGenericDate::create( ofPtr< ofxGenericValueStore > date, string format )
+{
+    if ( date )
+    {
+        return create( date->asString(), format );
+    }
+    return ofPtr< ofxGenericDate >();
+}
+
 #if TARGET_OS_IPHONE
 ofPtr< ofxGenericDate > ofxGenericDate::createFromNSDate( NSDate* date )
 {
