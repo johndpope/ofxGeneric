@@ -34,6 +34,8 @@ public:
 #endif
     static double getSystemTime();
     
+    static string getDayName(int day);
+    
     virtual double getTime();
     
     ofPtr< ofxGenericDate > dateByAddingTime( double time );
