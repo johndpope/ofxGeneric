@@ -21,6 +21,8 @@
 #import <Foundation/Foundation.h>
 #endif
 
+class ofxGenericValueStore;
+
 //time is always in seconds
 class ofxGenericDate
 {
@@ -29,6 +31,7 @@ public:
     static ofPtr< ofxGenericDate > create();
     static ofPtr< ofxGenericDate > create( double time );
     static ofPtr< ofxGenericDate > create( string date, string format = ofxGenericDateFormatDateOnly );
+    static ofPtr< ofxGenericDate > create( ofPtr< ofxGenericValueStore > date, string format = ofxGenericDateFormatDateOnly );
 #if TARGET_OS_IPHONE       
     static ofPtr< ofxGenericDate > createFromNSDate( NSDate* date );
 #endif
@@ -87,3 +90,12 @@ protected:
     unsigned int _minute;
     unsigned int _second;
 };
+
+bool operator < ( ofPtr< ofxGenericDate > left, ofPtr< ofxGenericDate > right )
+{
+    if ( !left || !right )
+    {
+        return false;
+    }
+    return left->getTime() < right->getTime();
+}

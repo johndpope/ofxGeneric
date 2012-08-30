@@ -918,14 +918,6 @@ void ofxGenericValueStore::drop( int index )
     }
 }
 
-void ofxGenericValueStore::dropAll()
-{
-    if( asArray() )
-    {
-        ( *asArray() ).clear();
-    }
-}
-
 void ofxGenericValueStore::setFileName( string fileName, bool fileInDocuments )
 {
     _fileName = fileName;

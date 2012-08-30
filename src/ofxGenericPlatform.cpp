@@ -10,7 +10,7 @@
 #include "ofxGenericUtility.h"
 
 #if TARGET_OS_IPHONE
-#include "UIDevice+Model.h"
+#include "UIDevice-Hardware.h"
 #include "OpenUDID.h"
 #endif
 
@@ -38,7 +38,7 @@ string ofxGenericPlatform::deviceModel()
 string ofxGenericPlatform::deviceModelVersion()
 {
 #if TARGET_OS_IPHONE
-    return ofxNSStringToString( [ [ UIDevice currentDevice ] modelVersionPretty ] );
+    return ofxNSStringToString( [ [ UIDevice currentDevice ] platformString ] );
 #endif
 }
 

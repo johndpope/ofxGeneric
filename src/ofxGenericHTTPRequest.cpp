@@ -284,6 +284,12 @@ void ofxGenericHTTPRequest::stop()
 #if TARGET_OS_IPHONE
     [ _connection release ];
     _connection = nil;
+    
+    if( _timeoutTimer )
+    {
+        _timeoutTimer->stop();
+        _timeoutTimer = ofPtr< ofxGenericTimer >();
+    }
 #endif
 }
 
