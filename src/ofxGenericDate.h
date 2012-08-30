@@ -90,3 +90,12 @@ protected:
     unsigned int _minute;
     unsigned int _second;
 };
+
+bool operator < ( ofPtr< ofxGenericDate > left, ofPtr< ofxGenericDate > right )
+{
+    if ( !left || !right )
+    {
+        return false;
+    }
+    return left->getTime() < right->getTime();
+}
