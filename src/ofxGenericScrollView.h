@@ -10,9 +10,16 @@
 
 #include "ofxGenericView.h"
 
+class ofxGenericScrollViewDelegate;
+
+#if TARGET_OS_IPHONE
+@class ofxGenericScrollViewForwarder;
+#endif
+
 class ofxGenericScrollView : public ofxGenericView
 {
 public:
+    ~ofxGenericScrollView();
     static ofPtr< ofxGenericScrollView > create( const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ) );
     
     void setContentSize( const ofPoint& contentSize );
@@ -31,12 +38,28 @@ public:
     void scrollRectToVisible( const ofRectangle& rect, bool animated );
     
     ofPoint getContentSize();
+    ofPoint getContentOffset();
+    
+    void setDelegate( ofPtrWeak< ofxGenericScrollViewDelegate > delegate );
+    
+    void didScroll();
     
 #if TARGET_OS_IPHONE
     operator UIScrollView*();
+    ofxGenericScrollViewForwarder* _forwarder;
 #endif
     
 protected:
     ofxGenericScrollView();
     virtual NativeView createNativeView( const ofRectangle& frame );
+    
+    ofPtrWeak< ofxGenericScrollViewDelegate > _delegate;
+};
+
+class ofxGenericScrollViewDelegate
+{
+public:
+    ~ofxGenericScrollViewDelegate() {};
+    
+    void scrollView_didScroll( ofPtr< ofxGenericScrollView > scrollView ) {};
 };
