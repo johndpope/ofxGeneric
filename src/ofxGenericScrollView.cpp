@@ -9,8 +9,34 @@
 #include "ofxGenericScrollView.h"
 #include "ofxGenericUtility.h"
 
-ofxGenericScrollView::ofxGenericScrollView()
+#if TARGET_OS_IPHONE
+
+@interface ofxGenericScrollViewForwarder : NSObject <UIScrollViewDelegate>
 {
+    ofPtrWeak< ofxGenericScrollView > _delegate;
+}
+- ( id )initWithDelegate:( ofPtrWeak< ofxGenericScrollView > )delegate;
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView;
+//other UIScrollViewDelegate functions can be put in here if desired
+
+@end
+
+#endif
+
+ofxGenericScrollView::ofxGenericScrollView()
+: _forwarder ( nil )
+{
+}
+
+ofxGenericScrollView::~ofxGenericScrollView()
+{
+#if TARGET_OS_IPHONE
+    if ( _forwarder )
+    {
+        [ _forwarder release ];
+        _forwarder = nil;
+    }
+#endif
 }
 
 ofPtr< ofxGenericScrollView > ofxGenericScrollView::create( const ofRectangle& setFrame )
@@ -25,6 +51,8 @@ NativeView ofxGenericScrollView::createNativeView( const ofRectangle& frame )
 #if TARGET_OS_IPHONE
     UIScrollView* newView = [ [ UIScrollView alloc ] initWithFrame:ofRectangleToCGRect( frame ) ];
     [ newView setBackgroundColor:[ UIColor clearColor ] ];
+    _forwarder = [ [ ofxGenericScrollViewForwarder alloc ] initWithDelegate:dynamic_pointer_cast< ofxGenericScrollView >( _this ) ];
+    newView.delegate = _forwarder;
     return newView;
 #elif TARGET_ANDROID
     return ofxGenericView::createNativeView( frame );
@@ -53,6 +81,19 @@ void ofxGenericScrollView::setContentOffset( const ofPoint& contentOffset, bool 
     }
 #elif TARGET_ANDROID
 #endif    
+}
+
+ofPoint ofxGenericScrollView::getContentOffset()
+{
+#if TARGET_OS_IPHONE
+    UIScrollView* view = *this;
+    if ( view )
+    {
+        return ofPoint( view.contentOffset.x, view.contentOffset.y );
+    }
+#elif TARGET_ANDROID
+#endif
+    return ofPoint( 0, 0 );
 }
 
 void ofxGenericScrollView::setEnabled( bool enabled )
@@ -165,8 +206,43 @@ void ofxGenericScrollView::setAlwaysBouncesHorizontal( bool bounce )
 #endif
 }
 
+void ofxGenericScrollView::setDelegate( ofPtrWeak< ofxGenericScrollViewDelegate > delegate )
+{
+    _delegate = delegate;
+}
+
+void ofxGenericScrollView::didScroll()
+{
+    if ( _delegate )
+    {
+        _delegate.lock()->scrollView_didScroll( dynamic_pointer_cast< ofxGenericScrollView >( _this ) );
+    }
+}
+
 #if TARGET_OS_IPHONE
 
 ofxGenericUIViewCastOperator( ofxGenericScrollView, UIScrollView );
+
+@implementation ofxGenericScrollViewForwarder
+
+-( id )initWithDelegate:( ofPtrWeak< ofxGenericScrollView > )delegate
+{
+    self = [ super init ];
+    if ( self )
+    {
+        _delegate = delegate;
+    }
+    return self;
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if ( _delegate )
+    {
+        _delegate.lock()->didScroll();
+    }
+}
+
+@end
 
 #endif
