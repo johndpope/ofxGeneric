@@ -18,6 +18,20 @@
 
 #define SecondsInADay 86400.0
 
+const char* ofxGenericDate::getFormat( ofxGenericDate::DateFormat format )
+{
+    switch ( format )
+    {
+        case DateFormatFullFileSafe: return "yyyy-MM-dd HH-mm-ss";
+        case DateFormatFull: return "yyyy-MM-dd HH:mm:ss";
+        case DateFormatDateOnly: return "yyyy-MM-dd";
+        case DateFormatPretty: return "MMMM dd, YYYY";
+        case DateFormatServer: return "yyyy-MM-ddTHH:mm:ssZ";
+            
+        default: return "yyyy-MM-dd HH-mm-ss";
+    }
+}
+
 ofxGenericDate::~ofxGenericDate()
 {
     
@@ -43,26 +57,29 @@ ofPtr< ofxGenericDate > ofxGenericDate::create()
 ofPtr< ofxGenericDate > ofxGenericDate::create( double time )
 {
     ofPtr< ofxGenericDate > d = ofPtr< ofxGenericDate > ( new ofxGenericDate() );
-    d->init(d, time);
+    d->init( d, time );
     return d;
 }
 
-ofPtr< ofxGenericDate > ofxGenericDate::create( string date, string format )
+ofPtr< ofxGenericDate > ofxGenericDate::create( string date, ofxGenericDate::DateFormat format )
 {
+    const char* formatAsString = getFormat( format );
     
-#if TARGET_OS_IPHONE
-    NSDateFormatter *f = [[[NSDateFormatter alloc] init] autorelease];
-    [f setDateFormat:[NSString stringWithCString:format.c_str() encoding:NSUTF8StringEncoding]];
-    NSDate *d = [f dateFromString:[NSString stringWithCString:date.c_str() encoding:NSUTF8StringEncoding]];
-    double time = [d timeIntervalSinceReferenceDate];
-#elif TARGET_ANDROID
     double time = 0;
+
+#if TARGET_OS_IPHONE
+    NSDateFormatter* formatter = [[[NSDateFormatter alloc] init] autorelease];
+    [ formatter setDateFormat:[NSString stringWithCString:formatAsString encoding:NSUTF8StringEncoding]];
+    
+    NSDate* nsDate = [ formatter dateFromString:[NSString stringWithCString:date.c_str() encoding:NSUTF8StringEncoding ] ];
+    time = [ nsDate timeIntervalSinceReferenceDate ];
+#elif TARGET_ANDROID
 #endif
     
     return ofxGenericDate::create( time );
 }
 
-ofPtr< ofxGenericDate > ofxGenericDate::create( ofPtr< ofxGenericValueStore > date, string format )
+ofPtr< ofxGenericDate > ofxGenericDate::create( ofPtr< ofxGenericValueStore > date, ofxGenericDate::DateFormat format )
 {
     if ( date )
     {
@@ -209,11 +226,13 @@ void ofxGenericDate::init( ofPtrWeak< ofxGenericDate > setThis, double time )
     setFromSinceReferenceDate( time );
 }
 
-string ofxGenericDate::getStringRepresentation( string format )
+string ofxGenericDate::getStringRepresentation( ofxGenericDate::DateFormat format )
 {
+    const char* formatAsString = getFormat( format );
+    
 #if TARGET_OS_IPHONE
     NSDateFormatter *f = [[[NSDateFormatter alloc] init] autorelease];
-    [f setDateFormat:[NSString stringWithCString:format.c_str() encoding:NSUTF8StringEncoding]];
+    [f setDateFormat:[NSString stringWithCString:formatAsString encoding:NSUTF8StringEncoding]];
     string str = string([[f stringFromDate:[NSDate dateWithTimeIntervalSinceReferenceDate:_time]] cStringUsingEncoding:NSUTF8StringEncoding]);
 #elif TARGET_ANDROID
     string str = "";
@@ -243,8 +262,9 @@ void ofxGenericDate::setFromNSDate( NSDate* date )
     {
         _time = [date timeIntervalSinceReferenceDate];
         
-        NSCalendar *calendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
-        NSDateComponents *components = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit | NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit | NSWeekdayCalendarUnit) fromDate:date];
+        NSCalendar* calendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+        NSDateComponents* components = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit | NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit | NSWeekdayCalendarUnit) fromDate:date];
+        
         _year = [components year];
         _month = [components month];
         _date = [components day];

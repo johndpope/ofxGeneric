@@ -12,11 +12,6 @@
 
 #include "ofxGenericMain.h"
 
-#define ofxGenericDateFormatFullFileSafe "yyyy-MM-dd HH-mm-ss"
-#define ofxGenericDateFormatFull "yyyy-MM-dd HH:mm:ss"
-#define ofxGenericDateFormatDateOnly "yyyy-MM-dd"
-#define ofxGenericDateTimeFormatPretty "MMMM dd, YYYY"
-
 #if TARGET_OS_IPHONE
 #import <Foundation/Foundation.h>
 #endif
@@ -27,11 +22,26 @@ class ofxGenericValueStore;
 class ofxGenericDate
 {
 public:
+    
+    enum DateFormat
+    {
+        DateFormatFullFileSafe,
+        DateFormatFull,
+        DateFormatDateOnly,
+        DateFormatPretty,
+        DateFormatServer,
+        
+        DateFormatCount
+    };
+    
+    static const char* getFormat( ofxGenericDate::DateFormat format );
+    
+    
     virtual ~ofxGenericDate();
     static ofPtr< ofxGenericDate > create();
     static ofPtr< ofxGenericDate > create( double time );
-    static ofPtr< ofxGenericDate > create( string date, string format = ofxGenericDateFormatDateOnly );
-    static ofPtr< ofxGenericDate > create( ofPtr< ofxGenericValueStore > date, string format = ofxGenericDateFormatDateOnly );
+    static ofPtr< ofxGenericDate > create( string date, ofxGenericDate::DateFormat format = ofxGenericDate::DateFormatDateOnly );
+    static ofPtr< ofxGenericDate > create( ofPtr< ofxGenericValueStore > date, ofxGenericDate::DateFormat format = ofxGenericDate::DateFormatDateOnly );
 #if TARGET_OS_IPHONE       
     static ofPtr< ofxGenericDate > createFromNSDate( NSDate* date );
 #endif
@@ -66,7 +76,7 @@ public:
     
     virtual string getDescription();
     
-    virtual string getStringRepresentation( string format = ofxGenericDateFormatDateOnly );
+    virtual string getStringRepresentation( ofxGenericDate::DateFormat format = ofxGenericDate::DateFormatDateOnly );
     
     void setFromSinceReferenceDate( double time );
     
