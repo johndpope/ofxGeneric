@@ -59,7 +59,7 @@ protected:
 class ofxGenericScrollViewDelegate
 {
 public:
-    ~ofxGenericScrollViewDelegate() {};
+    virtual ~ofxGenericScrollViewDelegate() {};
     
-    void scrollView_didScroll( ofPtr< ofxGenericScrollView > scrollView ) {};
+    virtual void scrollView_didScroll( ofPtr< ofxGenericScrollView > scrollView ) {};
 };
