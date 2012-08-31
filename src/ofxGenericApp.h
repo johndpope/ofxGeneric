@@ -57,6 +57,9 @@ public:
     static void vibrate();
     
     static void saveImageToLibrary( ofImage& image );
+
+    bool hasNetworkConnection();
+    bool hasInternetConnection();
     
     virtual void setup();
 

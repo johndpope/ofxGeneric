@@ -379,6 +379,26 @@ void ofxGenericApp::saveImageToLibrary( ofImage& image )
 #endif
 }
 
+#if TARGET_OS_IPHONE
+#include "UIDevice-Reachability.h"
+#endif
+
+bool ofxGenericApp::hasNetworkConnection()
+{
+#if TARGET_OS_IPHONE
+    return [ [ UIDevice currentDevice ] networkAvailable ];
+#endif
+    return false;
+}
+
+bool ofxGenericApp::hasInternetConnection()
+{
+#if TARGET_OS_IPHONE
+    return [ [ UIDevice currentDevice ] hostAvailable:@"www.google.com" ];
+#endif
+    return false;
+}
+
 void ofxGenericApp::handleUncaughtException( ofxGenericException& exception )
 {
 }
