@@ -33,7 +33,7 @@ void ofxGenericTableViewCell::init( ofPtrWeak< ofxGenericTableViewCell > setThis
     _table = table;
     _section = section;
     _index = index;
-    ofxGenericView::init( setThis );
+    ofxGenericView::init( setThis, setBounds );
 }
 
 
@@ -152,7 +152,8 @@ NativeView ofxGenericTableViewCell::createNativeView( const ofRectangle& frame )
 {
 #if TARGET_OS_IPHONE
     UITableViewCell* nativeView = [ [ UITableViewCell alloc ] initWithFrame:ofRectangleToCGRect( frame ) ];
-    _contentView = ofxGenericView::create( CGRectToofRectangle( nativeView.contentView.frame ), nativeView.contentView );
+    [ nativeView setFrame:ofRectangleToCGRect( frame ) ];
+    _contentView = ofxGenericView::create( frame, nativeView.contentView );
     [ nativeView setSelectionStyle:UITableViewCellSelectionStyleNone ];
     
     return nativeView;

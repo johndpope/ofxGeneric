@@ -60,11 +60,11 @@
 		3C8349F215C301410044DED3 /* ofxGenericAnimatedImageView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C8349F115C301410044DED3 /* ofxGenericAnimatedImageView.cpp */; };
 		3C85FC60151149B7001F5854 /* ofxGenericScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C85FC5F151149B7001F5854 /* ofxGenericScrollView.h */; };
 		3C85FC6415114B1E001F5854 /* ofxGenericScrollView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C85FC6315114B1E001F5854 /* ofxGenericScrollView.cpp */; };
+		3C9DAB4215F36137000F04AD /* libofxiPhone_iphoneos_Debug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CE94C7515E655F400E1BC73 /* libofxiPhone_iphoneos_Debug.a */; };
 		3CA59B33153F4312008EE095 /* ofxGenericException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CA59B32153F4311008EE095 /* ofxGenericException.cpp */; };
 		3CB572AD1596512C0060F9BE /* ofxGenericSelectorView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CB572AC1596512C0060F9BE /* ofxGenericSelectorView.cpp */; };
 		3CC6222415AB930D009849CE /* ofxGenericUtilityiOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CC6222315AB930D009849CE /* ofxGenericUtilityiOS.h */; };
 		3CE4B910157D414F0058CC70 /* ofxGenericFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CE4B90F157D414F0058CC70 /* ofxGenericFont.cpp */; };
-		3CE94C8915E65CAE00E1BC73 /* libofxiPhone_iphoneos_Debug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CE94C7515E655F400E1BC73 /* libofxiPhone_iphoneos_Debug.a */; };
 		3CEBF17815890F9A008D2937 /* ofxGenericBarGraphView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CEBF17615890F9A008D2937 /* ofxGenericBarGraphView.cpp */; };
 		3CEBF17915890F9A008D2937 /* ofxGenericBarGraphView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CEBF17715890F9A008D2937 /* ofxGenericBarGraphView.h */; };
 		3CF2D29D15ED8C6E008A56AB /* UIDevice-Capabilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CF2D28B15ED8C6E008A56AB /* UIDevice-Capabilities.h */; };
@@ -275,7 +275,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3CE94C8915E65CAE00E1BC73 /* libofxiPhone_iphoneos_Debug.a in Frameworks */,
+				3C9DAB4215F36137000F04AD /* libofxiPhone_iphoneos_Debug.a in Frameworks */,
 				3C0B9FAC1571FB07009F61BE /* AVFoundation.framework in Frameworks */,
 				3C7B4DDE14FC78A1003121FE /* Foundation.framework in Frameworks */,
 			);
