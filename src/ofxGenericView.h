@@ -92,6 +92,11 @@ public:
     void setDropShadowRadius( float radius );
     float getDropShadowRadius();
     
+    void setBorderRadius( float radius );
+    float getBorderRadius();
+    void setBorderColor( const ofColor& color );
+    ofColor getBorderColor();
+    
     void setNextResponder( ofPtrWeak< ofxGenericView > view );
     ofPtr< ofxGenericView > getNextResponder();
     

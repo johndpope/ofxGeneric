@@ -609,7 +609,49 @@ float ofxGenericView::getDropShadowRadius()
     }
 #endif
     return 0.0f;
+}
 
+void ofxGenericView::setBorderRadius( float radius )
+{    
+#if TARGET_OS_IPHONE
+    if ( getNativeView() && getNativeView().layer )
+    {
+        [ getNativeView().layer setBorderWidth:radius ];
+    }
+#endif
+}
+
+float ofxGenericView::getBorderRadius()
+{
+#if TARGET_OS_IPHONE
+    if ( getNativeView() && getNativeView().layer )
+    {
+        return ( float )getNativeView().layer.borderWidth;
+    }
+#endif
+    return 0.0f;
+}
+
+void ofxGenericView::setBorderColor( const ofColor& color )
+{
+#if TARGET_OS_IPHONE
+    if ( getNativeView() && getNativeView().layer )
+    {
+        [ getNativeView().layer setBorderColor:[ ofColorToUIColor( color ) CGColor ] ];
+    }
+#endif
+}
+
+ofColor ofxGenericView::getBorderColor()
+{
+#if TARGET_OS_IPHONE
+    if ( getNativeView() && getNativeView().layer )
+    {
+        UIColor* color = [ UIColor colorWithCGColor:getNativeView().layer.borderColor ];
+        return UIColorToofColor( color );
+    }
+#endif
+    return ofColor();
 }
 
 void ofxGenericView::setNextResponder( ofPtrWeak< ofxGenericView > view )
