@@ -19,16 +19,20 @@ class ofxGenericTimer
 {
 public:
     static ofPtr< ofxGenericTimer > create( float timeInterval, bool repeats, ofPtrWeak< ofxGenericTimerDelegate > delegate );
-    virtual ~ofxGenericTimer();
     
     void fire();
     void stop();
     bool isRunning();
     
+    float getTimeInterval();
+    
+    virtual ~ofxGenericTimer();
 protected:
+    ofxGenericTimer();
     virtual void init( ofPtrWeak< ofxGenericTimer > setThis, float timeInterval, bool repeats, ofPtrWeak< ofxGenericTimerDelegate > delegate );
     ofPtrWeak< ofxGenericTimer > _this;
     
+    float _timeInterval;
     bool _repeats;
     
 #if TARGET_OS_IPHONE

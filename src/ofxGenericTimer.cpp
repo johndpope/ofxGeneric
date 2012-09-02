@@ -29,6 +29,11 @@ ofPtr< ofxGenericTimer > ofxGenericTimer::create( float timeInterval, bool repea
     return create;
 }
 
+ofxGenericTimer::ofxGenericTimer()
+: _timeInterval( 0.0f )
+{
+}
+
 ofxGenericTimer::~ofxGenericTimer()
 {
 #if TARGET_OS_IPHONE
@@ -42,6 +47,7 @@ void ofxGenericTimer::init( ofPtrWeak< ofxGenericTimer > setThis, float timeInte
     _this = setThis;
     _repeats = repeats;
     _delegate = delegate;
+    _timeInterval = timeInterval;
     
 #if TARGET_OS_IPHONE
     _forwarder = [ [ ofxGenericTimerForwarder alloc ] initWithForwardTo:_this ];
@@ -76,6 +82,11 @@ bool ofxGenericTimer::isRunning()
     }
 #endif
     return false;
+}
+
+float ofxGenericTimer::getTimeInterval()
+{
+    return _timeInterval;
 }
 
 #if TARGET_OS_IPHONE
