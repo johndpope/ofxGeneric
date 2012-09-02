@@ -53,7 +53,7 @@ public:
     string getBodyAsString() const;
     
     virtual void setBody( string body );
-    virtual void setBody( void* body, unsigned int bodyByteLength, float timeout = ofxGenericHTTPRequestDefaultTimeout );
+    virtual void setBody( void* body, unsigned int bodyByteLength );
     virtual void setHeaderField( string field, string value );
     virtual void setTimeout( float timeout );
 

@@ -172,7 +172,7 @@ void ofxGenericHTTPRequest::init(
 #endif
     
     setMethod( method );
-    setBody( body, bodyByteLength, timeout );
+    setBody( body, bodyByteLength );
     setTimeout( timeout );
 
     if ( _format == "xml" )
@@ -214,15 +214,13 @@ void ofxGenericHTTPRequest::setBody( string body )
     setBody( ( void* )body.c_str(), body.length() );
 }
 
-void ofxGenericHTTPRequest::setBody( void* body, unsigned int bodyByteLength, float timeout )
+void ofxGenericHTTPRequest::setBody( void* body, unsigned int bodyByteLength )
 {
 #if TARGET_OS_IPHONE
     NSData* bodyAsData = nil;
     if ( body && bodyByteLength > 0 )
     {
         bodyAsData = [ NSData dataWithBytes:body length:bodyByteLength ];
-        
-        _timeoutTimer = ofxGenericTimer::create( timeout, false, dynamic_pointer_cast< ofxGenericTimerDelegate >( _this ) );
     }
     [ _request setHTTPBody:bodyAsData ];
 #endif
@@ -236,7 +234,8 @@ void ofxGenericHTTPRequest::setHeaderField( string field, string value )
 }
 
 void ofxGenericHTTPRequest::setTimeout( float timeout )
-{
+{    
+    _timeoutTimer = ofxGenericTimer::create( timeout, false, dynamic_pointer_cast< ofxGenericTimerDelegate >( _this ) );
 #if TARGET_OS_IPHONE
     [ _request setTimeoutInterval:( NSTimeInterval )timeout ];
 #endif
@@ -321,6 +320,10 @@ string ofxGenericHTTPRequest::getMethod() const
 
 float ofxGenericHTTPRequest::getTimeout() const
 {
+    if ( _timeoutTimer )
+    {
+        return _timeoutTimer->getTimeInterval();
+    }
 #if TARGET_OS_IPHONE
     return ( float )[ _request timeoutInterval ];
 #endif
