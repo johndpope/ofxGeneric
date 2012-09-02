@@ -28,31 +28,17 @@ ofPtr < ofxGenericDrawableView > ofxGenericDrawableView::create( const ofRectang
 
 void ofxGenericDrawableView::setLineWidth(float w)
 {
-    _drawCalls.push_back( ofxGenericDrawCall( w ) );
-/*#if TARGET_OS_IPHONE
-    CGContextSetLineWidth(UIGraphicsGetCurrentContext(), w);
-#endif*/
-    
+    _drawCalls.push_back( ofxGenericDrawCall( w ) );    
 }
 
 void ofxGenericDrawableView::setStrokeColor( const ofColor &c )
 {
     _drawCalls.push_back( ofxGenericDrawCall( c ) );
-/*#if TARGET_OS_IPHONE
-    CGContextSetStrokeColorWithColor(UIGraphicsGetCurrentContext(), [UIColor colorWithRed:c.r green:c.g blue:c.b alpha:c.a].CGColor);
-#endif    */
 }
 
 void ofxGenericDrawableView::drawLine( const ofPoint &p1, const ofPoint &p2 )
 {
     _drawCalls.push_back( ofxGenericDrawCall( p1, p2 ) );
-/*#if TARGET_OS_IPHONE
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextBeginPath(context);
-    CGContextMoveToPoint(context, p1.x, p1.y);
-    CGContextAddLineToPoint(context, p2.x, p2.y);
-    CGContextStrokePath(context);
-#endif    */
 }
 
 void ofxGenericDrawableView::drawLines( std::vector< ofPoint > points )
@@ -61,23 +47,6 @@ void ofxGenericDrawableView::drawLines( std::vector< ofPoint > points )
     {
         _drawCalls.push_back( ofxGenericDrawCall( points[0].x, points[1].y ) );
     }
-    
-/*#if TARGET_OS_IPHONE
-    if (points.size() > 0)
-    {
-        CGContextRef context = UIGraphicsGetCurrentContext();
-        CGContextBeginPath(context);
-        CGContextMoveToPoint(context, points[0].x, points[1].y);
-        
-        for (int i = 0; i < (int) points.size(); i++)
-        {
-            CGContextAddLineToPoint(context, points[i].x, points[i].y);
-        }
-        
-        CGContextStrokePath(context);
-    }
-#endif  */
-    
 }
 
 #if TARGET_OS_IPHONE
