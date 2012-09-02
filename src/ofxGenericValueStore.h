@@ -163,6 +163,7 @@ public:
 protected:
     ofxGenericValueStore();
     virtual void init( ofPtrWeak< ofxGenericValueStore > setThis, Type type );
+    virtual void init( ofPtrWeak< ofxGenericValueStore > setThis, ofPtr< ofxGenericValueStore > from );
     ofPtrWeak< ofxGenericValueStore > _this;
     
     Type _type;
