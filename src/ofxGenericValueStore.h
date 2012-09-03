@@ -56,6 +56,7 @@ public:
     static ofPtr< ofxGenericValueStore > createWithValue( const char* value );
     static ofPtr< ofxGenericValueStore > createWithValue( ofPtr< ofxGenericValueStore > value );
 
+    static ofPtr< ofxGenericValueStore > createFrom( ofxGenericMIMEType mimeType, string content );
     static ofPtr< ofxGenericValueStore > createFromJSON( string JSON );
     static ofPtr< ofxGenericValueStore > createFromXML( string xml );
     static ofPtr< ofxGenericValueStore > createFromXML( TiXmlDocument& xml );
@@ -92,6 +93,7 @@ public:
     int asInt( int defaultValue = 0 ) const;
     bool asBool( bool defaultValue = false ) const;
     string asString( string defaultValue = string() ) const;
+    string asString( ofxGenericMIMEType mimeType ) const;
 
     bool operator==( ofPtr< ofxGenericValueStore > compare ) const;
 

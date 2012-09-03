@@ -94,6 +94,22 @@ ofPtr< ofxGenericValueStore > ofxGenericValueStore::createWithValue( ofPtr< ofxG
     return ofPtr< ofxGenericValueStore >();
 }
 
+ofPtr< ofxGenericValueStore > ofxGenericValueStore::createFrom( ofxGenericMIMEType mimeType, string content )
+{
+    ofPtr< ofxGenericValueStore > result;
+    switch( mimeType )
+    {
+        case ofxGenericMIMETypeJSON:
+            result = createFromJSON( content );
+            break;
+        case ofxGenericMIMETypeXML:
+            result = createFromXML( content );
+            break;
+        case ofxGenericMIMETypeUnknown:
+            break;
+    }
+    return result;
+}
 
 ofPtr< ofxGenericValueStore > ofxGenericValueStore::createFromJSON( string JSON )
 {
@@ -487,6 +503,23 @@ string ofxGenericValueStore::asString( string defaultValue ) const
         return "array";
     }
     return defaultValue;
+}
+
+string ofxGenericValueStore::asString( ofxGenericMIMEType mimeType ) const
+{
+    string result;
+    switch( mimeType )
+    {
+        case ofxGenericMIMETypeJSON:
+            result = toJSONString();
+            break;
+            //        case ofxGenericMIMETypeXML:
+            //            result = toXMLString();
+            //            break;
+        default:
+            result = "";
+    }
+    return result;
 }
 
 ofxGenericValueStoreObject* ofxGenericValueStore::asObject() const
