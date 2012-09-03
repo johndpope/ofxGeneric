@@ -20,7 +20,7 @@ void ofxGenericOAuthGrantHTTPRequest::init(
                   string method,
                   ofPtr< ofxGenericOAuthToken > token,
                   string grantType,
-                  string format,
+                  ofxGenericMIMEType format,
                   ofPtr< ofxGenericValueStore > body,
                   ofPtr< ofxGenericHTTPRequestDelegate > delegate,
                   float timeout,

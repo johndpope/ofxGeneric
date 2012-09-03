@@ -10,6 +10,7 @@
 
 #include "ofxGenericMain.h"
 
+#include "ofxGenericConstants.h"
 #include "ofxGenericTimer.h"
 
 class ofxGenericHTTPRequestDelegate;
@@ -28,7 +29,7 @@ public:
     static ofPtr< ofxGenericHTTPRequest > create(
                                                  string url,
                                                  string method,
-                                                 string format,
+                                                 ofxGenericMIMEType format,
                                                  string body,
                                                  ofPtr< ofxGenericHTTPRequestDelegate > delegate = ofPtr< ofxGenericHTTPRequestDelegate >(),
                                                  float timeout = ofxGenericHTTPRequestDefaultTimeout
@@ -37,7 +38,7 @@ public:
     static ofPtr< ofxGenericHTTPRequest > create(
                                                  string url,
                                                  string method,
-                                                 string format,
+                                                 ofxGenericMIMEType format,
                                                  void* body = 0,
                                                  unsigned int bodyByteLength = 0,
                                                  ofPtr< ofxGenericHTTPRequestDelegate > delegate = ofPtr< ofxGenericHTTPRequestDelegate >(),
@@ -94,7 +95,7 @@ protected:
                       ofPtrWeak< ofxGenericHTTPRequest > setThis,
                       string url,
                       string method,
-                      string format,
+                      ofxGenericMIMEType format,
                       ofPtr< ofxGenericValueStore > body,
                       ofPtrWeak< ofxGenericHTTPRequestDelegate > delegate,
                       float timeout
@@ -104,7 +105,7 @@ protected:
                       ofPtrWeak< ofxGenericHTTPRequest > setThis,
                       string url,
                       string method,
-                      string format,
+                      ofxGenericMIMEType format,
                       string body,
                       ofPtrWeak< ofxGenericHTTPRequestDelegate > delegate,
                       float timeout
@@ -114,7 +115,7 @@ protected:
                       ofPtrWeak< ofxGenericHTTPRequest > setThis,
                       string url,
                       string method,
-                      string format,
+                      ofxGenericMIMEType format,
                       void* body,
                       unsigned int bodyByteLength,
                       ofPtrWeak< ofxGenericHTTPRequestDelegate > delegate,
@@ -126,7 +127,7 @@ protected:
     
     ofPtrWeak< ofxGenericHTTPRequestDelegate > _delegate;
     
-    string _format;
+    ofxGenericMIMEType _format;
     
 #if TARGET_OS_IPHONE
     NSMutableURLRequest* _request;

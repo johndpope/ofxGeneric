@@ -25,7 +25,7 @@ protected:
                       string method,
                       ofPtr< ofxGenericOAuthToken > token,
                       string grantType,
-                      string format,
+                      ofxGenericMIMEType format,
                       ofPtr< ofxGenericValueStore > body,
                       ofPtr< ofxGenericHTTPRequestDelegate > delegate = ofPtr< ofxGenericHTTPRequestDelegate >(),
                       float timeout = ofxGenericHTTPRequestDefaultTimeout,

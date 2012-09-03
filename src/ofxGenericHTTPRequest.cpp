@@ -36,7 +36,7 @@
 ofPtr< ofxGenericHTTPRequest > ofxGenericHTTPRequest::create(
                                                              string url,
                                                              string method,
-                                                             string format,
+                                                             ofxGenericMIMEType format,
                                                              string body,
                                                              ofPtr< ofxGenericHTTPRequestDelegate > delegate,
                                                              float timeout
@@ -50,7 +50,7 @@ ofPtr< ofxGenericHTTPRequest > ofxGenericHTTPRequest::create(
 ofPtr< ofxGenericHTTPRequest > ofxGenericHTTPRequest::create(
                                                              string url,
                                                              string method,
-                                                             string format,
+                                                             ofxGenericMIMEType format,
                                                              void* body,
                                                              unsigned int bodyByteLength,
                                                              ofPtr< ofxGenericHTTPRequestDelegate > delegate,
@@ -83,7 +83,7 @@ void ofxGenericHTTPRequest::init(
                                  ofPtrWeak< ofxGenericHTTPRequest > setThis,
                                  string url,
                                  string method,
-                                 string format,
+                                 ofxGenericMIMEType format,
                                  ofPtr< ofxGenericValueStore > body,
                                  ofPtrWeak< ofxGenericHTTPRequestDelegate > delegate,
                                  float timeout
@@ -93,14 +93,7 @@ void ofxGenericHTTPRequest::init(
     
     if ( body )
     {
-        if ( format == "json" )
-        {
-            bodyAsString = body->toJSONString();
-        } else if ( format == "xml" )
-        {
-// TODO:
-//            bodyAsString = body->toXMLString();
-        }
+        bodyAsString = body->asString( format );
     }
     
     ofxGenericHTTPRequest::init(
@@ -118,7 +111,7 @@ void ofxGenericHTTPRequest::init(
                                  ofPtrWeak< ofxGenericHTTPRequest > setThis,
                                  string url,
                                  string method,
-                                 string format,
+                                 ofxGenericMIMEType format,
                                  string body,
                                  ofPtrWeak< ofxGenericHTTPRequestDelegate > delegate,
                                  float timeout
@@ -140,7 +133,7 @@ void ofxGenericHTTPRequest::init(
                                  ofPtrWeak< ofxGenericHTTPRequest > setThis,
                                  string url,
                                  string method,
-                                 string format,
+                                 ofxGenericMIMEType format,
                                  void* body,
                                  unsigned int bodyByteLength,
                                  ofPtrWeak< ofxGenericHTTPRequestDelegate > delegate,
@@ -152,15 +145,8 @@ void ofxGenericHTTPRequest::init(
     _delegate = delegate;
     
     _format = format;
-    std::transform( _format.begin(), _format.end(), _format.begin(), ::tolower );    
     string urlWithFormat = url;
-    if ( _format == "xml" )
-    {
-        urlWithFormat += ".xml";
-    } else if ( _format == "json" )
-    {
-        urlWithFormat += ".json";
-    }
+    urlWithFormat += "." + ofxGMIMETypeToExtension( _format );
 
 #if TARGET_OS_IPHONE
     // TODO: allow caching specification
@@ -175,15 +161,8 @@ void ofxGenericHTTPRequest::init(
     setBody( body, bodyByteLength );
     setTimeout( timeout );
 
-    if ( _format == "xml" )
-    {
-        setContentTypeHeader( "application/xml" );
-        setAcceptHeader( "application/xml" );
-    } else if ( _format == "json" )
-    {
-        setContentTypeHeader( "application/json" );
-        setAcceptHeader( "application/json" );
-    }
+    setContentTypeHeader( ofxGMIMETypeToString( _format ) );
+    setAcceptHeader( ofxGMIMETypeToString( _format ) );
 }
 
 ofxGenericHTTPRequest::~ofxGenericHTTPRequest()
