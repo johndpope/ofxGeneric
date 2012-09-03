@@ -10,7 +10,6 @@
 
 #include "ofxGenericHTTPRequest.h"
 
-#include "ofxGenericHTTPResponse.h"
 #include "ofxGenericUtility.h"
 
 #include "ofxGenericValueStore.h"
@@ -74,8 +73,9 @@ ofPtr< ofxGenericHTTPRequest > ofxGenericHTTPRequest::create(
 ofxGenericHTTPRequest::ofxGenericHTTPRequest()
 :
 #if TARGET_OS_IPHONE
- _connection( nil ), _forwarder( nil ), _request( nil )
+ _connection( nil ), _forwarder( nil ), _request( nil ),
 #endif
+ _responseStatusCode( -1 ), _responseBody( NULL ), _responseBodyByteLength( 0 )
 {
 }
 
@@ -174,6 +174,7 @@ ofxGenericHTTPRequest::~ofxGenericHTTPRequest()
     [ _request release ];
     _request = nil;
 #endif
+    destroyResponseBody();
 }
 
 void ofxGenericHTTPRequest::setDelegate( ofPtr< ofxGenericHTTPRequestDelegate > delegate )
@@ -271,14 +272,25 @@ void ofxGenericHTTPRequest::stop()
 #endif
 }
 
+
+#define ErrorCacheKey "error"
+#define ErrorDescriptionCacheKey "error_description"
+#define ErrorRecoverySuggestionsCacheKey "error_recovery"
+
 void ofxGenericHTTPRequest::timer_fired( ofPtr< ofxGenericTimer > timer )
 {
     if( timer )
     {
         if( timer == _timeoutTimer )
         {
-            string data = "{\"response\":{\"-success\":\"0\",\"login\":{\"errors\":{\"error\":\"Connection to server has timed out.\"}}}}";
-            finished( 408, MIMEType_json, "utf-8", (void*) data.c_str(), data.size(), "" );
+            ofPtr< ofxGenericValueStore > body = ofxGenericHTTPRequest::createErrorBody( "Connection to server has timed out." );
+            finished(
+                     408,
+                     ofxGMIMETypeToString( ofxGenericMIMETypeJSON ),
+                     "utf-8",
+                     body,
+                     ""
+                     );
         }
     }
 }
@@ -345,32 +357,102 @@ string ofxGenericHTTPRequest::toString( bool includebody ) const
     return result;
 }
 
-ofPtr< ofxGenericHTTPResponse > ofxGenericHTTPRequest::createResponse(
-                                                                      int statusCode,
-                                                                      string MIMEType,
-                                                                      string textEncoding,
-                                                                      void* body,
-                                                                      unsigned int bodyByteLength,
-                                                                      string suggestedFileName
-                                                                      )
+string ofxGenericHTTPRequest::getWithPercentEscapes( string unencoded )
 {
-    return ofxGenericHTTPResponse::create(
-                                          statusCode,
-                                          MIMEType,
-                                          textEncoding,
-                                          body,
-                                          bodyByteLength,
-                                          suggestedFileName );
+#if TARGET_OS_IPHONE
+    NSString* encoded = [ ofxStringToNSString( unencoded ) stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ];
+    return ofxNSStringToString( encoded );
+#endif
 }
 
-void ofxGenericHTTPRequest::finished( int statusCode, string MIMEType, string textEncoding, void* data, unsigned int dataByteLength, string suggestedFileName )
+string ofxGenericHTTPRequest::getFromPercentEscapes( string encoded )
 {
-    _lastResponse = createResponse( statusCode, MIMEType, textEncoding, data, dataByteLength, suggestedFileName );
-    
+#if TARGET_OS_IPHONE
+    NSString* unencoded = [ ofxStringToNSString( encoded ) stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding ];
+    return ofxNSStringToString( unencoded );
+#endif
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// Response
+
+void ofxGenericHTTPRequest::finished(
+              int statusCode,
+              string stringMIMEType,
+              string textEncoding,
+              ofPtr< ofxGenericValueStore > body,
+              string suggestedFileName
+              )
+{
+    finished(
+             statusCode,
+             stringMIMEType,
+             textEncoding,
+             body->asString( ofxGStringToMIMEType( stringMIMEType ) ),
+             suggestedFileName
+             );
+}
+
+void ofxGenericHTTPRequest::finished(
+              int statusCode,
+              string stringMIMEType,
+              string textEncoding,
+              string body,
+              string suggestedFileName
+              )
+{
+    finished(
+             statusCode,
+             stringMIMEType,
+             textEncoding,
+             ( void* )body.c_str(),
+             body.length(),
+             suggestedFileName
+        );
+}
+
+
+void ofxGenericHTTPRequest::finished(
+                                     int statusCode,
+                                     string stringMIMEType,
+                                     string textEncoding,
+                                     void* data,
+                                     unsigned int dataByteLength,
+                                     string suggestedFileName
+                                     )
+{
     stop();
+    
+    _responseStatusCode = statusCode;
+    _responseMIMEType = ofxGStringToMIMEType( stringMIMEType );
+    _responseTextEncoding = textEncoding;
+    setResponseBody( data, dataByteLength );
+    _responseSuggestedFileName = suggestedFileName;
+    
+    if ( isParsable( _responseMIMEType, _responseTextEncoding ) )
+    {
+        string bodyAsString = getResponseBodyAsString();
+        if ( !bodyAsString.empty() )
+        {
+            _responseParsedBody = ofxGenericValueStore::createFrom( _responseMIMEType, bodyAsString );
+        }
+    }
+    
+#if DEBUG
+    if ( isResponseOk() )
+    {
+        ofxGLogNotice( responseToString( false ) );
+        ofxGLogVerbose( "\nBody:\n" + getResponseBodyAsString() + "\n" );
+    }
+    else
+    {
+        ofxGLogWarning( responseToString( false ) + "\nBody:\n" + getResponseBodyAsString() + "\n" );
+    }
+#endif
+    
     if ( _delegate )
     {
-        if ( isLastResponseOk() )
+        if ( isResponseOk() )
         {
             _delegate.lock()->httpRequest_finishedSuccessfully( _this.lock() );
         } else
@@ -381,23 +463,29 @@ void ofxGenericHTTPRequest::finished( int statusCode, string MIMEType, string te
     }
 }
 
+void ofxGenericHTTPRequest::destroyResponseBody()
+{
+    if ( _responseBody )
+    {
+        delete [] ( BodyType )_responseBody;
+        _responseBody = NULL;
+        _responseBodyByteLength = 0;
+    }
+}
+
 #if TARGET_OS_IPHONE
 void ofxGenericHTTPRequest::finishedWithError( NSError* error )
 {
-    string JSONBody;
-    
-    ofPtr< ofxGenericValueStore > body = ofxGenericHTTPResponse::createErrorBody( ofxNSStringToString( [ error localizedDescription ] ), ofxNSStringToString( [ error localizedFailureReason ] ), ofxNSStringToString( [ error localizedRecoverySuggestion ] ) );
-    if ( body )
-    {
-        JSONBody = body->toJSONString();
-    }
-
+    ofPtr< ofxGenericValueStore > body = ofxGenericHTTPRequest::createErrorBody(
+                                                                                ofxNSStringToString( [ error localizedDescription ] ),
+                                                                                ofxNSStringToString( [ error localizedFailureReason ] ),
+                                                                                ofxNSStringToString( [ error localizedRecoverySuggestion ] )
+                                                                                );
     finished(
              400,
-             MIMEType_json,
+             ofxGMIMETypeToString( ofxGenericMIMETypeJSON ),
              "utf-8",
-             ( void* )JSONBody.c_str(),
-             JSONBody.size(),
+             body,
              ""
              );
 }
@@ -421,37 +509,157 @@ void ofxGenericHTTPRequest::finishedSuccessfully( NSURLResponse* response, NSDat
              ( void* )[ data bytes ],
              [ data length ],
              ofxNSStringToString( [ response suggestedFilename ] )
-            );
+             );
 }
 #endif
 
-ofPtr< ofxGenericHTTPResponse > ofxGenericHTTPRequest::getLastResponse()
+ofPtr< ofxGenericValueStore > ofxGenericHTTPRequest::getResponseParsedBody() const
 {
-    return _lastResponse;
+    return _responseParsedBody;
 }
 
-bool ofxGenericHTTPRequest::isLastResponseOk()
+bool ofxGenericHTTPRequest::isResponseOk() const
 {
-    ofPtr< ofxGenericHTTPResponse > response = getLastResponse();
-    return response && response->isOk();
+    return getResponseStatusCode() >= 200 && getResponseStatusCode() <= 299;
 }
 
-
-string ofxGenericHTTPRequest::getWithPercentEscapes( string unencoded )
+int ofxGenericHTTPRequest::getResponseStatusCode() const
 {
-#if TARGET_OS_IPHONE
-    NSString* encoded = [ ofxStringToNSString( unencoded ) stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ];
-    return ofxNSStringToString( encoded );
-#endif
+    return _responseStatusCode;
 }
 
-string ofxGenericHTTPRequest::getFromPercentEscapes( string encoded )
+ofxGenericMIMEType ofxGenericHTTPRequest::getResponseMIMEType() const
 {
-#if TARGET_OS_IPHONE
-    NSString* unencoded = [ ofxStringToNSString( encoded ) stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding ];
-    return ofxNSStringToString( unencoded );
-#endif
+    return _responseMIMEType;
 }
+
+string ofxGenericHTTPRequest::getResponseTextEncoding() const
+{
+    return _responseTextEncoding;
+}
+
+string ofxGenericHTTPRequest::getResponseSuggestedFileName() const
+{
+    return _responseSuggestedFileName;
+}
+
+void ofxGenericHTTPRequest::setResponseBody( void* body, unsigned int bodyByteLength )
+{
+    if ( body != NULL & bodyByteLength > 0 )
+    {
+        _responseBodyByteLength = bodyByteLength;
+        _responseBody = new BodyType[ _responseBodyByteLength ];
+        memcpy( _responseBody, body, _responseBodyByteLength );
+    } else
+    {
+        _responseBodyByteLength = 0;
+        _responseBody = 0;
+    }
+}
+
+void* ofxGenericHTTPRequest::getResponseBody() const
+{
+    return _responseBody;
+}
+
+unsigned int ofxGenericHTTPRequest::getResponseBodyByteLength() const
+{
+    return _responseBodyByteLength;
+}
+
+bool ofxGenericHTTPRequest::isParsable( ofxGenericMIMEType MIMEType, string textEncoding )
+{
+    return textEncoding == "utf-8" && ( MIMEType == ofxGenericMIMETypeJSON || MIMEType == ofxGenericMIMETypeXML );
+}
+
+string ofxGenericHTTPRequest::getResponseBodyAsString() const
+{
+    return ofxGToString( _responseBody, _responseBodyByteLength );
+}
+
+string ofxGenericHTTPRequest::getResponseErrorName() const
+{
+    ofPtr< ofxGenericValueStore > parsedData = getResponseParsedBody();
+    if ( parsedData )
+    {
+        return parsedData->read( ErrorCacheKey, "" );
+    }
+    return string();
+}
+
+string ofxGenericHTTPRequest::getResponseErrorDescription() const
+{
+    ofPtr< ofxGenericValueStore > parsedBody = getResponseParsedBody();
+    if ( parsedBody )
+    {
+        return parsedBody->read( ErrorDescriptionCacheKey, "" );
+    }
+    return string();
+}
+
+string ofxGenericHTTPRequest::getResponseErrorRecoverySuggestions() const
+{
+    ofPtr< ofxGenericValueStore > parsedBody = getResponseParsedBody();
+    if ( parsedBody )
+    {
+        return parsedBody->read( ErrorRecoverySuggestionsCacheKey, "" );
+    }
+    return string();
+}
+
+string ofxGenericHTTPRequest::responseToString( bool includeBody ) const
+{
+    string result = "HTTPResponse - Status: " + ofxGToString( getResponseStatusCode() );
+    if ( isResponseOk() )
+    {
+        result += " MIMEType: " + ofxGMIMETypeToString( getResponseMIMEType() ) + " Text Encoding: " + getResponseTextEncoding() + " Suggested File Name: " + getResponseSuggestedFileName();
+        
+        if ( includeBody )
+        {
+            string bodyAsString = getResponseBodyAsString();
+            if ( !bodyAsString.empty() )
+            {
+                result += " Body:\n " + bodyAsString;
+            }
+        }
+    } else
+    {
+        result += " Error ";
+        if ( !getResponseErrorName().empty() )
+        {
+            result += " Name: " + getResponseErrorName();
+        }
+        if ( !getResponseErrorDescription().empty() )
+        {
+            result += " Description: " + getResponseErrorDescription();
+        }
+        if ( !getResponseErrorRecoverySuggestions().empty() )
+        {
+            result += " Suggestions: " + getResponseErrorRecoverySuggestions();
+        }
+        if ( includeBody )
+        {
+            string bodyAsString = getResponseBodyAsString();
+            if ( !bodyAsString.empty() )
+            {
+                result += " Body:\n " + bodyAsString;
+            }
+        }
+    }
+    return result;
+}
+
+ofPtr< ofxGenericValueStore > ofxGenericHTTPRequest::createErrorBody( string errorName, string errorDescription, string errorRecoverySuggestions )
+{
+    ofPtr< ofxGenericValueStore > body = ofxGenericValueStore::create( false );
+    body->write( ErrorCacheKey, errorName );
+    body->write( ErrorDescriptionCacheKey, errorDescription );
+    body->write( ErrorRecoverySuggestionsCacheKey, errorRecoverySuggestions );
+    return body;
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// iOS Forwarder
 
 #if TARGET_OS_IPHONE
 @implementation ofxGenericHTTPConnectionForwarder

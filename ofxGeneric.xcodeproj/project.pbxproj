@@ -44,8 +44,6 @@
 		3C7B4EBB14FC7CBF003121FE /* ofxGenericConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C7B4E9014FC7CBF003121FE /* ofxGenericConstants.h */; };
 		3C7B4EBC14FC7CBF003121FE /* ofxGenericHTTPRequest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C7B4E9114FC7CBF003121FE /* ofxGenericHTTPRequest.cpp */; };
 		3C7B4EBD14FC7CBF003121FE /* ofxGenericHTTPRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C7B4E9214FC7CBF003121FE /* ofxGenericHTTPRequest.h */; };
-		3C7B4EBE14FC7CBF003121FE /* ofxGenericHTTPResponse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C7B4E9314FC7CBF003121FE /* ofxGenericHTTPResponse.cpp */; };
-		3C7B4EBF14FC7CBF003121FE /* ofxGenericHTTPResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C7B4E9414FC7CBF003121FE /* ofxGenericHTTPResponse.h */; };
 		3C7B4EC014FC7CBF003121FE /* ofxGenericImageView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C7B4E9514FC7CBF003121FE /* ofxGenericImageView.cpp */; };
 		3C7B4EC114FC7CBF003121FE /* ofxGenericImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C7B4E9614FC7CBF003121FE /* ofxGenericImageView.h */; };
 		3C7B4EC214FC7CBF003121FE /* ofxGenericTableView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C7B4E9714FC7CBF003121FE /* ofxGenericTableView.cpp */; };
@@ -178,8 +176,6 @@
 		3C7B4E9014FC7CBF003121FE /* ofxGenericConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericConstants.h; sourceTree = "<group>"; };
 		3C7B4E9114FC7CBF003121FE /* ofxGenericHTTPRequest.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericHTTPRequest.cpp; sourceTree = "<group>"; };
 		3C7B4E9214FC7CBF003121FE /* ofxGenericHTTPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericHTTPRequest.h; sourceTree = "<group>"; };
-		3C7B4E9314FC7CBF003121FE /* ofxGenericHTTPResponse.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericHTTPResponse.cpp; sourceTree = "<group>"; };
-		3C7B4E9414FC7CBF003121FE /* ofxGenericHTTPResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericHTTPResponse.h; sourceTree = "<group>"; };
 		3C7B4E9514FC7CBF003121FE /* ofxGenericImageView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericImageView.cpp; sourceTree = "<group>"; };
 		3C7B4E9614FC7CBF003121FE /* ofxGenericImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericImageView.h; sourceTree = "<group>"; };
 		3C7B4E9714FC7CBF003121FE /* ofxGenericTableView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericTableView.cpp; sourceTree = "<group>"; };
@@ -374,8 +370,6 @@
 				3C7B4E9214FC7CBF003121FE /* ofxGenericHTTPRequest.h */,
 				3C3ECD5B15CF1032002A6B5C /* ofxGenericHTTPRequestHolder.h */,
 				3C3ECD5D15CF103C002A6B5C /* ofxGenericHTTPRequestHolder.cpp */,
-				3C7B4E9314FC7CBF003121FE /* ofxGenericHTTPResponse.cpp */,
-				3C7B4E9414FC7CBF003121FE /* ofxGenericHTTPResponse.h */,
 				3C7B4E9514FC7CBF003121FE /* ofxGenericImageView.cpp */,
 				3C7B4E9614FC7CBF003121FE /* ofxGenericImageView.h */,
 				3C1E7B421508288D007B6723 /* ofxGenericLaunchView.cpp */,
@@ -620,7 +614,6 @@
 				3C7B4EBA14FC7CBF003121FE /* ofxGenericButtonView.h in Headers */,
 				3C7B4EBB14FC7CBF003121FE /* ofxGenericConstants.h in Headers */,
 				3C7B4EBD14FC7CBF003121FE /* ofxGenericHTTPRequest.h in Headers */,
-				3C7B4EBF14FC7CBF003121FE /* ofxGenericHTTPResponse.h in Headers */,
 				3C7B4EC114FC7CBF003121FE /* ofxGenericImageView.h in Headers */,
 				3C7B4EC314FC7CBF003121FE /* ofxGenericTableView.h in Headers */,
 				3C7B4EC514FC7CBF003121FE /* ofxGenericTextView.h in Headers */,
@@ -732,7 +725,6 @@
 				3C7B4EB714FC7CBF003121FE /* ofxGenericApp.cpp in Sources */,
 				3C7B4EB914FC7CBF003121FE /* ofxGenericButtonView.cpp in Sources */,
 				3C7B4EBC14FC7CBF003121FE /* ofxGenericHTTPRequest.cpp in Sources */,
-				3C7B4EBE14FC7CBF003121FE /* ofxGenericHTTPResponse.cpp in Sources */,
 				3C7B4EC014FC7CBF003121FE /* ofxGenericImageView.cpp in Sources */,
 				3C7B4EC214FC7CBF003121FE /* ofxGenericTableView.cpp in Sources */,
 				3C7B4EC414FC7CBF003121FE /* ofxGenericTextView.cpp in Sources */,

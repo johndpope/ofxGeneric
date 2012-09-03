@@ -57,50 +57,27 @@ void ofxGenericOAuthGrantHTTPRequest::addGrantType( ofPtr< ofxGenericValueStore 
     }
 }
 
-ofPtr< ofxGenericHTTPResponse > ofxGenericOAuthGrantHTTPRequest::createResponse(
-                                                                                int statusCode,
-                                                                                string MIMEType,
-                                                                                string textEncoding,
-                                                                                void* body,
-                                                                                unsigned int bodyByteLength,
-                                                                                string suggestedFileName
-                                                                                )
-{
-    return ofxGenericOAuthGrantHTTPResponse::create( statusCode, MIMEType, textEncoding, body, bodyByteLength, suggestedFileName );
-}
-
 //////////////////////////////////////////////////////////////////////
 
-ofPtr< ofxGenericOAuthGrantHTTPResponse > ofxGenericOAuthGrantHTTPResponse::create( int statusCode, string MIMEType, string textEncoding, void* body, unsigned int bodyByteLength, string suggestedFileName )
-{
-    ofPtr< ofxGenericOAuthGrantHTTPResponse > create( new ofxGenericOAuthGrantHTTPResponse() );
-    create->init( create, statusCode, MIMEType, textEncoding, body, bodyByteLength, suggestedFileName );
-    return create;
-}
-
-ofxGenericOAuthGrantHTTPResponse::ofxGenericOAuthGrantHTTPResponse()
-{
-}
-
-ofPtr< ofxGenericOAuthToken > ofxGenericOAuthGrantHTTPResponse::getToken()
+ofPtr< ofxGenericOAuthToken > ofxGenericOAuthGrantHTTPRequest::getToken()
 {
     return ofxGenericOAuthToken::create( getAccessToken(), getScope() );
 }
 
-string ofxGenericOAuthGrantHTTPResponse::getAccessToken()
+string ofxGenericOAuthGrantHTTPRequest::getAccessToken()
 {
-    if ( getParsedBody() )
+    if ( getResponseParsedBody() )
     {
-        return getParsedBody()->read( AccessTokenCacheKey, "" );
+        return getResponseParsedBody()->read( AccessTokenCacheKey, "" );
     }
     return string();
 }
 
-string ofxGenericOAuthGrantHTTPResponse::getScope()
+string ofxGenericOAuthGrantHTTPRequest::getScope()
 {
-    if ( getParsedBody() )
+    if ( getResponseParsedBody() )
     {
-        return getParsedBody()->read( ScopeCacheKey, "" );
+        return getResponseParsedBody()->read( ScopeCacheKey, "" );
     }
     return "";
 }

@@ -9,7 +9,6 @@
 #pragma once
 
 #include "ofxGenericOAuthHTTPRequest.h"
-#include "ofxGenericHTTPResponse.h"
 
 class ofxGenericOAuthToken;
 
@@ -18,6 +17,11 @@ class ofxGenericOAuthGrantHTTPRequest : public ofxGenericOAuthHTTPRequest
 public:    
     static void addGrantType( ofPtr< ofxGenericValueStore > body, string grantType );
 
+    ofPtr< ofxGenericOAuthToken > getToken();
+    
+    string getAccessToken();
+    string getScope();
+    
 protected:
     virtual void init(
                       ofPtrWeak< ofxGenericOAuthGrantHTTPRequest > setThis,
@@ -32,27 +36,4 @@ protected:
                       string clientId = "",
                       string clientSecretKey = ""
                       );
-    
-    ofPtr< ofxGenericHTTPResponse > createResponse(
-                                                   int statusCode,
-                                                   string MIMEType,
-                                                   string textEncoding,
-                                                   void* body,
-                                                   unsigned int bodyByteLength,
-                                                   string suggestedFileName
-                                                   );
-};
-
-class ofxGenericOAuthGrantHTTPResponse : public ofxGenericHTTPResponse
-{
-public:
-    static ofPtr< ofxGenericOAuthGrantHTTPResponse > create( int statusCode, string MIMEType, string textEncoding, void* data, unsigned int dataByteLength, string suggestedFilename = "" );
-    
-    ofPtr< ofxGenericOAuthToken > getToken();
-    
-    string getAccessToken();
-    string getScope();
-
-protected:
-    ofxGenericOAuthGrantHTTPResponse();
 };

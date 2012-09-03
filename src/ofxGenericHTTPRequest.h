@@ -14,7 +14,6 @@
 #include "ofxGenericTimer.h"
 
 class ofxGenericHTTPRequestDelegate;
-class ofxGenericHTTPResponse;
 #if TARGET_OS_IPHONE
 @class ofxGenericHTTPConnectionForwarder;
 #endif
@@ -71,23 +70,62 @@ public:
     
     void finished(
                   int statusCode,
-                  string MIMEType,
+                  string stringMIMEType,
                   string textEncoding,
                   void* data,
                   unsigned int dataByteLength,
                   string suggestedFileName
                   );
+    
+    void finished(
+                  int statusCode,
+                  string stringMIMEType,
+                  string textEncoding,
+                  ofPtr< ofxGenericValueStore > body,
+                  string suggestedFileName
+                  );
+    
+    void finished(
+                  int statusCode,
+                  string stringMIMEType,
+                  string textEncoding,
+                  string body,
+                  string suggestedFileName
+                  );
+    
 #if TARGET_OS_IPHONE
     virtual void finishedWithError( NSError* error );
     virtual void finishedSuccessfully( NSURLResponse* urlResponse, NSData* receivedData );
 #endif
     
-    ofPtr< ofxGenericHTTPResponse > getLastResponse();
-    bool isLastResponseOk();
-    
     static string getWithPercentEscapes( string unencoded );
     static string getFromPercentEscapes( string encoded );
     
+    static ofPtr< ofxGenericValueStore > createErrorBody(
+                                                         string errorName,
+                                                         string errorDescription = "",
+                                                         string errorRecoverySuggestions = ""
+                                                         );
+    
+    virtual bool isResponseOk() const;
+    
+    int getResponseStatusCode() const;
+    
+    ofxGenericMIMEType getResponseMIMEType() const;
+    string getResponseTextEncoding() const;
+    string getResponseSuggestedFileName() const;
+    
+    void* getResponseBody() const;
+    unsigned int getResponseBodyByteLength() const;
+    string getResponseBodyAsString() const;
+    ofPtr< ofxGenericValueStore > getResponseParsedBody() const;
+    
+    virtual string getResponseErrorName() const;
+    virtual string getResponseErrorDescription() const;
+    string getResponseErrorRecoverySuggestions() const;
+    
+    string responseToString( bool includeBody = true ) const;
+
 protected:
     ofxGenericHTTPRequest();
 
@@ -136,21 +174,25 @@ protected:
     ofPtr< ofxGenericTimer > _timeoutTimer;
 #endif
     
-    virtual ofPtr< ofxGenericHTTPResponse > createResponse(
-                                                           int statusCode,
-                                                           string MIMEType,
-                                                           string textEncoding,
-                                                           void* body,
-                                                           unsigned int bodyByteLength,
-                                                           string suggestedFileName
-                                                           );
-    ofPtr< ofxGenericHTTPResponse > _lastResponse;
-    
     virtual void setMethod( string method );
     
     virtual void stop();
     
     void timer_fired( ofPtr< ofxGenericTimer > timer );
+    
+    int _responseStatusCode;
+    ofxGenericMIMEType _responseMIMEType;
+    string _responseTextEncoding;
+    string _responseSuggestedFileName;
+    void setResponseBody( void* body, unsigned int bodyByteLength );
+    void destroyResponseBody();
+    typedef unsigned char* BodyType;
+    void* _responseBody;
+    unsigned int _responseBodyByteLength;
+    
+    static bool isParsable( ofxGenericMIMEType MIMEType, string textEncoding );
+    ofPtr< ofxGenericValueStore > _responseParsedBody;
+
 };
 
 class ofxGenericHTTPRequestDelegate
@@ -158,7 +200,7 @@ class ofxGenericHTTPRequestDelegate
 public:
     virtual ~ofxGenericHTTPRequestDelegate(){};
 
-    // get rid of error and success
+    // TODO: get rid of error and success?
     virtual void httpRequest_finishedWithError( ofPtr< ofxGenericHTTPRequest > request ) {};
     virtual void httpRequest_finishedSuccessfully( ofPtr< ofxGenericHTTPRequest > request ) {};
 

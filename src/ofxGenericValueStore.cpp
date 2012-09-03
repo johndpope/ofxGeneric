@@ -1157,7 +1157,7 @@ bool ofxGenericValueStore::writeToDisk()
     if ( _fileName.length() > 0 )
     {
         ofxGmkdir( ofxGGetPathFromFileName( _fileName ), _fileInDocuments );
-        Json::Value* root = convertTo();
+        Json::Value* root = convertToJSON();
         ofxJSONElement write( *root );
         delete root;
         return write.save( _fileName, true, _fileInDocuments );
@@ -1167,7 +1167,7 @@ bool ofxGenericValueStore::writeToDisk()
 
 string ofxGenericValueStore::toJSONString() const
 {
-    Json::Value* asJSON = convertTo();
+    Json::Value* asJSON = convertToJSON();
     if ( asJSON )
     {
         return ofxJSONElement( *asJSON ).getRawString();
@@ -1175,7 +1175,7 @@ string ofxGenericValueStore::toJSONString() const
     return string();
 }
 
-Json::Value* ofxGenericValueStore::convertTo() const
+Json::Value* ofxGenericValueStore::convertToJSON() const
 {
     Json::Value* node = NULL;
     if ( isFloat() )
@@ -1198,7 +1198,7 @@ Json::Value* ofxGenericValueStore::convertTo() const
             if ( ( *travMembers ).second )
             {
                 string key = ( *travMembers ).first;
-                Json::Value* member = ( *travMembers ).second->convertTo();
+                Json::Value* member = ( *travMembers ).second->convertToJSON();
                 if ( member )
                 {
                     ( *node )[ key ] = *member;
@@ -1217,7 +1217,7 @@ Json::Value* ofxGenericValueStore::convertTo() const
         {
             if ( *travIndices )
             {
-                Json::Value* index = ( *travIndices )->convertTo();
+                Json::Value* index = ( *travIndices )->convertToJSON();
                 if ( index )
                 {
                     ( *node )[ indexCount ] = *index;
@@ -1236,7 +1236,6 @@ Json::Value* ofxGenericValueStore::convertTo() const
     return node;
 }
 
-//empties the entire cache. a sync call must still be made to put this change onto the disk
 void ofxGenericValueStore::purge()
 {
     if ( asObject() )

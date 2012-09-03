@@ -159,8 +159,12 @@ public:
     ofxGenericValueStoreArrayConstIterator arrayEnd() const;
 
     string toJSONString() const;
-    virtual Json::Value* convertTo() const;
-    
+    virtual Json::Value* convertToJSON() const;
+
+// TODO:
+//    string toXMLString() const;
+//    virtual TiXmlNode* convertToXML() const;
+
     virtual ~ofxGenericValueStore();
 protected:
     ofxGenericValueStore();
