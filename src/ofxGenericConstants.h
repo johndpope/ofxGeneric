@@ -169,3 +169,10 @@ enum ofxGenericGestureState
     ofxGenericGestureStateCancelled,
     ofxGenericGestureStateFailed
 };
+
+enum ofxGenericMIMEType
+{
+    ofxGenericMIMETypeJSON,
+    ofxGenericMIMETypeXML,
+    ofxGenericMIMETypeUnknown
+};

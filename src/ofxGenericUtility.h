@@ -65,3 +65,9 @@ std::vector< string > ofxGSplit( string value, char splitOn );
 int ofxGRandom();
 int ofxGRandomInRange( int minimum, int maximum );
 int ofxGRandomInRangeExclusive( int minimumInclusive, int maximumExclusive );
+
+//////////////////////////////// HTTP //////////////////////////////////
+
+string ofxGMIMETypeToString( ofxGenericMIMEType type );
+ofxGenericMIMEType ofxGStringToMIMEType( string type );
+string ofxGMIMETypeToExtension( ofxGenericMIMEType type );

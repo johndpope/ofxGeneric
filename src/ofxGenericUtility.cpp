@@ -335,3 +335,47 @@ int ofxGRandomInRangeExclusive( int minimumInclusive, int maximumExclusive )
 {
     return ofxGRandomInRange( minimumInclusive, maximumExclusive - 1 );
 }
+
+//////////////////////////////// HTTP //////////////////////////////////
+
+#define ofxGenericMIMETypeJSONString "application/json"
+#define ofxGenericMIMETypeXMLString "application/xml"
+
+string ofxGMIMETypeToString( ofxGenericMIMEType type )
+{
+    switch( type )
+    {
+        case ofxGenericMIMETypeJSON:
+            return ofxGenericMIMETypeJSONString;
+        case ofxGenericMIMETypeXML:
+            return ofxGenericMIMETypeXMLString;
+        case ofxGenericMIMETypeUnknown:
+            return "";
+    }
+}
+
+ofxGenericMIMEType ofxGStringToMIMEType( string type )
+{
+    if ( type == ofxGenericMIMETypeJSONString )
+    {
+        return ofxGenericMIMETypeJSON;
+    } else if ( type == ofxGenericMIMETypeXMLString )
+    {
+        return ofxGenericMIMETypeXML;
+    }
+    
+    return ofxGenericMIMETypeUnknown;
+}
+
+string ofxGMIMETypeToExtension( ofxGenericMIMEType type )
+{
+    switch( type )
+    {
+        case ofxGenericMIMETypeJSON:
+            return "json";
+        case ofxGenericMIMETypeXML:
+            return "xml";
+        case ofxGenericMIMETypeUnknown:
+            return "";
+    }
+}
