@@ -226,14 +226,18 @@ void ofxGenericDate::init( ofPtrWeak< ofxGenericDate > setThis, double time )
     setFromSinceReferenceDate( time );
 }
 
-string ofxGenericDate::getStringRepresentation( ofxGenericDate::DateFormat format )
+string ofxGenericDate::getStringRepresentation( ofxGenericDate::DateFormat format, bool converToUTC )
 {
     const char* formatAsString = getFormat( format );
     
 #if TARGET_OS_IPHONE
-    NSDateFormatter *f = [[[NSDateFormatter alloc] init] autorelease];
-    [f setDateFormat:[NSString stringWithCString:formatAsString encoding:NSUTF8StringEncoding]];
-    string str = string([[f stringFromDate:[NSDate dateWithTimeIntervalSinceReferenceDate:_time]] cStringUsingEncoding:NSUTF8StringEncoding]);
+    NSDateFormatter* formatter = [[[NSDateFormatter alloc] init] autorelease];
+    if( converToUTC )
+    {
+        [formatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
+    }
+    [formatter setDateFormat:[NSString stringWithCString:formatAsString encoding:NSUTF8StringEncoding]];
+    string str = string([[formatter stringFromDate:[NSDate dateWithTimeIntervalSinceReferenceDate:_time]] cStringUsingEncoding:NSUTF8StringEncoding]);
 #elif TARGET_ANDROID
     string str = "";
 #endif

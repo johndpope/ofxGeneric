@@ -76,7 +76,7 @@ public:
     
     virtual string getDescription();
     
-    virtual string getStringRepresentation( ofxGenericDate::DateFormat format = ofxGenericDate::DateFormatDateOnly );
+    virtual string getStringRepresentation( ofxGenericDate::DateFormat format = ofxGenericDate::DateFormatDateOnly, bool converToUTC = false );
     
     void setFromSinceReferenceDate( double time );
     
