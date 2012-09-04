@@ -70,7 +70,7 @@ unsigned int ofxGenericTableView::getNumberOfCells( unsigned int section )
 unsigned int ofxGenericTableView::internalGetNumberOfCells( unsigned int section )
 {
     unsigned int count = getNumberOfCells( section );
-    if ( getSeparatorStyle() == ofxGenericTableViewSeparatorStyleSizedPadding )
+    if ( count > 0 && getSeparatorStyle() == ofxGenericTableViewSeparatorStyleSizedPadding )
     {
         count = MAX( count * 2 - 1, 0 );
     }
