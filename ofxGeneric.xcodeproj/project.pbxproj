@@ -85,6 +85,8 @@
 		453C813F15192A39005ED622 /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 453C813815192A39005ED622 /* tinyxmlparser.cpp */; };
 		453C814015192A39005ED622 /* ofxXmlSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 453C813A15192A39005ED622 /* ofxXmlSettings.cpp */; };
 		453C814115192A39005ED622 /* ofxXmlSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 453C813B15192A39005ED622 /* ofxXmlSettings.h */; };
+		453DE3DE15F66AC400046917 /* ofxGenericPageControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 453DE3DC15F66AC400046917 /* ofxGenericPageControl.cpp */; };
+		453DE3DF15F66AC400046917 /* ofxGenericPageControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 453DE3DD15F66AC400046917 /* ofxGenericPageControl.h */; };
 		453E461815365E1C00C66514 /* autolink.h in Headers */ = {isa = PBXBuildFile; fileRef = 453E45BA15365E1C00C66514 /* autolink.h */; };
 		453E461915365E1C00C66514 /* config.h in Headers */ = {isa = PBXBuildFile; fileRef = 453E45BB15365E1C00C66514 /* config.h */; };
 		453E461A15365E1C00C66514 /* features.h in Headers */ = {isa = PBXBuildFile; fileRef = 453E45BC15365E1C00C66514 /* features.h */; };
@@ -237,6 +239,8 @@
 		453C813815192A39005ED622 /* tinyxmlparser.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = tinyxmlparser.cpp; sourceTree = "<group>"; };
 		453C813A15192A39005ED622 /* ofxXmlSettings.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxXmlSettings.cpp; sourceTree = "<group>"; };
 		453C813B15192A39005ED622 /* ofxXmlSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxXmlSettings.h; sourceTree = "<group>"; };
+		453DE3DC15F66AC400046917 /* ofxGenericPageControl.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericPageControl.cpp; sourceTree = "<group>"; };
+		453DE3DD15F66AC400046917 /* ofxGenericPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericPageControl.h; sourceTree = "<group>"; };
 		453E45B615365E1C00C66514 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		453E45BA15365E1C00C66514 /* autolink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = autolink.h; sourceTree = "<group>"; };
 		453E45BB15365E1C00C66514 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
@@ -379,6 +383,8 @@
 				3C5336DA153F64A10046AFD8 /* ofxGenericMain.h */,
 				3C2A68F51543786700BDB696 /* ofxGenericOpenGLView.cpp */,
 				3C2A68F2154374F400BDB696 /* ofxGenericOpenGLView.h */,
+				453DE3DC15F66AC400046917 /* ofxGenericPageControl.cpp */,
+				453DE3DD15F66AC400046917 /* ofxGenericPageControl.h */,
 				3C0AC1501522C34500872B70 /* ofxGenericPlatform.cpp */,
 				3C0AC14E1522C2E700872B70 /* ofxGenericPlatform.h */,
 				3C85FC6315114B1E001F5854 /* ofxGenericScrollView.cpp */,
@@ -650,6 +656,7 @@
 				3CF2D2A315ED8C6E008A56AB /* UIDevice-Orientation.h in Headers */,
 				3CF2D2A515ED8C6E008A56AB /* UIDevice-Reachability.h in Headers */,
 				3CF2D2C415ED917D008A56AB /* wwanconnect.h in Headers */,
+				453DE3DF15F66AC400046917 /* ofxGenericPageControl.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -775,6 +782,7 @@
 				3CF2D2A415ED8C6E008A56AB /* UIDevice-Orientation.m in Sources */,
 				3CF2D2A615ED8C6E008A56AB /* UIDevice-Reachability.m in Sources */,
 				3CF2D2C315ED917D008A56AB /* wwanconnect.c in Sources */,
+				453DE3DE15F66AC400046917 /* ofxGenericPageControl.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
