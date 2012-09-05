@@ -958,6 +958,38 @@ ofxGenericValueStoreArrayConstIterator ofxGenericValueStore::arrayEnd() const
     return ofxGenericValueStoreArrayConstIterator();
 }
 
+ofxGenericValueStoreArrayIterator ofxGenericValueStore::arrayFind( ofPtr< ofxGenericValueStore > value )
+{
+    if ( asArray() )
+    {
+        for ( ofxGenericValueStoreArrayIterator find = asArray()->begin(); find != asArray()->end(); find ++ )
+        {
+            if ( value == *find )
+            {
+                return find;
+            }
+        }
+    }
+    return arrayEnd();
+}
+
+void ofxGenericValueStore::remove( ofxGenericValueStoreObjectIterator location )
+{
+    if ( asObject() )
+    {
+        asObject()->erase( location );
+    }
+}
+
+void ofxGenericValueStore::remove( ofxGenericValueStoreArrayIterator location )
+{
+    if ( asArray() )
+    {
+        asArray()->erase( location );
+    }
+}
+
+
 void ofxGenericValueStore::drop( int index )
 {
     if ( asArray() )

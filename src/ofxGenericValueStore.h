@@ -157,6 +157,11 @@ public:
     ofxGenericValueStoreObjectConstIterator objectEnd() const;
     ofxGenericValueStoreArrayConstIterator arrayBegin() const;
     ofxGenericValueStoreArrayConstIterator arrayEnd() const;
+    
+    ofxGenericValueStoreArrayIterator arrayFind( ofPtr< ofxGenericValueStore > value );
+    
+    void remove( ofxGenericValueStoreObjectIterator location );
+    void remove( ofxGenericValueStoreArrayIterator location );
 
     string toJSONString() const;
     virtual Json::Value* convertToJSON() const;
