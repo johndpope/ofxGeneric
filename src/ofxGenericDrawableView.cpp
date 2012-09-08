@@ -49,6 +49,21 @@ void ofxGenericDrawableView::drawLines( std::vector< ofPoint > points )
     }
 }
 
+void ofxGenericDrawableView::drawArc( const ofPoint &p, float radius, float startAngle, float endAngle, bool clockwise )
+{
+    _drawCalls.push_back( ofxGenericDrawCall( p, radius, startAngle, endAngle, clockwise ) );
+}
+
+void ofxGenericDrawableView::drawArc( const ofPoint &p1, const ofPoint &p2, float radius )
+{
+    _drawCalls.push_back( ofxGenericDrawCall( p1, p2, radius ) );
+}
+
+void ofxGenericDrawableView::fillPath( const ofColor &c )
+{
+    _drawCalls.push_back( ofxGenericDrawCall( c, true ) );
+}
+
 #if TARGET_OS_IPHONE
 UIView* ofxGenericDrawableView::allocNativeView( const ofRectangle& setFrame )
 {
@@ -85,6 +100,13 @@ void ofxGenericDrawableView::clearDrawCalls()
 
 //////////////////////////ofxGenericDrawCall////////////////////////
 
+#define DrawCallTypePosition 0
+#define DrawCallTypeLineWidth 1
+#define DrawCallTypeColor 2
+#define DrawCallTypeArc 3
+#define DrawCallType2PointsArc 4
+#define DrawCallTypeColorFill 5
+
 ofxGenericDrawCall::~ofxGenericDrawCall()
 {
     
@@ -92,62 +114,110 @@ ofxGenericDrawCall::~ofxGenericDrawCall()
 
 ofxGenericDrawCall::ofxGenericDrawCall( ofPoint startPoint, ofPoint endPoint )
 {
-    start = startPoint;
-    end = endPoint;
-    newPosition = true;
-    newColor = false;
-    newLineWidth = false;
+    _start = startPoint;
+    _end = endPoint;
+    _type = DrawCallTypePosition;
+    
 }
 
 ofxGenericDrawCall::ofxGenericDrawCall( float wid )
 {
-    lineWidth = wid;
-    newPosition = false;
-    newColor = false;
-    newLineWidth = true;
+    _lineWidth = wid;
+    _type = DrawCallTypeLineWidth;
 }
 
-ofxGenericDrawCall::ofxGenericDrawCall( ofColor col )
+ofxGenericDrawCall::ofxGenericDrawCall( ofColor col, bool isFill )
 {
-    color = col;
-    newPosition = false;
-    newColor = true;
-    newLineWidth = false;
+    _color = col;
+    _type = isFill ? DrawCallTypeColor : DrawCallTypeColorFill;
+}
+
+ofxGenericDrawCall::ofxGenericDrawCall( ofPoint center, float radius, float startAngle, float endAngle, bool clockwise )
+{
+    _start = center;
+    _radius = radius;
+    _startAngle = startAngle;
+    _endAngle = endAngle;
+    _clockwise = clockwise;
+    _type = DrawCallTypeArc;
+}
+
+ofxGenericDrawCall::ofxGenericDrawCall( ofPoint start, ofPoint end, float radius )
+{
+    _start = start;
+    _end = end;
+    _radius = radius;
+    _type = DrawCallType2PointsArc;
 }
 
 bool ofxGenericDrawCall::changesLineWidth()
 {
-    return newLineWidth;
+    return _type == DrawCallTypeLineWidth;
 }
 
 bool ofxGenericDrawCall::changesColor()
 {
-    return newColor;
+    return _type == DrawCallTypeColor;
 }
 
 bool ofxGenericDrawCall::changesPosition()
 {
-    return newPosition;
+    return _type == DrawCallTypePosition;
+}
+
+bool ofxGenericDrawCall::isArc()
+{
+    return _type == DrawCallTypeArc;
+}
+
+bool ofxGenericDrawCall::is2PointsArc()
+{
+    return _type == DrawCallType2PointsArc;
+}
+
+bool ofxGenericDrawCall::isFill()
+{
+    return _type == DrawCallTypeColorFill;
 }
 
 ofPoint ofxGenericDrawCall::getStart()
 {
-    return start;
+    return _start;
 }
 
 ofPoint ofxGenericDrawCall::getEnd()
 {
-    return end;
+    return _end;
 }
 
 float ofxGenericDrawCall::getLineWidth()
 {
-    return lineWidth;
+    return _lineWidth;
 }
 
 ofColor ofxGenericDrawCall::getColor()
 {
-    return color;
+    return _color;
+}
+
+float ofxGenericDrawCall::getRadius()
+{
+    return _radius;
+}
+
+float ofxGenericDrawCall::getStartAngle()
+{
+    return _startAngle;
+}
+
+float ofxGenericDrawCall::getEndAngle()
+{
+    return _endAngle;
+}
+
+bool ofxGenericDrawCall::isClockwise()
+{
+    return _clockwise;
 }
 
 ////////////////////////////ofxDrawableUIView////////////////////////////
@@ -200,6 +270,25 @@ ofColor ofxGenericDrawCall::getColor()
                 
                 CGContextAddLineToPoint(context, call.getEnd().x, call.getEnd().y);
                 lastPoint = call.getEnd();
+            }
+            
+            if (call.isArc())
+            {
+                CGContextAddArc(context, call.getStart().x, call.getStart().y, call.getRadius(), call.getStartAngle(), call.getEndAngle(), call.isClockwise());
+                lastPoint = ofPoint( -9999, -9999 );
+            }
+            
+            if (call.is2PointsArc())
+            {
+                CGContextAddArcToPoint(context, call.getStart().x, call.getStart().y, call.getEnd().x, call.getEnd().y, call.getRadius());
+                lastPoint = ofPoint( -9999, -9999 );
+            }
+            
+            if (call.isFill())
+            {
+                ofColor c = call.getColor();
+                CGContextSetFillColorWithColor(context, [UIColor colorWithRed:c.r green:c.g blue:c.b alpha:c.a].CGColor );
+                CGContextFillPath(context);
             }
         }
         

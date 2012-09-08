@@ -26,6 +26,9 @@ public:
     virtual void setStrokeColor( const ofColor &c );
     virtual void drawLine( const ofPoint &p1, const ofPoint &p2 );
     virtual void drawLines( std::vector< ofPoint > points );
+    virtual void drawArc( const ofPoint &center, float radius, float startAngle, float endAngle, bool clockwise );
+    virtual void drawArc( const ofPoint &p1, const ofPoint &p2, float radius );
+    virtual void fillPath( const ofColor &c );
     
     //clears all pending draw calls and updates the drawing context
     virtual void repaint();
@@ -51,24 +54,37 @@ class ofxGenericDrawCall
 public:
     ofxGenericDrawCall( ofPoint start, ofPoint end );
     ofxGenericDrawCall( float lineWidth );
-    ofxGenericDrawCall( ofColor color );
+    ofxGenericDrawCall( ofColor color, bool isFill = false );
+    ofxGenericDrawCall( ofPoint center, float radius, float startAngle, float endAngle, bool clockwise );
+    ofxGenericDrawCall( ofPoint start, ofPoint end, float radius );
     ~ofxGenericDrawCall();
+    
     bool changesLineWidth();
     bool changesColor();
     bool changesPosition();
+    bool isArc();
+    bool is2PointsArc();
+    bool isFill();
+    
     ofPoint getStart();
     ofPoint getEnd();
     float getLineWidth();
     ofColor getColor();
+    float getRadius();
+    float getStartAngle();
+    float getEndAngle();
+    bool isClockwise();
     
 protected:
-    ofPoint start;
-    ofPoint end;
-    float lineWidth;
-    ofColor color;
-    bool newLineWidth;
-    bool newColor;
-    bool newPosition;
+    int _type;
+    ofPoint _start;
+    ofPoint _end;
+    ofColor _color;
+    float _lineWidth;
+    float _radius;
+    float _startAngle;
+    float _endAngle;
+    bool _clockwise;
 };
 
 #if TARGET_OS_IPHONE
