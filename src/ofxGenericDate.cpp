@@ -27,7 +27,7 @@ const char* ofxGenericDate::getFormat( ofxGenericDate::DateFormat format )
         case DateFormatDateOnly: return "yyyy-MM-dd";
         case DateFormatPretty: return "MMMM dd, YYYY";
         case DateFormatServer: return "yyyy-MM-dd\'T\'HH:mm:ssZ";
-        case DateFormatMonthSpaceDay: return "MM dd";
+        case DateFormatMonthDayPretty: return "MMM dd";
             
         default: return "yyyy-MM-dd HH-mm-ss";
     }

@@ -30,7 +30,7 @@ public:
         DateFormatDateOnly,
         DateFormatPretty,
         DateFormatServer,
-        DateFormatMonthSpaceDay,
+        DateFormatMonthDayPretty,
         
         DateFormatCount
     };
