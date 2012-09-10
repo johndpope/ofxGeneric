@@ -8,6 +8,33 @@
 
 #include "ofxGenericDrawableView.h"
 #include "ofUtils.h"
+#include "ofxGenericValueStore.h"
+
+#define DrawCallTypePosition 0
+#define DrawCallTypeLineWidth 1
+#define DrawCallTypeLineColor 2
+#define DrawCallTypeArc 3
+#define DrawCallType2PointsArc 4
+#define DrawCallTypeFillColor 5
+#define DrawCallTypeFinish 6
+#define DrawCallTypePoint 7
+
+#define DrawDataType "type"
+#define DrawDataHasStroke "hasStroke"
+#define DrawDataHasFill "hasFill"
+#define DrawDataColorR "colorR"
+#define DrawDataColorG "colorG"
+#define DrawDataColorB "colorB"
+#define DrawDataColorA "colorA"
+#define DrawDataPointX "pointX"
+#define DrawDataPointY "pointY"
+#define DrawDataPointEndX "pointEndX"
+#define DrawDataPointEndY "pointEndY"
+#define DrawDataRadius "radius"
+#define DrawDataAngleStart "angleStart"
+#define DrawDataAngleEnd "angleEnd"
+#define DrawDataClockwise "clockwise"
+#define DrawDataLineWidth "lineWidth"
 
 ofxGenericDrawableView::~ofxGenericDrawableView()
 {
@@ -26,42 +53,109 @@ ofPtr < ofxGenericDrawableView > ofxGenericDrawableView::create( const ofRectang
     return c;
 }
 
-void ofxGenericDrawableView::setLineWidth(float w)
+void ofxGenericDrawableView::endPath( bool hasStroke, bool hasFill )
 {
-    _drawCalls.push_back( ofxGenericDrawCall( w ) );    
+    //_drawCalls.push_back( ofxGenericDrawCall( hasStroke, hasFill ) );
+    ofPtr< ofxGenericValueStore > drawData = ofxGenericValueStore::create( false );
+    drawData->write( DrawDataType, DrawCallTypeFinish );
+    drawData->write( DrawDataHasStroke, hasStroke );
+    drawData->write( DrawDataHasFill, hasFill );
+    _drawCalls.push_back( drawData );
+}
+
+void ofxGenericDrawableView::setLineWidth( float w )
+{
+    //_drawCalls.push_back( ofxGenericDrawCall( w ) );
+    ofPtr< ofxGenericValueStore > drawData = ofxGenericValueStore::create( false );
+    drawData->write( DrawDataType, DrawCallTypeLineWidth );
+    drawData->write( DrawDataLineWidth, w );
+    _drawCalls.push_back( drawData );
 }
 
 void ofxGenericDrawableView::setStrokeColor( const ofColor &c )
 {
-    _drawCalls.push_back( ofxGenericDrawCall( c ) );
+    //_drawCalls.push_back( ofxGenericDrawCall( c ) );
+    ofPtr< ofxGenericValueStore > drawData = ofxGenericValueStore::create( false );
+    drawData->write( DrawDataType, DrawCallTypeLineColor );
+    drawData->write( DrawDataColorR, c.r );
+    drawData->write( DrawDataColorG, c.g );
+    drawData->write( DrawDataColorB, c.b );
+    drawData->write( DrawDataColorA, c.a );
+    _drawCalls.push_back( drawData );
+}
+
+void ofxGenericDrawableView::setFillColor( const ofColor &c )
+{
+    //_drawCalls.push_back( ofxGenericDrawCall( c, true ) );
+    ofPtr< ofxGenericValueStore > drawData = ofxGenericValueStore::create( false );
+    drawData->write( DrawDataType, DrawCallTypeFillColor );
+    drawData->write( DrawDataColorR, c.r );
+    drawData->write( DrawDataColorG, c.g );
+    drawData->write( DrawDataColorB, c.b );
+    drawData->write( DrawDataColorA, c.a );
+    _drawCalls.push_back( drawData );
+}
+
+void ofxGenericDrawableView::drawLineToPoint( const ofPoint &p )
+{
+    //_drawCalls.push_back( ofxGenericDrawCall( p ) );
+    ofPtr< ofxGenericValueStore > drawData = ofxGenericValueStore::create( false );
+    drawData->write( DrawDataType, DrawCallTypePoint );
+    drawData->write( DrawDataPointX, p.x );
+    drawData->write( DrawDataPointY, p.y );
+    _drawCalls.push_back( drawData );
 }
 
 void ofxGenericDrawableView::drawLine( const ofPoint &p1, const ofPoint &p2 )
 {
-    _drawCalls.push_back( ofxGenericDrawCall( p1, p2 ) );
+    //_drawCalls.push_back( ofxGenericDrawCall( p1, p2 ) );
+    ofPtr< ofxGenericValueStore > drawData = ofxGenericValueStore::create( false );
+    drawData->write( DrawDataType, DrawCallTypePosition );
+    drawData->write( DrawDataPointX, p1.x );
+    drawData->write( DrawDataPointY, p1.y );
+    drawData->write( DrawDataPointEndX, p2.x );
+    drawData->write( DrawDataPointEndY, p2.y );
+    _drawCalls.push_back( drawData );
 }
 
 void ofxGenericDrawableView::drawLines( std::vector< ofPoint > points )
 {
     for ( unsigned int i = 0; i < points.size(); i++)
     {
-        _drawCalls.push_back( ofxGenericDrawCall( points[0].x, points[1].y ) );
+        //_drawCalls.push_back( ofxGenericDrawCall( points[i] ) );
+        ofPtr< ofxGenericValueStore > drawData = ofxGenericValueStore::create( false );
+        drawData->write( DrawDataType, DrawCallTypePoint );
+        drawData->write( DrawDataPointX, points[i].x );
+        drawData->write( DrawDataPointY, points[i].y );
+        _drawCalls.push_back( drawData );
     }
 }
 
 void ofxGenericDrawableView::drawArc( const ofPoint &p, float radius, float startAngle, float endAngle, bool clockwise )
 {
-    _drawCalls.push_back( ofxGenericDrawCall( p, radius, startAngle, endAngle, clockwise ) );
+    //_drawCalls.push_back( ofxGenericDrawCall( p, radius, startAngle, endAngle, clockwise ) );
+    ofPtr< ofxGenericValueStore > drawData = ofxGenericValueStore::create( false );
+    drawData->write( DrawDataType, DrawCallTypeArc );
+    drawData->write( DrawDataPointX, p.x );
+    drawData->write( DrawDataPointY, p.y );
+    drawData->write( DrawDataRadius, radius );
+    drawData->write( DrawDataAngleStart, startAngle );
+    drawData->write( DrawDataAngleEnd, endAngle );
+    drawData->write( DrawDataClockwise, clockwise );
+    _drawCalls.push_back( drawData );
 }
 
 void ofxGenericDrawableView::drawArc( const ofPoint &p1, const ofPoint &p2, float radius )
 {
-    _drawCalls.push_back( ofxGenericDrawCall( p1, p2, radius ) );
-}
-
-void ofxGenericDrawableView::fillPath( const ofColor &c )
-{
-    _drawCalls.push_back( ofxGenericDrawCall( c, true ) );
+    //_drawCalls.push_back( ofxGenericDrawCall( p1, p2, radius ) );
+    ofPtr< ofxGenericValueStore > drawData = ofxGenericValueStore::create( false );
+    drawData->write( DrawDataType, DrawCallType2PointsArc );
+    drawData->write( DrawDataPointX, p1.x );
+    drawData->write( DrawDataPointY, p1.y );
+    drawData->write( DrawDataPointEndX, p2.x );
+    drawData->write( DrawDataPointEndY, p2.y );
+    drawData->write( DrawDataRadius, radius );
+    _drawCalls.push_back( drawData );
 }
 
 #if TARGET_OS_IPHONE
@@ -88,7 +182,7 @@ int ofxGenericDrawableView::getDrawCallCount()
     return _drawCalls.size();
 }
 
-ofxGenericDrawCall ofxGenericDrawableView::getDrawCallAt(int i)
+ofPtr< ofxGenericValueStore > ofxGenericDrawableView::getDrawCallAt(int i)
 {
     return _drawCalls[i];
 }
@@ -99,17 +193,24 @@ void ofxGenericDrawableView::clearDrawCalls()
 }
 
 //////////////////////////ofxGenericDrawCall////////////////////////
+//replaced these with ofxGenericValueStores so that this can be more easily expanded and is less bloated
 
-#define DrawCallTypePosition 0
-#define DrawCallTypeLineWidth 1
-#define DrawCallTypeColor 2
-#define DrawCallTypeArc 3
-#define DrawCallType2PointsArc 4
-#define DrawCallTypeColorFill 5
-
-ofxGenericDrawCall::~ofxGenericDrawCall()
+/*ofxGenericDrawCall::~ofxGenericDrawCall()
 {
     
+}
+
+ofxGenericDrawCall::ofxGenericDrawCall( bool hasStroke, bool hasFill )
+{
+    _type = DrawCallTypeFinish;
+    _hasStroke = hasStroke;
+    _hasFill = hasFill;
+}
+
+ofxGenericDrawCall::ofxGenericDrawCall( ofPoint next )
+{
+    _type = DrawCallTypePoint;
+    _start = next;
 }
 
 ofxGenericDrawCall::ofxGenericDrawCall( ofPoint startPoint, ofPoint endPoint )
@@ -117,7 +218,6 @@ ofxGenericDrawCall::ofxGenericDrawCall( ofPoint startPoint, ofPoint endPoint )
     _start = startPoint;
     _end = endPoint;
     _type = DrawCallTypePosition;
-    
 }
 
 ofxGenericDrawCall::ofxGenericDrawCall( float wid )
@@ -129,7 +229,7 @@ ofxGenericDrawCall::ofxGenericDrawCall( float wid )
 ofxGenericDrawCall::ofxGenericDrawCall( ofColor col, bool isFill )
 {
     _color = col;
-    _type = isFill ? DrawCallTypeColor : DrawCallTypeColorFill;
+    _type = isFill ? DrawCallTypeColorFill : DrawCallTypeColor;
 }
 
 ofxGenericDrawCall::ofxGenericDrawCall( ofPoint center, float radius, float startAngle, float endAngle, bool clockwise )
@@ -150,34 +250,9 @@ ofxGenericDrawCall::ofxGenericDrawCall( ofPoint start, ofPoint end, float radius
     _type = DrawCallType2PointsArc;
 }
 
-bool ofxGenericDrawCall::changesLineWidth()
+int ofxGenericDrawCall::getType()
 {
-    return _type == DrawCallTypeLineWidth;
-}
-
-bool ofxGenericDrawCall::changesColor()
-{
-    return _type == DrawCallTypeColor;
-}
-
-bool ofxGenericDrawCall::changesPosition()
-{
-    return _type == DrawCallTypePosition;
-}
-
-bool ofxGenericDrawCall::isArc()
-{
-    return _type == DrawCallTypeArc;
-}
-
-bool ofxGenericDrawCall::is2PointsArc()
-{
-    return _type == DrawCallType2PointsArc;
-}
-
-bool ofxGenericDrawCall::isFill()
-{
-    return _type == DrawCallTypeColorFill;
+    return _type;
 }
 
 ofPoint ofxGenericDrawCall::getStart()
@@ -220,6 +295,16 @@ bool ofxGenericDrawCall::isClockwise()
     return _clockwise;
 }
 
+bool ofxGenericDrawCall::hasStroke()
+{
+    return _hasStroke;
+}
+
+bool ofxGenericDrawCall::hasFill()
+{
+    return _hasFill;
+}*/
+
 ////////////////////////////ofxDrawableUIView////////////////////////////
 
 #if TARGET_OS_IPHONE
@@ -244,55 +329,111 @@ bool ofxGenericDrawCall::isClockwise()
         CGContextRef context = UIGraphicsGetCurrentContext();
         CGContextBeginPath(context);
         
-        ofPoint lastPoint = ofPoint(-1,-1);
+        //insert a finish at the end of we don't already have one
+        if ( own->getDrawCallAt( own->getDrawCallCount() - 1 )->read( DrawDataType, -1 ) != DrawCallTypeFinish )
+        {
+            own->endPath();
+        }
         
         for (int i = 0; i < own->getDrawCallCount(); i++)
         {
-            ofxGenericDrawCall call = own->getDrawCallAt(i);
+            ofPtr< ofxGenericValueStore > call = own->getDrawCallAt(i);
+            int type = call->read( DrawDataType, -1 );
             
-            if (call.changesLineWidth())
+            if ( type == DrawCallTypeLineWidth )
             {
-                CGContextSetLineWidth(context, call.getLineWidth());
+                CGContextSetLineWidth(context, call->read( DrawDataLineWidth, 0.0f ) );
             }
-            
-            if (call.changesColor())
+            else if ( type == DrawCallTypeLineColor )
             {
-                ofColor c = call.getColor();
-                CGContextSetStrokeColorWithColor(context, [UIColor colorWithRed:c.r green:c.g blue:c.b alpha:c.a].CGColor);
+                ofColor color = ofColor
+                (
+                    call->read( DrawDataColorR, 0 ),
+                    call->read( DrawDataColorG, 0 ),
+                    call->read( DrawDataColorB, 0 ),
+                    call->read( DrawDataColorA, 0 )
+                );
+                CGContextSetStrokeColorWithColor(context, ofColorToUIColor( color ).CGColor );
             }
-            
-            if (call.changesPosition())
+            else if ( type == DrawCallTypeFillColor )
             {
-                if (call.getStart() != lastPoint)
+                ofColor color = ofColor
+                (
+                    call->read( DrawDataColorR, 0 ),
+                    call->read( DrawDataColorG, 0 ),
+                    call->read( DrawDataColorB, 0 ),
+                    call->read( DrawDataColorA, 0 )
+                 );
+                CGContextSetFillColorWithColor(context, ofColorToUIColor( color ).CGColor );
+            }
+            else if ( type == DrawCallTypePosition )
+            {
+                if ( CGContextIsPathEmpty( context ) )
                 {
-                    CGContextMoveToPoint(context, call.getStart().x, call.getStart().y);
+                    CGContextMoveToPoint(context, call->read( DrawDataPointX, 0.0f ), call->read( DrawDataPointY, 0.0f ) );
+                }
+                else
+                {
+                    CGPoint p = CGContextGetPathCurrentPoint(context);
+                    if ( call->read( DrawDataPointX, 0.0f ) != p.x && call->read( DrawDataPointY, 0.0f ) != p.y )
+                    {
+                        CGContextMoveToPoint(context, call->read( DrawDataPointX, 0.0f ), call->read( DrawDataPointY, 0.0f ) );
+                    }
                 }
                 
-                CGContextAddLineToPoint(context, call.getEnd().x, call.getEnd().y);
-                lastPoint = call.getEnd();
+                CGContextAddLineToPoint(context, call->read( DrawDataPointEndX, 0.0f ), call->read( DrawDataPointEndY, 0.0f ) );
             }
-            
-            if (call.isArc())
+            else if ( type == DrawCallTypePoint )
             {
-                CGContextAddArc(context, call.getStart().x, call.getStart().y, call.getRadius(), call.getStartAngle(), call.getEndAngle(), call.isClockwise());
-                lastPoint = ofPoint( -9999, -9999 );
+                CGContextAddLineToPoint(context, call->read( DrawDataPointX, 0.0f ), call->read( DrawDataPointY, 0.0f ) );
             }
-            
-            if (call.is2PointsArc())
+            else if ( type == DrawCallTypeArc )
             {
-                CGContextAddArcToPoint(context, call.getStart().x, call.getStart().y, call.getEnd().x, call.getEnd().y, call.getRadius());
-                lastPoint = ofPoint( -9999, -9999 );
+                CGContextAddArc(context,
+                                call->read( DrawDataPointX, 0.0f ),
+                                call->read( DrawDataPointY, 0.0f ),
+                                call->read( DrawDataRadius, 0.0f ),
+                                call->read( DrawDataAngleStart, 0.0f ),
+                                call->read( DrawDataAngleEnd, 0.0f ),
+                                call->read( DrawDataClockwise, false ) );
             }
-            
-            if (call.isFill())
+            else if ( type == DrawCallType2PointsArc )
             {
-                ofColor c = call.getColor();
-                CGContextSetFillColorWithColor(context, [UIColor colorWithRed:c.r green:c.g blue:c.b alpha:c.a].CGColor );
-                CGContextFillPath(context);
+                CGContextAddArcToPoint(context,
+                                call->read( DrawDataPointX, 0.0f ),
+                                call->read( DrawDataPointY, 0.0f ),
+                                call->read( DrawDataPointEndX, 0.0f ),
+                                call->read( DrawDataPointEndY, 0.0f ),
+                                call->read( DrawDataRadius, 0.0f ) );
+            }
+            else if ( type == DrawCallTypeFinish )
+            {
+                CGPathDrawingMode mode = kCGPathStroke;
+                
+                if ( call->read( DrawDataHasFill, false ) && call->read( DrawDataHasStroke, false ) )
+                {
+                    mode = kCGPathFillStroke;
+                    CGContextClosePath( context );
+                }
+                else if ( call->read( DrawDataHasStroke, false ) )
+                {
+                    mode = kCGPathStroke;
+                }
+                else if ( call->read( DrawDataHasFill, false ) )
+                {
+                    mode = kCGPathFill;
+                    CGContextClosePath( context );
+                }
+                
+                CGContextDrawPath( context, mode );
+                
+                //start the next path if we are not done
+                if ( i < own->getDrawCallCount() - 1 )
+                {
+                    CGContextBeginPath( context );
+                }
             }
         }
-        
-        CGContextDrawPath(context, kCGPathStroke);
     }
     own->clearDrawCalls();
 }
