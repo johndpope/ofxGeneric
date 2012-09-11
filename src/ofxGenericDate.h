@@ -28,6 +28,7 @@ public:
         DateFormatFullFileSafe,
         DateFormatFull,
         DateFormatDateOnly,
+        DateFormatDateFileSafe,
         DateFormatPretty,
         DateFormatServer,
         DateFormatMonthDayPretty,
