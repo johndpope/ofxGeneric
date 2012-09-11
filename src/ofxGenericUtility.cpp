@@ -214,6 +214,16 @@ string ofxGToString( bool value )
     return "false";
 }
 
+string ofxGToString( const ofColor& color )
+{
+    return "(" + ofxGToString( color.r ) + "," + ofxGToString( color.g ) + "," + ofxGToString( color.b ) + "," + ofxGToString( color.a ) + ")";
+}
+
+string ofxGToString( const ofPoint& point )
+{
+    return "(" + ofxGToString( point.x ) + "," + ofxGToString( point.y ) + ")";
+}
+
 string ofxGToString( const void* value, unsigned int byteSize )
 {
     char* dataBuffer = new char[ byteSize + 1 ];

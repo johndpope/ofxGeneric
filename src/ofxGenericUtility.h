@@ -50,6 +50,8 @@ string ofxGToString( unsigned long int value );
 string ofxGToString( double value );
 string ofxGToString( float value );
 string ofxGToString( bool value );
+string ofxGToString( const ofPoint& point );
+string ofxGToString( const ofColor& color );
 string ofxGToString( const void* value, unsigned int byteSize );
 bool ofxGToBool( string value );
 
