@@ -31,6 +31,7 @@ public:
         DateFormatPretty,
         DateFormatServer,
         DateFormatMonthDayPretty,
+        DateFormatDayOfTheWeek,
         
         DateFormatCount
     };
@@ -74,6 +75,9 @@ public:
     virtual unsigned int getMinute();
     //second of the day 0-59
     virtual unsigned int getSecond();
+    
+    // 0-6, Sunday is 0
+    virtual int getDayOfTheWeek();
     
     virtual string getDescription();
     
