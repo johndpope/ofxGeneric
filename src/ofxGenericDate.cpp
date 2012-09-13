@@ -29,6 +29,7 @@ const char* ofxGenericDate::getFormat( ofxGenericDate::DateFormat format )
         case DateFormatPretty: return "MMMM dd, YYYY";
         case DateFormatServer: return "yyyy-MM-dd\'T\'HH:mm:ssZ";
         case DateFormatMonthDayPretty: return "MMM dd";
+        case DateFormatDayOfTheWeek: return "EEE";
             
         default: return "yyyy-MM-dd HH-mm-ss";
     }
@@ -208,6 +209,24 @@ unsigned int ofxGenericDate::getMinute()
 unsigned int ofxGenericDate::getSecond()
 {
     return _second;
+}
+
+int ofxGenericDate::getDayOfTheWeek()
+{
+    int retval = 0;
+    
+#if TARGET_OS_IPHONE
+    NSDate* date = convertToNSDate();
+    NSCalendar* calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents* weekdayComponents =[ calendar components:NSWeekdayCalendarUnit fromDate:date ];
+    retval = [weekdayComponents weekday];
+    [calendar release];
+    
+    // Adjust the value to be 0 - 6
+    retval--;
+#endif
+    
+    return retval;
 }
 
 string ofxGenericDate::getDescription()
