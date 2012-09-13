@@ -114,7 +114,9 @@ public:
     virtual string  read( string key, string defaultValue ) const;
     virtual string  read( string key, const char* defaultValue ) const;
     virtual ofPtr< ofxGenericValueStore > read( string key ) const;
-    ofPtr< ofxGenericValueStore > operator[]( string key ) const;    
+    ofPtr< ofxGenericValueStore > operator[]( string key ) const;
+    ofPtr< ofxGenericValueStore > readOrCreate( string key, Type type );
+    ofPtr< ofxGenericValueStore > readOrCreate( string key, Type type, bool& didCreate );
 
     virtual void drop( string key );
 
@@ -133,7 +135,9 @@ public:
     virtual string  read( unsigned int index, string defaultValue ) const;
     virtual string  read( unsigned int index, const char* defaultValue ) const;
     virtual ofPtr< ofxGenericValueStore > read( unsigned int index ) const;
-    ofPtr< ofxGenericValueStore > operator[]( unsigned int index ) const;
+    ofPtr< ofxGenericValueStore > operator[]( unsigned int index ) const;    
+    ofPtr< ofxGenericValueStore > readOrCreate( unsigned int index, Type type );
+    ofPtr< ofxGenericValueStore > readOrCreate( unsigned int index, Type type, bool& didCreate );
 
     virtual void drop( int index );
     
@@ -205,4 +209,3 @@ protected:
     
     void ensureIndexAvailable( unsigned int index );
 };
-

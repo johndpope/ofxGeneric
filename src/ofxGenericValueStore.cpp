@@ -743,6 +743,29 @@ void ofxGenericValueStore::drop( string key )
     }
 }
 
+ofPtr< ofxGenericValueStore > ofxGenericValueStore::readOrCreate( string key, Type type )
+{
+    bool didCreate;
+    return readOrCreate( key, type, didCreate );
+}
+
+ofPtr< ofxGenericValueStore > ofxGenericValueStore::readOrCreate( string key, Type type, bool& didCreate )
+{
+    didCreate = false;
+    if ( isObject() )
+    {
+        ofPtr< ofxGenericValueStore > value = read( key );
+        if ( !value )
+        {
+            value = ofxGenericValueStore::create( type );
+            write( key, value );
+            didCreate = true;
+        }
+        return value;
+    }
+    return ofPtr< ofxGenericValueStore >();
+}
+
 #pragma Array
 
 void ofxGenericValueStore::ensureIndexAvailable( unsigned int index )
@@ -873,6 +896,28 @@ ofPtr< ofxGenericValueStore > ofxGenericValueStore::operator[]( unsigned int ind
     return read( index );
 }
 
+ofPtr< ofxGenericValueStore > ofxGenericValueStore::readOrCreate( unsigned int index, Type type )
+{
+    bool didCreate;
+    return readOrCreate( index, type, didCreate );
+}
+
+ofPtr< ofxGenericValueStore > ofxGenericValueStore::readOrCreate( unsigned int index, Type type, bool& didCreate )
+{
+    didCreate = false;
+    if ( isArray() )
+    {
+        ofPtr< ofxGenericValueStore > value = read( index );
+        if ( !value )
+        {
+            value = ofxGenericValueStore::create( type );
+            write( index, value );
+            didCreate = true;
+        }
+        return value;
+    }
+    return ofPtr< ofxGenericValueStore >();
+}
 
 unsigned int ofxGenericValueStore::length() const 
 {
