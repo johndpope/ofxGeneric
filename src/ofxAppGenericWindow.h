@@ -40,6 +40,8 @@ public:
     void setRootView( ofPtr< ofxGenericView > view );
     
     NativeWindow getNativeWindow();
+    
+    void setBackgroundColor( const ofColor& color );
 
 #if TARGET_ANDROID
 
