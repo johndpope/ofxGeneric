@@ -846,8 +846,8 @@ void ofxGenericView::replaceViewWithView( ofPtr< ofxGenericView > replace, ofPtr
     if ( replace && replace->getParent() && with )
     {
         ofPtr< ofxGenericView > parent = replace->getParent().lock();
-        // TODO: match autosizing?
         with->setFrame( replace->getFrame() );
+        with->setAutoresizingMask( replace->getAutoresizingMask() );
         parent->addChildViewBefore( with, replace );
         parent->removeChildView( replace );
     }
