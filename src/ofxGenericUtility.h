@@ -23,8 +23,8 @@ string ofxGPathToDocumentsFolder( string fileName = string() );
 
 string ofxGGetPathFromFileName( string fileName );
 
-bool ofxGmkdir( string loc, bool useDocuments );
-bool ofxGrmdir( string loc, bool useDocuments, bool onlyIfEmpty = true );
+bool ofxGmkdir( string location, bool useDocuments );
+bool ofxGrmdir( string location, bool useDocuments, bool onlyIfEmpty = true );
 
 bool ofxGFileExists( string absolutePath );
 bool ofxGFileExists( string location, bool useDocuments );
