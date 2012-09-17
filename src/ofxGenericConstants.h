@@ -176,3 +176,6 @@ enum ofxGenericMIMEType
     ofxGenericMIMETypeXML,
     ofxGenericMIMETypeUnknown
 };
+
+typedef unsigned int ofxGenericIndex;
+static const ofxGenericIndex ofxGInvalidIndex = -1;
