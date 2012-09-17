@@ -9,6 +9,7 @@
 #include "ofxGenericUtility.h"
 
 #if TARGET_OS_IPHONE
+#include "UIDevice-Hardware.h"
 #include "ofxiPhoneExtras.h"
 
 #elif TARGET_ANDROID
@@ -26,7 +27,10 @@ ofPtr< ofxGenericImageView > ofxGenericImageView::create( const ofRectangle& set
 {
     ofPtr< ofxGenericImageView > create = ofPtr< ofxGenericImageView >( new ofxGenericImageView() );
     create->init( create, setFrame );
-    create->setImage( fileName );
+    if ( !fileName.empty() )
+    {
+        create->setImage( fileName );
+    }
     return create;
 }
 
@@ -48,7 +52,22 @@ void ofxGenericImageView::setImage( std::string fileName )
     if ( [ _view isKindOfClass:[ UIImageView class ] ] )
     {
         UIImageView* view = ( UIImageView* )_view;
-        [ view setImage:[ UIImage imageWithContentsOfFile:ofxStringToNSString( ofxGPathToDataFolder( fileName ) ) ] ];
+        
+        std::string resolutionFileName( "" );
+        if ( [ [ UIDevice currentDevice ] hasRetinaDisplay ] )
+        {
+            resolutionFileName = ofFilePath::removeExt( fileName );
+            resolutionFileName += "@2x.";
+            resolutionFileName += ofFilePath::getFileExt( fileName );
+            if ( !ofxGFileExists( resolutionFileName, false ) )
+            {
+                resolutionFileName = fileName;
+            }
+        } else
+        {
+            resolutionFileName = fileName;
+        }
+        [ view setImage:[ UIImage imageWithContentsOfFile:ofxStringToNSString( ofxGPathToDataFolder( resolutionFileName ) ) ] ];
     }
 #elif TARGET_ANDROID
     callJNIVoidMethod(
