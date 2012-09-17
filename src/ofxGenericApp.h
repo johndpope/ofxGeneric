@@ -82,6 +82,7 @@ public:
 protected:
     
     ofPtr< ofxAppGenericWindow > _window;
+    ofRectangle _windowSize;
 
     virtual void createRootView();
     

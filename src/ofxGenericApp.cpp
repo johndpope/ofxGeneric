@@ -81,6 +81,7 @@ void ofxGenericApp::runViaInfiniteLoop( ofPtr< ofxAppGenericWindow > window )
     ofLog( ofxGenericModuleName, OF_LOG_VERBOSE, "App loop starting..." );
     // TODO: strong references
     _window = window;
+    _windowSize = _window->getFrame();
 
     if ( true )
     {
@@ -227,7 +228,7 @@ void ofxGenericApp::setOrientation( ofOrientation toOrientation )
     [ [ UIApplication sharedApplication ] setStatusBarOrientation:ofInterfaceOrientationToiOS( toOrientation ) animated:NO ];
     
     [getRootView()->getNativeView() setTransform:transform];
-    [getRootView()->getNativeView() setFrame:CGRectMake(0, 0, 320, 480)];
+    [getRootView()->getNativeView() setFrame:ofRectangleToCGRect( _windowSize ) ];
     [getRootView()->getNativeView() setNeedsLayout];
 #endif
 }
