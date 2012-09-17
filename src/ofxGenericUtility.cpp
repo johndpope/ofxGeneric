@@ -68,6 +68,29 @@ bool ofxGrmdir( string loc, bool useDocuments, bool onlyIfEmpty )
     return false;
 }
 
+bool ofxGFileExists( string absolutePath )
+{
+#if TARGET_OS_IPHONE
+    return ( bool )[ [ NSFileManager defaultManager ] fileExistsAtPath:ofxStringToNSString( absolutePath ) ];
+#elif TARGET_ANDROID
+    ofxGLogError << "ofxGFileExists(...) isn't implemented for Android yet!";
+#endif
+    return false;
+}
+
+bool ofxGFileExists( string location, bool useDocuments )
+{
+    string absolutePath;
+    if ( useDocuments )
+    {
+        absolutePath = ofxGPathToDocumentsFolder( location );
+    } else
+    {
+        absolutePath = ofxGPathToDataFolder( location );
+    }
+    return ofxGFileExists( absolutePath );
+}
+
 //////////////////////////////// Font //////////////////////////////////
 
 float ofxGFontSizeForText( string text, string fontName, float startingFontSize, const ofPoint& constrainedSize )

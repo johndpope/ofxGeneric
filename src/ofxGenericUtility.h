@@ -26,6 +26,9 @@ string ofxGGetPathFromFileName( string fileName );
 bool ofxGmkdir( string loc, bool useDocuments );
 bool ofxGrmdir( string loc, bool useDocuments, bool onlyIfEmpty = true );
 
+bool ofxGFileExists( string absolutePath );
+bool ofxGFileExists( string location, bool useDocuments );
+
 //////////////////////////////// Font //////////////////////////////////
 
 float ofxGFontSizeForText( string text, string fontName, float startingFontSize, const ofPoint& constrainedSize );
