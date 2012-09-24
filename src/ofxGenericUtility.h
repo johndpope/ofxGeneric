@@ -71,6 +71,8 @@ int ofxGRandom();
 int ofxGRandomInRange( int minimum, int maximum );
 int ofxGRandomInRangeExclusive( int minimumInclusive, int maximumExclusive );
 
+ofRectangle ofxGGetCenteredSquareFit( const ofRectangle& rectangle );
+
 //////////////////////////////// HTTP //////////////////////////////////
 
 string ofxGMIMETypeToString( ofxGenericMIMEType type );
