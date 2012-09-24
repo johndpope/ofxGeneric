@@ -369,6 +369,14 @@ int ofxGRandomInRangeExclusive( int minimumInclusive, int maximumExclusive )
     return ofxGRandomInRange( minimumInclusive, maximumExclusive - 1 );
 }
 
+ofRectangle ofxGetCenteredSquareFit( const ofRectangle& rectangle )
+{
+    float dimension = MIN( rectangle.width, rectangle.height );
+    ofRectangle result( 0, 0, dimension, dimension );
+    result.centerOn( rectangle );
+    return result;
+}
+
 //////////////////////////////// HTTP //////////////////////////////////
 
 #define ofxGenericMIMETypeJSONString "application/json"
