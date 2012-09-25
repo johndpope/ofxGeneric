@@ -33,6 +33,8 @@
 		3C5336E8153F6ED60046AFD8 /* ofxGenericAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3C5336E3153F6ED60046AFD8 /* ofxGenericAppDelegate.mm */; };
 		3C5336E9153F6ED60046AFD8 /* ofxGenericUtilityiOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3C5336E4153F6ED60046AFD8 /* ofxGenericUtilityiOS.mm */; };
 		3C5C788E15C7809F0099C59A /* ofxGenericFrameView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C5C788D15C7809F0099C59A /* ofxGenericFrameView.cpp */; };
+		3C61377116113C2D00349CD9 /* NSFileManager+Tar.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C61376E16113C2D00349CD9 /* NSFileManager+Tar.h */; };
+		3C61377216113C2D00349CD9 /* NSFileManager+Tar.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C61376F16113C2D00349CD9 /* NSFileManager+Tar.m */; };
 		3C6D4B2B15584E4D004904CE /* ofxGenericSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C6D4B2A15584E4D004904CE /* ofxGenericSettings.cpp */; };
 		3C7B4DDE14FC78A1003121FE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C7B4DDD14FC78A1003121FE /* Foundation.framework */; };
 		3C7B4EB514FC7CBF003121FE /* ofxAppGenericWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C7B4E8A14FC7CBF003121FE /* ofxAppGenericWindow.cpp */; };
@@ -166,6 +168,8 @@
 		3C5336E4153F6ED60046AFD8 /* ofxGenericUtilityiOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxGenericUtilityiOS.mm; sourceTree = "<group>"; };
 		3C5C788B15C780920099C59A /* ofxGenericFrameView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericFrameView.h; sourceTree = "<group>"; };
 		3C5C788D15C7809F0099C59A /* ofxGenericFrameView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericFrameView.cpp; sourceTree = "<group>"; };
+		3C61376E16113C2D00349CD9 /* NSFileManager+Tar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+Tar.h"; sourceTree = "<group>"; };
+		3C61376F16113C2D00349CD9 /* NSFileManager+Tar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+Tar.m"; sourceTree = "<group>"; };
 		3C6D4B2715584CB6004904CE /* ofxGenericSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericSettings.h; sourceTree = "<group>"; };
 		3C6D4B2A15584E4D004904CE /* ofxGenericSettings.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericSettings.cpp; sourceTree = "<group>"; };
 		3C7B4DDA14FC78A1003121FE /* libofxGeneric.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libofxGeneric.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -296,6 +300,15 @@
 				3C5336DF153F6A420046AFD8 /* README.md */,
 			);
 			path = OpenUDID;
+			sourceTree = "<group>";
+		};
+		3C61376D16113C2D00349CD9 /* Light-Untar */ = {
+			isa = PBXGroup;
+			children = (
+				3C61376E16113C2D00349CD9 /* NSFileManager+Tar.h */,
+				3C61376F16113C2D00349CD9 /* NSFileManager+Tar.m */,
+			);
+			path = "Light-Untar";
 			sourceTree = "<group>";
 		};
 		3C7B4DCF14FC78A0003121FE = {
@@ -470,6 +483,7 @@
 		3CF2D27515ED8C35008A56AB /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				3C61376D16113C2D00349CD9 /* Light-Untar */,
 				3CF2D27615ED8C6E008A56AB /* uidevice-extension */,
 				3C5336DC153F6A420046AFD8 /* OpenUDID */,
 			);
@@ -664,6 +678,7 @@
 				3CF2D2C415ED917D008A56AB /* wwanconnect.h in Headers */,
 				453DE3DF15F66AC400046917 /* ofxGenericPageControl.h in Headers */,
 				3C96A11E16110F11000BA061 /* ofxGenericWebView.h in Headers */,
+				3C61377116113C2D00349CD9 /* NSFileManager+Tar.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -791,6 +806,7 @@
 				3CF2D2C315ED917D008A56AB /* wwanconnect.c in Sources */,
 				453DE3DE15F66AC400046917 /* ofxGenericPageControl.cpp in Sources */,
 				3C96A11D16110F11000BA061 /* ofxGenericWebView.cpp in Sources */,
+				3C61377216113C2D00349CD9 /* NSFileManager+Tar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

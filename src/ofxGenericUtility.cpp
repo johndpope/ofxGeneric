@@ -6,6 +6,10 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+#if TARGET_OS_IPHONE
+#include "NSFileManager+Tar.h"
+#endif
+
 //////////////////////////////// Path //////////////////////////////////
 
 string ofxGGetFullPath( string fileName, bool isInDocuments )
@@ -430,4 +434,24 @@ string ofxGMIMETypeToExtension( ofxGenericMIMEType type )
         case ofxGenericMIMETypeUnknown:
             return "";
     }
+}
+
+//////////////////////////////// Compression //////////////////////////////////
+
+bool ofxGUntar( string tarLocation, bool tarIsInDocuments, string destinationWithinDocuments )
+{
+    string tarFullPath = ofxGGetFullPath( tarLocation, tarIsInDocuments );
+    if ( ofxGFileExists( tarFullPath ) )
+    {
+        ofxGmkdir( destinationWithinDocuments, true );
+#if TARGET_OS_IPHONE
+        NSError* error;
+        return ( bool )[ [ NSFileManager defaultManager ] createFilesAndDirectoriesAtPath:ofxStringToNSString( ofxGGetFullPath(  destinationWithinDocuments, true ) ) withTarPath:ofxStringToNSString( tarFullPath ) error:&error ];
+#endif
+    } else
+    {
+        ofxGLogError( "ofxGUntar called with path to tar file " + tarFullPath + " that cannot be found!" );
+    }
+    
+    return false;
 }
