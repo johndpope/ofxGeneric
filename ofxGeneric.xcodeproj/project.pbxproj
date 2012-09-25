@@ -804,12 +804,9 @@
 				3CF2D2A615ED8C6E008A56AB /* UIDevice-Reachability.m in Sources */,
 				3CF2D2C315ED917D008A56AB /* wwanconnect.c in Sources */,
 				453DE3DE15F66AC400046917 /* ofxGenericPageControl.cpp in Sources */,
-<<<<<<< HEAD
 				458CA44E1611035100634D06 /* ofxGenericSound.cpp in Sources */,
 				458CA4601611145C00634D06 /* ofxGenericSoundManager.cpp in Sources */,
-=======
 				3C96A11D16110F11000BA061 /* ofxGenericWebView.cpp in Sources */,
->>>>>>> b35b0bcd6b28a91277484faa1f7da887f27739b2
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
