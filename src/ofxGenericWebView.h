@@ -12,6 +12,7 @@
 
 class ofxGenericWebViewDelegate;
 #if TARGET_OS_IPHONE
+class ofxGenericScrollView;
 @class ofxGenericWebViewForwarder;
 #endif
 
@@ -32,6 +33,8 @@ public:
     void goBack();
     bool canGoForward();
     void goForward();
+    
+    void setScrollingEnabled( bool enabled );
 
     virtual bool shouldStartNavigation();
     virtual void started();
@@ -50,6 +53,7 @@ protected:
     NativeView createNativeView( const ofRectangle& frame );
 #if TARGET_OS_IPHONE
     UIWebView* getNativeWebView();
+    ofPtr< ofxGenericScrollView > _scrollContainer;
 #endif
 };
 

@@ -8,6 +8,8 @@
 
 #include "ofxGenericWebView.h"
 
+#include "ofxGenericScrollView.h"
+
 #if TARGET_OS_IPHONE
 @interface ofxGenericWebViewForwarder : NSObject< UIWebViewDelegate >
 {
@@ -40,8 +42,11 @@ NativeView ofxGenericWebView::createNativeView( const ofRectangle& frame )
 {
 #if TARGET_OS_IPHONE
     UIWebView* newView = [ [ UIWebView alloc ] initWithFrame:ofRectangleToCGRect( frame ) ];
+    _scrollContainer = ofxGenericScrollView::create( frame, [ newView scrollView ] );
+    
     _forwarder = [ [ ofxGenericWebViewForwarder alloc ] initWithForwardTo:dynamic_pointer_cast< ofxGenericWebView >( _this ) ];
     [ newView setDelegate:_forwarder ];
+    
     return newView;
 #endif
 }
@@ -154,6 +159,16 @@ void ofxGenericWebView::goForward()
     if ( webView )
     {
         [ webView goForward ];
+    }
+#endif
+}
+
+void ofxGenericWebView::setScrollingEnabled( bool enabled )
+{
+#if TARGET_OS_IPHONE
+    if ( _scrollContainer )
+    {
+        _scrollContainer->setEnabled( enabled );
     }
 #endif
 }

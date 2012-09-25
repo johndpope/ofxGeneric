@@ -20,7 +20,7 @@ class ofxGenericScrollView : public ofxGenericView
 {
 public:
     ~ofxGenericScrollView();
-    static ofPtr< ofxGenericScrollView > create( const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ) );
+    static ofPtr< ofxGenericScrollView > create( const ofRectangle& setFrame = ofRectangle(), NativeView nativeView = NativeNull );
     
     void setContentSize( const ofPoint& contentSize );
     void setContentOffset( const ofPoint& contentOffset, bool animated );

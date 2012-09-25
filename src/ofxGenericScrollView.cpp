@@ -39,10 +39,10 @@ ofxGenericScrollView::~ofxGenericScrollView()
 #endif
 }
 
-ofPtr< ofxGenericScrollView > ofxGenericScrollView::create( const ofRectangle& setFrame )
+ofPtr< ofxGenericScrollView > ofxGenericScrollView::create( const ofRectangle& setFrame, NativeView nativeView )
 {
     ofPtr< ofxGenericScrollView > create = ofPtr< ofxGenericScrollView >( new ofxGenericScrollView() );
-    create->init( create, setFrame );
+    create->init( create, setFrame, nativeView );
     return create;
 }
 
