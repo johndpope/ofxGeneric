@@ -18,6 +18,8 @@
 
 //////////////////////////////// Path //////////////////////////////////
 
+string ofxGGetFullPath( string fileName, bool isInDocuments );
+
 string ofxGPathToDataFolder( string fileName = string() );
 string ofxGPathToDocumentsFolder( string fileName = string() );
 
