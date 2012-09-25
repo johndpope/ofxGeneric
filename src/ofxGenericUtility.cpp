@@ -8,6 +8,7 @@
 
 #if TARGET_OS_IPHONE
 #include "NSFileManager+Tar.h"
+#include "SSZipArchive.h"
 #endif
 
 //////////////////////////////// Path //////////////////////////////////
@@ -444,13 +445,33 @@ bool ofxGUntar( string tarLocation, bool tarIsInDocuments, string destinationWit
     if ( ofxGFileExists( tarFullPath ) )
     {
         ofxGmkdir( destinationWithinDocuments, true );
+        string destinationFullPath = ofxGGetFullPath(  destinationWithinDocuments, true );
 #if TARGET_OS_IPHONE
         NSError* error;
-        return ( bool )[ [ NSFileManager defaultManager ] createFilesAndDirectoriesAtPath:ofxStringToNSString( ofxGGetFullPath(  destinationWithinDocuments, true ) ) withTarPath:ofxStringToNSString( tarFullPath ) error:&error ];
+        return ( bool )[ [ NSFileManager defaultManager ] createFilesAndDirectoriesAtPath:ofxStringToNSString( destinationFullPath ) withTarPath:ofxStringToNSString( tarFullPath ) error:&error ];
 #endif
     } else
     {
         ofxGLogError( "ofxGUntar called with path to tar file " + tarFullPath + " that cannot be found!" );
+    }
+    
+    return false;
+}
+
+
+bool ofxGUnzip( string zipLocation, bool zipIsInDocuments, string destinationWithinDocuments )
+{
+    string zipFullPath = ofxGGetFullPath( zipLocation, zipIsInDocuments );
+    if ( ofxGFileExists( zipFullPath ) )
+    {
+        ofxGmkdir( destinationWithinDocuments, true );
+        string destinationFullPath = ofxGGetFullPath(  destinationWithinDocuments, true );
+#if TARGET_OS_IPHONE
+        [ SSZipArchive unzipFileAtPath:ofxStringToNSString( zipFullPath ) toDestination:ofxStringToNSString( destinationFullPath ) ];
+#endif
+    } else
+    {
+        ofxGLogError( "ofxGUnzip called with path to zip file " + zipFullPath + " that cannot be found!" );
     }
     
     return false;

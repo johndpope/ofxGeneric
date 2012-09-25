@@ -84,3 +84,4 @@ string ofxGMIMETypeToExtension( ofxGenericMIMEType type );
 //////////////////////////////// Compression //////////////////////////////////
 
 bool ofxGUntar( string tarLocation, bool tarIsInDocuments, string destinationWithinDocuments );
+bool ofxGUnzip( string zipLocation, bool zipIsInDocuments, string destinationWithinDocuments );

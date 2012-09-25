@@ -36,6 +36,18 @@
 		3C61377116113C2D00349CD9 /* NSFileManager+Tar.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C61376E16113C2D00349CD9 /* NSFileManager+Tar.h */; };
 		3C61377216113C2D00349CD9 /* NSFileManager+Tar.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C61376F16113C2D00349CD9 /* NSFileManager+Tar.m */; };
 		3C6D4B2B15584E4D004904CE /* ofxGenericSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C6D4B2A15584E4D004904CE /* ofxGenericSettings.cpp */; };
+		3C6D977B161148040087816E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C6D977A161148040087816E /* libz.dylib */; };
+		3C6D979D161149780087816E /* crypt.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C6D9782161149780087816E /* crypt.h */; };
+		3C6D979E161149780087816E /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 3C6D9783161149780087816E /* ioapi.c */; };
+		3C6D979F161149780087816E /* ioapi.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C6D9784161149780087816E /* ioapi.h */; };
+		3C6D97A0161149780087816E /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = 3C6D9785161149780087816E /* mztools.c */; };
+		3C6D97A1161149780087816E /* mztools.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C6D9786161149780087816E /* mztools.h */; };
+		3C6D97A2161149780087816E /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 3C6D9787161149780087816E /* unzip.c */; };
+		3C6D97A3161149780087816E /* unzip.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C6D9788161149780087816E /* unzip.h */; };
+		3C6D97A4161149780087816E /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 3C6D9789161149780087816E /* zip.c */; };
+		3C6D97A5161149780087816E /* zip.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C6D978A161149780087816E /* zip.h */; };
+		3C6D97A6161149780087816E /* SSZipArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C6D978C161149780087816E /* SSZipArchive.h */; };
+		3C6D97A7161149780087816E /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C6D978D161149780087816E /* SSZipArchive.m */; };
 		3C7B4DDE14FC78A1003121FE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C7B4DDD14FC78A1003121FE /* Foundation.framework */; };
 		3C7B4EB514FC7CBF003121FE /* ofxAppGenericWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C7B4E8A14FC7CBF003121FE /* ofxAppGenericWindow.cpp */; };
 		3C7B4EB614FC7CBF003121FE /* ofxAppGenericWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C7B4E8B14FC7CBF003121FE /* ofxAppGenericWindow.h */; };
@@ -166,7 +178,6 @@
 		3C5336DA153F64A10046AFD8 /* ofxGenericMain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericMain.h; sourceTree = "<group>"; };
 		3C5336DD153F6A420046AFD8 /* OpenUDID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenUDID.h; sourceTree = "<group>"; };
 		3C5336DE153F6A420046AFD8 /* OpenUDID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenUDID.m; sourceTree = "<group>"; };
-		3C5336DF153F6A420046AFD8 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		3C5336E2153F6ED60046AFD8 /* ofxGenericAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericAppDelegate.h; sourceTree = "<group>"; };
 		3C5336E3153F6ED60046AFD8 /* ofxGenericAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxGenericAppDelegate.mm; sourceTree = "<group>"; };
 		3C5336E4153F6ED60046AFD8 /* ofxGenericUtilityiOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxGenericUtilityiOS.mm; sourceTree = "<group>"; };
@@ -176,6 +187,18 @@
 		3C61376F16113C2D00349CD9 /* NSFileManager+Tar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+Tar.m"; sourceTree = "<group>"; };
 		3C6D4B2715584CB6004904CE /* ofxGenericSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericSettings.h; sourceTree = "<group>"; };
 		3C6D4B2A15584E4D004904CE /* ofxGenericSettings.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericSettings.cpp; sourceTree = "<group>"; };
+		3C6D977A161148040087816E /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.0.sdk/usr/lib/libz.dylib; sourceTree = DEVELOPER_DIR; };
+		3C6D9782161149780087816E /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
+		3C6D9783161149780087816E /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
+		3C6D9784161149780087816E /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
+		3C6D9785161149780087816E /* mztools.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mztools.c; sourceTree = "<group>"; };
+		3C6D9786161149780087816E /* mztools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mztools.h; sourceTree = "<group>"; };
+		3C6D9787161149780087816E /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unzip.c; sourceTree = "<group>"; };
+		3C6D9788161149780087816E /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unzip.h; sourceTree = "<group>"; };
+		3C6D9789161149780087816E /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zip.c; sourceTree = "<group>"; };
+		3C6D978A161149780087816E /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
+		3C6D978C161149780087816E /* SSZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSZipArchive.h; sourceTree = "<group>"; };
+		3C6D978D161149780087816E /* SSZipArchive.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SSZipArchive.m; sourceTree = "<group>"; };
 		3C7B4DDA14FC78A1003121FE /* libofxGeneric.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libofxGeneric.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C7B4DDD14FC78A1003121FE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3C7B4DED14FC78A1003121FE /* UIKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -291,6 +314,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3C6D977B161148040087816E /* libz.dylib in Frameworks */,
 				3C9DAB4215F36137000F04AD /* libofxiPhone_iphoneos_Debug.a in Frameworks */,
 				3C0B9FAC1571FB07009F61BE /* AVFoundation.framework in Frameworks */,
 				3C7B4DDE14FC78A1003121FE /* Foundation.framework in Frameworks */,
@@ -305,7 +329,6 @@
 			children = (
 				3C5336DD153F6A420046AFD8 /* OpenUDID.h */,
 				3C5336DE153F6A420046AFD8 /* OpenUDID.m */,
-				3C5336DF153F6A420046AFD8 /* README.md */,
 			);
 			path = OpenUDID;
 			sourceTree = "<group>";
@@ -317,6 +340,32 @@
 				3C61376F16113C2D00349CD9 /* NSFileManager+Tar.m */,
 			);
 			path = "Light-Untar";
+			sourceTree = "<group>";
+		};
+		3C6D977D161149780087816E /* SSZipArchive */ = {
+			isa = PBXGroup;
+			children = (
+				3C6D9781161149780087816E /* minizip */,
+				3C6D978C161149780087816E /* SSZipArchive.h */,
+				3C6D978D161149780087816E /* SSZipArchive.m */,
+			);
+			path = SSZipArchive;
+			sourceTree = "<group>";
+		};
+		3C6D9781161149780087816E /* minizip */ = {
+			isa = PBXGroup;
+			children = (
+				3C6D9782161149780087816E /* crypt.h */,
+				3C6D9783161149780087816E /* ioapi.c */,
+				3C6D9784161149780087816E /* ioapi.h */,
+				3C6D9785161149780087816E /* mztools.c */,
+				3C6D9786161149780087816E /* mztools.h */,
+				3C6D9787161149780087816E /* unzip.c */,
+				3C6D9788161149780087816E /* unzip.h */,
+				3C6D9789161149780087816E /* zip.c */,
+				3C6D978A161149780087816E /* zip.h */,
+			);
+			path = minizip;
 			sourceTree = "<group>";
 		};
 		3C7B4DCF14FC78A0003121FE = {
@@ -342,6 +391,7 @@
 		3C7B4DDC14FC78A1003121FE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3C6D977A161148040087816E /* libz.dylib */,
 				3C7B4ED414FC7D2E003121FE /* iOS+OFLib.xcodeproj */,
 				3CBAC60014FD4EC8002A12C8 /* CoreVideo.framework */,
 				3CBAC5FE14FD4EA7002A12C8 /* CoreMedia.framework */,
@@ -495,6 +545,7 @@
 		3CF2D27515ED8C35008A56AB /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				3C6D977D161149780087816E /* SSZipArchive */,
 				3C61376D16113C2D00349CD9 /* Light-Untar */,
 				3CF2D27615ED8C6E008A56AB /* uidevice-extension */,
 				3C5336DC153F6A420046AFD8 /* OpenUDID */,
@@ -693,6 +744,12 @@
 				458CA4611611145C00634D06 /* ofxGenericSoundManager.h in Headers */,
 				3C96A11E16110F11000BA061 /* ofxGenericWebView.h in Headers */,
 				3C61377116113C2D00349CD9 /* NSFileManager+Tar.h in Headers */,
+				3C6D979D161149780087816E /* crypt.h in Headers */,
+				3C6D979F161149780087816E /* ioapi.h in Headers */,
+				3C6D97A1161149780087816E /* mztools.h in Headers */,
+				3C6D97A3161149780087816E /* unzip.h in Headers */,
+				3C6D97A5161149780087816E /* zip.h in Headers */,
+				3C6D97A6161149780087816E /* SSZipArchive.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -823,6 +880,11 @@
 				458CA4601611145C00634D06 /* ofxGenericSoundManager.cpp in Sources */,
 				3C96A11D16110F11000BA061 /* ofxGenericWebView.cpp in Sources */,
 				3C61377216113C2D00349CD9 /* NSFileManager+Tar.m in Sources */,
+				3C6D979E161149780087816E /* ioapi.c in Sources */,
+				3C6D97A0161149780087816E /* mztools.c in Sources */,
+				3C6D97A2161149780087816E /* unzip.c in Sources */,
+				3C6D97A4161149780087816E /* zip.c in Sources */,
+				3C6D97A7161149780087816E /* SSZipArchive.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

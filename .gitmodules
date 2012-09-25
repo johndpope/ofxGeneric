@@ -10,3 +10,6 @@
 [submodule "libs/iOS/Light-Untar"]
 	path = libs/iOS/Light-Untar
 	url = git@github.com:lumoslabs/Light-Untar-for-iOS.git
+[submodule "libs/iOS/SSZipArchive"]
+	path = libs/iOS/SSZipArchive
+	url = git@github.com:lumoslabs/ssziparchive.git
