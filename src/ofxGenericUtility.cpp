@@ -26,7 +26,7 @@ string ofxGPathToDataFolder( string fileName )
 
 string ofxGPathToDocumentsFolder( string fileName )
 {
-    return ofToDataPath( fileName, true, false );
+    return ofToDataPath( fileName, true, true );
 }
 
 string ofxGGetPathFromFileName( string fileName )
