@@ -11,7 +11,9 @@
 #include "ofxGenericMain.h"
 
 class ofxGenericAlertViewDelegate;
+#if TARGET_OS_IPHONE
 @class ofxGenericAlertViewForwarder;
+#endif
 
 class ofxGenericAlertView
 {

@@ -58,6 +58,8 @@
 		3C8349F215C301410044DED3 /* ofxGenericAnimatedImageView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C8349F115C301410044DED3 /* ofxGenericAnimatedImageView.cpp */; };
 		3C85FC60151149B7001F5854 /* ofxGenericScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C85FC5F151149B7001F5854 /* ofxGenericScrollView.h */; };
 		3C85FC6415114B1E001F5854 /* ofxGenericScrollView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C85FC6315114B1E001F5854 /* ofxGenericScrollView.cpp */; };
+		3C96A11D16110F11000BA061 /* ofxGenericWebView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C96A11B16110F11000BA061 /* ofxGenericWebView.cpp */; };
+		3C96A11E16110F11000BA061 /* ofxGenericWebView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C96A11C16110F11000BA061 /* ofxGenericWebView.h */; };
 		3C9DAB4215F36137000F04AD /* libofxiPhone_iphoneos_Debug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CE94C7515E655F400E1BC73 /* libofxiPhone_iphoneos_Debug.a */; };
 		3CA59B33153F4312008EE095 /* ofxGenericException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CA59B32153F4311008EE095 /* ofxGenericException.cpp */; };
 		3CB572AD1596512C0060F9BE /* ofxGenericSelectorView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CB572AC1596512C0060F9BE /* ofxGenericSelectorView.cpp */; };
@@ -203,6 +205,8 @@
 		3C8349F115C301410044DED3 /* ofxGenericAnimatedImageView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericAnimatedImageView.cpp; sourceTree = "<group>"; };
 		3C85FC5F151149B7001F5854 /* ofxGenericScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericScrollView.h; sourceTree = "<group>"; };
 		3C85FC6315114B1E001F5854 /* ofxGenericScrollView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericScrollView.cpp; sourceTree = "<group>"; };
+		3C96A11B16110F11000BA061 /* ofxGenericWebView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericWebView.cpp; sourceTree = "<group>"; };
+		3C96A11C16110F11000BA061 /* ofxGenericWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericWebView.h; sourceTree = "<group>"; };
 		3CA5336415B61A7900A8D36B /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		3CA5336515B61A7900A8D36B /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		3CA5336615B61A7900A8D36B /* SharedDebug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = SharedDebug.xcconfig; sourceTree = "<group>"; };
@@ -430,6 +434,8 @@
 				458CA44D1611035100634D06 /* ofxGenericSound.h */,
 				458CA45E1611145C00634D06 /* ofxGenericSoundManager.cpp */,
 				458CA45F1611145C00634D06 /* ofxGenericSoundManager.h */,
+				3C96A11B16110F11000BA061 /* ofxGenericWebView.cpp */,
+				3C96A11C16110F11000BA061 /* ofxGenericWebView.h */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -671,6 +677,7 @@
 				453DE3DF15F66AC400046917 /* ofxGenericPageControl.h in Headers */,
 				458CA44F1611035100634D06 /* ofxGenericSound.h in Headers */,
 				458CA4611611145C00634D06 /* ofxGenericSoundManager.h in Headers */,
+				3C96A11E16110F11000BA061 /* ofxGenericWebView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -797,8 +804,12 @@
 				3CF2D2A615ED8C6E008A56AB /* UIDevice-Reachability.m in Sources */,
 				3CF2D2C315ED917D008A56AB /* wwanconnect.c in Sources */,
 				453DE3DE15F66AC400046917 /* ofxGenericPageControl.cpp in Sources */,
+<<<<<<< HEAD
 				458CA44E1611035100634D06 /* ofxGenericSound.cpp in Sources */,
 				458CA4601611145C00634D06 /* ofxGenericSoundManager.cpp in Sources */,
+=======
+				3C96A11D16110F11000BA061 /* ofxGenericWebView.cpp in Sources */,
+>>>>>>> b35b0bcd6b28a91277484faa1f7da887f27739b2
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
