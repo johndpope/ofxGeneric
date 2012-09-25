@@ -244,7 +244,7 @@ void ofxGenericHTTPRequest::start()
         _connection = [ [ NSURLConnection alloc ] initWithRequest:_request delegate:_forwarder startImmediately:YES ];
     }
 #endif
-    ofxGLogNotice( toString( false ) );
+    ofxGLogVerbose( toString( false ) );
 #if DEBUG
     ofxGLogVerbose( "\nBody:\n" + getBodyAsString() );
 #endif
@@ -441,7 +441,7 @@ void ofxGenericHTTPRequest::finished(
 #if DEBUG
     if ( isResponseOk() )
     {
-        ofxGLogNotice( responseToString( false ) );
+        ofxGLogVerbose( responseToString( false ) );
         ofxGLogVerbose( "\nBody:\n" + getResponseBodyAsString() + "\n" );
     }
     else
