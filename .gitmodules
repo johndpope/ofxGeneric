@@ -7,3 +7,6 @@
 [submodule "libs/iOS/uidevice-extension"]
 	path = libs/iOS/uidevice-extension
 	url = git@github.com:lumoslabs/uidevice-extension.git
+[submodule "libs/iOS/Light-Untar"]
+	path = libs/iOS/Light-Untar
+	url = git@github.com:lumoslabs/Light-Untar-for-iOS.git

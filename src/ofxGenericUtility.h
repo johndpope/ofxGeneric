@@ -18,6 +18,8 @@
 
 //////////////////////////////// Path //////////////////////////////////
 
+string ofxGGetFullPath( string fileName, bool isInDocuments );
+
 string ofxGPathToDataFolder( string fileName = string() );
 string ofxGPathToDocumentsFolder( string fileName = string() );
 
@@ -78,3 +80,7 @@ ofRectangle ofxGGetCenteredSquareFit( const ofRectangle& rectangle );
 string ofxGMIMETypeToString( ofxGenericMIMEType type );
 ofxGenericMIMEType ofxGStringToMIMEType( string type );
 string ofxGMIMETypeToExtension( ofxGenericMIMEType type );
+
+//////////////////////////////// Compression //////////////////////////////////
+
+bool ofxGUntar( string tarLocation, bool tarIsInDocuments, string destinationWithinDocuments );

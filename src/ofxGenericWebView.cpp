@@ -203,6 +203,7 @@ void ofxGenericWebView::finished()
 
 void ofxGenericWebView::failed()
 {
+    ofxGLogError( "ofxGenericWebview Navigation failed!" );
     ofPtr< ofxGenericWebViewDelegate > delegate = _delegate.lock();
     if ( delegate )
     {
