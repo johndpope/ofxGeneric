@@ -535,13 +535,9 @@ ofxGenericUIViewCastOperator( ofxGenericTableView, UITableView );
 }
 
 // TODO: support editing for realsies
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+-( BOOL )tableView:( UITableView* )tableView canEditRowAtIndexPath:( NSIndexPath* )indexPath
 {
-    if ( _delegate )
-    {
-        return ( BOOL )_delegate->getCellDraggingEnabled( indexPath.section, indexPath.row );
-    }
-    return false;
+    return NO;
 }
 
 -( BOOL )tableView:( UITableView* )tableView canMoveRowAtIndexPath:( NSIndexPath* )indexPath
@@ -550,7 +546,7 @@ ofxGenericUIViewCastOperator( ofxGenericTableView, UITableView );
     {
         return ( BOOL )_delegate->getCellDraggingEnabled( indexPath.section, indexPath.row );
     }
-    return false;
+    return NO;
 }
 
 -( void )tableView:( UITableView* )tableView moveRowAtIndexPath:( NSIndexPath* )sourceIndexPath toIndexPath:( NSIndexPath* )destinationIndexPath
