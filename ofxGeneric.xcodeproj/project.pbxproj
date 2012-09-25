@@ -109,6 +109,10 @@
 		454496161540C66600B21064 /* ofxGenericAlertView.h in Headers */ = {isa = PBXBuildFile; fileRef = 454496141540C66600B21064 /* ofxGenericAlertView.h */; };
 		4544F5E91549D061007482B2 /* ofxGenericDrawableView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4544F5E81549D061007482B2 /* ofxGenericDrawableView.cpp */; };
 		456BACAD153DE6A50097D5D4 /* ofxGenericDate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 456BACAC153DE6A50097D5D4 /* ofxGenericDate.cpp */; };
+		458CA44E1611035100634D06 /* ofxGenericSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 458CA44C1611035100634D06 /* ofxGenericSound.cpp */; };
+		458CA44F1611035100634D06 /* ofxGenericSound.h in Headers */ = {isa = PBXBuildFile; fileRef = 458CA44D1611035100634D06 /* ofxGenericSound.h */; };
+		458CA4601611145C00634D06 /* ofxGenericSoundManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 458CA45E1611145C00634D06 /* ofxGenericSoundManager.cpp */; };
+		458CA4611611145C00634D06 /* ofxGenericSoundManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 458CA45F1611145C00634D06 /* ofxGenericSoundManager.h */; };
 		B54787E315E5759000ACF70F /* ofxGenericDateSelectorView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B54787E115E5759000ACF70F /* ofxGenericDateSelectorView.cpp */; };
 		B54787E415E5759000ACF70F /* ofxGenericDateSelectorView.h in Headers */ = {isa = PBXBuildFile; fileRef = B54787E215E5759000ACF70F /* ofxGenericDateSelectorView.h */; };
 /* End PBXBuildFile section */
@@ -274,6 +278,10 @@
 		4544F5E81549D061007482B2 /* ofxGenericDrawableView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericDrawableView.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		456BACAA153DE6960097D5D4 /* ofxGenericDate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericDate.h; sourceTree = "<group>"; };
 		456BACAC153DE6A50097D5D4 /* ofxGenericDate.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericDate.cpp; sourceTree = "<group>"; };
+		458CA44C1611035100634D06 /* ofxGenericSound.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericSound.cpp; sourceTree = "<group>"; };
+		458CA44D1611035100634D06 /* ofxGenericSound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericSound.h; sourceTree = "<group>"; };
+		458CA45E1611145C00634D06 /* ofxGenericSoundManager.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericSoundManager.cpp; sourceTree = "<group>"; };
+		458CA45F1611145C00634D06 /* ofxGenericSoundManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericSoundManager.h; sourceTree = "<group>"; };
 		B54787E115E5759000ACF70F /* ofxGenericDateSelectorView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericDateSelectorView.cpp; sourceTree = "<group>"; };
 		B54787E215E5759000ACF70F /* ofxGenericDateSelectorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericDateSelectorView.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -435,6 +443,10 @@
 				3C16BB2315C7B8AF0062017A /* ofxGenericMicrophone.cpp */,
 				3C4B96EB15DCCCEC003D0B8C /* ofxGenericTableViewCell.h */,
 				3C4B96ED15DCCCF8003D0B8C /* ofxGenericTableViewCell.cpp */,
+				458CA44C1611035100634D06 /* ofxGenericSound.cpp */,
+				458CA44D1611035100634D06 /* ofxGenericSound.h */,
+				458CA45E1611145C00634D06 /* ofxGenericSoundManager.cpp */,
+				458CA45F1611145C00634D06 /* ofxGenericSoundManager.h */,
 				3C96A11B16110F11000BA061 /* ofxGenericWebView.cpp */,
 				3C96A11C16110F11000BA061 /* ofxGenericWebView.h */,
 			);
@@ -677,6 +689,8 @@
 				3CF2D2A515ED8C6E008A56AB /* UIDevice-Reachability.h in Headers */,
 				3CF2D2C415ED917D008A56AB /* wwanconnect.h in Headers */,
 				453DE3DF15F66AC400046917 /* ofxGenericPageControl.h in Headers */,
+				458CA44F1611035100634D06 /* ofxGenericSound.h in Headers */,
+				458CA4611611145C00634D06 /* ofxGenericSoundManager.h in Headers */,
 				3C96A11E16110F11000BA061 /* ofxGenericWebView.h in Headers */,
 				3C61377116113C2D00349CD9 /* NSFileManager+Tar.h in Headers */,
 			);
@@ -805,6 +819,8 @@
 				3CF2D2A615ED8C6E008A56AB /* UIDevice-Reachability.m in Sources */,
 				3CF2D2C315ED917D008A56AB /* wwanconnect.c in Sources */,
 				453DE3DE15F66AC400046917 /* ofxGenericPageControl.cpp in Sources */,
+				458CA44E1611035100634D06 /* ofxGenericSound.cpp in Sources */,
+				458CA4601611145C00634D06 /* ofxGenericSoundManager.cpp in Sources */,
 				3C96A11D16110F11000BA061 /* ofxGenericWebView.cpp in Sources */,
 				3C61377216113C2D00349CD9 /* NSFileManager+Tar.m in Sources */,
 			);
