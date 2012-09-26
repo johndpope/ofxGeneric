@@ -97,6 +97,9 @@ public:
     void setBorderColor( const ofColor& color );
     ofColor getBorderColor();
     
+    void setContentMode( ofxGenericContentMode contentMode );
+    ofxGenericContentMode getContentMode();
+    
     void setNextResponder( ofPtrWeak< ofxGenericView > view );
     ofPtr< ofxGenericView > getNextResponder();
     

@@ -654,6 +654,27 @@ ofColor ofxGenericView::getBorderColor()
     return ofColor();
 }
 
+void ofxGenericView::setContentMode( ofxGenericContentMode contentMode )
+{
+#if TARGET_OS_IPHONE
+    if ( _view )
+    {
+        _view.contentMode = ofxGenericContentModeToiOS( contentMode );
+    }
+#endif
+}
+
+ofxGenericContentMode ofxGenericView::getContentMode()
+{
+#if TARGET_OS_IPHONE
+    if ( _view )
+    {
+        return iOSToofxGenericContentMode( _view.contentMode );
+    }
+#endif
+    return ofxGenericContentModeScaleToFill;
+}
+
 void ofxGenericView::setNextResponder( ofPtrWeak< ofxGenericView > view )
 {
     _nextResponder = view;

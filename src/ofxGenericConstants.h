@@ -177,5 +177,22 @@ enum ofxGenericMIMEType
     ofxGenericMIMETypeUnknown
 };
 
+enum ofxGenericContentMode
+{
+    ofxGenericContentModeScaleToFill,
+    ofxGenericContentModeScaleAspectFit,
+    ofxGenericContentModeScaleAspectFill,
+    ofxGenericContentModeRedraw,
+    ofxGenericContentModeCenter,
+    ofxGenericContentModeTop,
+    ofxGenericContentModeBottom,
+    ofxGenericContentModeLeft,
+    ofxGenericContentModeRight,
+    ofxGenericContentModeTopLeft,
+    ofxGenericContentModeTopRight,
+    ofxGenericContentModeBottomLeft,
+    ofxGenericContentModeBottomRight
+};
+
 typedef unsigned int ofxGenericIndex;
 static const ofxGenericIndex ofxGInvalidIndex = -1;

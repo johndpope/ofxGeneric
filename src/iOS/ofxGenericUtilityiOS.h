@@ -79,3 +79,5 @@ UIImage* OFImageToUIImage( ofImage& image ); // fix to use ofPtr?
 CGSize ofPointToCGSize( const ofPoint& size );
 ofPoint CGSizeToofPoint( CGSize size );
 
+UIViewContentMode ofxGenericContentModeToiOS( ofxGenericContentMode from );
+ofxGenericContentMode iOSToofxGenericContentMode( UIViewContentMode from );

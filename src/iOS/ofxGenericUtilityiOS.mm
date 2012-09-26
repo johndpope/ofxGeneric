@@ -665,3 +665,71 @@ ofPoint CGSizeToofPoint( CGSize size )
 {
     return ofPoint( size.width, size.height );
 }
+
+UIViewContentMode ofxGenericContentModeToiOS( ofxGenericContentMode from )
+{
+    switch ( from )
+    {
+        case ofxGenericContentModeScaleToFill:
+            return UIViewContentModeScaleToFill;
+        case ofxGenericContentModeScaleAspectFit:
+            return UIViewContentModeScaleAspectFit;
+        case ofxGenericContentModeScaleAspectFill:
+            return UIViewContentModeScaleAspectFill;
+        case ofxGenericContentModeRedraw:
+            return UIViewContentModeRedraw;
+        case ofxGenericContentModeCenter:
+            return UIViewContentModeCenter;
+        case ofxGenericContentModeTop:
+            return UIViewContentModeTop;
+        case ofxGenericContentModeBottom:
+            return UIViewContentModeBottom;
+        case ofxGenericContentModeLeft:
+            return UIViewContentModeLeft;
+        case ofxGenericContentModeRight:
+            return UIViewContentModeRight;
+        case ofxGenericContentModeTopLeft:
+            return UIViewContentModeTopLeft;
+        case ofxGenericContentModeTopRight:
+            return UIViewContentModeTopRight;
+        case ofxGenericContentModeBottomLeft:
+            return UIViewContentModeBottomLeft;
+        case ofxGenericContentModeBottomRight:
+            return UIViewContentModeBottomRight;
+    }
+    return UIViewContentModeScaleToFill;
+}
+
+ofxGenericContentMode iOSToofxGenericContentMode( UIViewContentMode from )
+{
+    switch ( from )
+    {
+        case UIViewContentModeScaleToFill:
+            return ofxGenericContentModeScaleToFill;
+        case UIViewContentModeScaleAspectFit:
+            return ofxGenericContentModeScaleAspectFit;
+        case UIViewContentModeScaleAspectFill:
+            return ofxGenericContentModeScaleAspectFill;
+        case UIViewContentModeRedraw:
+            return ofxGenericContentModeRedraw;
+        case UIViewContentModeCenter:
+            return ofxGenericContentModeCenter;
+        case UIViewContentModeTop:
+            return ofxGenericContentModeTop;
+        case UIViewContentModeBottom:
+            return ofxGenericContentModeBottom;
+        case UIViewContentModeLeft:
+            return ofxGenericContentModeLeft;
+        case UIViewContentModeRight:
+            return ofxGenericContentModeRight;
+        case UIViewContentModeTopLeft:
+            return ofxGenericContentModeTopLeft;
+        case UIViewContentModeTopRight:
+            return ofxGenericContentModeTopRight;
+        case UIViewContentModeBottomLeft:
+            return ofxGenericContentModeBottomLeft;
+        case UIViewContentModeBottomRight:
+            return ofxGenericContentModeBottomRight;
+    }
+    return ofxGenericContentModeScaleToFill;
+}
