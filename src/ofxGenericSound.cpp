@@ -8,33 +8,80 @@
 
 #include "ofxGenericSound.h"
 
-ofPtr< ofxGenericSound > ofxGenericSound::create( string fileName )
+ofPtr< ofxGenericSound > ofxGenericSound::create( string fileName, string extension )
 {
     ofPtr< ofxGenericSound > create( new ofxGenericSound() );
-    create->init( create, fileName );
+    create->init( create, fileName, extension );
     return create;
 }
 
-ofxGenericSound::ofxGenericSound()
+ofxGenericSound::ofxGenericSound() : _player( nil )
 {
 }
 
-void ofxGenericSound::init( ofPtrWeak< ofxGenericSound > setThis, string fileName )
+void ofxGenericSound::init( ofPtrWeak< ofxGenericSound > setThis, string fileName, string extension )
 {
     _this = setThis;
     
+    bool success = false;
+    string loadError = "Unknown error";
+    
+    //because iOS is silly, we need to pull the extension off if we have it in the fileName
+    unsigned int dotIndex = fileName.find_last_of( '.' );
+    if ( dotIndex != string::npos )
+    {
+        string foundExtension = fileName.substr( dotIndex, fileName.length() - dotIndex );
+        if ( foundExtension == ("." + extension ) )
+        {
+            fileName = fileName.substr( 0, dotIndex );
+        }
+    }
+    
 #if TARGET_OS_IPHONE
     NSString *path = [ NSString stringWithCString:fileName.c_str() encoding:NSUTF8StringEncoding ];
-    NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:path ofType:@"mp3"]];
-    NSError *error = nil;
-    _player = [ [ AVAudioPlayer alloc ] initWithContentsOfURL:url error:&error];
-    
-    if ( error )
+    NSString *ext = [ NSString stringWithCString:extension.c_str() encoding:NSUTF8StringEncoding ];
+    if ( path )
     {
-        ofLogError("Failed to load ofxGenericSound: " + string( [[NSString stringWithFormat:@"%@",error] cStringUsingEncoding:NSUTF8StringEncoding] ) );
-        _player = nil;
+        NSString *expandedPath = [[NSBundle mainBundle] pathForResource:path ofType:ext];
+        if ( expandedPath )
+        {
+            NSURL *url = [NSURL fileURLWithPath:expandedPath];
+            if ( url )
+            {
+                NSError *error = nil;
+                _player = [ [ AVAudioPlayer alloc ] initWithContentsOfURL:url error:&error];
+                
+                if ( error )
+                {
+                    loadError = string( [[NSString stringWithFormat:@"%@",error] cStringUsingEncoding:NSUTF8StringEncoding] );
+                    _player = nil;
+                }
+                else
+                {
+                    success = true;
+                }
+            }
+            else
+            {
+                loadError = "Unable to create NSURL from expanded path.";
+            }
+        }
+        else
+        {
+            loadError = "File does not exist.";
+        }
     }
+    else
+    {
+        loadError = "Unable to create path NSString.";
+    }
+    
 #endif
+    
+    if ( !success )
+    {
+        ofLogError("Failed to load ofxGenericSound \"" + fileName + "." + extension + "\" - " + loadError );
+    }
 }
 
 ofxGenericSound::~ofxGenericSound()

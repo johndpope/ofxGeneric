@@ -19,7 +19,7 @@
 class ofxGenericSound
 {
 public:
-    static ofPtr< ofxGenericSound > create( string fileName );
+    static ofPtr< ofxGenericSound > create( string fileName, string extension = "mp3" );
     
     virtual ~ofxGenericSound();
     
@@ -62,7 +62,7 @@ public:
 protected:
     ofxGenericSound();
     ofPtrWeak< ofxGenericSound > _this;
-    virtual void init( ofPtrWeak< ofxGenericSound > setThis, string fileName );
+    virtual void init( ofPtrWeak< ofxGenericSound > setThis, string fileName, string extension );
 #if TARGET_OS_IPHONE
 	AVAudioPlayer* _player;
 #endif
