@@ -26,7 +26,7 @@ void ofxGenericSound::init( ofPtrWeak< ofxGenericSound > setThis, string fileNam
     bool success = false;
     string loadError = "Unknown error";
     
-    //because iOS is silly, we need to pull the extension off if we have it in the fileName
+    //pull the extension off if we already have it in the fileName
     unsigned int dotIndex = fileName.find_last_of( '.' );
     if ( dotIndex != string::npos )
     {
@@ -36,16 +36,16 @@ void ofxGenericSound::init( ofPtrWeak< ofxGenericSound > setThis, string fileNam
             fileName = fileName.substr( 0, dotIndex );
         }
     }
+    fileName = fileName + "." + extension;
     
-#if TARGET_OS_IPHONE
-    NSString *path = [ NSString stringWithCString:fileName.c_str() encoding:NSUTF8StringEncoding ];
-    NSString *ext = [ NSString stringWithCString:extension.c_str() encoding:NSUTF8StringEncoding ];
-    if ( path )
+    if ( ofxGFileExists( fileName, false ) )
     {
-        NSString *expandedPath = [[NSBundle mainBundle] pathForResource:path ofType:ext];
-        if ( expandedPath )
+#if TARGET_OS_IPHONE
+        NSString *path = [ NSString stringWithCString: ofxGPathToDataFolder(fileName).c_str() encoding:NSUTF8StringEncoding ];
+        
+        if ( path )
         {
-            NSURL *url = [NSURL fileURLWithPath:expandedPath];
+            NSURL *url = [NSURL fileURLWithPath:path];
             if ( url )
             {
                 NSError *error = nil;
@@ -63,20 +63,19 @@ void ofxGenericSound::init( ofPtrWeak< ofxGenericSound > setThis, string fileNam
             }
             else
             {
-                loadError = "Unable to create NSURL from expanded path.";
+                loadError = "Unable to create NSURL from path.";
             }
         }
         else
         {
-            loadError = "File does not exist.";
+            loadError = "Unable to create NSString from path.";
         }
+#endif
     }
     else
     {
-        loadError = "Unable to create path NSString.";
+        loadError = "File does not exist.";
     }
-    
-#endif
     
     if ( !success )
     {
