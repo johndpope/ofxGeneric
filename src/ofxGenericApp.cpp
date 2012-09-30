@@ -19,6 +19,8 @@
 #include <unistd.h>
 #include <sys/sysctl.h>
 
+#include <AVFoundation/AVFoundation.h>
+
 #endif
 
 #include "ofxGenericException.h"
@@ -363,6 +365,26 @@ void ofxGenericApp::setStatusBarVisible( bool visible, bool animated )
         animation = UIStatusBarAnimationNone;
     }
     [ [ UIApplication sharedApplication ] setStatusBarHidden:( BOOL )!visible withAnimation:animation ];
+#endif
+}
+
+void ofxGenericApp::setAllowOtherAppSounds( bool allow )
+{
+#if TARGET_OS_IPHONE
+    NSString* category;
+    if ( allow )
+    {
+        category = AVAudioSessionCategoryAmbient;
+    } else
+    {
+        category = AVAudioSessionCategorySoloAmbient;
+    }
+    NSError* error;
+    [ [ AVAudioSession sharedInstance ] setCategory:category error:&error ];
+    if ( error )
+    {
+//        ofxGLogError( "Error setting Allow Other App Sounds: " + ofxNSStringToString( error.description ) );
+    }
 #endif
 }
 

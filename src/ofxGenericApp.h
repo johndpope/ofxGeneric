@@ -54,6 +54,8 @@ public:
     bool getStatusBarVisible();
     void setStatusBarVisible( bool visible, bool animated );
     
+    void setAllowOtherAppSounds( bool allow );
+    
     static void vibrate();
     
     static void saveImageToLibrary( ofImage& image );
