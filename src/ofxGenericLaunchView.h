@@ -20,7 +20,7 @@ public:
     virtual void didAppear();
     
 protected:
-    virtual void init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setBounds, ofPtrWeak< ofxGenericLaunchViewDelegate > delegate );
+    virtual void init( ofPtrWeak< ofxGenericLaunchView > setThis, const ofRectangle& setBounds, ofPtrWeak< ofxGenericLaunchViewDelegate > delegate );
     
     ofPtrWeak< ofxGenericLaunchViewDelegate > _delegate;
 };

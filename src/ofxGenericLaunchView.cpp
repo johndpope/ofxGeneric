@@ -21,7 +21,7 @@ ofPtr< ofxGenericLaunchView > ofxGenericLaunchView::create( const ofRectangle& s
     return create;
 }
 
-void ofxGenericLaunchView::init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setBounds, ofPtrWeak< ofxGenericLaunchViewDelegate > delegate )
+void ofxGenericLaunchView::init( ofPtrWeak< ofxGenericLaunchView > setThis, const ofRectangle& setBounds, ofPtrWeak< ofxGenericLaunchViewDelegate > delegate )
 {
     _delegate = delegate;
     ofxGenericImageView::init( setThis, setBounds );
