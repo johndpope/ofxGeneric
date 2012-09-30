@@ -368,6 +368,22 @@ std::vector< string > ofxGSplit( string value, char splitOn )
     return strings;
 }
 
+string ofxGToUpperCase( const string& text )
+{
+    string retval;
+    retval.resize( text.size() );
+    std::transform( text.begin(), text.end(), retval.begin(), ::toupper );
+    return retval;
+}
+
+string ofxGToLowerCase( const string& text )
+{
+    string retval;
+    retval.resize( text.size() );
+    std::transform( text.begin(), text.end(), retval.begin(), ::tolower );
+    return retval;
+}
+
 //////////////////////////////// Math //////////////////////////////////
 
 int ofxGRandom()
