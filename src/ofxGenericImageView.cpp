@@ -27,11 +27,16 @@ ofPtr< ofxGenericImageView > ofxGenericImageView::create( const ofRectangle& set
 {
     ofPtr< ofxGenericImageView > create = ofPtr< ofxGenericImageView >( new ofxGenericImageView() );
     create->init( create, setFrame );
+    return create;
+}
+
+void ofxGenericImageView::init( ofPtrWeak< ofxGenericImageView > setThis, const ofRectangle& setFrame, string fileName )
+{
+    ofxGenericView::init( setThis, setFrame );
     if ( !fileName.empty() )
     {
-        create->setImage( fileName );
+        setImage( fileName );
     }
-    return create;
 }
 
 NativeView ofxGenericImageView::createNativeView( const ofRectangle& frame )

@@ -36,6 +36,7 @@ public:
 #endif
     
 protected:
+    virtual void init( ofPtrWeak< ofxGenericImageView > setThis, const ofRectangle& setFrame, string fileName = string() );
     ofxGenericImageView();
     virtual NativeView createNativeView( const ofRectangle& frame );
 
