@@ -492,3 +492,24 @@ bool ofxGUnzip( string zipLocation, bool zipIsInDocuments, string destinationWit
     
     return false;
 }
+
+//////////////////////////////// Color //////////////////////////////////
+
+ofPoint ofxGToPoint( const ofColor& color )
+{
+    return ofPoint(
+                   ( float )color.r,
+                   ( float )color.g,
+                   ( float )color.b
+                );
+}
+
+ofColor ofxGToColor( const ofPoint& point )
+{
+    return ofColor(
+                   ( unsigned char )point.x,
+                   ( unsigned char )point.y,
+                   ( unsigned char )point.z,
+                   255
+                );
+}

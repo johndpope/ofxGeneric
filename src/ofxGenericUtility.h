@@ -88,3 +88,8 @@ string ofxGMIMETypeToExtension( ofxGenericMIMEType type );
 
 bool ofxGUntar( string tarLocation, bool tarIsInDocuments, string destinationWithinDocuments );
 bool ofxGUnzip( string zipLocation, bool zipIsInDocuments, string destinationWithinDocuments );
+
+//////////////////////////////// Color //////////////////////////////////
+
+ofPoint ofxGToPoint( const ofColor& color );
+ofColor ofxGToColor( const ofPoint& point );
