@@ -46,17 +46,32 @@ ofRectangle toofRectangle( ofPtr< ofxGenericValueStore > from )
     return ofRectangle();
 }
 
-#define PointWidthCacheKey "Width"
-#define PointHeightCacheKey "Height"
+#define PointXCacheKey "X"
+#define PointYCacheKey "Y"
 
 ofPoint toofPoint( ofPtr< ofxGenericValueStore > from )
 {
     if ( from && from->isObject() )
     {
-        return ofPoint( 
-                           from->read( PointWidthCacheKey,   0 ),
-                           from->read( PointHeightCacheKey, 0 )
-                           );
+        return ofPoint(
+                       from->read( PointXCacheKey,   0 ),
+                       from->read( PointYCacheKey, 0 )
+                       );
+    }
+    return ofPoint();
+}
+
+#define PointWidthCacheKey "Width"
+#define PointHeightCacheKey "Height"
+
+ofPoint toofPointSize( ofPtr< ofxGenericValueStore > from )
+{
+    if ( from && from->isObject() )
+    {
+        return ofPoint(
+                       from->read( PointWidthCacheKey,   0 ),
+                       from->read( PointHeightCacheKey, 0 )
+                       );
     }
     return ofPoint();
 }
