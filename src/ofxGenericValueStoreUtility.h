@@ -10,6 +10,8 @@
 
 #include "ofxGenericValueStore.h"
 
+ofPtr< ofxGenericValueStore > ofxGGetWithCaseInsensitiveKey( ofPtr< ofxGenericValueStore > from, string key );
+int ofxGToInt( ofPtr< ofxGenericValueStore > from );
 ofColor toofColor( ofPtr< ofxGenericValueStore > from );
 ofRectangle toofRectangle( ofPtr< ofxGenericValueStore > from );
 ofPoint toofPoint( ofPtr< ofxGenericValueStore > from );
