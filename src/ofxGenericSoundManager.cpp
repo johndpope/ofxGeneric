@@ -61,6 +61,25 @@ bool ofxGenericSoundManager::load( std::vector< string > sounds )
     return success;
 }
 
+bool ofxGenericSoundManager::preloadIntoMemory( string sound )
+{
+    if ( _soundMap[ sound ] )
+    {
+        _soundMap[ sound ]->preload();
+    }
+    return false;
+}
+
+bool ofxGenericSoundManager::preloadIntoMemory( std::vector< string > sounds )
+{
+    bool success = true;
+    for ( unsigned int i = 0; i < sounds.size(); i++ )
+    {
+        success = success && preloadIntoMemory( sounds[i] );
+    }
+    return success;
+}
+
 void ofxGenericSoundManager::unload( string sound )
 {
     if ( _soundMap[ sound ] )
