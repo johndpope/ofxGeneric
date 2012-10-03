@@ -8,20 +8,64 @@
 
 #include "ofxGenericValueStoreUtility.h"
 
-#define ColorRedCacheKey "red"
-#define ColorGreenCacheKey "green"
-#define ColorBlueCacheKey "blue"
-#define ColorAlphaCacheKey "alpha"
+ofPtr< ofxGenericValueStore > ofxGGetWithCaseInsensitiveKey( ofPtr< ofxGenericValueStore > from, string key )
+{
+    ofPtr< ofxGenericValueStore > value;
+    
+    if ( from )
+    {
+        value = from->read( key );
+        if ( !value )
+        {
+            string lowerKey = ofxGToLowerCase( key );
+            if ( lowerKey != key )
+            {
+                value = from->read( lowerKey );
+            }
+        }
+        if ( !value )
+        {
+            string upperKey = ofxGToUpperCase( key );
+            if ( upperKey != key )
+            {
+                value = from->read( upperKey );
+            }
+        }
+        // TODO: and everything in between
+    }
+    
+    return value;
+}
+
+
+int ofxGToInt( ofPtr< ofxGenericValueStore > from )
+{
+    if ( from )
+    {
+        return from->asInt();
+    }
+    return 0;
+}
+
+int ofxGValueToInt( ofPtr< ofxGenericValueStore > from, string key )
+{
+    return ofxGToInt( ofxGGetWithCaseInsensitiveKey( from, key ) );
+}
+
+#define ColorRedCacheKey "Red"
+#define ColorGreenCacheKey "Green"
+#define ColorBlueCacheKey "Blue"
+#define ColorAlphaCacheKey "Alpha"
 
 ofColor toofColor( ofPtr< ofxGenericValueStore > from )
 {
     if ( from && from->isObject() )
     {
-        return ofColor( 
-                       from->read( ColorRedCacheKey,   0 ),
-                       from->read( ColorGreenCacheKey, 0 ),
-                       from->read( ColorBlueCacheKey,  0 ),
-                       from->read( ColorAlphaCacheKey, 0 ) 
+        return ofColor(
+                       ofxGValueToInt( from, ColorRedCacheKey ),
+                       ofxGValueToInt( from, ColorGreenCacheKey ),
+                       ofxGValueToInt( from, ColorBlueCacheKey ),
+                       ofxGValueToInt( from, ColorAlphaCacheKey )
                        );
     }
     return ofColor();
@@ -37,10 +81,10 @@ ofRectangle toofRectangle( ofPtr< ofxGenericValueStore > from )
     if ( from && from->isObject() )
     {
         return ofRectangle( 
-                       from->read( RectangleXCacheKey,   0 ),
-                       from->read( RectangleYCacheKey, 0 ),
-                       from->read( RectangleWidthCacheKey,  0 ),
-                       from->read( RectangleHeightCacheKey, 0 ) 
+                       ofxGValueToInt( from, RectangleXCacheKey ),
+                       ofxGValueToInt( from, RectangleYCacheKey ),
+                       ofxGValueToInt( from, RectangleWidthCacheKey ),
+                       ofxGValueToInt( from, RectangleHeightCacheKey )
                        );
     }
     return ofRectangle();
@@ -53,9 +97,10 @@ ofPoint toofPoint( ofPtr< ofxGenericValueStore > from )
 {
     if ( from && from->isObject() )
     {
+        ofPtr< ofxGenericValueStore > x = from->read( PointXCacheKey );
         return ofPoint(
-                       from->read( PointXCacheKey,   0 ),
-                       from->read( PointYCacheKey, 0 )
+                       ofxGValueToInt( from, PointXCacheKey ),
+                       ofxGValueToInt( from, PointYCacheKey )
                        );
     }
     return ofPoint();
@@ -69,8 +114,8 @@ ofPoint toofPointSize( ofPtr< ofxGenericValueStore > from )
     if ( from && from->isObject() )
     {
         return ofPoint(
-                       from->read( PointWidthCacheKey,   0 ),
-                       from->read( PointHeightCacheKey, 0 )
+                       ofxGValueToInt( from, PointWidthCacheKey ),
+                       ofxGValueToInt( from, PointHeightCacheKey )
                        );
     }
     return ofPoint();
