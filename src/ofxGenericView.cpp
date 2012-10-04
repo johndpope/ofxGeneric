@@ -911,6 +911,42 @@ void ofxGenericView::removeGestureRecognizers( )
 #endif
 }
 
+ofPtr< ofImage > ofxGenericView::createImageRepresentation( )
+{
+#if TARGET_OS_IPHONE
+    
+    //the context appears to be invalid unless we're at the root
+    if ( _isAttachedToRoot )
+    {
+        if( UIGraphicsBeginImageContextWithOptions != NULL )
+        {
+            UIGraphicsBeginImageContextWithOptions( _view.frame.size, NO, 0.0);
+        }
+        else
+        {
+            UIGraphicsBeginImageContext( _view.frame.size );
+        }
+        
+        [ _view.layer renderInContext:UIGraphicsGetCurrentContext() ];
+        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        //use this to test to make sure the image is exported correctly
+        /*NSData *testDiskSave = UIImagePNGRepresentation( image );
+        string loc = ofxGPathToDocumentsFolder( "testImage2.png" );
+        NSString *nsLoc = [ NSString stringWithCString:loc.c_str() encoding:NSUTF8StringEncoding ];
+        [ testDiskSave writeToFile:nsLoc atomically:YES ];*/
+        
+        return UIImageToofImage( image );
+    }
+    else
+    {
+        return ofPtr< ofImage > ();
+    }
+#elif TARGET_ANDROID
+#endif
+}
+
 void ofxGenericView::addGestureRecognizerHold( float minimumPressDuration, unsigned int fingerCount, float allowableMovement )
 {
 #if TARGET_OS_IPHONE

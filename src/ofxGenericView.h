@@ -125,6 +125,8 @@ public:
     virtual void addGestureRecognizerPan( unsigned int minimumFingerCount, unsigned int maximumFingerCount );
     virtual void removeGestureRecognizers( );
     
+    virtual ofPtr< ofImage > createImageRepresentation( );
+    
 #if TARGET_OS_IPHONE
     virtual void gesturePerformedSwipe( UISwipeGestureRecognizer* recognizer );
     virtual void gesturePerformedTap( UITapGestureRecognizer* recognizer );
