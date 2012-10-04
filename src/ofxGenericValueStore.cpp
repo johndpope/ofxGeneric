@@ -12,9 +12,13 @@
 
 #include "ofxGenericValueStore.h"
 #include "ofxGenericUtility.h"
+#include "ofxGenericDate.h"
+#include "ofxGenericHMAC.h"
 
 #include "ofxJSONElement.h"
 #include <tinyxml.h>
+
+#define HmacStoreKey "hash"
 
 ofPtr< ofxGenericValueStore > ofxGenericValueStore::create( bool asArray )
 {
@@ -152,6 +156,8 @@ void ofxGenericValueStore::init( ofPtrWeak< ofxGenericValueStore > setThis, Type
     {
         _values._objectValue = new ofxGenericValueStoreObject();
     }
+    
+    _verify = false;
 }
 
 void ofxGenericValueStore::init( ofPtrWeak< ofxGenericValueStore > setThis, ofPtr< ofxGenericValueStore > from )
@@ -1058,6 +1064,13 @@ bool ofxGenericValueStore::readFromDisk()
         {
             purge();
             convertFrom( read );
+            
+            if( _verify && !verifyContentsFromDisk() )
+            {
+                purge();
+                return false;
+            }
+            
             return true;
         }
     }
@@ -1233,6 +1246,11 @@ bool ofxGenericValueStore::writeToDisk()
 {
     if ( _fileName.length() > 0 )
     {
+        if ( _verify )
+        {
+            signContentsForSavingToDisk();
+        }
+        
         ofxGmkdir( ofxGGetPathFromFileName( _fileName ), _fileInDocuments );
         Json::Value* root = convertToJSON();
         ofxJSONElement write( *root );
@@ -1321,5 +1339,78 @@ void ofxGenericValueStore::purge()
     } else if ( asArray() )
     {
         ( *asArray() ).clear();
+    }
+}
+
+void ofxGenericValueStore::setVerify( bool verify, string securityKey )
+{
+    _verify = verify;
+    _securityKey = securityKey;
+}
+
+bool ofxGenericValueStore::getVerify()
+{
+    return _verify;
+}
+
+
+string ofxGenericValueStore::generateHash()
+{
+    // TODO: Enable this part to add time stamps to the hash
+    /*
+    ofPtr< ofxGenericDate > date = ofxGenericDate::create();
+    double dateStamp = (double) date->getDate();
+    dateStamp = round( dateStamp / ( 60 * 1000 ) );
+    
+    string body = toJSONString() + ofxGToString( dateStamp );
+    */
+    string body = toJSONString();
+        
+    return ofxGenericHMAC::createHMAC( _securityKey, body );
+}
+
+bool ofxGenericValueStore::verifyContentsFromDisk()
+{
+    if( _verify )
+    {
+        if( exists( HmacStoreKey ) )
+        {
+            string savedHash = read( HmacStoreKey, "" );
+            
+            drop( HmacStoreKey );
+            
+            string expectedHash = generateHash();
+            
+            if( savedHash.compare( expectedHash ) == 0 )
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+void ofxGenericValueStore::signContentsForSavingToDisk()
+{
+    if( _verify )
+    {        
+        // Remove previous hash
+        if( exists( HmacStoreKey ) )
+        {
+            drop( HmacStoreKey );
+        }
+        
+        // Generate new hash and add it to the final json
+        string newHash = generateHash();
+        write( HmacStoreKey, createWithValue( newHash ) );
     }
 }

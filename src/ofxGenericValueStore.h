@@ -173,6 +173,12 @@ public:
 // TODO:
 //    string toXMLString() const;
 //    virtual TiXmlNode* convertToXML() const;
+    
+    virtual void setVerify( bool verify, string securityKey );
+    virtual bool getVerify();
+    
+    virtual bool verifyContentsFromDisk();
+    virtual void signContentsForSavingToDisk();
 
     virtual ~ofxGenericValueStore();
 protected:
@@ -208,4 +214,8 @@ protected:
     ofxGenericValueStoreArray* asArray() const;
     
     void ensureIndexAvailable( unsigned int index );
+    
+    bool _verify;
+    string _securityKey;
+    virtual string generateHash();
 };
