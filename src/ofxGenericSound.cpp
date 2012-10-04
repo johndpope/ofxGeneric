@@ -15,7 +15,10 @@ ofPtr< ofxGenericSound > ofxGenericSound::create( string fileName, string extens
     return create;
 }
 
-ofxGenericSound::ofxGenericSound() : _player( nil )
+ofxGenericSound::ofxGenericSound()
+#if TARGET_OS_IPHONE
+: _player( nil )
+#endif
 {
 }
 

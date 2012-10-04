@@ -12,6 +12,7 @@
 #include "ofxGenericTimer.h"
 #include "ofxGenericConstants.h"
 
+class ofxGenericImageView;
 class ofxGenericAnimatedImageViewDelegate;
 
 class ofxGenericAnimatedImageView : public ofxGenericImageView, public ofxGenericTimerDelegate
@@ -21,11 +22,13 @@ public:
     
     virtual void setImage( string fileName );
     virtual void setImage( ofPtr< ofImage > image );
+    virtual void setImage ( ofPtr< ofxGenericImage > image );
     virtual void setAtFirstImage();
     virtual void setAtLastImage();
     
     virtual void setImageFrames( const std::vector< string >& frames, bool reverse = false );
-    virtual void setImageFrames( const std::vector< ofPtr< ofImage > >& frames, bool reverse = false );
+    virtual void setImageFrames( const std::vector< ofPtr< ofxGenericImage > >& frames, bool reverse = false );
+    
     virtual void setFrameRate( float frameRate );
     virtual void start( float frameRate = -1.0f );
     virtual void setLoopMode( ofxGenericAnimatedImageLoopType mode );
@@ -41,7 +44,7 @@ protected:
     ofxGenericAnimatedImageLoopType _loopMode;
     int _animationDirection;
     
-    std::vector< ofPtr< ofImage > > _frames;
+    std::vector< ofPtr< ofxGenericImage > > _frames;
     //std::vector< string > _frameNames; //for debugging
     void showFrame( unsigned int frame );
     void clearFrames();

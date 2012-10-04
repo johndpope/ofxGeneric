@@ -19,6 +19,7 @@ typedef UIWindow* NativeWindow;
 // WTFFFFFFF
 typedef jobject NativeView;
 typedef jobject NativeWindow;
+typedef jobject NativeImage;
 #define NativeNull NULL
 #endif
 

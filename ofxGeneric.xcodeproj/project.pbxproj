@@ -121,6 +121,10 @@
 		454496161540C66600B21064 /* ofxGenericAlertView.h in Headers */ = {isa = PBXBuildFile; fileRef = 454496141540C66600B21064 /* ofxGenericAlertView.h */; };
 		4544F5E91549D061007482B2 /* ofxGenericDrawableView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4544F5E81549D061007482B2 /* ofxGenericDrawableView.cpp */; };
 		456BACAD153DE6A50097D5D4 /* ofxGenericDate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 456BACAC153DE6A50097D5D4 /* ofxGenericDate.cpp */; };
+		45830499161CE897006C4F89 /* ofxGenericImageManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45830497161CE896006C4F89 /* ofxGenericImageManager.cpp */; };
+		4583049A161CE897006C4F89 /* ofxGenericImageManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 45830498161CE896006C4F89 /* ofxGenericImageManager.h */; };
+		4583049E161CEA32006C4F89 /* ofxGenericImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4583049C161CEA32006C4F89 /* ofxGenericImage.cpp */; };
+		4583049F161CEA32006C4F89 /* ofxGenericImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 4583049D161CEA32006C4F89 /* ofxGenericImage.h */; };
 		458CA44E1611035100634D06 /* ofxGenericSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 458CA44C1611035100634D06 /* ofxGenericSound.cpp */; };
 		458CA44F1611035100634D06 /* ofxGenericSound.h in Headers */ = {isa = PBXBuildFile; fileRef = 458CA44D1611035100634D06 /* ofxGenericSound.h */; };
 		458CA4601611145C00634D06 /* ofxGenericSoundManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 458CA45E1611145C00634D06 /* ofxGenericSoundManager.cpp */; };
@@ -301,6 +305,10 @@
 		4544F5E81549D061007482B2 /* ofxGenericDrawableView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericDrawableView.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		456BACAA153DE6960097D5D4 /* ofxGenericDate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericDate.h; sourceTree = "<group>"; };
 		456BACAC153DE6A50097D5D4 /* ofxGenericDate.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericDate.cpp; sourceTree = "<group>"; };
+		45830497161CE896006C4F89 /* ofxGenericImageManager.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericImageManager.cpp; sourceTree = "<group>"; };
+		45830498161CE896006C4F89 /* ofxGenericImageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericImageManager.h; sourceTree = "<group>"; };
+		4583049C161CEA32006C4F89 /* ofxGenericImage.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericImage.cpp; sourceTree = "<group>"; };
+		4583049D161CEA32006C4F89 /* ofxGenericImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericImage.h; sourceTree = "<group>"; };
 		458CA44C1611035100634D06 /* ofxGenericSound.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericSound.cpp; sourceTree = "<group>"; };
 		458CA44D1611035100634D06 /* ofxGenericSound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericSound.h; sourceTree = "<group>"; };
 		458CA45E1611145C00634D06 /* ofxGenericSoundManager.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericSoundManager.cpp; sourceTree = "<group>"; };
@@ -499,6 +507,10 @@
 				458CA45F1611145C00634D06 /* ofxGenericSoundManager.h */,
 				3C96A11B16110F11000BA061 /* ofxGenericWebView.cpp */,
 				3C96A11C16110F11000BA061 /* ofxGenericWebView.h */,
+				45830497161CE896006C4F89 /* ofxGenericImageManager.cpp */,
+				45830498161CE896006C4F89 /* ofxGenericImageManager.h */,
+				4583049C161CEA32006C4F89 /* ofxGenericImage.cpp */,
+				4583049D161CEA32006C4F89 /* ofxGenericImage.h */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -750,6 +762,8 @@
 				3C6D97A3161149780087816E /* unzip.h in Headers */,
 				3C6D97A5161149780087816E /* zip.h in Headers */,
 				3C6D97A6161149780087816E /* SSZipArchive.h in Headers */,
+				4583049A161CE897006C4F89 /* ofxGenericImageManager.h in Headers */,
+				4583049F161CEA32006C4F89 /* ofxGenericImage.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -885,6 +899,8 @@
 				3C6D97A2161149780087816E /* unzip.c in Sources */,
 				3C6D97A4161149780087816E /* zip.c in Sources */,
 				3C6D97A7161149780087816E /* SSZipArchive.m in Sources */,
+				45830499161CE897006C4F89 /* ofxGenericImageManager.cpp in Sources */,
+				4583049E161CEA32006C4F89 /* ofxGenericImage.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
