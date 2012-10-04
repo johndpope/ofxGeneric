@@ -131,6 +131,8 @@
 		458CA4611611145C00634D06 /* ofxGenericSoundManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 458CA45F1611145C00634D06 /* ofxGenericSoundManager.h */; };
 		B54787E315E5759000ACF70F /* ofxGenericDateSelectorView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B54787E115E5759000ACF70F /* ofxGenericDateSelectorView.cpp */; };
 		B54787E415E5759000ACF70F /* ofxGenericDateSelectorView.h in Headers */ = {isa = PBXBuildFile; fileRef = B54787E215E5759000ACF70F /* ofxGenericDateSelectorView.h */; };
+		B5C55D33161D04980002872E /* ofxGenericHMAC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5C55D31161D04980002872E /* ofxGenericHMAC.cpp */; };
+		B5C55D34161D04980002872E /* ofxGenericHMAC.h in Headers */ = {isa = PBXBuildFile; fileRef = B5C55D32161D04980002872E /* ofxGenericHMAC.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -315,6 +317,8 @@
 		458CA45F1611145C00634D06 /* ofxGenericSoundManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericSoundManager.h; sourceTree = "<group>"; };
 		B54787E115E5759000ACF70F /* ofxGenericDateSelectorView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericDateSelectorView.cpp; sourceTree = "<group>"; };
 		B54787E215E5759000ACF70F /* ofxGenericDateSelectorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericDateSelectorView.h; sourceTree = "<group>"; };
+		B5C55D31161D04980002872E /* ofxGenericHMAC.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericHMAC.cpp; sourceTree = "<group>"; };
+		B5C55D32161D04980002872E /* ofxGenericHMAC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericHMAC.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -511,6 +515,8 @@
 				45830498161CE896006C4F89 /* ofxGenericImageManager.h */,
 				4583049C161CEA32006C4F89 /* ofxGenericImage.cpp */,
 				4583049D161CEA32006C4F89 /* ofxGenericImage.h */,
+				B5C55D31161D04980002872E /* ofxGenericHMAC.cpp */,
+				B5C55D32161D04980002872E /* ofxGenericHMAC.h */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -764,6 +770,7 @@
 				3C6D97A6161149780087816E /* SSZipArchive.h in Headers */,
 				4583049A161CE897006C4F89 /* ofxGenericImageManager.h in Headers */,
 				4583049F161CEA32006C4F89 /* ofxGenericImage.h in Headers */,
+				B5C55D34161D04980002872E /* ofxGenericHMAC.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -901,6 +908,7 @@
 				3C6D97A7161149780087816E /* SSZipArchive.m in Sources */,
 				45830499161CE897006C4F89 /* ofxGenericImageManager.cpp in Sources */,
 				4583049E161CEA32006C4F89 /* ofxGenericImage.cpp in Sources */,
+				B5C55D33161D04980002872E /* ofxGenericHMAC.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
