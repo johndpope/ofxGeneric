@@ -82,10 +82,13 @@ public:
 #endif
     
     void setDelegate( ofPtrWeak< ofxGenericButtonViewTouchDelegate > delegate );
+    ofPtrWeak< ofxGenericButtonViewTouchDelegate > getDelegate();
 
 #if DEBUG
     virtual string toString();
 #endif
+    
+    virtual void copyProperties( ofPtr< ofxGenericView > from );
 
 protected:
     ofxGenericButtonView();

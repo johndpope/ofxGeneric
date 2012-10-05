@@ -762,6 +762,11 @@ void ofxGenericView::hitInView( ofPoint location )
     }
 }
 
+ofPtrWeak< ofxGenericViewDelegate > ofxGenericView::getViewDelegate()
+{
+    return _viewDelegate;
+}
+
 void ofxGenericView::setViewDelegate( ofPtrWeak< ofxGenericViewDelegate > delegate )
 {
     _viewDelegate = delegate;
@@ -868,6 +873,28 @@ void ofxGenericView::replaceViewWithView( ofPtr< ofxGenericView > replace, ofPtr
         with->setAutoresizingMask( replace->getAutoresizingMask() );
         parent->addChildViewBefore( with, replace );
         parent->removeChildView( replace );
+    }
+}
+
+void ofxGenericView::copyProperties( ofPtr< ofxGenericView > view )
+{
+    if ( view )
+    {
+        setFrame( view->getFrame() );
+        setBackgroundColor( view->getBackgroundColor() );
+        setAlpha( view->getAlpha() );
+        setVisible( view->getVisible() );
+        setClipSubviews( view->getClipSubviews() );
+        setAutoresizingMask( view->getAutoresizingMask() );
+        setDropShadowColor( view->getDropShadowColor() );
+        setDropShadowOffset( view->getDropShadowOffset() );
+        setDropShadowAlpha( view->getDropShadowAlpha() );
+        setDropShadowRadius( view->getDropShadowRadius() );
+        setBorderRadius( view->getBorderRadius() );
+        setBorderColor( view->getBorderColor() );
+        setContentMode( view->getContentMode() );
+        setNextResponder( view->getNextResponder() );
+        setViewDelegate( view->getViewDelegate() );
     }
 }
 

@@ -250,6 +250,11 @@ void ofxGenericButtonView::setDelegate( ofPtrWeak< ofxGenericButtonViewTouchDele
     _touchDelegate = delegate;
 }
 
+ofPtrWeak< ofxGenericButtonViewTouchDelegate > ofxGenericButtonView::getDelegate()
+{
+    return _touchDelegate;
+}
+
 void ofxGenericButtonView::setTextAlignment( ofxGenericTextHorizontalAlignment alignment )
 {
 #if TARGET_OS_IPHONE
@@ -453,6 +458,29 @@ string ofxGenericButtonView::toString()
     return result;
 }
 #endif
+
+void ofxGenericButtonView::copyProperties( ofPtr< ofxGenericView > from )
+{
+    ofxGenericView::copyProperties( from );
+    
+    ofPtr< ofxGenericButtonView > fromButton = dynamic_pointer_cast< ofxGenericButtonView >( from );
+    if ( fromButton )
+    {
+        setText( fromButton->getText() );
+     //   setBackgroundImage( fromButton->getBackgroundImage() );
+     //   setDownBackgroundImage( fromButton->getBackgroundImage() );
+        setTextAlignment( fromButton->getTextAlignment() );
+        setTextColor( fromButton->getTextColor() );
+        setDownTextColor( fromButton->getDownTextColor() );
+        setLineBreakMode( fromButton->getLineBreakMode() );
+        setNumberOfLines( fromButton->getNumberOfLines() );
+        setMinimumFontSize( fromButton->getMinimumFontSize() );
+        setFont( fromButton->getFontName(), fromButton->getFontSize() );
+     //   setForwardsTouches( fromButton->getForwardsTouches() );
+        setEnabled( fromButton->getEnabled() );
+        setDelegate( fromButton->getDelegate() );
+    }
+}
 
 
 #if TARGET_OS_IPHONE

@@ -103,6 +103,7 @@ public:
     void setNextResponder( ofPtrWeak< ofxGenericView > view );
     ofPtr< ofxGenericView > getNextResponder();
     
+    ofPtrWeak< ofxGenericViewDelegate > getViewDelegate();
     virtual void setViewDelegate( ofPtrWeak< ofxGenericViewDelegate > delegate );
     
     virtual bool containsPoint( const ofPoint& point );
@@ -142,6 +143,7 @@ public:
     virtual string toString();
     
     static void replaceViewWithView( ofPtr< ofxGenericView > replace, ofPtr< ofxGenericView > with );
+    virtual void copyProperties( ofPtr< ofxGenericView > view );
     
 protected:        
     ofxGenericView();
