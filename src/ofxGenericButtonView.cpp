@@ -157,6 +157,10 @@ NativeView ofxGenericButtonView::createNativeView( const ofRectangle& frame )
 
 void ofxGenericButtonView::setText( std::string newText )
 {
+    if ( _textView )
+    {
+        _textView->setText( newText );
+    }
 #if TARGET_OS_IPHONE
     if ( [ _view isKindOfClass:[ UIButton class ] ] )
     {
@@ -172,12 +176,11 @@ void ofxGenericButtonView::setText( std::string newText )
 std::string ofxGenericButtonView::getText()
 {
 #if TARGET_OS_IPHONE
-    if ( [ _view isKindOfClass:[ UIButton class ] ] )
+    if ( _textView )
     {
-        UIButton* view = ( UIButton* )_view;
-        return ofxNSStringToString( [ view currentTitle ] );
+        return _textView->getText();
     }
-    return string();
+    return std::string();
 #elif TARGET_ANDROID
     jstring jString = ( jstring )callJNIObjectMethod( _jniMethods, JNIMethod_GetText );
     return JNIUtility::JavaStringToCString( jString );
@@ -257,48 +260,41 @@ ofPtrWeak< ofxGenericButtonViewTouchDelegate > ofxGenericButtonView::getDelegate
 
 void ofxGenericButtonView::setTextAlignment( ofxGenericTextHorizontalAlignment alignment )
 {
-#if TARGET_OS_IPHONE
-    if ( [ _view isKindOfClass:[UIButton class]] )
+    if ( _textView )
     {
-        UILabel *titleLabel = ((UIButton *)_view).titleLabel;
-        titleLabel.textAlignment = ofxGenericTextHorizontalAlignmentToiOS( alignment );
+        _textView->setTextAlignment( alignment );
     }
-#endif
 }
 
 ofxGenericTextHorizontalAlignment ofxGenericButtonView::getTextAlignment()
 {
-#if TARGET_OS_IPHONE
-    if ( [ _view isKindOfClass:[UIButton class]] )
+    if ( _textView )
     {
-        UILabel *titleLabel = ((UIButton *)_view).titleLabel;
-        return iOSToofxGenericTextHorizontalAlignment( titleLabel.textAlignment );
+        return _textView->getTextAlignment();
     }
-#endif
     return ofxGenericTextHorizontalAlignmentLeft;
 }
 
 void ofxGenericButtonView::setTextColor ( const ofColor& setColor )
 {
-#if TARGET_OS_IPHONE
-    if ( [ _view isKindOfClass:[UIButton class]] )
+    if ( _textView )
     {
-        UILabel *titleLabel = ((UIButton *)_view).titleLabel;
-        titleLabel.textColor = ofColorToUIColor( setColor );
-        [((UIButton *) _view) setTitleColor:titleLabel.textColor forState:UIControlStateNormal];
+        _textView->setTextColor( setColor );
+    }
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[ UIButton class ] ] )
+    {
+        [ ( ( UIButton* ) _view) setTitleColor:ofColorToUIColor( setColor ) forState:UIControlStateNormal ];
     }
 #endif    
 }
 
 ofColor ofxGenericButtonView::getTextColor ()
 {
-#if TARGET_OS_IPHONE
-    if ( [ _view isKindOfClass:[UIButton class]] )
+    if ( _textView )
     {
-        UILabel *titleLabel = ((UIButton *)_view).titleLabel;
-        return UIColorToofColor( titleLabel.textColor );
+        return _textView->getTextColor();
     }
-#endif
     return ofColor::black;
 }
 
@@ -307,9 +303,7 @@ void ofxGenericButtonView::setDownTextColor ( const ofColor& setColor )
 #if TARGET_OS_IPHONE
     if ( [ _view isKindOfClass:[UIButton class]] )
     {
-        UILabel *titleLabel = ((UIButton *)_view).titleLabel;
-        titleLabel.textColor = ofColorToUIColor( setColor );
-        [((UIButton *) _view) setTitleColor:titleLabel.textColor forState:UIControlStateHighlighted];
+        [((UIButton *) _view) setTitleColor:ofColorToUIColor( setColor ) forState:UIControlStateHighlighted];
     }
 #endif
 }
@@ -327,105 +321,78 @@ ofColor ofxGenericButtonView::getDownTextColor ()
 
 void ofxGenericButtonView::setLineBreakMode ( ofxGenericTextLinebreakMode mode )
 {
-#if TARGET_OS_IPHONE
-    if ( [ _view isKindOfClass:[UIButton class]] )
+    if ( _textView )
     {
-        UILabel *titleLabel = ((UIButton *)_view).titleLabel;
-        titleLabel.lineBreakMode = ofxGenericTextLinebreakModeToiOS( mode );
+        _textView->setLineBreakMode( mode );
     }
-#endif    
 }
 
 ofxGenericTextLinebreakMode ofxGenericButtonView::getLineBreakMode ()
 {
-#if TARGET_OS_IPHONE
-    if ( [ _view isKindOfClass:[UIButton class]] )
+    if ( _textView )
     {
-        UILabel *titleLabel = ((UIButton *)_view).titleLabel;
-        return iOSToofxGenericTextLinebreakMode( ((UILabel *)titleLabel).lineBreakMode );
+        return _textView->getLineBreakMode();
     }
-#endif
     return ofxGenericTextLinebreakModeClip;
 }
 
 void ofxGenericButtonView::setNumberOfLines ( int n )
 {
-#if TARGET_OS_IPHONE
-    if ( [ _view isKindOfClass:[UIButton class]] )
+    if ( _textView )
     {
-        UILabel *titleLabel = ((UIButton *)_view).titleLabel;
-        titleLabel.numberOfLines = n;
+        _textView->setNumberOfLines( n );
     }
-#endif    
 }
 
 int ofxGenericButtonView::getNumberOfLines ()
 {
-#if TARGET_OS_IPHONE
-    if ( [ _view isKindOfClass:[UIButton class]] )
+    if ( _textView )
     {
-        UILabel *titleLabel = ((UIButton *)_view).titleLabel;
-        return titleLabel.numberOfLines;
+        return _textView->getNumberOfLines();
     }
-#endif
     return 1;
 }
 
 float ofxGenericButtonView::getMinimumFontSize()
 {
-#if TARGET_OS_IPHONE
-    if ( [ _view isKindOfClass:[UIButton class]] )
+    if ( _textView )
     {
-        UILabel *titleLabel = ((UIButton *)_view).titleLabel;
-        return ( float )titleLabel.minimumFontSize;
+        return _textView->getMinimumFontSize();
     }
-#endif
     return 10;
 }
 
 void ofxGenericButtonView::setMinimumFontSize( float s )
 {
-#if TARGET_OS_IPHONE
-    if ( [ _view isKindOfClass:[UIButton class]] )
+    if ( _textView )
     {
-        UILabel *titleLabel = ((UIButton *)_view).titleLabel;
-        titleLabel.minimumFontSize = ( CGFloat )s;
+        _textView->setMinimumFontSize( s );
     }
-#endif
 }
 
-void ofxGenericButtonView::setFont ( string name, float size )
+void ofxGenericButtonView::setFont( string name, float size )
 {
-#if TARGET_OS_IPHONE
-    if ( [ _view isKindOfClass:[UIButton class]] )
+    if ( _textView )
     {
-        UILabel *titleLabel = ((UIButton *)_view).titleLabel;
-        titleLabel.font = [UIFont fontWithName:[NSString stringWithCString:name.c_str() encoding:NSUTF8StringEncoding] size:size];
+        _textView->setFont( name, size );
     }
-#endif
 }
 
 float ofxGenericButtonView::getFontSize()
 {
-#if TARGET_OS_IPHONE
-    if ( [ _view isKindOfClass:[UIButton class]] )
+    if ( _textView )
     {
-        UILabel *titleLabel = ((UIButton *)_view).titleLabel;
-        return titleLabel.font.pointSize;
+        return _textView->getFontSize();
     }
-#endif
     return 12.0f;
 }
 
 string ofxGenericButtonView::getFontName()
 {
-#if TARGET_OS_IPHONE
-    if ( [ _view isKindOfClass:[UIButton class]] )
+    if ( _textView )
     {
-        UILabel *titleLabel = ((UIButton *)_view).titleLabel;
-        return [titleLabel.font.fontName cStringUsingEncoding:NSUTF8StringEncoding];
+        return _textView->getFontName();
     }
-#endif
     return "";
 }
 
@@ -445,14 +412,10 @@ string ofxGenericButtonView::toString()
 {
     string result( ofxGenericView::toString() );
     
-    char buffer[ 1024 ];
-    snprintf( buffer, 1024, " Enabled: %d", getEnabled() );
-    result += buffer;
+    result += ofxGSPrintf( " Enabled: %s", ofxGToString( getEnabled() ) );
     
 #if TARGET_OS_IPHONE
-    snprintf( buffer, 1024, " User Interaction Enabled %d", [ getNativeView() isUserInteractionEnabled ] );
-    result += buffer;
-#else
+    result += ofxGSPrintf( " User Interaction Enabled: %s", ofxGToString( [ getNativeView() isUserInteractionEnabled ] ) );
 #endif
     
     return result;
