@@ -49,8 +49,8 @@ public:
     void setNumberOfLines ( int n );
     int getNumberOfLines ();
     
-    float getMinimumFontSize();
-    void setMinimumFontSize( float s );
+    virtual float getMinimumFontSize();
+    virtual void setMinimumFontSize( float s );
     
     virtual void setFont ( string name, float size );
     virtual float getFontSize();
