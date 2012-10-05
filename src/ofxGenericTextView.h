@@ -16,7 +16,7 @@ class ofxGenericFont;
 class ofxGenericTextView : public ofxGenericView
 {
 public:
-    static ofPtr< ofxGenericTextView > create( const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ) );
+    static ofPtr< ofxGenericTextView > create( const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ), NativeView nativeView = NativeNull );
     
     void setText( string newText );
     string getText();

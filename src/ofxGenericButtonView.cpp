@@ -7,8 +7,7 @@
 
 #include "ofxGenericButtonView.h"
 #include "ofxGenericUtility.h"
-
-
+#include "ofxGenericTextView.h"
 
 #if TARGET_OS_IPHONE
 @interface ofxGenericButtonViewForwarder : NSObject 
@@ -134,6 +133,8 @@ NativeView ofxGenericButtonView::createNativeView( const ofRectangle& frame )
     [ newView setFrame:ofRectangleToCGRect( frame ) ];
     [ newView setTitleColor:[ UIColor blackColor ] forState:UIControlStateNormal ];
     [ newView setBackgroundColor:[ UIColor clearColor ] ];
+    
+    _textView = ofxGenericTextView::create( CGRectToofRectangle( [ [ newView titleLabel ] frame ] ), [ newView titleLabel ] );
 
     // TODO: doesn't match createUIView design
     _forwarder = [ [ ofxGenericButtonViewForwarder alloc ] init ];

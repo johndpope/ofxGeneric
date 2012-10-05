@@ -10,10 +10,10 @@
 #include "ofxGenericUtility.h"
 #include "ofxGenericFont.h"
 
-ofPtr< ofxGenericTextView > ofxGenericTextView::create( const ofRectangle& setFrame )
+ofPtr< ofxGenericTextView > ofxGenericTextView::create( const ofRectangle& setFrame, NativeView nativeView )
 {
     ofPtr< ofxGenericTextView > create = ofPtr< ofxGenericTextView >( new ofxGenericTextView() );
-    create->init( create, setFrame );
+    create->init( create, setFrame, nativeView );
     return create;
 }
 

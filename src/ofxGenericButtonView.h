@@ -16,6 +16,7 @@
 @class ofxGenericButtonViewForwarder;
 #endif
 class ofxGenericButtonViewTouchDelegate;
+class ofxGenericTextView;
 
 class ofxGenericButtonView : public ofxGenericView
 {
@@ -89,7 +90,7 @@ public:
 protected:
     ofxGenericButtonView();
     virtual void init( ofPtrWeak< ofxGenericView > setThis, ofxGenericButtonType buttonType = ofxGenericButtonTypeRoundedRect, const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ), ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate = ofPtrWeak< ofxGenericButtonViewTouchDelegate >(), bool forwardsTouches = false );
-
+    ofPtr< ofxGenericTextView > _textView;
     ofPtrWeak< ofxGenericButtonViewTouchDelegate > _touchDelegate;
     
     virtual NativeView createNativeView( const ofRectangle& frame );
