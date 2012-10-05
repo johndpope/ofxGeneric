@@ -10,7 +10,9 @@
 #pragma once
 
 #include "ofxGenericView.h"
+#if TARGET_ANDROID
 #include <vector>
+#endif
 
 #if TARGET_OS_IPHONE
 @class ofxGenericButtonViewForwarder;
