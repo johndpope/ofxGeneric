@@ -32,19 +32,16 @@ ofPtr< ofxGenericImage > ofxGenericImage::create( ofPtr< ofImage > image )
 std::string ofxGenericImage::getNativeImagePath( std::string fileName )
 {
 #if TARGET_OS_IPHONE
-    std::string resolutionFileName( "" );
+    std::string resolutionFileName = fileName;
     if ( [ [ UIDevice currentDevice ] hasRetinaDisplay ] )
     {
         resolutionFileName = ofFilePath::removeExt( fileName );
         resolutionFileName += "@2x.";
         resolutionFileName += ofFilePath::getFileExt( fileName );
-        if ( !ofxGFileExists( resolutionFileName, false ) )
+        if ( ofxGFileExists( resolutionFileName, false ) )
         {
             resolutionFileName = fileName;
         }
-    } else
-    {
-        resolutionFileName = fileName;
     }
     return ofxGPathToDataFolder( resolutionFileName );
 #elif TARGET_ANDROID
