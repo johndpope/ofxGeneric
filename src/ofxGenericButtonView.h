@@ -22,23 +22,24 @@ class ofxGenericButtonView : public ofxGenericView
 {
 public:
     static ofPtr< ofxGenericButtonView > create( ofxGenericButtonType buttonType = ofxGenericButtonTypeRoundedRect, const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ), ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate = ofPtrWeak< ofxGenericButtonViewTouchDelegate >(), bool forwardsTouches = false );
+    
     virtual ~ofxGenericButtonView();
     
-    void setText( std::string newText );
-    std::string getText();
+    virtual void setText( std::string newText );
+    virtual std::string getText();
     
     // void setImage
     void setBackgroundImage( std::string fileName );
     void setDownBackgroundImage( std::string fileName );
     
-    void setTextAlignment( ofxGenericTextHorizontalAlignment alignment );
-    ofxGenericTextHorizontalAlignment getTextAlignment();
+    virtual void setTextAlignment( ofxGenericTextHorizontalAlignment alignment );
+    virtual ofxGenericTextHorizontalAlignment getTextAlignment();
     
-    void setTextColor ( const ofColor& setColor );
-    ofColor getTextColor ();
+    virtual void setTextColor ( const ofColor& setColor );
+    virtual ofColor getTextColor ();
     
-    void setDownTextColor ( const ofColor& setColor );
-    ofColor getDownTextColor ();
+    virtual void setDownTextColor ( const ofColor& setColor );
+    virtual ofColor getDownTextColor ();
     
     void setLineBreakMode ( ofxGenericTextLinebreakMode mode );
     ofxGenericTextLinebreakMode getLineBreakMode();
@@ -49,9 +50,9 @@ public:
     float getMinimumFontSize();
     void setMinimumFontSize( float s );
     
-    void setFont ( string name, float size );
-    float getFontSize();
-    string getFontName();
+    virtual void setFont ( string name, float size );
+    virtual float getFontSize();
+    virtual string getFontName();
     
     void setForwardsTouches( bool forwards );
     
