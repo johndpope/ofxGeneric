@@ -7,6 +7,8 @@
 
 #include "ofxGenericImageView.h"
 #include "ofxGenericUtility.h"
+#include "ofxGenericImage.h"
+#include "ofxGenericImageManager.h"
 
 #if TARGET_OS_IPHONE
 #include "UIDevice-Hardware.h"
@@ -50,29 +52,20 @@ NativeView ofxGenericImageView::createNativeView( const ofRectangle& frame )
 #endif
 }
 
-// TODO: auto @2x if available
 void ofxGenericImageView::setImage( std::string fileName )
 {
+    if ( ofxGenericImageManager::getInstance().imageIsLoaded( fileName ) )
+    {
+        setImage( ofxGenericImageManager::getInstance().getImage( fileName ) );
+        return;
+    }
+    
 #if TARGET_OS_IPHONE
     if ( [ _view isKindOfClass:[ UIImageView class ] ] )
     {
         UIImageView* view = ( UIImageView* )_view;
         
-        std::string resolutionFileName( "" );
-        if ( [ [ UIDevice currentDevice ] hasRetinaDisplay ] )
-        {
-            resolutionFileName = ofFilePath::removeExt( fileName );
-            resolutionFileName += "@2x.";
-            resolutionFileName += ofFilePath::getFileExt( fileName );
-            if ( !ofxGFileExists( resolutionFileName, false ) )
-            {
-                resolutionFileName = fileName;
-            }
-        } else
-        {
-            resolutionFileName = fileName;
-        }
-        [ view setImage:[ UIImage imageWithContentsOfFile:ofxStringToNSString( ofxGPathToDataFolder( resolutionFileName ) ) ] ];
+        [ view setImage:[ UIImage imageWithContentsOfFile:ofxStringToNSString( ofxGenericImage::getNativeImagePath( fileName ) ) ] ];
     }
 #elif TARGET_ANDROID
     callJNIVoidMethod(
@@ -85,19 +78,41 @@ void ofxGenericImageView::setImage( std::string fileName )
 
 void ofxGenericImageView::setImage( ofPtr< ofImage > image )
 {
-    _image = image;
 #if TARGET_OS_IPHONE
     if ( [ _view isKindOfClass:[ UIImageView class ] ] )
     {
         UIImageView* view = ( UIImageView* )_view;
-        if ( _image )
+        ofPtr< ofxGenericImage > newImage = ofxGenericImage::create( image );
+        if ( _image && _image->loadedSuccessfully() )
         {
-            [ view setImage:[ UIImage imageWithData:UIImagePNGRepresentation( OFImageToUIImage( *image ) ) ] ]; // sanity check, was crashing for unknown reasons before :(
-        } else
+            _image = newImage;
+            [ view setImage: _image->getUIImage() ];
+        }
+        else
         {
+            _image = ofPtr< ofxGenericImage > ();
             [ view setImage:nil ];
         }
     }
+#elif TARGET_ANDROID
+#endif
+}
+
+void ofxGenericImageView::setImage ( ofPtr< ofxGenericImage > image )
+{
+    if ( !image )
+    {
+        return;
+    }
+    
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[ UIImageView class ] ] )
+    {
+        UIImageView* view = ( UIImageView* )_view;
+        
+        [ view setImage: image->getUIImage() ];
+    }
+#elif TARGET_ANDROID
 #endif
 }
 

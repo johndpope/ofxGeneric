@@ -20,6 +20,8 @@ public:
     
     virtual bool load( string sound );
     virtual bool load( std::vector< string > sounds );
+    virtual bool preloadIntoMemory( string sound );
+    virtual bool preloadIntoMemory( std::vector< string > sounds );
     virtual void unload( string sound );
     virtual void unload( std::vector< string > sounds );
     virtual void unloadAll();

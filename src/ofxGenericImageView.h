@@ -10,6 +10,8 @@
 
 #include "ofxGenericView.h"
 
+class ofxGenericImage;
+
 class ofxGenericImageView : public ofxGenericView
 {
 public:
@@ -17,6 +19,7 @@ public:
     
     virtual void setImage( string fileName );
     virtual void setImage( ofPtr< ofImage > image );
+    virtual void setImage ( ofPtr< ofxGenericImage > image );
     
 #if TARGET_OS_IPHONE
     operator UIImageView*();
@@ -40,7 +43,9 @@ protected:
     ofxGenericImageView();
     virtual NativeView createNativeView( const ofRectangle& frame );
 
-    ofPtr< ofImage > _image;
+    
+    
+    ofPtr< ofxGenericImage > _image;
     
 #if TARGET_ANDROID
     static jclass _jniClass;

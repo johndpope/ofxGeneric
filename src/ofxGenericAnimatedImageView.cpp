@@ -7,6 +7,8 @@
 //
 
 #include "ofxGenericAnimatedImageView.h"
+#include "ofxGenericImage.h"
+#include "ofxGenericImageManager.h"
 
 ofPtr< ofxGenericAnimatedImageView > ofxGenericAnimatedImageView::create( const ofRectangle& setFrame, const std::vector< string >& frames, float frameRate, ofxGenericAnimatedImageLoopType loopType, int animationDirection )
 {
@@ -36,6 +38,12 @@ void ofxGenericAnimatedImageView::setImage( ofPtr< ofImage > image )
     ofxGenericImageView::setImage( image );
 }
 
+void ofxGenericAnimatedImageView::setImage( ofPtr< ofxGenericImage > image )
+{
+    clearFrames();
+    ofxGenericImageView::setImage( image );
+}
+
 void ofxGenericAnimatedImageView::setAtFirstImage()
 {
     if ( _frames.size() <= 0 )
@@ -58,17 +66,26 @@ void ofxGenericAnimatedImageView::setAtLastImage()
 
 void ofxGenericAnimatedImageView::setImageFrames( const std::vector< string >& frames, bool reverse )
 {
-    std::vector< ofPtr< ofImage > > imageFrames;
+    std::vector< ofPtr< ofxGenericImage > > imageFrames;
     for( unsigned int travImageFileNames = 0; travImageFileNames < frames.size(); travImageFileNames ++ )
     {
-        ofPtr< ofImage > imageFrame( new ofImage( frames[ travImageFileNames ] ) );
+        string fileName = frames[ travImageFileNames ];
+        ofPtr< ofxGenericImage > imageFrame;
+        if ( ofxGenericImageManager::getInstance().imageIsLoaded( fileName ) )
+        {
+            imageFrame = ofxGenericImageManager::getInstance().getImage( fileName );
+        }
+        else
+        {
+            imageFrame = ofxGenericImage::create( fileName );
+        }
         imageFrames.push_back( imageFrame );
     }
     setImageFrames( imageFrames, reverse );
     //_frameNames = frames; //for debugging
 }
 
-void ofxGenericAnimatedImageView::setImageFrames( const std::vector< ofPtr< ofImage > >& frames, bool reverse )
+void ofxGenericAnimatedImageView::setImageFrames( const std::vector< ofPtr< ofxGenericImage > >& frames, bool reverse )
 {
     clearFrames();
     
