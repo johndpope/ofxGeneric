@@ -38,7 +38,7 @@ std::string ofxGenericImage::getNativeImagePath( std::string fileName )
         resolutionFileName = ofFilePath::removeExt( fileName );
         resolutionFileName += "@2x.";
         resolutionFileName += ofFilePath::getFileExt( fileName );
-        if ( ofxGFileExists( resolutionFileName, false ) )
+        if ( !ofxGFileExists( resolutionFileName, false ) )
         {
             resolutionFileName = fileName;
         }
