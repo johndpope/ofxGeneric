@@ -60,20 +60,27 @@ void ofxGenericImageView::setImage( std::string fileName )
         return;
     }
     
-#if TARGET_OS_IPHONE
-    if ( [ _view isKindOfClass:[ UIImageView class ] ] )
+    string imagePath = ofxGenericImage::getNativeImagePath( fileName );
+    if ( ofxGFileExists( imagePath ) )
     {
-        UIImageView* view = ( UIImageView* )_view;
-        
-        [ view setImage:[ UIImage imageWithContentsOfFile:ofxStringToNSString( ofxGenericImage::getNativeImagePath( fileName ) ) ] ];
-    }
+
+#if TARGET_OS_IPHONE
+        if ( [ _view isKindOfClass:[ UIImageView class ] ] )
+        {
+            UIImageView* view = ( UIImageView* )_view;
+            [ view setImage:[ UIImage imageWithContentsOfFile:ofxStringToNSString( imagePath ) ] ];
+        }
 #elif TARGET_ANDROID
-    callJNIVoidMethod(
-    		_jniMethods,
-    		JNIMethod_SetImage
-    		// , fileName
-    		);
+        callJNIVoidMethod(
+                _jniMethods,
+                JNIMethod_SetImage
+                // , fileName
+                );
 #endif
+    } else
+    {
+        ofxGLogError( "Unable to find image file " + imagePath + ", cannot ofxGenericImageView::setImage!" );
+    }
 }
 
 void ofxGenericImageView::setImage( ofPtr< ofImage > image )
