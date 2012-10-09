@@ -6,8 +6,11 @@
 //
 
 #include "ofxGenericButtonView.h"
+
 #include "ofxGenericUtility.h"
 #include "ofxGenericTextView.h"
+
+#include "ofxGenericImage.h"
 
 #if TARGET_OS_IPHONE
 @interface ofxGenericButtonViewForwarder : NSObject 
@@ -191,38 +194,52 @@ std::string ofxGenericButtonView::getText()
 
 void ofxGenericButtonView::setBackgroundImage( std::string fileName )
 {
-#if TARGET_OS_IPHONE
-    if ( [ _view isKindOfClass:[ UIButton class ] ] )
+    string imagePath = ofxGenericImage::getNativeImagePath( fileName );
+    if ( ofxGFileExists( imagePath ) )
     {
-        UIButton* view = ( UIButton* )_view;
-        [ view setBackgroundImage:[ UIImage imageWithContentsOfFile:ofxStringToNSString( ofxGPathToDataFolder( fileName ) )  ]
-                         forState:UIControlStateNormal ];
-    }
+#if TARGET_OS_IPHONE
+        if ( [ _view isKindOfClass:[ UIButton class ] ] )
+        {
+            UIButton* view = ( UIButton* )_view;
+            [ view setBackgroundImage:[ UIImage imageWithContentsOfFile:ofxStringToNSString( ofxGPathToDataFolder( fileName ) )  ]
+                             forState:UIControlStateNormal ];
+        }
 #elif TARGET_ANDROID
-    callJNIVoidMethod(
-    		_jniMethods,
-    		JNIMethod_setBackgroundImage
-    		//, fileName
-    		);
+        callJNIVoidMethod(
+                _jniMethods,
+                JNIMethod_setBackgroundImage
+                //, fileName
+                );
 #endif
+    } else
+    {
+        ofxGLogError( "Unable to find image file " + imagePath + ", cannot ofxGenericButtonView::setBackgroundImage!" );
+    }
 }
 
 void ofxGenericButtonView::setDownBackgroundImage( std::string fileName )
 {
-#if TARGET_OS_IPHONE
-    if ( [ _view isKindOfClass:[ UIButton class ] ] )
+    string imagePath = ofxGenericImage::getNativeImagePath( fileName );
+    if ( ofxGFileExists( imagePath ) )
     {
-        UIButton* view = ( UIButton* )_view;
-        [ view setBackgroundImage:[ UIImage imageWithContentsOfFile:ofxStringToNSString( ofxGPathToDataFolder( fileName ) )  ]
-                         forState:UIControlStateHighlighted ];
-    }
+#if TARGET_OS_IPHONE
+        if ( [ _view isKindOfClass:[ UIButton class ] ] )
+        {
+            UIButton* view = ( UIButton* )_view;
+            [ view setBackgroundImage:[ UIImage imageWithContentsOfFile:ofxStringToNSString( ofxGPathToDataFolder( fileName ) )  ]
+                             forState:UIControlStateHighlighted ];
+        }
 #elif TARGET_ANDROID
-    callJNIVoidMethod(
-                      _jniMethods,
-                      JNIMethod_setDownBackgroundImage
-                      //, fileName
-                      );
+        callJNIVoidMethod(
+                          _jniMethods,
+                          JNIMethod_setDownBackgroundImage
+                          //, fileName
+                          );
 #endif
+} else
+{
+    ofxGLogError( "Unable to find image file " + imagePath + ", cannot ofxGenericButtonView::setDownBackgroundImage!" );
+}
 }
 
 void ofxGenericButtonView::setEnabled( bool enabled )
