@@ -21,6 +21,9 @@
 
 #include <AVFoundation/AVFoundation.h>
 
+#define AppleAppStoreAppPage "itms-apps://itunes.apple.com/us/app/%s/id%s?mt=8&uo=4"
+#define AppleAppStoreAppReviewURL "itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=%s"
+
 #endif
 
 #include "ofxGenericException.h"
@@ -420,6 +423,29 @@ bool ofxGenericApp::hasInternetConnection()
     return [ [ UIDevice currentDevice ] hostAvailable:@"www.google.com" ];
 #endif
     return false;
+}
+
+#if TARGET_OS_IPHONE
+
+void ofxGenericApp::openAppleAppStoreAppPage( string bundleId, string trackId )
+{
+    string url = ofxGSPrintf( AppleAppStoreAppPage, bundleId, trackId );
+    sendURLToOS( url );
+}
+
+void ofxGenericApp::openAppleAppStoreAppReviewPage( string trackId )
+{
+    string url = ofxGSPrintf( AppleAppStoreAppReviewURL, trackId );
+    sendURLToOS( url );
+}
+
+#endif
+
+void ofxGenericApp::sendURLToOS( string url )
+{
+#if TARGET_OS_IPHONE
+    [ [ UIApplication sharedApplication ] openURL:[ NSURL URLWithString:ofxStringToNSString( url ) ] ];
+#endif
 }
 
 void ofxGenericApp::handleUncaughtException( ofxGenericException& exception )
