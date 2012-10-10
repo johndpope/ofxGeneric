@@ -39,7 +39,7 @@ public:
     ofPtr< ofxGenericScrollView > getScrollContainer();
 #endif
 
-    virtual bool shouldStartNavigation();
+    virtual bool shouldStartNavigation( string url );
     virtual void started();
     virtual void finished();
     virtual void failed();
@@ -65,7 +65,7 @@ class ofxGenericWebViewDelegate
 public:
     virtual ~ofxGenericWebViewDelegate() {};
     
-    virtual bool webView_shouldStartNavigation( ofPtr< ofxGenericWebView > view ) { return true; };
+    virtual bool webView_shouldStartNavigation( ofPtr< ofxGenericWebView > view, string url ) { return true; };
     virtual void webView_started( ofPtr< ofxGenericWebView > view ) {};
     virtual void webView_finished( ofPtr< ofxGenericWebView > view ) {};
     virtual void webView_failed( ofPtr< ofxGenericWebView > view ) {};

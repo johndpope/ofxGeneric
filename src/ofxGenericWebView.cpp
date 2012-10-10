@@ -185,12 +185,12 @@ ofPtr< ofxGenericScrollView > ofxGenericWebView::getScrollContainer()
 }
 #endif
 
-bool ofxGenericWebView::shouldStartNavigation()
+bool ofxGenericWebView::shouldStartNavigation( string url )
 {
     ofPtr< ofxGenericWebViewDelegate > delegate = _delegate.lock();
     if ( delegate )
     {
-        return delegate->webView_shouldStartNavigation( dynamic_pointer_cast< ofxGenericWebView >( _this ) );
+        return delegate->webView_shouldStartNavigation( dynamic_pointer_cast< ofxGenericWebView >( _this ), url );
     }
     return true;
 }
@@ -241,7 +241,7 @@ void ofxGenericWebView::failed()
     ofPtr< ofxGenericWebView > forwardTo = _forwardTo.lock();
     if ( forwardTo )
     {
-        return ( BOOL )forwardTo->shouldStartNavigation();
+        return ( BOOL )forwardTo->shouldStartNavigation( ofxNSStringToString( [ [ request URL ] relativeString ] ) );
     }
     return YES;
 }
