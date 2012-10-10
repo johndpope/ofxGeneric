@@ -32,6 +32,8 @@ public:
     void setShowHorizontalScrollIndicator( bool show );
     void setShowVerticalScrollIndicator( bool show );
     
+    void setBounceEnabled( bool enabled );
+    
     void setAlwaysBouncesVertical( bool bounce );
     void setAlwaysBouncesHorizontal( bool bounce );
     
