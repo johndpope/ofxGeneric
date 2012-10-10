@@ -20,3 +20,4 @@
 
 #include "ofxGenericConstants.h"
 #include "ofxGenericUtility.h"
+#include "ofxGenericLocalization.h"
