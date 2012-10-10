@@ -60,6 +60,11 @@ UIWebView* ofxGenericWebView::getNativeWebView()
     return nil;
 }
 
+void ofxGenericWebView::setDelegate( ofPtrWeak< ofxGenericWebViewDelegate > delegate )
+{
+    _delegate = delegate;
+}
+
 void ofxGenericWebView::goToRemoteURL( string URL )
 {
 #if TARGET_OS_IPHONE
