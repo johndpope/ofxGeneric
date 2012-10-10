@@ -35,6 +35,9 @@ public:
     void goForward();
     
     void setScrollingEnabled( bool enabled );
+#if TARGET_OS_IPHONE
+    ofPtr< ofxGenericScrollView > getScrollContainer();
+#endif
 
     virtual bool shouldStartNavigation();
     virtual void started();

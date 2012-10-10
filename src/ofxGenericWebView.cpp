@@ -178,6 +178,13 @@ void ofxGenericWebView::setScrollingEnabled( bool enabled )
 #endif
 }
 
+#if TARGET_OS_IPHONE
+ofPtr< ofxGenericScrollView > ofxGenericWebView::getScrollContainer()
+{
+    return _scrollContainer;
+}
+#endif
+
 bool ofxGenericWebView::shouldStartNavigation()
 {
     ofPtr< ofxGenericWebViewDelegate > delegate = _delegate.lock();
