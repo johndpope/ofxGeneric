@@ -259,10 +259,13 @@ void ofxGenericWebView::failed()
 
 -( void )webView:( UIWebView* )webView didFailLoadWithError:( NSError* )error
 {
-    ofPtr< ofxGenericWebView > forwardTo = _forwardTo.lock();
-    if ( forwardTo )
+    if ( [ error code ] != NSURLErrorCancelled ) // throws an error when we send a request before the first is finished
     {
-        forwardTo->failed();
+        ofPtr< ofxGenericWebView > forwardTo = _forwardTo.lock();
+        if ( forwardTo )
+        {
+            forwardTo->failed();
+        }
     }
 }
 
