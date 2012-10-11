@@ -117,3 +117,10 @@ std::vector< string > ofxGenericPlatform::supportedFontNames()
 #endif
     return supported;
 }
+
+#if TARGET_OS_IPHONE
+bool ofxGenericPlatform::isRetinaDisplay()
+{
+    return ( bool )[ [ UIDevice currentDevice ] hasRetinaDisplay ];
+}
+#endif

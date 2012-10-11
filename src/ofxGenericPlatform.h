@@ -31,4 +31,8 @@ public:
     
     static string dumpSupportedFontNames();
     static std::vector< string > supportedFontNames();
+    
+#if TARGET_OS_IPHONE
+    static bool isRetinaDisplay();
+#endif
 };
