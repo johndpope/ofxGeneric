@@ -8,10 +8,11 @@
 
 #include "ofxGenericImage.h"
 #include "ofxGenericUtility.h"
-#include "UIDevice-Hardware.h"
 
 #if TARGET_OS_IPHONE
 #include <UIKit/UIKit.h>
+
+#include "ofxGenericPlatform.h"
 #endif
 
 ofPtr< ofxGenericImage > ofxGenericImage::create( std::string fileName )
@@ -33,7 +34,7 @@ std::string ofxGenericImage::getNativeImagePath( std::string fileName )
 {
 #if TARGET_OS_IPHONE
     std::string resolutionFileName = fileName;
-    if ( [ [ UIDevice currentDevice ] hasRetinaDisplay ] )
+    if ( ofxGenericPlatform::isRetinaDisplay() )
     {
         resolutionFileName = ofFilePath::removeExt( fileName );
         resolutionFileName += "@2x.";
