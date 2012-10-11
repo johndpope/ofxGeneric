@@ -34,5 +34,10 @@ public:
     
 #if TARGET_OS_IPHONE
     static bool isRetinaDisplay();
+    static string imageSuffixRetinaDisplay();
+    static bool is4InchDisplay();
+    static string imageSuffix4InchDisplay();
+    
+    static string imageFileName( string originalFileName, bool is4Inch, bool isRetina );
 #endif
 };

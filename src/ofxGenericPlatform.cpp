@@ -121,6 +121,40 @@ std::vector< string > ofxGenericPlatform::supportedFontNames()
 #if TARGET_OS_IPHONE
 bool ofxGenericPlatform::isRetinaDisplay()
 {
-    return ( bool )[ [ UIDevice currentDevice ] hasRetinaDisplay ];
+    return ( bool )[ UIDevice hasRetinaDisplay ];
 }
+
+string ofxGenericPlatform::imageSuffixRetinaDisplay()
+{
+    return ofxNSStringToString( [ UIDevice imageSuffixRetinaDisplay ] );
+}
+
+bool ofxGenericPlatform::is4InchDisplay()
+{
+    return ( bool )[ UIDevice has4InchDisplay ];
+}
+
+string ofxGenericPlatform::imageSuffix4InchDisplay()
+{
+    return ofxNSStringToString( [ UIDevice imageSuffix4InchDisplay ] );
+}
+
+string ofxGenericPlatform::imageFileName( string originalFileName, bool is4Inch, bool isRetina )
+{
+    string result = ofFilePath::removeExt( originalFileName );
+
+    if ( is4Inch )
+    {
+        result += ofxGenericPlatform::imageSuffix4InchDisplay();
+    }
+    if ( isRetina )
+    {
+        result += ofxGenericPlatform::imageSuffixRetinaDisplay();
+    }
+    
+    result += "." + ofFilePath::getFileExt( originalFileName );
+    
+    return result;
+}
+
 #endif
