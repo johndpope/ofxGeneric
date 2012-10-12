@@ -219,3 +219,12 @@ protected:
     string _securityKey;
     virtual string generateHash();
 };
+
+#define literalCacheKey( name ) \
+name##CacheKey
+
+#define defineCacheKey( name, key ) \
+const string name##CacheKey = #key;
+
+#define cacheKey( name ) \
+literalCacheKey( name )
