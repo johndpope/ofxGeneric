@@ -82,7 +82,7 @@ void ofxGenericSound::init( ofPtrWeak< ofxGenericSound > setThis, string fileNam
     
     if ( !success )
     {
-        ofLogError("Failed to load ofxGenericSound \"" + fileName + "." + extension + "\" - " + loadError );
+        ofLogError("Failed to load ofxGenericSound \"" + fileName + "\" - " + loadError );
     }
 }
 
