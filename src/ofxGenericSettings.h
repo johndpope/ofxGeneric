@@ -8,22 +8,22 @@
 
 #pragma once
 
-#include "ofxGenericMain.h"
+#include "ofxGenericValueStore.h"
 
-class ofxGenericValueStore;
-
-class ofxGenericSettings
+// refactor ofxGenericSettings to inheret from ofxGenericValueStore
+class ofxGenericSettings : public ofxGenericValueStore
 {
 public:
-    virtual ~ofxGenericSettings();
-    
     void load();
+    
+    bool readFromDisk();
+    bool writeToDisk();
+    void dumpSettings();
     
 protected:
     ofxGenericSettings();
     virtual void init( ofPtrWeak< ofxGenericSettings > setThis );
-    ofPtrWeak< ofxGenericSettings > _this;
 
     virtual string getFileName() = 0;
-    virtual void parse( ofPtr< ofxGenericValueStore >& settings ) = 0;
+    virtual void parse( ofPtr< ofxGenericValueStore >& settings ) ;
 };
