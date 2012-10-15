@@ -6,8 +6,10 @@
 //
 
 #include "ofxGenericEditTextView.h"
+
 #include "ofxGenericUtility.h"
 #include "ofxGenericApp.h"
+#include "ofxGenericImage.h"
 
 #if TARGET_OS_IPHONE
 @interface ofxGenericEditTextViewForwarder : NSObject< UITextFieldDelegate >
@@ -114,13 +116,20 @@ ofxGenericTextHorizontalAlignment ofxGenericEditTextView::getTextAlignment()
 
 void ofxGenericEditTextView::setBackgroundImage( string imageFileName )
 {
-#if TARGET_OS_IPHONE
-    UITextField* textField = ( UITextField* )*this;
-    if ( textField )
+    string imagePath = ofxGenericImage::getNativeImagePath( imageFileName );
+    if ( ofxGFileExists( imagePath ) )
     {
-        [ textField setBackground:[ UIImage imageWithContentsOfFile:ofxStringToNSString( ofxGPathToDataFolder( imageFileName ) ) ] ];
-    }    
+#if TARGET_OS_IPHONE
+        UITextField* textField = ( UITextField* )*this;
+        if ( textField )
+        {
+            [ textField setBackground:[ UIImage imageWithContentsOfFile:ofxStringToNSString( imagePath ) ] ];
+        }    
 #endif
+    } else
+    {
+        ofxGLogError( "Unable to find image file " + imagePath + ", cannot ofxGenericEditTextView::setBackgroundImage!" );
+    }
 }
 /*
 void ofxGenericEditTextView::setTextAlignment( ofxGenericTextHorizontalAlignment alignment )
