@@ -38,7 +38,7 @@ std::string ofxGenericImage::getNativeImagePath( std::string fileName )
         string test = ofxGenericPlatform::imageFileName( fileName, true, true );
         if ( ofxGFileExists( test, false ) )
         {
-            return ofxGPathToDataFolder( test );
+            return ofToPath( test, false );
         }
     }
     
@@ -47,7 +47,7 @@ std::string ofxGenericImage::getNativeImagePath( std::string fileName )
         string test = ofxGenericPlatform::imageFileName( fileName, true, false );
         if ( ofxGFileExists( test, false ) )
         {
-            return ofxGPathToDataFolder( test );
+            return ofToPath( test, false );
         }
     }
     
@@ -56,13 +56,13 @@ std::string ofxGenericImage::getNativeImagePath( std::string fileName )
         string test = ofxGenericPlatform::imageFileName( fileName, false, true );
         if ( ofxGFileExists( test, false ) )
         {
-            return ofxGPathToDataFolder( test );
+            return ofToPath( test, false );
         }
     }
     
 #elif TARGET_ANDROID
 #endif
-    return ofxGPathToDataFolder( fileName );
+    return ofToPath( fileName, false );
 }
 
 ofxGenericImage::ofxGenericImage()
