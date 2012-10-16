@@ -42,7 +42,11 @@ NativeView ofxGenericWebView::createNativeView( const ofRectangle& frame )
 {
 #if TARGET_OS_IPHONE
     UIWebView* newView = [ [ UIWebView alloc ] initWithFrame:ofRectangleToCGRect( frame ) ];
-    _scrollContainer = ofxGenericScrollView::create( frame, [ newView scrollView ] );
+    
+    if ( [ newView respondsToSelector:@selector( scrollView ) ] )
+    {
+        _scrollContainer = ofxGenericScrollView::create( frame, [ newView scrollView ] );
+    }
     
     _forwarder = [ [ ofxGenericWebViewForwarder alloc ] initWithForwardTo:dynamic_pointer_cast< ofxGenericWebView >( _this ) ];
     [ newView setDelegate:_forwarder ];
@@ -181,6 +185,10 @@ void ofxGenericWebView::setScrollingEnabled( bool enabled )
 #if TARGET_OS_IPHONE
 ofPtr< ofxGenericScrollView > ofxGenericWebView::getScrollContainer()
 {
+    if ( !_scrollContainer )
+    {
+        ofxGLogVerbose( "Internal Scroll Container is NULL, older versions of iOS do not support access" );
+    }
     return _scrollContainer;
 }
 #endif
