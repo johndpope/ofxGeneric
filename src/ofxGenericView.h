@@ -120,6 +120,10 @@ public:
   
     static void setAnimationTransition( ofxGenericViewAnimationTransition transition, ofPtr< ofxGenericView > forView );
 
+    virtual void stopAllAnimations();
+    virtual ofRectangle getAnimatedFrame();
+    virtual float getAnimatedAlpha();
+    
     virtual void addGestureRecognizerSwipe( ofxGenericGestureTypeSwipe type );
     virtual void addGestureRecognizerTap( int tapCount, int fingerCount );
     virtual void addGestureRecognizerHold( float minimumPressDuration, unsigned int fingerCount, float allowableMovement );
