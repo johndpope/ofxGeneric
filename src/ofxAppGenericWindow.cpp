@@ -22,9 +22,11 @@
 jclass ofxAppGenericWindow::_jniClass = NULL;
 #endif
 
-ofxAppGenericWindow::ofxAppGenericWindow()
 #if TARGET_OS_IPHONE
-: _window( nil )
+ofxAppGenericWindow::ofxAppGenericWindow( bool universalApp )
+: _window( nil ), _univeralApp( universalApp )
+#else
+ofxAppGenericWindow::ofxAppGenericWindow()
 #endif
 {
 #if TARGET_ANDROID
@@ -44,10 +46,20 @@ ofxAppGenericWindow::~ofxAppGenericWindow()
 #endif
 }
 
+#include "ofxGenericPlatform.h"
+
 NativeWindow ofxAppGenericWindow::createNativeWindow()
 {
 #if TARGET_OS_IPHONE
-    return [ [ UIWindow alloc ] initWithFrame:[ [ UIScreen mainScreen ] bounds ] ];
+    CGRect frame;
+    if ( !_univeralApp && ofxGenericPlatform::deviceModel() == "iPad" )
+    {
+        frame = CGRectMake( 0, 0, 320, 480 );
+    } else
+    {
+        frame = [ [ UIScreen mainScreen ] bounds ];
+    }
+    return [ [ UIWindow alloc ] initWithFrame:frame ];
 #elif TARGET_ANDROID
     // TODO: exception handling
     string signature = JNIEncodeMethodSignature( 0, JNIType_object, ofxGenericView::className );

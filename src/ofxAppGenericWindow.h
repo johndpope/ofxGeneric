@@ -26,7 +26,9 @@ class ofxAppGenericWindow
 #endif
 {
 public:
-  	ofxAppGenericWindow();
+#if TARGET_OS_IPHONE
+  	ofxAppGenericWindow( bool universalApp );
+#endif
 	virtual ~ofxAppGenericWindow();
     
     virtual void runAppViaInfiniteLoop( ofBaseApp* appPtr );  
@@ -72,4 +74,7 @@ protected:
 #endif
     
     ofPtr< ofxGenericView > _rootView;
+#if TARGET_OS_IPHONE
+    bool _univeralApp;
+#endif
 };
