@@ -44,7 +44,7 @@ void ofxGenericSound::init( ofPtrWeak< ofxGenericSound > setThis, string fileNam
     if ( ofxGFileExists( fileName, false ) )
     {
 #if TARGET_OS_IPHONE
-        NSString *path = [ NSString stringWithCString: ofxGPathToDataFolder(fileName).c_str() encoding:NSUTF8StringEncoding ];
+        NSString *path = [ NSString stringWithCString: ofToPath(fileName, false).c_str() encoding:NSUTF8StringEncoding ];
         
         if ( path )
         {
@@ -82,7 +82,7 @@ void ofxGenericSound::init( ofPtrWeak< ofxGenericSound > setThis, string fileNam
     
     if ( !success )
     {
-        ofLogError("Failed to load ofxGenericSound \"" + fileName + "." + extension + "\" - " + loadError );
+        ofLogError("Failed to load ofxGenericSound \"" + fileName + "\" - " + loadError );
     }
 }
 

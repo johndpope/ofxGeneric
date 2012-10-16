@@ -24,7 +24,6 @@ public:
     
     virtual void runViaInfiniteLoop( ofPtr< ofxAppGenericWindow > window );
     
-    // TODO: come up with calling scheme, friending doesn't seem to be possible :(
     virtual void finishedLaunching();
     virtual void didBecomeActive();
     virtual void willResignActive();

@@ -13,27 +13,6 @@
 
 //////////////////////////////// Path //////////////////////////////////
 
-string ofxGGetFullPath( string fileName, bool isInDocuments )
-{
-    if ( isInDocuments )
-    {
-        return ofxGPathToDocumentsFolder( fileName );
-    } else
-    {
-        return ofxGPathToDataFolder( fileName );
-    }
-}
-
-string ofxGPathToDataFolder( string fileName )
-{
-    return ofToDataPath( fileName, true, false );
-}
-
-string ofxGPathToDocumentsFolder( string fileName )
-{
-    return ofToDataPath( fileName, true, true );
-}
-
 string ofxGGetPathFromFileName( string fileName )
 {
     unsigned int slashPos = fileName.find_last_of( "/\\" );
@@ -48,7 +27,7 @@ bool ofxGmkdir( string loc, bool useDocuments )
 {
     if ( !loc.empty() )
     {
-        string filename = ofToDataPath( loc, true, useDocuments );
+        string filename = ofToPath( loc, useDocuments, true );
         return mkdir( filename.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH ) == 0;
     }
     return false;
@@ -58,7 +37,7 @@ bool ofxGrmdir( string loc, bool useDocuments, bool onlyIfEmpty )
 {
     if ( !loc.empty() )
     {
-        string fileName = ofToDataPath( loc, true, useDocuments );
+        string fileName = ofToPath( loc, useDocuments, true );
 #if TARGET_OS_IPHONE
         while ( fileName.length() > 0 && ( fileName[ fileName.length() - 1 ] == '\\' || fileName[ fileName.length() - 1 ] == '/' ) )
         {
@@ -96,15 +75,7 @@ bool ofxGFileExists( string absolutePath )
 
 bool ofxGFileExists( string location, bool useDocuments )
 {
-    string absolutePath;
-    if ( useDocuments )
-    {
-        absolutePath = ofxGPathToDocumentsFolder( location );
-    } else
-    {
-        absolutePath = ofxGPathToDataFolder( location );
-    }
-    return ofxGFileExists( absolutePath );
+    return ofxGFileExists( ofToPath( location, useDocuments, true ) );
 }
 
 //////////////////////////////// Font //////////////////////////////////
@@ -457,11 +428,11 @@ string ofxGMIMETypeToExtension( ofxGenericMIMEType type )
 
 bool ofxGUntar( string tarLocation, bool tarIsInDocuments, string destinationWithinDocuments )
 {
-    string tarFullPath = ofxGGetFullPath( tarLocation, tarIsInDocuments );
+    string tarFullPath = ofToPath( tarLocation, tarIsInDocuments );
     if ( ofxGFileExists( tarFullPath ) )
     {
         ofxGmkdir( destinationWithinDocuments, true );
-        string destinationFullPath = ofxGGetFullPath(  destinationWithinDocuments, true );
+        string destinationFullPath = ofToPath( destinationWithinDocuments, true );
 #if TARGET_OS_IPHONE
         NSError* error;
         return ( bool )[ [ NSFileManager defaultManager ] createFilesAndDirectoriesAtPath:ofxStringToNSString( destinationFullPath ) withTarPath:ofxStringToNSString( tarFullPath ) error:&error ];
@@ -477,11 +448,11 @@ bool ofxGUntar( string tarLocation, bool tarIsInDocuments, string destinationWit
 
 bool ofxGUnzip( string zipLocation, bool zipIsInDocuments, string destinationWithinDocuments )
 {
-    string zipFullPath = ofxGGetFullPath( zipLocation, zipIsInDocuments );
+    string zipFullPath = ofToPath( zipLocation, zipIsInDocuments );
     if ( ofxGFileExists( zipFullPath ) )
     {
         ofxGmkdir( destinationWithinDocuments, true );
-        string destinationFullPath = ofxGGetFullPath(  destinationWithinDocuments, true );
+        string destinationFullPath = ofToPath( destinationWithinDocuments, true );
 #if TARGET_OS_IPHONE
         [ SSZipArchive unzipFileAtPath:ofxStringToNSString( zipFullPath ) toDestination:ofxStringToNSString( destinationFullPath ) ];
 #endif

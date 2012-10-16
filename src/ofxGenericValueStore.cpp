@@ -1057,7 +1057,7 @@ void ofxGenericValueStore::setFileName( string fileName, bool fileInDocuments )
 
 bool ofxGenericValueStore::readFromDisk()
 {
-    if ( _fileName.length() > 0 )
+    if ( !_fileName.empty() )
     {
         ofxJSONElement read;
         if ( read.openLocal( _fileName, _fileInDocuments ) )

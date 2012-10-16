@@ -7,28 +7,45 @@
 //
 
 #include "ofxGenericSettings.h"
-#include "ofxGenericValueStore.h"
-
-ofxGenericSettings::~ofxGenericSettings()
-{
-}
 
 void ofxGenericSettings::init( ofPtrWeak< ofxGenericSettings > setThis )
 {
-    _this = setThis;
+    ofxGenericValueStore::init( setThis, ofxGenericValueStoreTypeObject );
     load();
+}
+
+bool ofxGenericSettings::readFromDisk()
+{
+    return false;
+}
+
+bool ofxGenericSettings::writeToDisk()
+{
+    return false;
+}
+
+void ofxGenericSettings::dumpSettings()
+{
+    setFileName( getFileName(), true );
+    
+    ofxGenericValueStore::writeToDisk();
+    
+    setFileName( getFileName(), false );
 }
 
 void ofxGenericSettings::load()
 {
-    ofPtr< ofxGenericValueStore > loaded = ofxGenericValueStore::create( false );
-    loaded->setFileName( getFileName(), false );
-    
+    setFileName( getFileName(), false );
+
     // TODO: merge binary's settings with downloaded settings
-    if ( loaded->readFromDisk() )
-    {
-        parse( loaded );
-    }
+    ofxGenericValueStore::readFromDisk();
+    // old mechanism support
+    ofPtr< ofxGenericValueStore > oldParse = _this.lock();
+    parse( oldParse );
+}
+
+void ofxGenericSettings::parse( ofPtr< ofxGenericValueStore > &settings )
+{
 }
 
 ofxGenericSettings::ofxGenericSettings()
