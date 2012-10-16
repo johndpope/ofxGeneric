@@ -864,6 +864,34 @@ void ofxGenericView::setAnimationTransition( ofxGenericViewAnimationTransition t
 #endif    
 }
 
+void ofxGenericView::stopAllAnimations()
+{
+#if TARGET_OS_IPHONE
+    [ CATransaction begin ]; //the CATransation stuff forces this to happen immediately, otherwise it will wait for the run loop
+    [ _view.layer removeAllAnimations ];
+    [ CATransaction commit ];
+#elif TARGET_ANDROID
+#endif
+}
+
+ofRectangle ofxGenericView::getAnimatedFrame()
+{
+#if TARGET_OS_IPHONE
+    CALayer *layer = _view.layer.presentationLayer;
+    return CGRectToofRectangle( layer.frame );
+#elif TARGET_ANDROID
+#endif
+}
+
+float ofxGenericView::getAnimatedAlpha()
+{
+#if TARGET_OS_IPHONE
+    CALayer *layer = _view.layer.presentationLayer;
+    return layer.opacity;
+#elif TARGET_ANDROID
+#endif
+}
+
 void ofxGenericView::replaceViewWithView( ofPtr< ofxGenericView > replace, ofPtr< ofxGenericView > with )
 {
     if ( replace && replace->getParent() && with )
