@@ -115,3 +115,13 @@ bool operator < ( ofPtr< ofxGenericDate > left, ofPtr< ofxGenericDate > right )
     }
     return left->getTime() < right->getTime();
 }
+
+ofPtr< ofxGenericDate > operator - ( ofPtr< ofxGenericDate > left, ofPtr< ofxGenericDate > right )
+{
+    if ( left && right )
+    {
+        return ofxGenericDate::create( left->getTime() - right->getTime() );
+    }
+    
+    return ofxGenericDate::create();
+}
