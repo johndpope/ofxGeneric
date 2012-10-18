@@ -62,7 +62,7 @@ ofxGenericView::ofxGenericView()
 #elif TARGET_ANDROID
  _view( NULL ), 
 #endif
-_isAttachedToRoot( false ), _children()
+_isAttachingToRoot( false ), _isAttachedToRoot( false ), _children()
 {
 }
 
@@ -357,7 +357,7 @@ void ofxGenericView::addChildViewPre( ofPtr< ofxGenericView > add )
 {
     if ( add )
     {
-        if ( _isAttachedToRoot )
+        if ( _isAttachingToRoot || _isAttachedToRoot )
         {
             add->willAppear();
         }
@@ -409,6 +409,11 @@ void ofxGenericView::removeChildView( ofPtr< ofxGenericView > remove )
             remove->didDisappear();
         }
     }
+}
+
+void ofxGenericView::setIsAttachingToRoot( bool attaching )
+{
+    _isAttachingToRoot = attaching;
 }
 
 void ofxGenericView::setIsAttachedToRoot( bool attached )
@@ -700,6 +705,8 @@ void ofxGenericView::didLoad()
 
 void ofxGenericView::willAppear()
 {
+    setIsAttachingToRoot( true );
+    
     if ( _viewDelegate )
     {
         _viewDelegate.lock()->willAppear( _this.lock() );
@@ -713,6 +720,7 @@ void ofxGenericView::willAppear()
 
 void ofxGenericView::didAppear()
 {
+    setIsAttachingToRoot( false );
     setIsAttachedToRoot( true );
     
     if ( _viewDelegate )

@@ -189,6 +189,8 @@ protected:
     
     ofPtrWeak< ofxGenericView > _nextResponder;
 
+    void setIsAttachingToRoot( bool attaching );
+    bool _isAttachingToRoot;
     void setIsAttachedToRoot( bool attached );
     bool _isAttachedToRoot;
 
