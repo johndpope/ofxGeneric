@@ -438,17 +438,17 @@ void ofxGenericHTTPRequest::finished(
         }
     }
     
-#if DEBUG
     if ( isResponseOk() )
     {
+#if DEBUG
         ofxGLogVerbose( responseToString( false ) );
         ofxGLogVerbose( "\nBody:\n" + getResponseBodyAsString() + "\n" );
+#endif
     }
     else
     {
         ofxGLogWarning( responseToString( false ) + "\nBody:\n" + getResponseBodyAsString() + "\n" );
     }
-#endif
     
     if ( _delegate )
     {
