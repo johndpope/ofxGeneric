@@ -13,6 +13,7 @@ ofPtr< ofxGenericPageControl > ofxGenericPageControl::create( const ofRectangle&
 {
     ofPtr< ofxGenericPageControl > create = ofPtr< ofxGenericPageControl >( new ofxGenericPageControl() );
     create->init( create, setFrame );
+    create->setAllowsDotInteraction( false );
     return create;
 }
 
