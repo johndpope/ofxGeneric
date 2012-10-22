@@ -30,6 +30,10 @@ public:
     bool hidesForSinglePage();
     void setHidesForSinglePage( bool hides );
     
+    //if true, the user can tap on dots to make them change
+    bool allowsDotInteraction();
+    void setAllowsDotInteraction( bool interacts );
+    
     //tell this to refresh the image to match the selected page
     void refresh();
     

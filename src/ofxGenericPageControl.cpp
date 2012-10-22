@@ -122,6 +122,29 @@ ofPoint ofxGenericPageControl::getSizeForPageCount( int number )
     return ofPoint( 0, 0 );
 }
 
+bool ofxGenericPageControl::allowsDotInteraction()
+{
+#if TARGET_OS_IPHONE
+    UIPageControl* nativeView = ( UIPageControl* )*this;
+    if ( nativeView )
+    {
+        return nativeView.defersCurrentPageDisplay ? false : true;
+    }
+#endif
+    return false;
+}
+
+void ofxGenericPageControl::setAllowsDotInteraction( bool interacts )
+{
+#if TARGET_OS_IPHONE
+    UIPageControl* nativeView = ( UIPageControl* )*this;
+    if ( nativeView )
+    {
+        nativeView.defersCurrentPageDisplay = interacts ? NO : YES;
+    }
+#endif
+}
+
 
 #if TARGET_OS_IPHONE
 
