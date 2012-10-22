@@ -13,6 +13,7 @@ ofPtr< ofxGenericPageControl > ofxGenericPageControl::create( const ofRectangle&
 {
     ofPtr< ofxGenericPageControl > create = ofPtr< ofxGenericPageControl >( new ofxGenericPageControl() );
     create->init( create, setFrame );
+    create->setAllowsDotInteraction( false );
     return create;
 }
 
@@ -120,6 +121,29 @@ ofPoint ofxGenericPageControl::getSizeForPageCount( int number )
     }
 #endif
     return ofPoint( 0, 0 );
+}
+
+bool ofxGenericPageControl::allowsDotInteraction()
+{
+#if TARGET_OS_IPHONE
+    UIPageControl* nativeView = ( UIPageControl* )*this;
+    if ( nativeView )
+    {
+        return nativeView.defersCurrentPageDisplay ? false : true;
+    }
+#endif
+    return false;
+}
+
+void ofxGenericPageControl::setAllowsDotInteraction( bool interacts )
+{
+#if TARGET_OS_IPHONE
+    UIPageControl* nativeView = ( UIPageControl* )*this;
+    if ( nativeView )
+    {
+        nativeView.defersCurrentPageDisplay = interacts ? NO : YES;
+    }
+#endif
 }
 
 
