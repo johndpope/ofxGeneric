@@ -447,7 +447,7 @@ void ofxGenericHTTPRequest::finished(
     }
     else
     {
-        ofxGLogWarning( responseToString( false ) + "\nBody:\n" + getResponseBodyAsString() + "\n" );
+        ofxGLogWarning( toString() + "\n" + responseToString( false ) + "\nBody:\n" + getResponseBodyAsString() + "\n" );
     }
     
     if ( _delegate )
