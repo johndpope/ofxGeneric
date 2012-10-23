@@ -57,6 +57,8 @@ NativeView ofxGenericEditTextView::createNativeView( const ofRectangle& frame )
 {
 #if TARGET_OS_IPHONE
     UIView* newView = nil;
+
+    _forwarder = [ [ ofxGenericEditTextViewForwarder alloc ] initWithDelegate:this ];
     if ( !_multiline )
     {
         UITextField* newTextView = [ [ UITextField alloc ] initWithFrame:ofRectangleToCGRect( frame ) ];
@@ -78,7 +80,6 @@ NativeView ofxGenericEditTextView::createNativeView( const ofRectangle& frame )
         newView = newTextView;
     }
 
-    _forwarder = [ [ ofxGenericEditTextViewForwarder alloc ] initWithDelegate:this ];
     return newView;
 #endif
 }
