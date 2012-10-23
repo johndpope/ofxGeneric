@@ -329,6 +329,15 @@ void ofxGenericApp::setMoveFromUnderKeyboard( ofPtr< ofxGenericView > view )
 
 void ofxGenericApp::addKeyboardDelegate( ofPtr< ofxGenericKeyboardDelegate > delegate )
 {
+#if DEBUG
+    for( std::vector< ofPtr< ofxGenericKeyboardDelegate > >::const_iterator findDuplicate = _keyboardDelegates.begin(); findDuplicate != _keyboardDelegates.end(); findDuplicate ++ )
+    {
+        if ( delegate == *findDuplicate )
+        {
+            ofxGLogWarning( "Object added to keyboard delegate list twice!" );
+        }
+    }
+#endif
     _keyboardDelegates.push_back( delegate );
 }
 
