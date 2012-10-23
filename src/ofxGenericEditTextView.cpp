@@ -11,8 +11,10 @@
 #include "ofxGenericApp.h"
 #include "ofxGenericImage.h"
 
+#include "ofxGenericFont.h"
+
 #if TARGET_OS_IPHONE
-@interface ofxGenericEditTextViewForwarder : NSObject< UITextFieldDelegate >
+@interface ofxGenericEditTextViewForwarder : NSObject< UITextFieldDelegate, UITextViewDelegate >
 {
 @protected
     ofxGenericEditTextView* _delegate;
@@ -21,15 +23,15 @@
 @end
 #endif
 
-ofPtr< ofxGenericEditTextView > ofxGenericEditTextView::create( const ofRectangle& setFrame, ofPtrWeak< ofxGenericEditTextViewDelegate > delegate )
+ofPtr< ofxGenericEditTextView > ofxGenericEditTextView::create( const ofRectangle& setFrame, ofPtrWeak< ofxGenericEditTextViewDelegate > delegate, bool multiline )
 {
     ofPtr< ofxGenericEditTextView > create = ofPtr< ofxGenericEditTextView >( new ofxGenericEditTextView() );
-    create->init( create, setFrame, delegate );
+    create->init( create, setFrame, delegate, multiline );
     return create;
 }
 
 ofxGenericEditTextView::ofxGenericEditTextView()
-: _moveFromUnderKeyboardOnBeginEdit( false ), _hideKeyboardOnReturn( true )
+: _multiline( false ), _isEditing( false ), _moveFromUnderKeyboardOnBeginEdit( false ), _hideKeyboardOnReturn( true )
 #if TARGET_OS_IPHONE
 , _forwarder( nil )
 #endif
@@ -43,8 +45,10 @@ ofxGenericEditTextView::~ofxGenericEditTextView()
 #endif
 }
 
-void ofxGenericEditTextView::init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setFrame, ofPtrWeak< ofxGenericEditTextViewDelegate > delegate )
+void ofxGenericEditTextView::init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setFrame, ofPtrWeak< ofxGenericEditTextViewDelegate > delegate, bool multiline )
 {
+    _multiline = multiline;
+    
     setDelegate( delegate );
     ofxGenericView::init( setThis, setFrame );
 }
@@ -52,13 +56,29 @@ void ofxGenericEditTextView::init( ofPtrWeak< ofxGenericView > setThis, const of
 NativeView ofxGenericEditTextView::createNativeView( const ofRectangle& frame )
 {
 #if TARGET_OS_IPHONE
-    UITextField* newView = [ [ UITextField alloc ] initWithFrame:ofRectangleToCGRect( frame ) ];
+    UIView* newView = nil;
+    if ( !_multiline )
+    {
+        UITextField* newTextView = [ [ UITextField alloc ] initWithFrame:ofRectangleToCGRect( frame ) ];
+        [ newTextView setDelegate:_forwarder ];
+        [ newTextView setBackgroundColor:[ UIColor whiteColor ] ];
+        [ newTextView setTextColor:[ UIColor blackColor ] ];
+        [ newTextView setAdjustsFontSizeToFitWidth:YES ];
+        [ newTextView setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter ];
+        
+        newView = newTextView;
+    } else
+    {
+        UITextView* newTextView = [ [ UITextView alloc ] initWithFrame:ofRectangleToCGRect( frame ) ];
+        [ newTextView setDelegate:_forwarder ];
+        [ newTextView setBackgroundColor:[ UIColor whiteColor ] ];
+        [ newTextView setTextColor:[ UIColor blackColor ] ];
+        [ newTextView setEditable:YES ];
+        
+        newView = newTextView;
+    }
+
     _forwarder = [ [ ofxGenericEditTextViewForwarder alloc ] initWithDelegate:this ];
-    [ newView setDelegate:_forwarder ];
-    [ newView setBackgroundColor:[ UIColor whiteColor ] ];
-    [ newView setTextColor:[ UIColor blackColor ] ];
-    [ newView setAdjustsFontSizeToFitWidth:YES ];
-    [ newView setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter ];
     return newView;
 #endif
 }
@@ -71,47 +91,127 @@ void ofxGenericEditTextView::setDelegate( ofPtrWeak< ofxGenericEditTextViewDeleg
 void ofxGenericEditTextView::setText( string newText )
 {
 #if TARGET_OS_IPHONE
-    UITextField* textField = ( UITextField* )*this;
-    if ( textField )
+    NSString* nsString = ofxStringToNSString( newText );
+    
+    if ( [ getNativeView() isKindOfClass:[ UITextField class ] ] )
     {
-        [ textField setText:ofxStringToNSString( newText ) ];
+        UITextField* textField = ( UITextField* )getNativeView();
+        [ textField setText:nsString ];
+    } else if ( [ getNativeView() isKindOfClass:[ UITextView class ] ] )
+    {
+        UITextView* textView = ( UITextView* )getNativeView();
+        [ textView setText:nsString ];
     }
 #endif
 }
 
 string ofxGenericEditTextView::getText()
 {
+    string result;
 #if TARGET_OS_IPHONE
-    UITextField* textField = ( UITextField* )*this;
-    if ( textField )
+    if ( [ getNativeView() isKindOfClass:[ UITextField class ] ] )
     {
-        return ofxNSStringToString( [ textField text ] );
+        UITextField* textField = ( UITextField* )getNativeView();
+        result = ofxNSStringToString( [ textField text ] );
+    } else if ( [ getNativeView() isKindOfClass:[ UITextView class ] ] )
+    {
+        UITextView* textView = ( UITextView* )getNativeView();
+        result = ofxNSStringToString( [ textView text ] );
     }
 #endif
-    return string();
+    return result;
 }
 
 void ofxGenericEditTextView::setTextAlignment( ofxGenericTextHorizontalAlignment alignment )
 {
 #if TARGET_OS_IPHONE
-    UITextField* textField = ( UITextField* )*this;
-    if ( textField )
+    if ( [ getNativeView() isKindOfClass:[ UITextField class ] ] )
     {
+        UITextField* textField = ( UITextField* )getNativeView();
         [ textField setTextAlignment:ofxGenericTextHorizontalAlignmentToiOS( alignment ) ];
+    } else if ( [ getNativeView() isKindOfClass:[ UITextView class ] ] )
+    {
+        UITextView* textView = ( UITextView* )getNativeView();
+        [ textView setTextAlignment:ofxGenericTextHorizontalAlignmentToiOS( alignment ) ];
     }
 #endif
 }
 
 ofxGenericTextHorizontalAlignment ofxGenericEditTextView::getTextAlignment()
 {
+    ofxGenericTextHorizontalAlignment result = ofxGenericTextHorizontalAlignmentLeft;
 #if TARGET_OS_IPHONE
-    UITextField* textField = ( UITextField* )*this;
-    if ( textField )
+    if ( [ getNativeView() isKindOfClass:[ UITextField class ] ] )
     {
-        return iOSToofxGenericTextHorizontalAlignment( textField.textAlignment );
+        UITextField* textField = ( UITextField* )getNativeView();
+        result = iOSToofxGenericTextHorizontalAlignment( textField.textAlignment );
+    } else if ( [ getNativeView() isKindOfClass:[ UITextView class ] ] )
+    {
+        UITextView* textView = ( UITextView* )getNativeView();
+        result = iOSToofxGenericTextHorizontalAlignment( textView.textAlignment );
     }
 #endif
-    return ofxGenericTextHorizontalAlignmentLeft;
+    return result;
+}
+
+void ofxGenericEditTextView::setFont( string name, float size )
+{
+    ofPtr< ofxGenericFont > font = ofxGenericFont::create( name, size );
+    setFont( font );
+}
+
+void ofxGenericEditTextView::setFont( ofPtr< ofxGenericFont > font )
+{
+    if ( font )
+    {
+#if TARGET_OS_IPHONE
+        if ( [ getNativeView() isKindOfClass:[ UITextField class ] ] )
+        {
+            UITextField* textField = ( UITextField* )getNativeView();
+            [ textField setFont:font->getNativeFont() ];
+        } else if ( [ getNativeView() isKindOfClass:[ UITextView class ] ] )
+        {
+            UITextView* textView = ( UITextView* )getNativeView();
+            [ textView setFont:font->getNativeFont() ];
+        }
+#endif
+    }
+}
+
+float ofxGenericEditTextView::getFontSize()
+{
+    float result = 0.0f;
+#if TARGET_OS_IPHONE
+    if ( [ getNativeView() isKindOfClass:[ UITextField class ] ] )
+    {
+        UITextField* textField = ( UITextField* )getNativeView();
+        result = [ [ textField font ] pointSize ];
+    } else if ( [ getNativeView() isKindOfClass:[ UITextView class ] ] )
+    {
+        UITextView* textView = ( UITextView* )getNativeView();
+        result = [ [ textView font ] pointSize ];
+    }
+#endif
+    return result;
+}
+
+string ofxGenericEditTextView::getFontName()
+{
+    string result;
+#if TARGET_OS_IPHONE
+    NSString* nsString = nil;
+    if ( [ getNativeView() isKindOfClass:[ UITextField class ] ] )
+    {
+        UITextField* textField = ( UITextField* )getNativeView();
+        nsString = [ [ textField font ] fontName ];
+    } else if ( [ getNativeView() isKindOfClass:[ UITextView class ] ] )
+    {
+        UITextView* textView = ( UITextView* )getNativeView();
+        nsString = [ [ textView font ] fontName ];
+    }
+    result = ofxNSStringToString( nsString );
+#endif
+    return result;
 }
 
 void ofxGenericEditTextView::setBackgroundImage( string imageFileName )
@@ -120,36 +220,31 @@ void ofxGenericEditTextView::setBackgroundImage( string imageFileName )
     if ( ofxGFileExists( imagePath ) )
     {
 #if TARGET_OS_IPHONE
-        UITextField* textField = ( UITextField* )*this;
-        if ( textField )
+        UIImage* image = [ UIImage imageWithContentsOfFile:ofxStringToNSString( imagePath ) ];
+        
+        if ( [ getNativeView() isKindOfClass:[ UITextField class ] ] )
         {
-            [ textField setBackground:[ UIImage imageWithContentsOfFile:ofxStringToNSString( imagePath ) ] ];
-        }    
+            UITextField* textField = ( UITextField* )getNativeView();
+            [ textField setBackground:image ];
+        }
+        // Unsupported
+        /* else if ( [ getNativeView() isKindOfClass:[ UITextView class ] ] )
+        {
+            UITextView* textView = ( UITextView* )getNativeView();
+        }*/
 #endif
     } else
     {
         ofxGLogError( "Unable to find image file " + imagePath + ", cannot ofxGenericEditTextView::setBackgroundImage!" );
     }
 }
-/*
-void ofxGenericEditTextView::setTextAlignment( ofxGenericTextHorizontalAlignment alignment )
-{
-#if TARGET_OS_IPHONE
-    if ( [ _view isKindOfClass:[ UILabel class ] ] )
-    {
-        UILabel* labelView = ( UILabel* )_view;
-        [ labelView setTextAlignment:ofxGenericTextHorizontalAlignmentToUITextAlignment( alignment ) ];
-    }
-#endif
-}
- */
 
 void ofxGenericEditTextView::setPlaceholderText( string placeholderText )
 {
 #if TARGET_OS_IPHONE
-    UITextField* textField = ( UITextField* )*this;
-    if ( textField )
+    if ( [ getNativeView() isKindOfClass:[ UITextField class ] ] )
     {
+        UITextField* textField = ( UITextField* )getNativeView();
         [ textField setPlaceholder:ofxStringToNSString( placeholderText ) ];
     }
 #endif
@@ -158,9 +253,9 @@ void ofxGenericEditTextView::setPlaceholderText( string placeholderText )
 string ofxGenericEditTextView::getPlaceholderText()
 {
 #if TARGET_OS_IPHONE
-    UITextField* textField = ( UITextField* )*this;
-    if ( textField )
+    if ( [ getNativeView() isKindOfClass:[ UITextField class ] ] )
     {
+        UITextField* textField = ( UITextField* )getNativeView();
         return ofxNSStringToString( [ textField placeholder ] );
     }
 #endif
@@ -169,22 +264,15 @@ string ofxGenericEditTextView::getPlaceholderText()
 
 bool ofxGenericEditTextView::currentlyEditing()
 {
-#if TARGET_OS_IPHONE
-    UITextField* textField = ( UITextField* )*this;
-    if ( textField )
-    {
-        return ( bool )textField.editing;
-    }
-#endif
-    return false;
+    return _isEditing;
 }
 
 void ofxGenericEditTextView::setClearsOnBeginEditing( bool clear )
 {
 #if TARGET_OS_IPHONE
-    UITextField* textField = ( UITextField* )*this;
-    if ( textField )
+    if ( [ getNativeView() isKindOfClass:[ UITextField class ] ] )
     {
+        UITextField* textField = ( UITextField* )getNativeView();
         [ textField setClearsOnBeginEditing:( BOOL )clear ];
     }
 #endif
@@ -193,9 +281,9 @@ void ofxGenericEditTextView::setClearsOnBeginEditing( bool clear )
 bool ofxGenericEditTextView::getClearsOnBeginEditing()
 {
 #if TARGET_OS_IPHONE
-    UITextField* textField = ( UITextField* )this;
-    if ( textField )
+    if ( [ getNativeView() isKindOfClass:[ UITextField class ] ] )
     {
+        UITextField* textField = ( UITextField* )getNativeView();
         return ( bool )textField.clearsOnBeginEditing;
     }
 #endif
@@ -219,16 +307,13 @@ bool ofxGenericEditTextView::shouldBeginEditing()
 void ofxGenericEditTextView::setFocusOn()
 {
 #if TARGET_OS_IPHONE
-    UITextField* view = *this;
-    if ( view )
-    {
-        [ view becomeFirstResponder ];
-    }
+    [ getNativeView() becomeFirstResponder ];
 #endif
 }
 
 void ofxGenericEditTextView::didBeginEditing()
 {    
+    _isEditing = true;
     if ( _moveFromUnderKeyboardOnBeginEdit )
     {
         ofxGenericApp::getInstance()->setMoveFromUnderKeyboard( _this.lock() );
@@ -249,6 +334,7 @@ bool ofxGenericEditTextView::shouldEndEditing()
 
 void ofxGenericEditTextView::didEndEditing()
 {
+    _isEditing = false;
     if ( _moveFromUnderKeyboardOnBeginEdit )
     {
         ofxGenericApp::getInstance()->setMoveFromUnderKeyboard( ofPtr< ofxGenericView >() );
@@ -309,21 +395,17 @@ bool ofxGenericEditTextView::shouldReturn()
 void ofxGenericEditTextView::hideKeyboard()
 {
 #if TARGET_OS_IPHONE
-    // TODO: wrap resigning keyboard separately 
-    UITextField* textField = ( UITextField* )*this;
-    if ( textField )
-    {
-        [ textField resignFirstResponder ];
-    }
+    // TODO: wrap resigning keyboard separately
+    [ getNativeView() resignFirstResponder ];
 #endif    
 }
 
 void ofxGenericEditTextView::setEnabled( bool enabled )
 {
 #if TARGET_OS_IPHONE
-    UITextField* textField = ( UITextField* )*this;
-    if ( textField )
+    if ( [ getNativeView() isKindOfClass:[ UITextField class ] ] )
     {
+        UITextField* textField = ( UITextField* )getNativeView();
         [ textField setEnabled:( BOOL )enabled ];
     }
 #endif
@@ -332,9 +414,9 @@ void ofxGenericEditTextView::setEnabled( bool enabled )
 bool ofxGenericEditTextView::getEnabled()
 {
 #if TARGET_OS_IPHONE
-    UITextField* textField = ( UITextField* )*this;
-    if ( textField )
+    if ( [ getNativeView() isKindOfClass:[ UITextField class ] ] )
     {
+        UITextField* textField = ( UITextField* )getNativeView();
         return textField.enabled;
     }
 #endif 
@@ -344,9 +426,9 @@ bool ofxGenericEditTextView::getEnabled()
 void ofxGenericEditTextView::setBorderStyle( ofxGenericTextViewBorderStyle borderStyle )
 {
 #if TARGET_OS_IPHONE
-    UITextField* textField = ( UITextField* )*this;
-    if ( textField )
+    if ( [ getNativeView() isKindOfClass:[ UITextField class ] ] )
     {
+        UITextField* textField = ( UITextField* )getNativeView();
         [ textField setBorderStyle:ofxGenericTextViewBorderStyleToiOS( borderStyle ) ];
     }
 #endif    
@@ -355,10 +437,14 @@ void ofxGenericEditTextView::setBorderStyle( ofxGenericTextViewBorderStyle borde
 void ofxGenericEditTextView::setAutoCapitalization(ofxGenericTextAutoCapitalization autoCapitalization )
 {
 #if TARGET_OS_IPHONE
-    UITextField* textField = ( UITextField* )*this;
-    if ( textField )
+    if ( [ getNativeView() isKindOfClass:[ UITextField class ] ] )
     {
+        UITextField* textField = ( UITextField* )getNativeView();
         [ textField setAutocapitalizationType:ofxGenericTextAutoCapitalizationToiOS( autoCapitalization ) ];
+    } else if ( [ getNativeView() isKindOfClass:[ UITextView class ] ] )
+    {
+        UITextView* textView = ( UITextView* )getNativeView();
+        [ textView setAutocapitalizationType:ofxGenericTextAutoCapitalizationToiOS( autoCapitalization ) ];
     }
 #endif 
 }
@@ -366,29 +452,38 @@ void ofxGenericEditTextView::setAutoCapitalization(ofxGenericTextAutoCapitalizat
 void ofxGenericEditTextView::setAutoCorrection( bool enabled )
 {
 #if TARGET_OS_IPHONE
-    UITextField* textField = ( UITextField* )*this;
-    if ( textField )
+    UITextAutocorrectionType autoCorrection;
+    if ( enabled )
     {
-        UITextAutocorrectionType autoCorrection;
-        if ( enabled )
-        {
-            autoCorrection = UITextAutocorrectionTypeYes;
-        } else 
-        {
-            autoCorrection = UITextAutocorrectionTypeNo;
-        }
-        [ textField setAutocorrectionType:autoCorrection ];            
+        autoCorrection = UITextAutocorrectionTypeYes;
+    } else
+    {
+        autoCorrection = UITextAutocorrectionTypeNo;
     }
-#endif 
+
+    if ( [ getNativeView() isKindOfClass:[ UITextField class ] ] )
+    {
+        UITextField* textField = ( UITextField* )getNativeView();
+        [ textField setAutocorrectionType:autoCorrection ];
+    } else if ( [ getNativeView() isKindOfClass:[ UITextView class ] ] )
+    {
+        UITextView* textView = ( UITextView* )getNativeView();
+        [ textView setAutocorrectionType:autoCorrection ];
+    }
+#endif
 }
 
 bool ofxGenericEditTextView::getAutoCorrection()
 {
 #if TARGET_OS_IPHONE
-    UITextField* textField = ( UITextField* )*this;
-    if ( textField )
+    if ( [ getNativeView() isKindOfClass:[ UITextField class ] ] )
     {
+        UITextField* textField = ( UITextField* )getNativeView();
         return textField.autocorrectionType == UITextAutocorrectionTypeYes;
+    } else if ( [ getNativeView() isKindOfClass:[ UITextView class ] ] )
+    {
+        UITextView* textView = ( UITextView* )getNativeView();
+        return textView.autocorrectionType == UITextAutocorrectionTypeYes;
     }
 #endif
     return false;
@@ -397,75 +492,101 @@ bool ofxGenericEditTextView::getAutoCorrection()
 void ofxGenericEditTextView::setSpellChecking( bool enabled )
 {
 #if TARGET_OS_IPHONE
-    UITextField* textField = ( UITextField* )*this;
-    if ( textField )
+    UITextSpellCheckingType spellChecking;
+    if ( enabled )
     {
-        if ( enabled )
-        {
-            [ textField setSpellCheckingType:UITextSpellCheckingTypeYes ];
-        } else
-        {
-            [ textField setSpellCheckingType:UITextSpellCheckingTypeNo ];
-        }
+        spellChecking = UITextSpellCheckingTypeYes;
+    } else
+    {
+        spellChecking = UITextSpellCheckingTypeNo;
     }
-#endif 
+    if ( [ getNativeView() isKindOfClass:[ UITextField class ] ] )
+    {
+        UITextField* textField = ( UITextField* )getNativeView();
+        [ textField setSpellCheckingType:spellChecking ];
+    } else if ( [ getNativeView() isKindOfClass:[ UITextView class ] ] )
+    {
+        UITextView* textView = ( UITextView* )getNativeView();
+        [ textView setSpellCheckingType:spellChecking ];
+    }
+#endif
 }
 
 bool ofxGenericEditTextView::getSpellChecking()
 {
 #if TARGET_OS_IPHONE
-    UITextField* textField = ( UITextField* )*this;
-    if ( textField )
+    if ( [ getNativeView() isKindOfClass:[ UITextField class ] ] )
     {
+        UITextField* textField = ( UITextField* )getNativeView();
         return textField.spellCheckingType == UITextSpellCheckingTypeYes;
+    } else if ( [ getNativeView() isKindOfClass:[ UITextView class ] ] )
+    {
+        UITextView* textView = ( UITextView* )getNativeView();
+        return textView.spellCheckingType == UITextSpellCheckingTypeYes;
     }
-#endif 
+#endif
     return false;
 }
 
 void ofxGenericEditTextView::setEnableReturnKeyAutomatically( bool enabled )
 {
 #if TARGET_OS_IPHONE
-    UITextField* textField = ( UITextField* )*this;
-    if ( textField )
+    if ( [ getNativeView() isKindOfClass:[ UITextField class ] ] )
     {
+        UITextField* textField = ( UITextField* )getNativeView();
         [ textField setEnablesReturnKeyAutomatically:enabled ];
+    } else if ( [ getNativeView() isKindOfClass:[ UITextView class ] ] )
+    {
+        UITextView* textView = ( UITextView* )getNativeView();
+        [ textView setEnablesReturnKeyAutomatically:enabled ];
     }
-#endif 
+#endif
 }
 
 bool ofxGenericEditTextView::getEnableReturnKeyAutomatically()
 {
 #if TARGET_OS_IPHONE
-    UITextField* textField = ( UITextField* )*this;
-    if ( textField )
+    if ( [ getNativeView() isKindOfClass:[ UITextField class ] ] )
     {
-        return textField.enablesReturnKeyAutomatically;
+        UITextField* textField = ( UITextField* )getNativeView();
+        return textField.enablesReturnKeyAutomatically == YES;
+    } else if ( [ getNativeView() isKindOfClass:[ UITextView class ] ] )
+    {
+        UITextView* textView = ( UITextView* )getNativeView();
+        return textView.enablesReturnKeyAutomatically == YES;
     }
-#endif 
+#endif
     return false;
 }
 
 void ofxGenericEditTextView::setKeyboard( ofxGenericKeyboardType type )
 {
 #if TARGET_OS_IPHONE
-    UITextField* textField = ( UITextField* )*this;
-    if ( textField )
+    if ( [ getNativeView() isKindOfClass:[ UITextField class ] ] )
     {
+        UITextField* textField = ( UITextField* )getNativeView();
         [ textField setKeyboardType:ofxGenericKeyboardTypeToiOS( type ) ];
+    } else if ( [ getNativeView() isKindOfClass:[ UITextView class ] ] )
+    {
+        UITextView* textView = ( UITextView* )getNativeView();
+        [ textView setKeyboardType:ofxGenericKeyboardTypeToiOS( type ) ];
     }
-#endif 
+#endif
 }
 
 void ofxGenericEditTextView::setKeyboardReturnKey( ofxGenericKeyboardReturnKey key )
 {
 #if TARGET_OS_IPHONE
-    UITextField* textField = ( UITextField* )*this;
-    if ( textField )
+    if ( [ getNativeView() isKindOfClass:[ UITextField class ] ] )
     {
+        UITextField* textField = ( UITextField* )getNativeView();
         [ textField setReturnKeyType:ofxGenericKeyboardReturnKeyToiOS( key ) ];
+    } else if ( [ getNativeView() isKindOfClass:[ UITextView class ] ] )
+    {
+        UITextView* textView = ( UITextView* )getNativeView();
+        [ textView setReturnKeyType:ofxGenericKeyboardReturnKeyToiOS( key ) ];
     }
-#endif 
+#endif
 }
 
 void ofxGenericEditTextView::setHideKeyboardOnReturn( bool enabled )
@@ -481,30 +602,33 @@ bool ofxGenericEditTextView::getHideKeyboardOnReturn()
 void ofxGenericEditTextView::setSecureText( bool secure )
 {
 #if TARGET_OS_IPHONE
-    UITextField* textField = ( UITextField* )*this;
-    if ( textField )
+    if ( [ getNativeView() isKindOfClass:[ UITextField class ] ] )
     {
+        UITextField* textField = ( UITextField* )getNativeView();
         [ textField setSecureTextEntry:( BOOL )secure ];
+    } else if ( [ getNativeView() isKindOfClass:[ UITextView class ] ] )
+    {
+        UITextView* textView = ( UITextView* )getNativeView();
+        [ textView setSecureTextEntry:( BOOL )secure ];
     }
-#endif 
+#endif
 }
 
 bool ofxGenericEditTextView::getSecureText()
 {
 #if TARGET_OS_IPHONE
-    UITextField* textField = ( UITextField* )*this;
-    if ( textField )
+    if ( [ getNativeView() isKindOfClass:[ UITextField class ] ] )
     {
-        return ( bool )textField.secureTextEntry;
+        UITextField* textField = ( UITextField* )getNativeView();
+        return textField.secureTextEntry == YES;
+    } else if ( [ getNativeView() isKindOfClass:[ UITextView class ] ] )
+    {
+        UITextView* textView = ( UITextView* )getNativeView();
+        return textView.secureTextEntry == YES;
     }
-#endif 
+#endif
     return false;   
 }
-
-
-#if TARGET_OS_IPHONE
-ofxGenericUIViewCastOperator( ofxGenericEditTextView, UITextField );
-#endif
 
 #if TARGET_OS_IPHONE
 
@@ -536,7 +660,7 @@ ofxGenericUIViewCastOperator( ofxGenericEditTextView, UITextField );
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField           // became first responder
-{    
+{
     if ( _delegate )
     {
         _delegate->didBeginEditing();
@@ -553,7 +677,7 @@ ofxGenericUIViewCastOperator( ofxGenericEditTextView, UITextField );
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField             // may be called if forced even if shouldEndEditing returns NO (e.g. view removed from window) or endEditing:YES called 
-{    
+{
     if ( _delegate )
     {
         _delegate->didEndEditing();
@@ -588,7 +712,54 @@ ofxGenericUIViewCastOperator( ofxGenericEditTextView, UITextField );
     return YES;
 }
 
+-( BOOL )textViewShouldBeginEditing:( UITextView* )textView
+{
+    if ( _delegate )
+    {
+        return ( BOOL )_delegate->shouldBeginEditing();
+    }
+    return YES;
+}
 
+-( BOOL )textViewShouldEndEditing:( UITextView* )textView
+{
+    if ( _delegate )
+    {
+        return ( BOOL )_delegate->shouldEndEditing();
+    }
+    return YES;
+}
+ 
+-( void )textViewDidBeginEditing:( UITextView* )textView
+{
+    if ( _delegate )
+    {
+        _delegate->didBeginEditing();
+    }
+}
+
+-( void )textViewDidEndEditing:( UITextView* )textView
+{
+    if ( _delegate )
+    {
+        _delegate->didEndEditing();
+    }
+}
+
+/*
+-( BOOL )textView:( UITextView* )textView shouldChangeTextInRange:( NSRange )range replacementText:( NSString* )text
+{
+    return YES;
+}
+
+-( void )textViewDidChange:( UITextView* )textView
+{
+}
+
+-( void )textViewDidChangeSelection:( UITextView* )textView
+{
+}
+*/
 @end
 
 #endif

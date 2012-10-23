@@ -16,11 +16,12 @@
 #endif
 
 class ofxGenericEditTextViewDelegate;
+class ofxGenericFont;
 
 class ofxGenericEditTextView : public ofxGenericView
 {
 public:
-    static ofPtr< ofxGenericEditTextView > create( const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ), ofPtrWeak< ofxGenericEditTextViewDelegate > delegate = ofPtrWeak< ofxGenericEditTextViewDelegate >() );
+    static ofPtr< ofxGenericEditTextView > create( const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ), ofPtrWeak< ofxGenericEditTextViewDelegate > delegate = ofPtrWeak< ofxGenericEditTextViewDelegate >(), bool multiline = false );
     virtual ~ofxGenericEditTextView();
     
     void setDelegate( ofPtrWeak< ofxGenericEditTextViewDelegate > delegate );
@@ -30,17 +31,17 @@ public:
     void setTextAlignment( ofxGenericTextHorizontalAlignment alignment );
     ofxGenericTextHorizontalAlignment getTextAlignment();
     
+    void setFont( string name, float size );
+    void setFont( ofPtr< ofxGenericFont > font );
+    float getFontSize();
+    string getFontName();
+
     void setBackgroundImage( string imageFileName );
     
     void setPlaceholderText( string placeholderText );
     string getPlaceholderText();
     
     void setMoveFromUnderKeyboardOnBeginEdit( bool move );
-    
-#if TARGET_OS_IPHONE
-    operator UITextField*();
-#endif
-    
     
     void setClearsOnBeginEditing( bool clear );
     bool getClearsOnBeginEditing();
@@ -86,11 +87,13 @@ public:
 
 protected:
     ofxGenericEditTextView();
-        virtual void init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ), ofPtrWeak< ofxGenericEditTextViewDelegate > delegate = ofPtrWeak< ofxGenericEditTextViewDelegate >() );
+        virtual void init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setFrame, ofPtrWeak< ofxGenericEditTextViewDelegate > delegate, bool multiline );
     virtual NativeView createNativeView( const ofRectangle& frame );
 #if TARGET_OS_IPHONE
     ofxGenericEditTextViewForwarder* _forwarder;
 #endif
+    bool _multiline;
+    bool _isEditing;
     
     ofPtrWeak< ofxGenericEditTextViewDelegate > _delegate;
     
