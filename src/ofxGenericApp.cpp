@@ -189,6 +189,9 @@ void ofxGenericApp::didBecomeActive()
 void ofxGenericApp::willResignActive()
 {
 }
+void ofxGenericApp::willEnterForeground()
+{    
+}
 void ofxGenericApp::willTerminate()
 {
 }

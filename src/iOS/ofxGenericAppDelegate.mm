@@ -108,9 +108,9 @@ void SignalHandler( int signal );
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
 }
+
 - (void)applicationWillEnterForeground:(UIApplication *)application
-{
-}
+{ ofxGenericApp::getInstance()->willEnterForeground(); }
 
 /*
  - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions __OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_3_0);

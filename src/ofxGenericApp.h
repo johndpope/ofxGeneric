@@ -27,6 +27,7 @@ public:
     virtual void finishedLaunching();
     virtual void didBecomeActive();
     virtual void willResignActive();
+    virtual void willEnterForeground();
     virtual void willTerminate();
     
     static string getAppVersion();
