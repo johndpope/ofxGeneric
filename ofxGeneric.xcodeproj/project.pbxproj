@@ -10,6 +10,15 @@
 		3C0AC1511522C34500872B70 /* ofxGenericPlatform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C0AC1501522C34500872B70 /* ofxGenericPlatform.cpp */; };
 		3C0B9F9E1571F9FA009F61BE /* ofxGenericCameraPreviewView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C0B9F9D1571F9FA009F61BE /* ofxGenericCameraPreviewView.cpp */; };
 		3C0B9FAC1571FB07009F61BE /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C7B4F1814FD4E1C003121FE /* AVFoundation.framework */; };
+		3C0CB5A91638948D00AB87C8 /* ofxGenericEncryption.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C0CB5A81638948D00AB87C8 /* ofxGenericEncryption.cpp */; };
+		3C0CB5C31638985200AB87C8 /* AESCrypt.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C0CB5B91638985200AB87C8 /* AESCrypt.h */; };
+		3C0CB5C41638985200AB87C8 /* AESCrypt.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C0CB5BA1638985200AB87C8 /* AESCrypt.m */; };
+		3C0CB5C51638985200AB87C8 /* NSData+Base64.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C0CB5BC1638985200AB87C8 /* NSData+Base64.h */; };
+		3C0CB5C61638985200AB87C8 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C0CB5BD1638985200AB87C8 /* NSData+Base64.m */; };
+		3C0CB5C71638985200AB87C8 /* NSData+CommonCrypto.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C0CB5BE1638985200AB87C8 /* NSData+CommonCrypto.h */; };
+		3C0CB5C81638985200AB87C8 /* NSData+CommonCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C0CB5BF1638985200AB87C8 /* NSData+CommonCrypto.m */; };
+		3C0CB5C91638985200AB87C8 /* NSString+Base64.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C0CB5C01638985200AB87C8 /* NSString+Base64.h */; };
+		3C0CB5CA1638985200AB87C8 /* NSString+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C0CB5C11638985200AB87C8 /* NSString+Base64.m */; };
 		3C16BB2415C7B8AF0062017A /* ofxGenericMicrophone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C16BB2315C7B8AF0062017A /* ofxGenericMicrophone.cpp */; };
 		3C175687154527EF00B429E8 /* ofxGenericSliderView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C175686154527EF00B429E8 /* ofxGenericSliderView.cpp */; };
 		3C17BC04150AA08E00DA1034 /* ofxGenericActivityView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C17BC03150AA08E00DA1034 /* ofxGenericActivityView.cpp */; };
@@ -157,6 +166,18 @@
 		3C0AC1501522C34500872B70 /* ofxGenericPlatform.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericPlatform.cpp; sourceTree = "<group>"; };
 		3C0B9F9B1571F992009F61BE /* ofxGenericCameraPreviewView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericCameraPreviewView.h; sourceTree = "<group>"; };
 		3C0B9F9D1571F9FA009F61BE /* ofxGenericCameraPreviewView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericCameraPreviewView.cpp; sourceTree = "<group>"; };
+		3C0CB5A6163893F500AB87C8 /* ofxGenericEncryption.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericEncryption.h; sourceTree = "<group>"; };
+		3C0CB5A81638948D00AB87C8 /* ofxGenericEncryption.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericEncryption.cpp; sourceTree = "<group>"; };
+		3C0CB5B91638985200AB87C8 /* AESCrypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AESCrypt.h; sourceTree = "<group>"; };
+		3C0CB5BA1638985200AB87C8 /* AESCrypt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AESCrypt.m; sourceTree = "<group>"; };
+		3C0CB5BB1638985200AB87C8 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		3C0CB5BC1638985200AB87C8 /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
+		3C0CB5BD1638985200AB87C8 /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
+		3C0CB5BE1638985200AB87C8 /* NSData+CommonCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+CommonCrypto.h"; sourceTree = "<group>"; };
+		3C0CB5BF1638985200AB87C8 /* NSData+CommonCrypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+CommonCrypto.m"; sourceTree = "<group>"; };
+		3C0CB5C01638985200AB87C8 /* NSString+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Base64.h"; sourceTree = "<group>"; };
+		3C0CB5C11638985200AB87C8 /* NSString+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Base64.m"; sourceTree = "<group>"; };
+		3C0CB5C21638985200AB87C8 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		3C16BB2115C7B8800062017A /* ofxGenericMicrophone.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericMicrophone.h; sourceTree = "<group>"; };
 		3C16BB2315C7B8AF0062017A /* ofxGenericMicrophone.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericMicrophone.cpp; sourceTree = "<group>"; };
 		3C1756841545275700B429E8 /* ofxGenericSliderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericSliderView.h; sourceTree = "<group>"; };
@@ -336,6 +357,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3C0CB5B71638985200AB87C8 /* AESCrypt-ObjC */ = {
+			isa = PBXGroup;
+			children = (
+				3C0CB5B91638985200AB87C8 /* AESCrypt.h */,
+				3C0CB5BA1638985200AB87C8 /* AESCrypt.m */,
+				3C0CB5BB1638985200AB87C8 /* LICENSE */,
+				3C0CB5BC1638985200AB87C8 /* NSData+Base64.h */,
+				3C0CB5BD1638985200AB87C8 /* NSData+Base64.m */,
+				3C0CB5BE1638985200AB87C8 /* NSData+CommonCrypto.h */,
+				3C0CB5BF1638985200AB87C8 /* NSData+CommonCrypto.m */,
+				3C0CB5C01638985200AB87C8 /* NSString+Base64.h */,
+				3C0CB5C11638985200AB87C8 /* NSString+Base64.m */,
+				3C0CB5C21638985200AB87C8 /* README.md */,
+			);
+			path = "AESCrypt-ObjC";
+			sourceTree = "<group>";
+		};
 		3C5336DC153F6A420046AFD8 /* OpenUDID */ = {
 			isa = PBXGroup;
 			children = (
@@ -517,6 +555,8 @@
 				4583049D161CEA32006C4F89 /* ofxGenericImage.h */,
 				B5C55D31161D04980002872E /* ofxGenericHMAC.cpp */,
 				B5C55D32161D04980002872E /* ofxGenericHMAC.h */,
+				3C0CB5A6163893F500AB87C8 /* ofxGenericEncryption.h */,
+				3C0CB5A81638948D00AB87C8 /* ofxGenericEncryption.cpp */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -563,6 +603,7 @@
 		3CF2D27515ED8C35008A56AB /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				3C0CB5B71638985200AB87C8 /* AESCrypt-ObjC */,
 				3C6D977D161149780087816E /* SSZipArchive */,
 				3C61376D16113C2D00349CD9 /* Light-Untar */,
 				3CF2D27615ED8C6E008A56AB /* uidevice-extension */,
@@ -771,6 +812,10 @@
 				4583049A161CE897006C4F89 /* ofxGenericImageManager.h in Headers */,
 				4583049F161CEA32006C4F89 /* ofxGenericImage.h in Headers */,
 				B5C55D34161D04980002872E /* ofxGenericHMAC.h in Headers */,
+				3C0CB5C31638985200AB87C8 /* AESCrypt.h in Headers */,
+				3C0CB5C51638985200AB87C8 /* NSData+Base64.h in Headers */,
+				3C0CB5C71638985200AB87C8 /* NSData+CommonCrypto.h in Headers */,
+				3C0CB5C91638985200AB87C8 /* NSString+Base64.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -909,6 +954,11 @@
 				45830499161CE897006C4F89 /* ofxGenericImageManager.cpp in Sources */,
 				4583049E161CEA32006C4F89 /* ofxGenericImage.cpp in Sources */,
 				B5C55D33161D04980002872E /* ofxGenericHMAC.cpp in Sources */,
+				3C0CB5A91638948D00AB87C8 /* ofxGenericEncryption.cpp in Sources */,
+				3C0CB5C41638985200AB87C8 /* AESCrypt.m in Sources */,
+				3C0CB5C61638985200AB87C8 /* NSData+Base64.m in Sources */,
+				3C0CB5C81638985200AB87C8 /* NSData+CommonCrypto.m in Sources */,
+				3C0CB5CA1638985200AB87C8 /* NSString+Base64.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

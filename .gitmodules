@@ -16,3 +16,6 @@
 [submodule "libs/iOS/facebook-ios-sdk"]
 	path = libs/iOS/facebook-ios-sdk
 	url = git@github.com:lumoslabs/facebook-ios-sdk.git
+[submodule "libs/iOS/AESCrypt-ObjC"]
+	path = libs/iOS/AESCrypt-ObjC
+	url = git@github.com:lumoslabs/AESCrypt-ObjC.git
