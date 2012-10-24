@@ -8,27 +8,24 @@
 
 #include "ofxGenericSound.h"
 
-ofPtr< ofxGenericSound > ofxGenericSound::create( string fileName, string extension )
+ofPtr< ofxGenericSound > ofxGenericSound::create( string fileName, string extension, bool loadInBackground, bool loadIntoMemory )
 {
     ofPtr< ofxGenericSound > create( new ofxGenericSound() );
-    create->init( create, fileName, extension );
+    create->init( create, fileName, extension, loadInBackground, loadIntoMemory );
     return create;
 }
 
 ofxGenericSound::ofxGenericSound()
 #if TARGET_OS_IPHONE
-: _player( nil )
+: _player( nil ), _forwarder( nil )
 #endif
 {
 }
 
-void ofxGenericSound::init( ofPtrWeak< ofxGenericSound > setThis, string fileName, string extension )
+void ofxGenericSound::init( ofPtrWeak< ofxGenericSound > setThis, string fileName, string extension, bool loadInBackground, bool loadIntoMemory )
 {
     _this = setThis;
-    
-    bool success = false;
-    string loadError = "Unknown error";
-    
+        
     //pull the extension off if we already have it in the fileName
     unsigned int dotIndex = fileName.find_last_of( '.' );
     if ( dotIndex != string::npos )
@@ -43,47 +40,84 @@ void ofxGenericSound::init( ofPtrWeak< ofxGenericSound > setThis, string fileNam
     
     if ( ofxGFileExists( fileName, false ) )
     {
-#if TARGET_OS_IPHONE
-        NSString *path = [ NSString stringWithCString: ofToPath(fileName, false).c_str() encoding:NSUTF8StringEncoding ];
-        
-        if ( path )
+        if ( loadInBackground )
         {
-            NSURL *url = [NSURL fileURLWithPath:path];
-            if ( url )
+#if TARGET_OS_IPHONE
+            if ( !_forwarder )
             {
-                NSError *error = nil;
-                _player = [ [ AVAudioPlayer alloc ] initWithContentsOfURL:url error:&error];
-                
-                if ( error )
-                {
-                    loadError = string( [[NSString stringWithFormat:@"%@",error] cStringUsingEncoding:NSUTF8StringEncoding] );
-                    _player = nil;
-                }
-                else
-                {
-                    success = true;
-                }
+                _forwarder = [[ofxGenericSoundForwarder alloc] init];
+                [ _forwarder setDelegate:_this ];
+            }
+            
+            //necessary because if we do both background sound loading and background loading into memory we aren't
+            //guaranteed they will happen in the correct order
+            if ( loadIntoMemory )
+            {
+                [ _forwarder performSelectorInBackground:@selector(loadSoundAndPreloadIntoMemory:) withObject:[ NSString stringWithCString: fileName.c_str() encoding:NSUTF8StringEncoding ] ];
             }
             else
             {
-                loadError = "Unable to create NSURL from path.";
+                [ _forwarder performSelectorInBackground:@selector(loadSound:) withObject:[ NSString stringWithCString: fileName.c_str() encoding:NSUTF8StringEncoding ] ];
+            }
+#endif
+        }
+        else
+        {
+            bool success = loadSound( fileName );
+            if ( success && loadIntoMemory )
+            {
+                preload( false );
+            }
+        }
+    }
+    else
+    {
+        ofLogError("Failed to load ofxGenericSound \"" + fileName + "\" - File does not exist." );
+    }
+}
+
+bool ofxGenericSound::loadSound( string fileName )
+{
+    bool success = false;
+    string loadError = "Unknown error";
+#if TARGET_OS_IPHONE
+    NSString *path = [ NSString stringWithCString: ofToPath(fileName, false).c_str() encoding:NSUTF8StringEncoding ];
+    
+    if ( path )
+    {
+        NSURL *url = [NSURL fileURLWithPath:path];
+        if ( url )
+        {
+            NSError *error = nil;
+            _player = [ [ AVAudioPlayer alloc ] initWithContentsOfURL:url error:&error];
+            
+            if ( error )
+            {
+                loadError = string( [[NSString stringWithFormat:@"%@",error] cStringUsingEncoding:NSUTF8StringEncoding] );
+                _player = nil;
+            }
+            else
+            {
+                success = true;
             }
         }
         else
         {
-            loadError = "Unable to create NSString from path.";
+            loadError = "Unable to create NSURL from path.";
         }
-#endif
     }
     else
     {
-        loadError = "File does not exist.";
+        loadError = "Unable to create NSString from path.";
     }
+#endif
     
     if ( !success )
     {
-        ofLogError("Failed to load ofxGenericSound \"" + fileName + "\" - " + loadError );
+        ofLogError( "Failed to load ofxGenericSound \"" + fileName + "\" - " + loadError );
     }
+    
+    return success;
 }
 
 ofxGenericSound::~ofxGenericSound()
@@ -93,6 +127,11 @@ ofxGenericSound::~ofxGenericSound()
     {
         [ _player release ];
         _player = nil;
+    }
+    if ( _forwarder )
+    {
+        [ _forwarder release ];
+        _forwarder = nil;
     }
 #endif
 }
@@ -193,12 +232,24 @@ void ofxGenericSound::setPitch( float pitch )
 }
 
 // preloads the sound into buffers so it will play faster... we may not need this
-void ofxGenericSound::preload()
+void ofxGenericSound::preload( bool loadInBackground )
 {
 #if TARGET_OS_IPHONE
     if ( _player )
     {
-        [ _player prepareToPlay ];
+        if ( loadInBackground )
+        {
+            if ( !_forwarder )
+            {
+                _forwarder = [[ofxGenericSoundForwarder alloc] init];
+                [ _forwarder setDelegate:_this ];
+            }
+            [ _forwarder performSelectorInBackground:@selector(preloadIntoMemory) withObject:nil ];
+        }
+        else
+        {
+            [ _player prepareToPlay ];
+        }
     }
 #endif
 }
@@ -247,3 +298,38 @@ bool ofxGenericSound::loadedSuccessfully()
 #endif
     return false;
 }
+
+#if TARGET_OS_IPHONE
+@implementation ofxGenericSoundForwarder
+
+-( void ) setDelegate:( ofPtrWeak< ofxGenericSound > )setDelegate
+{
+    _delegate = setDelegate;
+}
+
+-( void ) loadSound:( NSString * )fileName
+{
+    ofPtr< ofxGenericSound > delegate = _delegate.lock();
+    if ( delegate )
+    {
+        delegate->loadSound( string( [ fileName cStringUsingEncoding:NSUTF8StringEncoding ] ) );
+    }
+}
+
+-( void ) preloadIntoMemory
+{
+    ofPtr< ofxGenericSound > delegate = _delegate.lock();
+    if ( delegate )
+    {
+        delegate->preload( false );
+    }
+}
+
+-( void )loadSoundAndPreloadIntoMemory:(NSString *)fileName
+{
+    [ self loadSound:fileName ];
+    [ self preloadIntoMemory ];
+}
+
+@end
+#endif

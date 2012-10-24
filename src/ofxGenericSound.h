@@ -16,10 +16,14 @@
 #import <AVFoundation/AVFoundation.h>
 #endif
 
+#if TARGET_OS_IPHONE
+@class ofxGenericSoundForwarder;
+#endif
+
 class ofxGenericSound
 {
 public:
-    static ofPtr< ofxGenericSound > create( string fileName, string extension = "mp3" );
+    static ofPtr< ofxGenericSound > create( string fileName, string extension = "mp3", bool loadInBackground = false, bool loadIntoMemory = false );
     
     virtual ~ofxGenericSound();
     
@@ -45,7 +49,7 @@ public:
     virtual void setPitch( float pitch );
     
     // preloads the sound into buffers so it will play faster... we may not need this
-    virtual void preload();
+    virtual void preload( bool loadInBackground = false );
     
     // returns the length of the sound in seconds
     virtual double getDuration();
@@ -59,11 +63,34 @@ public:
     // in case there was a loading issue, there will be no player so this will return false
     virtual bool loadedSuccessfully();
     
+    //loads an individual sound, you shouldn't call this but must be public for forwarder to work
+    virtual bool loadSound( string fileName );
+    
 protected:
     ofxGenericSound();
     ofPtrWeak< ofxGenericSound > _this;
-    virtual void init( ofPtrWeak< ofxGenericSound > setThis, string fileName, string extension );
+    virtual void init( ofPtrWeak< ofxGenericSound > setThis, string fileName, string extension, bool loadInBackground, bool loadIntoMemory );
+    
 #if TARGET_OS_IPHONE
 	AVAudioPlayer* _player;
+#elif TARGET_ANDROID
+#endif
+#if TARGET_OS_IPHONE
+    ofxGenericSoundForwarder* _forwarder;
+#elif TARGET_ANDROID
 #endif
 };
+
+#if TARGET_OS_IPHONE
+@interface ofxGenericSoundForwarder : NSObject
+{
+@private
+    ofPtrWeak< ofxGenericSound > _delegate;
+}
+-( void )setDelegate:( ofPtrWeak< ofxGenericSound > )setDelegate;
+-( void )loadSound:(NSString *)fileName;
+-( void )preloadIntoMemory;
+-( void )loadSoundAndPreloadIntoMemory:(NSString *)fileName;
+
+@end
+#endif

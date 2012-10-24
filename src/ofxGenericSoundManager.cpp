@@ -36,11 +36,11 @@ ofxGenericSoundManager::~ofxGenericSoundManager()
 {
 }
 
-bool ofxGenericSoundManager::load( string sound )
+bool ofxGenericSoundManager::load( string sound, bool loadInBackground )
 {
     if ( !_soundMap[ sound ] )
     {
-        ofPtr< ofxGenericSound > ofxgSound = ofxGenericSound::create( sound );
+        ofPtr< ofxGenericSound > ofxgSound = ofxGenericSound::create( sound, "mp3", loadInBackground );
         if ( ofxgSound->loadedSuccessfully() )
         {
             _soundMap[ sound ] = ofxgSound;
@@ -51,31 +51,31 @@ bool ofxGenericSoundManager::load( string sound )
     return true;
 }
 
-bool ofxGenericSoundManager::load( std::vector< string > sounds )
+bool ofxGenericSoundManager::load( std::vector< string > sounds, bool loadInBackground )
 {
     bool success = true;
     for ( unsigned int i = 0; i < sounds.size(); i++ )
     {
-        success = success && load( sounds[i] );
+        success = success && load( sounds[i], loadInBackground );
     }
     return success;
 }
 
-bool ofxGenericSoundManager::preloadIntoMemory( string sound )
+bool ofxGenericSoundManager::preloadIntoMemory( string sound, bool loadInBackground )
 {
     if ( _soundMap[ sound ] )
     {
-        _soundMap[ sound ]->preload();
+        _soundMap[ sound ]->preload( loadInBackground );
     }
     return false;
 }
 
-bool ofxGenericSoundManager::preloadIntoMemory( std::vector< string > sounds )
+bool ofxGenericSoundManager::preloadIntoMemory( std::vector< string > sounds, bool loadInBackground )
 {
     bool success = true;
     for ( unsigned int i = 0; i < sounds.size(); i++ )
     {
-        success = success && preloadIntoMemory( sounds[i] );
+        success = success && preloadIntoMemory( sounds[i], loadInBackground );
     }
     return success;
 }
