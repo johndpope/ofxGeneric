@@ -63,6 +63,9 @@ public:
     // in case there was a loading issue, there will be no player so this will return false
     virtual bool loadedSuccessfully();
     
+    // if this sound is loading in the background, we can't trust loadedSuccessfully() necessarily
+    virtual bool isLoadingInBackground();
+    
     //loads an individual sound, you shouldn't call this but must be public for forwarder to work
     virtual bool loadSound( string fileName );
     
@@ -70,6 +73,8 @@ protected:
     ofxGenericSound();
     ofPtrWeak< ofxGenericSound > _this;
     virtual void init( ofPtrWeak< ofxGenericSound > setThis, string fileName, string extension, bool loadInBackground, bool loadIntoMemory );
+    
+    bool _isLoadingInBackground;
     
 #if TARGET_OS_IPHONE
 	AVAudioPlayer* _player;

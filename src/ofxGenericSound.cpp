@@ -15,9 +15,9 @@ ofPtr< ofxGenericSound > ofxGenericSound::create( string fileName, string extens
     return create;
 }
 
-ofxGenericSound::ofxGenericSound()
+ofxGenericSound::ofxGenericSound() : _isLoadingInBackground( false )
 #if TARGET_OS_IPHONE
-: _player( nil ), _forwarder( nil )
+, _player( nil ), _forwarder( nil )
 #endif
 {
 }
@@ -42,6 +42,7 @@ void ofxGenericSound::init( ofPtrWeak< ofxGenericSound > setThis, string fileNam
     {
         if ( loadInBackground )
         {
+            _isLoadingInBackground = true;
 #if TARGET_OS_IPHONE
             if ( !_forwarder )
             {
@@ -63,6 +64,7 @@ void ofxGenericSound::init( ofPtrWeak< ofxGenericSound > setThis, string fileNam
         }
         else
         {
+            _isLoadingInBackground = false;
             bool success = loadSound( fileName );
             if ( success && loadIntoMemory )
             {
@@ -116,6 +118,8 @@ bool ofxGenericSound::loadSound( string fileName )
     {
         ofLogError( "Failed to load ofxGenericSound \"" + fileName + "\" - " + loadError );
     }
+    
+    _isLoadingInBackground = false;
     
     return success;
 }
@@ -297,6 +301,11 @@ bool ofxGenericSound::loadedSuccessfully()
     }
 #endif
     return false;
+}
+
+bool ofxGenericSound::isLoadingInBackground()
+{
+    return _isLoadingInBackground;
 }
 
 #if TARGET_OS_IPHONE

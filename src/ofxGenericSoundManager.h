@@ -18,8 +18,8 @@ class ofxGenericSoundManager
 public:
     static ofxGenericSoundManager& getInstance();
     
-    virtual bool load( string sound, bool loadInBackground = false );
-    virtual bool load( std::vector< string > sounds, bool loadInBackground = false );
+    virtual bool load( string sound, bool loadInBackground = false, bool loadIntoMemory = false );
+    virtual bool load( std::vector< string > sounds, bool loadInBackground = false, bool loadIntoMemory = false );
     virtual bool preloadIntoMemory( string sound, bool loadInBackground = false );
     virtual bool preloadIntoMemory( std::vector< string > sounds, bool loadInBackground = false );
     virtual void unload( string sound );
