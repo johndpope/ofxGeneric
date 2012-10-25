@@ -46,6 +46,8 @@ public:
     
     virtual ~ofxGenericWebView();
     
+    static string dumpCookies();
+    
 protected:
     ofxGenericWebView();
     ofPtrWeak< ofxGenericWebViewDelegate > _delegate;

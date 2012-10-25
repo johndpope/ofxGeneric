@@ -231,6 +231,20 @@ void ofxGenericWebView::failed()
     }
 }
 
+string ofxGenericWebView::dumpCookies()
+{
+    string result;
+#if TARGET_OS_IPHONE
+    NSArray* cookies = [ [ NSHTTPCookieStorage sharedHTTPCookieStorage ] cookies ];
+    for( NSHTTPCookie* cookie in cookies )
+    {
+        NSString* dumpCookie = [ NSString stringWithFormat:@"%@", cookie ];
+        result += ofxNSStringToString( dumpCookie ) + "\n";
+    }
+#endif
+    return result;
+}
+
 #if TARGET_OS_IPHONE
 @implementation ofxGenericWebViewForwarder
 
