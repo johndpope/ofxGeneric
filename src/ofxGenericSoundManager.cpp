@@ -27,6 +27,10 @@ ofxGenericSoundManager::ofxGenericSoundManager()
 
 void ofxGenericSoundManager::init( ofPtr< ofxGenericSoundManager > setThis )
 {
+    if ( _this )
+    {
+        ofLogWarning( "ofxGenericSoundManager already has _this set and init is being called! Are you calling ofxGenericSoundManager::getInstance() before calling you subclass's getInstance()?" );
+    }
     ofxGenericSoundManager::_this = setThis;
     
     _soundMap = std::map< string, ofPtr< ofxGenericSound > >();

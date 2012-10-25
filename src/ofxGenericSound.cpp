@@ -17,7 +17,7 @@ ofPtr< ofxGenericSound > ofxGenericSound::create( string fileName, string extens
 
 ofxGenericSound::ofxGenericSound() : _isLoadingInBackground( false )
 #if TARGET_OS_IPHONE
-, _player( nil ), _forwarder( nil )
+, _players( nil ), _forwarder( nil )
 #endif
 {
 }
@@ -25,6 +25,12 @@ ofxGenericSound::ofxGenericSound() : _isLoadingInBackground( false )
 void ofxGenericSound::init( ofPtrWeak< ofxGenericSound > setThis, string fileName, string extension, bool loadInBackground, bool loadIntoMemory )
 {
     _this = setThis;
+#if TARGET_OS_IPHONE
+    if ( !_players )
+    {
+        _players = [[NSMutableArray alloc] initWithCapacity:3];
+    }
+#endif
         
     //pull the extension off if we already have it in the fileName
     unsigned int dotIndex = fileName.find_last_of( '.' );
@@ -91,16 +97,17 @@ bool ofxGenericSound::loadSound( string fileName )
         if ( url )
         {
             NSError *error = nil;
-            _player = [ [ AVAudioPlayer alloc ] initWithContentsOfURL:url error:&error];
+            AVAudioPlayer *player = [ [ [ AVAudioPlayer alloc ] initWithData:[ NSData dataWithContentsOfURL:url ] error:&error ] autorelease ];
             
             if ( error )
             {
                 loadError = string( [[NSString stringWithFormat:@"%@",error] cStringUsingEncoding:NSUTF8StringEncoding] );
-                _player = nil;
+                player = nil;
             }
             else
             {
                 success = true;
+                [ _players addObject:player ];
             }
         }
         else
@@ -127,10 +134,10 @@ bool ofxGenericSound::loadSound( string fileName )
 ofxGenericSound::~ofxGenericSound()
 {
 #if TARGET_OS_IPHONE
-    if ( _player )
+    if ( _players )
     {
-        [ _player release ];
-        _player = nil;
+        [ _players release ];
+        _players = nil;
     }
     if ( _forwarder )
     {
@@ -144,16 +151,59 @@ ofxGenericSound::~ofxGenericSound()
 void ofxGenericSound::play( float playbackDelay )
 {
 #if TARGET_OS_IPHONE
-    if ( _player )
+    if ( [ _players count ] > 0 )
     {
-        _player.numberOfLoops = 0;
+        AVAudioPlayer *player = nil;
+        
+        for ( unsigned int i = 0; i < [ _players count ]; i++ )
+        {
+            AVAudioPlayer *thisPlayer = [ _players objectAtIndex:i ];
+            if ( !thisPlayer.playing )
+            {
+                player = thisPlayer;
+            }
+        }
+        
+        //if this sound is already playing, then add another audio player at the end.
+        //performance-wise this should be negligible because we share sound data.
+        if ( !player )
+        {
+            AVAudioPlayer *oldPlayer = [ _players objectAtIndex:0 ];
+            
+            //store off all of the old player's values and assign them to this one too
+            float oldPan = oldPlayer.pan;
+            float oldPitch = oldPlayer.rate;
+            BOOL oldEnablePitch = oldPlayer.enableRate;
+            
+            NSError *error = nil;
+            player = [ [ [ AVAudioPlayer alloc ] initWithData:oldPlayer.data error:&error ] autorelease ];
+            if ( error )
+            {
+                ofLogError( "Error playing sound and trying to create new AVAudioPlayer: " + string( [[NSString stringWithFormat:@"%@",error] cStringUsingEncoding:NSUTF8StringEncoding] ) );
+                return;
+            }
+            else if ( !player )
+            {
+                ofLogError( "Error playing sound and trying to create new AVAudioPlayer: player is nil after alloc call." );
+                return;
+            }
+            
+            player.pan = oldPan;
+            player.enableRate = oldEnablePitch;
+            player.rate = oldPitch;
+            
+            [ _players addObject:player ];
+        }
+        
+        //set the loops to be only one because we're not looping
+        player.numberOfLoops = 0;
         if ( playbackDelay <= 0 )
         {
-            [ _player play ];
+            [ player play ];
         }
         else
         {
-            [ _player playAtTime: _player.deviceCurrentTime +  playbackDelay ];
+            [ player playAtTime: player.deviceCurrentTime +  playbackDelay ];
         }
     }
 #endif
@@ -163,9 +213,12 @@ void ofxGenericSound::play( float playbackDelay )
 void ofxGenericSound::stop()
 {
 #if TARGET_OS_IPHONE
-    if ( _player )
+    if ( [ _players count ] > 0 )
     {
-        [ _player stop ];
+        for ( unsigned int i = 0; i < [ _players count ]; i++ )
+        {
+            [ [ _players objectAtIndex:i ] stop ];
+        }
     }
 #endif
 }
@@ -174,9 +227,12 @@ void ofxGenericSound::stop()
 void ofxGenericSound::pause()
 {
 #if TARGET_OS_IPHONE
-    if ( _player )
+    if ( [ _players count ] > 0 )
     {
-        [ _player pause ];
+        for ( unsigned int i = 0; i < [ _players count ]; i++ )
+        {
+            [ [ _players objectAtIndex:i ] pause ];
+        }
     }
 #endif
 }
@@ -185,17 +241,10 @@ void ofxGenericSound::pause()
 void ofxGenericSound::loop( int times, float playbackDelay )
 {
 #if TARGET_OS_IPHONE
-    if ( _player )
+    if ( [ _players count ] > 0 )
     {
-        _player.numberOfLoops = times;
-        if ( playbackDelay <= 0 )
-        {
-            [ _player play ];
-        }
-        else
-        {
-            [ _player playAtTime: _player.deviceCurrentTime +  playbackDelay ];
-        }
+        play( playbackDelay );
+        ( ( AVAudioPlayer * )[ _players objectAtIndex: [ _players count ] - 1 ] ).numberOfLoops = times;
     }
 #endif
 }
@@ -204,9 +253,15 @@ void ofxGenericSound::loop( int times, float playbackDelay )
 bool ofxGenericSound::isPlaying()
 {
 #if TARGET_OS_IPHONE
-    if ( _player )
+    if ( [ _players count ] > 0 )
     {
-        return _player.playing == YES ? true : false;
+        for ( unsigned int i = 0; i < [ _players count ]; i++ )
+        {
+            if ( ( ( AVAudioPlayer * )[ _players objectAtIndex: i ] ).playing )
+            {
+                return true;
+            }
+        }
     }
 #endif
     return false;
@@ -216,9 +271,12 @@ bool ofxGenericSound::isPlaying()
 void ofxGenericSound::setPan( float pan )
 {
 #if TARGET_OS_IPHONE
-    if ( _player )
+    if ( [ _players count ] > 0 )
     {
-        _player.pan = pan;
+        for ( unsigned int i = 0; i < [ _players count ]; i++ )
+        {
+            ( ( AVAudioPlayer * )[ _players objectAtIndex: i ] ).pan = pan;
+        }
     }
 #endif
 }
@@ -227,10 +285,14 @@ void ofxGenericSound::setPan( float pan )
 void ofxGenericSound::setPitch( float pitch )
 {
 #if TARGET_OS_IPHONE
-    if ( _player )
+    if ( [ _players count ] > 0 )
     {
-        _player.enableRate = pitch != 1.0f ? YES : NO;
-        _player.rate = pitch;
+        for ( unsigned int i = 0; i < [ _players count ]; i++ )
+        {
+            AVAudioPlayer *player = [ _players objectAtIndex: i ];
+            player.enableRate = pitch != 1.0f ? YES : NO;
+            player.rate = pitch;
+        }
     }
 #endif
 }
@@ -239,7 +301,7 @@ void ofxGenericSound::setPitch( float pitch )
 void ofxGenericSound::preload( bool loadInBackground )
 {
 #if TARGET_OS_IPHONE
-    if ( _player )
+    if ( [ _players count ] > 0 )
     {
         if ( loadInBackground )
         {
@@ -252,7 +314,11 @@ void ofxGenericSound::preload( bool loadInBackground )
         }
         else
         {
-            [ _player prepareToPlay ];
+            for ( unsigned int i = 0; i < [ _players count ]; i++ )
+            {
+                AVAudioPlayer *player = [ _players objectAtIndex: i ];
+                [ player prepareToPlay ];
+            }
         }
     }
 #endif
@@ -262,40 +328,44 @@ void ofxGenericSound::preload( bool loadInBackground )
 double ofxGenericSound::getDuration()
 {
 #if TARGET_OS_IPHONE
-    if ( _player )
+    if ( [ _players count ] > 0 )
     {
-        return _player.duration;
+        return ( ( AVAudioPlayer * )[ _players objectAtIndex: 0 ] ).duration;
     }
 #endif
     return 0.0;
 }
 
 // returns how long in seconds the sound has been playing
-double ofxGenericSound::getCurrentTime()
+double ofxGenericSound::getCurrentTime( int playerIndex)
 {
 #if TARGET_OS_IPHONE
-    if ( _player )
+    if ( [ _players count ] > 0 )
     {
-        return _player.currentTime;
+        if ( playerIndex < 0 )
+        {
+            playerIndex = [ _players count ] - 1;
+        }
+        return ( ( AVAudioPlayer * )[ _players objectAtIndex: playerIndex ] ).currentTime;
     }
 #endif
     return 0.0;
 }
 
 // returns the percent complete this sound is ( getCurrentTime() / getDuration() )
-float ofxGenericSound::getAmountComplete()
+float ofxGenericSound::getAmountComplete( int playerIndex )
 {
     if ( getDuration() <= 0.0 )
     {
         return 0.0f;
     }
-    return (float) ( getCurrentTime() / getDuration() );
+    return (float) ( getCurrentTime( playerIndex ) / getDuration() );
 }
 
 bool ofxGenericSound::loadedSuccessfully()
 {
 #if TARGET_OS_IPHONE
-    if ( _player )
+    if ( [ _players count ] > 0 )
     {
         return true;
     }

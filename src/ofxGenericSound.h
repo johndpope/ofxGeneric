@@ -55,10 +55,10 @@ public:
     virtual double getDuration();
     
     // returns how long in seconds the sound has been playing
-    virtual double getCurrentTime();
+    virtual double getCurrentTime( int playerIndex = -1 );
     
     // returns the percent complete this sound is ( getCurrentTime() / getDuration() )
-    virtual float getAmountComplete();
+    virtual float getAmountComplete( int playerIndex = -1 );
     
     // in case there was a loading issue, there will be no player so this will return false
     virtual bool loadedSuccessfully();
@@ -77,7 +77,7 @@ protected:
     bool _isLoadingInBackground;
     
 #if TARGET_OS_IPHONE
-	AVAudioPlayer* _player;
+	NSMutableArray * _players;
 #elif TARGET_ANDROID
 #endif
 #if TARGET_OS_IPHONE
