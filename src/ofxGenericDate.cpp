@@ -300,3 +300,23 @@ void ofxGenericDate::setFromNSDate( NSDate* date )
     }
 }
 #endif
+
+bool operator < ( ofPtr< ofxGenericDate > left, ofPtr< ofxGenericDate > right )
+{
+    if ( !left || !right )
+    {
+        return false;
+    }
+    return left->getTime() < right->getTime();
+}
+
+ofPtr< ofxGenericDate > operator - ( ofPtr< ofxGenericDate > left, ofPtr< ofxGenericDate > right )
+{
+    if ( left && right )
+    {
+        double difference = left->getTime() - right->getTime();
+        return ofxGenericDate::create( difference );
+    }
+    
+    return ofxGenericDate::create( 0 );
+}
