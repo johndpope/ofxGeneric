@@ -224,7 +224,7 @@ protected:
 name##CacheKey
 
 #define defineCacheKey( name, key ) \
-const string name##CacheKey = #key;
+const string name##CacheKey = key;
 
 #define cacheKey( name ) \
 literalCacheKey( name )
