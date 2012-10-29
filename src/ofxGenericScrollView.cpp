@@ -24,7 +24,11 @@
 #endif
 
 ofxGenericScrollView::ofxGenericScrollView()
-: _forwarder ( nil )
+:
+#if TARGET_OS_IPHONE
+ _forwarder ( nil ),
+#endif
+ _autoContentSizeToFit( false )
 {
 }
 
@@ -71,6 +75,41 @@ void ofxGenericScrollView::setContentSize( const ofPoint& contentSize )
 #endif
 }
 
+void ofxGenericScrollView::setAutoContentSizeToFit( bool autosize )
+{
+    _autoContentSizeToFit = autosize;
+}
+
+void ofxGenericScrollView::addChildView( ofPtr< ofxGenericView > add )
+{
+    ofxGenericView::addChildView( add );
+    
+    if ( _autoContentSizeToFit && add )
+    {
+        ofRectangle addFrame = add->getFrame();
+        ofRectangle contentFrame = getContentFrame();
+        contentFrame.growToFit( addFrame );
+        setContentFrame( contentFrame );
+    }
+}
+
+void ofxGenericScrollView::sizeToFitContents()
+{
+    ofRectangle originalContentFrame;
+    ofRectangle contentFrame = originalContentFrame = getContentFrame();
+    for( std::list< ofPtr< ofxGenericView > >::iterator travChildren = _children.begin(); travChildren != _children.end(); travChildren ++ )
+    {
+        if ( *travChildren )
+        {
+            contentFrame.growToFit( ( *travChildren )->getFrame() );
+        }
+    }
+    if ( contentFrame != originalContentFrame )
+    {
+        setContentFrame( contentFrame );
+    }
+}
+
 void ofxGenericScrollView::setContentOffset( const ofPoint& contentOffset, bool animated )
 {
 #if TARGET_OS_IPHONE
@@ -81,6 +120,19 @@ void ofxGenericScrollView::setContentOffset( const ofPoint& contentOffset, bool 
     }
 #elif TARGET_ANDROID
 #endif    
+}
+
+void ofxGenericScrollView::setContentFrame( const ofRectangle& contentFrame, bool animated )
+{
+    setContentOffset( ofPoint( contentFrame.x, contentFrame.y ), animated );
+    setContentSize( ofPoint( contentFrame.width, contentFrame.height ) );
+}
+
+ofRectangle ofxGenericScrollView::getContentFrame()
+{
+    ofPoint contentOffset = getContentOffset();
+    ofPoint contentSize = getContentSize();
+    return ofRectangle( contentOffset.x, contentOffset.y, contentSize.x, contentSize.y );
 }
 
 ofPoint ofxGenericScrollView::getContentOffset()

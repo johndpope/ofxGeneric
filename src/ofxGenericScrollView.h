@@ -23,7 +23,16 @@ public:
     static ofPtr< ofxGenericScrollView > create( const ofRectangle& setFrame = ofRectangle(), NativeView nativeView = NativeNull );
     
     void setContentSize( const ofPoint& contentSize );
-    void setContentOffset( const ofPoint& contentOffset, bool animated );
+    ofPoint getContentSize();
+    void setAutoContentSizeToFit( bool autosize );
+    void sizeToFitContents();
+    
+    void setContentOffset( const ofPoint& contentOffset, bool animated = false );
+    ofPoint getContentOffset();
+    
+    void setContentFrame( const ofRectangle& contentFrame, bool animated = false );
+    ofRectangle getContentFrame();
+    
     void setEnabled( bool enabled );
     
     void setDirectionalLockEnabled( bool enabled );
@@ -39,11 +48,10 @@ public:
     
     void scrollRectToVisible( const ofRectangle& rect, bool animated );
     
-    ofPoint getContentSize();
-    ofPoint getContentOffset();
+    void setDelegate( ofPtrWeak< ofxGenericScrollViewDelegate > delegate );    
     
-    void setDelegate( ofPtrWeak< ofxGenericScrollViewDelegate > delegate );
-    
+    virtual void addChildView( ofPtr< ofxGenericView > add );
+
     void didScroll();
     
 #if TARGET_OS_IPHONE
@@ -56,6 +64,8 @@ protected:
     virtual NativeView createNativeView( const ofRectangle& frame );
     
     ofPtrWeak< ofxGenericScrollViewDelegate > _delegate;
+    
+    bool _autoContentSizeToFit;
 };
 
 class ofxGenericScrollViewDelegate
