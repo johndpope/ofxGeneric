@@ -25,7 +25,7 @@ public:
     void setDelegate( ofPtrWeak< ofxGenericSwitchViewDelegate > delegate );
     ofPtrWeak< ofxGenericSwitchViewDelegate > getDelegate();
     
-    void setSwitched( bool value, bool animate );
+    void setSwitched( bool value, bool animate = false );
     bool isSwitched();
     virtual void valueChanged();
     
