@@ -57,6 +57,8 @@
 		3C6D97A5161149780087816E /* zip.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C6D978A161149780087816E /* zip.h */; };
 		3C6D97A6161149780087816E /* SSZipArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C6D978C161149780087816E /* SSZipArchive.h */; };
 		3C6D97A7161149780087816E /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C6D978D161149780087816E /* SSZipArchive.m */; };
+		3C747C4B163E15C400AE5C92 /* ofxGenericSwitchView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C747C49163E15C400AE5C92 /* ofxGenericSwitchView.cpp */; };
+		3C747C4C163E15C400AE5C92 /* ofxGenericSwitchView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C747C4A163E15C400AE5C92 /* ofxGenericSwitchView.h */; };
 		3C7B4DDE14FC78A1003121FE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C7B4DDD14FC78A1003121FE /* Foundation.framework */; };
 		3C7B4EB514FC7CBF003121FE /* ofxAppGenericWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C7B4E8A14FC7CBF003121FE /* ofxAppGenericWindow.cpp */; };
 		3C7B4EB614FC7CBF003121FE /* ofxAppGenericWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C7B4E8B14FC7CBF003121FE /* ofxAppGenericWindow.h */; };
@@ -226,6 +228,8 @@
 		3C6D978A161149780087816E /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
 		3C6D978C161149780087816E /* SSZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSZipArchive.h; sourceTree = "<group>"; };
 		3C6D978D161149780087816E /* SSZipArchive.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SSZipArchive.m; sourceTree = "<group>"; };
+		3C747C49163E15C400AE5C92 /* ofxGenericSwitchView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericSwitchView.cpp; sourceTree = "<group>"; };
+		3C747C4A163E15C400AE5C92 /* ofxGenericSwitchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericSwitchView.h; sourceTree = "<group>"; };
 		3C7B4DDA14FC78A1003121FE /* libofxGeneric.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libofxGeneric.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C7B4DDD14FC78A1003121FE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3C7B4DED14FC78A1003121FE /* UIKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -557,6 +561,8 @@
 				B5C55D32161D04980002872E /* ofxGenericHMAC.h */,
 				3C0CB5A6163893F500AB87C8 /* ofxGenericEncryption.h */,
 				3C0CB5A81638948D00AB87C8 /* ofxGenericEncryption.cpp */,
+				3C747C49163E15C400AE5C92 /* ofxGenericSwitchView.cpp */,
+				3C747C4A163E15C400AE5C92 /* ofxGenericSwitchView.h */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -816,6 +822,7 @@
 				3C0CB5C51638985200AB87C8 /* NSData+Base64.h in Headers */,
 				3C0CB5C71638985200AB87C8 /* NSData+CommonCrypto.h in Headers */,
 				3C0CB5C91638985200AB87C8 /* NSString+Base64.h in Headers */,
+				3C747C4C163E15C400AE5C92 /* ofxGenericSwitchView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -959,6 +966,7 @@
 				3C0CB5C61638985200AB87C8 /* NSData+Base64.m in Sources */,
 				3C0CB5C81638985200AB87C8 /* NSData+CommonCrypto.m in Sources */,
 				3C0CB5CA1638985200AB87C8 /* NSString+Base64.m in Sources */,
+				3C747C4B163E15C400AE5C92 /* ofxGenericSwitchView.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
