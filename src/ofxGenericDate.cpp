@@ -26,7 +26,7 @@ const char* ofxGenericDate::getFormat( ofxGenericDate::DateFormat format )
         case DateFormatFull: return "yyyy-MM-dd HH:mm:ss";
         case DateFormatDateOnly: return "yyyy-MM-dd";
         case DateFormatDateFileSafe: return getFormat( DateFormatDateOnly );
-        case DateFormatPretty: return "MMMM dd, YYYY";
+        case DateFormatPretty: return "MMMM dd, yyyy";
         case DateFormatServer: return "yyyy-MM-dd\'T\'HH:mm:ssZ";
         case DateFormatMonthDayPretty: return "MMM dd";
         case DateFormatDayOfTheWeek: return "EEE";
@@ -71,10 +71,12 @@ ofPtr< ofxGenericDate > ofxGenericDate::create( string date, ofxGenericDate::Dat
     double time = 0;
 
 #if TARGET_OS_IPHONE
-    NSDateFormatter* formatter = [[[NSDateFormatter alloc] init] autorelease];
-    [ formatter setDateFormat:[NSString stringWithCString:formatAsString encoding:NSUTF8StringEncoding]];
+    NSDateFormatter* formatter = [ [ [ NSDateFormatter alloc ] init ] autorelease ];
+    NSString* nsFormat = ofxStringToNSString( formatAsString );
+    [ formatter setDateFormat:nsFormat ];
     
-    NSDate* nsDate = [ formatter dateFromString:[NSString stringWithCString:date.c_str() encoding:NSUTF8StringEncoding ] ];
+    NSString* nsDateString = ofxStringToNSString( date );
+    NSDate* nsDate = [ formatter dateFromString:nsDateString ];
     time = [ nsDate timeIntervalSinceReferenceDate ];
 #elif TARGET_ANDROID
 #endif
