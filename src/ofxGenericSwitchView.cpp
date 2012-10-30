@@ -108,7 +108,13 @@ void ofxGenericSwitchView::setTintColor( const ofColor& color )
     if ( [ getNativeView() isKindOfClass:[ UISwitch class ] ] )
     {
         UISwitch* switchView = ( UISwitch* )getNativeView();
-        [ switchView setTintColor:ofColorToUIColor( color ) ];
+        if ( [ switchView respondsToSelector:@selector( setTintColor: ) ] )
+        {
+            [ switchView setTintColor:ofColorToUIColor( color ) ];
+        } else
+        {
+            ofxGLogWarning( "Current iOS version does not support switch tint colors" );
+        }
     }
 #endif
 }
