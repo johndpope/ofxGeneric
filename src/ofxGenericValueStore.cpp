@@ -843,7 +843,7 @@ float ofxGenericValueStore::read( unsigned int index, float defaultValue ) const
     ofPtr< ofxGenericValueStore > value = read( index );
     if ( value )
     {
-        return value->asInt();
+        return value->asFloat();
     }
     return defaultValue;
 }
