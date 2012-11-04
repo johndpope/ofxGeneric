@@ -20,7 +20,7 @@ ofPtr< ofxGenericBarGraphView > ofxGenericBarGraphView::create( ofxGenericBarGra
 }
 
 ofxGenericBarGraphView::ofxGenericBarGraphView()
-: _minimum( 0.0f ), _maximum( 0.0f ), _current( 0.0f ), _barFitCurrentText( false ), _barFitCurrentTextPadding( 0.0f )
+: _minimum( 0.0f ), _maximum( 0.0f ), _current( 0.0f ), _barFitCurrentText( false ), _barFitCurrentTextPadding( 0.0f ), _replaceZeroCurrentText( false )
 {
 }
 
@@ -42,10 +42,7 @@ void ofxGenericBarGraphView::setRange( float minimum, float maximum )
 void ofxGenericBarGraphView::setCurrent( float value )
 {
     _current = value;
-    if ( getCurrentTextView() )
-    {
-        getCurrentTextView()->setText( ofToString( value ) );
-    }
+    updateCurrentText();
     recalculateBar();
 }
 
@@ -79,7 +76,7 @@ void ofxGenericBarGraphView::setCurrentTextVisible( bool visible )
                 _currentText->setText( ofToString( getCurrent() ) );
             }
         }
-        updatedCurrentTextView();
+        updateCurrentText();
     } else
     {
         if ( _currentText )
@@ -89,6 +86,8 @@ void ofxGenericBarGraphView::setCurrentTextVisible( bool visible )
         }
     }
 }
+
+
 
 void ofxGenericBarGraphView::setCurrentTextPadding( float padding )
 {
@@ -108,11 +107,29 @@ void ofxGenericBarGraphView::setBarFitCurrentText( bool fit, float padding )
     recalculateBar();
 }
 
-void ofxGenericBarGraphView::updatedCurrentTextView()
+void ofxGenericBarGraphView::updateCurrentText()
 {
     if ( _currentText )
     {
-        _currentText->setText( ofToString( getCurrent() ) );
+        string text;
+        if ( _replaceZeroCurrentText && getCurrent() == 0 )
+        {
+            text = _replaceZeroCurrentTextWith;
+        } else
+        {
+            text = ofToString( getCurrent() );
+        }
+        _currentText->setText( text );
+    }
+}
+
+void ofxGenericBarGraphView::setCurrentTextReplaceZero( bool replace, string replaceWith )
+{
+    _replaceZeroCurrentText = replace;
+    _replaceZeroCurrentTextWith = replaceWith;
+    if ( getCurrent() == 0 )
+    {
+        setCurrent( 0 );
     }
 }
 

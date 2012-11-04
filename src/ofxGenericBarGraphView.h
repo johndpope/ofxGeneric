@@ -31,6 +31,7 @@ public:
     void setCurrentTextVisible( bool visible );
     void setCurrentTextPadding( float padding );
     void setBarFitCurrentText( bool fit, float padding = 0.0f );
+    void setCurrentTextReplaceZero( bool replace, string replaceWith = "-" );
     ofPtr< ofxGenericTextView > getCurrentTextView();
     
     void setImage( string fileName );
@@ -52,13 +53,14 @@ protected:
     ofRectangle adjustBarFrameForCurrentText( const ofRectangle& barFrame );
 
     ofPtr< ofxGenericTextView > _currentText;
+    void updateCurrentText();
     float _minimum, _maximum;
     float _current;
     void recalculateBar();
     float calculatePercent();
+    bool _replaceZeroCurrentText;
+    string _replaceZeroCurrentTextWith;
 
     bool _barFitCurrentText;
     float _barFitCurrentTextPadding;
-
-    void updatedCurrentTextView();
 };
