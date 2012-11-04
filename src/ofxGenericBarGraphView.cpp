@@ -8,6 +8,10 @@
 
 #include "ofxGenericBarGraphView.h"
 
+#include "ofxGenericTextView.h"
+
+#include "ofxGenericMain.h"
+
 ofPtr< ofxGenericBarGraphView > ofxGenericBarGraphView::create( ofxGenericBarGraphViewExpand expand, float minimum, float maximum, const ofRectangle& setFrame )
 {
     ofPtr< ofxGenericBarGraphView > create( new ofxGenericBarGraphView() );
@@ -16,7 +20,7 @@ ofPtr< ofxGenericBarGraphView > ofxGenericBarGraphView::create( ofxGenericBarGra
 }
 
 ofxGenericBarGraphView::ofxGenericBarGraphView()
-: _minimum( 0.0f ), _maximum( 0.0f ), _current( 0.0f )
+: _minimum( 0.0f ), _maximum( 0.0f ), _current( 0.0f ), _barFitCurrentText( false ), _barFitCurrentTextPadding( 0.0f )
 {
 }
 
@@ -38,26 +42,91 @@ void ofxGenericBarGraphView::setRange( float minimum, float maximum )
 void ofxGenericBarGraphView::setCurrent( float value )
 {
     _current = value;
+    if ( getCurrentTextView() )
+    {
+        getCurrentTextView()->setText( ofToString( value ) );
+    }
     recalculateBar();
 }
 
-void ofxGenericBarGraphView::recalculateBar()
+float ofxGenericBarGraphView::getCurrent()
 {
-    float percent = 0;
-    if ( _maximum != _minimum )
+    return _current;
+}
+
+void ofxGenericBarGraphView::setCurrentTextVisible( bool visible )
+{
+    if ( visible )
     {
-        percent = ( _current - _minimum ) / ( _maximum - _minimum );
-    }
-    if ( percent < _minimum )
+        if ( !_currentText )
+        {
+            _currentText = ofxGenericTextView::create( getFrame( ofPoint( 0, 0 ) ) );
+            if ( _currentText )
+            {
+                _currentText->setAutosizeFontToFitText( ofxGenericViewAutoresizingFull );
+                switch( _expand )
+                {
+                    case ofxGenericBarGraphViewExpandHorizontalRight:
+                        _currentText->setTextAlignment( ofxGenericTextHorizontalAlignmentLeft );
+                        break;
+                    default:
+                        _currentText->setTextAlignment( ofxGenericTextHorizontalAlignmentRight );
+                        break;
+
+                }
+                addChildView( _currentText );
+                
+                _currentText->setText( ofToString( getCurrent() ) );
+            }
+        }
+        updatedCurrentTextView();
+    } else
     {
-        percent = _minimum;
+        if ( _currentText )
+        {
+            _currentText->removeFromParent();
+            _currentText = ofPtr< ofxGenericTextView >();
+        }
     }
-    if ( percent > _maximum )
+}
+
+void ofxGenericBarGraphView::setCurrentTextPadding( float padding )
+{
+    if ( _currentText )
     {
-        percent = _maximum;
+        ofRectangle frame = _currentText->getFrame();
+        frame.x += padding;
+        frame.width -= padding;
+        _currentText->setFrame( frame );
     }
-        
+}
+
+void ofxGenericBarGraphView::setBarFitCurrentText( bool fit, float padding )
+{
+    _barFitCurrentText = fit;
+    _barFitCurrentTextPadding = padding;
+    recalculateBar();
+}
+
+void ofxGenericBarGraphView::updatedCurrentTextView()
+{
+    if ( _currentText )
+    {
+        _currentText->setText( ofToString( getCurrent() ) );
+    }
+}
+
+ofPtr< ofxGenericTextView > ofxGenericBarGraphView::getCurrentTextView()
+{
+    return _currentText;
+}
+
+ofRectangle ofxGenericBarGraphView::calculateBarFrame()
+{
+    float percent = calculatePercent();
+    
     ofRectangle frame = getFrame( ofPoint( 0, 0 ) );
+    
     float newWidth, newHeight;
     switch( _expand )
     {
@@ -83,14 +152,67 @@ void ofxGenericBarGraphView::recalculateBar()
             frame.height = newHeight;
             break;
     }
-    if ( frame.width == 0 || frame.height == 0 )
+    return frame;
+}
+
+ofRectangle ofxGenericBarGraphView::adjustBarFrameForCurrentText( const ofRectangle& barFrame )
+{
+    ofRectangle adjustedBarFrame = barFrame;
+    if ( _currentText )
+    {
+        ofRectangle frame = getFrame();
+        ofRectangle currentTextFrame = _currentText->getFrame();
+
+        ofPoint textSize = ofxGPointSizeForText( _currentText->getText(), _currentText->getFontName(), _currentText->getFontSize(), frame.width );
+        
+        float minimumBarWidth = currentTextFrame.x + textSize.x + _barFitCurrentTextPadding;
+        adjustedBarFrame.width = MAX( adjustedBarFrame.width, minimumBarWidth );
+        adjustedBarFrame.width = MIN( adjustedBarFrame.width, frame.width );
+        
+        // HACK: adjust text vertical blah blah
+        currentTextFrame.height = textSize.y;
+        currentTextFrame.y = frame.height / 2 - currentTextFrame.height / 2;
+        _currentText->setFrame( currentTextFrame );
+    }
+
+    return adjustedBarFrame;
+}
+
+void ofxGenericBarGraphView::recalculateBar()
+{
+    ofRectangle barFrame = calculateBarFrame();
+    
+    if ( _barFitCurrentText )
+    {
+        barFrame = adjustBarFrameForCurrentText( barFrame );
+    }
+    
+    if ( barFrame.width == 0 || barFrame.height == 0 )
     {
         _barView->setVisible( false );
     } else 
     {
         _barView->setVisible( true );
-        _barView->setFrame( frame );
+        _barView->setFrame( barFrame );
     }
+}
+
+float ofxGenericBarGraphView::calculatePercent()
+{
+    float percent = 0;
+    if ( _maximum != _minimum )
+    {
+        percent = ( _current - _minimum ) / ( _maximum - _minimum );
+    }
+    if ( percent < _minimum )
+    {
+        percent = _minimum;
+    }
+    if ( percent > _maximum )
+    {
+        percent = _maximum;
+    }
+    return percent;
 }
 
 void ofxGenericBarGraphView::setImage( string fileName )
