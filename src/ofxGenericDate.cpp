@@ -18,14 +18,14 @@
 
 #define SecondsInADay 86400.0
 
-const char* ofxGenericDate::getFormat( ofxGenericDate::DateFormat format )
+string ofxGenericDate::getDateFormatAsString( ofxGenericDate::DateFormat format )
 {
     switch ( format )
     {
         case DateFormatFullFileSafe: return "yyyy-MM-dd HH-mm-ss";
         case DateFormatFull: return "yyyy-MM-dd HH:mm:ss";
         case DateFormatDateOnly: return "yyyy-MM-dd";
-        case DateFormatDateFileSafe: return getFormat( DateFormatDateOnly );
+        case DateFormatDateFileSafe: return getDateFormatAsString( DateFormatDateOnly );
         case DateFormatPretty: return "MMMM dd, yyyy";
         case DateFormatServer: return "yyyy-MM-dd\'T\'HH:mm:ssZ";
         case DateFormatMonthDayPretty: return "MMM dd";
@@ -33,6 +33,7 @@ const char* ofxGenericDate::getFormat( ofxGenericDate::DateFormat format )
             
         default: return "yyyy-MM-dd HH-mm-ss";
     }
+    return "";
 }
 
 ofxGenericDate::~ofxGenericDate()
@@ -42,12 +43,10 @@ ofxGenericDate::~ofxGenericDate()
 
 ofxGenericDate::ofxGenericDate()
 {
-    
 }
 
 ofPtr< ofxGenericDate > ofxGenericDate::create()
 {
-    
 #if TARGET_OS_IPHONE
     double now = [NSDate timeIntervalSinceReferenceDate]; 
 #elif TARGET_ANDROID
@@ -66,13 +65,16 @@ ofPtr< ofxGenericDate > ofxGenericDate::create( double time )
 
 ofPtr< ofxGenericDate > ofxGenericDate::create( string date, ofxGenericDate::DateFormat format )
 {
-    const char* formatAsString = getFormat( format );
-    
-    double time = 0;
+    return create( date, getDateFormatAsString( format ) );
+}
 
+ofPtr< ofxGenericDate > ofxGenericDate::create( string date, string format )
+{
+    double time = 0;
+    
 #if TARGET_OS_IPHONE
     NSDateFormatter* formatter = [ [ [ NSDateFormatter alloc ] init ] autorelease ];
-    NSString* nsFormat = ofxStringToNSString( formatAsString );
+    NSString* nsFormat = ofxStringToNSString( format );
     [ formatter setDateFormat:nsFormat ];
     
     NSString* nsDateString = ofxStringToNSString( date );
@@ -85,6 +87,15 @@ ofPtr< ofxGenericDate > ofxGenericDate::create( string date, ofxGenericDate::Dat
 }
 
 ofPtr< ofxGenericDate > ofxGenericDate::create( ofPtr< ofxGenericValueStore > date, ofxGenericDate::DateFormat format )
+{
+    if ( date )
+    {
+        return create( date->asString(), format );
+    }
+    return ofPtr< ofxGenericDate >();
+}
+
+ofPtr< ofxGenericDate > ofxGenericDate::create( ofPtr< ofxGenericValueStore > date, string format )
 {
     if ( date )
     {
@@ -249,23 +260,27 @@ void ofxGenericDate::init( ofPtrWeak< ofxGenericDate > setThis, double time )
     setFromSinceReferenceDate( time );
 }
 
-string ofxGenericDate::getStringRepresentation( ofxGenericDate::DateFormat format, bool converToUTC )
+string ofxGenericDate::getStringRepresentation( ofxGenericDate::DateFormat format, bool convertToUTC )
 {
-    const char* formatAsString = getFormat( format );
+    return getStringRepresentation( getDateFormatAsString( format ), convertToUTC );
+}
+
+string ofxGenericDate::getStringRepresentation( string format, bool convertToUTC )
+{
+    string result;
     
 #if TARGET_OS_IPHONE
-    NSDateFormatter* formatter = [[[NSDateFormatter alloc] init] autorelease];
-    if( converToUTC )
+    NSDateFormatter* formatter = [ [ [ NSDateFormatter alloc ] init ] autorelease ];
+    if( convertToUTC )
     {
-        [formatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
+        [ formatter setTimeZone:[ NSTimeZone timeZoneWithName:@"UTC" ] ];
     }
-    [formatter setDateFormat:[NSString stringWithCString:formatAsString encoding:NSUTF8StringEncoding]];
-    string str = string([[formatter stringFromDate:[NSDate dateWithTimeIntervalSinceReferenceDate:_time]] cStringUsingEncoding:NSUTF8StringEncoding]);
+    [ formatter setDateFormat:ofxStringToNSString( format ) ];
+    result = ofxNSStringToString( [ formatter stringFromDate:convertToNSDate() ] );
 #elif TARGET_ANDROID
-    string str = "";
 #endif
     
-    return str;
+    return result;
 }
 
 void ofxGenericDate::setFromSinceReferenceDate( double time )

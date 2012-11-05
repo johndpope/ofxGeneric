@@ -37,14 +37,15 @@ public:
         DateFormatCount
     };
     
-    static const char* getFormat( ofxGenericDate::DateFormat format );
-    
+    static string getDateFormatAsString( ofxGenericDate::DateFormat format );
     
     virtual ~ofxGenericDate();
     static ofPtr< ofxGenericDate > create();
     static ofPtr< ofxGenericDate > create( double time );
     static ofPtr< ofxGenericDate > create( string date, ofxGenericDate::DateFormat format = ofxGenericDate::DateFormatDateOnly );
+    static ofPtr< ofxGenericDate > create( string date, string format );
     static ofPtr< ofxGenericDate > create( ofPtr< ofxGenericValueStore > date, ofxGenericDate::DateFormat format = ofxGenericDate::DateFormatDateOnly );
+    static ofPtr< ofxGenericDate > create( ofPtr< ofxGenericValueStore > date, string format );
 #if TARGET_OS_IPHONE       
     static ofPtr< ofxGenericDate > createFromNSDate( NSDate* date );
 #endif
@@ -82,7 +83,8 @@ public:
     
     virtual string getDescription();
     
-    virtual string getStringRepresentation( ofxGenericDate::DateFormat format = ofxGenericDate::DateFormatDateOnly, bool converToUTC = false );
+    virtual string getStringRepresentation( ofxGenericDate::DateFormat format = ofxGenericDate::DateFormatDateOnly, bool convertToUTC = false );
+    virtual string getStringRepresentation( string format, bool convertToUTC = false );
     
     void setFromSinceReferenceDate( double time );
     
