@@ -50,6 +50,7 @@ public:
     static ofPtr< ofxGenericDate > createFromNSDate( NSDate* date );
 #endif
     static double getSystemTime();
+    static ofPtr< ofxGenericDate > now();
     
     static string getDayName(int day);
     

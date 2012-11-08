@@ -127,6 +127,11 @@ double ofxGenericDate::getSystemTime()
 #endif
 }
 
+ofPtr< ofxGenericDate > ofxGenericDate::now()
+{
+    return ofxGenericDate::create();
+}
+
 string  ofxGenericDate::getDayName(int day)
 {
     switch (day)
