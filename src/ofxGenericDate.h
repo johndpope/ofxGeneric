@@ -110,4 +110,5 @@ protected:
 };
 
 bool operator < ( ofPtr< ofxGenericDate > left, ofPtr< ofxGenericDate > right );
+bool operator > ( ofPtr< ofxGenericDate > left, ofPtr< ofxGenericDate > right );
 ofPtr< ofxGenericDate > operator - ( ofPtr< ofxGenericDate > left, ofPtr< ofxGenericDate > right );

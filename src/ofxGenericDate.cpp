@@ -327,6 +327,11 @@ bool operator < ( ofPtr< ofxGenericDate > left, ofPtr< ofxGenericDate > right )
     return left->getTime() < right->getTime();
 }
 
+bool operator > ( ofPtr< ofxGenericDate > left, ofPtr< ofxGenericDate > right )
+{
+    return right < left;
+}
+
 ofPtr< ofxGenericDate > operator - ( ofPtr< ofxGenericDate > left, ofPtr< ofxGenericDate > right )
 {
     if ( left && right )
