@@ -160,21 +160,6 @@ void ofxGenericValueStore::init( ofPtrWeak< ofxGenericValueStore > setThis, Type
     _verify = false;
 }
 
-void ofxGenericValueStore::init( ofPtrWeak< ofxGenericValueStore > setThis, ofPtr< ofxGenericValueStore > from )
-{
-    Type type;
-    if ( from )
-    {
-        type = from->getType();
-    } else
-    {
-        type = ofxGenericValueStoreTypeObject;
-    }
-    ofxGenericValueStore::init( setThis, type );
-    
-    write( from );
-}
-
 ofxGenericValueStore::~ofxGenericValueStore()
 {
     if ( _type == ofxGenericValueStoreTypeString )
