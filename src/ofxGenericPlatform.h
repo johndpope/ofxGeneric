@@ -19,6 +19,12 @@ public:
     static string deviceModel();
     static string deviceModelVersion();
     
+    static unsigned int cpuFrequency();
+    static unsigned int cpuCount();
+    static unsigned int totalMemory();
+
+    static string macAddress();
+    
     static string operatingSystemName();
     static string operatingSystemGroupName();
     static string operatingSystemVersion();
