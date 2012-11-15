@@ -42,6 +42,34 @@ string ofxGenericPlatform::deviceModelVersion()
 #endif
 }
 
+unsigned int ofxGenericPlatform::cpuFrequency()
+{
+#if TARGET_OS_IPHONE
+    return ( unsigned int )( [ [ UIDevice currentDevice ] cpuFrequency ] );
+#endif
+}
+
+unsigned int ofxGenericPlatform::cpuCount()
+{
+#if TARGET_OS_IPHONE
+    return ( unsigned int )( [ [ UIDevice currentDevice ] cpuCount ] );
+#endif
+}
+
+unsigned int ofxGenericPlatform::totalMemory()
+{
+#if TARGET_OS_IPHONE
+    return ( unsigned int )( [ [ UIDevice currentDevice ] totalMemory ] );
+#endif
+}
+
+string ofxGenericPlatform::macAddress()
+{
+#if TARGET_OS_IPHONE
+    return ofxNSStringToString( [ [ UIDevice currentDevice ] macaddress ] );
+#endif
+}
+
 string ofxGenericPlatform::operatingSystemName()
 {
 #if TARGET_OS_IPHONE
