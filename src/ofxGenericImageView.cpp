@@ -91,7 +91,7 @@ void ofxGenericImageView::setImage( ofPtr< ofImage > image )
     {
         UIImageView* view = ( UIImageView* )_view;
         ofPtr< ofxGenericImage > newImage = ofxGenericImage::create( image );
-        if ( _image && _image->loadedSuccessfully() )
+        if ( newImage && newImage->loadedSuccessfully() )
         {
             _image = newImage;
             [ view setImage: _image->getUIImage() ];
