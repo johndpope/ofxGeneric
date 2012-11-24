@@ -1040,6 +1040,11 @@ void ofxGenericValueStore::setFileName( string fileName, bool fileInDocuments )
     _fileInDocuments = fileInDocuments;
 }
 
+string ofxGenericValueStore::getFileName()
+{
+    return _fileName;
+}
+
 bool ofxGenericValueStore::readFromDisk()
 {
     if ( !_fileName.empty() )

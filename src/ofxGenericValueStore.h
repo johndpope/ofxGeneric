@@ -142,6 +142,7 @@ public:
     virtual void drop( int index );
     
     void setFileName( string fileName, bool fileInDocuments );
+    string getFileName();
     
     //loads the cache from disk
     virtual bool readFromDisk();
