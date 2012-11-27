@@ -26,6 +26,8 @@ protected:
     static ofPtr< ofxGenericLocalization > _this;
     
     ofPtr< ofxGenericValueStore > _cache;
+    
+    static string getLocalizedFileName( string isoLanguage );
 };
 
 string ofxGLocalized( string key );
