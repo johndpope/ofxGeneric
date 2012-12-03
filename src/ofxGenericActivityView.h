@@ -27,7 +27,9 @@ public:
     
     void setColor( const ofColor& color );
     ofColor getColor();
-    
+
+    void setIndicatorViewStyle( ofxGenericActivityViewStyle style );
+    ofxGenericActivityViewStyle getIndicatorViewStyle();
 protected:
     virtual NativeView createNativeView( const ofRectangle& frame );
 };

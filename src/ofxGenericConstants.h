@@ -119,6 +119,13 @@ enum ofxGenericViewAutoresizing
     ofxGenericViewAutoresizingBottomMargin   = 1 << 5  //UIViewAutoresizingFlexibleBottomMargin = 1 << 5
 };
 
+enum ofxGenericActivityViewStyle
+{
+    ofxGenericActivityViewStyleWhiteLarge, //UIActivityIndicatorViewStyleWhiteLarge,
+    ofxGenericActivityViewStyleWhite, //UIActivityIndicatorViewStyleWhite,
+    ofxGenericActivityViewStyleGray //UIActivityIndicatorViewStyleGray
+};
+
 const int ofxGenericViewAutoresizingFull = ofxGenericViewAutoresizingLeftMargin | ofxGenericViewAutoresizingFlexibleWidth | ofxGenericViewAutoresizingRightMargin | ofxGenericViewAutoresizingTopMargin | ofxGenericViewAutoresizingFlexibleHeight | ofxGenericViewAutoresizingBottomMargin;
 
 enum ofxGenericTextViewBorderStyle

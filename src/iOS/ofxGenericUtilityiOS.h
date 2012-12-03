@@ -40,6 +40,10 @@ ofxGenericKeyboardReturnKey iOSToofxGenericKeyboardReturnKey( UIReturnKeyType fr
 UIKeyboardType ofxGenericKeyboardTypeToiOS( ofxGenericKeyboardType from );
 ofxGenericKeyboardType iOSToofxGenericKeyboardType( UIKeyboardType from );
 
+UIActivityIndicatorViewStyle ofxGenericActivityViewStyleToiOS( ofxGenericActivityViewStyle style);
+
+ofxGenericActivityViewStyle iOSToofxGenericActivityViewStyle( UIActivityIndicatorViewStyle style );
+
 UITextAutocapitalizationType ofxGenericTextAutoCapitalizationToiOS( ofxGenericTextAutoCapitalization from );
 ofxGenericTextAutoCapitalization iOSToofxGenericTextAutoCapitalization( UITextAutocapitalizationType from );
 

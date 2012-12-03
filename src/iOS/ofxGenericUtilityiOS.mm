@@ -171,6 +171,42 @@ ofxGenericKeyboardReturnKey iOSToofxGenericKeyboardReturnKey( UIReturnKeyType fr
     return ofxGenericKeyboardReturnKeyDefault;
 }
 
+UIActivityIndicatorViewStyle ofxGenericActivityViewStyleToiOS( ofxGenericActivityViewStyle style)
+{
+    switch (style) {
+        case ofxGenericActivityViewStyleWhiteLarge:
+            return UIActivityIndicatorViewStyleWhiteLarge;
+            
+        case ofxGenericActivityViewStyleWhite:
+            return UIActivityIndicatorViewStyleWhite;
+            
+        case ofxGenericActivityViewStyleGray:
+            return UIActivityIndicatorViewStyleGray;
+            
+        default:
+            return UIActivityIndicatorViewStyleWhite;
+    }
+}
+
+ofxGenericActivityViewStyle iOSToofxGenericActivityViewStyle( UIActivityIndicatorViewStyle style )
+{
+    switch (style)
+    {
+        case UIActivityIndicatorViewStyleWhiteLarge:
+            return ofxGenericActivityViewStyleWhiteLarge;
+            
+        case UIActivityIndicatorViewStyleWhite:
+            return ofxGenericActivityViewStyleWhite;
+            
+        case UIActivityIndicatorViewStyleGray:
+            return ofxGenericActivityViewStyleGray;
+            
+        default:
+            return ofxGenericActivityViewStyleWhite;
+    }
+    
+}
+
 UIKeyboardType ofxGenericKeyboardTypeToiOS( ofxGenericKeyboardType from )
 {
     switch ( from )
