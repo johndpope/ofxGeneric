@@ -119,6 +119,9 @@ protected:
      static std::vector< ofxGenericButtonView* > _nativeMap;
 #endif
 
+#if DEBUG
+    string _backgroundImageFileName;
+#endif
 };
 
 class ofxGenericButtonViewTouchDelegate

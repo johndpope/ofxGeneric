@@ -52,6 +52,8 @@ public:
     operator UILabel*();
 #endif
     
+    virtual string toString();
+
 protected:
     ofxGenericTextView() {};
     

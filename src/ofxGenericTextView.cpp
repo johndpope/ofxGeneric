@@ -264,3 +264,15 @@ void ofxGenericTextView::setMinimumFontSize( float s )
 #if TARGET_OS_IPHONE
 ofxGenericUIViewCastOperator( ofxGenericTextView, UILabel );
 #endif
+
+string ofxGenericTextView::toString()
+{
+    string result = ofxGenericView::toString();
+    
+    string text = getText();
+    if ( !text.empty() )
+    {
+        result += " " + text;
+    }
+    return result;
+}

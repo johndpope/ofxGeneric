@@ -195,6 +195,9 @@ std::string ofxGenericButtonView::getText()
 void ofxGenericButtonView::setBackgroundImage( std::string fileName )
 {
     string imagePath = ofxGenericImage::getNativeImagePath( fileName );
+#if DEBUG
+    _backgroundImageFileName = imagePath;
+#endif
     if ( ofxGFileExists( imagePath ) )
     {
 #if TARGET_OS_IPHONE
@@ -434,7 +437,12 @@ string ofxGenericButtonView::toString()
 #if TARGET_OS_IPHONE
     result += ofxGSPrintf( " User Interaction Enabled: %s", ofxGToString( [ getNativeView() isUserInteractionEnabled ] ) );
 #endif
-    
+
+    if ( !_backgroundImageFileName.empty() )
+    {
+        result += " " + ofFilePath::getFileName( _backgroundImageFileName );
+    }
+
     return result;
 }
 #endif

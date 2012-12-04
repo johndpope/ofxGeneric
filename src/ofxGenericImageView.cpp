@@ -62,6 +62,10 @@ void ofxGenericImageView::setImage( std::string fileName )
     }
     
     string imagePath = ofxGenericImage::getNativeImagePath( fileName );
+#if DEBUG
+    _imageFileName = imagePath;
+#endif
+
     if ( ofxGFileExists( imagePath ) )
     {
 
@@ -156,4 +160,16 @@ void ofxGenericImageView::registerJNIMethods()
 }
 
 
+#endif
+
+#if DEBUG
+string ofxGenericImageView::toString()
+{
+    string result = ofxGenericView::toString();
+    if ( !_imageFileName.empty() )
+    {
+        result += " " + ofFilePath::getFileName( _imageFileName );
+    }
+    return result;
+}
 #endif

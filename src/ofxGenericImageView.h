@@ -38,14 +38,19 @@ public:
 
 #endif
     
+#if DEBUG
+    virtual string toString();
+#endif
+    
 protected:
     virtual void init( ofPtrWeak< ofxGenericImageView > setThis, const ofRectangle& setFrame, string fileName = string() );
     ofxGenericImageView();
     virtual NativeView createNativeView( const ofRectangle& frame );
 
-    
-    
     ofPtr< ofxGenericImage > _image;
+#if DEBUG
+    string _imageFileName;
+#endif
     
 #if TARGET_ANDROID
     static jclass _jniClass;
