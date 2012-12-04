@@ -111,6 +111,29 @@ ofColor ofxGenericActivityView::getColor()
     return ofColor( 255, 255, 255, 255 );
 }
 
+void ofxGenericActivityView::setIndicatorViewStyle( ofxGenericActivityViewStyle style )
+{
+#if TARGET_OS_IPHONE
+    UIActivityIndicatorView* nativeView = ( UIActivityIndicatorView* )*this;
+    if ( nativeView )
+    {
+        [ nativeView setActivityIndicatorViewStyle:ofxGenericActivityViewStyleToiOS(style) ];
+    }
+#endif
+}
+
+
+ofxGenericActivityViewStyle ofxGenericActivityView::getIndicatorViewStyle()
+{
+#if TARGET_OS_IPHONE
+    UIActivityIndicatorView* nativeView = ( UIActivityIndicatorView* )*this;
+    if ( nativeView )
+    {
+        return iOSToofxGenericActivityViewStyle(nativeView.activityIndicatorViewStyle);
+    }
+#endif
+    return ofxGenericActivityViewStyleWhite;
+}
 
 #if TARGET_OS_IPHONE
 

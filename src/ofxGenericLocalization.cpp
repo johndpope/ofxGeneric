@@ -11,6 +11,9 @@
 #include "ofxGenericValueStore.h"
 #include "ofxGenericException.h"
 
+// TODO: proper fallback language setup
+#define FallbackIsoLanguage "en"
+
 // http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 
 ofPtr< ofxGenericLocalization > ofxGenericLocalization::_this;
@@ -40,14 +43,25 @@ void ofxGenericLocalization::init( ofPtrWeak< ofxGenericLocalization > setThis )
 #elif TARGET_ANDROID
     // http://stackoverflow.com/questions/4212320/get-the-current-language-in-device
 #endif
+    string fileName = ofxGenericLocalization::getLocalizedFileName( isoLanguage );
+    if ( !ofxGFileExists( fileName ) )
+    {
+        isoLanguage = FallbackIsoLanguage;
+        fileName = ofxGenericLocalization::getLocalizedFileName( isoLanguage );
+    }
+    
     ofxGLogVerbose( "Using language " + isoLanguage );
     
-    string fileName = "localizedStrings_" + isoLanguage + ".json";
-    _cache->setFileName( fileName, false ); 
+    _cache->setFileName( fileName, false );
     if ( !_cache->readFromDisk() )
     {
         ofxGLogVerbose( fileName );
     }
+}
+
+string ofxGenericLocalization::getLocalizedFileName( string isoLanguage )
+{
+    return "localizedStrings_" + isoLanguage + ".json";
 }
 
 string ofxGenericLocalization::getString( string key )
