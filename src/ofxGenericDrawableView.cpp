@@ -435,7 +435,7 @@ bool ofxGenericDrawCall::hasFill()
             }
         }
     }
-    own->clearDrawCalls();
+    //own->clearDrawCalls();
 }
 
 @end
