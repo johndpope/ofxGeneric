@@ -14,6 +14,7 @@
 @class ofxGenericTimerForwarder;
 #endif
 class ofxGenericTimerDelegate;
+class ofxGenericDate;
 
 class ofxGenericTimer
 {
@@ -25,6 +26,8 @@ public:
     bool isRunning();
     
     float getTimeInterval();
+    double getNextFireSystemTime();
+    ofPtr< ofxGenericDate > getNextFireDate();
     
     virtual ~ofxGenericTimer();
 protected:
