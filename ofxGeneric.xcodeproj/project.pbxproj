@@ -171,7 +171,7 @@
 		3C0CB5A6163893F500AB87C8 /* ofxGenericEncryption.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericEncryption.h; sourceTree = "<group>"; };
 		3C0CB5A81638948D00AB87C8 /* ofxGenericEncryption.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericEncryption.cpp; sourceTree = "<group>"; };
 		3C0CB5B91638985200AB87C8 /* AESCrypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AESCrypt.h; sourceTree = "<group>"; };
-		3C0CB5BA1638985200AB87C8 /* AESCrypt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AESCrypt.m; sourceTree = "<group>"; };
+		3C0CB5BA1638985200AB87C8 /* AESCrypt.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = AESCrypt.m; sourceTree = "<group>"; };
 		3C0CB5BB1638985200AB87C8 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		3C0CB5BC1638985200AB87C8 /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
 		3C0CB5BD1638985200AB87C8 /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };

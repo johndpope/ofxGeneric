@@ -8,7 +8,9 @@
 
 #include "ofxGenericEncryption.h"
 
-#include "AESCrypt.h"
+#if TARGET_OS_IPHONE
+#import "AESCrypt.h"
+#endif
 
 string ofxGenericEncryption::encrypt( string raw, string key )
 {
