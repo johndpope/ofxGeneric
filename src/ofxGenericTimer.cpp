@@ -7,6 +7,7 @@
 //
 
 #include "ofxGenericTimer.h"
+#include "ofxGenericDate.h"
 
 #if TARGET_OS_IPHONE
 
@@ -87,6 +88,22 @@ bool ofxGenericTimer::isRunning()
 float ofxGenericTimer::getTimeInterval()
 {
     return _timeInterval;
+}
+
+double ofxGenericTimer::getNextFireSystemTime()
+{
+    return getNextFireDate()->getTime();
+}
+
+ofPtr< ofxGenericDate > ofxGenericTimer::getNextFireDate()
+{
+#if TARGET_OS_IPHONE
+    if ( _timer )
+    {
+        return ofxGenericDate::createFromNSDate( [ _timer fireDate ] );
+    }
+#endif
+    return ofxGenericDate::create();
 }
 
 #if TARGET_OS_IPHONE
