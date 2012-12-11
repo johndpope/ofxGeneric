@@ -171,9 +171,18 @@ void ofxGenericSound::play( float playbackDelay )
             AVAudioPlayer *oldPlayer = [ _players objectAtIndex:0 ];
             
             //store off all of the old player's values and assign them to this one too
-            float oldPan = oldPlayer.pan;
-            float oldPitch = oldPlayer.rate;
-            BOOL oldEnablePitch = oldPlayer.enableRate;
+            float oldPan;
+            float oldPitch;
+            BOOL oldEnablePitch;
+            if ( [ oldPlayer respondsToSelector:@selector( setPan: ) ] )
+            {
+                oldPan = oldPlayer.pan;
+            }
+            if ( [ oldPlayer respondsToSelector:@selector( setRate: ) ] )
+            {
+                oldPitch = oldPlayer.rate;
+                oldEnablePitch = oldPlayer.enableRate;
+            }
             
             NSError *error = nil;
             player = [ [ [ AVAudioPlayer alloc ] initWithData:oldPlayer.data error:&error ] autorelease ];
@@ -188,9 +197,15 @@ void ofxGenericSound::play( float playbackDelay )
                 return;
             }
             
-            player.pan = oldPan;
-            player.enableRate = oldEnablePitch;
-            player.rate = oldPitch;
+            if ( [ oldPlayer respondsToSelector:@selector( setPan: ) ] )
+            {
+                player.pan = oldPan;
+            }
+            if ( [ oldPlayer respondsToSelector:@selector( setRate: ) ] )
+            {
+                player.enableRate = oldEnablePitch;
+                player.rate = oldPitch;
+            }
             
             [ _players addObject:player ];
         }
