@@ -403,26 +403,38 @@ bool ofxGenericSound::isLoadingInBackground()
 
 -( void ) loadSound:( NSString * )fileName
 {
+    NSAutoreleasePool *pool = [ [ NSAutoreleasePool alloc ] init ];
+    
     ofPtr< ofxGenericSound > delegate = _delegate.lock();
     if ( delegate )
     {
         delegate->loadSound( string( [ fileName cStringUsingEncoding:NSUTF8StringEncoding ] ) );
     }
+    
+    [ pool release ];
 }
 
 -( void ) preloadIntoMemory
 {
+    NSAutoreleasePool *pool = [ [ NSAutoreleasePool alloc ] init ];
+    
     ofPtr< ofxGenericSound > delegate = _delegate.lock();
     if ( delegate )
     {
         delegate->preload( false );
     }
+    
+    [ pool release ];
 }
 
 -( void )loadSoundAndPreloadIntoMemory:(NSString *)fileName
 {
+    NSAutoreleasePool *pool = [ [ NSAutoreleasePool alloc ] init ];
+    
     [ self loadSound:fileName ];
     [ self preloadIntoMemory ];
+    
+    [ pool release ];
 }
 
 @end
