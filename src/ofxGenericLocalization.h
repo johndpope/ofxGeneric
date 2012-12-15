@@ -18,6 +18,8 @@ public:
     static string getString( string key );
     static string getString( string key, string defaultValue );
     
+    static string getPreferredISOLanguage();
+    
     virtual ~ofxGenericLocalization();
 protected:
     static ofPtr< ofxGenericLocalization > create();

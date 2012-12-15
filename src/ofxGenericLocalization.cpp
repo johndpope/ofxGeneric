@@ -37,12 +37,7 @@ void ofxGenericLocalization::init( ofPtrWeak< ofxGenericLocalization > setThis )
     
     _cache = ofxGenericValueStore::create( false );
     
-    string isoLanguage;
-#if TARGET_OS_IPHONE
-    isoLanguage = ofxNSStringToString( [ [ NSLocale preferredLanguages ] objectAtIndex:0 ] );
-#elif TARGET_ANDROID
-    // http://stackoverflow.com/questions/4212320/get-the-current-language-in-device
-#endif
+    string isoLanguage = getPreferredISOLanguage();
     string fileName = ofxGenericLocalization::getLocalizedFileName( isoLanguage );
     if ( !ofxGFileExists( fileName ) )
     {
@@ -89,6 +84,17 @@ string ofxGenericLocalization::getString( string key, string defaultValue )
         return ofxGenericLocalization::_this->_cache->read( key, defaultValue );
     }
     return defaultValue;
+}
+
+string ofxGenericLocalization::getPreferredISOLanguage()
+{
+    string isoLanguage;
+#if TARGET_OS_IPHONE
+    isoLanguage = ofxNSStringToString( [ [ NSLocale preferredLanguages ] objectAtIndex:0 ] );
+#elif TARGET_ANDROID
+    // http://stackoverflow.com/questions/4212320/get-the-current-language-in-device
+#endif
+    return isoLanguage;
 }
 
 ofxGenericLocalization::ofxGenericLocalization()
