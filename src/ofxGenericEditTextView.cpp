@@ -31,7 +31,8 @@ ofPtr< ofxGenericEditTextView > ofxGenericEditTextView::create( const ofRectangl
 }
 
 ofxGenericEditTextView::ofxGenericEditTextView()
-: _multiline( false ), _isEditing( false ), _moveFromUnderKeyboardOnBeginEdit( false ), _hideKeyboardOnReturn( true )
+: _multiline( false ), _isEditing( false ), _moveFromUnderKeyboardOnBeginEdit( false ), _hideKeyboardOnReturn( true ),
+ _textCharacterLimitEnabled( false ), _textCharacterLimit( 0 )
 #if TARGET_OS_IPHONE
 , _forwarder( nil )
 #endif
@@ -153,6 +154,30 @@ ofxGenericTextHorizontalAlignment ofxGenericEditTextView::getTextAlignment()
     }
 #endif
     return result;
+}
+
+void ofxGenericEditTextView::setTextCharacterLimit( bool enable, unsigned int count )
+{
+    _textCharacterLimitEnabled = enable;
+    _textCharacterLimit = count;
+    if ( _textCharacterLimitEnabled )
+    {
+        string text = getText();
+        if ( text.length() > _textCharacterLimit )
+        {
+            setText( text.substr( 0, _textCharacterLimit ) );
+        }
+    }
+}
+
+bool ofxGenericEditTextView::getTextCharacterLimitEnabled()
+{
+    return _textCharacterLimitEnabled;
+}
+
+unsigned int ofxGenericEditTextView::getTextCharacterLimitCount()
+{
+    return _textCharacterLimit; 
 }
 
 void ofxGenericEditTextView::setFont( string name, float size )
@@ -347,7 +372,21 @@ void ofxGenericEditTextView::didEndEditing()
 }
 
 bool ofxGenericEditTextView::shouldChangeCharactersInRange( int from, int count, string replacement )
-{    
+{
+    if ( getTextCharacterLimitEnabled() )
+    {
+        unsigned int oldLength = getText().length();
+        unsigned int replacementLength = replacement.length();
+        
+        unsigned int newLength = oldLength - count + replacementLength;
+        
+        BOOL returnKey = replacement.find( '\n' ) != std::string::npos;
+        
+        if ( newLength > getTextCharacterLimitCount() || returnKey )
+        {
+            return false;
+        }
+    }
     if ( _delegate )
     {
         return _delegate.lock()->editText_shouldChangeCharactersInRange( dynamic_pointer_cast< ofxGenericEditTextView >( _this ), from, count, replacement );

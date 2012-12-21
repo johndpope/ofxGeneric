@@ -31,6 +31,10 @@ public:
     void setTextAlignment( ofxGenericTextHorizontalAlignment alignment );
     ofxGenericTextHorizontalAlignment getTextAlignment();
     
+    void setTextCharacterLimit( bool enable, unsigned int count = 0 );
+    bool getTextCharacterLimitEnabled();
+    unsigned int getTextCharacterLimitCount();
+    
     void setFont( string name, float size );
     void setFont( ofPtr< ofxGenericFont > font );
     float getFontSize();
@@ -94,6 +98,9 @@ protected:
 #endif
     bool _multiline;
     bool _isEditing;
+    
+    bool _textCharacterLimitEnabled;
+    unsigned int _textCharacterLimit;
     
     ofPtrWeak< ofxGenericEditTextViewDelegate > _delegate;
     
