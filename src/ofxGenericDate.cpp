@@ -323,6 +323,21 @@ void ofxGenericDate::setFromNSDate( NSDate* date )
 }
 #endif
 
+bool operator == ( ofPtr< ofxGenericDate > left, ofPtr< ofxGenericDate > right )
+{
+    if ( !left || !right )
+    {
+        return !left && !right;
+    }
+    
+    return left->getTime() == right->getTime();
+}
+
+bool operator != ( ofPtr< ofxGenericDate > left, ofPtr< ofxGenericDate > right )
+{
+    return !( left == right );
+}
+
 bool operator < ( ofPtr< ofxGenericDate > left, ofPtr< ofxGenericDate > right )
 {
     if ( !left || !right )

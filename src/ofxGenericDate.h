@@ -110,6 +110,8 @@ protected:
     unsigned int _second;
 };
 
+bool operator == ( ofPtr< ofxGenericDate > left, ofPtr< ofxGenericDate > right );
+bool operator != ( ofPtr< ofxGenericDate > left, ofPtr< ofxGenericDate > right );
 bool operator < ( ofPtr< ofxGenericDate > left, ofPtr< ofxGenericDate > right );
 bool operator > ( ofPtr< ofxGenericDate > left, ofPtr< ofxGenericDate > right );
 ofPtr< ofxGenericDate > operator - ( ofPtr< ofxGenericDate > left, ofPtr< ofxGenericDate > right );
