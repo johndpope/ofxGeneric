@@ -88,26 +88,34 @@ bool ofxGenericSound::loadSound( string fileName )
 {
     bool success = false;
     string loadError = "Unknown error";
+    
 #if TARGET_OS_IPHONE
-    NSString *path = [ NSString stringWithCString: ofToPath(fileName, false).c_str() encoding:NSUTF8StringEncoding ];
+    NSString *path = ofxStringToNSString( ofToPath(fileName, false) );
     
     if ( path )
     {
-        NSURL *url = [NSURL fileURLWithPath:path];
+        NSURL *url = [ NSURL fileURLWithPath:path ];
         if ( url )
         {
-            NSError *error = nil;
-            AVAudioPlayer *player = [ [ [ AVAudioPlayer alloc ] initWithData:[ NSData dataWithContentsOfURL:url ] error:&error ] autorelease ];
-            
-            if ( error )
+            NSData* data = [ NSData dataWithContentsOfURL:url ];
+            if ( data )
             {
-                loadError = string( [[NSString stringWithFormat:@"%@",error] cStringUsingEncoding:NSUTF8StringEncoding] );
-                player = nil;
-            }
-            else
+                NSError* error = nil;
+                AVAudioPlayer* player = [ [ [ AVAudioPlayer alloc ] initWithData:data error:&error ] autorelease ];
+                
+                if ( error )
+                {
+                    loadError = ofxNSStringToString( [ NSString stringWithFormat:@"%@", error ] );
+                    player = nil;
+                }
+                else
+                {
+                    success = true;
+                    [ _players addObject:player ];
+                }
+            } else
             {
-                success = true;
-                [ _players addObject:player ];
+                loadError = "Unable to create NSData from path.";
             }
         }
         else
