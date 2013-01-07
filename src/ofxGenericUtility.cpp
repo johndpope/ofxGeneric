@@ -280,7 +280,7 @@ string ofxGSPrintf( string format, const std::vector< string >& replaceWith )
         start = foundAt + replace.size();
         replaceWithIndex ++;
     }
-    if ( start < format.size() - 1 )
+    if ( start < format.size() )
     {
         result += format.substr( start, format.size() - start );
     }
