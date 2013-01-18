@@ -33,6 +33,7 @@ public:
         DateFormatServer,
         DateFormatMonthDayPretty,
         DateFormatDayOfTheWeek,
+        DateFormatTime,
         
         DateFormatCount
     };
@@ -48,6 +49,7 @@ public:
     static ofPtr< ofxGenericDate > create( ofPtr< ofxGenericValueStore > date, string format );
 #if TARGET_OS_IPHONE       
     static ofPtr< ofxGenericDate > createFromNSDate( NSDate* date );
+    static ofPtr< ofxGenericDate > createUsingNSComponents( int dayOfTheWeek, int hour, int minute );
 #endif
     static double getSystemTime();
     static ofPtr< ofxGenericDate > now();

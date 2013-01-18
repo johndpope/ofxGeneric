@@ -30,6 +30,7 @@ string ofxGenericDate::getDateFormatAsString( ofxGenericDate::DateFormat format 
         case DateFormatServer: return "yyyy-MM-dd\'T\'HH:mm:ssZ";
         case DateFormatMonthDayPretty: return "MMM dd";
         case DateFormatDayOfTheWeek: return "EEE";
+        case DateFormatTime: return "HH:mm a";
             
         default: return "yyyy-MM-dd HH-mm-ss";
     }
@@ -115,6 +116,36 @@ ofPtr< ofxGenericDate > ofxGenericDate::createFromNSDate( NSDate* date )
     }
 
     return ofPtr< ofxGenericDate >();
+}
+
+ofPtr< ofxGenericDate > ofxGenericDate::createUsingNSComponents( int dayOfTheWeek, int hour, int minute )
+{
+    NSDate* today = [NSDate date];
+    NSCalendar* gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    [gregorian setLocale:[NSLocale currentLocale]];
+
+    NSDateComponents* nowComponents = [gregorian components:NSYearCalendarUnit | NSWeekCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate:today];
+    
+    /*
+    if ( [nowComponents weekday] - 1 > dayOfTheWeek )
+    {
+        [nowComponents setWeek: [nowComponents week] + 1];
+    }
+    */
+    
+    [nowComponents setWeekday:(dayOfTheWeek + 1)]; // Our days of the week are 0-6, 0 is sunday
+    [nowComponents setHour:hour];
+    [nowComponents setMinute:minute];
+    [nowComponents setSecond:0];
+    
+    NSDate* newDate = [gregorian dateFromComponents:nowComponents];
+    if ( [newDate timeIntervalSinceReferenceDate] <= [today timeIntervalSinceReferenceDate] )
+    {
+        [nowComponents setWeek: [nowComponents week] + 1];
+        newDate = [gregorian dateFromComponents:nowComponents];
+    }
+    
+    return ofxGenericDate::createFromNSDate( newDate );
 }
 #endif
 
