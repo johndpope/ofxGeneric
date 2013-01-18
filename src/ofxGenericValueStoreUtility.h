@@ -16,6 +16,7 @@ ofColor toofColor( ofPtr< ofxGenericValueStore > from );
 ofRectangle toofRectangle( ofPtr< ofxGenericValueStore > from );
 ofPoint toofPoint( ofPtr< ofxGenericValueStore > from );
 ofPoint toofPointSize( ofPtr< ofxGenericValueStore > from );
+ofxGenericTextHorizontalAlignment toofxGenericTextHorizontalAlignment( ofPtr< ofxGenericValueStore > from );
 
 std::vector< unsigned int > toVectorOfUnsignedInts( ofPtr< ofxGenericValueStore > from );
 

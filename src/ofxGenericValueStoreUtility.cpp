@@ -121,6 +121,28 @@ ofPoint toofPointSize( ofPtr< ofxGenericValueStore > from )
     return ofPoint();
 }
 
+#define TextAlignmentLeft "left"
+#define TextAlignmentCenter "center"
+#define TextAlignmentRight "right"
+
+ofxGenericTextHorizontalAlignment toofxGenericTextHorizontalAlignment( ofPtr< ofxGenericValueStore > from )
+{
+    string name = from->asString();
+    if ( name == TextAlignmentLeft )
+    {
+        return ofxGenericTextHorizontalAlignmentLeft;
+    }
+    else if ( name == TextAlignmentRight )
+    {
+        return ofxGenericTextHorizontalAlignmentRight;
+    }
+    else if ( name == TextAlignmentCenter )
+    {
+        return ofxGenericTextHorizontalAlignmentCenter;
+    }
+    return ofxGenericTextHorizontalAlignmentLeft;
+}
+
 std::vector< unsigned int > toVectorOfUnsignedInts( ofPtr< ofxGenericValueStore > from )
 {
     std::vector< unsigned int > ints;
