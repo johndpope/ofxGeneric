@@ -30,7 +30,7 @@ string ofxGenericDate::getDateFormatAsString( ofxGenericDate::DateFormat format 
         case DateFormatServer: return "yyyy-MM-dd\'T\'HH:mm:ssZ";
         case DateFormatMonthDayPretty: return "MMM dd";
         case DateFormatDayOfTheWeek: return "EEE";
-        case DateFormatTime: return "HH:mm a";
+        case DateFormatTime: return "hh:mm a";
             
         default: return "yyyy-MM-dd HH-mm-ss";
     }
