@@ -202,6 +202,9 @@ void ofxGenericHTTPRequest::setBody( void* body, unsigned int bodyByteLength )
     {
         bodyAsData = [ NSData dataWithBytes:body length:bodyByteLength ];
     }
+    //TODO come up with a better way of doing this... really I hate having data as the body rather than a string
+    string bodyString = ofxGURLSafeString( ofxGToString( bodyAsData ) );
+    bodyAsData = [ [ NSString stringWithCString:bodyString.c_str() encoding:NSUTF8StringEncoding ] dataUsingEncoding:NSUTF8StringEncoding ];
     [ _request setHTTPBody:bodyAsData ];
 #endif
 }

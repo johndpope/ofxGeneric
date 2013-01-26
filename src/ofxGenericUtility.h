@@ -65,6 +65,8 @@ std::vector< string > ofxGSplit( string value, char splitOn );
 string ofxGToUpperCase( const string& text );
 string ofxGToLowerCase( const string& text );
 
+string ofxGURLSafeString( const string& text );
+
 //////////////////////////////// Math //////////////////////////////////
 
 int ofxGRandom();

@@ -355,6 +355,19 @@ string ofxGToLowerCase( const string& text )
     return retval;
 }
 
+string ofxGURLSafeString( const string& text )
+{
+#if TARGET_OS_IPHONE
+    NSString *nstext = [ NSString stringWithCString:text.c_str() encoding:NSUTF8StringEncoding ];
+    NSString *nsstr = (NSString *)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)nstext, NULL, (CFStringRef)@"!*'\"();:@&=+$,/?%#[]% ", CFStringConvertNSStringEncodingToEncoding( NSUTF8StringEncoding ) );
+    [ nsstr autorelease ];
+    return string( [ nsstr cStringUsingEncoding:NSUTF8StringEncoding ] );
+#elif TARGET_ANDROID
+    //presumably there is an easy API way to do this on Android
+#endif
+    return text;
+}
+
 //////////////////////////////// Math //////////////////////////////////
 
 int ofxGRandom()
