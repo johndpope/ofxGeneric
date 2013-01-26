@@ -368,6 +368,23 @@ string ofxGURLSafeString( const string& text )
     return text;
 }
 
+//TODO rewrite this better
+bool ofxGStringIsXMLSafe( const string& text )
+{
+    const string unsafe = "\"&\'<>";
+    for ( unsigned int i = 0; i < text.length(); i++ )
+    {
+        for ( unsigned int j = 0; j < unsafe.length(); j++ )
+        {
+            if ( text[i] == unsafe[j] )
+            {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
 //////////////////////////////// Math //////////////////////////////////
 
 int ofxGRandom()

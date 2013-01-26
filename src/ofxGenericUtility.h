@@ -66,6 +66,7 @@ string ofxGToUpperCase( const string& text );
 string ofxGToLowerCase( const string& text );
 
 string ofxGURLSafeString( const string& text );
+bool ofxGStringIsXMLSafe( const string& text );
 
 //////////////////////////////// Math //////////////////////////////////
 
