@@ -47,9 +47,9 @@ public:
     static ofPtr< ofxGenericDate > create( string date, string format );
     static ofPtr< ofxGenericDate > create( ofPtr< ofxGenericValueStore > date, ofxGenericDate::DateFormat format = ofxGenericDate::DateFormatDateOnly );
     static ofPtr< ofxGenericDate > create( ofPtr< ofxGenericValueStore > date, string format );
+    static ofPtr< ofxGenericDate > createWithComponents( int dayOfTheWeek, int hour, int minute );
 #if TARGET_OS_IPHONE       
     static ofPtr< ofxGenericDate > createFromNSDate( NSDate* date );
-    static ofPtr< ofxGenericDate > createUsingNSComponents( int dayOfTheWeek, int hour, int minute );
 #endif
     static double getSystemTime();
     static ofPtr< ofxGenericDate > now();
