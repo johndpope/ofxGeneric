@@ -131,6 +131,7 @@
 		454496151540C66600B21064 /* ofxGenericAlertView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 454496131540C66600B21064 /* ofxGenericAlertView.cpp */; };
 		454496161540C66600B21064 /* ofxGenericAlertView.h in Headers */ = {isa = PBXBuildFile; fileRef = 454496141540C66600B21064 /* ofxGenericAlertView.h */; };
 		4544F5E91549D061007482B2 /* ofxGenericDrawableView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4544F5E81549D061007482B2 /* ofxGenericDrawableView.cpp */; };
+		4548300216BB5207004C5398 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4548300116BB5207004C5398 /* StoreKit.framework */; };
 		456BACAD153DE6A50097D5D4 /* ofxGenericDate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 456BACAC153DE6A50097D5D4 /* ofxGenericDate.cpp */; };
 		45830499161CE897006C4F89 /* ofxGenericImageManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45830497161CE896006C4F89 /* ofxGenericImageManager.cpp */; };
 		4583049A161CE897006C4F89 /* ofxGenericImageManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 45830498161CE896006C4F89 /* ofxGenericImageManager.h */; };
@@ -140,6 +141,9 @@
 		458CA44F1611035100634D06 /* ofxGenericSound.h in Headers */ = {isa = PBXBuildFile; fileRef = 458CA44D1611035100634D06 /* ofxGenericSound.h */; };
 		458CA4601611145C00634D06 /* ofxGenericSoundManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 458CA45E1611145C00634D06 /* ofxGenericSoundManager.cpp */; };
 		458CA4611611145C00634D06 /* ofxGenericSoundManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 458CA45F1611145C00634D06 /* ofxGenericSoundManager.h */; };
+		458FBA5716AF5DA5006A742D /* ofxGenericStorePurchaser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 458FBA5616AF5DA5006A742D /* ofxGenericStorePurchaser.cpp */; };
+		45F0F40016BB224700858F86 /* ofxGenericStoreProduct.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45F0F3FF16BB224700858F86 /* ofxGenericStoreProduct.cpp */; };
+		45F0F40316BB226900858F86 /* ofxGenericStoreTransaction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45F0F40216BB226900858F86 /* ofxGenericStoreTransaction.cpp */; };
 		B54787E315E5759000ACF70F /* ofxGenericDateSelectorView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B54787E115E5759000ACF70F /* ofxGenericDateSelectorView.cpp */; };
 		B54787E415E5759000ACF70F /* ofxGenericDateSelectorView.h in Headers */ = {isa = PBXBuildFile; fileRef = B54787E215E5759000ACF70F /* ofxGenericDateSelectorView.h */; };
 		B5C55D33161D04980002872E /* ofxGenericHMAC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5C55D31161D04980002872E /* ofxGenericHMAC.cpp */; };
@@ -330,6 +334,7 @@
 		454496141540C66600B21064 /* ofxGenericAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericAlertView.h; sourceTree = "<group>"; };
 		4544F5E61549D057007482B2 /* ofxGenericDrawableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericDrawableView.h; sourceTree = "<group>"; };
 		4544F5E81549D061007482B2 /* ofxGenericDrawableView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericDrawableView.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		4548300116BB5207004C5398 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.0.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
 		456BACAA153DE6960097D5D4 /* ofxGenericDate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericDate.h; sourceTree = "<group>"; };
 		456BACAC153DE6A50097D5D4 /* ofxGenericDate.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericDate.cpp; sourceTree = "<group>"; };
 		45830497161CE896006C4F89 /* ofxGenericImageManager.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericImageManager.cpp; sourceTree = "<group>"; };
@@ -340,6 +345,12 @@
 		458CA44D1611035100634D06 /* ofxGenericSound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericSound.h; sourceTree = "<group>"; };
 		458CA45E1611145C00634D06 /* ofxGenericSoundManager.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericSoundManager.cpp; sourceTree = "<group>"; };
 		458CA45F1611145C00634D06 /* ofxGenericSoundManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericSoundManager.h; sourceTree = "<group>"; };
+		458FBA5416AF5D97006A742D /* ofxGenericStorePurchaser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericStorePurchaser.h; sourceTree = "<group>"; };
+		458FBA5616AF5DA5006A742D /* ofxGenericStorePurchaser.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericStorePurchaser.cpp; sourceTree = "<group>"; };
+		45F0F3FD16BB223C00858F86 /* ofxGenericStoreProduct.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericStoreProduct.h; sourceTree = "<group>"; };
+		45F0F3FF16BB224700858F86 /* ofxGenericStoreProduct.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericStoreProduct.cpp; sourceTree = "<group>"; };
+		45F0F40116BB225D00858F86 /* ofxGenericStoreTransaction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericStoreTransaction.h; sourceTree = "<group>"; };
+		45F0F40216BB226900858F86 /* ofxGenericStoreTransaction.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericStoreTransaction.cpp; sourceTree = "<group>"; };
 		B54787E115E5759000ACF70F /* ofxGenericDateSelectorView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericDateSelectorView.cpp; sourceTree = "<group>"; };
 		B54787E215E5759000ACF70F /* ofxGenericDateSelectorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericDateSelectorView.h; sourceTree = "<group>"; };
 		B5C55D31161D04980002872E /* ofxGenericHMAC.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericHMAC.cpp; sourceTree = "<group>"; };
@@ -351,6 +362,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4548300216BB5207004C5398 /* StoreKit.framework in Frameworks */,
 				3C6D977B161148040087816E /* libz.dylib in Frameworks */,
 				3C9DAB4215F36137000F04AD /* libofxiPhone_iphoneos_Debug.a in Frameworks */,
 				3C0B9FAC1571FB07009F61BE /* AVFoundation.framework in Frameworks */,
@@ -448,6 +460,7 @@
 				3C6D977A161148040087816E /* libz.dylib */,
 				3C7B4ED414FC7D2E003121FE /* iOS+OFLib.xcodeproj */,
 				3CBAC60014FD4EC8002A12C8 /* CoreVideo.framework */,
+				4548300116BB5207004C5398 /* StoreKit.framework */,
 				3CBAC5FE14FD4EA7002A12C8 /* CoreMedia.framework */,
 				3CBAC5FC14FD4E73002A12C8 /* CoreLocation.framework */,
 				3CBAC5F914FD4E60002A12C8 /* QuartzCore.framework */,
@@ -497,6 +510,12 @@
 				4544F5E61549D057007482B2 /* ofxGenericDrawableView.h */,
 				3CF590961506E78E00963966 /* ofxGenericEditTextView.cpp */,
 				3CF590931506E6EA00963966 /* ofxGenericEditTextView.h */,
+				458FBA5416AF5D97006A742D /* ofxGenericStorePurchaser.h */,
+				458FBA5616AF5DA5006A742D /* ofxGenericStorePurchaser.cpp */,
+				45F0F3FD16BB223C00858F86 /* ofxGenericStoreProduct.h */,
+				45F0F3FF16BB224700858F86 /* ofxGenericStoreProduct.cpp */,
+				45F0F40116BB225D00858F86 /* ofxGenericStoreTransaction.h */,
+				45F0F40216BB226900858F86 /* ofxGenericStoreTransaction.cpp */,
 				3CA59B32153F4311008EE095 /* ofxGenericException.cpp */,
 				3CA59B30153F40E7008EE095 /* ofxGenericException.h */,
 				3C7B4E9114FC7CBF003121FE /* ofxGenericHTTPRequest.cpp */,
@@ -967,6 +986,9 @@
 				3C0CB5C81638985200AB87C8 /* NSData+CommonCrypto.m in Sources */,
 				3C0CB5CA1638985200AB87C8 /* NSString+Base64.m in Sources */,
 				3C747C4B163E15C400AE5C92 /* ofxGenericSwitchView.cpp in Sources */,
+				458FBA5716AF5DA5006A742D /* ofxGenericStorePurchaser.cpp in Sources */,
+				45F0F40016BB224700858F86 /* ofxGenericStoreProduct.cpp in Sources */,
+				45F0F40316BB226900858F86 /* ofxGenericStoreTransaction.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
