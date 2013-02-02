@@ -51,7 +51,7 @@ class ofxGenericStorePurchaser
 public:
     virtual ~ofxGenericStorePurchaser();
     //pass in a list of products we want to use
-    static ofPtr< ofxGenericStorePurchaser > create( std::vector< string > products );
+    static ofPtr< ofxGenericStorePurchaser > create( std::vector< string > products, ofPtrWeak< ofxGenericStorePurchaserDelegate > delegate = ofPtrWeak< ofxGenericStorePurchaserDelegate >() );
     
     //requests the NativeStoreProducts from the app store using the passed IDs
     void findProducts( std::vector< string > products );
@@ -89,8 +89,8 @@ class ofxGenericStorePurchaserDelegate
 {
 public:
     virtual ~ofxGenericStorePurchaserDelegate() {};
-    void inApp_productsReceived( std::vector< string > products ) {};
-    void inApp_purchaseComplete( string identifier, ofPtr< ofxGenericStoreTransaction > transaction ) {};
-    void inApp_purchaseRestored( string identifier, ofPtr< ofxGenericStoreTransaction > transaction ) {};
-    void inApp_purchaseFailed( string identifier, string error ) {};
+    virtual void inApp_productsReceived( std::vector< string > products ) {};
+    virtual void inApp_purchaseComplete( string identifier, ofPtr< ofxGenericStoreTransaction > transaction ) {};
+    virtual void inApp_purchaseRestored( string identifier, ofPtr< ofxGenericStoreTransaction > transaction ) {};
+    virtual void inApp_purchaseFailed( string identifier, string error ) {};
 };
