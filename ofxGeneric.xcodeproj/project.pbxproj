@@ -334,7 +334,7 @@
 		454496141540C66600B21064 /* ofxGenericAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericAlertView.h; sourceTree = "<group>"; };
 		4544F5E61549D057007482B2 /* ofxGenericDrawableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericDrawableView.h; sourceTree = "<group>"; };
 		4544F5E81549D061007482B2 /* ofxGenericDrawableView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericDrawableView.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		4548300116BB5207004C5398 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.0.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
+		4548300116BB5207004C5398 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		456BACAA153DE6960097D5D4 /* ofxGenericDate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericDate.h; sourceTree = "<group>"; };
 		456BACAC153DE6A50097D5D4 /* ofxGenericDate.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericDate.cpp; sourceTree = "<group>"; };
 		45830497161CE896006C4F89 /* ofxGenericImageManager.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericImageManager.cpp; sourceTree = "<group>"; };
