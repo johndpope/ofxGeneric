@@ -105,34 +105,17 @@ ofPtr< ofxGenericDate > ofxGenericDate::create( ofPtr< ofxGenericValueStore > da
     return ofPtr< ofxGenericDate >();
 }
 
+
+ofPtr< ofxGenericDate > ofxGenericDate::createWithComponents( int dayOfTheWeek, int hour, int minute )
+{
+    ofPtr< ofxGenericDate > retval = ofPtr< ofxGenericDate >();
+    
 #if TARGET_OS_IPHONE
-ofPtr< ofxGenericDate > ofxGenericDate::createFromNSDate( NSDate* date )
-{
-    if( date )
-    {
-        ofPtr< ofxGenericDate > retval = ofxGenericDate::create();
-        retval->setFromNSDate( date );
-        return retval;
-    }
-
-    return ofPtr< ofxGenericDate >();
-}
-
-ofPtr< ofxGenericDate > ofxGenericDate::createUsingNSComponents( int dayOfTheWeek, int hour, int minute )
-{
     NSDate* today = [NSDate date];
     NSCalendar* gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     [gregorian setLocale:[NSLocale currentLocale]];
-
-    NSDateComponents* nowComponents = [gregorian components:NSYearCalendarUnit | NSWeekCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate:today];
     
-    /*
-    if ( [nowComponents weekday] - 1 > dayOfTheWeek )
-    {
-        [nowComponents setWeek: [nowComponents week] + 1];
-    }
-    */
-    
+    NSDateComponents* nowComponents = [gregorian components:NSYearCalendarUnit | NSWeekCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate:today];    
     [nowComponents setWeekday:(dayOfTheWeek + 1)]; // Our days of the week are 0-6, 0 is sunday
     [nowComponents setHour:hour];
     [nowComponents setMinute:minute];
@@ -145,7 +128,23 @@ ofPtr< ofxGenericDate > ofxGenericDate::createUsingNSComponents( int dayOfTheWee
         newDate = [gregorian dateFromComponents:nowComponents];
     }
     
-    return ofxGenericDate::createFromNSDate( newDate );
+    retval = ofxGenericDate::createFromNSDate( newDate );
+#endif
+    
+    return retval;
+}
+
+#if TARGET_OS_IPHONE
+ofPtr< ofxGenericDate > ofxGenericDate::createFromNSDate( NSDate* date )
+{
+    if( date )
+    {
+        ofPtr< ofxGenericDate > retval = ofxGenericDate::create();
+        retval->setFromNSDate( date );
+        return retval;
+    }
+
+    return ofPtr< ofxGenericDate >();
 }
 #endif
 

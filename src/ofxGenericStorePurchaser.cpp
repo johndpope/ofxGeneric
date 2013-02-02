@@ -19,6 +19,9 @@ ofxGenericStorePurchaser::~ofxGenericStorePurchaser()
 }
 
 ofxGenericStorePurchaser::ofxGenericStorePurchaser()
+#if TARGET_OS_IPHONE
+: forwarder( nil )
+#endif
 {
     
 }
@@ -29,10 +32,11 @@ void ofxGenericStorePurchaser::init( ofPtrWeak< ofxGenericStorePurchaser > setTh
 }
 
 //pass in a list of products we want to use
-ofPtr< ofxGenericStorePurchaser > ofxGenericStorePurchaser::create( std::vector< string > products )
+ofPtr< ofxGenericStorePurchaser > ofxGenericStorePurchaser::create( std::vector< string > products, ofPtrWeak< ofxGenericStorePurchaserDelegate > delegate )
 {
     ofPtr< ofxGenericStorePurchaser > create = ofPtr< ofxGenericStorePurchaser >( new ofxGenericStorePurchaser() );
     create->init( create );
+    create->setDelegate( delegate );
     create->findProducts( products );
     return create;
 }
@@ -49,7 +53,7 @@ void ofxGenericStorePurchaser::findProducts( std::vector< string > products )
     {
         [ productIdentifiers addObject:[ NSString stringWithCString:products[i].c_str() encoding:NSUTF8StringEncoding ] ];
     }
-    SKProductsRequest* productsRequest = [ [ SKProductsRequest alloc ] initWithProductIdentifiers:productIdentifiers ];
+    SKProductsRequest* productsRequest = [ [ [ SKProductsRequest alloc ] initWithProductIdentifiers:productIdentifiers ] autorelease ];
     productsRequest.delegate = forwarder;
     forwarder.productsRequest = productsRequest;
     [ productsRequest start ];
