@@ -45,7 +45,6 @@
 		3C61377116113C2D00349CD9 /* NSFileManager+Tar.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C61376E16113C2D00349CD9 /* NSFileManager+Tar.h */; };
 		3C61377216113C2D00349CD9 /* NSFileManager+Tar.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C61376F16113C2D00349CD9 /* NSFileManager+Tar.m */; };
 		3C6D4B2B15584E4D004904CE /* ofxGenericSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C6D4B2A15584E4D004904CE /* ofxGenericSettings.cpp */; };
-		3C6D977B161148040087816E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C6D977A161148040087816E /* libz.dylib */; };
 		3C6D979D161149780087816E /* crypt.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C6D9782161149780087816E /* crypt.h */; };
 		3C6D979E161149780087816E /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 3C6D9783161149780087816E /* ioapi.c */; };
 		3C6D979F161149780087816E /* ioapi.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C6D9784161149780087816E /* ioapi.h */; };
@@ -87,6 +86,7 @@
 		3C96A11E16110F11000BA061 /* ofxGenericWebView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C96A11C16110F11000BA061 /* ofxGenericWebView.h */; };
 		3C9DAB4215F36137000F04AD /* libofxiPhone_iphoneos_Debug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CE94C7515E655F400E1BC73 /* libofxiPhone_iphoneos_Debug.a */; };
 		3CA59B33153F4312008EE095 /* ofxGenericException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CA59B32153F4311008EE095 /* ofxGenericException.cpp */; };
+		3CA69A5716BCA85E00B50F3D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CA69A5616BCA85E00B50F3D /* libz.dylib */; };
 		3CB572AD1596512C0060F9BE /* ofxGenericSelectorView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CB572AC1596512C0060F9BE /* ofxGenericSelectorView.cpp */; };
 		3CC6222415AB930D009849CE /* ofxGenericUtilityiOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CC6222315AB930D009849CE /* ofxGenericUtilityiOS.h */; };
 		3CE4B910157D414F0058CC70 /* ofxGenericFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CE4B90F157D414F0058CC70 /* ofxGenericFont.cpp */; };
@@ -220,7 +220,6 @@
 		3C61376F16113C2D00349CD9 /* NSFileManager+Tar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+Tar.m"; sourceTree = "<group>"; };
 		3C6D4B2715584CB6004904CE /* ofxGenericSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericSettings.h; sourceTree = "<group>"; };
 		3C6D4B2A15584E4D004904CE /* ofxGenericSettings.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericSettings.cpp; sourceTree = "<group>"; };
-		3C6D977A161148040087816E /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.0.sdk/usr/lib/libz.dylib; sourceTree = DEVELOPER_DIR; };
 		3C6D9782161149780087816E /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
 		3C6D9783161149780087816E /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
 		3C6D9784161149780087816E /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
@@ -276,6 +275,7 @@
 		3CA5336815B61A7900A8D36B /* SharedRelease.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = SharedRelease.xcconfig; sourceTree = "<group>"; };
 		3CA59B30153F40E7008EE095 /* ofxGenericException.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericException.h; sourceTree = "<group>"; };
 		3CA59B32153F4311008EE095 /* ofxGenericException.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericException.cpp; sourceTree = "<group>"; };
+		3CA69A5616BCA85E00B50F3D /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		3CB572AA1596506A0060F9BE /* ofxGenericSelectorView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericSelectorView.h; sourceTree = "<group>"; };
 		3CB572AC1596512C0060F9BE /* ofxGenericSelectorView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericSelectorView.cpp; sourceTree = "<group>"; };
 		3CBAC5F914FD4E60002A12C8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -362,8 +362,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3CA69A5716BCA85E00B50F3D /* libz.dylib in Frameworks */,
 				4548300216BB5207004C5398 /* StoreKit.framework in Frameworks */,
-				3C6D977B161148040087816E /* libz.dylib in Frameworks */,
 				3C9DAB4215F36137000F04AD /* libofxiPhone_iphoneos_Debug.a in Frameworks */,
 				3C0B9FAC1571FB07009F61BE /* AVFoundation.framework in Frameworks */,
 				3C7B4DDE14FC78A1003121FE /* Foundation.framework in Frameworks */,
@@ -457,7 +457,6 @@
 		3C7B4DDC14FC78A1003121FE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				3C6D977A161148040087816E /* libz.dylib */,
 				3C7B4ED414FC7D2E003121FE /* iOS+OFLib.xcodeproj */,
 				3CBAC60014FD4EC8002A12C8 /* CoreVideo.framework */,
 				4548300116BB5207004C5398 /* StoreKit.framework */,
@@ -471,6 +470,7 @@
 				3C7B4F0B14FC85D9003121FE /* OpenGLES.framework */,
 				3C7B4DDD14FC78A1003121FE /* Foundation.framework */,
 				3C7B4DED14FC78A1003121FE /* UIKit.framework */,
+				3CA69A5616BCA85E00B50F3D /* libz.dylib */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
