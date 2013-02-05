@@ -71,6 +71,31 @@ string ofxGenericStoreProduct::getTitle()
 #endif
 }
 
+string ofxGenericStoreProduct::getLocalizedPrice()
+{
+#if TARGET_OS_IPHONE
+    NSNumberFormatter *formatter = [ [ NSNumberFormatter alloc ] init ];
+    [ formatter setFormatterBehavior:NSNumberFormatterBehavior10_4 ];
+    [ formatter setNumberStyle:NSNumberFormatterCurrencyStyle ];
+    [ formatter setLocale: _product.priceLocale ];
+    
+    NSString *str = [ formatter stringFromNumber: _product.price ];
+    [ formatter release ];
+    return [ str cStringUsingEncoding:NSUTF8StringEncoding ];
+#else
+    return "";
+#endif
+}
+
+string ofxGenericStoreProduct::getPriceSymbol()
+{
+#if TARGET_OS_IPHONE
+    return [ [ _product.priceLocale objectForKey:NSLocaleCurrencySymbol ] cStringUsingEncoding:NSUTF8StringEncoding ];
+#else
+    return "";
+#endif
+}
+
 float ofxGenericStoreProduct::getPrice()
 {
 #if TARGET_OS_IPHONE

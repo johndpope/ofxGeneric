@@ -53,6 +53,9 @@ string ofxGToString( bool value );
 string ofxGToString( const ofPoint& point );
 string ofxGToString( const ofColor& color );
 string ofxGToString( const void* value, unsigned int byteSize );
+string ofxGToString( float value, unsigned int decimalCount );
+string ofxGToString( double value, unsigned int decimalCount );
+string ofxGTrimDecimals( string str, unsigned int decimalCount );
 bool ofxGToBool( string value );
 
 string ofxGSPrintf( string format, const std::vector< string >& replaceWith );

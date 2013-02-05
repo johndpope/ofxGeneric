@@ -25,6 +25,8 @@ public:
     string getIdentifier();
     string getDescription();
     string getTitle();
+    string getLocalizedPrice();
+    string getPriceSymbol();
     float getPrice();
     
 protected:

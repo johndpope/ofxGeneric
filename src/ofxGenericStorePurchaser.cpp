@@ -84,8 +84,23 @@ void ofxGenericStorePurchaser::purchaseProduct( string identifier )
 #endif
 }
 
+void ofxGenericStorePurchaser::finishPurchase( ofPtr< ofxGenericStoreTransaction > transaction )
+{
+    transaction->finishTransaction();
+}
+
+bool ofxGenericStorePurchaser::paymentsCanBeMade()
+{
+#if TARGET_OS_IPHONE
+    return [ SKPaymentQueue canMakePayments ] == YES ? true : false;
+#else
+    return false;
+#endif
+}
+
 void ofxGenericStorePurchaser::productsResponseReceived( std::map< string, ofPtr< ofxGenericStoreProduct > > products, std::vector< string > identifiers )
 {
+    _products = products;
     if ( _delegate )
     {
         _delegate.lock()->inApp_productsReceived( identifiers );
@@ -152,6 +167,13 @@ void ofxGenericStorePurchaser::setDelegate( ofPtrWeak< ofxGenericStorePurchaserD
         string identifier = product->getIdentifier();
         products[ identifier ] = product;
         identifiers.push_back( identifier );
+        ofLogVerbose(" ofxGenericStorePurchaser: Recieved product: " + identifier );
+    }
+    
+    for ( unsigned int i = 0; i < [ response.invalidProductIdentifiers count ]; i++ )
+    {
+        NSString *invalidId = [ response.invalidProductIdentifiers objectAtIndex:i ];
+        ofLogWarning( "ofxGenericStorePurchaser: Apple returned invalid product identifier from products request: \"" + string( [ invalidId cStringUsingEncoding:NSUTF8StringEncoding ] ) + "\"" );
     }
     
     _purchaser.lock()->productsResponseReceived( products, identifiers );
@@ -170,19 +192,22 @@ void ofxGenericStorePurchaser::setDelegate( ofPtrWeak< ofxGenericStorePurchaserD
         {
             case SKPaymentTransactionStatePurchased:
                 _purchaser.lock()->paymentReceived( ofxGenericStoreTransaction::create( transaction ) );
+                [ [ SKPaymentQueue defaultQueue ] removeTransactionObserver:self ];
                 break;
             case SKPaymentTransactionStateFailed:
                 _purchaser.lock()->paymentFailed( ofxGenericStoreTransaction::create( transaction ), string ( [ transaction.error.description cStringUsingEncoding:NSUTF8StringEncoding ] ) );
+                [ [ SKPaymentQueue defaultQueue ] removeTransactionObserver:self ];
                 break;
             case SKPaymentTransactionStateRestored:
                 _purchaser.lock()->paymentRestored( ofxGenericStoreTransaction::create( transaction ) );
+                [ [ SKPaymentQueue defaultQueue ] removeTransactionObserver:self ];
                 break;
             default:
                 break;
         }
     }
     
-    [ [ SKPaymentQueue defaultQueue ] removeTransactionObserver:self ];
+    
 }
 
 - (void) paymentQueue:(SKPaymentQueue *)queue updatedDownloads:(NSArray *)downloads
