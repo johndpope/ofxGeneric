@@ -32,28 +32,24 @@ void ofxGenericLaunchView::didLoad()
     ofxGenericImageView::didLoad();
     setFrame( ofxGenericApp::getInstance()->getWindow()->getFrame() );
     
-#if TARGET_OS_IPHONE
-#ifdef UI_USER_INTERFACE_IDIOM
-    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+    if ( ofxGenericPlatform::isTablet() )
     {
         ofOrientation orientation = ofxGenericPlatform::orientation();
         if ( orientation == OF_ORIENTATION_90_LEFT || orientation == OF_ORIENTATION_90_RIGHT )
         {
-            setImage( "Default-Landscape~ipad.png" );        
-        } else 
+#if TARGET_OS_IPHONE
+            setImage( "Default-Landscape~ipad.png" );
+#endif
+        } else
         {
-            setImage( "Default-Portrait~ipad.png" );        
+#if TARGET_OS_IPHONE
+            setImage( "Default-Portrait~ipad.png" );
+#endif
         }
     } else 
     {
         setImage( "Default.png" );
     }
-#else
-    setImage( "Default.png" );
-#endif
-#else
-    setImage( "Default.png" );
-#endif
     
     if ( _delegate )
     {
