@@ -19,6 +19,8 @@ public:
     static string deviceModel();
     static string deviceModelVersion();
     
+    static bool isTablet();
+    
     static unsigned int cpuFrequency();
     static unsigned int cpuCount();
     static unsigned int totalMemory();
