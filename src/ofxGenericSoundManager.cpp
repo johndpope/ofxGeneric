@@ -112,6 +112,7 @@ void ofxGenericSoundManager::play( string sound, float playbackDelay )
     {
         return;
     }
+    ofxGLogVerbose( "Playing Sound " + sound );
     
     _soundMap[ sound ]->play( playbackDelay );
 }
@@ -122,6 +123,7 @@ void ofxGenericSoundManager::stop( string sound )
     {
         return;
     }
+    ofxGLogVerbose( "Stopping Sound " + sound );
     
     _soundMap[ sound ]->stop();
 }
@@ -132,6 +134,7 @@ void ofxGenericSoundManager::pause( string sound )
     {
         return;
     }
+    ofxGLogVerbose( "Pausing Sound " + sound );
     
     _soundMap[ sound ]->pause();
 }
