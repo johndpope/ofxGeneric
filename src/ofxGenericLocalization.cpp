@@ -50,7 +50,7 @@ void ofxGenericLocalization::init( ofPtrWeak< ofxGenericLocalization > setThis )
     _cache->setFileName( fileName, false );
     if ( !_cache->readFromDisk() )
     {
-        ofxGLogVerbose( fileName );
+        ofxGLogError( "Error reading localization file " + fileName );
     }
 }
 
