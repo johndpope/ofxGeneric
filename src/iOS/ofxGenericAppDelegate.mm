@@ -37,30 +37,29 @@ void SignalHandler( int signal );
         
         [ self.window setScreen:[ UIScreen mainScreen ] ];
         [ self.window makeKeyAndVisible ];
-        
-        ofxGenericApp::getInstance()->finishedLaunching();
-        
-        [ [ UIDevice currentDevice ] beginGeneratingDeviceOrientationNotifications ];
-        [ [ NSNotificationCenter defaultCenter ] addObserver: self 
-                                                    selector: @selector( deviceOrientationDidChange: ) 
-                                                        name: UIDeviceOrientationDidChangeNotification 
-                                                      object: nil ];
-        
-        _displayLink = [ [ CADisplayLink displayLinkWithTarget:self selector:@selector( update ) ] retain ];
-        [ _displayLink addToRunLoop:[ NSRunLoop currentRunLoop ] forMode:NSDefaultRunLoopMode ];
-        
-        [ [ NSNotificationCenter defaultCenter ] addObserver:self
-                                                    selector:@selector( keyboardWillShow: ) 
-                                                        name:UIKeyboardWillShowNotification
-                                                      object:nil ];
-        [ [ NSNotificationCenter defaultCenter ] addObserver:self
-                                                    selector:@selector( keyboardWillHide: ) 
-                                                        name:UIKeyboardWillHideNotification
-                                                      object:nil ];
     } else
     {
-        // TODO: error
+        ofxGLogError( "ofxGenericApp::getWindow() returned NULL, unable to initialize screen" );
     }
+    ofxGenericApp::getInstance()->finishedLaunching();
+    
+    [ [ UIDevice currentDevice ] beginGeneratingDeviceOrientationNotifications ];
+    [ [ NSNotificationCenter defaultCenter ] addObserver: self 
+                                                selector: @selector( deviceOrientationDidChange: ) 
+                                                    name: UIDeviceOrientationDidChangeNotification 
+                                                  object: nil ];
+    
+    _displayLink = [ [ CADisplayLink displayLinkWithTarget:self selector:@selector( update ) ] retain ];
+    [ _displayLink addToRunLoop:[ NSRunLoop currentRunLoop ] forMode:NSDefaultRunLoopMode ];
+    
+    [ [ NSNotificationCenter defaultCenter ] addObserver:self
+                                                selector:@selector( keyboardWillShow: ) 
+                                                    name:UIKeyboardWillShowNotification
+                                                  object:nil ];
+    [ [ NSNotificationCenter defaultCenter ] addObserver:self
+                                                selector:@selector( keyboardWillHide: ) 
+                                                    name:UIKeyboardWillHideNotification
+                                                  object:nil ];
 }
 
 -( void )update
