@@ -146,7 +146,7 @@ void ofxGenericHTTPRequest::init(
     
     _format = format;
     string urlWithFormat = url;
-    urlWithFormat += "." + ofxGMIMETypeToExtension( _format );
+    //urlWithFormat += "." + ofxGMIMETypeToExtension( _format );
 
 #if TARGET_OS_IPHONE
     // TODO: allow caching specification
