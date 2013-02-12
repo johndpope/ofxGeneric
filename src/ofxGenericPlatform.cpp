@@ -42,6 +42,17 @@ string ofxGenericPlatform::deviceModelVersion()
 #endif
 }
 
+bool ofxGenericPlatform::isTablet()
+{
+#if TARGET_OS_IPHONE
+#ifdef UI_USER_INTERFACE_IDIOM
+    return UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad;
+#else
+    return false;
+#endif
+#endif
+}
+
 unsigned int ofxGenericPlatform::cpuFrequency()
 {
 #if TARGET_OS_IPHONE

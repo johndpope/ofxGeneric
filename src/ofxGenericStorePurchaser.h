@@ -62,6 +62,12 @@ public:
     //performs an actual purchase of a product, careful, only do this if the user hit a button
     void purchaseProduct( string identifier );
     
+    //not necessary on Android, on iOS this is called to tell Apple that you processed the transaction successfully
+    void finishPurchase( ofPtr< ofxGenericStoreTransaction > transaction );
+    
+    //the user may be able to turn off IAP, make sure payments are okay
+    bool paymentsCanBeMade();
+    
     //called by forwarder
     void productsResponseReceived( std::map< string, ofPtr< ofxGenericStoreProduct > > products, std::vector< string > identifiers );
     void paymentReceived( ofPtr< ofxGenericStoreTransaction > transaction );

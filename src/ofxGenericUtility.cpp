@@ -215,6 +215,33 @@ string ofxGToString( float value )
     return string( buffer );
 }
 
+string ofxGToString( float value, unsigned int decimalCount )
+{
+    return ofxGTrimDecimals( ofxGToString( value ), decimalCount );
+    
+}
+
+string ofxGToString( double value, unsigned int decimalCount )
+{
+    return ofxGTrimDecimals( ofxGToString( value ), decimalCount );
+}
+
+string ofxGTrimDecimals( string str, unsigned int decimalCount )
+{
+    unsigned int decimalPlace = str.find( "." );
+    if ( decimalPlace == string::npos || str.size() - decimalPlace - 1 <= decimalCount )
+    {
+        return str;
+    }
+    
+    if ( decimalCount <= 0 )
+    {
+        return str.substr( 0, decimalPlace );
+    }
+    
+    return str.substr( 0, decimalPlace + decimalCount + 1 );
+}
+
 string ofxGToString( bool value )
 {
     if ( value )

@@ -137,3 +137,12 @@ string ofxGenericStoreTransaction::getReceipt()
     return "";
 #endif
 }
+
+void ofxGenericStoreTransaction::finishTransaction()
+{
+#if TARGET_OS_IPHONE
+    [ [ SKPaymentQueue defaultQueue ] finishTransaction:_transaction ];
+#else 
+    
+#endif
+}

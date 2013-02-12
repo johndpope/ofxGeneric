@@ -39,7 +39,7 @@ void ofxGenericLocalization::init( ofPtrWeak< ofxGenericLocalization > setThis )
     
     string isoLanguage = getPreferredISOLanguage();
     string fileName = ofxGenericLocalization::getLocalizedFileName( isoLanguage );
-    if ( !ofxGFileExists( fileName ) )
+    if ( !ofxGFileExists( ofToPath( fileName, false, true ) ) )
     {
         isoLanguage = FallbackIsoLanguage;
         fileName = ofxGenericLocalization::getLocalizedFileName( isoLanguage );
@@ -50,7 +50,7 @@ void ofxGenericLocalization::init( ofPtrWeak< ofxGenericLocalization > setThis )
     _cache->setFileName( fileName, false );
     if ( !_cache->readFromDisk() )
     {
-        ofxGLogVerbose( fileName );
+        ofxGLogError( "Error reading localization file " + fileName );
     }
 }
 

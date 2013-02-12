@@ -23,6 +23,9 @@ public:
 #endif
     virtual ~ofxGenericStoreTransaction();
     
+    //necessary on iOS but not on Android, tells Apple that the account has been credited properly
+    void finishTransaction();
+    
     bool hasError();
     string getError();
     
