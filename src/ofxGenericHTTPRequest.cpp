@@ -75,7 +75,8 @@ ofxGenericHTTPRequest::ofxGenericHTTPRequest()
 #if TARGET_OS_IPHONE
  _connection( nil ), _forwarder( nil ), _request( nil ),
 #endif
- _responseStatusCode( -1 ), _responseBody( NULL ), _responseBodyByteLength( 0 )
+ _responseStatusCode( -1 ), _responseBody( NULL ), _responseBodyByteLength( 0 ),
+ _dumpBodyOnError( true )
 {
 }
 
@@ -447,7 +448,8 @@ void ofxGenericHTTPRequest::finished(
     }
     else
     {
-        ofxGLogWarning( toString() + "\n" + responseToString( false ) + "\nBody:\n" + getResponseBodyAsString() + "\n" );
+        string warning = toString( _dumpBodyOnError ) + "\n" + responseToString( _dumpBodyOnError ) + "\n";
+        ofxGLogWarning( warning );
     }
     
     if ( _delegate )
@@ -624,25 +626,25 @@ string ofxGenericHTTPRequest::responseToString( bool includeBody ) const
         }
     } else
     {
-        result += " Error ";
+        result += " Error\n";
         if ( !getResponseErrorName().empty() )
         {
-            result += " Name: " + getResponseErrorName();
+            result += "Name: " + getResponseErrorName() + "\n";
         }
         if ( !getResponseErrorDescription().empty() )
         {
-            result += " Description: " + getResponseErrorDescription();
+            result += "Description: " + getResponseErrorDescription() + "\n";
         }
         if ( !getResponseErrorRecoverySuggestions().empty() )
         {
-            result += " Suggestions: " + getResponseErrorRecoverySuggestions();
+            result += "Suggestions: " + getResponseErrorRecoverySuggestions() + "\n";
         }
         if ( includeBody )
         {
             string bodyAsString = getResponseBodyAsString();
             if ( !bodyAsString.empty() )
             {
-                result += " Body:\n " + bodyAsString;
+                result += "Body:\n " + bodyAsString;
             }
         }
     }
@@ -656,6 +658,11 @@ ofPtr< ofxGenericValueStore > ofxGenericHTTPRequest::createErrorBody( string err
     body->write( ErrorDescriptionCacheKey, errorDescription );
     body->write( ErrorRecoverySuggestionsCacheKey, errorRecoverySuggestions );
     return body;
+}
+
+void ofxGenericHTTPRequest::setDumpBodyOnError( bool dump )
+{
+    _dumpBodyOnError = dump;
 }
 
 /////////////////////////////////////////////////////////////////////////////

@@ -126,6 +126,7 @@ public:
     
     string responseToString( bool includeBody = true ) const;
 
+    void setDumpBodyOnError( bool dump );
 protected:
     ofxGenericHTTPRequest();
 
@@ -192,7 +193,8 @@ protected:
     
     static bool isParsable( ofxGenericMIMEType MIMEType, string textEncoding );
     ofPtr< ofxGenericValueStore > _responseParsedBody;
-
+    
+    bool _dumpBodyOnError;
 };
 
 class ofxGenericHTTPRequestDelegate
