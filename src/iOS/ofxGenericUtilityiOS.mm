@@ -16,6 +16,11 @@ string ofxGToString( NSData* data )
     return ofxGToString( [ data bytes ], ( unsigned int )[ data length ] );
 }
 
+string ofxGToString( NSString* string )
+{
+    return [ string cStringUsingEncoding:NSUTF8StringEncoding ];
+}
+
 CGFloat getWindowScale()
 {
     if ( [ [ UIScreen mainScreen ] respondsToSelector:@selector( scale ) ] ) 

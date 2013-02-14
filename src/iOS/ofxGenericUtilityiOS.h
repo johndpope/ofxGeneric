@@ -26,6 +26,7 @@ release( objectiveCView );
 objectCViewController = nil;
 
 string ofxGToString( NSData* data );
+string ofxGToString( NSString* string );
 
 CGFloat getWindowScale();
 
