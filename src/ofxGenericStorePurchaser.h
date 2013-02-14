@@ -36,10 +36,13 @@ class ofxGenericStorePurchaser;
 @interface ofxGenericInAppPurchaseForwarder : NSObject < SKProductsRequestDelegate, SKPaymentTransactionObserver >
 {
     ofPtrWeak< ofxGenericStorePurchaser > _purchaser;
-    SKProductsRequest* productsRequest;    
+    SKProductsRequest* productsRequest;
+    BOOL _isTransactionObserver;
 }
 @property (retain) SKProductsRequest* productsRequest;
 - (id) initWithPurchaser: ( ofPtrWeak< ofxGenericStorePurchaser > ) purchaser;
+- (void) makeTransactionObserver;
+- (void) removeAsTransactionObserver;
 @end
 
 #endif
@@ -53,6 +56,9 @@ public:
     //pass in a list of products we want to use
     static ofPtr< ofxGenericStorePurchaser > create( std::vector< string > products, ofPtrWeak< ofxGenericStorePurchaserDelegate > delegate = ofPtrWeak< ofxGenericStorePurchaserDelegate >() );
     
+    //when the app is foregrounded, we should finish all transactions for all purchasers
+    static void doForegroundedWork();
+    
     //requests the NativeStoreProducts from the app store using the passed IDs
     void findProducts( std::vector< string > products );
     
@@ -64,6 +70,12 @@ public:
     
     //not necessary on Android, on iOS this is called to tell Apple that you processed the transaction successfully
     void finishPurchase( ofPtr< ofxGenericStoreTransaction > transaction );
+    
+    //don't think we have anything that needs to be restored, but just in case...
+    void restorePurchases();
+    
+    //call this when coming in from sleep, etc. because we want to make sure any unresolved transactions are dealt with
+    void finishAllTransactions();
     
     //the user may be able to turn off IAP, make sure payments are okay
     bool paymentsCanBeMade();
@@ -86,6 +98,8 @@ protected:
     
     ofPtrWeak< ofxGenericStorePurchaserDelegate > _delegate;
     
+    static std::vector< ofPtrWeak< ofxGenericStorePurchaser > > _allPurchasers;
+    
 #if TARGET_OS_IPHONE
     ofxGenericInAppPurchaseForwarder *forwarder;
 #endif
@@ -98,5 +112,5 @@ public:
     virtual void inApp_productsReceived( std::vector< string > products ) {};
     virtual void inApp_purchaseComplete( string identifier, ofPtr< ofxGenericStoreTransaction > transaction ) {};
     virtual void inApp_purchaseRestored( string identifier, ofPtr< ofxGenericStoreTransaction > transaction ) {};
-    virtual void inApp_purchaseFailed( string identifier, string error ) {};
+    virtual void inApp_purchaseFailed( string identifier, ofPtr< ofxGenericStoreTransaction > transaction, string error ) {};
 };

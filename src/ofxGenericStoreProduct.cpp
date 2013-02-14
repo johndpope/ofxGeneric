@@ -7,6 +7,7 @@
 //
 
 #include "ofxGenericStoreProduct.h"
+#include "ofxGenericUtility.h"
 
 #if TARGET_OS_IPHONE
     
@@ -47,7 +48,7 @@ void ofxGenericStoreProduct::init( ofPtrWeak< ofxGenericStoreProduct > setThis )
 string ofxGenericStoreProduct::getIdentifier()
 {
 #if TARGET_OS_IPHONE
-    return [ _product.productIdentifier cStringUsingEncoding:NSUTF8StringEncoding ];
+    return ofxGToString( _product.productIdentifier );
 #else
     return "";
 #endif
@@ -56,7 +57,7 @@ string ofxGenericStoreProduct::getIdentifier()
 string ofxGenericStoreProduct::getDescription()
 {
 #if TARGET_OS_IPHONE
-    return [ _product.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding ];
+    return ofxGToString( _product.localizedDescription );
 #else
     return "";
 #endif
@@ -65,7 +66,7 @@ string ofxGenericStoreProduct::getDescription()
 string ofxGenericStoreProduct::getTitle()
 {
 #if TARGET_OS_IPHONE
-    return [ _product.localizedTitle cStringUsingEncoding:NSUTF8StringEncoding ];
+    return ofxGToString( _product.localizedTitle );
 #else
     return "";
 #endif
@@ -81,7 +82,7 @@ string ofxGenericStoreProduct::getLocalizedPrice()
     
     NSString *str = [ formatter stringFromNumber: _product.price ];
     [ formatter release ];
-    return [ str cStringUsingEncoding:NSUTF8StringEncoding ];
+    return ofxGToString( str );
 #else
     return "";
 #endif
@@ -90,7 +91,16 @@ string ofxGenericStoreProduct::getLocalizedPrice()
 string ofxGenericStoreProduct::getPriceSymbol()
 {
 #if TARGET_OS_IPHONE
-    return [ [ _product.priceLocale objectForKey:NSLocaleCurrencySymbol ] cStringUsingEncoding:NSUTF8StringEncoding ];
+    return ofxGToString( (NSString *) [ _product.priceLocale objectForKey:NSLocaleCurrencySymbol ] );
+#else
+    return "";
+#endif
+}
+
+string ofxGenericStoreProduct::getPriceCurrencyCode()
+{
+#if TARGET_OS_IPHONE
+    return ofxGToString( (NSString *) [ _product.priceLocale objectForKey:NSLocaleCurrencyCode ] );
 #else
     return "";
 #endif

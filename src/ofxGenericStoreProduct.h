@@ -27,6 +27,7 @@ public:
     string getTitle();
     string getLocalizedPrice();
     string getPriceSymbol();
+    string getPriceCurrencyCode();
     float getPrice();
     
 protected:

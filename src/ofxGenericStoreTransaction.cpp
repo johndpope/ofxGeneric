@@ -7,6 +7,11 @@
 //
 
 #include "ofxGenericStoreTransaction.h"
+#include "ofxGenericUtility.h"
+
+#if TARGET_OS_IPHONE
+#import "NSString+Base64.h"
+#endif
 
 #if TARGET_OS_IPHONE
 
@@ -58,7 +63,7 @@ string ofxGenericStoreTransaction::getError()
 #if TARGET_OS_IPHONE
     if ( _transaction.error )
     {
-        return [ _transaction.error.description cStringUsingEncoding:NSUTF8StringEncoding ];
+        return ofxGToString( _transaction.error.description );
     }
     return "";
 #else
@@ -105,7 +110,7 @@ bool ofxGenericStoreTransaction::hasBeenRestored()
 string ofxGenericStoreTransaction::getIdentifier()
 {
 #if TARGET_OS_IPHONE
-    return [ _transaction.transactionIdentifier cStringUsingEncoding:NSUTF8StringEncoding ];
+    return ofxGToString( _transaction.transactionIdentifier );
 #else
     return "";
 #endif
@@ -114,7 +119,7 @@ string ofxGenericStoreTransaction::getIdentifier()
 string ofxGenericStoreTransaction::getProductIdentifier()
 {
 #if TARGET_OS_IPHONE
-    return [ _transaction.payment.productIdentifier cStringUsingEncoding:NSUTF8StringEncoding ];
+    return ofxGToString( _transaction.payment.productIdentifier );
 #else
     return "";
 #endif
@@ -132,7 +137,15 @@ ofPtr< ofxGenericDate > ofxGenericStoreTransaction::getDate()
 string ofxGenericStoreTransaction::getReceipt()
 {
 #if TARGET_OS_IPHONE
-    return string ( [ [ [ [ NSString alloc ] initWithData:_transaction.transactionReceipt encoding:NSUTF8StringEncoding ] autorelease ] cStringUsingEncoding:NSUTF8StringEncoding ] );
+    //TODO perhaps cache this
+    NSString *base64 = [ NSString base64StringFromData:_transaction.transactionReceipt length:-1 ];
+    string strBase64 = ofxGToString( base64 );
+    ofLogVerbose( "Transaction Raw:\n" + ofxGToString( _transaction.transactionReceipt ) );
+    ofLogVerbose( "Transaction Base64:\n" + strBase64 );
+    return strBase64;
+    
+    //uncomment if we needed to return raw instead
+    //return ofxGToString( _transaction.transactionReceipt );
 #else
     return "";
 #endif
