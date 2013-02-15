@@ -248,7 +248,14 @@ void ofxGenericStorePurchaser::setDelegate( ofPtrWeak< ofxGenericStorePurchaserD
 
 - (void) request:(SKRequest*)request didFailWithError:(NSError*)error
 {
-    _purchaser.lock()->errorReceived( ofxGToString( error.description ) );
+    if ( error && error.description )
+    {
+        _purchaser.lock()->errorReceived( ofxGToString( error.description ) );
+    }
+    else
+    {
+        _purchaser.lock()->errorReceived( ofxGLocalized( "StorePurchaserUnknownError", "Unknown Error" ) );
+    }
 }
 
 - (void) paymentQueue:(SKPaymentQueue *)queue updatedTransactions: (NSArray * )transactions
