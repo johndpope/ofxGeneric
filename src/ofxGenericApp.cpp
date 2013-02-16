@@ -21,15 +21,6 @@
 
 #include <AVFoundation/AVFoundation.h>
 
-#define AppleAppStoreAppPage "itms-apps://itunes.com/apps/LumosityMobile"
-#define AppleAppStoreAppReviewURL "itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=%s"
-//I think the following will end up going directly to writing a review, whereas the above will go to the review page
-//#define AppleAppStoreAppReviewURL "https://userpub.itunes.apple.com/WebObjects/MZUserPublishing.woa/wa/addUserReview?id=%s&type=Purple+Software"
-
-//these are for BT
-//#define AppleAppStoreAppPage "itms-apps://itunes.com/apps/lumos-labs-inc./id297628735"
-//#define AppleAppStoreAppReviewURL "itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=%s"
-
 #endif
 
 #include "ofxGenericException.h"
@@ -442,22 +433,6 @@ bool ofxGenericApp::hasInternetConnection()
 #endif
     return false;
 }
-
-#if TARGET_OS_IPHONE
-
-void ofxGenericApp::openAppleAppStoreAppPage( string bundleId, string trackId )
-{
-    string url = ofxGSPrintf( AppleAppStoreAppPage, bundleId, trackId );
-    sendURLToOS( url );
-}
-
-void ofxGenericApp::openAppleAppStoreAppReviewPage( string trackId )
-{
-    string url = ofxGSPrintf( AppleAppStoreAppReviewURL, trackId );
-    sendURLToOS( url );
-}
-
-#endif
 
 void ofxGenericApp::sendURLToOS( string url )
 {

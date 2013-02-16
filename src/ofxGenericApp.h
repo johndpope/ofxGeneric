@@ -63,11 +63,6 @@ public:
     bool hasNetworkConnection();
     bool hasInternetConnection();
     
-#if TARGET_OS_IPHONE
-    static void openAppleAppStoreAppPage( string bundleId, string trackId );
-    static void openAppleAppStoreAppReviewPage( string trackId );
-    
-#endif
     static void sendURLToOS( string url );
     
     virtual void setup();
