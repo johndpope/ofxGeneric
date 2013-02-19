@@ -13,11 +13,19 @@
 
 string ofxGToString( NSData* data )
 {
+    if ( !data )
+    {
+        return "";
+    }
     return ofxGToString( [ data bytes ], ( unsigned int )[ data length ] );
 }
 
 string ofxGToString( NSString* string )
 {
+    if ( !string )
+    {
+        return "";
+    }
     return [ string cStringUsingEncoding:NSUTF8StringEncoding ];
 }
 
