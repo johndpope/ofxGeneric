@@ -9,6 +9,10 @@
 #include "ofxGenericStorePurchaser.h"
 #include "ofxGenericStoreProduct.h"
 #include "ofxGenericStoreTransaction.h"
+#include "ofxGenericUtility.h"
+#if TARGET_OS_IPHONE
+#include "ofxGenericUtilityiOS.h"
+#endif
 
 std::vector< ofPtrWeak< ofxGenericStorePurchaser > > ofxGenericStorePurchaser::_allPurchasers;
 
@@ -225,6 +229,11 @@ void ofxGenericStorePurchaser::setDelegate( ofPtrWeak< ofxGenericStorePurchaserD
 
 - (void) productsRequest:(SKProductsRequest*)request didReceiveResponse:(SKProductsResponse *)response
 {
+    if ( !_purchaser )
+    {
+        return;
+    }
+    
     std::map< string, ofPtr< ofxGenericStoreProduct > > products = std::map< string, ofPtr< ofxGenericStoreProduct > >();
     std::vector< string > identifiers = std::vector< string >();
     
@@ -248,6 +257,11 @@ void ofxGenericStorePurchaser::setDelegate( ofPtrWeak< ofxGenericStorePurchaserD
 
 - (void) request:(SKRequest*)request didFailWithError:(NSError*)error
 {
+    if ( !_purchaser )
+    {
+        return;
+    }
+    
     if ( error && error.description )
     {
         _purchaser.lock()->errorReceived( ofxGToString( error.description ) );
@@ -260,6 +274,11 @@ void ofxGenericStorePurchaser::setDelegate( ofPtrWeak< ofxGenericStorePurchaserD
 
 - (void) paymentQueue:(SKPaymentQueue *)queue updatedTransactions: (NSArray * )transactions
 {
+    if ( !_purchaser )
+    {
+        return;
+    }
+    
     for ( SKPaymentTransaction* transaction in transactions )
     {
         switch ( transaction.transactionState )
