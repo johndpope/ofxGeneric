@@ -11,7 +11,6 @@
 
 #if TARGET_OS_IPHONE
 #include "UIDevice-Hardware.h"
-#include "OpenUDID.h"
 #endif
 
 bool ofxGenericPlatform::multitaskingSupported()
@@ -111,10 +110,24 @@ string ofxGenericPlatform::operatingSystemVersion()
 
 string ofxGenericPlatform::uniqueIdentifier()
 {
+    string udid;
 #if TARGET_OS_IPHONE
-    return ofxNSStringToString( [ OpenUDID value ] );
-    //https://github.com/gekitz/UIDevice-with-UniqueIdentifier-for-iOS-5
+    NSString* nsUDID;
+    UIDevice* currentDevice = [ UIDevice currentDevice ];
+    if ( [ currentDevice respondsToSelector:@selector( identifierForVendor ) ] )
+    {
+        nsUDID = currentDevice.identifierForVendor.UUIDString;
+        udid = ofxNSStringToString( nsUDID );
+    } else if ( [ currentDevice respondsToSelector:@selector( uniqueIdentifier ) ] )
+    {
+        nsUDID = currentDevice.uniqueIdentifier;
+        udid = ofxNSStringToString( nsUDID );
+    } else
+    {
+        udid = "";
+    }
 #endif
+    return udid;
 }
 
 ofOrientation ofxGenericPlatform::orientation()
