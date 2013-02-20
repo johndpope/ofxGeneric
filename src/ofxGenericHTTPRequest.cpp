@@ -246,9 +246,9 @@ void ofxGenericHTTPRequest::start()
     }
 #endif
     ofxGLogVerbose( toString( false ) );
-//#if DEBUG
+#if DEBUG
     ofxGLogVerbose( "\nBody:\n" + getBodyAsString() );
-//#endif
+#endif
 }
 
 void ofxGenericHTTPRequest::cancel()
@@ -441,10 +441,10 @@ void ofxGenericHTTPRequest::finished(
     
     if ( isResponseOk() )
     {
-//#if DEBUG
+#if DEBUG
         ofxGLogVerbose( responseToString( false ) );
         ofxGLogVerbose( "\nBody:\n" + getResponseBodyAsString() + "\n" );
-//#endif
+#endif
     }
     else
     {
