@@ -438,11 +438,14 @@ string ofxGenericButtonView::toString()
     result += ofxGSPrintf( " User Interaction Enabled: %s", ofxGToString( [ getNativeView() isUserInteractionEnabled ] ) );
 #endif
 
+    if ( !getText().empty() )
+    {
+        result += " " + getText();
+    }
     if ( !_backgroundImageFileName.empty() )
     {
         result += " " + ofFilePath::getFileName( _backgroundImageFileName );
     }
-
     return result;
 }
 #endif
