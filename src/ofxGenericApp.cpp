@@ -71,10 +71,19 @@ void ofxGenericApp::setofxGenericAppInstanceToThis()
     }
 }
 
+#if TARGET_OS_IPHONE
+Class ofxGenericApp::getAppDelegateClass()
+{
+    return [ ofxGenericAppDelegate class ];
+}
+#endif
+
 void ofxGenericApp::realRun()
 {
-    NSString* delegateClassName = NSStringFromClass( [ ofxGenericAppDelegate class ] );
+#if TARGET_OS_IPHONE
+    NSString* delegateClassName = NSStringFromClass( getAppDelegateClass() );
     UIApplicationMain( nil, nil, nil, delegateClassName );
+#endif
     finishedLaunching();
 }
 

@@ -84,7 +84,10 @@ public:
 
     virtual ~ofxGenericApp();
 protected:
-    
+#if TARGET_OS_IPHONE
+    virtual Class getAppDelegateClass();
+#endif
+
     ofPtr< ofxAppGenericWindow > _window;
     ofRectangle _windowSize;
 
