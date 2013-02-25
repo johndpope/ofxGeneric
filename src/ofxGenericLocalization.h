@@ -34,3 +34,5 @@ protected:
 
 string ofxGLocalized( string key );
 string ofxGLocalized( string key, string defaultValue );
+string ofxGLocalized( const char* key );
+string ofxGLocalized( const char* key, const char* defaultValue );

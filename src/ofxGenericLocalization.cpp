@@ -114,3 +114,29 @@ string ofxGLocalized( string key, string defaultValue )
 {
     return ofxGenericLocalization::getString( key, defaultValue );
 }
+
+string ofxGLocalized( const char* key )
+{
+    string result;
+    if ( key != 0 )
+    {
+        result = ofxGLocalized( std::string( key ) );
+    }
+    return result;
+}
+
+string ofxGLocalized( const char* key, const char* defaultValue )
+{
+    string result;
+    if ( key != 0 )
+    {
+        if ( defaultValue != 0 )
+        {
+            result = ofxGLocalized( std::string( key ), std::string( defaultValue ) );
+        } else
+        {
+            result = ofxGLocalized( std::string( key ) );
+        }
+    }
+    return result;
+}
