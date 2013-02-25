@@ -25,7 +25,7 @@ void SignalHandler( int signal );
 
 @synthesize window = _window;
 
--( void )applicationDidFinishLaunching:( UIApplication* )application
+-( BOOL )application:( UIApplication* )application didFinishLaunchingWithOptions:( NSDictionary* )launchOptions
 {
     [ self installUncaughtExceptionHandler ];
 
@@ -60,6 +60,8 @@ void SignalHandler( int signal );
                                                 selector:@selector( keyboardWillHide: ) 
                                                     name:UIKeyboardWillHideNotification
                                                   object:nil ];
+    
+    return YES;
 }
 
 -( void )update
