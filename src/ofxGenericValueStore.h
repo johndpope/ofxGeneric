@@ -33,6 +33,8 @@ typedef ofxGenericValueStoreArray::iterator ofxGenericValueStoreArrayIterator;
 typedef ofxGenericValueStoreObject::const_iterator ofxGenericValueStoreObjectConstIterator;
 typedef ofxGenericValueStoreArray::const_iterator ofxGenericValueStoreArrayConstIterator;
 
+typedef ofPtr< ofxGenericValueStore > ( *ofxGenericValueStoreCreateIfNot )( ofPtr< ofxGenericValueStore > value );
+
 class ofxGenericValueStore
 {
 public:
@@ -118,6 +120,8 @@ public:
     ofPtr< ofxGenericValueStore > readOrCreate( string key, Type type );
     ofPtr< ofxGenericValueStore > readOrCreate( string key, Type type, bool& didCreate );
 
+    ofPtr< ofxGenericValueStore > readAndCreateIfNot( string key, ofxGenericValueStoreCreateIfNot createIfNotFunction );
+
     virtual void drop( string key );
 
     // Array methods
@@ -138,6 +142,8 @@ public:
     ofPtr< ofxGenericValueStore > operator[]( unsigned int index ) const;    
     ofPtr< ofxGenericValueStore > readOrCreate( unsigned int index, Type type );
     ofPtr< ofxGenericValueStore > readOrCreate( unsigned int index, Type type, bool& didCreate );
+
+    ofPtr< ofxGenericValueStore > readAndCreateIfNot( unsigned int index, ofxGenericValueStoreCreateIfNot createIfNotFunction );
 
     virtual void drop( int index );
     
