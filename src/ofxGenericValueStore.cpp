@@ -757,6 +757,18 @@ ofPtr< ofxGenericValueStore > ofxGenericValueStore::readOrCreate( string key, Ty
     return ofPtr< ofxGenericValueStore >();
 }
 
+ofPtr< ofxGenericValueStore > ofxGenericValueStore::readAndCreateIfNot( string key, ofxGenericValueStoreCreateIfNot createIfNotFunction )
+{
+    ofPtr< ofxGenericValueStore > result = read( key );
+    ofPtr< ofxGenericValueStore > createIfNot = createIfNotFunction( result );
+    if( createIfNot != result )
+    {
+        write( key, createIfNot );
+        result = createIfNot;
+    }
+    return result;
+}
+
 #pragma Array
 
 void ofxGenericValueStore::ensureIndexAvailable( unsigned int index )
@@ -910,7 +922,19 @@ ofPtr< ofxGenericValueStore > ofxGenericValueStore::readOrCreate( unsigned int i
     return ofPtr< ofxGenericValueStore >();
 }
 
-unsigned int ofxGenericValueStore::length() const 
+ofPtr< ofxGenericValueStore > ofxGenericValueStore::readAndCreateIfNot( unsigned int index, ofxGenericValueStoreCreateIfNot createIfNotFunction )
+{
+    ofPtr< ofxGenericValueStore > result = read( index );
+    ofPtr< ofxGenericValueStore > createIfNot = createIfNotFunction( result );
+    if( createIfNot != result )
+    {
+        write( index, createIfNot );
+        result = createIfNot;
+    }
+    return result;
+}
+
+unsigned int ofxGenericValueStore::length() const
 {
     if ( asArray() )
     {
