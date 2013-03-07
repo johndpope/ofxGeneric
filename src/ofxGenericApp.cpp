@@ -512,6 +512,21 @@ void ofxGenericApp::setup()
     ofBaseApp::setup();
 }
 
+std::map< string, string > ofxGenericApp::getLaunchOptions()
+{
+    return _launchOptions;
+}
+
+void ofxGenericApp::setLaunchOptions( std::map< string, string > launchOptions )
+{
+    _launchOptions = launchOptions;
+}
+
+void ofxGenericApp::gotNotification( string type )
+{
+    //nuffin'
+}
+
 void ofNotifyDeviceOrientationChanged( ofOrientation orientation )
 {
 //    ofBaseApp * ofAppPtr = ofGetAppPtr();

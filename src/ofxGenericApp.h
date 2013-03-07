@@ -81,6 +81,10 @@ public:
     static string dumpViewGraph();
     
     static bool isDebuggerAttached();
+    
+    virtual std::map< string, string > getLaunchOptions();
+    virtual void setLaunchOptions( std::map< string, string > launchOptions );
+    virtual void gotNotification( string type );
 
     virtual ~ofxGenericApp();
 protected:
@@ -107,6 +111,7 @@ protected:
     void realRun();
     
     std::vector< ofPtr< ofxGenericKeyboardDelegate > > _keyboardDelegates;
+    std::map< string, string > _launchOptions;
 };
 
 class ofxGenericOrientationEventArgs : public ofEventArgs

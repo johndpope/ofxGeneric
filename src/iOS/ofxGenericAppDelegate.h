@@ -21,6 +21,7 @@
 
 @property (retain, nonatomic) UIWindow* window;
 -( BOOL )application:( UIApplication* )application didFinishLaunchingWithOptions:( NSDictionary* )launchOptions;
+-( void )application:( UIApplication* )application didReceiveLocalNotification:( UILocalNotification* )notification;
 
 @end
 #endif

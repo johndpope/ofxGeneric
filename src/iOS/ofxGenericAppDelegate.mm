@@ -11,6 +11,7 @@
 #import "ofMain.h"
 
 #include "ofxGenericException.h"
+#include "ofxGenericUtilityiOS.h"
 
 @interface ofxGenericAppDelegate ( Private )
 
@@ -41,6 +42,26 @@ void SignalHandler( int signal );
     {
         ofxGLogError( "ofxGenericApp::getWindow() returned NULL, unable to initialize screen" );
     }
+    
+    std::map< string, string > options = std::map< string, string >();
+    for ( id k in launchOptions )
+    {
+        id val = [ launchOptions objectForKey:k ];
+        NSString *str = @"";
+        if ( [ val isKindOfClass:[ UILocalNotification class ] ] )
+        {
+            str = ((UILocalNotification *)val).alertAction;
+        }
+        else
+        {
+            str = [ val stringValue ];
+        }
+        
+        NSString *key = (NSString *) k;
+        options[ ofxGToString( key ) ] = ofxGToString( str );
+    }
+    
+    ofxGenericApp::getInstance()->setLaunchOptions( options );
     ofxGenericApp::getInstance()->finishedLaunching();
     
     [ [ UIDevice currentDevice ] beginGeneratingDeviceOrientationNotifications ];
@@ -62,6 +83,11 @@ void SignalHandler( int signal );
                                                   object:nil ];
     
     return YES;
+}
+
+-( void )application:( UIApplication* )application didReceiveLocalNotification:( UILocalNotification* )notification
+{
+    ofxGenericApp::getInstance()->gotNotification( ofxGToString( notification.alertAction ) );
 }
 
 -( void )update
