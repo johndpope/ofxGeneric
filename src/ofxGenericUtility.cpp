@@ -261,6 +261,11 @@ string ofxGToString( const ofPoint& point )
     return "(" + ofxGToString( point.x ) + "," + ofxGToString( point.y ) + ")";
 }
 
+string ofxGToString( const ofRectangle& rect )
+{
+    return "(" + ofxGToString( rect.x ) + "," + ofxGToString( rect.y ) + ") " + ofxGToString( rect.width ) + "x" + ofxGToString( rect.height );
+}
+
 string ofxGToString( const void* value, unsigned int byteSize )
 {
     char* dataBuffer = new char[ byteSize + 1 ];

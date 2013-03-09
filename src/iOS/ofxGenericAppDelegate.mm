@@ -167,8 +167,10 @@ void SignalHandler( int signal );
     NSDictionary* userInfo = [ notification userInfo ];
     CGRect keyboardEndFrame;
     [ [ userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] getValue:&keyboardEndFrame ];
+    CGRect keyboardBeginFrame;
+    [ [ userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] getValue:&keyboardBeginFrame ];
     
-    ofxGenericApp::getInstance()->keyboardWillShow( CGRectToofRectangle( keyboardEndFrame ) );
+    ofxGenericApp::getInstance()->keyboardWillShow(  CGRectToofRectangle( keyboardBeginFrame ), CGRectToofRectangle( keyboardEndFrame ) );
 }
 
 -( void )keyboardWillHide:( NSNotification* )notification

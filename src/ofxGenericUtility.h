@@ -52,6 +52,7 @@ string ofxGToString( float value );
 string ofxGToString( bool value );
 string ofxGToString( const ofPoint& point );
 string ofxGToString( const ofColor& color );
+string ofxGToString( const ofRectangle& rect );
 string ofxGToString( const void* value, unsigned int byteSize );
 string ofxGToString( float value, unsigned int decimalCount );
 string ofxGToString( double value, unsigned int decimalCount );
