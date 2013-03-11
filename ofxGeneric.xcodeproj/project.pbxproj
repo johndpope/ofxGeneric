@@ -1010,6 +1010,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3CA5336515B61A7900A8D36B /* Release.xcconfig */;
 			buildSettings = {
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 			};
 			name = Release;
 		};
