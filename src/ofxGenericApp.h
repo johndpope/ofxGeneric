@@ -44,7 +44,9 @@ public:
     
     bool keyboardIsVisible();
     ofRectangle getKeyboardFrame();
-    virtual void keyboardWillShow( const ofRectangle& keyboardFrame );    
+    ofRectangle getBeginKeyboardFrame();
+    ofRectangle getEndKeyboardFrame();
+    virtual void keyboardWillShow( const ofRectangle& beginKeyboardFrame, const ofRectangle& endKeyboardFrame );
     virtual void keyboardWillHide();  
     void setMoveFromUnderKeyboard( ofPtr< ofxGenericView > view ); // TODO: make into a list
     void addKeyboardDelegate( ofPtr< ofxGenericKeyboardDelegate > delegate );
@@ -81,6 +83,10 @@ public:
     static string dumpViewGraph();
     
     static bool isDebuggerAttached();
+    
+    virtual std::map< string, string > getLaunchOptions();
+    virtual void setLaunchOptions( std::map< string, string > launchOptions );
+    virtual void gotNotification( string type );
 
     virtual ~ofxGenericApp();
 protected:
@@ -94,7 +100,8 @@ protected:
     virtual void createRootView();
     
     bool _keyboardIsVisible;
-    ofRectangle _keyboardFrame;
+    ofRectangle _beginKeyboardFrame;
+    ofRectangle _endKeyboardFrame;
     ofPtr< ofxGenericView > _moveFromUnderKeyboard;
     ofRectangle _moveFromUnderKeyboardOriginalFrame;
     
@@ -107,6 +114,7 @@ protected:
     void realRun();
     
     std::vector< ofPtr< ofxGenericKeyboardDelegate > > _keyboardDelegates;
+    std::map< string, string > _launchOptions;
 };
 
 class ofxGenericOrientationEventArgs : public ofEventArgs
@@ -151,6 +159,7 @@ class ofxGenericKeyboardDelegate
 public:
     virtual ~ofxGenericKeyboardDelegate() {};
     
+    virtual void keyboard_willShow( const ofRectangle& startFrame, const ofRectangle& endFrame ) {};
     virtual void keyboard_willShow( const ofRectangle& keyboardFrame ) {};
     virtual void keyboard_willHide( ) {};
 };
