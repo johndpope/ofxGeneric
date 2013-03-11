@@ -300,6 +300,9 @@ string ofxGenericDate::getStringRepresentation( ofxGenericDate::DateFormat forma
     return getStringRepresentation( getDateFormatAsString( format ), convertToUTC );
 }
 
+#include "ofxGenericLocalization.h"
+#include "ofxGenericException.h"
+
 string ofxGenericDate::getStringRepresentation( string format, bool convertToUTC )
 {
     string result;
@@ -310,8 +313,53 @@ string ofxGenericDate::getStringRepresentation( string format, bool convertToUTC
     {
         [ formatter setTimeZone:[ NSTimeZone timeZoneWithName:@"UTC" ] ];
     }
+    
+    bool replaceDay = false;
+    size_t start, end;
+    if ( ofxGenericLocalization::getPreferredISOLanguage() != "en" )
+    {
+        start = format.find( "E" );
+        if ( start != string::npos )
+        {
+            replaceDay = true;
+            end = format.find_first_not_of( "E", start );
+            if ( end == string::npos )
+            {
+                end = format.size();
+            }
+            format.replace( start, end - start, "|||" );
+        }
+    }
+    
+    NSDate* nsDate = convertToNSDate();
     [ formatter setDateFormat:ofxStringToNSString( format ) ];
-    result = ofxNSStringToString( [ formatter stringFromDate:convertToNSDate() ] );
+    result = ofxNSStringToString( [ formatter stringFromDate:nsDate ] );
+    
+    if ( replaceDay )
+    {
+        NSArray* localizedDaysOfTheWeek;
+        if ( end - start > 3 )
+        {
+            localizedDaysOfTheWeek = [ formatter weekdaySymbols ];
+        } else if ( end - start > 1 )
+        {
+            localizedDaysOfTheWeek = [ formatter shortWeekdaySymbols ];
+        } else
+        {
+            localizedDaysOfTheWeek = [ formatter veryShortWeekdaySymbols ];
+        }
+        string localizedDay = ofxNSStringToString( [ localizedDaysOfTheWeek objectAtIndex:getDayOfTheWeek() ] );
+        size_t insertStart, insertEnd;
+        insertStart = result.find( "|" );
+        insertEnd = result.find_first_not_of( "|", insertStart );
+        if ( insertEnd == string::npos )
+        {
+            insertEnd = result.size();
+        }
+
+        result.replace( insertStart, insertEnd - insertStart, localizedDay.substr( 0, end - start ) );
+    }
+
 #elif TARGET_ANDROID
 #endif
     
