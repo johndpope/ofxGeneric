@@ -130,6 +130,8 @@ public:
     virtual void addGestureRecognizerPan( unsigned int minimumFingerCount, unsigned int maximumFingerCount );
     virtual void removeGestureRecognizers( );
     
+    virtual void setUserInteractionEnabled( bool enabled );
+    
     virtual ofPtr< ofImage > createImageRepresentation( );
     
 #if TARGET_OS_IPHONE
