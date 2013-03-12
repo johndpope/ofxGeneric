@@ -217,7 +217,7 @@ ofRectangle ofxGenericView::getFrame( const ofPoint& setTopLeft )
 }
 
 void ofxGenericView::setFrame( const ofRectangle& setFrame )
-{
+{    
 #if TARGET_OS_IPHONE
     [ _view setFrame: ofRectangleToCGRect( setFrame ) ];
 #elif TARGET_ANDROID
@@ -311,6 +311,7 @@ void ofxGenericView::addChildViewBefore( ofPtr< ofxGenericView > add, ofPtr< ofx
 #if TARGET_OS_IPHONE
                 [ getNativeView() insertSubview:add->getNativeView() belowSubview:before->getNativeView() ];
 #elif TARGET_ANDROID
+                throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "addChildViewBefore" );
 #endif
             }
             addChildViewPost( add );
@@ -342,6 +343,7 @@ void ofxGenericView::addChildViewAfter( ofPtr< ofxGenericView > add, ofPtr< ofxG
 #if TARGET_OS_IPHONE
                 [ getNativeView() insertSubview:add->getNativeView() aboveSubview:after->getNativeView() ];
 #elif TARGET_ANDROID
+                throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "addChildViewAfter" );
 #endif
             }
             addChildViewPost( add );
@@ -451,6 +453,8 @@ void ofxGenericView::setAlpha( float alpha )
     {
         [ _view setAlpha:( CGFloat )alpha ];
     }
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "setAlpha" );
 #endif
 }
 
@@ -461,7 +465,9 @@ float ofxGenericView::getAlpha()
     {
         return ( float )_view.alpha;
     }
-#endif    
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "getAlpha" );
+#endif
     return 1.0f;
 }
 
@@ -472,6 +478,8 @@ void ofxGenericView::setVisible( bool visible )
     {
         [ _view setHidden:( BOOL )!visible ];
     }
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "setVisible" );
 #endif
 }
 
@@ -482,6 +490,8 @@ bool ofxGenericView::getVisible()
     {
         return ( bool )!_view.isHidden;
     }
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "getVisible" );
 #endif
     return false;
 }
@@ -493,6 +503,8 @@ void ofxGenericView::setClipSubviews( bool clip )
     {
         [ _view setClipsToBounds:( BOOL )clip ];
     }
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "setClipSubviews" );
 #endif
 }
 
@@ -503,7 +515,9 @@ bool ofxGenericView::getClipSubviews()
     {
         return ( bool )_view.clipsToBounds;
     }
-#endif    
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "getClipSubviews" );
+#endif
     return false;
 }
 
@@ -514,6 +528,8 @@ void ofxGenericView::setAutoresizingMask( int autoresizing )
     {
         [ _view setAutoresizingMask:ofxGenericViewAutoresizingToiOS( ( ofxGenericViewAutoresizing )autoresizing ) ];
     }
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "setAutoresizingMask" );
 #endif
 }
 
@@ -524,6 +540,8 @@ int ofxGenericView::getAutoresizingMask( )
     {
         return  iOSToofxGenericViewAutoresizing( _view.autoresizingMask );
     }
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "getAutoresizingMask" );
 #endif
     return 0;
 }
@@ -535,6 +553,8 @@ void ofxGenericView::setDropShadowColor( const ofColor& color )
     {
         [ getNativeView().layer setShadowColor:[ ofColorToUIColor( color ) CGColor ] ];
     }
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "setDropShadowColor" );
 #endif
 }
 
@@ -546,6 +566,8 @@ ofColor ofxGenericView::getDropShadowColor()
         UIColor* color = [ UIColor colorWithCGColor:getNativeView().layer.shadowColor ];
         return UIColorToofColor( color );
     }
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "getDropShadowColor" );
 #endif
     return ofColor();
 }
@@ -557,6 +579,8 @@ void ofxGenericView::setDropShadowOffset( const ofPoint& offset )
     {
         [ getNativeView().layer setShadowOffset:ofPointToCGSize( offset ) ];
     }
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "setDropShadowOffset" );
 #endif
 }
 
@@ -567,6 +591,8 @@ ofPoint ofxGenericView::getDropShadowOffset()
     {
         return CGSizeToofPoint( getNativeView().layer.shadowOffset );
     }
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "getDropShadowOffset" );
 #endif
     return ofPoint();
 }
@@ -578,6 +604,8 @@ void ofxGenericView::setDropShadowAlpha( float alpha )
     {
         [ getNativeView().layer setShadowOpacity:alpha ];
     }
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "setDropShadowAlpha" );
 #endif
 }
 
@@ -588,6 +616,8 @@ float ofxGenericView::getDropShadowAlpha()
     {
         return getNativeView().layer.shadowOpacity;
     }
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "getDropShadowAlpha" );
 #endif
     return 0.0f;
 }
@@ -599,6 +629,8 @@ void ofxGenericView::setDropShadowRadius( float radius )
     {
         [ getNativeView().layer setShadowRadius:radius ];
     }
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "setDropShadowRadius" );
 #endif
 }
 
@@ -609,6 +641,8 @@ float ofxGenericView::getDropShadowRadius()
     {
         return getNativeView().layer.shadowRadius;
     }
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "getDropShadowRadius" );
 #endif
     return 0.0f;
 }
@@ -620,6 +654,8 @@ void ofxGenericView::setBorderRadius( float radius )
     {
         [ getNativeView().layer setBorderWidth:radius ];
     }
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "setBorderRadius" );
 #endif
 }
 
@@ -630,6 +666,8 @@ float ofxGenericView::getBorderRadius()
     {
         return ( float )getNativeView().layer.borderWidth;
     }
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "getBorderRadius" );
 #endif
     return 0.0f;
 }
@@ -641,6 +679,8 @@ void ofxGenericView::setBorderColor( const ofColor& color )
     {
         [ getNativeView().layer setBorderColor:[ ofColorToUIColor( color ) CGColor ] ];
     }
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "setBorderColor" );
 #endif
 }
 
@@ -652,6 +692,8 @@ ofColor ofxGenericView::getBorderColor()
         UIColor* color = [ UIColor colorWithCGColor:getNativeView().layer.borderColor ];
         return UIColorToofColor( color );
     }
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "getBorderColor" );
 #endif
     return ofColor();
 }
@@ -663,6 +705,8 @@ void ofxGenericView::setContentMode( ofxGenericContentMode contentMode )
     {
         _view.contentMode = ofxGenericContentModeToiOS( contentMode );
     }
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "setContentMode" );
 #endif
 }
 
@@ -673,6 +717,8 @@ ofxGenericContentMode ofxGenericView::getContentMode()
     {
         return iOSToofxGenericContentMode( _view.contentMode );
     }
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "getContentMode" );
 #endif
     return ofxGenericContentModeScaleToFill;
 }
@@ -784,8 +830,8 @@ bool ofxGenericView::containsPoint( const ofPoint& point )
 {
 #if TARGET_OS_IPHONE
     return [ _view pointInside:CGPointMake(point.x, point.y) withEvent:nil ];
-#else
-    return false;
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "containsPoint" );
 #endif
 }
 
@@ -801,8 +847,8 @@ ofPoint ofxGenericView::convertFrom( const ofPoint& point, ofPtr< ofxGenericView
 #if TARGET_OS_IPHONE
     CGPoint p = [ _view convertPoint:CGPointMake(point.x, point.y) fromView:view->getNativeView() ];
     return ofPoint( p.x, p.y );
-#else
-    return ofPoint( 0, 0 );
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "convertFrom" );
 #endif
 }
 
@@ -811,8 +857,8 @@ ofRectangle ofxGenericView::convertFrom( const ofRectangle& rectangle, ofPtr< of
 #if TARGET_OS_IPHONE
     CGRect converted = [ _view convertRect:ofRectangleToCGRect( rectangle ) fromView:view->getNativeView() ];
     return CGRectToofRectangle( converted );
-#else
-    return ofRectangle();
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "convertFrom" );
 #endif
 }
 
@@ -829,6 +875,7 @@ void ofxGenericView::beginAnimation( string animationId, ofPtr< ofxGenericViewDe
         [ forwarder release ];
     }
 #elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "beginAnimation" );
 #endif
 }
 
@@ -837,6 +884,7 @@ void ofxGenericView::commitAnimation()
 #if TARGET_OS_IPHONE
     [ UIView commitAnimations ];
 #elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "commitAnimation" );
 #endif
 }
 
@@ -845,6 +893,7 @@ void ofxGenericView::setAnimationDuration( double seconds )
 #if TARGET_OS_IPHONE
     [ UIView setAnimationDuration:( NSTimeInterval )seconds ];
 #elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "setAnimationDuration" );
 #endif
 }
 
@@ -853,6 +902,7 @@ void ofxGenericView::setAnimationDelay( double seconds )
 #if TARGET_OS_IPHONE
     [ UIView setAnimationDelay:( NSTimeInterval )seconds ];
 #elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "setAnimationDelay" );
 #endif
 }
 
@@ -861,7 +911,8 @@ void ofxGenericView::setAnimationCurve( ofxGenericViewAnimationCurve curve )
 #if TARGET_OS_IPHONE
     [ UIView setAnimationCurve:ofxGenericViewAnimationCurveToiOS( curve ) ];
 #elif TARGET_ANDROID
-#endif    
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "setAnimationCurve" );
+#endif
 }
 
 void ofxGenericView::setAnimationTransition( ofxGenericViewAnimationTransition transition, ofPtr< ofxGenericView > forView )
@@ -869,7 +920,8 @@ void ofxGenericView::setAnimationTransition( ofxGenericViewAnimationTransition t
 #if TARGET_OS_IPHONE
     [ UIView setAnimationTransition:ofxGenericViewAnimationTransitionToiOS( transition ) forView:forView->getNativeView() cache:NO ];
 #elif TARGET_ANDROID
-#endif    
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "setAnimationTransition" );
+#endif
 }
 
 void ofxGenericView::stopAllAnimations()
@@ -879,6 +931,7 @@ void ofxGenericView::stopAllAnimations()
     [ _view.layer removeAllAnimations ];
     [ CATransaction commit ];
 #elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "stopAllAnimations" );
 #endif
 }
 
@@ -888,6 +941,7 @@ ofRectangle ofxGenericView::getAnimatedFrame()
     CALayer *layer = _view.layer.presentationLayer;
     return CGRectToofRectangle( layer.frame );
 #elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "getAnimatedFrame" );
 #endif
 }
 
@@ -897,6 +951,7 @@ float ofxGenericView::getAnimatedAlpha()
     CALayer *layer = _view.layer.presentationLayer;
     return layer.opacity;
 #elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "getAnimatedAlpha" );
 #endif
 }
 
@@ -943,6 +998,7 @@ void ofxGenericView::addGestureRecognizerSwipe( ofxGenericGestureTypeSwipe type 
     swipeRecognizer.delegate = _viewController;
 	[ _view addGestureRecognizer:swipeRecognizer ];
 #elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "addGestureRecognizerSwipe" );
 #endif
 }
 
@@ -956,6 +1012,7 @@ void ofxGenericView::addGestureRecognizerTap( int tapCount, int fingerCount )
     recognizer.delegate = _viewController;
 	[ _view addGestureRecognizer:recognizer ];
 #elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "addGestureRecognizerTap" );
 #endif
 }
 
@@ -968,6 +1025,7 @@ void ofxGenericView::removeGestureRecognizers( )
         [ _view removeGestureRecognizer:[recognizers objectAtIndex:i] ];
     }
 #elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "removeGestureRecognizers" );
 #endif
 }
 
@@ -1004,6 +1062,7 @@ ofPtr< ofImage > ofxGenericView::createImageRepresentation( )
         return ofPtr< ofImage > ();
     }
 #elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "createImageRepresentation" );
 #endif
 }
 
@@ -1021,6 +1080,7 @@ void ofxGenericView::addGestureRecognizerHold( float minimumPressDuration, unsig
 	[ _view addGestureRecognizer:recognizer ];
     
 #elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "addGestureRecognizerHold" );
 #endif
 }
 
@@ -1035,6 +1095,7 @@ void ofxGenericView::addGestureRecognizerPan( unsigned int minimumFingerCount, u
     
 	[ _view addGestureRecognizer:recognizer ];
 #elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "addGestureRecognizerPan" );
 #endif
 }
 
