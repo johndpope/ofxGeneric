@@ -105,6 +105,24 @@ ofxGenericExceptionForClass::~ofxGenericExceptionForClass() throw()
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+ofxGenericExceptionMemberNotImplement::ofxGenericExceptionMemberNotImplement( const char* className, const char* memberName ) throw()
+: ofxGenericExceptionForClass( "not implemented", className ), _memberName( NULL )
+{
+    allocAndCopy( _memberName, memberName );
+}
+
+const char* ofxGenericExceptionMemberNotImplement::memberName() const throw()
+{
+    return _memberName;
+}
+
+ofxGenericExceptionMemberNotImplement::~ofxGenericExceptionMemberNotImplement() throw()
+{
+    dealloc( _memberName );
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 ofxGenericExceptionSubclassedSingletonInitializedTwice::ofxGenericExceptionSubclassedSingletonInitializedTwice( const char* className ) throw()
 : ofxGenericExceptionForClass( "Subclassed singleton initialization was called twice", className )
 {

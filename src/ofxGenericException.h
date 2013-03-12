@@ -48,6 +48,20 @@ protected:
     char* _className;
 };
 
+
+///////////////////////////////////////////////////////////////
+
+class ofxGenericExceptionMemberNotImplement : public ofxGenericExceptionForClass
+{
+public:
+    ofxGenericExceptionMemberNotImplement( const char* className, const char* memberName ) throw();
+    virtual const char* memberName() const throw();
+    
+    virtual ~ofxGenericExceptionMemberNotImplement() throw();
+protected:
+    char* _memberName;
+};
+
 ///////////////////////////////////////////////////////////////
 
 class ofxGenericExceptionSubclassedSingletonInitializedTwice : public ofxGenericExceptionForClass

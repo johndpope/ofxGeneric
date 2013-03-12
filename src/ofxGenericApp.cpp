@@ -282,24 +282,35 @@ bool ofxGenericApp::keyboardIsVisible()
 
 ofRectangle ofxGenericApp::getKeyboardFrame()
 {
-    return _keyboardFrame;
+    return _endKeyboardFrame;
 }
 
-void ofxGenericApp::keyboardWillShow( const ofRectangle& keyboardFrame )
+ofRectangle ofxGenericApp::getBeginKeyboardFrame()
+{
+    return _beginKeyboardFrame;
+}
+
+ofRectangle ofxGenericApp::getEndKeyboardFrame()
+{
+    return _endKeyboardFrame;
+}
+
+void ofxGenericApp::keyboardWillShow( const ofRectangle& beginKeyboardFrame, const ofRectangle& endKeyboardFrame )
 {    
-    _keyboardFrame = keyboardFrame;
+    _beginKeyboardFrame = beginKeyboardFrame;
+    _endKeyboardFrame = endKeyboardFrame;
     _keyboardIsVisible = true;
     if ( _moveFromUnderKeyboard )
     {
         _moveFromUnderKeyboardOriginalFrame = _moveFromUnderKeyboard->getFrame();
         ofRectangle worldLocation = _window->convertTo( _moveFromUnderKeyboardOriginalFrame, _moveFromUnderKeyboard->getParent().lock() );
 #if TARGET_OS_IPHONE
-        if ( worldLocation.intersects( _keyboardFrame ) )
+        if ( worldLocation.intersects( endKeyboardFrame ) )
         {
             // assume the keyboard came from the bottom
             
             // TODO: animate
-            worldLocation = ofRectangle( worldLocation.x, keyboardFrame.y - worldLocation.height, worldLocation.width, worldLocation.height );
+            worldLocation = ofRectangle( worldLocation.x, endKeyboardFrame.y - worldLocation.height, worldLocation.width, worldLocation.height );
             _moveFromUnderKeyboard->setFrame( _window->convertFrom( worldLocation, _moveFromUnderKeyboard->getParent().lock() ) );
         }
 #endif
@@ -309,7 +320,8 @@ void ofxGenericApp::keyboardWillShow( const ofRectangle& keyboardFrame )
     {
         if ( _keyboardDelegates[i] )
         {
-            _keyboardDelegates[i]->keyboard_willShow( keyboardFrame );
+            _keyboardDelegates[i]->keyboard_willShow( endKeyboardFrame );
+            _keyboardDelegates[i]->keyboard_willShow( beginKeyboardFrame, endKeyboardFrame );
         }
     }
 }
@@ -510,6 +522,21 @@ string ofxGenericApp::dumpViewGraph()
 void ofxGenericApp::setup()
 {
     ofBaseApp::setup();
+}
+
+std::map< string, string > ofxGenericApp::getLaunchOptions()
+{
+    return _launchOptions;
+}
+
+void ofxGenericApp::setLaunchOptions( std::map< string, string > launchOptions )
+{
+    _launchOptions = launchOptions;
+}
+
+void ofxGenericApp::gotNotification( string type )
+{
+    //nuffin'
 }
 
 void ofNotifyDeviceOrientationChanged( ofOrientation orientation )
