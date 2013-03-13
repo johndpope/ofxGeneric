@@ -86,6 +86,8 @@
 		3CA59B33153F4312008EE095 /* ofxGenericException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CA59B32153F4311008EE095 /* ofxGenericException.cpp */; };
 		3CA69A5716BCA85E00B50F3D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CA69A5616BCA85E00B50F3D /* libz.dylib */; };
 		3CB572AD1596512C0060F9BE /* ofxGenericSelectorView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CB572AC1596512C0060F9BE /* ofxGenericSelectorView.cpp */; };
+		3CC3086916F0F9AE00BD86CA /* ofxGenericClass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CC3086716F0F9AE00BD86CA /* ofxGenericClass.cpp */; };
+		3CC3086A16F0F9AE00BD86CA /* ofxGenericClass.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CC3086816F0F9AE00BD86CA /* ofxGenericClass.h */; };
 		3CC6222415AB930D009849CE /* ofxGenericUtilityiOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CC6222315AB930D009849CE /* ofxGenericUtilityiOS.h */; };
 		3CE4B910157D414F0058CC70 /* ofxGenericFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CE4B90F157D414F0058CC70 /* ofxGenericFont.cpp */; };
 		3CEBF17815890F9A008D2937 /* ofxGenericBarGraphView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CEBF17615890F9A008D2937 /* ofxGenericBarGraphView.cpp */; };
@@ -278,6 +280,8 @@
 		3CBAC5FC14FD4E73002A12C8 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		3CBAC5FE14FD4EA7002A12C8 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		3CBAC60014FD4EC8002A12C8 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		3CC3086716F0F9AE00BD86CA /* ofxGenericClass.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericClass.cpp; sourceTree = "<group>"; };
+		3CC3086816F0F9AE00BD86CA /* ofxGenericClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericClass.h; sourceTree = "<group>"; };
 		3CC6222315AB930D009849CE /* ofxGenericUtilityiOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericUtilityiOS.h; sourceTree = "<group>"; };
 		3CE4B90D157D40EA0058CC70 /* ofxGenericFont.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericFont.h; sourceTree = "<group>"; };
 		3CE4B90F157D414F0058CC70 /* ofxGenericFont.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericFont.cpp; sourceTree = "<group>"; };
@@ -569,6 +573,8 @@
 				3C0CB5A81638948D00AB87C8 /* ofxGenericEncryption.cpp */,
 				3C747C49163E15C400AE5C92 /* ofxGenericSwitchView.cpp */,
 				3C747C4A163E15C400AE5C92 /* ofxGenericSwitchView.h */,
+				3CC3086716F0F9AE00BD86CA /* ofxGenericClass.cpp */,
+				3CC3086816F0F9AE00BD86CA /* ofxGenericClass.h */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -827,6 +833,7 @@
 				3C0CB5C71638985200AB87C8 /* NSData+CommonCrypto.h in Headers */,
 				3C0CB5C91638985200AB87C8 /* NSString+Base64.h in Headers */,
 				3C747C4C163E15C400AE5C92 /* ofxGenericSwitchView.h in Headers */,
+				3CC3086A16F0F9AE00BD86CA /* ofxGenericClass.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -973,6 +980,7 @@
 				458FBA5716AF5DA5006A742D /* ofxGenericStorePurchaser.cpp in Sources */,
 				45F0F40016BB224700858F86 /* ofxGenericStoreProduct.cpp in Sources */,
 				45F0F40316BB226900858F86 /* ofxGenericStoreTransaction.cpp in Sources */,
+				3CC3086916F0F9AE00BD86CA /* ofxGenericClass.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
