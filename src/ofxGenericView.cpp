@@ -1190,8 +1190,8 @@ void ofxGenericView::gesturePerformedPan( ofxGenericGestureState state, unsigned
 
 string ofxGenericView::dumpViewGraph( int depth )
 {
-#if defined(DEBUG) || defined(TEST)
     string result;
+#if defined(DEBUG) || defined(TEST)
     string tab;
     for( int trav = 0 ; trav < depth; trav ++ )
         tab += " ";
@@ -1209,18 +1209,18 @@ string ofxGenericView::dumpViewGraph( int depth )
         }
     }
     
-    return result;
-#else
-    return string();
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "dumpViewGraph" );
 #endif
+    return result;
 }
 
 string ofxGenericView::toString()
 {
+    string result;
 #if defined(DEBUG) || defined(TEST)
     const std::type_info& info = typeid( *this );
-    
-    string result( info.name() );    
+    result += info.name();
 #if TARGET_OS_IPHONE
     string nativeClassName = ofxNSStringToString( NSStringFromClass ( [ getNativeView() class ] ) ); 
     result += " native: " + nativeClassName;
@@ -1228,11 +1228,10 @@ string ofxGenericView::toString()
 #endif
     result += " frame: " + getFrame().toString();
     result += " visible: " + ofxGToString( getVisible() );
-    return result;
-    
-#else
-    return string();
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "toString" );
 #endif
+    return result;
 }
 
 #if TARGET_ANDROID
