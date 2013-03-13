@@ -16,6 +16,9 @@
 #include <QuartzCore/QuartzCore.h>
 #endif
 
+#include "ofxGenericLocalization.h"
+#include "ofxGenericException.h"
+
 #define SecondsInADay 86400.0
 
 string ofxGenericDate::getDateFormatAsString( ofxGenericDate::DateFormat format )
@@ -299,9 +302,6 @@ string ofxGenericDate::getStringRepresentation( ofxGenericDate::DateFormat forma
 {
     return getStringRepresentation( getDateFormatAsString( format ), convertToUTC );
 }
-
-#include "ofxGenericLocalization.h"
-#include "ofxGenericException.h"
 
 string ofxGenericDate::getStringRepresentation( string format, bool convertToUTC )
 {
