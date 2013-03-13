@@ -1029,6 +1029,25 @@ void ofxGenericView::removeGestureRecognizers( )
 #endif
 }
 
+void ofxGenericView::setUserInteractionEnabled( bool enabled )
+{
+#if TARGET_OS_IPHONE
+    NativeView nativeView = getNativeView();
+    if ( nativeView )
+    {
+        if ( enabled )
+        {
+            [nativeView setUserInteractionEnabled:YES];
+        } else
+        {
+            [nativeView setUserInteractionEnabled:NO];
+        }
+        
+    }
+#elif TARGET_ANDROID
+#endif
+}
+
 ofPtr< ofImage > ofxGenericView::createImageRepresentation( )
 {
 #if TARGET_OS_IPHONE
