@@ -74,21 +74,26 @@ ofPtr< ofxGenericDate > ofxGenericDate::create( string date, ofxGenericDate::Dat
 
 ofPtr< ofxGenericDate > ofxGenericDate::create( string date, string format )
 {
-    double time = 0;
-    
+    ofPtr< ofxGenericDate > create;
+    if ( !date.empty() )
+    {
+        double time = 0;
+        
 #if TARGET_OS_IPHONE
-    NSDateFormatter* formatter = [ [ [ NSDateFormatter alloc ] init ] autorelease ];
-    NSString* nsFormat = ofxStringToNSString( format );
-    [ formatter setDateFormat:nsFormat ];
-    
-    NSString* nsDateString = ofxStringToNSString( date );
-    NSDate* nsDate = [ formatter dateFromString:nsDateString ];
-    time = [ nsDate timeIntervalSinceReferenceDate ];
+        NSDateFormatter* formatter = [ [ [ NSDateFormatter alloc ] init ] autorelease ];
+        NSString* nsFormat = ofxStringToNSString( format );
+        [ formatter setDateFormat:nsFormat ];
+        
+        NSString* nsDateString = ofxStringToNSString( date );
+        NSDate* nsDate = [ formatter dateFromString:nsDateString ];
+        time = [ nsDate timeIntervalSinceReferenceDate ];
 #elif TARGET_ANDROID
         throw ofxGenericExceptionMemberNotImplement( "ofxGenericDate", "create( string, string )" );
 #endif
-    
-    return ofxGenericDate::create( time );
+        
+        create = ofxGenericDate::create( time );
+    }
+    return create;
 }
 
 ofPtr< ofxGenericDate > ofxGenericDate::create( ofPtr< ofxGenericValueStore > date, ofxGenericDate::DateFormat format )
