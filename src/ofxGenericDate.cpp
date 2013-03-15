@@ -85,6 +85,7 @@ ofPtr< ofxGenericDate > ofxGenericDate::create( string date, string format )
     NSDate* nsDate = [ formatter dateFromString:nsDateString ];
     time = [ nsDate timeIntervalSinceReferenceDate ];
 #elif TARGET_ANDROID
+        throw ofxGenericExceptionMemberNotImplement( "ofxGenericDate", "create( string, string )" );
 #endif
     
     return ofxGenericDate::create( time );
