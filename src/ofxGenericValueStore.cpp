@@ -1304,9 +1304,9 @@ Json::Value* ofxGenericValueStore::convertToJSON() const
         node = new Json::Value( Json::objectValue );
         for( ofxGenericValueStoreObjectConstIterator travMembers = objectBegin(); travMembers !=objectEnd(); travMembers ++ )
         {
+            string key = ( *travMembers ).first;
             if ( ( *travMembers ).second )
             {
-                string key = ( *travMembers ).first;
                 Json::Value* member = ( *travMembers ).second->convertToJSON();
                 if ( member )
                 {
@@ -1315,7 +1315,7 @@ Json::Value* ofxGenericValueStore::convertToJSON() const
                 }
             } else 
             {
-                ofxGLogError( "In writing to JSON a node " + ( *travMembers ).first + " is empty" );
+                ( *node )[ key ] = Json::nullValue;
             }
         }
     } else if ( isArray() )
