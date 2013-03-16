@@ -81,9 +81,6 @@ public:
     //second of the day 0-59
     virtual unsigned int getSecond();
     
-    // 0-6, Sunday is 0
-    virtual int getDayOfTheWeek();
-    
     virtual string getDescription();
     
     virtual string getStringRepresentation( ofxGenericDate::DateFormat format = ofxGenericDate::DateFormatDateOnly, bool convertToUTC = false );

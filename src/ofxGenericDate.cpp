@@ -268,24 +268,6 @@ unsigned int ofxGenericDate::getSecond()
     return _second;
 }
 
-int ofxGenericDate::getDayOfTheWeek()
-{
-    int retval = 0;
-    
-#if TARGET_OS_IPHONE
-    NSDate* date = convertToNSDate();
-    NSCalendar* calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    NSDateComponents* weekdayComponents =[ calendar components:NSWeekdayCalendarUnit fromDate:date ];
-    retval = [weekdayComponents weekday];
-    [calendar release];
-    
-    // Adjust the value to be 0 - 6
-    retval--;
-#endif
-    
-    return retval;
-}
-
 string ofxGenericDate::getDescription()
 {
 #if TARGET_OS_IPHONE
@@ -354,7 +336,7 @@ string ofxGenericDate::getStringRepresentation( string format, bool convertToUTC
         {
             localizedDaysOfTheWeek = [ formatter veryShortWeekdaySymbols ];
         }
-        string localizedDay = ofxNSStringToString( [ localizedDaysOfTheWeek objectAtIndex:getDayOfTheWeek() ] );
+        string localizedDay = ofxNSStringToString( [ localizedDaysOfTheWeek objectAtIndex:getDay() ] );
         size_t insertStart, insertEnd;
         insertStart = result.find( "|" );
         insertEnd = result.find_first_not_of( "|", insertStart );
