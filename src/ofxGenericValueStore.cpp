@@ -1356,6 +1356,35 @@ void ofxGenericValueStore::purge()
     }
 }
 
+#if TARGET_OS_IPHONE
+NSNumber* ofxGenericValueStore::toNSNumber() const
+{
+    NSNumber* result = nil;
+
+    switch ( getType() )
+    {
+        case ofxGenericValueStoreTypeArray:
+            break;
+        case ofxGenericValueStoreTypeBool:
+            result = [ NSNumber numberWithBool:asBool() ];
+            break;
+        case ofxGenericValueStoreTypeFloat:
+            result = [ NSNumber numberWithFloat:asFloat() ];
+            break;
+        case ofxGenericValueStoreTypeInt:
+            result = [ NSNumber numberWithInt:asInt() ];
+            break;
+        case ofxGenericValueStoreTypeObject:
+            break;
+        case ofxGenericValueStoreTypeString:
+            result = [ NSNumber numberWithFloat: ofToFloat( asString() ) ];
+            break;
+    }
+    
+    return result;
+}
+#endif
+
 void ofxGenericValueStore::setVerify( bool verify, string securityKey )
 {
     _verify = verify;
