@@ -29,6 +29,9 @@ public:
     virtual void setImageFrames( const std::vector< string >& frames, bool reverse = false );
     virtual void setImageFrames( const std::vector< ofPtr< ofxGenericImage > >& frames, bool reverse = false );
     
+    virtual void setTag( string tag );
+    virtual string getTag();
+    
     virtual void setFrameRate( float frameRate );
     virtual void start( float frameRate = -1.0f );
     virtual void setLoopMode( ofxGenericAnimatedImageLoopType mode );
@@ -53,6 +56,8 @@ protected:
     unsigned int _lastPlayedFrame;
     ofPtr< ofxGenericTimer > _frameTimer;    
     virtual void clearTimer();
+    
+    string _tag;
     
     ofPtrWeak< ofxGenericAnimatedImageViewDelegate > _delegate;
 };

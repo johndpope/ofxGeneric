@@ -242,3 +242,13 @@ void ofxGenericAnimatedImageView::setAnimationDirection( int dir )
 {
     _animationDirection = dir < 0 ? -1 : 1;
 }
+
+void ofxGenericAnimatedImageView::setTag( string tag )
+{
+    _tag = tag;
+}
+
+string ofxGenericAnimatedImageView::getTag()
+{
+    return _tag;
+}
