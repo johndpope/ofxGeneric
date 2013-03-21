@@ -1304,9 +1304,9 @@ Json::Value* ofxGenericValueStore::convertToJSON() const
         node = new Json::Value( Json::objectValue );
         for( ofxGenericValueStoreObjectConstIterator travMembers = objectBegin(); travMembers !=objectEnd(); travMembers ++ )
         {
+            string key = ( *travMembers ).first;
             if ( ( *travMembers ).second )
             {
-                string key = ( *travMembers ).first;
                 Json::Value* member = ( *travMembers ).second->convertToJSON();
                 if ( member )
                 {
@@ -1315,7 +1315,7 @@ Json::Value* ofxGenericValueStore::convertToJSON() const
                 }
             } else 
             {
-                ofxGLogError( "In writing to JSON a node " + ( *travMembers ).first + " is empty" );
+                ( *node )[ key ] = Json::nullValue;
             }
         }
     } else if ( isArray() )
@@ -1355,6 +1355,35 @@ void ofxGenericValueStore::purge()
         ( *asArray() ).clear();
     }
 }
+
+#if TARGET_OS_IPHONE
+NSNumber* ofxGenericValueStore::toNSNumber() const
+{
+    NSNumber* result = nil;
+
+    switch ( getType() )
+    {
+        case ofxGenericValueStoreTypeArray:
+            break;
+        case ofxGenericValueStoreTypeBool:
+            result = [ NSNumber numberWithBool:asBool() ];
+            break;
+        case ofxGenericValueStoreTypeFloat:
+            result = [ NSNumber numberWithFloat:asFloat() ];
+            break;
+        case ofxGenericValueStoreTypeInt:
+            result = [ NSNumber numberWithInt:asInt() ];
+            break;
+        case ofxGenericValueStoreTypeObject:
+            break;
+        case ofxGenericValueStoreTypeString:
+            result = [ NSNumber numberWithFloat: ofToFloat( asString() ) ];
+            break;
+    }
+    
+    return result;
+}
+#endif
 
 void ofxGenericValueStore::setVerify( bool verify, string securityKey )
 {

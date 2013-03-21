@@ -74,20 +74,26 @@ ofPtr< ofxGenericDate > ofxGenericDate::create( string date, ofxGenericDate::Dat
 
 ofPtr< ofxGenericDate > ofxGenericDate::create( string date, string format )
 {
-    double time = 0;
-    
+    ofPtr< ofxGenericDate > create;
+    if ( !date.empty() )
+    {
+        double time = 0;
+        
 #if TARGET_OS_IPHONE
-    NSDateFormatter* formatter = [ [ [ NSDateFormatter alloc ] init ] autorelease ];
-    NSString* nsFormat = ofxStringToNSString( format );
-    [ formatter setDateFormat:nsFormat ];
-    
-    NSString* nsDateString = ofxStringToNSString( date );
-    NSDate* nsDate = [ formatter dateFromString:nsDateString ];
-    time = [ nsDate timeIntervalSinceReferenceDate ];
+        NSDateFormatter* formatter = [ [ [ NSDateFormatter alloc ] init ] autorelease ];
+        NSString* nsFormat = ofxStringToNSString( format );
+        [ formatter setDateFormat:nsFormat ];
+        
+        NSString* nsDateString = ofxStringToNSString( date );
+        NSDate* nsDate = [ formatter dateFromString:nsDateString ];
+        time = [ nsDate timeIntervalSinceReferenceDate ];
 #elif TARGET_ANDROID
+        throw ofxGenericExceptionMemberNotImplement( "ofxGenericDate", "create( string, string )" );
 #endif
-    
-    return ofxGenericDate::create( time );
+        
+        create = ofxGenericDate::create( time );
+    }
+    return create;
 }
 
 ofPtr< ofxGenericDate > ofxGenericDate::create( ofPtr< ofxGenericValueStore > date, ofxGenericDate::DateFormat format )
@@ -262,24 +268,6 @@ unsigned int ofxGenericDate::getSecond()
     return _second;
 }
 
-int ofxGenericDate::getDayOfTheWeek()
-{
-    int retval = 0;
-    
-#if TARGET_OS_IPHONE
-    NSDate* date = convertToNSDate();
-    NSCalendar* calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    NSDateComponents* weekdayComponents =[ calendar components:NSWeekdayCalendarUnit fromDate:date ];
-    retval = [weekdayComponents weekday];
-    [calendar release];
-    
-    // Adjust the value to be 0 - 6
-    retval--;
-#endif
-    
-    return retval;
-}
-
 string ofxGenericDate::getDescription()
 {
 #if TARGET_OS_IPHONE
@@ -348,7 +336,7 @@ string ofxGenericDate::getStringRepresentation( string format, bool convertToUTC
         {
             localizedDaysOfTheWeek = [ formatter veryShortWeekdaySymbols ];
         }
-        string localizedDay = ofxNSStringToString( [ localizedDaysOfTheWeek objectAtIndex:getDayOfTheWeek() ] );
+        string localizedDay = ofxNSStringToString( [ localizedDaysOfTheWeek objectAtIndex:getDay() ] );
         size_t insertStart, insertEnd;
         insertStart = result.find( "|" );
         insertEnd = result.find_first_not_of( "|", insertStart );

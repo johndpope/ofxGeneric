@@ -181,6 +181,10 @@ public:
 //    string toXMLString() const;
 //    virtual TiXmlNode* convertToXML() const;
     
+#if TARGET_OS_IPHONE
+    virtual NSNumber* toNSNumber() const;
+#endif
+    
     virtual void setVerify( bool verify, string securityKey );
     virtual bool getVerify();
     
