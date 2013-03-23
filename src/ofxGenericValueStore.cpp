@@ -1379,6 +1379,8 @@ NSNumber* ofxGenericValueStore::toNSNumber() const
         case ofxGenericValueStoreTypeString:
             result = [ NSNumber numberWithFloat: ofToFloat( asString() ) ];
             break;
+        case ofxGenericValueStoreTypeUninitialized:
+            break;
     }
     
     return result;
