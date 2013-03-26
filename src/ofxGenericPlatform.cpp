@@ -170,6 +170,22 @@ std::vector< string > ofxGenericPlatform::supportedFontNames()
     return supported;
 }
 
+string ofxGenericPlatform::locale()
+{
+    string result = unknownLocale();
+#if TARGET_OS_IPHONE
+    result = ofxNSStringToString( [ [ NSLocale currentLocale ] localeIdentifier ] );
+#else
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericPlatform", locale() );
+#endif
+    return result;
+}
+
+string ofxGenericPlatform::unknownLocale()
+{
+    return "unknown";
+}
+
 #if TARGET_OS_IPHONE
 bool ofxGenericPlatform::isRetinaDisplay()
 {
