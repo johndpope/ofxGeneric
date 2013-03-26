@@ -14,6 +14,8 @@
 
 #include "ofxGenericValueStore.h"
 
+#include "ofxGenericException.h"
+
 #if TARGET_OS_IPHONE
 @interface ofxGenericHTTPConnectionForwarder : NSObject< NSURLConnectionDelegate >
 {
@@ -219,6 +221,32 @@ void ofxGenericHTTPRequest::setTimeout( float timeout )
     _timeoutTimer = ofxGenericTimer::create( timeout, false, dynamic_pointer_cast< ofxGenericTimerDelegate >( _this ) );
 #if TARGET_OS_IPHONE
     [ _request setTimeoutInterval:( NSTimeInterval )timeout ];
+#endif
+}
+
+#if TARGET_OS_IPHONE
+#define UserAgentHTTPHeaderField @"User-Agent"
+#endif
+
+string ofxGenericHTTPRequest::getUserAgent() const
+{
+    string result;
+    
+#if TARGET_OS_IPHONE
+    result = ofxNSStringToString( [ _request valueForHTTPHeaderField:UserAgentHTTPHeaderField ] );
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericHTTPRequest", "getUserAgent" );
+#endif
+    
+    return result;
+}
+
+void ofxGenericHTTPRequest::setUserAgent( string value )
+{
+#if TARGET_OS_IPHONE
+    [ _request setValue:ofxStringToNSString( value ) forHTTPHeaderField:UserAgentHTTPHeaderField ];
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericHTTPRequest", "setUserAgent" );
 #endif
 }
 

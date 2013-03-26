@@ -57,6 +57,9 @@ public:
     virtual void setHeaderField( string field, string value );
     virtual void setTimeout( float timeout );
 
+    string getUserAgent() const;
+    virtual void setUserAgent( string value );
+
     virtual void setContentTypeHeader( string value );
     virtual void setAcceptHeader( string value );
     virtual void setAuthorizationHeader( string value );
