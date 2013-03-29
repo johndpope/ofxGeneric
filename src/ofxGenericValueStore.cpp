@@ -713,11 +713,16 @@ string ofxGenericValueStore::read( string key, const char* defaultValue ) const
 
 ofPtr< ofxGenericValueStore > ofxGenericValueStore::read( string key ) const
 {
+    return read( key, ofPtr< ofxGenericValueStore >() );
+}
+
+ofPtr< ofxGenericValueStore > ofxGenericValueStore::read( string key, ofPtr< ofxGenericValueStore > defaultValue ) const
+{
     if ( asObject() && exists( key ) )
     {
         return ( *asObject() )[ key ];
     }
-    return ofPtr< ofxGenericValueStore >();
+    return defaultValue;
 }
 
 ofPtr< ofxGenericValueStore > ofxGenericValueStore::operator[]( string key ) const
@@ -887,11 +892,16 @@ string ofxGenericValueStore::read( unsigned int index, const char* defaultValue 
 
 ofPtr< ofxGenericValueStore > ofxGenericValueStore::read( unsigned int index ) const
 {
+    return read( index, ofPtr< ofxGenericValueStore >() );
+}
+
+ofPtr< ofxGenericValueStore > ofxGenericValueStore::read( unsigned int index, ofPtr< ofxGenericValueStore > defaultValue ) const
+{
     if ( asArray() && length() > index )
     {
         return ( *asArray() )[ index ];
     }
-    return ofPtr< ofxGenericValueStore >();
+    return defaultValue;
 }
 
 ofPtr< ofxGenericValueStore > ofxGenericValueStore::operator[]( unsigned int index ) const

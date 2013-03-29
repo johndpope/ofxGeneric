@@ -116,6 +116,7 @@ public:
     virtual string  read( string key, string defaultValue ) const;
     virtual string  read( string key, const char* defaultValue ) const;
     virtual ofPtr< ofxGenericValueStore > read( string key ) const;
+    virtual ofPtr< ofxGenericValueStore > read( string key, ofPtr< ofxGenericValueStore > defaultValue ) const;
     ofPtr< ofxGenericValueStore > operator[]( string key ) const;
     ofPtr< ofxGenericValueStore > readOrCreate( string key, Type type );
     ofPtr< ofxGenericValueStore > readOrCreate( string key, Type type, bool& didCreate );
@@ -139,6 +140,7 @@ public:
     virtual string  read( unsigned int index, string defaultValue ) const;
     virtual string  read( unsigned int index, const char* defaultValue ) const;
     virtual ofPtr< ofxGenericValueStore > read( unsigned int index ) const;
+    virtual ofPtr< ofxGenericValueStore > read( unsigned int index, ofPtr< ofxGenericValueStore > defaultValue ) const;
     ofPtr< ofxGenericValueStore > operator[]( unsigned int index ) const;    
     ofPtr< ofxGenericValueStore > readOrCreate( unsigned int index, Type type );
     ofPtr< ofxGenericValueStore > readOrCreate( unsigned int index, Type type, bool& didCreate );
