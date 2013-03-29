@@ -180,7 +180,8 @@ void SignalHandler( int signal );
 
 -( void )dealloc
 {
-    release( _displayLink );
+    [ _displayLink release ];
+    _displayLink = nil;
     [ super dealloc ];
 }
 

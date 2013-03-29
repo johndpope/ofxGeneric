@@ -71,8 +71,12 @@ ofxGenericView::~ofxGenericView()
     removeFromParent();
 
 #if TARGET_OS_IPHONE
-    releaseView( _view );
-    releaseViewController( _viewController );
+    [ _view removeFromSuperview ];
+    [ _view release ];
+    _view = nil;
+    
+    [ _viewController release ];
+    _viewController = nil;
 #elif TARGET_ANDROID
 	destroyJNIReference( _view );
 #endif

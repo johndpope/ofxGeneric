@@ -40,7 +40,8 @@ ofxGenericTableView::ofxGenericTableView()
 ofxGenericTableView::~ofxGenericTableView()
 {
 #if TARGET_OS_IPHONE
-	release( _forwarder );
+    [ _forwarder release ];
+    _forwarder = nil;
 #endif
 }
 

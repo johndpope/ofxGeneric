@@ -40,7 +40,9 @@ ofxAppGenericWindow::ofxAppGenericWindow()
 ofxAppGenericWindow::~ofxAppGenericWindow()
 {
 #if TARGET_OS_IPHONE
-    releaseView( _window );
+    [ _window removeFromSuperview ];
+    [ _window release ];
+    _window = nil;
 #elif TARGET_ANDROID
 	destroyJNIReference( _window );
 #endif

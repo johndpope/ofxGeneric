@@ -11,7 +11,9 @@
 ofxGenericTableViewCell::~ofxGenericTableViewCell()
 {
 #if TARGET_OS_IPHONE
-    releaseView( _view );
+    [ _view removeFromSuperview ];
+    [ _view release ];
+    _view = nil;
 #endif
 }
 
