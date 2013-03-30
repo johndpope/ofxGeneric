@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomDataFormatters
+   version = "1.0">
+   <SummaryFormatters>
+      <SummaryFormatter
+         formatString = "type: {$VAR._type} filename: {$VAR._fileName}:s"
+         type = "ofxGenericCache *">
+      </SummaryFormatter>
+      <SummaryFormatter
+         formatString = "frame: {( CGRect )[ $VAR-&gt;_view frame ]}:s"
+         type = "ofxGenericView *">
+      </SummaryFormatter>
+      <SummaryFormatter
+         formatString = "[ %x%, %y% | width=%width%, height=%height% ]"
+         type = "const ofRectangle &amp;">
+      </SummaryFormatter>
+      <SummaryFormatter
+         formatString = "[ %x%, %y% | width=%width%, height=%height% ]"
+         type = "ofRectangle &amp;">
+      </SummaryFormatter>
+      <SummaryFormatter
+         formatString = "ref: {$VAR._M_ptr} strong#: {$VAR._M_refcount._M_pi._M_use_count} weak#: {$VAR._M_refcount._M_pi._M_weak_count}"
+         type = "ofPtr&lt;ofxGenericCache&gt;">
+      </SummaryFormatter>
+      <SummaryFormatter
+         formatString = "strong#: {$VAR._M_pi._M_use_count} weak#: {$VAR._M_pi._M_weak_count}"
+         type = "&apos;std::tr1::__shared_count&lt;2&gt;&apos;">
+      </SummaryFormatter>
+      <SummaryFormatter
+         formatString = "ref: {$VAR._M_ptr} strong#: {$VAR._M_refcount._M_pi._M_use_count} weak#: {$VAR._M_refcount._M_pi._M_weak_count}"
+         type = "ofPtr&lt;ofxGenericView&gt;">
+      </SummaryFormatter>
+      <SummaryFormatter
+         formatString = "&quot;{$VAR._M_dataplus._M_p}:s&quot;"
+         type = "string &amp;">
+      </SummaryFormatter>
+      <SummaryFormatter
+         formatString = "stored: {$VAR._M_impl._M_node_count}"
+         type = "_Rep_type">
+      </SummaryFormatter>
+   </SummaryFormatters>
+</CustomDataFormatters>
