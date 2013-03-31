@@ -189,22 +189,22 @@ string ofxGenericPlatform::unknownLocale()
 #if TARGET_OS_IPHONE
 bool ofxGenericPlatform::isRetinaDisplay()
 {
-    return ( bool )[ UIDevice hasRetinaDisplay ];
+    return ( bool )[ [ UIDevice currentDevice ] hasRetinaDisplay ];
 }
 
 string ofxGenericPlatform::imageSuffixRetinaDisplay()
 {
-    return ofxNSStringToString( [ UIDevice imageSuffixRetinaDisplay ] );
+    return ofxNSStringToString( [ [ UIDevice currentDevice ] imageSuffixRetinaDisplay ] );
 }
 
 bool ofxGenericPlatform::is4InchDisplay()
 {
-    return ( bool )[ UIDevice has4InchDisplay ];
+    return ( bool )[ [ UIDevice currentDevice ] has4InchDisplay ];
 }
 
 string ofxGenericPlatform::imageSuffix4InchDisplay()
 {
-    return ofxNSStringToString( [ UIDevice imageSuffix4InchDisplay ] );
+    return ofxNSStringToString( [ [ UIDevice currentDevice ] imageSuffix4InchDisplay ] );
 }
 
 string ofxGenericPlatform::imageFileName( string originalFileName, bool is4Inch, bool isRetina )
