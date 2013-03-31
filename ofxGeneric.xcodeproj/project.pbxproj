@@ -42,6 +42,9 @@
 		3C5C788E15C7809F0099C59A /* ofxGenericFrameView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C5C788D15C7809F0099C59A /* ofxGenericFrameView.cpp */; };
 		3C61377116113C2D00349CD9 /* NSFileManager+Tar.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C61376E16113C2D00349CD9 /* NSFileManager+Tar.h */; };
 		3C61377216113C2D00349CD9 /* NSFileManager+Tar.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C61376F16113C2D00349CD9 /* NSFileManager+Tar.m */; };
+		3C6513021707B830000F8F50 /* ofxGenericLocationManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C6513001707B830000F8F50 /* ofxGenericLocationManager.cpp */; };
+		3C6513031707B830000F8F50 /* ofxGenericLocationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C6513011707B830000F8F50 /* ofxGenericLocationManager.h */; };
+		3C6513051707BB65000F8F50 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C6513041707BB65000F8F50 /* CoreLocation.framework */; };
 		3C6D4B2B15584E4D004904CE /* ofxGenericSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C6D4B2A15584E4D004904CE /* ofxGenericSettings.cpp */; };
 		3C6D979D161149780087816E /* crypt.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C6D9782161149780087816E /* crypt.h */; };
 		3C6D979E161149780087816E /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 3C6D9783161149780087816E /* ioapi.c */; };
@@ -216,6 +219,9 @@
 		3C5C788D15C7809F0099C59A /* ofxGenericFrameView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericFrameView.cpp; sourceTree = "<group>"; };
 		3C61376E16113C2D00349CD9 /* NSFileManager+Tar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+Tar.h"; sourceTree = "<group>"; };
 		3C61376F16113C2D00349CD9 /* NSFileManager+Tar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+Tar.m"; sourceTree = "<group>"; };
+		3C6513001707B830000F8F50 /* ofxGenericLocationManager.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericLocationManager.cpp; sourceTree = "<group>"; };
+		3C6513011707B830000F8F50 /* ofxGenericLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericLocationManager.h; sourceTree = "<group>"; };
+		3C6513041707BB65000F8F50 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.1.sdk/System/Library/Frameworks/CoreLocation.framework; sourceTree = DEVELOPER_DIR; };
 		3C6D4B2715584CB6004904CE /* ofxGenericSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericSettings.h; sourceTree = "<group>"; };
 		3C6D4B2A15584E4D004904CE /* ofxGenericSettings.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericSettings.cpp; sourceTree = "<group>"; };
 		3C6D9782161149780087816E /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
@@ -362,6 +368,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3C6513051707BB65000F8F50 /* CoreLocation.framework in Frameworks */,
 				3CA69A5716BCA85E00B50F3D /* libz.dylib in Frameworks */,
 				4548300216BB5207004C5398 /* StoreKit.framework in Frameworks */,
 				3C9DAB4215F36137000F04AD /* libofxiPhone_iphoneos_Debug.a in Frameworks */,
@@ -462,6 +469,7 @@
 				3C7B4DDD14FC78A1003121FE /* Foundation.framework */,
 				3C7B4DED14FC78A1003121FE /* UIKit.framework */,
 				3CA69A5616BCA85E00B50F3D /* libz.dylib */,
+				3C6513041707BB65000F8F50 /* CoreLocation.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -575,6 +583,8 @@
 				3C747C4A163E15C400AE5C92 /* ofxGenericSwitchView.h */,
 				3CC3086716F0F9AE00BD86CA /* ofxGenericClass.cpp */,
 				3CC3086816F0F9AE00BD86CA /* ofxGenericClass.h */,
+				3C6513001707B830000F8F50 /* ofxGenericLocationManager.cpp */,
+				3C6513011707B830000F8F50 /* ofxGenericLocationManager.h */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -834,6 +844,7 @@
 				3C0CB5C91638985200AB87C8 /* NSString+Base64.h in Headers */,
 				3C747C4C163E15C400AE5C92 /* ofxGenericSwitchView.h in Headers */,
 				3CC3086A16F0F9AE00BD86CA /* ofxGenericClass.h in Headers */,
+				3C6513031707B830000F8F50 /* ofxGenericLocationManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -981,6 +992,7 @@
 				45F0F40016BB224700858F86 /* ofxGenericStoreProduct.cpp in Sources */,
 				45F0F40316BB226900858F86 /* ofxGenericStoreTransaction.cpp in Sources */,
 				3CC3086916F0F9AE00BD86CA /* ofxGenericClass.cpp in Sources */,
+				3C6513021707B830000F8F50 /* ofxGenericLocationManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
