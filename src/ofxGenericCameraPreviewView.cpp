@@ -168,9 +168,9 @@ void ofxGenericCameraPreviewView::takePicture()
              {
                  NSData* imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
                  UIImage* image = [ [ UIImage alloc ] initWithData:imageData ];
-                                 
-                 ofImage convertedImage;
-                 ofxiPhoneUIImageToOFImage( image, convertedImage );
+                 
+                 ofPtr< ofImage > convertedImage( new ofImage() );
+                 ofxiPhoneUIImageToOFImage( image, *convertedImage );
                  pictureTaken( convertedImage );
              }
          }
@@ -182,7 +182,7 @@ void ofxGenericCameraPreviewView::takePicture()
 #endif
 }
 
-void ofxGenericCameraPreviewView::pictureTaken( ofImage& image )
+void ofxGenericCameraPreviewView::pictureTaken( ofPtr< ofImage > image )
 {
     if ( _delegate )
     {

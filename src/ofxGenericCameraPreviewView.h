@@ -30,7 +30,7 @@ public:
     virtual void didDisappear();
     
     virtual void takePicture();
-    virtual void pictureTaken( ofImage& image );
+    virtual void pictureTaken( ofPtr< ofImage > image );
     
     virtual void deviceOrientationChanged( ofxGenericOrientationEventArgs& orientationArgs );
     
@@ -55,5 +55,5 @@ class ofxGenericCameraPreviewViewDelegate
 public:
     virtual ~ofxGenericCameraPreviewViewDelegate() {};
     
-    virtual void pictureTaken( ofImage& image ) {};
+    virtual void pictureTaken( ofPtr< ofImage > image ) {};
 };
