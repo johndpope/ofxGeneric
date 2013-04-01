@@ -89,7 +89,7 @@ float ofxGFontSizeForText( string text, string fontName, float startingFontSize,
     UIFont* font = [ UIFont fontWithName:nsFontName size:fontSize ];
     
     NSString* nsText = [ NSString stringWithCString:text.c_str() encoding:NSUTF8StringEncoding ];
-    CGFloat height = [ nsText sizeWithFont:font constrainedToSize:CGSizeMake( constrainedSize.x, FLT_MAX ) lineBreakMode:UILineBreakModeWordWrap ].height;
+    CGFloat height = [ nsText sizeWithFont:font constrainedToSize:CGSizeMake( constrainedSize.x, FLT_MAX ) lineBreakMode:NSLineBreakByWordWrapping ].height;
     UIFont *newFont = font;
     
     //Reduce font size while too large, break if no height (empty string)
@@ -97,7 +97,7 @@ float ofxGFontSizeForText( string text, string fontName, float startingFontSize,
     {   
         fontSize--;  
         newFont = [ UIFont fontWithName:nsFontName size:fontSize ];   
-        height = [ nsText sizeWithFont:newFont constrainedToSize:CGSizeMake( constrainedSize.x, FLT_MAX ) lineBreakMode:UILineBreakModeWordWrap ].height;
+        height = [ nsText sizeWithFont:newFont constrainedToSize:CGSizeMake( constrainedSize.x, FLT_MAX ) lineBreakMode:NSLineBreakByWordWrapping ].height;
     };
     
     // Loop through words in string and resize to fit
@@ -123,7 +123,7 @@ ofPoint ofxGPointSizeForText( string text, string fontName, float fontSize, floa
     NSString* nsFontName = [ NSString stringWithCString:fontName.c_str() encoding:NSUTF8StringEncoding ];
     UIFont* font = [ UIFont fontWithName:nsFontName size:fontSize ];
     NSString* nsText = [ NSString stringWithCString:text.c_str() encoding:NSUTF8StringEncoding ];
-    CGSize size = [ nsText sizeWithFont:font constrainedToSize:CGSizeMake( constrainedWidth, FLT_MAX ) lineBreakMode:UILineBreakModeWordWrap ];
+    CGSize size = [ nsText sizeWithFont:font constrainedToSize:CGSizeMake( constrainedWidth, FLT_MAX ) lineBreakMode:NSLineBreakByWordWrapping ];
     return ofPoint( size.width, size.height );
 #else
     return ofPoint( 0, 0 );

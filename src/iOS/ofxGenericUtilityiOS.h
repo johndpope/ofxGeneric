@@ -17,8 +17,8 @@ string ofxGToString( NSString* string );
 
 CGFloat getWindowScale();
 
-UITextAlignment ofxGenericTextHorizontalAlignmentToiOS( ofxGenericTextHorizontalAlignment from );
-ofxGenericTextHorizontalAlignment iOSToofxGenericTextHorizontalAlignment( UITextAlignment from );
+NSTextAlignment ofxGenericTextHorizontalAlignmentToiOS( ofxGenericTextHorizontalAlignment from );
+ofxGenericTextHorizontalAlignment iOSToofxGenericTextHorizontalAlignment( NSTextAlignment from );
 
 UITableViewCellSeparatorStyle ofxGenericTableViewSeparatorStyleToiOS( ofxGenericTableViewSeparatorStyle from );
 
@@ -41,8 +41,8 @@ ofOrientation iOSDeviceToofOrientation( UIDeviceOrientation from );
 UIInterfaceOrientation ofInterfaceOrientationToiOS( ofOrientation from );
 ofOrientation iOSToofOrientation( UIInterfaceOrientation from );
 
-UILineBreakMode ofxGenericTextLinebreakModeToiOS( ofxGenericTextLinebreakMode from );
-ofxGenericTextLinebreakMode iOSToofxGenericTextLinebreakMode( UILineBreakMode from );
+NSLineBreakMode ofxGenericTextLinebreakModeToiOS( ofxGenericTextLinebreakMode from );
+ofxGenericTextLinebreakMode iOSToofxGenericTextLinebreakMode( NSLineBreakMode from );
 
 UIViewAnimationCurve ofxGenericViewAnimationCurveToiOS( ofxGenericViewAnimationCurve from );
 UIViewAnimationTransition ofxGenericViewAnimationTransitionToiOS( ofxGenericViewAnimationTransition from );

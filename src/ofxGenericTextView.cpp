@@ -23,7 +23,7 @@ NativeView ofxGenericTextView::createNativeView( const ofRectangle& frame )
     UILabel* newView = [ [ UILabel alloc ] initWithFrame:ofRectangleToCGRect( frame ) ];
     [ newView setBackgroundColor:[ UIColor clearColor ] ];
     [ newView setTextColor:[ UIColor blackColor ] ];
-    [ newView setLineBreakMode:UILineBreakModeWordWrap ];
+    [ newView setLineBreakMode:ofxGenericTextLinebreakModeToiOS( ofxGenericTextLinebreakModeWordWrap ) ];
     [ newView setNumberOfLines:0 ];
     return newView;
 #endif

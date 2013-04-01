@@ -48,69 +48,69 @@ ofRectangle CGRectToofRectangle( const CGRect& from )
     return ofRectangle( from.origin.x, from.origin.y, from.size.width, from.size.height );
 }
 
-UITextAlignment ofxGenericTextHorizontalAlignmentToiOS( ofxGenericTextHorizontalAlignment from )
+NSTextAlignment ofxGenericTextHorizontalAlignmentToiOS( ofxGenericTextHorizontalAlignment from )
 {
     switch ( from )
     {
         case ofxGenericTextHorizontalAlignmentLeft:
-            return UITextAlignmentLeft;
+            return NSTextAlignmentLeft;
         case ofxGenericTextHorizontalAlignmentCenter:
-            return UITextAlignmentCenter;
+            return NSTextAlignmentCenter;
         case ofxGenericTextHorizontalAlignmentRight:
-            return UITextAlignmentRight;
+            return NSTextAlignmentRight;
     }
-    return UITextAlignmentLeft;
+    return NSTextAlignmentLeft;
 }
 
-ofxGenericTextHorizontalAlignment iOSToofxGenericTextHorizontalAlignment( UITextAlignment from )
+ofxGenericTextHorizontalAlignment iOSToofxGenericTextHorizontalAlignment( NSTextAlignment from )
 {
     switch ( from )
     {
-        case UITextAlignmentLeft:
+        case NSTextAlignmentLeft:
             return ofxGenericTextHorizontalAlignmentLeft;
-        case UITextAlignmentCenter:
+        case NSTextAlignmentCenter:
             return ofxGenericTextHorizontalAlignmentCenter;
-        case UITextAlignmentRight:
+        case NSTextAlignmentRight:
             return ofxGenericTextHorizontalAlignmentRight;
     }
     return ofxGenericTextHorizontalAlignmentLeft;
 }
 
-UILineBreakMode ofxGenericTextLinebreakModeToiOS( ofxGenericTextLinebreakMode from )
+NSLineBreakMode ofxGenericTextLinebreakModeToiOS( ofxGenericTextLinebreakMode from )
 {
     switch ( from )
     {
         case ofxGenericTextLinebreakModeWordWrap:
-            return UILineBreakModeWordWrap;
+            return NSLineBreakByWordWrapping;
         case ofxGenericTextLinebreakModeCharacterWrap:
-            return UILineBreakModeCharacterWrap;
+            return NSLineBreakByCharWrapping;
         case ofxGenericTextLinebreakModeClip:
-            return UILineBreakModeClip;
+            return NSLineBreakByClipping;
         case ofxGenericTextLinebreakModeHeadTruncation:
-            return UILineBreakModeHeadTruncation;
+            return NSLineBreakByTruncatingHead;
         case ofxGenericTextLinebreakModeTailTruncation:
-            return UILineBreakModeTailTruncation;
+            return NSLineBreakByTruncatingTail;
         case ofxGenericTextLinebreakModeMiddleTruncation:
-            return UILineBreakModeMiddleTruncation;
+            return NSLineBreakByTruncatingMiddle;
     }
-    return UILineBreakModeWordWrap;
+    return NSLineBreakByWordWrapping;
 }
 
-ofxGenericTextLinebreakMode iOSToofxGenericTextLinebreakMode( UILineBreakMode from )
+ofxGenericTextLinebreakMode iOSToofxGenericTextLinebreakMode( NSLineBreakMode from )
 {
     switch ( from )
     {
-        case UILineBreakModeWordWrap:
+        case NSLineBreakByWordWrapping:
             return ofxGenericTextLinebreakModeWordWrap;
-        case UILineBreakModeCharacterWrap:
+        case NSLineBreakByCharWrapping:
             return ofxGenericTextLinebreakModeCharacterWrap;
-        case UILineBreakModeClip:
+        case NSLineBreakByClipping:
             return ofxGenericTextLinebreakModeClip;
-        case UILineBreakModeHeadTruncation:
+        case NSLineBreakByTruncatingHead:
             return ofxGenericTextLinebreakModeHeadTruncation;
-        case UILineBreakModeTailTruncation:
+        case NSLineBreakByTruncatingTail:
             return ofxGenericTextLinebreakModeTailTruncation;
-        case UILineBreakModeMiddleTruncation:
+        case NSLineBreakByTruncatingMiddle:
             return ofxGenericTextLinebreakModeMiddleTruncation;
     }
     return ofxGenericTextLinebreakModeWordWrap;
