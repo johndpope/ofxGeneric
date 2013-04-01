@@ -138,9 +138,9 @@ void ofxGenericCameraPreviewView::takePicture()
 #if TARGET_OS_IPHONE
     
 #if TARGET_IPHONE_SIMULATOR
-    ofImage ofImage;
-    ofxiPhoneUIImageToOFImage( [ UIImage imageNamed:@"Default.png" ], ofImage, ( int )getFrame().width, ( int )getFrame().height );
-    pictureTaken( ofImage );
+    ofPtr< ofImage > image;
+    ofxiPhoneUIImageToOFImage( [ UIImage imageNamed:@"Default.png" ], *image, ( int )getFrame().width, ( int )getFrame().height );
+    pictureTaken( image );
 #else
 
     AVCaptureConnection* videoConnection = nil;
