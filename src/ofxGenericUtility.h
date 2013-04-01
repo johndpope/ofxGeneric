@@ -95,14 +95,3 @@ bool ofxGUnzip( string zipLocation, bool zipIsInDocuments, string destinationWit
 
 ofPoint ofxGToPoint( const ofColor& color );
 ofColor ofxGToColor( const ofPoint& point );
-
-template< typename _InputIterator, typename _Tp >
-inline bool ofxGContains( _InputIterator __first, _InputIterator __end, const _Tp& __val )
-{
-    // concept requirements
-    __glibcxx_function_requires( _InputIteratorConcept< _InputIterator > )
-    __glibcxx_function_requires( _EqualOpConcept<
-                                typename iterator_traits< _InputIterator >::value_type, _Tp > )
-    __glibcxx_requires_valid_range( __first, __end );
-    return std::__find( __first, __end, __val, std::__iterator_category( __first ) ) != __end;
-}
