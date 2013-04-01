@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string>ofxBody</string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>TopLevel</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>ofPtr&lt; &lt;#className#&gt; &gt; &lt;#className#&gt;::create()
+{
+    ofPtr&lt; &lt;#className#&gt; &gt; create( new &lt;#className#&gt;() );
+    create-&gt;init( create );
+    return create;
+}
+
+&lt;#className#&gt;::&lt;#className#&gt;()
+{
+}</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>2870F438-1218-4AF5-853C-8E0A2930EF6E</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Objective-C-Plus-Plus</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>ofxGeneric Class Body</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

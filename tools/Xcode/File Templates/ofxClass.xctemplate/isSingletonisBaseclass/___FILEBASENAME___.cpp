@@ -1,0 +1,34 @@
+//
+//  ___FILENAME___
+//  ___PROJECTNAME___
+//
+//  Created by ___FULLUSERNAME___ on ___DATE___.
+//___COPYRIGHT___
+//
+
+#include "___FILEBASENAME___.h"
+
+ofPtr< ___FILEBASENAMEASIDENTIFIER___ > ___FILEBASENAMEASIDENTIFIER___::_this;
+
+___FILEBASENAMEASIDENTIFIER___& ___FILEBASENAMEASIDENTIFIER___::getInstance()
+{
+    if ( !___FILEBASENAMEASIDENTIFIER___::_this )
+    {
+        ofPtr< ___FILEBASENAMEASIDENTIFIER___ > instance = ofPtr< ___FILEBASENAMEASIDENTIFIER___ >( new ___FILEBASENAMEASIDENTIFIER___() );
+        instance->init( instance );
+    }
+    return *___FILEBASENAMEASIDENTIFIER___::_this;
+}
+
+___FILEBASENAMEASIDENTIFIER___::___FILEBASENAMEASIDENTIFIER___()
+{
+}
+
+void ___FILEBASENAMEASIDENTIFIER___::init( ofPtr< ___FILEBASENAMEASIDENTIFIER___ > setThis )
+{
+    ___FILEBASENAMEASIDENTIFIER___::_this = setThis;
+}
+
+___FILEBASENAMEASIDENTIFIER___::~___FILEBASENAMEASIDENTIFIER___()
+{
+}

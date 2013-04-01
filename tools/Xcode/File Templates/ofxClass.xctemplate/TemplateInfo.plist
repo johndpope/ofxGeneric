@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AllowedTypes</key>
+	<array>
+		<string>public.c-source</string>
+		<string>public.c-plus-plus-source</string>
+		<string>public.objective-c-plus-plus-source</string>
+	</array>
+	<key>DefaultCompletionName</key>
+	<string>MyClass</string>
+	<key>Description</key>
+	<string>An ofxGeneric Class</string>
+	<key>Kind</key>
+	<string>Xcode.IDEKit.TextSubstitutionFileTemplateKind</string>
+	<key>MainTemplateFile</key>
+	<string>___FILEBASENAME___.cpp</string>
+	<key>Options</key>
+	<array>
+		<dict>
+			<key>Description</key>
+			<string>The name of the class to create</string>
+			<key>Identifier</key>
+			<string>productName</string>
+			<key>Name</key>
+			<string>Class</string>
+			<key>NotPersisted</key>
+			<true/>
+			<key>Required</key>
+			<true/>
+			<key>Type</key>
+			<string>text</string>
+		</dict>
+		<dict>
+			<key>NotPersisted</key>
+			<true/>
+			<key>Required</key>
+			<true/>
+			<key>Default</key>
+			<string>false</string>
+			<key>Description</key>
+			<string>Singleton</string>
+			<key>Identifier</key>
+			<string>isSingleton</string>
+			<key>Name</key>
+			<string>Singleton</string>
+			<key>Type</key>
+			<string>checkbox</string>
+		</dict>
+		<dict>
+			<key>NotPersisted</key>
+			<false/>
+			<key>Required</key>
+			<true/>
+			<key>Default</key>
+			<string>true</string>
+			<key>Description</key>
+			<string>Base class</string>
+			<key>Identifier</key>
+			<string>isBaseclass</string>
+			<key>Name</key>
+			<string>Base class</string>
+			<key>Type</key>
+			<string>checkbox</string>
+		</dict>
+		<dict>
+			<key>Default</key>
+			<string>ofxGenericView</string>
+			<key>RequiredOptions</key>
+			<dict>
+				<key>isBaseclass</key>
+				<array>
+					<string>false</string>
+				</array>
+			</dict>
+			<key>NotPersisted</key>
+			<false/>
+			<key>Required</key>
+			<false/>
+			<key>Description</key>
+			<string>What class to subclass in the new file</string>
+			<key>Identifier</key>
+			<string>subclassOf</string>
+			<key>Name</key>
+			<string>Subclass of</string>
+			<key>Suffixes</key>
+			<dict>
+				<key>ofxGenericView</key>
+				<string>View</string>
+			</dict>
+			<key>Type</key>
+			<string>combo</string>
+			<key>Values</key>
+			<array>
+				<string>ofxGenericButtonView</string>
+				<string>ofxGenericSettings</string>
+				<string>ofxGenericValueStore</string>
+				<string>ofxGenericView</string>
+			</array>
+		</dict>
+		<dict>
+			<key>RequiredOptions</key>
+			<dict>
+				<key>subclassOf</key>
+				<array>
+					<string>ofxGenericValueStore</string>
+				</array>
+			</dict>
+			<key>NotPersisted</key>
+			<false/>
+			<key>Required</key>
+			<false/>
+			<key>Default</key>
+			<string>Object</string>
+			<key>Description</key>
+			<string>Value Store Type</string>
+			<key>Identifier</key>
+			<string>valueStoreType</string>
+			<key>Name</key>
+			<string>Value Store Type</string>
+			<key>Values</key>
+			<array>
+				<string>Object</string>
+				<string>Array</string>
+			</array>
+			<key>Type</key>
+			<string>combo</string>
+		</dict>
+	</array>
+	<key>Platforms</key>
+	<array>
+		<string>com.apple.platform.iphoneos</string>
+		<string>com.apple.platform.macosx</string>
+	</array>
+	<key>SortOrder</key>
+	<string>1</string>
+	<key>Summary</key>
+	<string>An ofxGeneric Class</string>
+</dict>
+</plist>
