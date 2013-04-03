@@ -1355,6 +1355,41 @@ Json::Value* ofxGenericValueStore::convertToJSON() const
     return node;
 }
 
+string ofxGenericValueStore::createCSVHeaderString( std::vector< string > keys, string separater )
+{
+    string result;
+    
+    for( std::vector< string >::const_iterator key = keys.begin(); key != keys.end(); key++ )
+    {
+        if ( !result.empty() )
+        {
+            result += separater;
+        }
+        result += *key;
+    }
+    
+    return result;
+}
+
+string ofxGenericValueStore::toCSVRowString( std::vector< string > keys, string separater ) const
+{
+    string result;
+
+    if ( isObject() )
+    {
+        for( std::vector< string >::const_iterator key = keys.begin(); key != keys.end(); key++ )
+        {
+            if ( !result.empty() )
+            {
+                result += separater;
+            }
+            result += read( *key, "" );
+        }
+    }
+
+    return result;
+}
+
 void ofxGenericValueStore::purge()
 {
     if ( asObject() )

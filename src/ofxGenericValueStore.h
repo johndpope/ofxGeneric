@@ -182,6 +182,9 @@ public:
 // TODO:
 //    string toXMLString() const;
 //    virtual TiXmlNode* convertToXML() const;
+
+    static string createCSVHeaderString( std::vector< string > keys, string separater = "," );
+    string toCSVRowString( std::vector< string > keys, string valueSeparater = "," ) const;
     
 #if TARGET_OS_IPHONE
     virtual NSNumber* toNSNumber() const;
