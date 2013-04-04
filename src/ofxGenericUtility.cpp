@@ -417,6 +417,58 @@ bool ofxGStringIsXMLSafe( const string& text )
     return true;
 }
 
+ofPoint ofxGToPoint( const string& value )
+{
+    ofPoint result;
+    
+    string parse = value;
+    if ( !parse.empty() )
+    {
+        size_t quoteLocation = parse.find( "\"" );
+        while ( quoteLocation != std::string::npos )
+        {
+            parse.erase( quoteLocation, 1 );
+            quoteLocation = parse.find( "\"" );
+        }
+        
+        size_t commaLocation = parse.find( "," );
+        if ( commaLocation != std::string::npos )
+        {
+            unsigned int index = 0;
+            size_t from = 0;
+            while( index < ofPoint::DIM )
+            {
+                string stringValue = parse.substr( from, commaLocation - from );
+                result[ index ] = ofToFloat( stringValue );
+                
+                if ( commaLocation == parse.length() )
+                {
+                    break;
+                } else
+                {
+                    commaLocation = commaLocation + 1;
+                }
+                
+                from = commaLocation;
+                commaLocation = parse.find( ",", from );
+                if ( commaLocation == std::string::npos )
+                {
+                    commaLocation = parse.length();
+                }
+                index ++;
+            }
+        } else
+        {
+            float allValues = ofToFloat( parse );
+            result.x = allValues;
+            result.y = allValues;
+            result.z = allValues;
+        }
+    }
+    
+    return result;
+}
+
 //////////////////////////////// Math //////////////////////////////////
 
 int ofxGRandom()
