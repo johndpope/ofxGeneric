@@ -128,7 +128,7 @@ void ofxGenericCameraPreviewView::deviceOrientationChanged( ofxGenericOrientatio
             avOrientation = AVCaptureVideoOrientationPortrait;
             break;
     }
-    [ _captureLayer setOrientation:avOrientation ];
+//    [ [ _captureLayer connection ] setVideoOrientation:avOrientation ];
     _captureLayer.bounds = _view.layer.bounds;
     _captureLayer.position = CGPointMake( CGRectGetMidX( _view.layer.bounds ), CGRectGetMidY( _view.layer.bounds ) );
 
