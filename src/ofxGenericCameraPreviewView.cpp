@@ -71,7 +71,7 @@ void ofxGenericCameraPreviewView::didLoad()
                 [ _captureSession addInput:_captureInput ];
                 [ _captureSession addOutput:_captureStillImageOutput ];
                 [ _captureSession addOutput:_captureVideoDataOutput ];
-                [ _captureSession setSessionPreset:AVCaptureSessionPresetMedium ];
+                [ _captureSession setSessionPreset:AVCaptureSessionPresetHigh ];
                 [ _captureSession commitConfiguration ];
                 
                 _captureLayer = [ AVCaptureVideoPreviewLayer layerWithSession:_captureSession ];
