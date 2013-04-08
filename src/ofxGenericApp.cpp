@@ -11,6 +11,8 @@
 #import <UIKit/UIKit.h>
 
 #import "ofxGenericAppDelegate.h"
+
+#import "UIDevice-Reachability.h"
 #endif
 
 #if TARGET_OS_IPHONE || TARGET_OS_MAC
@@ -436,10 +438,6 @@ void ofxGenericApp::saveImageToLibrary( ofImage& image )
     UIImageWriteToSavedPhotosAlbum( [ UIImage imageWithData:UIImagePNGRepresentation( OFImageToUIImage( image ) ) ], nil, nil, nil );
 #endif
 }
-
-#if TARGET_OS_IPHONE
-#include "UIDevice-Reachability.h"
-#endif
 
 bool ofxGenericApp::hasNetworkConnection()
 {
