@@ -22,6 +22,15 @@ ofPtr< ofxGenericImage > ofxGenericImage::create( std::string fileName )
     return create;
 }
 
+#if TARGET_OS_IPHONE
+ofPtr< ofxGenericImage > ofxGenericImage::create( UIImage* image )
+{
+    ofPtr< ofxGenericImage > create( new ofxGenericImage() );
+    create->init( create, image );
+    return create;
+}
+#endif
+
 ofPtr< ofxGenericImage > ofxGenericImage::create( ofPtr< ofImage > image )
 {
     ofPtr< ofxGenericImage > create( new ofxGenericImage() );
@@ -91,6 +100,17 @@ void ofxGenericImage::init( ofPtrWeak< ofxGenericImage > setThis, std::string fi
 #endif
     
 }
+
+#if TARGET_OS_IPHONE
+void ofxGenericImage::init( ofPtrWeak< ofxGenericImage > setThis, UIImage* image )
+{
+    _this = setThis;
+    
+    _filePath = "";
+    
+    _image = [ image retain ];
+}
+#endif
 
 void ofxGenericImage::init( ofPtrWeak< ofxGenericImage > setThis, ofPtr< ofImage > image )
 {
