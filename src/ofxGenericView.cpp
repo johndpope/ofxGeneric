@@ -450,6 +450,22 @@ ofPtrWeak< ofxGenericView > ofxGenericView::getParent()
     return _parent;
 }
 
+unsigned int ofxGenericView::getChildCount()
+{
+    return _children.size();
+}
+
+ofPtr< ofxGenericView > ofxGenericView::getChildAt( unsigned int index )
+{
+    if ( index < _children.size() )
+    {
+        std::list< ofPtr< ofxGenericView > >::iterator iter = _children.begin();
+        std::advance( iter, index );
+        return ( *iter );
+    }
+    return ofPtr< ofxGenericView >();
+}
+
 void ofxGenericView::setAlpha( float alpha )
 {
 #if TARGET_OS_IPHONE

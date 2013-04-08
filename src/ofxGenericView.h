@@ -58,6 +58,8 @@ public:
     virtual void removeChildView( ofPtr< ofxGenericView > remove );
     void removeFromParent();
     void removeChildViews();
+    unsigned int getChildCount();
+    ofPtr< ofxGenericView > getChildAt( unsigned int index );
     
     ofPtrWeak< ofxGenericView > getParent();
     
