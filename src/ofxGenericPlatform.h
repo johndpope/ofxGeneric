@@ -51,4 +51,6 @@ public:
     
     static string imageFileName( string originalFileName, bool is4Inch, bool isRetina );
 #endif
+    
+    static ofPoint cameraFieldOfView();
 };

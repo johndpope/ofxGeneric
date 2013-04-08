@@ -225,4 +225,15 @@ string ofxGenericPlatform::imageFileName( string originalFileName, bool is4Inch,
     return result;
 }
 
+ofPoint ofxGenericPlatform::cameraFieldOfView()
+{
+    ofPoint result;
+#if TARGET_OS_IPHONE
+    result = ofPoint( [ [ UIDevice currentDevice ] cameraFieldOfView ], [ [ UIDevice currentDevice ] cameraFieldOfView ] );
+#else
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericPlatform", "cameraFieldOfView" );
+#endif
+    return result;
+}
+
 #endif
