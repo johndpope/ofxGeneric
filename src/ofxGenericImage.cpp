@@ -22,6 +22,15 @@ ofPtr< ofxGenericImage > ofxGenericImage::create( std::string fileName )
     return create;
 }
 
+#if TARGET_OS_IPHONE
+ofPtr< ofxGenericImage > ofxGenericImage::create( UIImage* image )
+{
+    ofPtr< ofxGenericImage > create( new ofxGenericImage() );
+    create->init( create, image );
+    return create;
+}
+#endif
+
 ofPtr< ofxGenericImage > ofxGenericImage::create( ofPtr< ofImage > image )
 {
     ofPtr< ofxGenericImage > create( new ofxGenericImage() );
@@ -92,6 +101,17 @@ void ofxGenericImage::init( ofPtrWeak< ofxGenericImage > setThis, std::string fi
     
 }
 
+#if TARGET_OS_IPHONE
+void ofxGenericImage::init( ofPtrWeak< ofxGenericImage > setThis, UIImage* image )
+{
+    _this = setThis;
+    
+    _filePath = "";
+    
+    _image = [ image retain ];
+}
+#endif
+
 void ofxGenericImage::init( ofPtrWeak< ofxGenericImage > setThis, ofPtr< ofImage > image )
 {
     _this = setThis;
@@ -140,4 +160,25 @@ bool ofxGenericImage::loadedSuccessfully()
         return false;
     }
     return true;
+}
+
+bool ofxGenericImage::save( string fileName, bool inDocuments )
+{
+    bool result = false;
+    
+#if TARGET_OS_IPHONE
+    if ( _image != nil)
+    {
+        string path = ofToPath( fileName, inDocuments, true );
+        
+        NSData* data = UIImagePNGRepresentation( _image );
+        [ data writeToFile:ofxStringToNSString( path ) atomically:YES ];
+        
+        result = true;
+    }
+#else
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericImage", "save" );
+#endif
+    
+    return result;
 }

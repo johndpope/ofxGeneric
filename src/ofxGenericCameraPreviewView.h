@@ -17,6 +17,7 @@
 #include "ofxGenericApp.h"
 
 class ofxGenericCameraPreviewViewDelegate;
+class ofxGenericImage;
 
 class ofxGenericCameraPreviewView : public ofxGenericView
 {
@@ -30,6 +31,7 @@ public:
     virtual void didDisappear();
     
     virtual void takePicture();
+    virtual void pictureTaken( ofPtr< ofxGenericImage > image );
     virtual void pictureTaken( ofPtr< ofImage > image );
     
     virtual void deviceOrientationChanged( ofxGenericOrientationEventArgs& orientationArgs );
@@ -56,4 +58,5 @@ public:
     virtual ~ofxGenericCameraPreviewViewDelegate() {};
     
     virtual void pictureTaken( ofPtr< ofImage > image ) {};
+    virtual void pictureTaken( ofPtr< ofxGenericImage > image ) {};
 };

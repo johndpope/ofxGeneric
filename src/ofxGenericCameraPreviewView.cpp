@@ -10,6 +10,8 @@
 
 #include "ofxiPhoneExtras.h"
 
+#include "ofxGenericImage.h"
+
 ofPtr< ofxGenericCameraPreviewView > ofxGenericCameraPreviewView::create( ofPtrWeak< ofxGenericCameraPreviewViewDelegate > delegate, const ofRectangle& setFrame )
 {
     ofPtr< ofxGenericCameraPreviewView > create( new ofxGenericCameraPreviewView() );
@@ -69,7 +71,7 @@ void ofxGenericCameraPreviewView::didLoad()
                 [ _captureSession addInput:_captureInput ];
                 [ _captureSession addOutput:_captureStillImageOutput ];
                 [ _captureSession addOutput:_captureVideoDataOutput ];
-                [ _captureSession setSessionPreset:AVCaptureSessionPresetMedium ];
+                [ _captureSession setSessionPreset:AVCaptureSessionPresetHigh ];
                 [ _captureSession commitConfiguration ];
                 
                 _captureLayer = [ AVCaptureVideoPreviewLayer layerWithSession:_captureSession ];
@@ -126,7 +128,7 @@ void ofxGenericCameraPreviewView::deviceOrientationChanged( ofxGenericOrientatio
             avOrientation = AVCaptureVideoOrientationPortrait;
             break;
     }
-    [ _captureLayer setOrientation:avOrientation ];
+//    [ [ _captureLayer connection ] setVideoOrientation:avOrientation ];
     _captureLayer.bounds = _view.layer.bounds;
     _captureLayer.position = CGPointMake( CGRectGetMidX( _view.layer.bounds ), CGRectGetMidY( _view.layer.bounds ) );
 
@@ -138,9 +140,13 @@ void ofxGenericCameraPreviewView::takePicture()
 #if TARGET_OS_IPHONE
     
 #if TARGET_IPHONE_SIMULATOR
-    ofPtr< ofImage > image;
-    ofxiPhoneUIImageToOFImage( [ UIImage imageNamed:@"Default.png" ], *image, ( int )getFrame().width, ( int )getFrame().height );
-    pictureTaken( image );
+    UIImage* uiimage = [ UIImage imageNamed:@"Default.png" ];
+    pictureTaken( ofxGenericImage::create( uiimage ) );
+
+    ofPtr< ofImage > ofimage( new ofImage() );
+    ofxiPhoneUIImageToOFImage( uiimage, *ofimage, ( int )getFrame().width, ( int )getFrame().height );
+    pictureTaken( ofimage );
+    
 #else
 
     AVCaptureConnection* videoConnection = nil;
@@ -169,6 +175,8 @@ void ofxGenericCameraPreviewView::takePicture()
                  NSData* imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
                  UIImage* image = [ [ UIImage alloc ] initWithData:imageData ];
                  
+                 pictureTaken( ofxGenericImage::create( image ) );
+
                  ofPtr< ofImage > convertedImage( new ofImage() );
                  ofxiPhoneUIImageToOFImage( image, *convertedImage );
                  pictureTaken( convertedImage );
@@ -180,6 +188,14 @@ void ofxGenericCameraPreviewView::takePicture()
 #endif
     
 #endif
+}
+
+void ofxGenericCameraPreviewView::pictureTaken( ofPtr< ofxGenericImage > image )
+{
+    if ( _delegate )
+    {
+        _delegate.lock()->pictureTaken( image );
+    }
 }
 
 void ofxGenericCameraPreviewView::pictureTaken( ofPtr< ofImage > image )
