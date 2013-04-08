@@ -161,3 +161,24 @@ bool ofxGenericImage::loadedSuccessfully()
     }
     return true;
 }
+
+bool ofxGenericImage::save( string fileName, bool inDocuments )
+{
+    bool result = false;
+    
+#if TARGET_OS_IPHONE
+    if ( _image != nil)
+    {
+        string path = ofToPath( fileName, inDocuments, true );
+        
+        NSData* data = UIImagePNGRepresentation( _image );
+        [ data writeToFile:ofxStringToNSString( path ) atomically:YES ];
+        
+        result = true;
+    }
+#else
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericImage", "save" );
+#endif
+    
+    return result;
+}

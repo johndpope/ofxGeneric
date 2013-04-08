@@ -25,6 +25,8 @@ public:
 #endif
     virtual bool loadedSuccessfully();
     
+    virtual bool save( string fileName, bool inDocuments );
+    
     virtual ~ofxGenericImage();
     
 protected:
