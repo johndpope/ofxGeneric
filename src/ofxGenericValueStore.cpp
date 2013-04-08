@@ -86,6 +86,14 @@ ofPtr< ofxGenericValueStore > ofxGenericValueStore::createWithValue( const char*
     return createWithValue( useValue );
 }
 
+ofPtr< ofxGenericValueStore > ofxGenericValueStore::createWithValue( ofPoint value )
+{
+    ofPtr< ofxGenericValueStore > create( new ofxGenericValueStore() );
+    create->init( create, ofxGenericValueStoreTypeString );
+    create->write( value );
+    return create;
+}
+
 ofPtr< ofxGenericValueStore > ofxGenericValueStore::createWithValue( ofPtr< ofxGenericValueStore > value )
 {
     if ( value )
@@ -250,6 +258,11 @@ void ofxGenericValueStore::write( string value )
 void ofxGenericValueStore::write( const char* value )
 {
     write( string( value ) );
+}
+
+void ofxGenericValueStore::write( ofPoint value )
+{
+    write( ofxGToString( value ) );
 }
 
 void ofxGenericValueStore::write( ofPtr< ofxGenericValueStore > value )
@@ -652,6 +665,15 @@ void ofxGenericValueStore::write( string key, const char* value, bool onlyIfFill
     write( key, string( value ), onlyIfFilled );
 }
 
+void ofxGenericValueStore::write( string key, ofPoint value )
+{
+    if ( asObject() )
+    {
+        ( *asObject() )[ key ] = createWithValue( value );
+        addObjectKey( key );
+    }
+}
+
 void ofxGenericValueStore::write(string key, ofPtr< ofxGenericValueStore > value )
 {
     if ( asObject() )
@@ -709,6 +731,17 @@ string ofxGenericValueStore::read( string key, const char* defaultValue ) const
         return value->asString();
     }
     return string( defaultValue );
+}
+
+ofPoint ofxGenericValueStore::read( string key, ofPoint defaultValue ) const
+{
+    ofPtr< ofxGenericValueStore > value = read( key );
+    if ( value )
+    {
+        return ofxGToPoint( value->asString() );
+    }
+    
+    return defaultValue;
 }
 
 ofPtr< ofxGenericValueStore > ofxGenericValueStore::read( string key ) const
@@ -831,6 +864,15 @@ void ofxGenericValueStore::write( unsigned int index, const char* value, bool on
     write( index, string( value ), onlyIfFilled );
 }
 
+void ofxGenericValueStore::write( unsigned int index, ofPoint value )
+{
+    if ( asArray() )
+    {
+        ensureIndexAvailable( index );
+        ( *asArray() )[ index ] = createWithValue( value );
+    }
+}
+
 void ofxGenericValueStore::write( unsigned int index, ofPtr< ofxGenericValueStore > value )
 {
     if ( asArray() )
@@ -888,6 +930,16 @@ string ofxGenericValueStore::read( unsigned int index, const char* defaultValue 
         return value->asString();
     }
     return string( defaultValue ); 
+}
+
+ofPoint ofxGenericValueStore::read( unsigned int index, ofPoint defaultValue ) const
+{
+    ofPtr< ofxGenericValueStore > value = read( index );
+    if ( value )
+    {
+        return ofxGToPoint( value->asString() );
+    }
+    return defaultValue;
 }
 
 ofPtr< ofxGenericValueStore > ofxGenericValueStore::read( unsigned int index ) const
