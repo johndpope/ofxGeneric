@@ -430,6 +430,19 @@ ofPoint ofxGToPoint( const string& value )
             parse.erase( quoteLocation, 1 );
             quoteLocation = parse.find( "\"" );
         }
+        size_t leftParamLocation = parse.find( "(" );
+        while ( leftParamLocation != std::string::npos )
+        {
+            parse.erase( leftParamLocation, 1 );
+            leftParamLocation = parse.find( "(" );
+        }
+        
+        size_t rightParamLocation = parse.find( ")" );
+        while ( rightParamLocation != std::string::npos )
+        {
+            parse.erase( rightParamLocation, 1 );
+            rightParamLocation = parse.find( ")" );
+        }
         
         size_t commaLocation = parse.find( "," );
         if ( commaLocation != std::string::npos )
