@@ -32,56 +32,6 @@
 
 @end
 
-//can't subclass because Apple doesn't expose types to buttons... WTF
-#define UIButtonForwardingBSTag 535353
-@interface UIButton (Forwarding)
-@end
-
-@implementation UIButton (Forwarding)
-
-//not working, even though it should be
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    [super touchesBegan:touches withEvent:event];
-    
-    if ( self.tag == UIButtonForwardingBSTag && self.nextResponder )
-    {
-        [self.nextResponder touchesBegan:touches withEvent:event];
-    }
-}
-
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    [super touchesEnded:touches withEvent:event];
-    
-    if ( self.tag == UIButtonForwardingBSTag && self.nextResponder )
-    {
-        [self.nextResponder touchesEnded:touches withEvent:event];
-    }
-}
-
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    [super touchesMoved:touches withEvent:event];
-    
-    if ( self.tag == UIButtonForwardingBSTag && self.nextResponder )
-    {
-        [self.nextResponder touchesMoved:touches withEvent:event];
-    }
-}
-
-- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    [super touchesCancelled:touches withEvent:event];
-    
-    if ( self.tag == UIButtonForwardingBSTag && self.nextResponder )
-    {
-        [self.nextResponder touchesCancelled:touches withEvent:event];
-    }
-}
-
-@end
-
 #elif TARGET_ANDROID
 
 #include "JNIUtility.h"
@@ -92,10 +42,10 @@ const char* ofxGenericButtonView::className = "cc/openframeworks/ofxGeneric/Butt
 std::vector< ofxGenericButtonView* > ofxGenericButtonView::_nativeMap;
 #endif
 
-ofPtr< ofxGenericButtonView > ofxGenericButtonView::create( ofxGenericButtonType buttonType, const ofRectangle& setFrame, ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate, bool forwardsTouches )
+ofPtr< ofxGenericButtonView > ofxGenericButtonView::create( ofxGenericButtonType buttonType, const ofRectangle& setFrame, ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate )
 {
     ofPtr< ofxGenericButtonView > create = ofPtr< ofxGenericButtonView >( new ofxGenericButtonView() );
-    create->init( create, buttonType, setFrame, touchDelegate, forwardsTouches );
+    create->init( create, buttonType, setFrame, touchDelegate );
     return create;
 }
 
@@ -113,11 +63,9 @@ ofxGenericButtonView::~ofxGenericButtonView()
 
 //stupid hack to add another param to createNativeView
 static ofxGenericButtonType lastButtonType = ofxGenericButtonTypeRoundedRect;
-static bool lastForwardsTouchesValue = false;
-void ofxGenericButtonView::init( ofPtrWeak< ofxGenericView > setThis, ofxGenericButtonType buttonType, const ofRectangle& setFrame, ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate, bool forwardsTouches )
+void ofxGenericButtonView::init( ofPtrWeak< ofxGenericView > setThis, ofxGenericButtonType buttonType, const ofRectangle& setFrame, ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate )
 {
     lastButtonType = buttonType;
-    lastForwardsTouchesValue = forwardsTouches;
     ofxGenericView::init( setThis, setFrame );
     setDelegate( touchDelegate );
 
@@ -133,7 +81,6 @@ NativeView ofxGenericButtonView::createNativeView( const ofRectangle& frame )
 #if TARGET_OS_IPHONE
     // TODO: configurable type
     UIButton* newView = [ [ UIButton buttonWithType:ofxGenericButtonTypeToiOS(lastButtonType) ] retain ];
-    newView.tag = lastForwardsTouchesValue ? UIButtonForwardingBSTag : 0;
     [ newView setFrame:ofRectangleToCGRect( frame ) ];
     [ newView setTitleColor:[ UIColor blackColor ] forState:UIControlStateNormal ];
     [ newView setBackgroundColor:[ UIColor clearColor ] ];
@@ -417,17 +364,6 @@ string ofxGenericButtonView::getFontName()
     return "";
 }
 
-void ofxGenericButtonView::setForwardsTouches( bool forwards )
-{
-#if TARGET_OS_IPHONE
-    if ( [ _view isKindOfClass:[UIButton class]] )
-    {
-        UIButton *v = (UIButton *) _view;
-        v.tag = forwards ? UIButtonForwardingBSTag : 0;
-    }
-#endif
-}
-
 #if DEBUG
 string ofxGenericButtonView::toString()
 {
@@ -468,7 +404,6 @@ void ofxGenericButtonView::copyProperties( ofPtr< ofxGenericView > from )
         setNumberOfLines( fromButton->getNumberOfLines() );
         setMinimumFontSize( fromButton->getMinimumFontSize() );
         setFont( fromButton->getFontName(), fromButton->getFontSize() );
-     //   setForwardsTouches( fromButton->getForwardsTouches() );
         setEnabled( fromButton->getEnabled() );
         setDelegate( fromButton->getDelegate() );
     }

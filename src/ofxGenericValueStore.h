@@ -56,6 +56,7 @@ public:
     static ofPtr< ofxGenericValueStore > createWithValue( bool value );
     static ofPtr< ofxGenericValueStore > createWithValue( string value );
     static ofPtr< ofxGenericValueStore > createWithValue( const char* value );
+    static ofPtr< ofxGenericValueStore > createWithValue( ofPoint value );
     static ofPtr< ofxGenericValueStore > createWithValue( ofPtr< ofxGenericValueStore > value );
 
     static ofPtr< ofxGenericValueStore > createFrom( ofxGenericMIMEType mimeType, string content );
@@ -70,6 +71,7 @@ public:
     virtual void write( bool value );
     virtual void write( string value );
     virtual void write( const char* value );
+    virtual void write( ofPoint value );
     virtual void write( ofPtr< ofxGenericValueStore > value );
 
     void operator=( float value );
@@ -108,6 +110,7 @@ public:
     virtual void write( string key, bool value );
     virtual void write( string key, string value, bool onlyIfFilled = false );
     virtual void write( string key, const char* value, bool onlyIfFilled = false );
+    virtual void write( string key, ofPoint value );
     virtual void write( string key, ofPtr< ofxGenericValueStore > value );
     
     virtual float   read( string key, float defaultValue ) const;
@@ -115,6 +118,7 @@ public:
     virtual bool    read( string key, bool defaultValue ) const;
     virtual string  read( string key, string defaultValue ) const;
     virtual string  read( string key, const char* defaultValue ) const;
+    virtual ofPoint read( string key, ofPoint defaultValue ) const;
     virtual ofPtr< ofxGenericValueStore > read( string key ) const;
     virtual ofPtr< ofxGenericValueStore > read( string key, ofPtr< ofxGenericValueStore > defaultValue ) const;
     ofPtr< ofxGenericValueStore > operator[]( string key ) const;
@@ -132,6 +136,7 @@ public:
     virtual void write( unsigned int index, bool value );
     virtual void write( unsigned int index, string value, bool onlyIfFilled = false );
     virtual void write( unsigned int index, const char* value, bool onlyIfFilled = false );
+    virtual void write( unsigned int index, ofPoint value );
     virtual void write( unsigned int index, ofPtr< ofxGenericValueStore > value );
     
     virtual float   read( unsigned int index, float defaultValue ) const;
@@ -139,6 +144,7 @@ public:
     virtual bool    read( unsigned int index, bool defaultValue ) const;
     virtual string  read( unsigned int index, string defaultValue ) const;
     virtual string  read( unsigned int index, const char* defaultValue ) const;
+    virtual ofPoint read( unsigned int index, ofPoint defaultValue ) const;
     virtual ofPtr< ofxGenericValueStore > read( unsigned int index ) const;
     virtual ofPtr< ofxGenericValueStore > read( unsigned int index, ofPtr< ofxGenericValueStore > defaultValue ) const;
     ofPtr< ofxGenericValueStore > operator[]( unsigned int index ) const;    
@@ -182,6 +188,9 @@ public:
 // TODO:
 //    string toXMLString() const;
 //    virtual TiXmlNode* convertToXML() const;
+
+    static string createCSVHeaderString( std::vector< string > keys, string separater = "," );
+    string toCSVRowString( std::vector< string > keys, string valueSeparater = "," ) const;
     
 #if TARGET_OS_IPHONE
     virtual NSNumber* toNSNumber() const;

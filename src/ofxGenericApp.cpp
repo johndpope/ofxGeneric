@@ -11,6 +11,8 @@
 #import <UIKit/UIKit.h>
 
 #import "ofxGenericAppDelegate.h"
+
+#import "UIDevice-Reachability.h"
 #endif
 
 #if TARGET_OS_IPHONE || TARGET_OS_MAC
@@ -32,6 +34,8 @@
 #include <math.h>
 #include <time.h>
 
+#include "ofxGenericDate.h"
+
 #if TARGET_ANDROID
 const char* ofxGenericApp::ActivityClassName = "cc/openframeworks/ofxGeneric/Activity";
 #endif
@@ -41,7 +45,7 @@ ofxGenericEventsClass ofxGenericEvents;
 #endif
 
 ofxGenericApp::ofxGenericApp()
-: _keyboardIsVisible( false )
+: _keyboardIsVisible( false ), _lastUpdateTime( 0.0 ), _updateDeltaTime( 0.0f )
 {
 }
 
@@ -435,10 +439,6 @@ void ofxGenericApp::saveImageToLibrary( ofImage& image )
 #endif
 }
 
-#if TARGET_OS_IPHONE
-#include "UIDevice-Reachability.h"
-#endif
-
 bool ofxGenericApp::hasNetworkConnection()
 {
 #if TARGET_OS_IPHONE
@@ -522,6 +522,30 @@ string ofxGenericApp::dumpViewGraph()
 void ofxGenericApp::setup()
 {
     ofBaseApp::setup();
+}
+
+void ofxGenericApp::update()
+{
+    ofBaseApp::update();
+    
+    double now = ofxGenericDate::getSystemTime();
+    if ( _lastUpdateTime != 0 )
+    {
+        _updateDeltaTime = ( float )( now - _lastUpdateTime );
+        _lastUpdateTime = now;
+        
+        update( _updateDeltaTime );
+    } else
+    {
+        _lastUpdateTime = now;
+        
+        update( 0.0f );
+    }
+}
+
+void ofxGenericApp::update( float deltaTime )
+{
+    
 }
 
 std::map< string, string > ofxGenericApp::getLaunchOptions()

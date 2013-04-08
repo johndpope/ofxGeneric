@@ -72,6 +72,8 @@ string ofxGToLowerCase( const string& text );
 string ofxGURLSafeString( const string& text );
 bool ofxGStringIsXMLSafe( const string& text );
 
+ofPoint ofxGToPoint( const string& value );
+
 //////////////////////////////// Math //////////////////////////////////
 
 int ofxGRandom();

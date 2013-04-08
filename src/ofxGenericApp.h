@@ -68,6 +68,9 @@ public:
     static void sendURLToOS( string url );
     
     virtual void setup();
+    
+    virtual void update();
+    virtual void update( float deltaTime );
 
 #if TARGET_ANDROID
     static const char* ActivityClassName;
@@ -115,6 +118,9 @@ protected:
     
     std::vector< ofPtr< ofxGenericKeyboardDelegate > > _keyboardDelegates;
     std::map< string, string > _launchOptions;
+    
+    double _lastUpdateTime;
+    float _updateDeltaTime;
 };
 
 class ofxGenericOrientationEventArgs : public ofEventArgs
