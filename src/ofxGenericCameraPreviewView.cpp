@@ -140,12 +140,12 @@ void ofxGenericCameraPreviewView::takePicture()
 #if TARGET_OS_IPHONE
     
 #if TARGET_IPHONE_SIMULATOR
-    UIImage* uiImage = [ UIImage imageNamed:@"Default.png" ];
-    pictureTaken( ofxGenericImage::create( uiImage ) );
+    UIImage* uiimage = [ UIImage imageNamed:@"Default.png" ];
+    pictureTaken( ofxGenericImage::create( uiimage ) );
 
-    ofPtr< ofImage > ofImage;
-    ofxiPhoneUIImageToOFImage( uiImage, *ofImage, ( int )getFrame().width, ( int )getFrame().height );
-    pictureTaken( ofImage );
+    ofPtr< ofImage > ofimage( new ofImage() );
+    ofxiPhoneUIImageToOFImage( uiimage, *ofimage, ( int )getFrame().width, ( int )getFrame().height );
+    pictureTaken( ofimage );
     
 #else
 
