@@ -32,6 +32,8 @@
 #include <math.h>
 #include <time.h>
 
+#include "ofxGenericDate.h"
+
 #if TARGET_ANDROID
 const char* ofxGenericApp::ActivityClassName = "cc/openframeworks/ofxGeneric/Activity";
 #endif
@@ -41,7 +43,7 @@ ofxGenericEventsClass ofxGenericEvents;
 #endif
 
 ofxGenericApp::ofxGenericApp()
-: _keyboardIsVisible( false )
+: _keyboardIsVisible( false ), _lastUpdateTime( 0.0 ), _updateDeltaTime( 0.0f )
 {
 }
 
@@ -522,6 +524,30 @@ string ofxGenericApp::dumpViewGraph()
 void ofxGenericApp::setup()
 {
     ofBaseApp::setup();
+}
+
+void ofxGenericApp::update()
+{
+    ofBaseApp::update();
+    
+    double now = ofxGenericDate::getSystemTime();
+    if ( _lastUpdateTime != 0 )
+    {
+        _updateDeltaTime = ( float )( now - _lastUpdateTime );
+        _lastUpdateTime = now;
+        
+        update( _updateDeltaTime );
+    } else
+    {
+        _lastUpdateTime = now;
+        
+        update( 0.0f );
+    }
+}
+
+void ofxGenericApp::update( float deltaTime )
+{
+    
 }
 
 std::map< string, string > ofxGenericApp::getLaunchOptions()
