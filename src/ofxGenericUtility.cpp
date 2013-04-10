@@ -132,11 +132,6 @@ ofPoint ofxGPointSizeForText( string text, string fontName, float fontSize, floa
 
 //////////////////////////////// Logging //////////////////////////////////
 
-void ofxGLog( ofLogLevel level, const string & message )
-{
-	ofLog( ofxGenericModuleName, level, message );
-}
-
 void ofxGLogError( const string & message )
 {
 	ofLogError( ofxGenericModuleName, message );
@@ -160,15 +155,6 @@ void ofxGLogVerbose( const string & message )
 void ofxGLogWarning( const string & message )
 {
 	ofLogWarning( ofxGenericModuleName, message );
-}
-
-void ofxGLog( ofLogLevel level, const char* format, ... )
-{
-	va_list args;
-	va_start( args, format );
-	string message = ofVAArgsToString( format, args );
-	va_end( args );
-	ofLog( ofxGenericModuleName, level, message );
 }
 
 //////////////////////////////// String conversions //////////////////////////////////
@@ -503,7 +489,7 @@ ofRectangle ofxGGetCenteredSquareFit( const ofRectangle& rectangle )
 {
     float dimension = MIN( rectangle.width, rectangle.height );
     ofRectangle result( 0, 0, dimension, dimension );
-    result.centerOn( rectangle );
+    result.alignTo( rectangle );
     return result;
 }
 

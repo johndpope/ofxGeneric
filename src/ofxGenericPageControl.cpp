@@ -20,7 +20,7 @@ ofPtr< ofxGenericPageControl > ofxGenericPageControl::create( const ofRectangle&
 NativeView ofxGenericPageControl::createNativeView( const ofRectangle& frame )
 {
 #if TARGET_OS_IPHONE
-    UIPageControl* newView = [ [ UIPageControl alloc ] initWithFrame:ofRectangleToCGRect( frame ) ];
+    UIPageControl* newView = [ [ UIPageControl alloc ] initWithFrame:ofxRectangleToCGRect( frame ) ];
     return newView;
 #endif
 }

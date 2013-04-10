@@ -45,7 +45,7 @@ void ofxGenericImageView::init( ofPtrWeak< ofxGenericImageView > setThis, const 
 NativeView ofxGenericImageView::createNativeView( const ofRectangle& frame )
 {
 #if TARGET_OS_IPHONE
-    UIImageView* newView = [ [ UIImageView alloc ] initWithFrame:ofRectangleToCGRect( frame ) ];
+    UIImageView* newView = [ [ UIImageView alloc ] initWithFrame:ofxRectangleToCGRect( frame ) ];
     [ newView setBackgroundColor:[ UIColor clearColor ] ];
     return newView;
 #elif TARGET_ANDROID

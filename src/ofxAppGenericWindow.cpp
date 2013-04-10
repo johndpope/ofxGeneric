@@ -88,7 +88,7 @@ NativeWindow ofxAppGenericWindow::getNativeWindow()
 void ofxAppGenericWindow::setBackgroundColor( const ofColor& color )
 {
 #if TARGET_OS_IPHONE
-    [ _window setBackgroundColor:ofColorToUIColor( color ) ];
+    [ _window setBackgroundColor:ofxColorToUIColor( color ) ];
 #endif
 }
 
@@ -103,7 +103,7 @@ void ofxAppGenericWindow::runAppViaInfiniteLoop( ofBaseApp* appPtr )
 ofRectangle ofxAppGenericWindow::getFrame()
 {
 #if TARGET_OS_IPHONE
-    return CGRectToofRectangle( [ _window frame ] );
+    return ofxCGRectToofRectangle( [ _window frame ] );
 #elif TARGET_ANDROID
     // TODO: cache
     string signature = JNIEncodeMethodSignature( 0, JNIType_object, JNIRect::className );
@@ -125,9 +125,9 @@ ofRectangle ofxAppGenericWindow::convertTo( const ofRectangle& rectangle, ofPtr<
     if ( fromSpace )
     {
 #if TARGET_OS_IPHONE
-        CGRect cgRect = ofRectangleToCGRect( rectangle );
+        CGRect cgRect = ofxRectangleToCGRect( rectangle );
         CGRect coverted = [ _window convertRect:cgRect fromView:( UIView* )( *fromSpace ) ];
-        return CGRectToofRectangle( coverted );
+        return ofxCGRectToofRectangle( coverted );
 #endif
     }
     return ofRectangle();
@@ -138,9 +138,9 @@ ofRectangle ofxAppGenericWindow::convertFrom( const ofRectangle& rectangle, ofPt
     if ( toSpace )
     {
 #if TARGET_OS_IPHONE
-        CGRect cgRect = ofRectangleToCGRect( rectangle );
+        CGRect cgRect = ofxRectangleToCGRect( rectangle );
         CGRect coverted = [ _window convertRect:cgRect toView:( UIView* )( *toSpace ) ];
-        return CGRectToofRectangle( coverted );
+        return ofxCGRectToofRectangle( coverted );
 #endif
     }
     return ofRectangle();

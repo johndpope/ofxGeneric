@@ -62,7 +62,7 @@ ofxGenericOpenGLView::~ofxGenericOpenGLView()
 NativeView ofxGenericOpenGLView::createNativeView( const ofRectangle& frame )
 {
 #if TARGET_OS_IPHONE
-    ofxGenericOpenGLViewNative* view = [ [ ofxGenericOpenGLViewNative alloc ] initWithFrame:ofRectangleToCGRect( frame ) ];
+    ofxGenericOpenGLViewNative* view = [ [ ofxGenericOpenGLViewNative alloc ] initWithFrame:ofxRectangleToCGRect( frame ) ];
     return view;
 #elif TARGET_ANDROID
 #endif

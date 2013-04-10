@@ -81,11 +81,11 @@ NativeView ofxGenericButtonView::createNativeView( const ofRectangle& frame )
 #if TARGET_OS_IPHONE
     // TODO: configurable type
     UIButton* newView = [ [ UIButton buttonWithType:ofxGenericButtonTypeToiOS(lastButtonType) ] retain ];
-    [ newView setFrame:ofRectangleToCGRect( frame ) ];
+    [ newView setFrame:ofxRectangleToCGRect( frame ) ];
     [ newView setTitleColor:[ UIColor blackColor ] forState:UIControlStateNormal ];
     [ newView setBackgroundColor:[ UIColor clearColor ] ];
     
-    _textView = ofxGenericTextView::create( CGRectToofRectangle( [ [ newView titleLabel ] frame ] ), [ newView titleLabel ] );
+    _textView = ofxGenericTextView::create( ofxCGRectToofRectangle( [ [ newView titleLabel ] frame ] ), [ newView titleLabel ] );
 
     // TODO: doesn't match createUIView design
     _forwarder = [ [ ofxGenericButtonViewForwarder alloc ] init ];
@@ -252,7 +252,7 @@ void ofxGenericButtonView::setTextColor ( const ofColor& setColor )
 #if TARGET_OS_IPHONE
     if ( [ _view isKindOfClass:[ UIButton class ] ] )
     {
-        [ ( ( UIButton* ) _view) setTitleColor:ofColorToUIColor( setColor ) forState:UIControlStateNormal ];
+        [ ( ( UIButton* ) _view) setTitleColor:ofxColorToUIColor( setColor ) forState:UIControlStateNormal ];
     }
 #endif    
 }
@@ -271,7 +271,7 @@ void ofxGenericButtonView::setDownTextColor ( const ofColor& setColor )
 #if TARGET_OS_IPHONE
     if ( [ _view isKindOfClass:[UIButton class]] )
     {
-        [((UIButton *) _view) setTitleColor:ofColorToUIColor( setColor ) forState:UIControlStateHighlighted];
+        [((UIButton *) _view) setTitleColor:ofxColorToUIColor( setColor ) forState:UIControlStateHighlighted];
     }
 #endif
 }
@@ -281,7 +281,7 @@ ofColor ofxGenericButtonView::getDownTextColor ()
 #if TARGET_OS_IPHONE
     if ( [ _view isKindOfClass:[UIButton class]] )
     {
-        return UIColorToofColor( [(UIButton *)_view titleColorForState:UIControlStateHighlighted] );
+        return ofxUIColorToofColor( [(UIButton *)_view titleColorForState:UIControlStateHighlighted] );
     }
 #endif
     return ofColor::black;

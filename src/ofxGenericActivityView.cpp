@@ -20,7 +20,7 @@ NativeView ofxGenericActivityView::createNativeView( const ofRectangle& frame )
 {
 #if TARGET_OS_IPHONE
     UIActivityIndicatorView* newView = [ [ UIActivityIndicatorView alloc ] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge ];
-    [ newView setFrame:ofRectangleToCGRect( frame ) ];
+    [ newView setFrame:ofxRectangleToCGRect( frame ) ];
     return newView;
 #endif
 }
@@ -90,7 +90,7 @@ void ofxGenericActivityView::setColor( const ofColor& color )
     {
          if ( [ nativeView respondsToSelector:@selector(setColor:) ] ) // not available in iOS < 5.0
          {
-             [ nativeView setColor:ofColorToUIColor( color ) ];
+             [ nativeView setColor:ofxColorToUIColor( color ) ];
          }
     }
 #endif    
@@ -104,7 +104,7 @@ ofColor ofxGenericActivityView::getColor()
     {
         if ( [ nativeView respondsToSelector:@selector(setColor:) ] ) // not available in iOS < 5.0
         {
-            return UIColorToofColor( nativeView.color );
+            return ofxUIColorToofColor( nativeView.color );
         }
     }
 #endif

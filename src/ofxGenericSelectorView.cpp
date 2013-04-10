@@ -161,7 +161,7 @@ ofxGenericSelectorView::operator UIPickerView*()
 NativeView ofxGenericSelectorView::createNativeView( const ofRectangle& frame )
 {
 #if TARGET_OS_IPHONE
-    UIPickerView* newView = [ [ UIPickerView alloc ] initWithFrame:ofRectangleToCGRect( frame ) ];
+    UIPickerView* newView = [ [ UIPickerView alloc ] initWithFrame:ofxRectangleToCGRect( frame ) ];
     _forwarder = [ [ ofxGenericSelectorViewForwarder alloc ] initWithForwardTo:dynamic_pointer_cast< ofxGenericSelectorView >( _this ) ];
     [ newView setDelegate:_forwarder ];
     [ newView setDataSource:_forwarder ];

@@ -53,7 +53,7 @@ ofPtr< ofxGenericScrollView > ofxGenericScrollView::create( const ofRectangle& s
 NativeView ofxGenericScrollView::createNativeView( const ofRectangle& frame )
 {
 #if TARGET_OS_IPHONE
-    UIScrollView* newView = [ [ UIScrollView alloc ] initWithFrame:ofRectangleToCGRect( frame ) ];
+    UIScrollView* newView = [ [ UIScrollView alloc ] initWithFrame:ofxRectangleToCGRect( frame ) ];
     [ newView setBackgroundColor:[ UIColor clearColor ] ];
     _forwarder = [ [ ofxGenericScrollViewForwarder alloc ] initWithDelegate:dynamic_pointer_cast< ofxGenericScrollView >( _this ) ];
     newView.delegate = _forwarder;
@@ -88,7 +88,7 @@ void ofxGenericScrollView::addChildView( ofPtr< ofxGenericView > add )
     {
         ofRectangle addFrame = add->getFrame();
         ofRectangle contentFrame = getContentFrame();
-        contentFrame.growToFit( addFrame );
+        contentFrame.growToInclude( addFrame );
         setContentFrame( contentFrame );
     }
 }
@@ -101,7 +101,7 @@ void ofxGenericScrollView::sizeToFitContents()
     {
         if ( *travChildren )
         {
-            contentFrame.growToFit( ( *travChildren )->getFrame() );
+            contentFrame.growToInclude( ( *travChildren )->getFrame() );
         }
     }
     if ( contentFrame != originalContentFrame )

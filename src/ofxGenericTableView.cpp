@@ -48,7 +48,7 @@ ofxGenericTableView::~ofxGenericTableView()
 NativeView ofxGenericTableView::createNativeView( const ofRectangle& frame )
 {
 #if TARGET_OS_IPHONE
-    UITableView* newView = [ [ UITableView alloc ] initWithFrame:ofRectangleToCGRect( frame ) style:UITableViewStylePlain ];
+    UITableView* newView = [ [ UITableView alloc ] initWithFrame:ofxRectangleToCGRect( frame ) style:UITableViewStylePlain ];
     
     _forwarder = [ [ ofxGenericTableViewForwarder alloc ] initWithDelegate:this ];
     [ newView setDelegate:_forwarder ];
@@ -221,7 +221,7 @@ void ofxGenericTableView::setSeparatorColor( const ofColor& separatorColor )
     UITableView* view = ( UITableView* )*this;
     if ( view )
     {
-        [ view setSeparatorColor:ofColorToUIColor( separatorColor ) ];
+        [ view setSeparatorColor:ofxColorToUIColor( separatorColor ) ];
     }
 #endif
 }

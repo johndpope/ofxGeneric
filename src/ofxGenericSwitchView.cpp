@@ -34,7 +34,7 @@ ofxGenericSwitchView::ofxGenericSwitchView()
 NativeView ofxGenericSwitchView::createNativeView( const ofRectangle& frame )
 {
 #if TARGET_OS_IPHONE
-    UISwitch* newView = [ [ UISwitch alloc ] initWithFrame:ofRectangleToCGRect( frame ) ];
+    UISwitch* newView = [ [ UISwitch alloc ] initWithFrame:ofxRectangleToCGRect( frame ) ];
     [ newView setBackgroundColor:[ UIColor clearColor ] ];
     _forwarder = [ [ ofxGenericSwitchViewForwarder alloc ] initWithForwardTo:dynamic_pointer_cast< ofxGenericSwitchView >( _this ) ];
     [ newView addTarget:_forwarder action:@selector( uicontrolEventValueChanged: ) forControlEvents:UIControlEventValueChanged ];
@@ -110,7 +110,7 @@ void ofxGenericSwitchView::setTintColor( const ofColor& color )
         UISwitch* switchView = ( UISwitch* )getNativeView();
         if ( [ switchView respondsToSelector:@selector( setTintColor: ) ] )
         {
-            [ switchView setTintColor:ofColorToUIColor( color ) ];
+            [ switchView setTintColor:ofxColorToUIColor( color ) ];
         } else
         {
             ofxGLogWarning( "Current iOS version does not support switch tint colors" );
@@ -126,7 +126,7 @@ ofColor ofxGenericSwitchView::getTintColor()
     if ( [ getNativeView() isKindOfClass:[ UISwitch class ] ] )
     {
         UISwitch* switchView = ( UISwitch* )getNativeView();
-        result = UIColorToofColor( [ switchView tintColor ] );
+        result = ofxUIColorToofColor( [ switchView tintColor ] );
     }
 #endif
     return result;

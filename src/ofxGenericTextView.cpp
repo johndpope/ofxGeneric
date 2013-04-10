@@ -20,7 +20,7 @@ ofPtr< ofxGenericTextView > ofxGenericTextView::create( const ofRectangle& setFr
 NativeView ofxGenericTextView::createNativeView( const ofRectangle& frame )
 {
 #if TARGET_OS_IPHONE
-    UILabel* newView = [ [ UILabel alloc ] initWithFrame:ofRectangleToCGRect( frame ) ];
+    UILabel* newView = [ [ UILabel alloc ] initWithFrame:ofxRectangleToCGRect( frame ) ];
     [ newView setBackgroundColor:[ UIColor clearColor ] ];
     [ newView setTextColor:[ UIColor blackColor ] ];
     [ newView setLineBreakMode:ofxGenericTextLinebreakModeToiOS( ofxGenericTextLinebreakModeWordWrap ) ];
@@ -90,7 +90,7 @@ void ofxGenericTextView::setTextColor ( const ofColor& setColor )
     if ( [ _view isKindOfClass:[ UILabel class ] ] )
     {
         UILabel* labelView = ( UILabel* )_view;
-        [ labelView setTextColor:ofColorToUIColor( setColor ) ];
+        [ labelView setTextColor:ofxColorToUIColor( setColor ) ];
     }
 #endif
 }
@@ -101,7 +101,7 @@ ofColor ofxGenericTextView::getTextColor ()
     if ( [ _view isKindOfClass:[ UILabel class ] ] )
     {
         UILabel* labelView = ( UILabel* )_view;
-        return UIColorToofColor( labelView.textColor );
+        return ofxUIColorToofColor( labelView.textColor );
     }
 #endif
     return ofColor(0, 0, 0);

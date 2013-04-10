@@ -63,7 +63,7 @@ NativeView ofxGenericEditTextView::createNativeView( const ofRectangle& frame )
     _forwarder = [ [ ofxGenericEditTextViewForwarder alloc ] initWithDelegate:this ];
     if ( !_multiline )
     {
-        UITextField* newTextView = [ [ UITextField alloc ] initWithFrame:ofRectangleToCGRect( frame ) ];
+        UITextField* newTextView = [ [ UITextField alloc ] initWithFrame:ofxRectangleToCGRect( frame ) ];
         [ newTextView setDelegate:_forwarder ];
         [ newTextView setBackgroundColor:[ UIColor whiteColor ] ];
         [ newTextView setTextColor:[ UIColor blackColor ] ];
@@ -73,7 +73,7 @@ NativeView ofxGenericEditTextView::createNativeView( const ofRectangle& frame )
         newView = newTextView;
     } else
     {
-        UITextView* newTextView = [ [ UITextView alloc ] initWithFrame:ofRectangleToCGRect( frame ) ];
+        UITextView* newTextView = [ [ UITextView alloc ] initWithFrame:ofxRectangleToCGRect( frame ) ];
         [ newTextView setDelegate:_forwarder ];
         [ newTextView setBackgroundColor:[ UIColor whiteColor ] ];
         [ newTextView setTextColor:[ UIColor blackColor ] ];

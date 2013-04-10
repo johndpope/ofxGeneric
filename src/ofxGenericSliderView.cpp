@@ -52,7 +52,7 @@ void ofxGenericSliderView::init( ofPtrWeak< ofxGenericSliderView > setThis, cons
 NativeView ofxGenericSliderView::createNativeView( const ofRectangle& frame )
 {
 #if TARGET_OS_IPHONE
-    UISlider* newView = [ [ UISlider alloc ] initWithFrame:ofRectangleToCGRect( frame ) ];
+    UISlider* newView = [ [ UISlider alloc ] initWithFrame:ofxRectangleToCGRect( frame ) ];
     
     _forwarder = [ [ ofxGenericSliderViewForwarder alloc ] initWithDelegate:dynamic_pointer_cast< ofxGenericSliderView >( _this ) ];
     

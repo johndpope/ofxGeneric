@@ -353,7 +353,7 @@ bool ofxGenericDrawCall::hasFill()
                     call->read( DrawDataColorB, 0 ),
                     call->read( DrawDataColorA, 0 )
                 );
-                CGContextSetStrokeColorWithColor(context, ofColorToUIColor( color ).CGColor );
+                CGContextSetStrokeColorWithColor(context, ofxColorToUIColor( color ).CGColor );
             }
             else if ( type == DrawCallTypeFillColor )
             {
@@ -364,7 +364,7 @@ bool ofxGenericDrawCall::hasFill()
                     call->read( DrawDataColorB, 0 ),
                     call->read( DrawDataColorA, 0 )
                  );
-                CGContextSetFillColorWithColor(context, ofColorToUIColor( color ).CGColor );
+                CGContextSetFillColorWithColor(context, ofxColorToUIColor( color ).CGColor );
             }
             else if ( type == DrawCallTypePosition )
             {

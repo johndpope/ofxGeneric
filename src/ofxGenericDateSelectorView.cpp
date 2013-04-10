@@ -54,7 +54,7 @@ ofxGenericDateSelectorView::~ofxGenericDateSelectorView()
 NativeView ofxGenericDateSelectorView::createNativeView( const ofRectangle& frame )
 {
 #if TARGET_OS_IPHONE
-    UIDatePicker* newView = [ [ UIDatePicker alloc ] initWithFrame:ofRectangleToCGRect( frame ) ];
+    UIDatePicker* newView = [ [ UIDatePicker alloc ] initWithFrame:ofxRectangleToCGRect( frame ) ];
     
     // TODO: Same as the button, doesn't match createUIView design
     _forwarder = [ [ ofxGenericDateSelectorViewForwarder alloc ] init ];

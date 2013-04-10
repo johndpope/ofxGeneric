@@ -204,7 +204,7 @@ ofxUIGenericViewControllerForwarder* ofxGenericView::getUIViewController()
 ofRectangle ofxGenericView::getFrame()
 {
 #if TARGET_OS_IPHONE
-    return CGRectToofRectangle( [ _view frame ] );
+    return ofxCGRectToofRectangle( [ _view frame ] );
 #elif TARGET_ANDROID
     jobject jniFrame = callJNIObjectMethod( _jniMethods, JNIMethod_GetFrame );
     JNIRect jniRect( jniFrame );
@@ -223,7 +223,7 @@ ofRectangle ofxGenericView::getFrame( const ofPoint& setTopLeft )
 void ofxGenericView::setFrame( const ofRectangle& setFrame )
 {    
 #if TARGET_OS_IPHONE
-    [ _view setFrame: ofRectangleToCGRect( setFrame ) ];
+    [ _view setFrame: ofxRectangleToCGRect( setFrame ) ];
 #elif TARGET_ANDROID
     JNIRect jniRect = ofRectangleToJNIRect( setFrame ); // TODO: temporary ref passing going to killlllll
     callJNIVoidMethod( _jniMethods, JNIMethod_SetFrame, jniRect.getJNIInstance() );
@@ -248,7 +248,7 @@ void ofxGenericView::setSize( const ofPoint& setSize )
 ofColor ofxGenericView::getBackgroundColor()
 {
 #if TARGET_OS_IPHONE
-    return UIColorToofColor( [ _view backgroundColor ] );
+    return ofxUIColorToofColor( [ _view backgroundColor ] );
 #elif TARGET_ANDROID
     jint androidColor = callJNIIntMethod( _jniMethods, JNIMethod_GetBackgroundColor );
     return JNIColorToofColor( androidColor );
@@ -258,7 +258,7 @@ ofColor ofxGenericView::getBackgroundColor()
 void ofxGenericView::setBackgroundColor( const ofColor& setColor )
 {
 #if TARGET_OS_IPHONE
-    [ _view setBackgroundColor:ofColorToUIColor( setColor ) ];
+    [ _view setBackgroundColor:ofxColorToUIColor( setColor ) ];
 #elif TARGET_ANDROID
     callJNIVoidMethod(
     		_jniMethods,
@@ -571,7 +571,7 @@ void ofxGenericView::setDropShadowColor( const ofColor& color )
 #if TARGET_OS_IPHONE
     if ( getNativeView() && getNativeView().layer )
     {
-        [ getNativeView().layer setShadowColor:[ ofColorToUIColor( color ) CGColor ] ];
+        [ getNativeView().layer setShadowColor:[ ofxColorToUIColor( color ) CGColor ] ];
     }
 #elif TARGET_ANDROID
     throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "setDropShadowColor" );
@@ -584,7 +584,7 @@ ofColor ofxGenericView::getDropShadowColor()
     if ( getNativeView() && getNativeView().layer )
     {
         UIColor* color = [ UIColor colorWithCGColor:getNativeView().layer.shadowColor ];
-        return UIColorToofColor( color );
+        return ofxUIColorToofColor( color );
     }
 #elif TARGET_ANDROID
     throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "getDropShadowColor" );
@@ -697,7 +697,7 @@ void ofxGenericView::setBorderColor( const ofColor& color )
 #if TARGET_OS_IPHONE
     if ( getNativeView() && getNativeView().layer )
     {
-        [ getNativeView().layer setBorderColor:[ ofColorToUIColor( color ) CGColor ] ];
+        [ getNativeView().layer setBorderColor:[ ofxColorToUIColor( color ) CGColor ] ];
     }
 #elif TARGET_ANDROID
     throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "setBorderColor" );
@@ -710,7 +710,7 @@ ofColor ofxGenericView::getBorderColor()
     if ( getNativeView() && getNativeView().layer )
     {
         UIColor* color = [ UIColor colorWithCGColor:getNativeView().layer.borderColor ];
-        return UIColorToofColor( color );
+        return ofxUIColorToofColor( color );
     }
 #elif TARGET_ANDROID
     throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "getBorderColor" );
@@ -875,8 +875,8 @@ ofPoint ofxGenericView::convertFrom( const ofPoint& point, ofPtr< ofxGenericView
 ofRectangle ofxGenericView::convertFrom( const ofRectangle& rectangle, ofPtr< ofxGenericView > view )
 {
 #if TARGET_OS_IPHONE
-    CGRect converted = [ _view convertRect:ofRectangleToCGRect( rectangle ) fromView:view->getNativeView() ];
-    return CGRectToofRectangle( converted );
+    CGRect converted = [ _view convertRect:ofxRectangleToCGRect( rectangle ) fromView:view->getNativeView() ];
+    return ofxCGRectToofRectangle( converted );
 #elif TARGET_ANDROID
     throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "convertFrom" );
 #endif
@@ -959,7 +959,7 @@ ofRectangle ofxGenericView::getAnimatedFrame()
 {
 #if TARGET_OS_IPHONE
     CALayer *layer = _view.layer.presentationLayer;
-    return CGRectToofRectangle( layer.frame );
+    return ofxCGRectToofRectangle( layer.frame );
 #elif TARGET_ANDROID
     throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "getAnimatedFrame" );
 #endif
@@ -1237,21 +1237,21 @@ string ofxGenericView::dumpViewGraph( int depth )
 
 string ofxGenericView::toString()
 {
-    string result;
+    ostringstream result;
 #if defined(DEBUG) || defined(TEST)
     const std::type_info& info = typeid( *this );
-    result += info.name();
+    result << info.name();
 #if TARGET_OS_IPHONE
     string nativeClassName = ofxNSStringToString( NSStringFromClass ( [ getNativeView() class ] ) ); 
-    result += " native: " + nativeClassName;
+    result << " native: " + nativeClassName;
 #else
 #endif
-    result += " frame: " + getFrame().toString();
-    result += " visible: " + ofxGToString( getVisible() );
+    result << " frame: " << getFrame();
+    result << " visible: " << ofxGToString( getVisible() );
 #elif TARGET_ANDROID
     throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "toString" );
 #endif
-    return result;
+    return result.str();
 }
 
 #if TARGET_ANDROID
@@ -1422,7 +1422,7 @@ void ofxGenericView::registerJNIMethods()
 
 -( id )initWithForwardTo:( ofPtrWeak< ofxGenericView > )forwardTo frame:( const ofRectangle& )frame
 {
-    self = [ super initWithFrame:ofRectangleToCGRect( frame ) ];
+    self = [ super initWithFrame:ofxRectangleToCGRect( frame ) ];
     if ( self )
     {
         _forwardTo = forwardTo;

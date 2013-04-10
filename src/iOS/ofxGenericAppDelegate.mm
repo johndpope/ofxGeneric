@@ -170,7 +170,7 @@ void SignalHandler( int signal );
     CGRect keyboardBeginFrame;
     [ [ userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] getValue:&keyboardBeginFrame ];
     
-    ofxGenericApp::getInstance()->keyboardWillShow(  CGRectToofRectangle( keyboardBeginFrame ), CGRectToofRectangle( keyboardEndFrame ) );
+    ofxGenericApp::getInstance()->keyboardWillShow(  ofxCGRectToofRectangle( keyboardBeginFrame ), ofxCGRectToofRectangle( keyboardEndFrame ) );
 }
 
 -( void )keyboardWillHide:( NSNotification* )notification
