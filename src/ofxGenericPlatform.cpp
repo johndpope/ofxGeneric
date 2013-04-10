@@ -96,7 +96,7 @@ string ofxGenericPlatform::operatingSystemGroupName()
     if ( name == "iPhone OS" )
         return "iOS";
     
-    ofxGLog( OF_LOG_ERROR, "Unknown operating system, cannot find matching group for: " + name );
+    ofxGLogError( "Unknown operating system, cannot find matching group for: " + name );
     
     return "Unknown";
 }
