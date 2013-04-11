@@ -24,6 +24,8 @@
 		3C17BC04150AA08E00DA1034 /* ofxGenericActivityView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C17BC03150AA08E00DA1034 /* ofxGenericActivityView.cpp */; };
 		3C1E7B441508288D007B6723 /* ofxGenericLaunchView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C1E7B421508288D007B6723 /* ofxGenericLaunchView.cpp */; };
 		3C1E7B451508288D007B6723 /* ofxGenericLaunchView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C1E7B431508288D007B6723 /* ofxGenericLaunchView.h */; };
+		3C29BC6617167A2100C77EFB /* ofxGenericHeadingManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C29BC6417167A2100C77EFB /* ofxGenericHeadingManager.cpp */; };
+		3C29BC6717167A2100C77EFB /* ofxGenericHeadingManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C29BC6517167A2100C77EFB /* ofxGenericHeadingManager.h */; };
 		3C2A68F3154374F400BDB696 /* ofxGenericOpenGLView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C2A68F2154374F400BDB696 /* ofxGenericOpenGLView.h */; };
 		3C2A68F61543786700BDB696 /* ofxGenericOpenGLView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C2A68F51543786700BDB696 /* ofxGenericOpenGLView.cpp */; };
 		3C2DB20A15474D8100000034 /* ofxGenericLocalization.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C2DB20915474D8100000034 /* ofxGenericLocalization.cpp */; };
@@ -195,6 +197,8 @@
 		3C17BC03150AA08E00DA1034 /* ofxGenericActivityView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericActivityView.cpp; sourceTree = "<group>"; };
 		3C1E7B421508288D007B6723 /* ofxGenericLaunchView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericLaunchView.cpp; sourceTree = "<group>"; };
 		3C1E7B431508288D007B6723 /* ofxGenericLaunchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericLaunchView.h; sourceTree = "<group>"; };
+		3C29BC6417167A2100C77EFB /* ofxGenericHeadingManager.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericHeadingManager.cpp; sourceTree = "<group>"; };
+		3C29BC6517167A2100C77EFB /* ofxGenericHeadingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericHeadingManager.h; sourceTree = "<group>"; };
 		3C2A68F2154374F400BDB696 /* ofxGenericOpenGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericOpenGLView.h; sourceTree = "<group>"; };
 		3C2A68F51543786700BDB696 /* ofxGenericOpenGLView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericOpenGLView.cpp; sourceTree = "<group>"; };
 		3C2DB20715474D1100000034 /* ofxGenericLocalization.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericLocalization.h; sourceTree = "<group>"; };
@@ -585,6 +589,8 @@
 				3CC3086816F0F9AE00BD86CA /* ofxGenericClass.h */,
 				3C6513001707B830000F8F50 /* ofxGenericLocationManager.cpp */,
 				3C6513011707B830000F8F50 /* ofxGenericLocationManager.h */,
+				3C29BC6417167A2100C77EFB /* ofxGenericHeadingManager.cpp */,
+				3C29BC6517167A2100C77EFB /* ofxGenericHeadingManager.h */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -845,6 +851,7 @@
 				3C747C4C163E15C400AE5C92 /* ofxGenericSwitchView.h in Headers */,
 				3CC3086A16F0F9AE00BD86CA /* ofxGenericClass.h in Headers */,
 				3C6513031707B830000F8F50 /* ofxGenericLocationManager.h in Headers */,
+				3C29BC6717167A2100C77EFB /* ofxGenericHeadingManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -993,6 +1000,7 @@
 				45F0F40316BB226900858F86 /* ofxGenericStoreTransaction.cpp in Sources */,
 				3CC3086916F0F9AE00BD86CA /* ofxGenericClass.cpp in Sources */,
 				3C6513021707B830000F8F50 /* ofxGenericLocationManager.cpp in Sources */,
+				3C29BC6617167A2100C77EFB /* ofxGenericHeadingManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
