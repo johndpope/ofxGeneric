@@ -32,6 +32,7 @@ public:
     void unableToRetrieveLocation( string error );
     
     const ofPoint& getLocation();
+    double getSurfaceDistanceFromLocation( const ofPoint& location );
     
     virtual ~ofxGenericLocationManager();
 protected:

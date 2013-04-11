@@ -123,6 +123,21 @@ const ofPoint& ofxGenericLocationManager::getLocation()
     return _coordinate;
 }
 
+double ofxGenericLocationManager::getSurfaceDistanceFromLocation( const ofPoint& location )
+{
+    double result;
+
+#if TARGET_OS_IPHONE
+    CLLocation* fromLocation = [ [ [ CLLocation alloc ] initWithLatitude:location.x longitude:location.y ] autorelease ];
+    CLLocationDistance distance = [ [ _nativeManager location ] distanceFromLocation:fromLocation ];
+    result = ( double )distance;
+#else
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericLocationManager", "getSurfaceDistanceFromLocation" );
+#endif
+    
+    return result;
+}
+
 #if TARGET_OS_IPHONE
 @implementation ofxGenericLocationManagerForwarder
 
