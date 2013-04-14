@@ -242,9 +242,18 @@ string ofxGToString( const ofColor& color )
     return "(" + ofxGToString( color.r ) + "," + ofxGToString( color.g ) + "," + ofxGToString( color.b ) + "," + ofxGToString( color.a ) + ")";
 }
 
-string ofxGToString( const ofPoint& point )
+string ofxGToString( const ofPoint& point, bool addSpaceAfterComma )
 {
-    return "(" + ofxGToString( point.x ) + "," + ofxGToString( point.y ) + ")";
+    string result;
+    
+    result = "(" + ofxGToString( point.x ) + ",";
+    if ( addSpaceAfterComma )
+    {
+        result += " ";
+    }
+    result += ofxGToString( point.y ) + ")";
+
+    return result;
 }
 
 string ofxGToString( const ofRectangle& rect )
