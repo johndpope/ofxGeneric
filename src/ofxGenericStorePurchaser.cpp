@@ -146,7 +146,7 @@ void ofxGenericStorePurchaser::finishAllTransactions()
         }
         else if ( transaction.transactionState == SKPaymentTransactionStateFailed )
         {
-            paymentFailed( ofxGenericStoreTransaction::create( transaction ), ofxGToString( transaction.error.description ) );
+            paymentFailed( ofxGenericStoreTransaction::create( transaction ), ofxGToString( transaction.error.localizedDescription ) );
         }
     }
 #endif
@@ -262,9 +262,9 @@ void ofxGenericStorePurchaser::setDelegate( ofPtrWeak< ofxGenericStorePurchaserD
         return;
     }
     
-    if ( error && error.description )
+    if ( error && error.localizedDescription )
     {
-        _purchaser.lock()->errorReceived( ofxGToString( error.description ) );
+        _purchaser.lock()->errorReceived( ofxGToString( error.localizedDescription ) );
     }
     else
     {
@@ -288,7 +288,7 @@ void ofxGenericStorePurchaser::setDelegate( ofPtrWeak< ofxGenericStorePurchaserD
                 [ self removeAsTransactionObserver ];
                 break;
             case SKPaymentTransactionStateFailed:
-                _purchaser.lock()->paymentFailed( ofxGenericStoreTransaction::create( transaction ), ofxGToString( transaction.error.description ) );
+                _purchaser.lock()->paymentFailed( ofxGenericStoreTransaction::create( transaction ), ofxGToString( transaction.error.localizedDescription ) );
                 [ self removeAsTransactionObserver ];
                 break;
             case SKPaymentTransactionStateRestored:
