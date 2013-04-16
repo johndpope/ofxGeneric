@@ -66,6 +66,9 @@ void ofxGenericLocationManager::init( ofPtr< ofxGenericLocationManager > setThis
     
 #if TARGET_OS_IPHONE
     _nativeManager = [ [ CLLocationManager alloc ] init ];
+    [ _nativeManager setDesiredAccuracy:kCLLocationAccuracyBest ];
+    [ _nativeManager setDistanceFilter:1.0 ];
+    
     _forwarder = [ [ ofxGenericLocationManagerForwarder alloc ] initWithForwardTo:_this ];
     [ _nativeManager setDelegate:_forwarder ];
 #endif
