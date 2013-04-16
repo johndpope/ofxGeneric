@@ -98,14 +98,14 @@ void ofxGenericLocationManager::setDelegate( ofPtrWeak< ofxGenericLocationManage
     _delegate = delegate;
 }
 
-void ofxGenericLocationManager::updateLocation( const ofPoint& coordinate )
+void ofxGenericLocationManager::updateCurrentLocation( const ofxGenericCoordinate& location )
 {
-    _coordinate = coordinate;
+    _currentLocation = location;
     
     ofPtr< ofxGenericLocationManagerDelegate > delegate = _delegate.lock();
     if ( delegate )
     {
-        delegate->locationManager_locationUpdated( coordinate );
+        delegate->locationManager_locationUpdated( _currentLocation );
     }
 }
 
@@ -118,12 +118,12 @@ void ofxGenericLocationManager::unableToRetrieveLocation( string error )
     }
 }
 
-const ofPoint& ofxGenericLocationManager::getLocation()
+const ofxGenericCoordinate& ofxGenericLocationManager::getCurrentLocation()
 {
-    return _coordinate;
+    return _currentLocation;
 }
 
-double ofxGenericLocationManager::getSurfaceDistanceFromLocation( const ofPoint& location )
+double ofxGenericLocationManager::getSurfaceDistanceFromCurrentLocation( const ofxGenericCoordinate& location )
 {
     double result;
 
@@ -160,7 +160,7 @@ double ofxGenericLocationManager::getSurfaceDistanceFromLocation( const ofPoint&
         {
             CLLocation* location = [ locations objectAtIndex:0 ];
             CLLocationCoordinate2D coordinate = [ location coordinate ];
-            forwardTo->updateLocation( ofPoint( ( float )coordinate.latitude, ( float )coordinate.longitude ) );
+            forwardTo->updateCurrentLocation( ofxGenericCoordinate( coordinate.latitude, coordinate.longitude ) );
         }
     }
 }
