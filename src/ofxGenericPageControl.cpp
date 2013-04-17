@@ -146,6 +146,52 @@ void ofxGenericPageControl::setAllowsDotInteraction( bool interacts )
 #endif
 }
 
+void ofxGenericPageControl::setFilledDotColor( const ofColor& color )
+{
+#if TARGET_OS_IPHONE
+    UIPageControl* nativeView = ( UIPageControl* )*this;
+    if ( nativeView )
+    {
+        nativeView.currentPageIndicatorTintColor = ofColorToUIColor( color );
+    }
+#endif
+}
+
+ofColor ofxGenericPageControl::getFilledDotColor()
+{
+#if TARGET_OS_IPHONE
+    UIPageControl* nativeView = ( UIPageControl* )*this;
+    if ( nativeView )
+    {
+        return UIColorToofColor( nativeView.currentPageIndicatorTintColor );
+    }
+#endif
+    return ofColor( 255, 255, 255, 255 );
+}
+
+void ofxGenericPageControl::setEmptyDotColor( const ofColor& color )
+{
+#if TARGET_OS_IPHONE
+    UIPageControl* nativeView = ( UIPageControl* )*this;
+    if ( nativeView )
+    {
+        nativeView.pageIndicatorTintColor = ofColorToUIColor( color );
+    }
+#endif
+}
+
+ofColor ofxGenericPageControl::getEmptyDotColor()
+{
+#if TARGET_OS_IPHONE
+    UIPageControl* nativeView = ( UIPageControl* )*this;
+    if ( nativeView )
+    {
+        return UIColorToofColor( nativeView.pageIndicatorTintColor );
+    }
+#endif
+    return ofColor( 255, 255, 255, 255 );
+}
+
 
 #if TARGET_OS_IPHONE
 

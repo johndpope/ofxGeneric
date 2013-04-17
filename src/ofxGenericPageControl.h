@@ -40,6 +40,12 @@ public:
     //returns pixel size given a certain number of pages
     ofPoint getSizeForPageCount( int number );
     
+    void setFilledDotColor( const ofColor& color );
+    ofColor getFilledDotColor();
+    
+    void setEmptyDotColor( const ofColor& color );
+    ofColor getEmptyDotColor();
+    
     //if true, the image will not update when the user taps a dot, it must be told to do so manually
     //implement if needed
     //bool defersCurrentPageDisplay();
