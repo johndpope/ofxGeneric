@@ -168,6 +168,24 @@ void ofxGenericButtonView::setBackgroundImage( std::string fileName )
     }
 }
 
+void ofxGenericButtonView::setBackgroundImage( ofPtr< ofxGenericImage > image )
+{
+    if ( !image )
+    {
+        ofxGLogError( "Unable to set image - provided ofxGenericImage is null, cannot ofxGenericButtonView::setBackgroundImage!" );
+        return;
+    }
+    
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[ UIButton class ] ] )
+    {
+        UIButton* view = ( UIButton* )_view;
+        [ view setBackgroundImage: image->getUIImage() forState:UIControlStateNormal ];
+    }
+#elif TARGET_ANDROID
+#endif
+}
+
 void ofxGenericButtonView::setDownBackgroundImage( std::string fileName )
 {
     string imagePath = ofxGenericImage::getNativeImagePath( fileName );
@@ -191,6 +209,24 @@ void ofxGenericButtonView::setDownBackgroundImage( std::string fileName )
     {
         ofxGLogError( "Unable to find image file " + imagePath + ", cannot ofxGenericButtonView::setDownBackgroundImage!" );
     }
+}
+
+void ofxGenericButtonView::setDownBackgroundImage( ofPtr< ofxGenericImage > image )
+{
+    if ( !image )
+    {
+        ofxGLogError( "Unable to set image - provided ofxGenericImage is null, cannot ofxGenericButtonView::setDownBackgroundImage!" );
+        return;
+    }
+    
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[ UIButton class ] ] )
+    {
+        UIButton* view = ( UIButton* )_view;
+        [ view setBackgroundImage: image->getUIImage() forState:UIControlStateHighlighted ];
+    }
+#elif TARGET_ANDROID
+#endif
 }
 
 void ofxGenericButtonView::setEnabled( bool enabled )

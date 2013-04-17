@@ -19,6 +19,7 @@
 #endif
 class ofxGenericButtonViewTouchDelegate;
 class ofxGenericTextView;
+class ofxGenericImage;
 
 class ofxGenericButtonView : public ofxGenericView
 {
@@ -32,7 +33,9 @@ public:
     
     // void setImage
     void setBackgroundImage( std::string fileName );
+    void setBackgroundImage( ofPtr< ofxGenericImage > image );
     void setDownBackgroundImage( std::string fileName );
+    void setDownBackgroundImage( ofPtr< ofxGenericImage > image );
     
     virtual void setTextAlignment( ofxGenericTextHorizontalAlignment alignment );
     virtual ofxGenericTextHorizontalAlignment getTextAlignment();
