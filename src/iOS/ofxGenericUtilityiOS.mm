@@ -772,32 +772,3 @@ ofxGenericContentMode iOSToofxGenericContentMode( UIViewContentMode from )
     }
     return ofxGenericContentModeScaleToFill;
 }
-
-UIColor* ofColorToUIColor( const ofColor& color )
-{
-    //assume it's always 0-255 for now...
-    return [ UIColor colorWithRed: color.r / 255.0f green: color.g / 255.0f blue: color.b / 255.0f alpha: color.a / 255.0f];
-}
-
-ofColor UIColorToofColor( UIColor* color )
-{
-    const float* colors = CGColorGetComponents( color.CGColor );
-    float r = 0.0f;
-    float g = 0.0f;
-    float b = 0.0f;
-    float a = CGColorGetAlpha( color.CGColor );
-    
-    //WTF BS black and gray cause this crapola
-    if (CGColorGetNumberOfComponents( color.CGColor ) == 2)
-    {
-        r = g = b = colors[0];
-    }
-    else if (CGColorGetNumberOfComponents( color.CGColor ) >= 3)
-    {
-        r = colors[0];
-        g = colors[1];
-        b = colors[2];
-    }
-    
-    return ofColor( (int)( r * 255 ), (int)( g * 255 ), (int)( b * 255 ), (int)( a * 255 ) );
-}

@@ -152,7 +152,7 @@ void ofxGenericPageControl::setFilledDotColor( const ofColor& color )
     UIPageControl* nativeView = ( UIPageControl* )*this;
     if ( nativeView )
     {
-        nativeView.currentPageIndicatorTintColor = ofColorToUIColor( color );
+        nativeView.currentPageIndicatorTintColor = ofxColorToUIColor( color );
     }
 #endif
 }
@@ -163,7 +163,7 @@ ofColor ofxGenericPageControl::getFilledDotColor()
     UIPageControl* nativeView = ( UIPageControl* )*this;
     if ( nativeView )
     {
-        return UIColorToofColor( nativeView.currentPageIndicatorTintColor );
+        return ofxUIColorToofColor( nativeView.currentPageIndicatorTintColor );
     }
 #endif
     return ofColor( 255, 255, 255, 255 );
@@ -175,7 +175,7 @@ void ofxGenericPageControl::setEmptyDotColor( const ofColor& color )
     UIPageControl* nativeView = ( UIPageControl* )*this;
     if ( nativeView )
     {
-        nativeView.pageIndicatorTintColor = ofColorToUIColor( color );
+        nativeView.pageIndicatorTintColor = ofxColorToUIColor( color );
     }
 #endif
 }
@@ -186,7 +186,7 @@ ofColor ofxGenericPageControl::getEmptyDotColor()
     UIPageControl* nativeView = ( UIPageControl* )*this;
     if ( nativeView )
     {
-        return UIColorToofColor( nativeView.pageIndicatorTintColor );
+        return ofxUIColorToofColor( nativeView.pageIndicatorTintColor );
     }
 #endif
     return ofColor( 255, 255, 255, 255 );

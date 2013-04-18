@@ -73,6 +73,3 @@ ofPoint CGSizeToofPoint( CGSize size );
 
 UIViewContentMode ofxGenericContentModeToiOS( ofxGenericContentMode from );
 ofxGenericContentMode iOSToofxGenericContentMode( UIViewContentMode from );
-
-UIColor* ofColorToUIColor( const ofColor& color );
-ofColor UIColorToofColor( UIColor* color );
