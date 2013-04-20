@@ -23,6 +23,8 @@ protected:
     virtual void init( ofPtrWeak< ofxGenericLaunchView > setThis, const ofRectangle& setBounds, ofPtrWeak< ofxGenericLaunchViewDelegate > delegate );
     
     ofPtrWeak< ofxGenericLaunchViewDelegate > _delegate;
+    
+    static string getLaunchImageFileName();
 };
 
 class ofxGenericLaunchViewDelegate

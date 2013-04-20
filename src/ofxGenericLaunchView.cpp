@@ -10,6 +10,8 @@
 #include "ofxGenericApp.h"
 #include "ofxGenericPlatform.h"
 
+#include "ofxGenericImage.h"
+
 #if TARGET_OS_IPHONE
 #include <UIKit/UIKit.h>
 #endif
@@ -32,24 +34,7 @@ void ofxGenericLaunchView::didLoad()
     ofxGenericImageView::didLoad();
     setFrame( ofxGenericApp::getInstance()->getWindow()->getFrame() );
     
-    if ( ofxGenericPlatform::isTablet() )
-    {
-        ofOrientation orientation = ofxGenericPlatform::orientation();
-        if ( orientation == OF_ORIENTATION_90_LEFT || orientation == OF_ORIENTATION_90_RIGHT )
-        {
-#if TARGET_OS_IPHONE
-            setImage( "Default-Landscape~ipad.png" );
-#endif
-        } else
-        {
-#if TARGET_OS_IPHONE
-            setImage( "Default-Portrait~ipad.png" );
-#endif
-        }
-    } else 
-    {
-        setImage( "Default.png" );
-    }
+    setImage( getLaunchImageFileName() );
     
     if ( _delegate )
     {
@@ -64,4 +49,32 @@ void ofxGenericLaunchView::didAppear()
     {
         _delegate.lock()->launchView_didAppear();
     }
+}
+
+string ofxGenericLaunchView::getLaunchImageFileName()
+{
+    string result;
+    
+    if ( ofxGenericPlatform::isTablet() )
+    {
+        ofOrientation orientation = ofxGenericPlatform::orientation();
+        if ( orientation == OF_ORIENTATION_90_LEFT || orientation == OF_ORIENTATION_90_RIGHT )
+        {
+#if TARGET_OS_IPHONE
+            result = "Default-Landscape~ipad.png";
+#endif
+        } else
+        {
+#if TARGET_OS_IPHONE
+            result = "Default-Portrait~ipad.png";
+#endif
+        }
+    } else
+    {
+        result = "Default.png";
+    }
+    
+    result = ofxGenericImage::getNativeImagePath( result );
+    
+    return result;
 }
