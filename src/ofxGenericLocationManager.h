@@ -15,6 +15,14 @@ class ofxGenericLocationManagerDelegate;
 @class ofxGenericLocationManagerForwarder;
 #endif
 
+class ofxGenericCoordinate
+{
+public:
+    double x, y;
+    ofxGenericCoordinate() : x( 0 ), y( 0 ) {};
+    ofxGenericCoordinate( double setX, double setY ) : x( setX ), y( setY ) {};
+};
+
 class ofxGenericLocationManager
 {
 public:
@@ -28,11 +36,11 @@ public:
     
     void setDelegate( ofPtrWeak< ofxGenericLocationManagerDelegate > delegate );
     
-    void updateLocation( const ofPoint& coordinate );
+    void updateCurrentLocation( const ofxGenericCoordinate& location );
     void unableToRetrieveLocation( string error );
     
-    const ofPoint& getLocation();
-    double getSurfaceDistanceFromLocation( const ofPoint& location );
+    const ofxGenericCoordinate& getCurrentLocation();
+    double getSurfaceDistanceFromCurrentLocation( const ofxGenericCoordinate& location );
     
     virtual ~ofxGenericLocationManager();
 protected:
@@ -47,7 +55,7 @@ protected:
 #endif
     ofPtrWeak< ofxGenericLocationManagerDelegate > _delegate;
     
-    ofPoint _coordinate;
+    ofxGenericCoordinate _currentLocation;
 };
 
 class ofxGenericLocationManagerDelegate
@@ -55,6 +63,6 @@ class ofxGenericLocationManagerDelegate
 public:
     virtual ~ofxGenericLocationManagerDelegate() {}
     
-    virtual void locationManager_locationUpdated( const ofPoint& coordinate ) {};
+    virtual void locationManager_locationUpdated( const ofxGenericCoordinate& location ) {};
     virtual void locationManager_unableToRetrieveLocation( string error ) {};
 };

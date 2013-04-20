@@ -11,6 +11,8 @@
 #include "SSZipArchive.h"
 #endif
 
+#include "ofxGenericLocationManager.h"
+
 //////////////////////////////// Path //////////////////////////////////
 
 string ofxGGetPathFromFileName( string fileName )
@@ -242,9 +244,32 @@ string ofxGToString( const ofColor& color )
     return "(" + ofxGToString( color.r ) + "," + ofxGToString( color.g ) + "," + ofxGToString( color.b ) + "," + ofxGToString( color.a ) + ")";
 }
 
-string ofxGToString( const ofPoint& point )
+string ofxGToString( const ofxGenericCoordinate& value, bool addSpaceAfterComma )
 {
-    return "(" + ofxGToString( point.x ) + "," + ofxGToString( point.y ) + ")";
+    string result;
+    
+    result = "(" + ofxGToString( value.x ) + ",";
+    if ( addSpaceAfterComma )
+    {
+        result += " ";
+    }
+    result += ofxGToString( value.y ) + ")";
+    
+    return result;
+}
+
+string ofxGToString( const ofPoint& point, bool addSpaceAfterComma )
+{
+    string result;
+    
+    result = "(" + ofxGToString( point.x ) + ",";
+    if ( addSpaceAfterComma )
+    {
+        result += " ";
+    }
+    result += ofxGToString( point.y ) + ")";
+
+    return result;
 }
 
 string ofxGToString( const ofRectangle& rect )
@@ -462,6 +487,77 @@ ofPoint ofxGToPoint( const string& value )
             result.x = allValues;
             result.y = allValues;
             result.z = allValues;
+        }
+    }
+    
+    return result;
+}
+
+ofxGenericCoordinate ofxGToCoordinate( const string& value )
+{
+    ofxGenericCoordinate result;
+    
+    string parse = value;
+    if ( !parse.empty() )
+    {
+        size_t quoteLocation = parse.find( "\"" );
+        while ( quoteLocation != std::string::npos )
+        {
+            parse.erase( quoteLocation, 1 );
+            quoteLocation = parse.find( "\"" );
+        }
+        size_t leftParamLocation = parse.find( "(" );
+        while ( leftParamLocation != std::string::npos )
+        {
+            parse.erase( leftParamLocation, 1 );
+            leftParamLocation = parse.find( "(" );
+        }
+        
+        size_t rightParamLocation = parse.find( ")" );
+        while ( rightParamLocation != std::string::npos )
+        {
+            parse.erase( rightParamLocation, 1 );
+            rightParamLocation = parse.find( ")" );
+        }
+        
+        size_t commaLocation = parse.find( "," );
+        if ( commaLocation != std::string::npos )
+        {
+            unsigned int index = 0;
+            size_t from = 0;
+            while( index < ofPoint::DIM )
+            {
+                string stringValue = parse.substr( from, commaLocation - from );
+//                result[ index ] = ofToDouble( stringValue );
+                if ( index == 0 )
+                {
+                    result.x = ofToDouble( stringValue );
+                } else if ( index == 1 )
+                {
+                    result.y = ofToDouble( stringValue );
+                }
+                
+                if ( commaLocation == parse.length() )
+                {
+                    break;
+                } else
+                {
+                    commaLocation = commaLocation + 1;
+                }
+                
+                from = commaLocation;
+                commaLocation = parse.find( ",", from );
+                if ( commaLocation == std::string::npos )
+                {
+                    commaLocation = parse.length();
+                }
+                index ++;
+            }
+        } else
+        {
+            double allValues = ofToDouble( parse );
+            result.x = allValues;
+            result.y = allValues;
         }
     }
     
