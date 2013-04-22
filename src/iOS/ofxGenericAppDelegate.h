@@ -23,5 +23,7 @@
 -( BOOL )application:( UIApplication* )application didFinishLaunchingWithOptions:( NSDictionary* )launchOptions;
 -( void )application:( UIApplication* )application didReceiveLocalNotification:( UILocalNotification* )notification;
 
+-( BOOL )shouldInstallDefaultUncaughtExceptionHandler;
+
 @end
 #endif

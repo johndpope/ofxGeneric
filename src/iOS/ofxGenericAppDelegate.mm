@@ -28,7 +28,10 @@ void SignalHandler( int signal );
 
 -( BOOL )application:( UIApplication* )application didFinishLaunchingWithOptions:( NSDictionary* )launchOptions
 {
-    [ self installUncaughtExceptionHandler ];
+    if ( [ self shouldInstallDefaultUncaughtExceptionHandler ] )
+    {
+        [ self installUncaughtExceptionHandler ];
+    }
 
     ofPtr< ofxAppGenericWindow > window = ofxGenericApp::getInstance()->getWindow();
 
@@ -140,9 +143,6 @@ void SignalHandler( int signal );
 { ofxGenericApp::getInstance()->willEnterForeground(); }
 
 /*
- - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions __OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_3_0);
- 
- 
  - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url;  // Will be deprecated at some point, please replace with application:openURL:sourceApplication:annotation:
  - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation __OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_4_2); // no equiv. notification. return NO if the application can't open for some reason
  
@@ -183,6 +183,11 @@ void SignalHandler( int signal );
     [ _displayLink release ];
     _displayLink = nil;
     [ super dealloc ];
+}
+
+-( BOOL )shouldInstallDefaultUncaughtExceptionHandler
+{
+    return YES;
 }
 
 -( void )installUncaughtExceptionHandler
