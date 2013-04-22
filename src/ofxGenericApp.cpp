@@ -150,38 +150,50 @@ void ofxGenericApp::runViaInfiniteLoop( ofPtr< ofxAppGenericWindow > window )
 // TODO: come up with calling scheme, friending doesn't seem to be possible :(
 void ofxGenericApp::finishedLaunching()
 {
-    createRootView();
+    handleFinishedLaunchingPresetup();
     
+    // wait a cycle so iOS has time to get initialized
+    _setupTimer = ofxGenericTimer::create( 0.0001f, false, dynamic_pointer_cast< ofxGenericTimerDelegate >( _this ) );
+}
+
+void ofxGenericApp::handleFinishedLaunchingPresetup()
+{
+    createRootView();
+
+    // TODO: move earlier
 #if TARGET_OS_IPHONE
     ofSetDataPathRoot( ofxNSStringToString( [ NSString stringWithFormat:@"%@/", [ [ NSBundle mainBundle ] resourcePath ] ] ) );
     
     ofSetDocumentsPathRoot( ofxNSStringToString( [ NSString stringWithFormat:@"%@/", [ NSSearchPathForDirectoriesInDomains( NSDocumentDirectory, NSUserDomainMask, YES ) objectAtIndex:0 ] ] ) );
 #elif TARGET_ANDROID
-
+    
 #endif
     
     if ( isDebuggerAttached() )
     {
         ofxGLogVerbose( "Debugger is attached" );
-    } else 
+    } else
     {
         ofxGLogVerbose( "Debugger not attached" );
     }
     
     /*
      iPhoneSetOrientation(OFXIPHONE_ORIENTATION_PORTRAIT);
-
-
+     
+     
      // call testApp::setup()
      ofRegisterTouchEvents((ofxiPhoneApp*)ofGetAppPtr());
      */
+}
 
-	ofNotifySetup();
-	ofNotifyUpdate();
-
-     /*
-     // Listen to did rotate event
-*/
+void ofxGenericApp::timer_fired( ofPtr< ofxGenericTimer > timer )
+{
+    if ( timer == _setupTimer )
+    {
+        ofNotifySetup();
+        ofNotifyUpdate();
+        _setupTimer = ofPtr< ofxGenericTimer >();
+    }
 }
 
 void ofxGenericApp::createRootView()
