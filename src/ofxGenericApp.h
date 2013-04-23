@@ -5,6 +5,8 @@
 #include "ofxGenericUtility.h"
 
 #if TARGET_OS_IPHONE
+@class ofxGenericAppDelegate;
+
 #include "ofxGenericAppDelegate.h"
 #endif
 
@@ -100,6 +102,7 @@ protected:
     
 #if TARGET_OS_IPHONE
     virtual Class getAppDelegateClass();
+    ofxGenericAppDelegate* getAppDelegate();
 #endif
 
     ofPtr< ofxAppGenericWindow > _window;

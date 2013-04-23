@@ -80,6 +80,18 @@ Class ofxGenericApp::getAppDelegateClass()
 {
     return [ ofxGenericAppDelegate class ];
 }
+
+ofxGenericAppDelegate* ofxGenericApp::getAppDelegate()
+{
+    ofxGenericAppDelegate* result = nil;
+    
+    id< UIApplicationDelegate > delegate = [ UIApplication sharedApplication ].delegate;
+    if ( [ delegate isKindOfClass:[ ofxGenericAppDelegate class ] ] )
+    {
+        result = ( ofxGenericAppDelegate* )delegate;
+    }
+    return result;
+}
 #endif
 
 void ofxGenericApp::realRun()
@@ -533,7 +545,17 @@ string ofxGenericApp::dumpViewGraph()
 
 void ofxGenericApp::setup()
 {
+#if TARGET_OS_IPHONE
+    ofxGenericAppDelegate* delegate = getAppDelegate();
+    [ delegate setupDeviceOrientationChangesNotifications ];
+    [ delegate setupKeyboardVisibilityNotifications ];
+#endif
+    
     ofBaseApp::setup();
+    
+#if TARGET_OS_IPHONE
+    [ delegate setupUpdateThroughDisplayLink ];
+#endif
 }
 
 void ofxGenericApp::update()

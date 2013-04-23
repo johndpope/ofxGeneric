@@ -67,15 +67,26 @@ void SignalHandler( int signal );
     ofxGenericApp::getInstance()->setLaunchOptions( options );
     ofxGenericApp::getInstance()->finishedLaunching();
     
+    return YES;
+}
+
+-( void )setupDeviceOrientationChangesNotifications
+{
     [ [ UIDevice currentDevice ] beginGeneratingDeviceOrientationNotifications ];
     [ [ NSNotificationCenter defaultCenter ] addObserver: self 
                                                 selector: @selector( deviceOrientationDidChange: ) 
                                                     name: UIDeviceOrientationDidChangeNotification 
                                                   object: nil ];
-    
+}
+
+-( void )setupUpdateThroughDisplayLink
+{
     _displayLink = [ [ CADisplayLink displayLinkWithTarget:self selector:@selector( update ) ] retain ];
     [ _displayLink addToRunLoop:[ NSRunLoop currentRunLoop ] forMode:NSDefaultRunLoopMode ];
-    
+}
+
+-( void )setupKeyboardVisibilityNotifications
+{
     [ [ NSNotificationCenter defaultCenter ] addObserver:self
                                                 selector:@selector( keyboardWillShow: ) 
                                                     name:UIKeyboardWillShowNotification
@@ -84,8 +95,6 @@ void SignalHandler( int signal );
                                                 selector:@selector( keyboardWillHide: ) 
                                                     name:UIKeyboardWillHideNotification
                                                   object:nil ];
-    
-    return YES;
 }
 
 -( void )application:( UIApplication* )application didReceiveLocalNotification:( UILocalNotification* )notification
