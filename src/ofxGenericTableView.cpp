@@ -25,15 +25,18 @@
 @end
 #endif
 
-ofPtr< ofxGenericTableView > ofxGenericTableView::create( const ofRectangle& setFrame )
+ofPtr< ofxGenericTableView > ofxGenericTableView::create( bool areHeadersFixedInPlace, const ofRectangle& setFrame )
 {
     ofPtr< ofxGenericTableView > create = ofPtr< ofxGenericTableView >( new ofxGenericTableView() );
-    create->init( create, setFrame );
+    create->init( create, areHeadersFixedInPlace, setFrame );
     return create;
 }
 
 ofxGenericTableView::ofxGenericTableView()
-: _separatorStyle( ofxGenericTableViewSeparatorStyleNone ), _paddedSeparatorHeight( 0.0f ), _cellDraggingEnabled( false )
+: _separatorStyle( ofxGenericTableViewSeparatorStyleNone ),
+    _paddedSeparatorHeight( 0.0f ),
+    _cellDraggingEnabled( false ),
+    _areHeadersFixedInPlace( false )
 {    
 }
 
@@ -43,6 +46,13 @@ ofxGenericTableView::~ofxGenericTableView()
     [ _forwarder release ];
     _forwarder = nil;
 #endif
+}
+
+void ofxGenericTableView::init( ofPtrWeak< ofxGenericView > setThis, bool areHeadersFixedInPlace, const ofRectangle& setBounds, NativeView nativeView )
+{
+    _areHeadersFixedInPlace = areHeadersFixedInPlace;
+    
+    ofxGenericScrollView::init( setThis, setBounds, nativeView );
 }
 
 NativeView ofxGenericTableView::createNativeView( const ofRectangle& frame )
@@ -68,13 +78,32 @@ unsigned int ofxGenericTableView::getNumberOfCells( unsigned int section )
     return 0;
 }
 
-unsigned int ofxGenericTableView::internalGetNumberOfCells( unsigned int section )
+unsigned int ofxGenericTableView::nativeGetNumberOfCells( unsigned int section )
 {
     unsigned int count = getNumberOfCells( section );
+    
     if ( count > 0 && getSeparatorStyle() == ofxGenericTableViewSeparatorStyleSizedPadding )
     {
         count = MAX( count * 2 - 1, 0 );
     }
+    
+    if ( getAreHeadersFixedInPlace() && getHeaderForSection( section ) )
+    {
+        if ( getSeparatorStyle() == ofxGenericTableViewSeparatorStyleSizedPadding )
+        {
+            if ( count > 0 )
+            {
+                count += 2; // Header is followed by separater
+            } else
+            {
+                count += 1;
+            }
+        } else
+        {
+            count += 1;
+        }
+    }
+    
     return count;
 }
 
@@ -87,8 +116,30 @@ ofPtr< ofxGenericTableViewCell > ofxGenericTableView::getCell( unsigned int sect
     return ofPtr< ofxGenericTableViewCell >();
 }
 
-ofPtr< ofxGenericTableViewCell > ofxGenericTableView::internalGetCell( unsigned int section, unsigned int index )
+ofPtr< ofxGenericTableViewCell > ofxGenericTableView::nativeGetCell( unsigned int section, unsigned int index )
 {
+    if ( getAreHeadersFixedInPlace() )
+    {
+        ofPtr< ofxGenericTableViewCell > header = getHeaderForSection( section );
+        if ( header )
+        {
+            if ( index == 0 )
+            {
+                return header;
+            }
+            
+            if ( getSeparatorStyle() == ofxGenericTableViewSeparatorStyleSizedPadding )
+            {
+                if ( index == 0 )
+                {
+                    return _paddedSeparator;
+                }
+                index --; // skip separator cell
+            }
+            
+            index --; // skip header cell
+        }
+    }
     if ( getSeparatorStyle() == ofxGenericTableViewSeparatorStyleSizedPadding )
     {
         if ( index % 2 == 1 )
@@ -123,14 +174,32 @@ unsigned int ofxGenericTableView::getNumberOfSections()
     return 1;
 }
 
-ofPtr< ofxGenericView > ofxGenericTableView::getHeaderForSection( unsigned int section )
+ofPtr< ofxGenericTableViewCell > ofxGenericTableView::nativeGetHeaderInSection( unsigned int section )
+{
+    if ( !getAreHeadersFixedInPlace() )
+    {
+        return getHeaderForSection( section );
+    }
+    return ofPtr< ofxGenericTableViewCell >();
+}
+ofPtr< ofxGenericTableViewCell > ofxGenericTableView::getHeaderForSection( unsigned int section )
 {
     if ( _delegate )
     {
         return _delegate.lock()->getHeaderForSection( dynamic_pointer_cast< ofxGenericTableView >( _this.lock() ), section );
     }
-    return ofPtr< ofxGenericView >();
+    return ofPtr< ofxGenericTableViewCell >();
 }
+
+float ofxGenericTableView::nativeGetHeightForHeaderInSection( unsigned int section )
+{
+    if ( !getAreHeadersFixedInPlace() )
+    {
+        return getHeightForHeaderInSection( section );
+    }
+    return 0.0f;
+}
+
 
 float ofxGenericTableView::getHeightForHeaderInSection( unsigned int section )
 {
@@ -146,8 +215,35 @@ float ofxGenericTableView::getHeightForHeaderInSection( unsigned int section )
     return 0.0f;
 }
 
-float ofxGenericTableView::internalGetHeightForCell( unsigned int section, unsigned int index )
+bool ofxGenericTableView::getAreHeadersFixedInPlace()
 {
+    return _areHeadersFixedInPlace;
+}
+
+float ofxGenericTableView::nativeGetHeightForCell( unsigned int section, unsigned int index )
+{
+    if ( getAreHeadersFixedInPlace() )
+    {
+        ofPtr< ofxGenericTableViewCell > header = getHeaderForSection( section );
+        if ( header )
+        {
+            if ( index == 0 )
+            {
+                return getHeightForHeaderInSection( section );
+            }
+            
+            if ( getSeparatorStyle() == ofxGenericTableViewSeparatorStyleSizedPadding )
+            {
+                if ( index == 1 )
+                {
+                    return _paddedSeparatorHeight;
+                }
+                index --; // skip separator cell
+            }
+            
+            index --; // skip header cell
+        }
+    }
     if ( getSeparatorStyle() == ofxGenericTableViewSeparatorStyleSizedPadding )
     {
         if ( index % 2 == 1 )
@@ -186,15 +282,15 @@ float ofxGenericTableView::getContentHeight()
     return height;
 }
 
-float ofxGenericTableView::internalGetContentHeight()
+float ofxGenericTableView::nativeGetContentHeight()
 {
     float height = 0.0f;
     for( unsigned int travSections = 0; travSections < getNumberOfSections(); travSections ++ )
     {
-        height += getHeightForHeaderInSection( travSections );
-        for ( unsigned int travCells = 0; travCells < internalGetNumberOfCells( travSections ); travCells ++ )
+        height += nativeGetHeightForHeaderInSection( travSections );
+        for ( unsigned int travCells = 0; travCells < nativeGetNumberOfCells( travSections ); travCells ++ )
         {
-            height += internalGetHeightForCell( travSections, travCells );
+            height += nativeGetHeightForCell( travSections, travCells );
         }
     }
     return height;
@@ -202,7 +298,7 @@ float ofxGenericTableView::internalGetContentHeight()
 
 void ofxGenericTableView::resizeToFitContents()
 {
-    float height = internalGetContentHeight();
+    float height = nativeGetContentHeight();
     if ( height > _maximumHeight )
     {
         height = _maximumHeight;
@@ -294,7 +390,7 @@ void ofxGenericTableView::selectedRow( unsigned int section, unsigned int index)
     }
 }
 
-void ofxGenericTableView::internalSelectedRow( unsigned int section, unsigned int index )
+void ofxGenericTableView::nativeSelectedRow( unsigned int section, unsigned int index )
 {
     if ( getSeparatorStyle() == ofxGenericTableViewSeparatorStyleSizedPadding )
     {
@@ -469,7 +565,7 @@ ofxGenericUIViewCastOperator( ofxGenericTableView, UITableView );
 {
     if ( _delegate )
     {
-        return _delegate->getHeightForHeaderInSection( section );
+        return _delegate->nativeGetHeightForHeaderInSection( section );
     }
     return 0.0f;
 }
@@ -478,7 +574,7 @@ ofxGenericUIViewCastOperator( ofxGenericTableView, UITableView );
 {
     if ( _delegate )
     {
-        ofPtr< ofxGenericView > header = _delegate->getHeaderForSection( section );
+        ofPtr< ofxGenericTableViewCell > header = _delegate->nativeGetHeaderInSection( section );
         if ( header )
         {
             return header->getNativeView();
@@ -491,7 +587,7 @@ ofxGenericUIViewCastOperator( ofxGenericTableView, UITableView );
 {
     if ( _delegate )
     {
-        return _delegate->internalGetNumberOfCells( section );
+        return _delegate->nativeGetNumberOfCells( section );
     }
     return 0;
 }
@@ -500,7 +596,7 @@ ofxGenericUIViewCastOperator( ofxGenericTableView, UITableView );
 {
     if ( _delegate )
     {
-        ofPtr< ofxGenericTableViewCell > view = _delegate->internalGetCell( [ indexPath section ], [ indexPath row ] );
+        ofPtr< ofxGenericTableViewCell > view = _delegate->nativeGetCell( [ indexPath section ], [ indexPath row ] );
         if ( view )
         {
             return *view;
@@ -513,7 +609,7 @@ ofxGenericUIViewCastOperator( ofxGenericTableView, UITableView );
 {
     if ( _delegate )
     {
-        return _delegate->internalGetHeightForCell( [ indexPath section ], [ indexPath row ] );
+        return _delegate->nativeGetHeightForCell( [ indexPath section ], [ indexPath row ] );
     }
     return 0.0f;
 }
@@ -522,7 +618,7 @@ ofxGenericUIViewCastOperator( ofxGenericTableView, UITableView );
 {
     if ( _delegate )
     {
-        _delegate->internalSelectedRow( indexPath.section, indexPath.row );
+        _delegate->nativeSelectedRow( indexPath.section, indexPath.row );
     }
 }
 
