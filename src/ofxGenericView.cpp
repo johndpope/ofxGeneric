@@ -466,6 +466,11 @@ ofPtr< ofxGenericView > ofxGenericView::getChildAt( unsigned int index )
     return ofPtr< ofxGenericView >();
 }
 
+bool ofxGenericView::isAttachedToRoot()
+{
+    return _isAttachedToRoot;
+}
+
 void ofxGenericView::setAlpha( float alpha )
 {
 #if TARGET_OS_IPHONE
