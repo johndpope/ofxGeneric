@@ -104,6 +104,18 @@ void ofxGenericWebView::loadHTML( string baseURL, string HTML )
 #endif
 }
 
+string ofxGenericWebView::executeJavascript( string javascript )
+{
+#if TARGET_OS_IPHONE
+    UIWebView* webView = getNativeWebView();
+    if ( webView )
+    {
+        return ofxNSStringToString( [ webView stringByEvaluatingJavaScriptFromString: ofxStringToNSString( javascript ) ] );
+    }
+#endif
+    return "";
+}
+
 void ofxGenericWebView::stopLoading()
 {
 #if TARGET_OS_IPHONE

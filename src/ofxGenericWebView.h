@@ -26,6 +26,7 @@ public:
     void goToRemoteURL( string URL );
     void goToLocalURL( string URL );
     void loadHTML( string baseURL, string HTML );
+    string executeJavascript( string javascript );
     void stopLoading();
     void reload();
     
