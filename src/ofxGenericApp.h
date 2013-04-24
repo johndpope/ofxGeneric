@@ -5,6 +5,8 @@
 #include "ofxGenericUtility.h"
 
 #if TARGET_OS_IPHONE
+@class ofxGenericAppDelegate;
+
 #include "ofxGenericAppDelegate.h"
 #endif
 
@@ -13,11 +15,12 @@
 #include "ofxGenericAlertView.h"
 
 #include "ofEvents.h"
+#include "ofxGenericTimer.h"
 
 class ofxGenericException;
 class ofxGenericKeyboardDelegate;
 
-class ofxGenericApp : public ofBaseApp, public ofxGenericAlertViewDelegate
+class ofxGenericApp : public ofBaseApp, public ofxGenericAlertViewDelegate, public ofxGenericTimerDelegate
 {
 public:
     static ofPtr< ofxGenericApp > getInstance();
@@ -90,11 +93,16 @@ public:
     virtual std::map< string, string > getLaunchOptions();
     virtual void setLaunchOptions( std::map< string, string > launchOptions );
     virtual void gotNotification( string type );
+    
+    virtual void timer_fired( ofPtr< ofxGenericTimer > timer );
 
     virtual ~ofxGenericApp();
+    
 protected:
+    
 #if TARGET_OS_IPHONE
     virtual Class getAppDelegateClass();
+    ofxGenericAppDelegate* getAppDelegate();
 #endif
 
     ofPtr< ofxAppGenericWindow > _window;
@@ -121,6 +129,9 @@ protected:
     
     double _lastUpdateTime;
     float _updateDeltaTime;
+    
+    virtual void handleFinishedLaunchingPresetup();
+    ofPtr< ofxGenericTimer > _setupTimer;
 };
 
 class ofxGenericOrientationEventArgs : public ofEventArgs

@@ -21,7 +21,7 @@ class ofxGenericTableViewDelegate;
 class ofxGenericTableView : public ofxGenericScrollView
 {
 public:
-    static ofPtr< ofxGenericTableView > create( const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ) );
+    static ofPtr< ofxGenericTableView > create( bool areHeadersFixedInPlace = false, const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ) );
     virtual ~ofxGenericTableView();
     
     virtual unsigned int getNumberOfCells( unsigned int section );
@@ -30,8 +30,9 @@ public:
     
     virtual unsigned int getNumberOfSections();
     
+    bool getAreHeadersFixedInPlace();
     virtual float getHeightForHeaderInSection( unsigned int section );
-    virtual ofPtr< ofxGenericView > getHeaderForSection( unsigned int section );
+    virtual ofPtr< ofxGenericTableViewCell > getHeaderForSection( unsigned int section );
 
     float getContentHeight();
 
@@ -66,13 +67,16 @@ public:
     operator UITableView*();
 #endif
 
-    virtual unsigned int internalGetNumberOfCells( unsigned int section );
-    virtual ofPtr< ofxGenericTableViewCell > internalGetCell( unsigned int section, unsigned int index );
-    virtual float internalGetHeightForCell( unsigned int section, unsigned int index );
-    virtual void internalSelectedRow( unsigned int section, unsigned int index );
-    virtual float internalGetContentHeight();
+    virtual ofPtr< ofxGenericTableViewCell > nativeGetHeaderInSection( unsigned int section );
+    virtual float nativeGetHeightForHeaderInSection( unsigned int section );
+    virtual unsigned int nativeGetNumberOfCells( unsigned int section );
+    virtual ofPtr< ofxGenericTableViewCell > nativeGetCell( unsigned int section, unsigned int index );
+    virtual float nativeGetHeightForCell( unsigned int section, unsigned int index );
+    virtual void nativeSelectedRow( unsigned int section, unsigned int index );
+    virtual float nativeGetContentHeight();
 
 protected:
+    virtual void init( ofPtrWeak< ofxGenericView > setThis, bool areHeadersFixedInPlace, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 ), NativeView nativeView = NativeNull );
     virtual NativeView createNativeView( const ofRectangle& frame );
 #if TARGET_OS_IPHONE
     ofxGenericTableViewForwarder* _forwarder;    
@@ -82,6 +86,8 @@ protected:
     ofxGenericTableViewSeparatorStyle _separatorStyle;
     float _paddedSeparatorHeight;
     ofPtr< ofxGenericTableViewCell > _paddedSeparator;
+    
+    bool _areHeadersFixedInPlace;
     
     virtual void resizeToFitContents();
     bool _autoResizeToFit;
@@ -102,7 +108,7 @@ public:
     
     virtual void selectedRow( ofPtr< ofxGenericTableView > tableView, unsigned int section, unsigned int index) {};
 
-    virtual ofPtr< ofxGenericView > getHeaderForSection( ofPtr< ofxGenericTableView > tableView, unsigned int section ) { return ofPtr< ofxGenericView >(); };
+    virtual ofPtr< ofxGenericTableViewCell > getHeaderForSection( ofPtr< ofxGenericTableView > tableView, unsigned int section ) { return ofPtr< ofxGenericTableViewCell >(); };
     virtual float getHeightForHeaderInSection( ofPtr< ofxGenericTableView > tableView, unsigned int section ) { return 0.0f; };
 
     virtual unsigned int getNumberOfSections( ofPtr< ofxGenericTableView > tableView ) { return 1; };
