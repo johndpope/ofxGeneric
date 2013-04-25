@@ -150,10 +150,14 @@ void ofxGenericPageControl::setFilledDotColor( const ofColor& color )
 {
 #if TARGET_OS_IPHONE
     UIPageControl* nativeView = ( UIPageControl* )*this;
-    if ( nativeView )
+    if ( [ nativeView respondsToSelector:@selector( setCurrentPageIndicatorTintColor ) ] )
     {
-        nativeView.currentPageIndicatorTintColor = ofxColorToUIColor( color );
+        [ nativeView setCurrentPageIndicatorTintColor: ofxColorToUIColor( color ) ];
+    } else
+    {
+        ofxGLogNotice( "Setting current page indicator color is not supported" );
     }
+
 #endif
 }
 
@@ -161,9 +165,12 @@ ofColor ofxGenericPageControl::getFilledDotColor()
 {
 #if TARGET_OS_IPHONE
     UIPageControl* nativeView = ( UIPageControl* )*this;
-    if ( nativeView )
+    if ( [ nativeView respondsToSelector:@selector( currentPageIndicatorTintColor ) ] )
     {
-        return ofxUIColorToofColor( nativeView.currentPageIndicatorTintColor );
+        return ofxUIColorToofColor( [ nativeView currentPageIndicatorTintColor ] );
+    } else
+    {
+        ofxGLogNotice( "Setting current page indicator color is not supported" );
     }
 #endif
     return ofColor( 255, 255, 255, 255 );
@@ -175,7 +182,13 @@ void ofxGenericPageControl::setEmptyDotColor( const ofColor& color )
     UIPageControl* nativeView = ( UIPageControl* )*this;
     if ( nativeView )
     {
-        nativeView.pageIndicatorTintColor = ofxColorToUIColor( color );
+        if ( [ nativeView respondsToSelector:@selector( setPageIndicatorTintColor ) ] )
+        {
+            [ nativeView setPageIndicatorTintColor: ofxColorToUIColor( color ) ];
+        } else
+        {
+            ofxGLogNotice( "Setting page indicator tint color is not supported" );
+        }
     }
 #endif
 }
@@ -184,9 +197,12 @@ ofColor ofxGenericPageControl::getEmptyDotColor()
 {
 #if TARGET_OS_IPHONE
     UIPageControl* nativeView = ( UIPageControl* )*this;
-    if ( nativeView )
+    if ( [ nativeView respondsToSelector:@selector( pageIndicatorTintColor ) ] )
     {
-        return ofxUIColorToofColor( nativeView.pageIndicatorTintColor );
+        return ofxUIColorToofColor( [ nativeView pageIndicatorTintColor ] );
+    } else
+    {
+        ofxGLogNotice( "Setting page indicator tint color is not supported" );
     }
 #endif
     return ofColor( 255, 255, 255, 255 );
