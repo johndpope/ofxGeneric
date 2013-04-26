@@ -853,6 +853,21 @@ void ofxGenericView::replaceViewWithView( ofPtr< ofxGenericView > replace, ofPtr
     }
 }
 
+void ofxGenericView::rotateContents( float angleInRadians )
+{
+#if TARGET_OS_IPHONE
+    if ( getNativeView() && getNativeView().layer )
+    {
+        CGRect saveBounds = getNativeView().bounds;
+        CGPoint saveAnchor = getNativeView().layer.anchorPoint;
+        [ getNativeView().layer setAnchorPoint:CGPointMake( saveBounds.origin.x + saveBounds.size.width / 2, saveBounds.origin.y + saveBounds.size.height / 2 ) ];
+        getNativeView().transform = CGAffineTransformRotate( getNativeView().transform, angleInRadians );
+//        getNativeView().bounds = saveBounds;
+        [ getNativeView().layer setAnchorPoint:saveAnchor ];
+    }
+#endif
+}
+
 void ofxGenericView::addGestureRecognizerSwipe( ofxGenericGestureTypeSwipe type )
 {
 #if TARGET_OS_IPHONE

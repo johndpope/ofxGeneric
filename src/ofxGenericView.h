@@ -138,6 +138,8 @@ public:
     
     static void replaceViewWithView( ofPtr< ofxGenericView > replace, ofPtr< ofxGenericView > with );
     
+    void rotateContents( float angleInRadians );
+    
 protected:        
     ofxGenericView();
     virtual void init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 ), NativeView nativeView = NativeNull );
@@ -186,7 +188,7 @@ protected:
     ofPtrWeak < ofxGenericViewDelegate > _viewDelegate;
 
     friend class ofxAppGenericWindow;
-    
+
 private:
     void addChildViewPre( ofPtr< ofxGenericView > add );
     void addChildViewPost( ofPtr< ofxGenericView > add );
