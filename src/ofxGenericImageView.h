@@ -18,6 +18,8 @@ public:
     virtual void setImage( string fileName );
     virtual void setImage( ofPtr< ofImage > image );
     
+    virtual void blend( ofColor color );
+    
 #if TARGET_OS_IPHONE
     operator UIImageView*();
 #elif TARGET_ANDROID

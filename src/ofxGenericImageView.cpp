@@ -45,7 +45,6 @@ NativeView ofxGenericImageView::createNativeView( const ofRectangle& frame )
 #endif
 }
 
-// TODO: auto @2x if available
 void ofxGenericImageView::setImage( std::string fileName )
 {
 #if TARGET_OS_IPHONE
@@ -91,6 +90,52 @@ void ofxGenericImageView::setImage( ofPtr< ofImage > image )
         } else
         {
             [ view setImage:nil ];
+        }
+    }
+#endif
+}
+
+void ofxGenericImageView::blend( ofColor color )
+{
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[ UIImageView class ] ] )
+    {
+        UIImageView* imageView = ( UIImageView* )_view;
+        UIImage* originalImage = [ imageView image ];
+        if ( originalImage )
+        {
+            UIColor* nativeColor = ofColorToUIColor( color );
+            CGRect imageRect = CGRectMake( 0, 0, originalImage.size.width, originalImage.size.height );
+            
+            UIGraphicsBeginImageContext( imageRect.size );
+            CGContextRef context = UIGraphicsGetCurrentContext();
+            
+            CGContextSetBlendMode( context, kCGBlendModeMultiply );
+            [ originalImage drawInRect:imageRect ];
+            [ nativeColor set ];
+            CGContextAddRect( context, imageRect );
+            CGContextFillRect( context, imageRect );
+
+            UIImage* blendedImage = UIGraphicsGetImageFromCurrentImageContext();
+ /*
+            UIImage* maskImage = originalImage;
+            CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+            CGImageRef maskImageRef = [ maskImage CGImage ];
+
+ CGImageRef mask = CGImageMaskCreate(CGImageGetWidth( maskImageRef ),
+ CGImageGetHeight( maskImageRef ),
+ CGImageGetBitsPerComponent( maskImageRef ),
+ CGImageGetBitsPerPixel( maskImageRef ),
+ CGImageGetBytesPerRow( maskImageRef ),
+ CGImageGetDataProvider( maskImageRef ), NULL, false);
+ 
+ CGImageRef maskedImage = CGImageCreateWithMask( CGBitmapContextCreateImage( context ), mask );
+ UIGraphicsEndImageContext();
+ return [ UIImage imageWithCGImage:maskedImage ];
+ */
+            [ imageView setImage:blendedImage ];
+            
+            UIGraphicsEndImageContext();
         }
     }
 #endif
