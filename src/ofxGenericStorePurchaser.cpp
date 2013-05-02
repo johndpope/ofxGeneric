@@ -97,7 +97,7 @@ void ofxGenericStorePurchaser::purchaseProduct( string identifier )
     if ( product )
     {
         SKPayment *payment = [ SKPayment paymentWithProductIdentifier: ofxStringToNSString( product->getIdentifier() )  ];
-        [ forwarder makeTransactionObserver ];
+        [ forwarder makeTransactionObserver: nil ];
         [ [ SKPaymentQueue defaultQueue ] addPayment:payment ];
     }
 #endif
@@ -111,7 +111,7 @@ void ofxGenericStorePurchaser::restorePurchases()
         forwarder = [ [ ofxGenericInAppPurchaseForwarder alloc ] initWithPurchaser:_this.lock() ];
     }
     
-    [ forwarder makeTransactionObserver ];
+    [ forwarder makeTransactionObserver: nil ];
     [ [ SKPaymentQueue defaultQueue ] restoreCompletedTransactions ];
 #endif
 }
@@ -129,7 +129,7 @@ void ofxGenericStorePurchaser::finishAllTransactions()
         return;
     }
     
-    [ forwarder makeTransactionObserver ];
+    [ forwarder makeTransactionObserver: nil ];
     
     //if we still have transactions that are still being purchased, make sure to finish them by correctly crediting the user etc.
     for ( unsigned int i = 0; i < [ [ SKPaymentQueue defaultQueue ].transactions count ]; i++ )
@@ -285,18 +285,18 @@ void ofxGenericStorePurchaser::setDelegate( ofPtrWeak< ofxGenericStorePurchaserD
         {
             case SKPaymentTransactionStatePurchased:
                 _purchaser.lock()->paymentReceived( ofxGenericStoreTransaction::create( transaction ) );
-                [ self removeAsTransactionObserver ];
+                [ self removeAsTransactionObserver: queue ];
                 break;
             case SKPaymentTransactionStateFailed:
                 _purchaser.lock()->paymentFailed( ofxGenericStoreTransaction::create( transaction ), ofxGToString( transaction.error.localizedDescription ) );
-                [ self removeAsTransactionObserver ];
+                [ self removeAsTransactionObserver: queue ];
                 break;
             case SKPaymentTransactionStateRestored:
                 _purchaser.lock()->paymentRestored( ofxGenericStoreTransaction::create( transaction ) );
-                [ self removeAsTransactionObserver ];
+                [ self removeAsTransactionObserver: queue ];
                 break;
             case SKPaymentTransactionStatePurchasing:
-                [ self removeAsTransactionObserver ];
+                [ self removeAsTransactionObserver: queue ];
                 break;
             default:
                 break;
@@ -311,22 +311,38 @@ void ofxGenericStorePurchaser::setDelegate( ofPtrWeak< ofxGenericStorePurchaserD
     //not sure if I need to do anything in here, it's just a required method
 }
 
-- (void) makeTransactionObserver
+- (void) makeTransactionObserver:(SKPaymentQueue *)queue
 {
     if ( _isTransactionObserver )
     {
         return;
     }
-    [ [ SKPaymentQueue defaultQueue ] addTransactionObserver:self ];
+    
+    if ( queue )
+    {
+        [ queue addTransactionObserver:self ];
+    }
+    else
+    {
+        [ [ SKPaymentQueue defaultQueue ] addTransactionObserver:self ];
+    }
 }
 
-- (void) removeAsTransactionObserver
+- (void) removeAsTransactionObserver:(SKPaymentQueue *)queue
 {
     if ( !_isTransactionObserver )
     {
         return;
     }
-    [ [ SKPaymentQueue defaultQueue ] removeTransactionObserver:self ];
+    
+    if ( queue )
+    {
+        [ queue removeTransactionObserver:self ];
+    }
+    else
+    {
+        [ [ SKPaymentQueue defaultQueue ] removeTransactionObserver:self ];
+    }
 }
 
 -(void) dealloc

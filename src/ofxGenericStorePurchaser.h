@@ -41,8 +41,8 @@ class ofxGenericStorePurchaser;
 }
 @property (retain) SKProductsRequest* productsRequest;
 - (id) initWithPurchaser: ( ofPtrWeak< ofxGenericStorePurchaser > ) purchaser;
-- (void) makeTransactionObserver;
-- (void) removeAsTransactionObserver;
+- (void) makeTransactionObserver:(SKPaymentQueue *)queue;
+- (void) removeAsTransactionObserver:(SKPaymentQueue *)queue;
 @end
 
 #endif
