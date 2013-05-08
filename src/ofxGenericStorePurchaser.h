@@ -99,6 +99,7 @@ protected:
     ofPtrWeak< ofxGenericStorePurchaserDelegate > _delegate;
     
     static std::vector< ofPtrWeak< ofxGenericStorePurchaser > > _allPurchasers;
+    bool _isFindingProducts;
     
 #if TARGET_OS_IPHONE
     ofxGenericInAppPurchaseForwarder *forwarder;
@@ -110,6 +111,7 @@ class ofxGenericStorePurchaserDelegate
 public:
     virtual ~ofxGenericStorePurchaserDelegate() {};
     virtual void inApp_productsReceived( std::vector< string > products ) {};
+    virtual void inApp_productsFailed( string error ) {};
     virtual void inApp_purchaseComplete( string identifier, ofPtr< ofxGenericStoreTransaction > transaction ) {};
     virtual void inApp_purchaseRestored( string identifier, ofPtr< ofxGenericStoreTransaction > transaction ) {};
     virtual void inApp_purchaseFailed( string identifier, ofPtr< ofxGenericStoreTransaction > transaction, string error ) {};

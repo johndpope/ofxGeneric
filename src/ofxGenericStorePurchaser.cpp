@@ -36,9 +36,9 @@ ofxGenericStorePurchaser::~ofxGenericStorePurchaser()
 #endif
 }
 
-ofxGenericStorePurchaser::ofxGenericStorePurchaser()
+ofxGenericStorePurchaser::ofxGenericStorePurchaser() : _isFindingProducts( false )
 #if TARGET_OS_IPHONE
-: forwarder( nil )
+, forwarder( nil )
 #endif
 {
     
@@ -62,6 +62,12 @@ ofPtr< ofxGenericStorePurchaser > ofxGenericStorePurchaser::create( std::vector<
 
 void ofxGenericStorePurchaser::findProducts( std::vector< string > products )
 {
+    if ( _isFindingProducts )
+    {
+        return;
+    }
+    _isFindingProducts = true;
+    
 #if TARGET_OS_IPHONE
     if ( !forwarder )
     {
@@ -168,6 +174,7 @@ bool ofxGenericStorePurchaser::paymentsCanBeMade()
 
 void ofxGenericStorePurchaser::productsResponseReceived( std::map< string, ofPtr< ofxGenericStoreProduct > > products, std::vector< string > identifiers )
 {
+    _isFindingProducts = false;
     _products = products;
     if ( _delegate )
     {
@@ -204,7 +211,12 @@ void ofxGenericStorePurchaser::paymentRestored( ofPtr< ofxGenericStoreTransactio
 
 void ofxGenericStorePurchaser::errorReceived( string error )
 {
+    _isFindingProducts = false;
     ofLogError("Error in ofxGenericStorePurchaser: " + error );
+    if ( _delegate )
+    {
+        _delegate.lock()->inApp_productsFailed( error );
+    }
 }
 
 void ofxGenericStorePurchaser::setDelegate( ofPtrWeak< ofxGenericStorePurchaserDelegate > delegate )
