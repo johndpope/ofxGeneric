@@ -54,37 +54,15 @@ NativeView ofxGenericImageView::createNativeView( const ofRectangle& frame )
 
 void ofxGenericImageView::setImage( std::string fileName )
 {
-    if ( ofxGenericImageManager::getInstance().imageIsLoaded( fileName ) )
-    {
-        setImage( ofxGenericImageManager::getInstance().getImage( fileName ) );
-        return;
-    }
-    
-    string imagePath = ofxGenericImage::getNativeImagePath( fileName );
 #if DEBUG
     _imageFileName = imagePath;
 #endif
-
-    if ( ofxGFileExists( imagePath ) )
+    
+    if ( !ofxGenericImageManager::getInstance().imageIsLoaded( fileName ) )
     {
-
-#if TARGET_OS_IPHONE
-        if ( [ _view isKindOfClass:[ UIImageView class ] ] )
-        {
-            UIImageView* view = ( UIImageView* )_view;
-            [ view setImage:[ UIImage imageWithContentsOfFile:ofxStringToNSString( imagePath ) ] ];
-        }
-#elif TARGET_ANDROID
-        callJNIVoidMethod(
-                _jniMethods,
-                JNIMethod_SetImage
-                // , fileName
-                );
-#endif
-    } else
-    {
-        ofxGLogError( "Unable to find image file " + imagePath + ", cannot ofxGenericImageView::setImage!" );
+        ofxGenericImageManager::getInstance().load( fileName );
     }
+    setImage( ofxGenericImageManager::getInstance().getImage( fileName ) );
 }
 
 void ofxGenericImageView::setImage( ofPtr< ofImage > image )
