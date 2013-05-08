@@ -28,8 +28,7 @@ ofxGenericImageView::ofxGenericImageView()
 ofPtr< ofxGenericImageView > ofxGenericImageView::create( const ofRectangle& setFrame, string fileName )
 {
     ofPtr< ofxGenericImageView > create = ofPtr< ofxGenericImageView >( new ofxGenericImageView() );
-    create->init( create, setFrame );
-    create->setImage( fileName );
+    create->init( create, setFrame, fileName );
     return create;
 }
 
