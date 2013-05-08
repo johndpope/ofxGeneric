@@ -9,10 +9,11 @@
 #pragma once
 
 #include "ofxGenericView.h"
+#include "ofxGenericImageManager.h"
 
 class ofxGenericImage;
 
-class ofxGenericImageView : public ofxGenericView
+class ofxGenericImageView : public ofxGenericView, public ofxGenericImageManagerDelegate
 {
 public:
     static ofPtr< ofxGenericImageView > create( const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ), string fileName = string() );
@@ -20,6 +21,8 @@ public:
     virtual void setImage( string fileName );
     virtual void setImage( ofPtr< ofImage > image );
     virtual void setImage ( ofPtr< ofxGenericImage > image );
+    
+    virtual void willAppear();
     
 #if TARGET_OS_IPHONE
     operator UIImageView*();
@@ -42,6 +45,8 @@ public:
     virtual string toString();
 #endif
     
+    void imageManager_imageLoaded( std::string imageName, ofPtr< ofxGenericImage > image );
+    
 protected:
     virtual void init( ofPtrWeak< ofxGenericImageView > setThis, const ofRectangle& setFrame, string fileName = string() );
     ofxGenericImageView();
@@ -55,4 +60,6 @@ protected:
 #if TARGET_ANDROID
     static jclass _jniClass;
 #endif
+    
+    string _waitingOnAsyncLoadImageName;
 };
