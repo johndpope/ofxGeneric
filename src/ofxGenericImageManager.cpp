@@ -40,14 +40,16 @@ ofxGenericImageManager::~ofxGenericImageManager()
 
 bool ofxGenericImageManager::load( std::string image )
 {
-    if ( !_images[ image ] )
+    if ( !imageIsLoaded( image ) )
     {
         ofPtr< ofxGenericImage > loadedImage = ofxGenericImage::create( image );
         if ( !loadedImage->loadedSuccessfully() )
         {
+            ofxGLogError( "Unable to load image file " + image + " in ofxGenericImageManager::load" );
             return false;
         }
-        _images[ image ] = loadedImage;
+        
+        _images.insert( std::pair< std::string, ofPtr< ofxGenericImage > >( image, loadedImage ) );
     }
     return true;
 }
@@ -55,16 +57,20 @@ bool ofxGenericImageManager::load( std::string image )
 bool ofxGenericImageManager::load( std::vector< std::string > images )
 {
     bool success = true;
-    for ( unsigned int i = 0; i < images.size(); i++ )
+    for (
+         std::vector< std::string >::iterator travImages = images.begin();
+         travImages != images.end();
+         travImages ++
+         )
     {
-        success = load( images[i] ) && success;
+        success = load( *travImages ) && success;
     }
     return success;
 }
 
 void ofxGenericImageManager::unload( std::string image )
 {
-    _images[ image ] = ofPtr< ofxGenericImage >();
+    _images.erase( image );
 }
 
 void ofxGenericImageManager::unload( std::vector< std::string > images )
@@ -77,12 +83,13 @@ void ofxGenericImageManager::unload( std::vector< std::string > images )
 
 void ofxGenericImageManager::unloadAll()
 {
-    _images = std::map< std::string, ofPtr< ofxGenericImage > >();
+    _images.erase( _images.begin(), _images.end() );
 }
 
 bool ofxGenericImageManager::imageIsLoaded( std::string image )
 {
-    if ( _images[ image ] )
+    std::map< std::string, ofPtr< ofxGenericImage > >::iterator find = _images.find( image );
+    if ( find != _images.end() )
     {
         return true;
     }
