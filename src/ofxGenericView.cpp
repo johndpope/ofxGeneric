@@ -118,7 +118,7 @@ void ofxGenericView::init( ofPtrWeak< ofxGenericView > setThis, const ofRectangl
 
 #endif
     
-    didLoad();
+    _didDidLoad = false;
 }
 
 #if TARGET_ANDROID
@@ -363,6 +363,10 @@ void ofxGenericView::addChildViewPre( ofPtr< ofxGenericView > add )
 {
     if ( add )
     {
+        if ( !add->_didDidLoad )
+        {
+            add->didLoad();
+        }
         if ( _isAttachingToRoot || _isAttachedToRoot )
         {
             add->willAppear();
@@ -768,11 +772,17 @@ void ofxGenericView::willLoad()
 
 void ofxGenericView::didLoad()
 {
+    _didDidLoad = true;
     if ( _viewDelegate )
     {
         _viewDelegate.lock()->didLoad( _this.lock() );
     }
-};
+}
+
+bool ofxGenericView::didDidLoad()
+{
+    return _didDidLoad;
+}
 
 void ofxGenericView::willAppear()
 {
@@ -984,6 +994,14 @@ void ofxGenericView::replaceViewWithView( ofPtr< ofxGenericView > replace, ofPtr
 {
     if ( replace && replace->getParent() && with )
     {
+        if ( !replace->didDidLoad() )
+        {
+            replace->didLoad();
+        }
+        if ( !with->didDidLoad() )
+        {
+            with->didLoad();
+        }
         ofPtr< ofxGenericView > parent = replace->getParent().lock();
         with->setFrame( replace->getFrame() );
         with->setAutoresizingMask( replace->getAutoresizingMask() );

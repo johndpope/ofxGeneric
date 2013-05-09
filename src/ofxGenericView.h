@@ -67,6 +67,7 @@ public:
     
     virtual void willLoad();
     virtual void didLoad();
+    bool didDidLoad();
     
     virtual void willAppear();
     virtual void didAppear();
@@ -199,6 +200,8 @@ protected:
     bool _isAttachingToRoot;
     void setIsAttachedToRoot( bool attached );
     bool _isAttachedToRoot;
+    
+    bool _didDidLoad;
 
     std::list< ofPtr< ofxGenericView > > _children;
     ofPtrWeak< ofxGenericView > _parent;
