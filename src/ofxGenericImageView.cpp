@@ -55,7 +55,7 @@ NativeView ofxGenericImageView::createNativeView( const ofRectangle& frame )
 void ofxGenericImageView::setImage( std::string fileName )
 {
 #if DEBUG
-    _imageFileName = imagePath;
+    _imageFileName = fileName;
 #endif
     
     if ( !ofxGenericImageManager::getInstance().imageIsLoaded( fileName ) )
