@@ -42,18 +42,34 @@ ofPtr< ofxGenericImage > ofxGenericImage::create( ofPtr< ofImage > image )
 std::string ofxGenericImage::getNativeImagePath( std::string fileName )
 {
 #if TARGET_OS_IPHONE
-    if ( ofxGenericPlatform::is4InchDisplay() && ofxGenericPlatform::isRetinaDisplay() )
+    if ( ofxGenericPlatform::is4InchDisplay() )
     {
-        string test = ofxGenericPlatform::imageFileName( fileName, true, true );
+        if ( ofxGenericPlatform::isRetinaDisplay() )
+        {
+            string test = ofxGenericPlatform::imageFileName( fileName, true, false, true );
+            if ( ofxGFileExists( test, false ) )
+            {
+                return ofToPath( test, false );
+            }
+        }
+        
+        string test = ofxGenericPlatform::imageFileName( fileName, true, false, false );
         if ( ofxGFileExists( test, false ) )
         {
             return ofToPath( test, false );
         }
-    }
-    
-    if ( ofxGenericPlatform::is4InchDisplay() )
+    } else if ( ofxGenericPlatform::isTablet() )
     {
-        string test = ofxGenericPlatform::imageFileName( fileName, true, false );
+        if ( ofxGenericPlatform::isRetinaDisplay() )
+        {
+            string test = ofxGenericPlatform::imageFileName( fileName, true, true, true );
+            if ( ofxGFileExists( test, false ) )
+            {
+                return ofToPath( test, false );
+            }
+        }
+        
+        string test = ofxGenericPlatform::imageFileName( fileName, true, true, false );
         if ( ofxGFileExists( test, false ) )
         {
             return ofToPath( test, false );
@@ -62,7 +78,7 @@ std::string ofxGenericImage::getNativeImagePath( std::string fileName )
     
     if ( ofxGenericPlatform::isRetinaDisplay() )
     {
-        string test = ofxGenericPlatform::imageFileName( fileName, false, true );
+        string test = ofxGenericPlatform::imageFileName( fileName, false, false, true );
         if ( ofxGFileExists( test, false ) )
         {
             return ofToPath( test, false );
