@@ -60,7 +60,8 @@ void ofxGenericImageView::setImage( std::string fileName )
     
     if ( !ofxGenericImageManager::getInstance().imageIsLoaded( fileName ) )
     {
-        ofxGenericImageManager::getInstance().load( fileName );
+        _waitingOnAsyncLoadImageName = fileName;
+        ofxGenericImageManager::getInstance().loadAsync( fileName, dynamic_pointer_cast< ofxGenericImageManagerDelegate >( _this ) );
     }
     setImage( ofxGenericImageManager::getInstance().getImage( fileName ) );
 }
@@ -103,6 +104,18 @@ void ofxGenericImageView::setImage ( ofPtr< ofxGenericImage > image )
     }
 #elif TARGET_ANDROID
 #endif
+}
+
+void ofxGenericImageView::willAppear()
+{
+    ofxGenericView::willAppear();
+    
+    if ( !_waitingOnAsyncLoadImageName.empty() )
+    {
+        ofxGenericImageManager::getInstance().load( _waitingOnAsyncLoadImageName );
+        setImage( ofxGenericImageManager::getInstance().getImage( _waitingOnAsyncLoadImageName ) );
+        _waitingOnAsyncLoadImageName = std::string();
+    }
 }
 
 #if TARGET_OS_IPHONE
@@ -150,3 +163,8 @@ string ofxGenericImageView::toString()
     return result;
 }
 #endif
+
+void ofxGenericImageView::imageManager_imageLoaded( std::string imageName, ofPtr< ofxGenericImage > image )
+{
+    setImage( image );
+}
