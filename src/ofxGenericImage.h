@@ -15,10 +15,10 @@ class ofxGenericImage
 public:
     static ofPtr< ofxGenericImage > create( std::string fileName );
 #if TARGET_OS_IPHONE
-    static ofPtr< ofxGenericImage > create( UIImage* image );
+    static ofPtr< ofxGenericImage > create( UIImage* image, std::string fromFileName = "" );
 #endif
-    static ofPtr< ofxGenericImage > create( ofPtr< ofImage > image );
-    static std::string getNativeImagePath( std::string fileName );
+    static ofPtr< ofxGenericImage > create( ofPtr< ofImage > image, std::string fromFileName = "" );
+    static std::string getNativeImagePath( std::string fileName, bool makeAbsolute = true );
 
 #if TARGET_OS_IPHONE
     virtual UIImage* getUIImage();
@@ -29,14 +29,16 @@ public:
     
     virtual ~ofxGenericImage();
     
+    std::string getFilePath();
+    
 protected:
     ofxGenericImage();
     ofPtrWeak< ofxGenericImage > _this;
     virtual void init( ofPtrWeak< ofxGenericImage > setThis, std::string fileName );
 #if TARGET_OS_IPHONE
-    virtual void init( ofPtrWeak< ofxGenericImage > setThis, UIImage* image );
+    virtual void init( ofPtrWeak< ofxGenericImage > setThis, UIImage* image, std::string fromFileName );
 #endif
-    virtual void init( ofPtrWeak< ofxGenericImage > setThis, ofPtr< ofImage > image );
+    virtual void init( ofPtrWeak< ofxGenericImage > setThis, ofPtr< ofImage > image, std::string fromFileName );
     
 #if TARGET_OS_IPHONE
     UIImage* _image;

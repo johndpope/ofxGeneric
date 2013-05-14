@@ -23,23 +23,23 @@ ofPtr< ofxGenericImage > ofxGenericImage::create( std::string fileName )
 }
 
 #if TARGET_OS_IPHONE
-ofPtr< ofxGenericImage > ofxGenericImage::create( UIImage* image )
+ofPtr< ofxGenericImage > ofxGenericImage::create( UIImage* image, std::string fromFileName )
 {
     ofPtr< ofxGenericImage > create( new ofxGenericImage() );
-    create->init( create, image );
+    create->init( create, image, fromFileName );
     return create;
 }
 #endif
 
-ofPtr< ofxGenericImage > ofxGenericImage::create( ofPtr< ofImage > image )
+ofPtr< ofxGenericImage > ofxGenericImage::create( ofPtr< ofImage > image, std::string fromFileName )
 {
     ofPtr< ofxGenericImage > create( new ofxGenericImage() );
-    create->init( create, image );
+    create->init( create, image, fromFileName );
     return create;
 }
 
 
-std::string ofxGenericImage::getNativeImagePath( std::string fileName )
+std::string ofxGenericImage::getNativeImagePath( std::string fileName, bool makeAbsolute )
 {
 #if TARGET_OS_IPHONE
     if ( ofxGenericPlatform::is4InchDisplay() && ofxGenericPlatform::isRetinaDisplay() )
@@ -47,7 +47,11 @@ std::string ofxGenericImage::getNativeImagePath( std::string fileName )
         string test = ofxGenericPlatform::imageFileName( fileName, true, true );
         if ( ofxGFileExists( test, false ) )
         {
-            return ofToPath( test, false );
+            if ( makeAbsolute )
+            {
+                test = ofToPath( test, false );
+            }
+            return test;
         }
     }
     
@@ -56,7 +60,11 @@ std::string ofxGenericImage::getNativeImagePath( std::string fileName )
         string test = ofxGenericPlatform::imageFileName( fileName, true, false );
         if ( ofxGFileExists( test, false ) )
         {
-            return ofToPath( test, false );
+            if ( makeAbsolute )
+            {
+                test = ofToPath( test, false );
+            }
+            return test;
         }
     }
     
@@ -65,13 +73,21 @@ std::string ofxGenericImage::getNativeImagePath( std::string fileName )
         string test = ofxGenericPlatform::imageFileName( fileName, false, true );
         if ( ofxGFileExists( test, false ) )
         {
-            return ofToPath( test, false );
+            if ( makeAbsolute )
+            {
+                test = ofToPath( test, false );
+            }
+            return test;
         }
     }
     
 #elif TARGET_ANDROID
 #endif
-    return ofToPath( fileName, false );
+    if ( makeAbsolute )
+    {
+        fileName = ofToPath( fileName, false );
+    }
+    return fileName;
 }
 
 ofxGenericImage::ofxGenericImage()
@@ -102,21 +118,21 @@ void ofxGenericImage::init( ofPtrWeak< ofxGenericImage > setThis, std::string fi
 }
 
 #if TARGET_OS_IPHONE
-void ofxGenericImage::init( ofPtrWeak< ofxGenericImage > setThis, UIImage* image )
+void ofxGenericImage::init( ofPtrWeak< ofxGenericImage > setThis, UIImage* image, std::string fromFileName )
 {
     _this = setThis;
     
-    _filePath = "";
+    _filePath = fromFileName;
     
     _image = [ image retain ];
 }
 #endif
 
-void ofxGenericImage::init( ofPtrWeak< ofxGenericImage > setThis, ofPtr< ofImage > image )
+void ofxGenericImage::init( ofPtrWeak< ofxGenericImage > setThis, ofPtr< ofImage > image, std::string fromFileName )
 {
     _this = setThis;
     
-    _filePath = "";
+    _filePath = fromFileName;
 
 #if TARGET_OS_IPHONE
     if ( image )
@@ -181,4 +197,9 @@ bool ofxGenericImage::save( string fileName, bool inDocuments )
 #endif
     
     return result;
+}
+
+std::string ofxGenericImage::getFilePath()
+{
+    return _filePath;
 }
