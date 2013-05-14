@@ -19,7 +19,6 @@ public:
     static ofPtr< ofxGenericImageView > create( const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ), string fileName = string() );
     
     virtual void setImage( string fileName );
-    virtual void setImage( ofPtr< ofImage > image );
     virtual void setImage ( ofPtr< ofxGenericImage > image );
     
     virtual void willAppear();
@@ -41,9 +40,7 @@ public:
 
 #endif
     
-#if DEBUG
     virtual string toString();
-#endif
     
     void imageManager_imageLoaded( std::string imageName, ofPtr< ofxGenericImage > image );
     
@@ -53,9 +50,6 @@ protected:
     virtual NativeView createNativeView( const ofRectangle& frame );
 
     ofPtr< ofxGenericImage > _image;
-#if DEBUG
-    string _imageFileName;
-#endif
     
 #if TARGET_ANDROID
     static jclass _jniClass;

@@ -54,38 +54,12 @@ NativeView ofxGenericImageView::createNativeView( const ofRectangle& frame )
 
 void ofxGenericImageView::setImage( std::string fileName )
 {
-#if DEBUG
-    _imageFileName = fileName;
-#endif
-    
     if ( !ofxGenericImageManager::getInstance().imageIsLoaded( fileName ) )
     {
         _waitingOnAsyncLoadImageName = fileName;
         ofxGenericImageManager::getInstance().loadAsync( fileName, dynamic_pointer_cast< ofxGenericImageManagerDelegate >( _this ) );
     }
     setImage( ofxGenericImageManager::getInstance().getImage( fileName ) );
-}
-
-void ofxGenericImageView::setImage( ofPtr< ofImage > image )
-{
-#if TARGET_OS_IPHONE
-    if ( [ _view isKindOfClass:[ UIImageView class ] ] )
-    {
-        UIImageView* view = ( UIImageView* )_view;
-        ofPtr< ofxGenericImage > newImage = ofxGenericImage::create( image );
-        if ( newImage && newImage->loadedSuccessfully() )
-        {
-            _image = newImage;
-            [ view setImage: _image->getUIImage() ];
-        }
-        else
-        {
-            _image = ofPtr< ofxGenericImage > ();
-            [ view setImage:nil ];
-        }
-    }
-#elif TARGET_ANDROID
-#endif
 }
 
 void ofxGenericImageView::setImage ( ofPtr< ofxGenericImage > image )
@@ -152,17 +126,16 @@ void ofxGenericImageView::registerJNIMethods()
 
 #endif
 
-#if DEBUG
 string ofxGenericImageView::toString()
 {
     string result = ofxGenericView::toString();
-    if ( !_imageFileName.empty() )
+    
+    if ( _image && !_image->getFilePath().empty() )
     {
-        result += " " + ofFilePath::getFileName( _imageFileName );
+        result += " " + ofFilePath::getFileName( _image->getFilePath() );
     }
     return result;
 }
-#endif
 
 void ofxGenericImageView::imageManager_imageLoaded( std::string imageName, ofPtr< ofxGenericImage > image )
 {

@@ -32,12 +32,6 @@ void ofxGenericAnimatedImageView::setImage( string fileName )
     ofxGenericImageView::setImage( fileName );
 }
 
-void ofxGenericAnimatedImageView::setImage( ofPtr< ofImage > image )
-{
-    clearFrames();
-    ofxGenericImageView::setImage( image );
-}
-
 void ofxGenericAnimatedImageView::setImage( ofPtr< ofxGenericImage > image )
 {
     clearFrames();

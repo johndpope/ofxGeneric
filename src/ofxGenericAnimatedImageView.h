@@ -21,7 +21,6 @@ public:
     static ofPtr< ofxGenericAnimatedImageView > create( const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ), const std::vector< string >& frames = std::vector< string >(), float frameRate = 20.0f, ofxGenericAnimatedImageLoopType loopType = ofxGenericAnimatedImageLoopTypeWrap, int animationDirection = 1 );
     
     virtual void setImage( string fileName );
-    virtual void setImage( ofPtr< ofImage > image );
     virtual void setImage ( ofPtr< ofxGenericImage > image );
     virtual void setAtFirstImage();
     virtual void setAtLastImage();

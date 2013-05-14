@@ -15,6 +15,7 @@
 @private
     ofPtrWeak< ofxGenericImageManager > _forwardTo;
     
+    std::string _url;
     NSURLConnection* _connection;
     NSMutableData* _data;
 }
@@ -213,7 +214,9 @@ UIImage* ofxGenericImageManager::getUIImage( std::string image )
 
 -( void )start:( std::string )url
 {
-    NSString* fileNameMinusExtension = ofxStringToNSString( ofFilePath::removeExt( url ) );
+    _url = ofxGenericImage::getNativeImagePath( url, false );
+    
+    NSString* fileNameMinusExtension = ofxStringToNSString( ofFilePath::removeExt( _url ) );
     
     NSURL* nsURL = [ [ NSBundle mainBundle ] URLForResource:fileNameMinusExtension withExtension:@"png" ];//[ NSURL URLWithString:ofxStringToNSString( "file://" + url ) ];
     
@@ -238,7 +241,7 @@ UIImage* ofxGenericImageManager::getUIImage( std::string image )
 {
     UIImage* uiImage = [ UIImage imageWithData:_data ];
     
-    ofPtr< ofxGenericImage > image = ofxGenericImage::create( uiImage );
+    ofPtr< ofxGenericImage > image = ofxGenericImage::create( uiImage, _url );
     
     [ _data release ];
     _data = nil;
