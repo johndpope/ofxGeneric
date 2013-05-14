@@ -118,10 +118,6 @@ string ofxGenericPlatform::uniqueIdentifier()
     {
         nsUDID = currentDevice.identifierForVendor.UUIDString;
         udid = ofxNSStringToString( nsUDID );
-    } else if ( [ currentDevice respondsToSelector:@selector( uniqueIdentifier ) ] )
-    {
-        nsUDID = currentDevice.uniqueIdentifier;
-        udid = ofxNSStringToString( nsUDID );
     } else
     {
         udid = "";
