@@ -93,6 +93,11 @@ public:
     void setFromNSDate( NSDate* date );
 #endif
     
+    static int getMillisecondOffsetFromUTC();
+    static int getMillisecondOffsetFromUTCWithoutDaylightSavings();
+    
+    static double getMillisecondCurrentDaylightSavingsOffset();
+    
 protected:
     ofxGenericDate();
     virtual void init( ofPtrWeak< ofxGenericDate > setThis, double time );

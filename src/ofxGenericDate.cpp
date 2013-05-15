@@ -389,6 +389,36 @@ void ofxGenericDate::setFromNSDate( NSDate* date )
 }
 #endif
 
+int ofxGenericDate::getMillisecondOffsetFromUTC()
+{
+    int result = 0;
+#if TARGET_OS_IPHONE
+    result = 1000 * [ [ NSTimeZone localTimeZone ] secondsFromGMT ];
+#else 
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericDate", "getMillisecondOffsetFromUTC" );
+#endif
+    return result;
+}
+
+int ofxGenericDate::getMillisecondOffsetFromUTCWithoutDaylightSavings()
+{
+    return getMillisecondOffsetFromUTC() + ( int )( getMillisecondCurrentDaylightSavingsOffset() );
+}
+
+double ofxGenericDate::getMillisecondCurrentDaylightSavingsOffset()
+{
+    double result = 0;
+#if TARGET_OS_IPHONE
+    if ( [ [ NSTimeZone localTimeZone ] isDaylightSavingTime ] )
+    {
+        result = 1000 * -1 * [ [ NSTimeZone localTimeZone ] daylightSavingTimeOffset ];
+    }
+#else
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericDate", "getMillisecondCurrentDaylightSavingsOffset" );
+#endif
+    return result;
+}
+
 bool operator == ( ofPtr< ofxGenericDate > left, ofPtr< ofxGenericDate > right )
 {
     if ( !left || !right )
