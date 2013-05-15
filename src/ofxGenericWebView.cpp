@@ -41,7 +41,7 @@ ofxGenericWebView::~ofxGenericWebView()
 NativeView ofxGenericWebView::createNativeView( const ofRectangle& frame )
 {
 #if TARGET_OS_IPHONE
-    UIWebView* newView = [ [ UIWebView alloc ] initWithFrame:ofxRectangleToCGRect( frame ) ];
+    UIWebView* newView = nil;//[ [ UIWebView alloc ] initWithFrame:ofxRectangleToCGRect( frame ) ];
     
     if ( [ newView respondsToSelector:@selector( scrollView ) ] )
     {
