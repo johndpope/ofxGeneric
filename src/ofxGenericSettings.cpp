@@ -11,14 +11,28 @@
 void ofxGenericSettings::init( ofPtrWeak< ofxGenericSettings > setThis )
 {
     ofxGenericValueStore::init( setThis, ofxGenericValueStoreTypeObject );
-    load();
+
+    setFileName( getFileName(), false );
+    
+    readFromDisk();
 }
 
 bool ofxGenericSettings::readFromDisk()
 {
-    return false;
+    // TODO: merge binary's settings with downloaded settings
+    bool result = ofxGenericValueStore::readFromDisk();
+
+    if ( result )
+    {
+        // old mechanism support
+        ofPtr< ofxGenericValueStore > oldParse = _this.lock();
+        parse( oldParse );
+    }
+
+    return result;
 }
 
+// ofxGenericSettings does not support writing
 bool ofxGenericSettings::writeToDisk()
 {
     return false;
@@ -31,17 +45,6 @@ void ofxGenericSettings::dumpSettings()
     ofxGenericValueStore::writeToDisk();
     
     setFileName( getFileName(), false );
-}
-
-void ofxGenericSettings::load()
-{
-    setFileName( getFileName(), false );
-
-    // TODO: merge binary's settings with downloaded settings
-    ofxGenericValueStore::readFromDisk();
-    // old mechanism support
-    ofPtr< ofxGenericValueStore > oldParse = _this.lock();
-    parse( oldParse );
 }
 
 void ofxGenericSettings::parse( ofPtr< ofxGenericValueStore > &settings )

@@ -14,8 +14,6 @@
 class ofxGenericSettings : public ofxGenericValueStore
 {
 public:
-    void load();
-    
     bool readFromDisk();
     bool writeToDisk();
     void dumpSettings();
