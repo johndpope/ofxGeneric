@@ -42,7 +42,7 @@ const char* ofxGenericButtonView::className = "cc/openframeworks/ofxGeneric/Butt
 std::vector< ofxGenericButtonView* > ofxGenericButtonView::_nativeMap;
 #endif
 
-ofPtr< ofxGenericButtonView > ofxGenericButtonView::create( ofxGenericButtonType buttonType, const ofRectangle& setFrame, ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate )
+ofPtr< ofxGenericButtonView > ofxGenericButtonView::create( ofxGenericButtonType buttonType, const ofRectangle& setFrame, ofPtrWeak< ofxGenericButtonViewDelegate > touchDelegate )
 {
     ofPtr< ofxGenericButtonView > create = ofPtr< ofxGenericButtonView >( new ofxGenericButtonView() );
     create->init( create, buttonType, setFrame, touchDelegate );
@@ -63,7 +63,7 @@ ofxGenericButtonView::~ofxGenericButtonView()
 
 //stupid hack to add another param to createNativeView
 static ofxGenericButtonType lastButtonType = ofxGenericButtonTypeRoundedRect;
-void ofxGenericButtonView::init( ofPtrWeak< ofxGenericView > setThis, ofxGenericButtonType buttonType, const ofRectangle& setFrame, ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate )
+void ofxGenericButtonView::init( ofPtrWeak< ofxGenericView > setThis, ofxGenericButtonType buttonType, const ofRectangle& setFrame, ofPtrWeak< ofxGenericButtonViewDelegate > touchDelegate )
 {
     lastButtonType = buttonType;
     ofxGenericView::init( setThis, setFrame );
@@ -252,12 +252,12 @@ bool ofxGenericButtonView::getEnabled()
     return false;
 }
 
-void ofxGenericButtonView::setDelegate( ofPtrWeak< ofxGenericButtonViewTouchDelegate > delegate )
+void ofxGenericButtonView::setDelegate( ofPtrWeak< ofxGenericButtonViewDelegate > delegate )
 {
     _touchDelegate = delegate;
 }
 
-ofPtrWeak< ofxGenericButtonViewTouchDelegate > ofxGenericButtonView::getDelegate()
+ofPtrWeak< ofxGenericButtonViewDelegate > ofxGenericButtonView::getDelegate()
 {
     return _touchDelegate;
 }

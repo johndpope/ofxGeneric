@@ -17,14 +17,14 @@
 #if TARGET_OS_IPHONE
 @class ofxGenericButtonViewForwarder;
 #endif
-class ofxGenericButtonViewTouchDelegate;
+class ofxGenericButtonViewDelegate;
 class ofxGenericTextView;
 class ofxGenericImage;
 
 class ofxGenericButtonView : public ofxGenericView
 {
 public:
-    static ofPtr< ofxGenericButtonView > create( ofxGenericButtonType buttonType = ofxGenericButtonTypeRoundedRect, const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ), ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate = ofPtrWeak< ofxGenericButtonViewTouchDelegate >() );
+    static ofPtr< ofxGenericButtonView > create( ofxGenericButtonType buttonType = ofxGenericButtonTypeRoundedRect, const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ), ofPtrWeak< ofxGenericButtonViewDelegate > touchDelegate = ofPtrWeak< ofxGenericButtonViewDelegate >() );
     
     virtual ~ofxGenericButtonView();
     
@@ -85,8 +85,8 @@ public:
     static void handleOnClick( int nativeID );
 #endif
     
-    void setDelegate( ofPtrWeak< ofxGenericButtonViewTouchDelegate > delegate );
-    ofPtrWeak< ofxGenericButtonViewTouchDelegate > getDelegate();
+    void setDelegate( ofPtrWeak< ofxGenericButtonViewDelegate > delegate );
+    ofPtrWeak< ofxGenericButtonViewDelegate > getDelegate();
 
 #if DEBUG
     virtual string toString();
@@ -96,9 +96,9 @@ public:
 
 protected:
     ofxGenericButtonView();
-    virtual void init( ofPtrWeak< ofxGenericView > setThis, ofxGenericButtonType buttonType = ofxGenericButtonTypeRoundedRect, const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ), ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate = ofPtrWeak< ofxGenericButtonViewTouchDelegate >() );
+    virtual void init( ofPtrWeak< ofxGenericView > setThis, ofxGenericButtonType buttonType = ofxGenericButtonTypeRoundedRect, const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ), ofPtrWeak< ofxGenericButtonViewDelegate > touchDelegate = ofPtrWeak< ofxGenericButtonViewDelegate >() );
     ofPtr< ofxGenericTextView > _textView;
-    ofPtrWeak< ofxGenericButtonViewTouchDelegate > _touchDelegate;
+    ofPtrWeak< ofxGenericButtonViewDelegate > _touchDelegate;
     
     virtual NativeView createNativeView( const ofRectangle& frame );
 #if TARGET_OS_IPHONE
@@ -125,10 +125,10 @@ protected:
 #endif
 };
 
-class ofxGenericButtonViewTouchDelegate
+class ofxGenericButtonViewDelegate
 {
 public:
-    virtual ~ofxGenericButtonViewTouchDelegate(){};
+    virtual ~ofxGenericButtonViewDelegate(){};
     
     virtual void button_touchCancel( ofPtr< ofxGenericButtonView > buttonView ){};
     virtual void button_touchDown( ofPtr< ofxGenericButtonView > buttonView ){};

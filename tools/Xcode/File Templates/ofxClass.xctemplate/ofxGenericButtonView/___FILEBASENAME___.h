@@ -13,7 +13,7 @@
 class ___FILEBASENAMEASIDENTIFIER___ : public ___VARIABLE_subclassOf___
 {
 public:
-    static ofPtr< ___FILEBASENAMEASIDENTIFIER___ > create( const ofRectangle& setFrame = ofRectangle(), ofPtrWeak< ofxGenericButtonViewTouchDelegate > touchDelegate = ofPtrWeak< ofxGenericButtonViewTouchDelegate >() );
+    static ofPtr< ___FILEBASENAMEASIDENTIFIER___ > create( const ofRectangle& setFrame = ofRectangle(), ofPtrWeak< ofxGenericButtonViewDelegate > touchDelegate = ofPtrWeak< ofxGenericButtonViewDelegate >() );
     
 protected:
     ___FILEBASENAMEASIDENTIFIER___();
