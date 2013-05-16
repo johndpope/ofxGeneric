@@ -22,9 +22,9 @@
 
 @interface ofxGenericViewAnimationForwarder : NSObject
 {
-    ofPtrWeak< ofxGenericViewDelegate > _delegate;
+    ofPtrWeak< ofxGenericViewAnimationDelegate > _delegate;
 }
-- ( id )initWithDelegate:( ofPtrWeak< ofxGenericViewDelegate > )delegate;
+- ( id )initWithDelegate:( ofPtrWeak< ofxGenericViewAnimationDelegate > )delegate;
 - (void)animationWillStart:( NSString* )animationID finished:( NSNumber* )finished context:( void* )context;
 - (void)animationDidStop:( NSString* )animationID finished:( NSNumber* )finished context:( void* )context;
 
@@ -887,7 +887,7 @@ ofRectangle ofxGenericView::convertFrom( const ofRectangle& rectangle, ofPtr< of
 #endif
 }
 
-void ofxGenericView::beginAnimation( string animationId, ofPtr< ofxGenericViewDelegate > delegate )
+void ofxGenericView::beginAnimation( string animationId, ofPtr< ofxGenericViewAnimationDelegate > delegate )
 {
 #if TARGET_OS_IPHONE
     [ UIView beginAnimations:ofxStringToNSString( animationId ) context:nil ];
@@ -1395,7 +1395,7 @@ void ofxGenericView::registerJNIMethods()
 
 @implementation ofxGenericViewAnimationForwarder
 
--( id )initWithDelegate:( ofPtrWeak< ofxGenericViewDelegate > )delegate
+-( id )initWithDelegate:( ofPtrWeak< ofxGenericViewAnimationDelegate > )delegate
 {
     self = [ super init ];
     if ( self )

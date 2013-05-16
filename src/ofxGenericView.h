@@ -14,6 +14,7 @@
 #include <list>
 
 class ofxGenericViewDelegate;
+class ofxGenericViewAnimationDelegate;
 #if TARGET_OS_IPHONE
 @class ofxUIGenericViewControllerForwarder;
 #endif
@@ -115,7 +116,7 @@ public:
     ofPoint convertFrom( const ofPoint& point, ofPtr< ofxGenericView > view );
     ofRectangle convertFrom( const ofRectangle& rectangle, ofPtr< ofxGenericView > view );
     
-    static void beginAnimation( string animationId, ofPtr< ofxGenericViewDelegate > delegate = ofPtr< ofxGenericViewDelegate >() );
+    static void beginAnimation( string animationId, ofPtr< ofxGenericViewAnimationDelegate > delegate = ofPtr< ofxGenericViewAnimationDelegate >() );
     static void commitAnimation();
     
     static void setAnimationDuration( double seconds = 0.2 );
@@ -224,15 +225,21 @@ public:
     virtual void willDisappear( ofPtr< ofxGenericView > view ) {};
     virtual void didDisappear( ofPtr< ofxGenericView > view ) {};
     
-    virtual void animationWillStart( string animationId ) {};
-    virtual void animationDidStop( string animationId ) {};
-    
     virtual void gesturePerformedSwipe( ofPtr< ofxGenericView > view, ofxGenericGestureTypeSwipe type, ofPoint location ) {};
     virtual void gesturePerformedTap( ofPtr< ofxGenericView > view, int tapCount, int fingerCount, ofPoint location ) {};
     virtual void gesturePerformedHold( ofPtr< ofxGenericView > view, float minimumPressDuration, unsigned int fingerCount, float allowableMovement, ofPoint location ) {};
     virtual void gesturePerformedPan( ofPtr< ofxGenericView > view, ofxGenericGestureState state, unsigned int fingerCount, const ofPoint& currentTouchLocation, const ofPoint& velocity ) {};
     
     virtual void hitInView( ofPoint location ) {};
+};
+
+class ofxGenericViewAnimationDelegate
+{
+public:
+    virtual ~ofxGenericViewAnimationDelegate() {};
+    
+    virtual void animationWillStart( string animationId ) {};
+    virtual void animationDidStop( string animationId ) {};
 };
 
 #if TARGET_OS_IPHONE
