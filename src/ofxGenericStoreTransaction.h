@@ -19,7 +19,7 @@ class ofxGenericStoreTransaction
 {
 public:
 #if TARGET_OS_IPHONE
-    static ofPtr< ofxGenericStoreTransaction > create( SKPaymentTransaction *product );
+    static ofPtr< ofxGenericStoreTransaction > create( SKPaymentTransaction *transaction, SKPaymentQueue *queue );
 #endif
     virtual ~ofxGenericStoreTransaction();
     
@@ -48,5 +48,7 @@ protected:
 #if TARGET_OS_IPHONE
     void setSKPaymentTransaction( SKPaymentTransaction *transaction );
     SKPaymentTransaction *_transaction;
+    void setSKPaymentQueue( SKPaymentQueue *queue );
+    SKPaymentQueue *_queue;
 #endif
 };

@@ -15,11 +15,12 @@
 
 #if TARGET_OS_IPHONE
 
-ofPtr< ofxGenericStoreTransaction > ofxGenericStoreTransaction::create( SKPaymentTransaction *transaction )
+ofPtr< ofxGenericStoreTransaction > ofxGenericStoreTransaction::create( SKPaymentTransaction *transaction, SKPaymentQueue *queue )
 {
     ofPtr< ofxGenericStoreTransaction > create = ofPtr< ofxGenericStoreTransaction > ( new ofxGenericStoreTransaction() );
     create->init( create );
     create->setSKPaymentTransaction( transaction );
+    create->setSKPaymentQueue( queue );
     return create;
 }
 
@@ -28,17 +29,24 @@ void ofxGenericStoreTransaction::setSKPaymentTransaction( SKPaymentTransaction *
     _transaction = [ transaction retain ];
 }
 
+void ofxGenericStoreTransaction::setSKPaymentQueue( SKPaymentQueue *queue )
+{
+    _queue = [ queue retain ];
+}
+
 #endif
 
 ofxGenericStoreTransaction::~ofxGenericStoreTransaction()
 {
     [ _transaction release ];
     _transaction = nil;
+    [ _queue release ];
+    _queue = nil;
 }
 
 ofxGenericStoreTransaction::ofxGenericStoreTransaction()
 #if TARGET_OS_IPHONE
-: _transaction( nil )
+: _transaction( nil ), _queue( nil )
 #endif
 {
     
@@ -154,8 +162,16 @@ string ofxGenericStoreTransaction::getReceipt()
 void ofxGenericStoreTransaction::finishTransaction()
 {
 #if TARGET_OS_IPHONE
-    [ [ SKPaymentQueue defaultQueue ] finishTransaction:_transaction ];
-#else 
+    //I have a suspicion the default queue doesn't always work, so deal with that case
+    if ( _queue )
+    {
+        [ _queue finishTransaction:_transaction ];
+    }
+    else
+    {
+        [ [ SKPaymentQueue defaultQueue ] finishTransaction:_transaction ];
+    }
+#else
     
 #endif
 }

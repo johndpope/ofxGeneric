@@ -144,15 +144,19 @@ void ofxGenericStorePurchaser::finishAllTransactions()
         
         if ( transaction.transactionState == SKPaymentTransactionStatePurchased )
         {
-            paymentReceived( ofxGenericStoreTransaction::create( transaction ) );
+            paymentReceived( ofxGenericStoreTransaction::create( transaction, [ SKPaymentQueue defaultQueue ] ) );
         }
         else if ( transaction.transactionState == SKPaymentTransactionStateRestored )
         {
-            paymentRestored( ofxGenericStoreTransaction::create( transaction ) );
+            paymentRestored( ofxGenericStoreTransaction::create( transaction, [ SKPaymentQueue defaultQueue ] ) );
         }
         else if ( transaction.transactionState == SKPaymentTransactionStateFailed )
         {
-            paymentFailed( ofxGenericStoreTransaction::create( transaction ), ofxGToString( transaction.error.localizedDescription ) );
+            ofPtr< ofxGenericStoreTransaction > ofxGTransaction = ofxGenericStoreTransaction::create( transaction, [ SKPaymentQueue defaultQueue ] );
+            paymentFailed( ofxGTransaction, ofxGToString( transaction.error.localizedDescription ) );
+            
+            //this seems the correct thing to do so the user is not plagued forever
+            finishPurchase( ofxGTransaction );
         }
     }
 #endif
@@ -296,15 +300,15 @@ void ofxGenericStorePurchaser::setDelegate( ofPtrWeak< ofxGenericStorePurchaserD
         switch ( transaction.transactionState )
         {
             case SKPaymentTransactionStatePurchased:
-                _purchaser.lock()->paymentReceived( ofxGenericStoreTransaction::create( transaction ) );
+                _purchaser.lock()->paymentReceived( ofxGenericStoreTransaction::create( transaction, queue ) );
                 [ self removeAsTransactionObserver: queue ];
                 break;
             case SKPaymentTransactionStateFailed:
-                _purchaser.lock()->paymentFailed( ofxGenericStoreTransaction::create( transaction ), ofxGToString( transaction.error.localizedDescription ) );
+                _purchaser.lock()->paymentFailed( ofxGenericStoreTransaction::create( transaction, queue ), ofxGToString( transaction.error.localizedDescription ) );
                 [ self removeAsTransactionObserver: queue ];
                 break;
             case SKPaymentTransactionStateRestored:
-                _purchaser.lock()->paymentRestored( ofxGenericStoreTransaction::create( transaction ) );
+                _purchaser.lock()->paymentRestored( ofxGenericStoreTransaction::create( transaction, queue ) );
                 [ self removeAsTransactionObserver: queue ];
                 break;
             case SKPaymentTransactionStatePurchasing:
