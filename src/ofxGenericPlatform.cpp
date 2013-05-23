@@ -203,13 +203,23 @@ string ofxGenericPlatform::imageSuffix4InchDisplay()
     return ofxNSStringToString( [ [ UIDevice currentDevice ] imageSuffix4InchDisplay ] );
 }
 
-string ofxGenericPlatform::imageFileName( string originalFileName, bool is4Inch, bool isRetina )
+string ofxGenericPlatform::imageSuffixiPadPortrait()
+{
+    return "-1024h";
+}
+
+
+string ofxGenericPlatform::imageFileName( string originalFileName, bool is4Inch, bool isiPad, bool isRetina )
 {
     string result = ofFilePath::removeExt( originalFileName );
 
     if ( is4Inch )
     {
         result += ofxGenericPlatform::imageSuffix4InchDisplay();
+    }
+    if ( isiPad )
+    {
+        result += ofxGenericPlatform::imageSuffixiPadPortrait();
     }
     if ( isRetina )
     {
