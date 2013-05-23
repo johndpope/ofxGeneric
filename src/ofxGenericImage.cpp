@@ -62,14 +62,14 @@ std::string ofxGenericImage::getNativeImagePath( std::string fileName )
     {
         if ( ofxGenericPlatform::isRetinaDisplay() )
         {
-            string test = ofxGenericPlatform::imageFileName( fileName, true, true, true );
+            string test = ofxGenericPlatform::imageFileName( fileName, false, true, true );
             if ( ofxGFileExists( test, false ) )
             {
                 return ofToPath( test, false );
             }
         }
         
-        string test = ofxGenericPlatform::imageFileName( fileName, true, true, false );
+        string test = ofxGenericPlatform::imageFileName( fileName, false, true, false );
         if ( ofxGFileExists( test, false ) )
         {
             return ofToPath( test, false );
