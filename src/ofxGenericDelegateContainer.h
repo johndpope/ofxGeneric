@@ -18,15 +18,15 @@ class ofxGenericDelegateContainer
 public:
     ofxGenericDelegateContainer() {}
     
-    void add( ofPtrWeak< DelegateType > delegate, bool perminent )
+    void add( ofPtrWeak< DelegateType > delegate, bool permanent )
     {
         if ( delegate )
         {
-            if ( perminent )
+            if ( permanent )
             {
                 if ( !contains( delegate, true ) )
                 {
-                    _perminentDelegates.push_back( delegate );
+                    _permanentDelegates.push_back( delegate );
                 }
             } else
             {
@@ -38,12 +38,12 @@ public:
         }
     }
     
-    std::list< ofPtrWeak< DelegateType > > get( bool perminent )
+    std::list< ofPtrWeak< DelegateType > > get( bool permanent )
     {
         {
-            if ( perminent )
+            if ( permanent )
             {
-                return _perminentDelegates;
+                return _permanentDelegates;
             } else
             {
                 // arg _oneTimeDelegates being copied twice :_(
@@ -63,12 +63,12 @@ public:
         return false;
     }
     
-    bool contains( ofPtrWeak< DelegateType > check, bool perminent )
+    bool contains( ofPtrWeak< DelegateType > check, bool permanent )
     {
         const std::list< ofPtrWeak< DelegateType > >* container = NULL;
-        if ( perminent )
+        if ( permanent )
         {
-            container = &_perminentDelegates;
+            container = &_permanentDelegates;
         } else
         {
             container = &_oneTimeDelegates;
@@ -85,5 +85,5 @@ public:
     
 protected:
     std::list< ofPtrWeak< DelegateType > > _oneTimeDelegates;
-    std::list< ofPtrWeak< DelegateType > > _perminentDelegates;
+    std::list< ofPtrWeak< DelegateType > > _permanentDelegates;
 };
