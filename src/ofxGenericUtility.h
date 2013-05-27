@@ -16,6 +16,8 @@
 #include "ofxGenericUtilityAndroid.h"
 #endif
 
+#include <list>
+
 class ofxGenericCoordinate;
 
 //////////////////////////////// Path //////////////////////////////////
@@ -109,4 +111,10 @@ inline bool ofxGContains( _InputIterator __first, _InputIterator __end, const _T
                                 typename iterator_traits< _InputIterator >::value_type, _Tp > )
     __glibcxx_requires_valid_range( __first, __end );
     return std::__find( __first, __end, __val, std::__iterator_category( __first ) ) != __end;
+}
+
+template< typename ElementType >
+bool ofxGContains( const std::list< ElementType >& container, const ElementType& value )
+{
+    return std::find( container.begin(), container.end(), value ) != container.end();
 }

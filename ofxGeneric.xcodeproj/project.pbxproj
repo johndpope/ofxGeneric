@@ -88,6 +88,7 @@
 		3C96A11D16110F11000BA061 /* ofxGenericWebView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C96A11B16110F11000BA061 /* ofxGenericWebView.cpp */; };
 		3C96A11E16110F11000BA061 /* ofxGenericWebView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C96A11C16110F11000BA061 /* ofxGenericWebView.h */; };
 		3C9DAB4215F36137000F04AD /* libofxiPhone_iphoneos_Debug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CE94C7515E655F400E1BC73 /* libofxiPhone_iphoneos_Debug.a */; };
+		3C9F4AEF168E77B6005F583E /* ofxGenericDelegateContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C9F4AED168E77B6005F583E /* ofxGenericDelegateContainer.h */; };
 		3CA59B33153F4312008EE095 /* ofxGenericException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CA59B32153F4311008EE095 /* ofxGenericException.cpp */; };
 		3CA69A5716BCA85E00B50F3D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CA69A5616BCA85E00B50F3D /* libz.dylib */; };
 		3CB572AD1596512C0060F9BE /* ofxGenericSelectorView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CB572AC1596512C0060F9BE /* ofxGenericSelectorView.cpp */; };
@@ -276,6 +277,7 @@
 		3C85FC6315114B1E001F5854 /* ofxGenericScrollView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericScrollView.cpp; sourceTree = "<group>"; };
 		3C96A11B16110F11000BA061 /* ofxGenericWebView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericWebView.cpp; sourceTree = "<group>"; };
 		3C96A11C16110F11000BA061 /* ofxGenericWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericWebView.h; sourceTree = "<group>"; };
+		3C9F4AED168E77B6005F583E /* ofxGenericDelegateContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericDelegateContainer.h; sourceTree = "<group>"; };
 		3CA5336415B61A7900A8D36B /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		3CA5336515B61A7900A8D36B /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		3CA5336615B61A7900A8D36B /* SharedDebug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = SharedDebug.xcconfig; sourceTree = "<group>"; };
@@ -591,6 +593,7 @@
 				3C6513011707B830000F8F50 /* ofxGenericLocationManager.h */,
 				3C29BC6417167A2100C77EFB /* ofxGenericHeadingManager.cpp */,
 				3C29BC6517167A2100C77EFB /* ofxGenericHeadingManager.h */,
+				3C9F4AED168E77B6005F583E /* ofxGenericDelegateContainer.h */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -852,6 +855,7 @@
 				3CC3086A16F0F9AE00BD86CA /* ofxGenericClass.h in Headers */,
 				3C6513031707B830000F8F50 /* ofxGenericLocationManager.h in Headers */,
 				3C29BC6717167A2100C77EFB /* ofxGenericHeadingManager.h in Headers */,
+				3C9F4AEF168E77B6005F583E /* ofxGenericDelegateContainer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

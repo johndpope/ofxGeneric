@@ -21,5 +21,6 @@
 #include "ofxGenericConstants.h"
 #include "ofxGenericUtility.h"
 #include "ofxGenericClass.h"
+#include "ofxGenericDelegateContainer.h"
 #include "ofxGenericLocalization.h"
 #include "ofxGenericException.h"
