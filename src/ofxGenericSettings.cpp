@@ -27,6 +27,9 @@ bool ofxGenericSettings::readFromDisk()
         // old mechanism support
         ofPtr< ofxGenericValueStore > oldParse = _this.lock();
         parse( oldParse );
+    } else
+    {
+        ofxGLogError( "Unable to read settings file " + getFileName() );
     }
 
     return result;
