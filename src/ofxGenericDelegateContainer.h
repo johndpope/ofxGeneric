@@ -80,6 +80,12 @@ public:
         }
         return false;
     }
+    
+    void remove( ofPtrWeak< DelegateType > remove )
+    {
+        _oneTimeDelegates.remove( remove );
+        _permanentDelegates.remove( remove );
+    }
 
     virtual ~ofxGenericDelegateContainer() {};
     
