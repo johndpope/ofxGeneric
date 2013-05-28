@@ -37,6 +37,14 @@ public:
             }
         }
     }
+
+	std::list< ofPtrWeak< DelegateType > > get()
+    {
+        std::list< ofPtrWeak< DelegateType > > permanent = get( true );
+        std::list< ofPtrWeak< DelegateType > > oneTime = get( false );
+        permanent.insert( permanent.begin(), oneTime.begin(), oneTime.end() );
+        return permanent;
+    }
     
     std::list< ofPtrWeak< DelegateType > > get( bool permanent )
     {
