@@ -216,9 +216,16 @@ UIImage* ofxGenericImageManager::getUIImage( std::string image )
 {
     _url = ofxGenericImage::getNativeImagePath( url, false );
     
+    string extension = ofFilePath::getFileExt( _url );
+    
     NSString* fileNameMinusExtension = ofxStringToNSString( ofFilePath::removeExt( _url ) );
     
-    NSURL* nsURL = [ [ NSBundle mainBundle ] URLForResource:fileNameMinusExtension withExtension:@"png" ];//[ NSURL URLWithString:ofxStringToNSString( "file://" + url ) ];
+    NSURL* nsURL = [ [ NSBundle mainBundle ] URLForResource:fileNameMinusExtension withExtension:ofxStringToNSString( extension ) ];//[ NSURL URLWithString:ofxStringToNSString( "file://" + url ) ];
+    
+    if ( !nsURL ) // TODO: properly recover from flow on error instead of continueing through and using connection's error
+    {
+        ofxGLogError( "Unable to retrieve URLForResource \"" + ofxNSStringToString( fileNameMinusExtension ) + "\" with extension \"" + extension + "\" from Main Bundle" );
+    }
     
     NSURLRequest* request = [ NSURLRequest requestWithURL:nsURL
                                               cachePolicy:NSURLRequestReturnCacheDataElseLoad
@@ -258,6 +265,11 @@ UIImage* ofxGenericImageManager::getUIImage( std::string image )
 
 - (void)connection:( NSURLConnection* )connection didFailWithError:( NSError* )error
 {
+    if ( error )
+    {
+        ofxGLogError( ofxNSStringToString( [ NSString stringWithFormat:@"Error loading URL %@: %@", [ [ _connection currentRequest] URL], error ] ) );
+    }
+    
     [ _data release ];
     _data = nil;
     
