@@ -49,7 +49,11 @@ std::string ofxGenericImage::getNativeImagePath( std::string fileName, bool make
             string test = ofxGenericPlatform::imageFileName( fileName, true, false, true );
             if ( ofxGFileExists( test, false ) )
             {
-                return ofToPath( test, false );
+                if ( makeAbsolute )
+                {
+                    test = ofToPath( test, false );
+                }
+                return test;
             }
         }
         
@@ -69,7 +73,11 @@ std::string ofxGenericImage::getNativeImagePath( std::string fileName, bool make
             string test = ofxGenericPlatform::imageFileName( fileName, false, true, true );
             if ( ofxGFileExists( test, false ) )
             {
-                return ofToPath( test, false );
+                if ( makeAbsolute )
+                {
+                    test = ofToPath( test, false );
+                }
+                return test;
             }
         }
         

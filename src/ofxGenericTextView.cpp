@@ -260,7 +260,23 @@ void ofxGenericTextView::setMinimumFontSize( float s )
 #endif
 }
 
-                                
+void ofxGenericTextView::copyProperties( ofPtr< ofxGenericTextView > from )
+{
+    ofxGenericView::copyProperties( from );
+    
+    if ( from )
+    {
+        setText( from->getText() );
+        setTextAlignment( from->getTextAlignment() );
+        setTextColor( from->getTextColor() );
+        setLineBreakMode( from->getLineBreakMode() );
+        setNumberOfLines( from->getNumberOfLines() );
+        setMinimumFontSize( from->getMinimumFontSize() );
+        setFont( from->getFontName(), from->getFontSize() );
+        setAutosizeFontToFitText( from->getAutosizeFontToFitText() );
+    }
+}
+
 #if TARGET_OS_IPHONE
 ofxGenericUIViewCastOperator( ofxGenericTextView, UILabel );
 #endif
