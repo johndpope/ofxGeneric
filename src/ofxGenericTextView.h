@@ -48,6 +48,8 @@ public:
     void autosizeFontForMultiline();
 #endif
 
+    virtual void copyProperties( ofPtr< ofxGenericTextView > from );
+
 #if TARGET_OS_IPHONE
     operator UILabel*();
 #endif
