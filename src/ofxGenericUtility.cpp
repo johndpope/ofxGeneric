@@ -576,6 +576,11 @@ int ofxGRandomInRange( int minimum, int maximum )
     return minimum + ( ofxGRandom() % ( int )( maximum - minimum + 1 ) );
 }
 
+int ofxGRandomInRange( std::pair< int, int > range )
+{
+    return ofxGRandomInRange( range.first, range.second );
+}
+
 int ofxGRandomInRangeExclusive( int minimumInclusive, int maximumExclusive )
 {
     return ofxGRandomInRange( minimumInclusive, maximumExclusive - 1 );

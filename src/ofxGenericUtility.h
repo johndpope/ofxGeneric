@@ -82,6 +82,7 @@ ofxGenericCoordinate ofxGToCoordinate( const string& value );
 
 int ofxGRandom();
 int ofxGRandomInRange( int minimum, int maximum );
+int ofxGRandomInRange( std::pair< int, int > range );
 int ofxGRandomInRangeExclusive( int minimumInclusive, int maximumExclusive );
 
 ofRectangle ofxGGetCenteredSquareFit( const ofRectangle& rectangle );
