@@ -90,6 +90,25 @@ ofRectangle toofRectangle( ofPtr< ofxGenericValueStore > from )
     return ofRectangle();
 }
 
+#define RectangleLowerXCacheKey "x"
+#define RectangleLowerYCacheKey "y"
+#define RectangleLowerWidthCacheKey "width"
+#define RectangleLowerHeightCacheKey "height"
+
+ofRectangle toofRectangleLowercase( ofPtr< ofxGenericValueStore > from )
+{
+    if ( from && from->isObject() )
+    {
+        return ofRectangle(
+                           ofxGValueToInt( from, RectangleLowerXCacheKey ),
+                           ofxGValueToInt( from, RectangleLowerYCacheKey ),
+                           ofxGValueToInt( from, RectangleLowerWidthCacheKey ),
+                           ofxGValueToInt( from, RectangleLowerHeightCacheKey )
+                           );
+    }
+    return ofRectangle();
+}
+
 #define PointXCacheKey "X"
 #define PointYCacheKey "Y"
 

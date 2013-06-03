@@ -14,6 +14,7 @@ ofPtr< ofxGenericValueStore > ofxGGetWithCaseInsensitiveKey( ofPtr< ofxGenericVa
 int ofxGToInt( ofPtr< ofxGenericValueStore > from );
 ofColor toofColor( ofPtr< ofxGenericValueStore > from );
 ofRectangle toofRectangle( ofPtr< ofxGenericValueStore > from );
+ofRectangle toofRectangleLowercase( ofPtr< ofxGenericValueStore > from );
 ofPoint toofPoint( ofPtr< ofxGenericValueStore > from );
 ofPoint toofPointSize( ofPtr< ofxGenericValueStore > from );
 ofxGenericTextHorizontalAlignment toofxGenericTextHorizontalAlignment( ofPtr< ofxGenericValueStore > from );
