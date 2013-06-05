@@ -1164,6 +1164,7 @@ void ofxGenericView::gesturePerformedHold( UILongPressGestureRecognizer* recogni
     CGPoint cgp = [recognizer locationInView:getNativeView()];
     ofPoint p = ofPoint(cgp.x, cgp.y);
     gesturePerformedHold(
+                         iOSToofxGenericGestureState( [ recognizer state ] ),
                          (float)[ recognizer minimumPressDuration ],
                          [ recognizer numberOfTouches ],
                          [ recognizer allowableMovement ],
@@ -1197,11 +1198,11 @@ void ofxGenericView::gesturePerformedTap( int tapCount, int fingerCount, ofPoint
     }
 }
 
-void ofxGenericView::gesturePerformedHold( float minimumPressDuration, unsigned int fingerCount, float allowableMovement, ofPoint location )
+void ofxGenericView::gesturePerformedHold( ofxGenericGestureState state, float minimumPressDuration, unsigned int fingerCount, float allowableMovement, ofPoint location )
 {
     if ( _viewDelegate )
     {
-        _viewDelegate.lock()->gesturePerformedHold( _this.lock(), minimumPressDuration, fingerCount, allowableMovement, location );
+        _viewDelegate.lock()->gesturePerformedHold( _this.lock(), state, minimumPressDuration, fingerCount, allowableMovement, location );
     }
 }
 
