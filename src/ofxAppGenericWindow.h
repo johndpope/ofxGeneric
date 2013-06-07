@@ -75,6 +75,6 @@ protected:
     
     ofPtr< ofxGenericView > _rootView;
 #if TARGET_OS_IPHONE
-    bool _univeralApp;
+    bool _universalApp;
 #endif
 };
