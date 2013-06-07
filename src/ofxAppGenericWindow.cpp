@@ -24,7 +24,7 @@ jclass ofxAppGenericWindow::_jniClass = NULL;
 
 #if TARGET_OS_IPHONE
 ofxAppGenericWindow::ofxAppGenericWindow( bool universalApp )
-: _window( nil ), _univeralApp( universalApp )
+: _window( nil ), _universalApp( universalApp )
 #else
 ofxAppGenericWindow::ofxAppGenericWindow()
 #endif
@@ -54,13 +54,7 @@ NativeWindow ofxAppGenericWindow::createNativeWindow()
 {
 #if TARGET_OS_IPHONE
     CGRect frame;
-    if ( !_univeralApp && ofxGenericPlatform::deviceModel() == "iPad" )
-    {
-        frame = CGRectMake( 0, 0, 320, 480 );
-    } else
-    {
-        frame = [ [ UIScreen mainScreen ] bounds ];
-    }
+    frame = [ [ UIScreen mainScreen ] bounds ];
     return [ [ UIWindow alloc ] initWithFrame:frame ];
 #elif TARGET_ANDROID
     // TODO: exception handling
