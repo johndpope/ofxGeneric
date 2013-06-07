@@ -471,6 +471,19 @@ bool ofxGenericView::isAttachedToRoot()
     return _isAttachedToRoot;
 }
 
+void ofxGenericView::bringToFront()
+{
+#if TARGET_OS_IPHONE
+    ofPtr< ofxGenericView > parent = getParent().lock();
+    if ( parent )
+    {
+        [ parent->getNativeView() bringSubviewToFront:getNativeView() ];
+    }
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "setAlpha" );
+#endif
+}
+
 void ofxGenericView::setAlpha( float alpha )
 {
 #if TARGET_OS_IPHONE

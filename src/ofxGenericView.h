@@ -61,6 +61,8 @@ public:
     unsigned int getChildCount();
     ofPtr< ofxGenericView > getChildAt( unsigned int index );
     
+    void bringToFront();
+    
     bool isAttachedToRoot();
     
     ofPtrWeak< ofxGenericView > getParent();
