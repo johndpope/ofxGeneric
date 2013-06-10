@@ -1556,3 +1556,28 @@ void ofxGenericValueStore::signContentsForSavingToDisk()
         write( HmacStoreKey, createWithValue( newHash ) );
     }
 }
+
+ofPtr< ofxGenericValueStore > operator << ( ofPtr< ofxGenericValueStore > store, const char* key )
+{
+    ofPtr< ofxGenericValueStore > childStore;
+    if ( store )
+    {
+        childStore = store->read( key );
+    }
+    return childStore;
+}
+
+ofPtr< ofxGenericValueStore > operator << ( ofPtr< ofxGenericValueStore > store, const std::string& key )
+{
+    return store << key.c_str();
+}
+
+ofPtr< ofxGenericValueStore > operator << ( ofPtr< ofxGenericValueStore > store, unsigned int index )
+{
+    ofPtr< ofxGenericValueStore > childStore;
+    if ( store )
+    {
+        childStore = store->read( index );
+    }
+    return childStore;
+}
