@@ -241,6 +241,10 @@ protected:
     virtual string generateHash();
 };
 
+ofPtr< ofxGenericValueStore > operator << ( ofPtr< ofxGenericValueStore > store, const char* key );
+ofPtr< ofxGenericValueStore > operator << ( ofPtr< ofxGenericValueStore > store, const std::string& key );
+ofPtr< ofxGenericValueStore > operator << ( ofPtr< ofxGenericValueStore > store, unsigned int index );
+
 #define literalCacheKey( name ) \
 name##CacheKey
 
