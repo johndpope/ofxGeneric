@@ -32,6 +32,9 @@ public:
     void setTintColor( const ofColor& color );
     ofColor getTintColor();
     
+    void setSwitchedTintColor( const ofColor& color );
+    ofColor getSwitchedTintColor();
+    
 protected:
     ofxGenericSwitchView();
     NativeView createNativeView( const ofRectangle& frame );

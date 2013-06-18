@@ -132,6 +132,42 @@ ofColor ofxGenericSwitchView::getTintColor()
     return result;
 }
 
+void ofxGenericSwitchView::setSwitchedTintColor( const ofColor& color )
+{
+#if TARGET_OS_IPHONE
+    if ( [ getNativeView() isKindOfClass:[ UISwitch class ] ] )
+    {
+        UISwitch* switchView = ( UISwitch* )getNativeView();
+        if ( [ switchView respondsToSelector:@selector( setOnTintColor: ) ] )
+        {
+            [ switchView setOnTintColor:ofxColorToUIColor( color ) ];
+        } else
+        {
+            ofxGLogWarning( "Current iOS version does not support switch tint colors" );
+        }
+    }
+#endif
+}
+
+ofColor ofxGenericSwitchView::getSwitchedTintColor()
+{
+    ofColor result;
+#if TARGET_OS_IPHONE
+    if ( [ getNativeView() isKindOfClass:[ UISwitch class ] ] )
+    {
+        UISwitch* switchView = ( UISwitch* )getNativeView();
+        if ( [ switchView respondsToSelector:@selector( onTintColor ) ] )
+        {
+            result = ofxUIColorToofColor( [ switchView onTintColor ] );
+        } else
+        {
+            ofxGLogWarning( "Current iOS version does not support switched on tint colors" );
+        }
+    }
+#endif
+    return result;
+}
+
 #if TARGET_OS_IPHONE
 @implementation ofxGenericSwitchViewForwarder
 
