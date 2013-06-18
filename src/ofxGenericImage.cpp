@@ -128,7 +128,7 @@ void ofxGenericImage::init( ofPtrWeak< ofxGenericImage > setThis, std::string fi
     _filePath = getNativeImagePath( fileName );
 
 #if TARGET_OS_IPHONE
-    if ( !ofxGFileExists( fileName, false ) )
+    if ( !ofxGFileExists( _filePath, false ) )
     {
         _image = nil;
         return;
