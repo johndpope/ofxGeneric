@@ -71,7 +71,7 @@ ofPtrWeak< ofxGenericSwitchViewDelegate > ofxGenericSwitchView::getDelegate()
 
 void ofxGenericSwitchView::setSwitched( bool value, bool animate )
 {
-#if TARGET_IS_IPHONE
+#if TARGET_OS_IPHONE
     if ( [ getNativeView() isKindOfClass:[ UISwitch class ] ] )
     {
         UISwitch* switchView = ( UISwitch* )getNativeView();
