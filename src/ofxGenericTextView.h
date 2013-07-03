@@ -55,6 +55,7 @@ public:
 #endif
     
     virtual string toString();
+    virtual ofPtr< ofxGenericValueStore > toValueStore();
 
 protected:
     ofxGenericTextView() {};

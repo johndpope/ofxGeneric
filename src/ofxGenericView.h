@@ -137,6 +137,7 @@ public:
     virtual void removeGestureRecognizers( );
     
     virtual void setUserInteractionEnabled( bool enabled );
+    virtual bool getUserInteractionEnabled();
     
     virtual ofPtr< ofImage > createImageRepresentation( );
     
@@ -153,6 +154,8 @@ public:
 
     virtual string dumpViewGraph( int depth );
     virtual string toString();
+    virtual ofPtr< ofxGenericValueStore > dumpViewGraphAsValueStore();
+    virtual ofPtr< ofxGenericValueStore > toValueStore();
     
     static void replaceViewWithView( ofPtr< ofxGenericView > replace, ofPtr< ofxGenericView > with );
     virtual void copyProperties( ofPtr< ofxGenericView > view );
