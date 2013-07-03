@@ -52,12 +52,19 @@ NativeView ofxGenericImageView::createNativeView( const ofRectangle& frame )
 #endif
 }
 
-void ofxGenericImageView::setImage( std::string fileName )
+void ofxGenericImageView::setImage( string fileName, bool aSync )
 {
     if ( !ofxGenericImageManager::getInstance().imageIsLoaded( fileName ) )
     {
-        _waitingOnAsyncLoadImageName = fileName;
-        ofxGenericImageManager::getInstance().loadAsync( fileName, dynamic_pointer_cast< ofxGenericImageManagerDelegate >( _this ) );
+        if ( aSync )
+        {
+            _waitingOnAsyncLoadImageName = fileName;
+            ofxGenericImageManager::getInstance().loadAsync( fileName, dynamic_pointer_cast< ofxGenericImageManagerDelegate >( _this ) );
+        }
+        else
+        {
+            ofxGenericImageManager::getInstance().load( fileName );
+        }
     }
     setImage( ofxGenericImageManager::getInstance().getImage( fileName ) );
 }

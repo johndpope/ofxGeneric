@@ -18,7 +18,7 @@ class ofxGenericImageView : public ofxGenericView, public ofxGenericImageManager
 public:
     static ofPtr< ofxGenericImageView > create( const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ), string fileName = string() );
     
-    virtual void setImage( string fileName );
+    virtual void setImage( string fileName, bool aSync = true );
     virtual void setImage ( ofPtr< ofxGenericImage > image );
     
     virtual void willAppear();
