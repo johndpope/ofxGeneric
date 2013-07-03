@@ -1273,6 +1273,49 @@ string ofxGenericView::toString()
     return result.str();
 }
 
+ofPtr< ofxGenericValueStore > ofxGenericView::dumpViewGraphAsValueStore()
+{
+    ofPtr< ofxGenericValueStore > result = toValueStore();
+    if ( result )
+    {
+        if ( _children.size() > 0 )
+        {
+            ofPtr< ofxGenericValueStore > children = ofxGenericValueStore::create( ofxGenericValueStore::ofxGenericValueStoreTypeArray );
+            result->write( "children", children );
+
+            for( std::list< ofPtr< ofxGenericView > >::const_iterator travChildren = _children.begin(); travChildren != _children.end(); travChildren++ )
+            {
+                children->write( children->length(), ( *travChildren )->dumpViewGraphAsValueStore() );
+            }
+        }
+    }
+    return result;
+}
+
+ofPtr< ofxGenericValueStore > ofxGenericView::toValueStore()
+{
+    ofPtr< ofxGenericValueStore > result = ofxGenericValueStore::create( ofxGenericValueStore::ofxGenericValueStoreTypeObject );
+    
+#if defined(DEBUG) || defined(TEST)
+    const std::type_info& info = typeid( *this );
+    result->write( "type", info.name() );
+#if TARGET_OS_IPHONE
+    string nativeClassName = ofxNSStringToString( NSStringFromClass ( [ getNativeView() class ] ) );
+    result->write( "native", nativeClassName );
+#else
+#endif
+    ostringstream frameAsString;
+    frameAsString << getFrame();
+
+    result->write( "frame", frameAsString.str() );
+    result->write( "visible", getVisible() );
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "toString" );
+#endif
+    
+    return result;
+}
+
 #if TARGET_ANDROID
 void ofxGenericView::registerJNIMethods()
 {
