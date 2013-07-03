@@ -292,3 +292,16 @@ string ofxGenericTextView::toString()
     }
     return result;
 }
+
+ofPtr< ofxGenericValueStore > ofxGenericTextView::toValueStore()
+{
+    ofPtr< ofxGenericValueStore > result = ofxGenericView::toValueStore();
+    if ( result )
+    {
+        if ( !getText().empty() )
+        {
+            result->write( "text", getText() );
+        }
+    }
+    return result;
+}

@@ -1086,6 +1086,23 @@ void ofxGenericView::setUserInteractionEnabled( bool enabled )
 #endif
 }
 
+bool ofxGenericView::getUserInteractionEnabled()
+{
+    bool result = true;
+    
+#if TARGET_OS_IPHONE
+    NativeView nativeView = getNativeView();
+    if ( nativeView )
+    {
+        result = [ nativeView isUserInteractionEnabled ];
+    }
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "getUserInteractionEnabled" );
+#endif
+    
+    return result;
+}
+
 ofPtr< ofImage > ofxGenericView::createImageRepresentation( )
 {
 #if TARGET_OS_IPHONE
@@ -1267,6 +1284,7 @@ string ofxGenericView::toString()
 #endif
     result << " frame: " << getFrame();
     result << " visible: " << ofxGToString( getVisible() );
+    result << " user interaction: " << ofxGToString( getUserInteractionEnabled() );
 #elif TARGET_ANDROID
     throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "toString" );
 #endif
@@ -1309,6 +1327,7 @@ ofPtr< ofxGenericValueStore > ofxGenericView::toValueStore()
 
     result->write( "frame", frameAsString.str() );
     result->write( "visible", getVisible() );
+    result->write( "user interaction", getUserInteractionEnabled() );
 #elif TARGET_ANDROID
     throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "toString" );
 #endif

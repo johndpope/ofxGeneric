@@ -137,6 +137,7 @@ public:
     virtual void removeGestureRecognizers( );
     
     virtual void setUserInteractionEnabled( bool enabled );
+    virtual bool getUserInteractionEnabled();
     
     virtual ofPtr< ofImage > createImageRepresentation( );
     

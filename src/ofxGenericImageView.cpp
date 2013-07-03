@@ -137,6 +137,19 @@ string ofxGenericImageView::toString()
     return result;
 }
 
+ofPtr< ofxGenericValueStore > ofxGenericImageView::toValueStore()
+{
+    ofPtr< ofxGenericValueStore > result = ofxGenericView::toValueStore();
+    if ( result )
+    {
+        if ( _image && !_image->getFilePath().empty() )
+        {
+            result->write( "image", ofFilePath::getFileName( _image->getFilePath() ) );
+        }
+    }
+    return result;
+}
+
 void ofxGenericImageView::imageManager_imageLoaded( std::string imageName, ofPtr< ofxGenericImage > image )
 {
     setImage( image );

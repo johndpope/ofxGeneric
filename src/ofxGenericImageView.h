@@ -41,6 +41,7 @@ public:
 #endif
     
     virtual string toString();
+    virtual ofPtr< ofxGenericValueStore > toValueStore();
     
     void imageManager_imageLoaded( std::string imageName, ofPtr< ofxGenericImage > image );
     

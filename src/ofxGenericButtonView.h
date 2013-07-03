@@ -90,6 +90,7 @@ public:
 
 #if DEBUG
     virtual string toString();
+    ofPtr< ofxGenericValueStore > toValueStore();
 #endif
     
     virtual void copyProperties( ofPtr< ofxGenericView > from );

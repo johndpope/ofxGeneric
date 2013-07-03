@@ -407,10 +407,6 @@ string ofxGenericButtonView::toString()
     
     result += ofxGSPrintf( " Enabled: %s", ofxGToString( getEnabled() ) );
     
-#if TARGET_OS_IPHONE
-    result += ofxGSPrintf( " User Interaction Enabled: %s", ofxGToString( [ getNativeView() isUserInteractionEnabled ] ) );
-#endif
-
     if ( !getText().empty() )
     {
         result += " " + getText();
@@ -418,6 +414,24 @@ string ofxGenericButtonView::toString()
     if ( !_backgroundImageFileName.empty() )
     {
         result += " " + ofFilePath::getFileName( _backgroundImageFileName );
+    }
+    return result;
+}
+
+ofPtr< ofxGenericValueStore > ofxGenericButtonView::toValueStore()
+{
+    ofPtr< ofxGenericValueStore > result = ofxGenericView::toValueStore();
+    if ( result )
+    {
+        result->write( "enabled", getEnabled() );
+        if ( !getText().empty() )
+        {
+            result->write( "text", getText() );
+        }
+        if ( !_backgroundImageFileName.empty() )
+        {
+            result->write( "background image", _backgroundImageFileName );
+        }
     }
     return result;
 }
