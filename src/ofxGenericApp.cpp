@@ -162,6 +162,11 @@ void ofxGenericApp::runViaInfiniteLoop( ofPtr< ofxAppGenericWindow > window )
 // TODO: come up with calling scheme, friending doesn't seem to be possible :(
 void ofxGenericApp::finishedLaunching()
 {
+    if ( getWindow() )
+    {
+        _windowSize = getWindow()->getFrame();
+    }
+    
     handleFinishedLaunchingPresetup();
     
     // wait a cycle so iOS has time to get initialized

@@ -40,6 +40,7 @@ void SignalHandler( int signal );
         self.window = window->getNativeWindow();
         
         [ self.window setScreen:[ UIScreen mainScreen ] ];
+        self.window.frame = [UIScreen mainScreen].bounds;
         [ self.window makeKeyAndVisible ];
     } else
     {
