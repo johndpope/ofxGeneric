@@ -100,6 +100,7 @@ void ofxGenericApp::realRun()
     NSString* delegateClassName = NSStringFromClass( getAppDelegateClass() );
     UIApplicationMain( nil, nil, nil, delegateClassName );
 #endif
+    // for non-iOS, should probably be moved to #elsif
     finishedLaunching();
 }
 
