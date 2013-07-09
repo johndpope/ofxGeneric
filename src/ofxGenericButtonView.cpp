@@ -12,6 +12,8 @@
 
 #include "ofxGenericImage.h"
 
+#include "ofxGenericApp.h"
+
 #if TARGET_OS_IPHONE
 @interface ofxGenericButtonViewForwarder : NSObject 
 {
@@ -400,7 +402,6 @@ string ofxGenericButtonView::getFontName()
     return "";
 }
 
-#if DEBUG
 string ofxGenericButtonView::toString()
 {
     string result( ofxGenericView::toString() );
@@ -411,10 +412,24 @@ string ofxGenericButtonView::toString()
     {
         result += " " + getText();
     }
+#if DEBUG
     if ( !_backgroundImageFileName.empty() )
     {
         result += " " + ofFilePath::getFileName( _backgroundImageFileName );
     }
+#endif
+    return result;
+}
+
+ofPtr< ofxGenericValueStore > ofxGenericButtonView::dumpViewGraphAsValueStore()
+{
+    ofPtr< ofxGenericValueStore > result = ofxGenericView::dumpViewGraphAsValueStore();
+    
+    if ( _textView )
+    {
+        result->write( "textChild", _textView->dumpViewGraphAsValueStore() );
+    }
+    
     return result;
 }
 
@@ -428,14 +443,21 @@ ofPtr< ofxGenericValueStore > ofxGenericButtonView::toValueStore()
         {
             result->write( "text", getText() );
         }
+#if DEBUG
         if ( !_backgroundImageFileName.empty() )
         {
             result->write( "background image", _backgroundImageFileName );
         }
+#endif
+        if ( ofxGenericApp::getInstance() && ofxGenericApp::getInstance()->getRootView() )
+        {
+            result->write( "textFrame", ofxGToString( getTextArea() ) );
+            result->write( "textFrame (Absolute)", ofxGToString( ofxGenericApp::getInstance()->getRootView()->convertFrom( getTextArea(), _this.lock() ) ) );
+        }
     }
+
     return result;
 }
-#endif
 
 void ofxGenericButtonView::copyProperties( ofPtr< ofxGenericView > from )
 {
@@ -457,6 +479,18 @@ void ofxGenericButtonView::copyProperties( ofPtr< ofxGenericView > from )
         setEnabled( fromButton->getEnabled() );
         setDelegate( fromButton->getDelegate() );
     }
+}
+
+ofRectangle ofxGenericButtonView::getTextArea()
+{
+    ofRectangle result;
+    
+    if ( _textView )
+    {
+        result = _textView->getFrame();
+    }
+    
+    return result;
 }
 
 

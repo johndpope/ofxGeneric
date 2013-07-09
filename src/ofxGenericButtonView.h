@@ -88,13 +88,14 @@ public:
     void setDelegate( ofPtrWeak< ofxGenericButtonViewDelegate > delegate );
     ofPtrWeak< ofxGenericButtonViewDelegate > getDelegate();
 
-#if DEBUG
     virtual string toString();
-    ofPtr< ofxGenericValueStore > toValueStore();
-#endif
+    virtual ofPtr< ofxGenericValueStore > dumpViewGraphAsValueStore();
+    virtual ofPtr< ofxGenericValueStore > toValueStore();
     
     virtual void copyProperties( ofPtr< ofxGenericView > from );
 
+    ofRectangle getTextArea();
+    
 protected:
     ofxGenericButtonView();
     virtual void init( ofPtrWeak< ofxGenericView > setThis, ofxGenericButtonType buttonType = ofxGenericButtonTypeRoundedRect, const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ), ofPtrWeak< ofxGenericButtonViewDelegate > touchDelegate = ofPtrWeak< ofxGenericButtonViewDelegate >() );

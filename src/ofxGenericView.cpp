@@ -1322,10 +1322,14 @@ ofPtr< ofxGenericValueStore > ofxGenericView::toValueStore()
     result->write( "native", nativeClassName );
 #else
 #endif
-    ostringstream frameAsString;
-    frameAsString << getFrame();
-
-    result->write( "frame", frameAsString.str() );
+    result->write( "frame", ofxGToString( getFrame() ) );
+    
+    ofPtr< ofxGenericView > parentView = getParent().lock();
+    if ( parentView && ofxGenericApp::getInstance() && ofxGenericApp::getInstance()->getRootView() )
+    {
+        result->write( "frame (Absolute)", ofxGToString( ofxGenericApp::getInstance()->getRootView()->convertFrom( getFrame(), parentView ) ) );
+    }
+    
     result->write( "visible", getVisible() );
     result->write( "user interaction", getUserInteractionEnabled() );
 #elif TARGET_ANDROID
