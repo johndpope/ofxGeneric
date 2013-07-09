@@ -60,7 +60,7 @@ void ofxGenericBarGraphView::setCurrentTextVisible( bool visible )
             _currentText = ofxGenericTextView::create( getFrame( ofPoint( 0, 0 ) ) );
             if ( _currentText )
             {
-                _currentText->setAutosizeFontToFitText( ofxGenericViewAutoresizingFull );
+                //_currentText->setAutosizeFontToFitText( ofxGenericViewAutoresizingFull );
                 switch( _expand )
                 {
                     case ofxGenericBarGraphViewExpandHorizontalRight:
