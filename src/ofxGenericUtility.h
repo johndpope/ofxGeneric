@@ -80,6 +80,13 @@ ofxGenericCoordinate ofxGToCoordinate( const string& value );
 
 //////////////////////////////// Math //////////////////////////////////
 
+template < typename T >
+int ofxGSign( T val )
+{
+    // http://stackoverflow.com/a/4609795
+    return ( T( 0 ) < val ) - ( val < T( 0 ) );
+}
+
 int ofxGRandom();
 int ofxGRandomInRange( int minimum, int maximum );
 int ofxGRandomInRange( std::pair< int, int > range );
