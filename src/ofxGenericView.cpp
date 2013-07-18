@@ -792,7 +792,7 @@ void ofxGenericView::didLoad()
 };
 
 void ofxGenericView::willAppear()
-{
+{    
     setIsAttachingToRoot( true );
     
     if ( _viewDelegate )
