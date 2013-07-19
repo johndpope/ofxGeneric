@@ -66,7 +66,7 @@ ofxGenericView::ofxGenericView()
 #elif TARGET_ANDROID
  _view( NULL ), 
 #endif
-_isAttachingToRoot( false ), _isAttachedToRoot( false ), _children()
+_isAttachingToRoot( false ), _isAttachedToRoot( false ), _children(), _subviewsLoaded( false )
 {
 }
 
@@ -121,7 +121,7 @@ void ofxGenericView::init( ofPtrWeak< ofxGenericView > setThis, const ofRectangl
     		);
 
 #endif
-    
+
     didLoad();
 }
 
