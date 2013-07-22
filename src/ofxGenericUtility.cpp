@@ -35,6 +35,17 @@ bool ofxGmkdir( string loc, bool useDocuments )
     return false;
 }
 
+bool ofxGrename( string oldPath, string newPath, bool useDocuments )
+{
+    if ( !oldPath.empty() && !newPath.empty() )
+    {
+        string oldDocPath = ofToPath( oldPath, useDocuments, true );
+        string newDocPath = ofToPath( newPath, useDocuments, true );
+        return rename(oldDocPath.c_str(), newDocPath.c_str()) == 0;
+    }
+    return false;
+}
+
 bool ofxGrmdir( string loc, bool useDocuments, bool onlyIfEmpty )
 {
     if ( !loc.empty() )
