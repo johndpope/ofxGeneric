@@ -55,6 +55,19 @@ ofxGenericImageManager::~ofxGenericImageManager()
     
 }
 
+void ofxGenericImageManager::cacheImage(ofPtr<ofxGenericImage> image, std::string name, bool async)
+{
+    static int imageTotalSize = 0;
+    
+    if (!name.empty() && !_images[name]) {
+        UIImage *uiImage = image->getUIImage();
+        imageTotalSize += uiImage.size.width * uiImage.size.height * 4;
+        NSLog(@"caching image: %@ async: %@ total size: %f", ofxStringToNSString(name), async ? @"yes" : @"no", imageTotalSize / 1024.0f / 1024.0f);
+        
+        _images[ name ] = image;
+    }
+}
+
 bool ofxGenericImageManager::load( std::string image )
 {
     if ( !_images[ image ] )
@@ -64,7 +77,8 @@ bool ofxGenericImageManager::load( std::string image )
         {
             return false;
         }
-        _images[ image ] = loadedImage;
+        cacheImage(loadedImage, image, false);
+        //_images[ image ] = loadedImage;
     }
     return true;
 }
@@ -125,7 +139,8 @@ void ofxGenericImageManager::finishedAsyncLoading( ofPtr< ofxGenericImage > imag
 {
     if ( image )
     {
-        _images[ _currentlyLoading.first ] = image;
+        //_images[ _currentlyLoading.first ] = image;
+        cacheImage(image, _currentlyLoading.first);
     } else
     {
         ofxGLogError( "Error loading " + _currentlyLoading.first );
@@ -156,6 +171,7 @@ void ofxGenericImageManager::finishedAsyncLoadingWithError( string error )
 
 void ofxGenericImageManager::unload( std::string image )
 {
+    NSLog(@"unloading image: %@", ofxStringToNSString(image));
     _images[ image ] = ofPtr< ofxGenericImage >();
 }
 

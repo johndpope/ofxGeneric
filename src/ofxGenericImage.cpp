@@ -135,6 +135,12 @@ void ofxGenericImage::init( ofPtrWeak< ofxGenericImage > setThis, std::string fi
     }
 
     _image = [ [ UIImage imageWithContentsOfFile: ofxStringToNSString( _filePath ) ] retain ];
+    
+    static int genericImageSize = 0;
+    genericImageSize += _image.size.width * _image.size.height * 4;
+    
+    NSLog(@"allocated generic image backing for image: %@ total size: %f", ofxStringToNSString(fileName), genericImageSize / 1024.0f / 1024.0f);
+    
 #elif TARGET_ANDROID
     
 #endif

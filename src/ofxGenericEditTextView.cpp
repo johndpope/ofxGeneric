@@ -241,6 +241,8 @@ string ofxGenericEditTextView::getFontName()
     return result;
 }
 
+static int backgroundImageSize = 0;
+
 void ofxGenericEditTextView::setBackgroundImage( string imageFileName )
 {
     string imagePath = ofxGenericImage::getNativeImagePath( imageFileName );
@@ -251,6 +253,10 @@ void ofxGenericEditTextView::setBackgroundImage( string imageFileName )
         
         if ( [ getNativeView() isKindOfClass:[ UITextField class ] ] )
         {
+            backgroundImageSize += image.size.width * image.size.height * 4;
+            
+            NSLog(@"Allocating edit text view image: %@ total size: %f", ofxStringToNSString(imageFileName), backgroundImageSize / 1024.0f / 1024.0f);
+            
             UITextField* textField = ( UITextField* )getNativeView();
             [ textField setBackground:image ];
         }

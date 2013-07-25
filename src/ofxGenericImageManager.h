@@ -33,6 +33,8 @@ public:
     virtual void unload( std::vector< std::string > images );
     virtual void unloadAll();
     
+    void cacheImage( ofPtr< ofxGenericImage >image, std::string name = "", bool async = true);
+    
     virtual bool imageIsLoaded( std::string image );
     virtual ofPtr< ofxGenericImage > getImage( std::string image );
 #if TARGET_OS_IPHONE

@@ -34,6 +34,8 @@
 
 @end
 
+static int buttonImageSizeTotal = 0;
+
 #elif TARGET_ANDROID
 
 #include "JNIUtility.h"
@@ -154,7 +156,13 @@ void ofxGenericButtonView::setBackgroundImage( std::string fileName )
         if ( [ _view isKindOfClass:[ UIButton class ] ] )
         {
             UIButton* view = ( UIButton* )_view;
-            [ view setBackgroundImage:[ UIImage imageWithContentsOfFile:ofxStringToNSString( imagePath )  ]
+            
+            UIImage *image = [ UIImage imageWithContentsOfFile:ofxStringToNSString( imagePath )  ];
+            buttonImageSizeTotal += image.size.width * image.size.height * 4;
+            
+            NSLog(@"allocating button image: %@ total MB: %f", ofxStringToNSString(fileName), buttonImageSizeTotal / 1024.0f / 1024.0f);
+            
+            [ view setBackgroundImage: image
                              forState:UIControlStateNormal ];
         }
 #elif TARGET_ANDROID
@@ -197,7 +205,13 @@ void ofxGenericButtonView::setDownBackgroundImage( std::string fileName )
         if ( [ _view isKindOfClass:[ UIButton class ] ] )
         {
             UIButton* view = ( UIButton* )_view;
-            [ view setBackgroundImage:[ UIImage imageWithContentsOfFile:ofxStringToNSString( imagePath )  ]
+            
+            UIImage * image = [ UIImage imageWithContentsOfFile:ofxStringToNSString( imagePath )  ];
+            buttonImageSizeTotal += image.size.width * image.size.height * 4;
+        
+            NSLog(@"allocating button image: %@ total MB: %f", ofxStringToNSString(fileName), buttonImageSizeTotal / 1024.0f / 1024.0f);
+            
+            [ view setBackgroundImage: image
                              forState:UIControlStateHighlighted ];
         }
 #elif TARGET_ANDROID
