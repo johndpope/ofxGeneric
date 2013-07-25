@@ -36,11 +36,7 @@
     ofPtrWeak< ofxGenericView > _forwardTo;
 }
 -( id )initWithForwardTo:( ofPtrWeak< ofxGenericView > )forwardTo frame:( const ofRectangle& )frame;
-
 -( UIView* )hitTest:( CGPoint )point withEvent:( UIEvent* )event;
-
-@property( readwrite ) BOOL forwardDrawRect;
--( void )drawRect:( CGRect )rect;
 
 @end
 
@@ -1031,31 +1027,6 @@ void ofxGenericView::copyProperties( ofPtr< ofxGenericView > view )
     }
 }
 
-void ofxGenericView::setForwardOnRedraw( bool enabled )
-{
-#if TARGET_OS_IPHONE
-    if ( [ getNativeView() isKindOfClass:[ ofxGenericUIView class ] ] )
-    {
-        ofxGenericUIView* uiView = ( ofxGenericUIView* )getNativeView();
-        [ uiView setForwardDrawRect:( BOOL )enabled ];
-    } else
-    {
-        ofxGLogError( "Unable to setForwardOnRedraw on view " + toString() + ", isn't type ofxGenericUIVIew" );
-    }
-#endif
-}
-
-void ofxGenericView::forceRedraw()
-{
-#if TARGET_OS_IPHONE
-    [ getNativeView() setNeedsDisplay ];
-#endif
-}
-
-void ofxGenericView::onRedraw( ofRectangle area )
-{
-}
-
 void ofxGenericView::addGestureRecognizerSwipe( ofxGenericGestureTypeSwipe type )
 {
 #if TARGET_OS_IPHONE
@@ -1534,15 +1505,12 @@ void ofxGenericView::registerJNIMethods()
 
 @implementation ofxGenericUIView
 
-@synthesize forwardDrawRect;
-
 -( id )initWithForwardTo:( ofPtrWeak< ofxGenericView > )forwardTo frame:( const ofRectangle& )frame
 {
     self = [ super initWithFrame:ofxRectangleToCGRect( frame ) ];
     if ( self )
     {
         _forwardTo = forwardTo;
-        forwardDrawRect = NO;
     }
     return self;    
 }
@@ -1551,26 +1519,13 @@ void ofxGenericView::registerJNIMethods()
 {
     if ( event.type == UIEventTypeTouches )
     {
-        ofPtr< ofxGenericView > forwardTo = _forwardTo.lock();
-        if ( forwardTo )
+        if ( _forwardTo )
         {
-            forwardTo->hitInView( ofPoint( point.x, point.y ) );
+            _forwardTo.lock()->hitInView( ofPoint( point.x, point.y ) );
         }
     }
     
     return [ super hitTest:point withEvent:event ];
-}
-
--( void )drawRect:( CGRect )rect
-{
-    if ( forwardDrawRect )
-    {
-        ofPtr< ofxGenericView > forwardTo = _forwardTo.lock();
-        if ( forwardTo )
-        {
-            forwardTo->onRedraw( ofxCGRectToofRectangle( rect ) );
-        }
-    }
 }
 
 @end
