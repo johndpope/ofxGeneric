@@ -159,11 +159,8 @@ public:
     
     static void replaceViewWithView( ofPtr< ofxGenericView > replace, ofPtr< ofxGenericView > with );
     virtual void copyProperties( ofPtr< ofxGenericView > view );
-
-    virtual void forceRedraw();
-    virtual void onRedraw( ofRectangle area );
-
-protected:
+    
+protected:        
     ofxGenericView();
     virtual void init( ofPtrWeak< ofxGenericView > setThis, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 ), NativeView nativeView = NativeNull );
     
@@ -212,8 +209,6 @@ protected:
     ofPtrWeak< ofxGenericView > _parent;
     ofPtrWeak < ofxGenericViewDelegate > _viewDelegate;
 
-    virtual void setForwardOnRedraw( bool enabled );
-    
     friend class ofxAppGenericWindow;
     
 private:
