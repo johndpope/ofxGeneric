@@ -45,8 +45,6 @@ ofxGenericImageManager::ofxGenericImageManager()
 void ofxGenericImageManager::init( ofPtr< ofxGenericImageManager > setThis )
 {
     ofxGenericImageManager::_this = setThis;
-    
-    _images = std::map< std::string, ofPtr< ofxGenericImage > >();
     _currentlyLoading = std::pair< std::string, ofPtrWeak< ofxGenericImageManagerDelegate > >();
 }
 
@@ -55,35 +53,41 @@ ofxGenericImageManager::~ofxGenericImageManager()
     
 }
 
-bool ofxGenericImageManager::load( std::string image )
+ ofPtr< ofxGenericImage > ofxGenericImageManager::load( const std::string& image )
 {
-    if ( !_images[ image ] )
+    ofPtr< ofxGenericImage > result = getImage( image );
+    if ( !result )
     {
         ofPtr< ofxGenericImage > loadedImage = ofxGenericImage::create( image );
-        if ( !loadedImage->loadedSuccessfully() )
+        if ( loadedImage->loadedSuccessfully() )
         {
-            return false;
+            _images[ image ] = loadedImage;
+            result = loadedImage;
         }
-        _images[ image ] = loadedImage;
     }
-    return true;
+    return result;
 }
 
-bool ofxGenericImageManager::load( std::vector< std::string > images )
+vector< ofPtr< ofxGenericImage > > ofxGenericImageManager::load( vector< std::string > images )
 {
-    bool success = true;
+    // Initialize with an empty pointer for each image name passed in.
+    vector< ofPtr< ofxGenericImage > > results(images.size(), ofPtr< ofxGenericImage >());
     for ( unsigned int i = 0; i < images.size(); i++ )
     {
-        success = load( images[i] ) && success;
+        results[i] = load( images[i] );
     }
-    return success;
+    return results;
 }
 
-bool ofxGenericImageManager::loadAsync( std::string image, ofPtrWeak< ofxGenericImageManagerDelegate > delegate )
+ofPtr< ofxGenericImage > ofxGenericImageManager::loadAsync( const std::string& image, ofPtrWeak< ofxGenericImageManagerDelegate > delegate )
 {
-    _asyncQueuedImages.push_back( std::pair< std::string, ofPtrWeak< ofxGenericImageManagerDelegate > >( image, delegate ) );
-    continueAsyncLoading();
-    return true;
+    ofPtr< ofxGenericImage > imagePtr = _images[ image ].lock();
+    if( !imagePtr )
+    {
+        _asyncQueuedImages.push_back( std::pair< std::string, ofPtrWeak< ofxGenericImageManagerDelegate > >( image, delegate ) );
+        continueAsyncLoading();
+    }
+    return imagePtr;
 }
 
 void ofxGenericImageManager::continueAsyncLoading()
@@ -121,8 +125,9 @@ void ofxGenericImageManager::continueAsyncLoading()
     }
 }
 
-void ofxGenericImageManager::finishedAsyncLoading( ofPtr< ofxGenericImage > image )
+void ofxGenericImageManager::finishedAsyncLoading( UIImage* uiImage, const std::string& url )
 {
+    ofPtr< ofxGenericImage > image = ofxGenericImage::create( uiImage, url );
     if ( image )
     {
         _images[ _currentlyLoading.first ] = image;
@@ -148,31 +153,13 @@ void ofxGenericImageManager::finishedAsyncLoading( ofPtr< ofxGenericImage > imag
     continueAsyncLoading();
 }
 
-void ofxGenericImageManager::finishedAsyncLoadingWithError( string error )
+void ofxGenericImageManager::finishedAsyncLoadingWithError( const string& error )
 {
     ofxGLogError( "Error loading " + _currentlyLoading.first );
-    finishedAsyncLoading( ofPtr< ofxGenericImage >() );
+    finishedAsyncLoading( NULL, "" );
 }
 
-void ofxGenericImageManager::unload( std::string image )
-{
-    _images[ image ] = ofPtr< ofxGenericImage >();
-}
-
-void ofxGenericImageManager::unload( std::vector< std::string > images )
-{
-    for ( unsigned int i = 0; i < images.size(); i++ )
-    {
-        unload( images[i] );
-    }
-}
-
-void ofxGenericImageManager::unloadAll()
-{
-    _images = std::map< std::string, ofPtr< ofxGenericImage > >();
-}
-
-bool ofxGenericImageManager::imageIsLoaded( std::string image )
+bool ofxGenericImageManager::imageIsLoaded( const std::string& image )
 {
     if ( _images[ image ] )
     {
@@ -181,17 +168,17 @@ bool ofxGenericImageManager::imageIsLoaded( std::string image )
     return false;
 }
 
-ofPtr< ofxGenericImage > ofxGenericImageManager::getImage( std::string image )
+ofPtr< ofxGenericImage > ofxGenericImageManager::getImage( const std::string& image )
 {
-    return _images[ image ];
+    return _images[ image ].lock();
 }
 
 #if TARGET_OS_IPHONE
-UIImage* ofxGenericImageManager::getUIImage( std::string image )
+UIImage* ofxGenericImageManager::getUIImage( const std::string& image )
 {
     if ( _images[ image ] )
     {
-        return _images[ image ]->getUIImage();
+        return _images[ image ].lock()->getUIImage();
     }
     return nil;
 }
@@ -247,9 +234,7 @@ UIImage* ofxGenericImageManager::getUIImage( std::string image )
 -( void )connectionDidFinishLoading:( NSURLConnection* )connection
 {
     UIImage* uiImage = [ UIImage imageWithData:_data ];
-    
-    ofPtr< ofxGenericImage > image = ofxGenericImage::create( uiImage, _url );
-    
+      
     [ _data release ];
     _data = nil;
     
@@ -259,7 +244,7 @@ UIImage* ofxGenericImageManager::getUIImage( std::string image )
     ofPtr< ofxGenericImageManager > forwardTo = _forwardTo.lock();
     if ( forwardTo )
     {
-        forwardTo->finishedAsyncLoading( image );
+        forwardTo->finishedAsyncLoading( uiImage, _url );
     }
 }
 
@@ -284,4 +269,51 @@ UIImage* ofxGenericImageManager::getUIImage( std::string image )
 }
 
 @end
+
+
+ofPtr< ofxGenericImageCache > ofxGenericImageCache::create()
+{
+    ofPtr< ofxGenericImageCache > instance(new ofxGenericImageCache);
+    instance->init(instance);
+    return instance;
+}
+
+void ofxGenericImageCache::init(ofPtr< ofxGenericImageCache > instance)
+{
+    _this = instance;
+}
+
+ofPtr< ofxGenericImage > ofxGenericImageCache::add( const std::string& imageName )
+{
+    ofPtr< ofxGenericImage > image = ofxGenericImageManager::getInstance().load( imageName );
+    if( image )
+    {
+        add( image );
+    }
+    return image;
+}
+
+void ofxGenericImageCache::add( ofPtr< ofxGenericImage > image )
+{
+    _images.insert(image);
+}
+
+void ofxGenericImageCache::release( const std::string& imageName )
+{
+    ofPtr< ofxGenericImage > image = ofxGenericImageManager::getInstance().getImage( imageName );
+    release( image );
+    
+}
+
+void ofxGenericImageCache::release( ofPtr< ofxGenericImage > image )
+{
+    _images.erase(image);
+}
+
+void ofxGenericImageCache::clear()
+{
+    _images.clear();
+}
+
+
 #endif

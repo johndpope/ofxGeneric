@@ -11,6 +11,7 @@
 #include "ofxGenericMain.h"
 #include "ofxGenericConstants.h"
 #include <map>
+#include <set>
 
 class ofxGenericImage;
 class ofxGenericImageManagerDelegate;
@@ -26,21 +27,18 @@ public:
     
     virtual ~ofxGenericImageManager();
     
-    virtual bool load( std::string image );
-    virtual bool load( std::vector< std::string > images );
-    virtual bool loadAsync( std::string image, ofPtrWeak< ofxGenericImageManagerDelegate > delegate );
-    virtual void unload( std::string image );
-    virtual void unload( std::vector< std::string > images );
-    virtual void unloadAll();
+    virtual ofPtr< ofxGenericImage > load( const std::string& image );
+    virtual std::vector< ofPtr< ofxGenericImage > > load( std::vector< std::string > images );
+    virtual ofPtr< ofxGenericImage > loadAsync( const std::string& image, ofPtrWeak< ofxGenericImageManagerDelegate > delegate );
     
-    virtual bool imageIsLoaded( std::string image );
-    virtual ofPtr< ofxGenericImage > getImage( std::string image );
+    virtual bool imageIsLoaded( const std::string& image );
+    virtual ofPtr< ofxGenericImage > getImage( const std::string& image );
 #if TARGET_OS_IPHONE
-    virtual UIImage* getUIImage( std::string image );
+    virtual UIImage* getUIImage( const std::string& image );
+    void finishedAsyncLoading( UIImage* image, const std::string& url );
+    void finishedAsyncLoadingWithError( const std::string& error );
 #endif
     
-    void finishedAsyncLoading( ofPtr< ofxGenericImage > image );
-    void finishedAsyncLoadingWithError( std::string error );
     
 protected:
     ofxGenericImageManager();
@@ -48,7 +46,7 @@ protected:
     static ofPtr< ofxGenericImageManager > _this;
     virtual void init( ofPtr< ofxGenericImageManager > setThis );
     
-    std::map< std::string, ofPtr< ofxGenericImage > > _images;
+    std::map< std::string, ofPtrWeak< ofxGenericImage > > _images;
 
     std::list< std::pair< std::string, ofPtrWeak< ofxGenericImageManagerDelegate > > > _asyncQueuedImages;
     std::pair< std::string, ofPtrWeak< ofxGenericImageManagerDelegate > > _currentlyLoading;
@@ -61,7 +59,33 @@ protected:
 class ofxGenericImageManagerDelegate
 {
 public:
-    virtual void imageManager_imageLoaded( std::string imageName, ofPtr< ofxGenericImage > image ) {};
+    virtual void imageManager_imageLoaded( const std::string& imageName, ofPtr< ofxGenericImage > image ) {};
     
     virtual ~ofxGenericImageManagerDelegate() {};
+};
+
+///
+/// Helper class to manage a set of images.
+/// Offers an api to load and free images by name or by ptr.
+/// Use only if a cache of otherwise unreferenced images is needed.
+///
+class ofxGenericImageCache
+{
+public:
+    static ofPtr< ofxGenericImageCache > create();
+    
+    ofPtr< ofxGenericImage > add( const std::string& imageName );
+    void add( ofPtr< ofxGenericImage > image );
+    
+    void release( const std::string& imageName );
+    void release( ofPtr< ofxGenericImage > image );
+    
+    void clear();
+   
+protected:
+    ofPtr< ofxGenericImageCache > _this;
+    ofxGenericImageCache() {};
+    void init(ofPtr< ofxGenericImageCache > instance);
+    
+    std::set< ofPtr< ofxGenericImage > > _images;
 };

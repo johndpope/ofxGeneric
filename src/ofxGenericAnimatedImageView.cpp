@@ -64,16 +64,11 @@ void ofxGenericAnimatedImageView::setImageFrames( const std::vector< string >& f
     for( unsigned int travImageFileNames = 0; travImageFileNames < frames.size(); travImageFileNames ++ )
     {
         string fileName = frames[ travImageFileNames ];
-        ofPtr< ofxGenericImage > imageFrame;
-        if ( ofxGenericImageManager::getInstance().imageIsLoaded( fileName ) )
+        ofPtr< ofxGenericImage > imageFrame = ofxGenericImageManager::getInstance().load( fileName );
+        if( imageFrame )
         {
-            imageFrame = ofxGenericImageManager::getInstance().getImage( fileName );
+            imageFrames.push_back( imageFrame );
         }
-        else
-        {
-            imageFrame = ofxGenericImage::create( fileName );
-        }
-        imageFrames.push_back( imageFrame );
     }
     setImageFrames( imageFrames, reverse );
     //_frameNames = frames; //for debugging

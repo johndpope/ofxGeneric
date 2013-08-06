@@ -15,7 +15,7 @@
 #include "ofxGenericPlatform.h"
 #endif
 
-ofPtr< ofxGenericImage > ofxGenericImage::create( std::string fileName )
+ofPtr< ofxGenericImage > ofxGenericImage::create( const std::string& fileName )
 {
     ofPtr< ofxGenericImage > create( new ofxGenericImage() );
     create->init( create, fileName );
@@ -23,7 +23,7 @@ ofPtr< ofxGenericImage > ofxGenericImage::create( std::string fileName )
 }
 
 #if TARGET_OS_IPHONE
-ofPtr< ofxGenericImage > ofxGenericImage::create( UIImage* image, std::string fromFileName )
+ofPtr< ofxGenericImage > ofxGenericImage::create( UIImage* image, const std::string& fromFileName )
 {
     ofPtr< ofxGenericImage > create( new ofxGenericImage() );
     create->init( create, image, fromFileName );
@@ -31,7 +31,7 @@ ofPtr< ofxGenericImage > ofxGenericImage::create( UIImage* image, std::string fr
 }
 #endif
 
-ofPtr< ofxGenericImage > ofxGenericImage::create( ofPtr< ofImage > image, std::string fromFileName )
+ofPtr< ofxGenericImage > ofxGenericImage::create( ofPtr< ofImage > image, const std::string& fromFileName )
 {
     ofPtr< ofxGenericImage > create( new ofxGenericImage() );
     create->init( create, image, fromFileName );
@@ -121,7 +121,7 @@ ofxGenericImage::ofxGenericImage()
 {
 }
 
-void ofxGenericImage::init( ofPtrWeak< ofxGenericImage > setThis, std::string fileName )
+void ofxGenericImage::init( ofPtrWeak< ofxGenericImage > setThis, const std::string& fileName )
 {
     _this = setThis;
     
@@ -142,7 +142,7 @@ void ofxGenericImage::init( ofPtrWeak< ofxGenericImage > setThis, std::string fi
 }
 
 #if TARGET_OS_IPHONE
-void ofxGenericImage::init( ofPtrWeak< ofxGenericImage > setThis, UIImage* image, std::string fromFileName )
+void ofxGenericImage::init( ofPtrWeak< ofxGenericImage > setThis, UIImage* image, const std::string& fromFileName )
 {
     _this = setThis;
     
@@ -152,7 +152,7 @@ void ofxGenericImage::init( ofPtrWeak< ofxGenericImage > setThis, UIImage* image
 }
 #endif
 
-void ofxGenericImage::init( ofPtrWeak< ofxGenericImage > setThis, ofPtr< ofImage > image, std::string fromFileName )
+void ofxGenericImage::init( ofPtrWeak< ofxGenericImage > setThis, ofPtr< ofImage > image, const std::string& fromFileName )
 {
     _this = setThis;
     
