@@ -12,15 +12,7 @@
 #if TARGET_OS_IPHONE
 #include <UIKit/UIKit.h>
 
-#include "ofxGenericPlatform.h"
 #endif
-
-ofPtr< ofxGenericImage > ofxGenericImage::create( const std::string& fileName )
-{
-    ofPtr< ofxGenericImage > create( new ofxGenericImage() );
-    create->init( create, fileName );
-    return create;
-}
 
 #if TARGET_OS_IPHONE
 ofPtr< ofxGenericImage > ofxGenericImage::create( UIImage* image, const std::string& fromFileName )
@@ -39,106 +31,11 @@ ofPtr< ofxGenericImage > ofxGenericImage::create( ofPtr< ofImage > image, const 
 }
 
 
-std::string ofxGenericImage::getNativeImagePath( std::string fileName, bool makeAbsolute )
-{
-#if TARGET_OS_IPHONE
-    if ( ofxGenericPlatform::is4InchDisplay() )
-    {
-        if ( ofxGenericPlatform::isRetinaDisplay() )
-        {
-            string test = ofxGenericPlatform::imageFileName( fileName, true, false, true );
-            if ( ofxGFileExists( test, false ) )
-            {
-                if ( makeAbsolute )
-                {
-                    test = ofToPath( test, false );
-                }
-                return test;
-            }
-        }
-        
-        string test = ofxGenericPlatform::imageFileName( fileName, true, false, false );
-        if ( ofxGFileExists( test, false ) )
-        {
-            if ( makeAbsolute )
-            {
-                test = ofToPath( test, false );
-            }
-            return test;
-        }
-    } else if ( ofxGenericPlatform::isTablet() )
-    {
-        if ( ofxGenericPlatform::isRetinaDisplay() )
-        {
-            string test = ofxGenericPlatform::imageFileName( fileName, false, true, true );
-            if ( ofxGFileExists( test, false ) )
-            {
-                if ( makeAbsolute )
-                {
-                    test = ofToPath( test, false );
-                }
-                return test;
-            }
-        }
-        
-        string test = ofxGenericPlatform::imageFileName( fileName, false, true, false );
-        if ( ofxGFileExists( test, false ) )
-        {
-            if ( makeAbsolute )
-            {
-                test = ofToPath( test, false );
-            }
-            return test;
-        }
-    }
-    
-    if ( ofxGenericPlatform::isRetinaDisplay() )
-    {
-        string test = ofxGenericPlatform::imageFileName( fileName, false, false, true );
-        if ( ofxGFileExists( test, false ) )
-        {
-            if ( makeAbsolute )
-            {
-                test = ofToPath( test, false );
-            }
-            return test;
-        }
-    }
-    
-#elif TARGET_ANDROID
-#endif
-    if ( makeAbsolute )
-    {
-        fileName = ofToPath( fileName, false );
-    }
-    return fileName;
-}
-
 ofxGenericImage::ofxGenericImage()
 #if TARGET_OS_IPHONE
 : _image( nil )
 #endif
 {
-}
-
-void ofxGenericImage::init( ofPtrWeak< ofxGenericImage > setThis, const std::string& fileName )
-{
-    _this = setThis;
-    
-    _filePath = getNativeImagePath( fileName );
-
-#if TARGET_OS_IPHONE
-    if ( !ofxGFileExists( _filePath, false ) )
-    {
-        _image = nil;
-        return;
-    }
-
-    _image = [ [ UIImage imageWithContentsOfFile: ofxStringToNSString( _filePath ) ] retain ];
-#elif TARGET_ANDROID
-    
-#endif
-    
 }
 
 #if TARGET_OS_IPHONE

@@ -9,7 +9,7 @@
 
 #include "ofxGenericUtility.h"
 #include "ofxGenericApp.h"
-#include "ofxGenericImage.h"
+#include "ofxGenericImageManager.h"
 
 #include "ofxGenericFont.h"
 
@@ -243,7 +243,7 @@ string ofxGenericEditTextView::getFontName()
 
 void ofxGenericEditTextView::setBackgroundImage( string imageFileName )
 {
-    string imagePath = ofxGenericImage::getNativeImagePath( imageFileName );
+    string imagePath = ofxGenericImageManager::getNativeImagePath( imageFileName );
     if ( ofxGFileExists( imagePath ) )
     {
 #if TARGET_OS_IPHONE

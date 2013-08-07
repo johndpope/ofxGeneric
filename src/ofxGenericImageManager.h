@@ -10,10 +10,10 @@
 
 #include "ofxGenericMain.h"
 #include "ofxGenericConstants.h"
+#include "ofxGenericImage.h"
 #include <map>
 #include <set>
 
-class ofxGenericImage;
 class ofxGenericImageManagerDelegate;
 
 #if TARGET_OS_IPHONE
@@ -24,9 +24,10 @@ class ofxGenericImageManager
 {
 public:
     static ofxGenericImageManager& getInstance();
-    
     virtual ~ofxGenericImageManager();
-    
+
+    static std::string getNativeImagePath( std::string fileName, bool makeAbsolute = true );
+
     virtual ofPtr< ofxGenericImage > load( const std::string& image );
     virtual std::vector< ofPtr< ofxGenericImage > > load( std::vector< std::string > images );
     virtual ofPtr< ofxGenericImage > loadAsync( const std::string& image, ofPtrWeak< ofxGenericImageManagerDelegate > delegate );
@@ -51,6 +52,7 @@ protected:
     std::list< std::pair< std::string, ofPtrWeak< ofxGenericImageManagerDelegate > > > _asyncQueuedImages;
     std::pair< std::string, ofPtrWeak< ofxGenericImageManagerDelegate > > _currentlyLoading;
     void continueAsyncLoading();
+    
 #if TARGET_OS_IPHONE
     ofxGenericImageManagerAsyncForwarder* _asyncLoadingForwarder;
 #endif

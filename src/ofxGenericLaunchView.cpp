@@ -73,8 +73,6 @@ string ofxGenericLaunchView::getLaunchImageFileName()
     {
         result = "Default.png";
     }
-    
-    result = ofxGenericImage::getNativeImagePath( result );
-    
+       
     return result;
 }

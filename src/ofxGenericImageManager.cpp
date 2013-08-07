@@ -9,6 +9,9 @@
 #include "ofxGenericImageManager.h"
 #include "ofxGenericImage.h"
 
+#include "ofxGenericPlatform.h"
+
+
 #if TARGET_OS_IPHONE
 @interface ofxGenericImageManagerAsyncForwarder : NSObject
 {
@@ -53,15 +56,103 @@ ofxGenericImageManager::~ofxGenericImageManager()
     
 }
 
- ofPtr< ofxGenericImage > ofxGenericImageManager::load( const std::string& image )
+std::string ofxGenericImageManager::getNativeImagePath( std::string fileName, bool makeAbsolute )
 {
-    ofPtr< ofxGenericImage > result = getImage( image );
+#if TARGET_OS_IPHONE
+    if ( ofxGenericPlatform::is4InchDisplay() )
+    {
+        if ( ofxGenericPlatform::isRetinaDisplay() )
+        {
+            string test = ofxGenericPlatform::imageFileName( fileName, true, false, true );
+            if ( ofxGFileExists( test, false ) )
+            {
+                if ( makeAbsolute )
+                {
+                    test = ofToPath( test, false );
+                }
+                return test;
+            }
+        }
+        
+        string test = ofxGenericPlatform::imageFileName( fileName, true, false, false );
+        if ( ofxGFileExists( test, false ) )
+        {
+            if ( makeAbsolute )
+            {
+                test = ofToPath( test, false );
+            }
+            return test;
+        }
+    } else if ( ofxGenericPlatform::isTablet() )
+    {
+        if ( ofxGenericPlatform::isRetinaDisplay() )
+        {
+            string test = ofxGenericPlatform::imageFileName( fileName, false, true, true );
+            if ( ofxGFileExists( test, false ) )
+            {
+                if ( makeAbsolute )
+                {
+                    test = ofToPath( test, false );
+                }
+                return test;
+            }
+        }
+        
+        string test = ofxGenericPlatform::imageFileName( fileName, false, true, false );
+        if ( ofxGFileExists( test, false ) )
+        {
+            if ( makeAbsolute )
+            {
+                test = ofToPath( test, false );
+            }
+            return test;
+        }
+    }
+    
+    if ( ofxGenericPlatform::isRetinaDisplay() )
+    {
+        string test = ofxGenericPlatform::imageFileName( fileName, false, false, true );
+        if ( ofxGFileExists( test, false ) )
+        {
+            if ( makeAbsolute )
+            {
+                test = ofToPath( test, false );
+            }
+            return test;
+        }
+    }
+    
+#elif TARGET_ANDROID
+#endif
+    if ( makeAbsolute )
+    {
+        fileName = ofToPath( fileName, false );
+    }
+    return fileName;
+}
+
+ ofPtr< ofxGenericImage > ofxGenericImageManager::load( const std::string& fileName )
+{
+    string nativePath = ofxGenericImageManager::getNativeImagePath( fileName );
+
+    ofPtr< ofxGenericImage > result = getImage( fileName );
     if ( !result )
     {
-        ofPtr< ofxGenericImage > loadedImage = ofxGenericImage::create( image );
+#if TARGET_OS_IPHONE
+        UIImage* uiImage = nil;
+        if ( ofxGFileExists( nativePath, false ) )
+        {
+            uiImage = [ [ UIImage imageWithContentsOfFile: ofxStringToNSString( nativePath ) ] retain ];
+        }
+        
+        ofPtr< ofxGenericImage > loadedImage = ofxGenericImage::create(uiImage, nativePath);
+#elif TARGET_ANDROID
+        
+#endif
+
         if ( loadedImage->loadedSuccessfully() )
         {
-            _images[ image ] = loadedImage;
+            _images[ fileName ] = loadedImage;
             result = loadedImage;
         }
     }
@@ -201,7 +292,7 @@ UIImage* ofxGenericImageManager::getUIImage( const std::string& image )
 
 -( void )start:( std::string )url
 {
-    _url = ofxGenericImage::getNativeImagePath( url, false );
+    _url = ofxGenericImageManager::getNativeImagePath( url, false );
     
     string extension = ofFilePath::getFileExt( _url );
     

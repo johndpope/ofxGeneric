@@ -10,7 +10,7 @@
 #include "ofxGenericUtility.h"
 #include "ofxGenericTextView.h"
 
-#include "ofxGenericImage.h"
+#include "ofxGenericImageManager.h"
 
 #include "ofxGenericApp.h"
 
@@ -144,7 +144,7 @@ std::string ofxGenericButtonView::getText()
 
 void ofxGenericButtonView::setBackgroundImage( std::string fileName )
 {
-    string imagePath = ofxGenericImage::getNativeImagePath( fileName );
+    string imagePath = ofxGenericImageManager::getNativeImagePath( fileName );
 #if DEBUG
     _backgroundImageFileName = imagePath;
 #endif
@@ -190,7 +190,7 @@ void ofxGenericButtonView::setBackgroundImage( ofPtr< ofxGenericImage > image )
 
 void ofxGenericButtonView::setDownBackgroundImage( std::string fileName )
 {
-    string imagePath = ofxGenericImage::getNativeImagePath( fileName );
+    string imagePath = ofxGenericImageManager::getNativeImagePath( fileName );
     if ( ofxGFileExists( imagePath ) )
     {
 #if TARGET_OS_IPHONE
