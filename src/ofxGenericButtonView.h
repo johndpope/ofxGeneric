@@ -122,9 +122,8 @@ protected:
      static std::vector< ofxGenericButtonView* > _nativeMap;
 #endif
 
-#if DEBUG
-    string _backgroundImageFileName;
-#endif
+    ofPtr< ofxGenericImage > _backgroundImage;
+    ofPtr< ofxGenericImage > _downBackgroundImage;
 };
 
 class ofxGenericButtonViewDelegate
