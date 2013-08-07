@@ -153,16 +153,19 @@ void ofxGenericButtonView::setBackgroundImage( ofPtr< ofxGenericImage > image )
     if ( !_backgroundImage )
     {
         ofxGLogError( "Unable to set image - provided ofxGenericImage is null, cannot ofxGenericButtonView::setBackgroundImage!" );
-        return;
     }
     
 #if TARGET_OS_IPHONE
     if ( [ _view isKindOfClass:[ UIButton class ] ] )
     {
+        UIImage* uiImage = nil;
+        if ( _backgroundImage )
+        {
+            uiImage = _backgroundImage->getUIImage();
+        }
         UIButton* view = ( UIButton* )_view;
-        [ view setBackgroundImage: _backgroundImage->getUIImage() forState:UIControlStateNormal ];
+        [ view setBackgroundImage: uiImage forState:UIControlStateNormal ];
     }
-
 #elif TARGET_ANDROID
 #endif
 }
@@ -178,14 +181,18 @@ void ofxGenericButtonView::setDownBackgroundImage( ofPtr< ofxGenericImage > imag
     if ( !_downBackgroundImage )
     {
         ofxGLogError( "Unable to set image - provided ofxGenericImage is null, cannot ofxGenericButtonView::setDownBackgroundImage!" );
-        return;
     }
     
 #if TARGET_OS_IPHONE
     if ( [ _view isKindOfClass:[ UIButton class ] ] )
     {
+        UIImage* uiImage = nil;
+        if ( _downBackgroundImage )
+        {
+            uiImage = _downBackgroundImage->getUIImage();
+        }
         UIButton* view = ( UIButton* )_view;
-        [ view setBackgroundImage: _downBackgroundImage->getUIImage() forState:UIControlStateHighlighted ];
+        [ view setBackgroundImage: uiImage forState:UIControlStateHighlighted ];
     }
 #elif TARGET_ANDROID
 #endif

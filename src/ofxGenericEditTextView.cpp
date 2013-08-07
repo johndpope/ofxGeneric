@@ -244,27 +244,28 @@ string ofxGenericEditTextView::getFontName()
 void ofxGenericEditTextView::setBackgroundImage( string imageFileName )
 {
     _backgroundImage = ofxGenericImage::create( imageFileName );
-    if( _backgroundImage )
-    {
-#if TARGET_OS_IPHONE
-        UIImage* image = _backgroundImage->getUIImage();
-        
-        if ( [ getNativeView() isKindOfClass:[ UITextField class ] ] )
-        {
-            UITextField* textField = ( UITextField* )getNativeView();
-            [ textField setBackground:image ];
-        }
-        // Unsupported
-        /* else if ( [ getNativeView() isKindOfClass:[ UITextView class ] ] )
-         {
-         UITextView* textView = ( UITextView* )getNativeView();
-         }*/
-#endif
-    }
-    else
+    if( !_backgroundImage )
     {
         ofxGLogError( "Unable to find image file " + imageFileName + ", cannot ofxGenericEditTextView::setBackgroundImage!" );
     }
+#if TARGET_OS_IPHONE
+    UIImage* uiImage = nil;
+    if( _backgroundImage )
+    {
+         uiImage = _backgroundImage->getUIImage();
+    }
+    
+    if ( [ getNativeView() isKindOfClass:[ UITextField class ] ] )
+    {
+        UITextField* textField = ( UITextField* )getNativeView();
+        [ textField setBackground:uiImage ];
+    }
+    // Unsupported
+    /* else if ( [ getNativeView() isKindOfClass:[ UITextView class ] ] )
+     {
+     UITextView* textView = ( UITextView* )getNativeView();
+     }*/
+#endif
 }
 
 void ofxGenericEditTextView::setPlaceholderText( string placeholderText )
