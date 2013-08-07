@@ -152,6 +152,8 @@
 		45F0F40316BB226900858F86 /* ofxGenericStoreTransaction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45F0F40216BB226900858F86 /* ofxGenericStoreTransaction.cpp */; };
 		B54787E315E5759000ACF70F /* ofxGenericDateSelectorView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B54787E115E5759000ACF70F /* ofxGenericDateSelectorView.cpp */; };
 		B54787E415E5759000ACF70F /* ofxGenericDateSelectorView.h in Headers */ = {isa = PBXBuildFile; fileRef = B54787E215E5759000ACF70F /* ofxGenericDateSelectorView.h */; };
+		B5B5E44117B1B874009F8FC8 /* ofxGenericDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B5E43F17B1B874009F8FC8 /* ofxGenericDevice.cpp */; };
+		B5B5E44217B1B874009F8FC8 /* ofxGenericDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = B5B5E44017B1B874009F8FC8 /* ofxGenericDevice.h */; };
 		B5C55D33161D04980002872E /* ofxGenericHMAC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5C55D31161D04980002872E /* ofxGenericHMAC.cpp */; };
 		B5C55D34161D04980002872E /* ofxGenericHMAC.h in Headers */ = {isa = PBXBuildFile; fileRef = B5C55D32161D04980002872E /* ofxGenericHMAC.h */; };
 /* End PBXBuildFile section */
@@ -365,6 +367,8 @@
 		45F0F40216BB226900858F86 /* ofxGenericStoreTransaction.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericStoreTransaction.cpp; sourceTree = "<group>"; };
 		B54787E115E5759000ACF70F /* ofxGenericDateSelectorView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericDateSelectorView.cpp; sourceTree = "<group>"; };
 		B54787E215E5759000ACF70F /* ofxGenericDateSelectorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericDateSelectorView.h; sourceTree = "<group>"; };
+		B5B5E43F17B1B874009F8FC8 /* ofxGenericDevice.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericDevice.cpp; sourceTree = "<group>"; };
+		B5B5E44017B1B874009F8FC8 /* ofxGenericDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericDevice.h; sourceTree = "<group>"; };
 		B5C55D31161D04980002872E /* ofxGenericHMAC.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericHMAC.cpp; sourceTree = "<group>"; };
 		B5C55D32161D04980002872E /* ofxGenericHMAC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericHMAC.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -511,6 +515,8 @@
 				3C7B4E9014FC7CBF003121FE /* ofxGenericConstants.h */,
 				456BACAC153DE6A50097D5D4 /* ofxGenericDate.cpp */,
 				456BACAA153DE6960097D5D4 /* ofxGenericDate.h */,
+				B5B5E43F17B1B874009F8FC8 /* ofxGenericDevice.cpp */,
+				B5B5E44017B1B874009F8FC8 /* ofxGenericDevice.h */,
 				4544F5E81549D061007482B2 /* ofxGenericDrawableView.cpp */,
 				4544F5E61549D057007482B2 /* ofxGenericDrawableView.h */,
 				3CF590961506E78E00963966 /* ofxGenericEditTextView.cpp */,
@@ -856,6 +862,7 @@
 				3C6513031707B830000F8F50 /* ofxGenericLocationManager.h in Headers */,
 				3C29BC6717167A2100C77EFB /* ofxGenericHeadingManager.h in Headers */,
 				3C9F4AEF168E77B6005F583E /* ofxGenericDelegateContainer.h in Headers */,
+				B5B5E44217B1B874009F8FC8 /* ofxGenericDevice.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1005,6 +1012,7 @@
 				3CC3086916F0F9AE00BD86CA /* ofxGenericClass.cpp in Sources */,
 				3C6513021707B830000F8F50 /* ofxGenericLocationManager.cpp in Sources */,
 				3C29BC6617167A2100C77EFB /* ofxGenericHeadingManager.cpp in Sources */,
+				B5B5E44117B1B874009F8FC8 /* ofxGenericDevice.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
