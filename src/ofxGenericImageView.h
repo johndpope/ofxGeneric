@@ -9,11 +9,11 @@
 #pragma once
 
 #include "ofxGenericView.h"
-#include "ofxGenericImageManager.h"
+#include "ofxGenericImage.h"
 
 class ofxGenericImage;
 
-class ofxGenericImageView : public ofxGenericView, public ofxGenericImageManagerDelegate
+class ofxGenericImageView : public ofxGenericView, public ofxGenericImageDelegate
 {
 public:
     static ofPtr< ofxGenericImageView > create( const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ), string fileName = string() );

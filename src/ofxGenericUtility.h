@@ -31,6 +31,9 @@ bool ofxGrename( string oldPath, string newPath, bool useDocuments );
 bool ofxGFileExists( string absolutePath );
 bool ofxGFileExists( string location, bool useDocuments );
 
+//////////////////////////////// Resources //////////////////////////////////
+
+
 //////////////////////////////// Font //////////////////////////////////
 
 float ofxGFontSizeForText( string text, string fontName, float startingFontSize, const ofPoint& constrainedSize );

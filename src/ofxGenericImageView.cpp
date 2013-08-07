@@ -7,8 +7,6 @@
 
 #include "ofxGenericImageView.h"
 #include "ofxGenericUtility.h"
-#include "ofxGenericImage.h"
-#include "ofxGenericImageManager.h"
 
 #if TARGET_OS_IPHONE
 #include "UIDevice-Hardware.h"
@@ -56,7 +54,8 @@ void ofxGenericImageView::setImage( string fileName, bool aSync )
 {
     if ( aSync )
     {
-        ofPtr< ofxGenericImage > image = ofxGenericImageManager::getInstance().loadAsync( fileName, dynamic_pointer_cast< ofxGenericImageManagerDelegate >( _this ) );
+        ofPtr< ofxGenericImage > image =
+            ofxGenericImage::createAsync( fileName,  dynamic_pointer_cast< ofxGenericImageDelegate >( _this ));
         if( !image )
         {
             _waitingOnAsyncLoadImageName = fileName;
@@ -68,7 +67,7 @@ void ofxGenericImageView::setImage( string fileName, bool aSync )
     }
     else
     {
-        setImage(ofxGenericImageManager::getInstance().load( fileName ));
+        setImage(ofxGenericImage::create( fileName ));
     }
 }
 
@@ -99,8 +98,7 @@ void ofxGenericImageView::willAppear()
     
     if ( !_waitingOnAsyncLoadImageName.empty() )
     {
-        ofxGenericImageManager::getInstance().load( _waitingOnAsyncLoadImageName );
-        setImage( ofxGenericImageManager::getInstance().getImage( _waitingOnAsyncLoadImageName ) );
+        setImage( ofxGenericImage::create( _waitingOnAsyncLoadImageName ) );
         _waitingOnAsyncLoadImageName = std::string();
     }
 }

@@ -9,7 +9,7 @@
 
 #include "ofxGenericUtility.h"
 #include "ofxGenericApp.h"
-#include "ofxGenericImageManager.h"
+#include "ofxGenericImage.h"
 
 #include "ofxGenericFont.h"
 
@@ -243,11 +243,11 @@ string ofxGenericEditTextView::getFontName()
 
 void ofxGenericEditTextView::setBackgroundImage( string imageFileName )
 {
-    string imagePath = ofxGenericImageManager::getNativeImagePath( imageFileName );
-    if ( ofxGFileExists( imagePath ) )
+    _backgroundImage = ofxGenericImage::create( imageFileName );
+    if( _backgroundImage )
     {
 #if TARGET_OS_IPHONE
-        UIImage* image = [ UIImage imageWithContentsOfFile:ofxStringToNSString( imagePath ) ];
+        UIImage* image = _backgroundImage->getUIImage();
         
         if ( [ getNativeView() isKindOfClass:[ UITextField class ] ] )
         {
@@ -256,13 +256,14 @@ void ofxGenericEditTextView::setBackgroundImage( string imageFileName )
         }
         // Unsupported
         /* else if ( [ getNativeView() isKindOfClass:[ UITextView class ] ] )
-        {
-            UITextView* textView = ( UITextView* )getNativeView();
-        }*/
+         {
+         UITextView* textView = ( UITextView* )getNativeView();
+         }*/
 #endif
-    } else
+    }
+    else
     {
-        ofxGLogError( "Unable to find image file " + imagePath + ", cannot ofxGenericEditTextView::setBackgroundImage!" );
+        ofxGLogError( "Unable to find image file " + imageFileName + ", cannot ofxGenericEditTextView::setBackgroundImage!" );
     }
 }
 

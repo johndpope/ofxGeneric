@@ -7,12 +7,42 @@
 //
 
 #include "ofxGenericImage.h"
+
+#include "ofxGenericImageManager.h"
 #include "ofxGenericUtility.h"
 
 #if TARGET_OS_IPHONE
 #include <UIKit/UIKit.h>
 
 #endif
+
+
+ofPtr< ofxGenericImage > ofxGenericImage::create( const std::string& fileName)
+{
+    ofxGenericImageManager& mgr = ofxGenericImageManager::getInstance();
+    ofPtr< ofxGenericImage > instance = mgr.getImage(fileName);
+    if( !instance )
+    {
+        instance = ofPtr< ofxGenericImage >( new ofxGenericImage() );
+        instance->init( instance, fileName );
+        mgr.add( fileName, instance );
+    }
+    return instance;
+}
+
+ofPtr< ofxGenericImage > ofxGenericImage::createAsync( const std::string& fileName,
+                                                       ofPtrWeak< ofxGenericImageDelegate > delegate )
+{
+    ofPtr< ofxGenericImage > instance = ofxGenericImageManager::getInstance().loadAsync( fileName,  delegate );
+    return instance;
+}
+
+ofPtr< ofxGenericImage > ofxGenericImage::create( ofPtr< ofImage > image, const std::string& fromFileName )
+{
+    ofPtr< ofxGenericImage > create( new ofxGenericImage() );
+    create->init( create, image, fromFileName );
+    return create;
+}
 
 #if TARGET_OS_IPHONE
 ofPtr< ofxGenericImage > ofxGenericImage::create( UIImage* image, const std::string& fromFileName )
@@ -23,13 +53,6 @@ ofPtr< ofxGenericImage > ofxGenericImage::create( UIImage* image, const std::str
 }
 #endif
 
-ofPtr< ofxGenericImage > ofxGenericImage::create( ofPtr< ofImage > image, const std::string& fromFileName )
-{
-    ofPtr< ofxGenericImage > create( new ofxGenericImage() );
-    create->init( create, image, fromFileName );
-    return create;
-}
-
 
 ofxGenericImage::ofxGenericImage()
 #if TARGET_OS_IPHONE
@@ -38,23 +61,31 @@ ofxGenericImage::ofxGenericImage()
 {
 }
 
-#if TARGET_OS_IPHONE
-void ofxGenericImage::init( ofPtrWeak< ofxGenericImage > setThis, UIImage* image, const std::string& fromFileName )
+void ofxGenericImage::init( ofPtrWeak< ofxGenericImage > setThis, const std::string& fileName)
 {
     _this = setThis;
     
-    _filePath = fromFileName;
+    _filePath = ofxGenericImageManager::getNativeImagePath( fileName );
+
+#if TARGET_OS_IPHONE
+    _image = nil;
+    if ( ofxGFileExists( _filePath, false ) )
+    {
+        _image = [ [ UIImage imageWithContentsOfFile: ofxStringToNSString( _filePath ) ] retain ];
+    }
     
-    _image = [ image retain ];
-}
+#elif TARGET_ANDROID
+    
 #endif
+    
+}
 
 void ofxGenericImage::init( ofPtrWeak< ofxGenericImage > setThis, ofPtr< ofImage > image, const std::string& fromFileName )
 {
     _this = setThis;
     
     _filePath = fromFileName;
-
+    
 #if TARGET_OS_IPHONE
     if ( image )
     {
@@ -69,6 +100,18 @@ void ofxGenericImage::init( ofPtrWeak< ofxGenericImage > setThis, ofPtr< ofImage
 #endif
     
 }
+
+#if TARGET_OS_IPHONE
+void ofxGenericImage::init( ofPtrWeak< ofxGenericImage > setThis, UIImage* image, const std::string& fromFileName )
+{
+    _this = setThis;
+    
+    _filePath = fromFileName;
+    
+    _image = [ image retain ];
+}
+#endif
+
 
 ofxGenericImage::~ofxGenericImage()
 {
@@ -124,3 +167,48 @@ std::string ofxGenericImage::getFilePath()
 {
     return _filePath;
 }
+
+
+ofPtr< ofxGenericImageCache > ofxGenericImageCache::create()
+{
+    ofPtr< ofxGenericImageCache > instance(new ofxGenericImageCache);
+    instance->init(instance);
+    return instance;
+}
+
+void ofxGenericImageCache::init(ofPtr< ofxGenericImageCache > instance)
+{
+    _this = instance;
+}
+
+ofPtr< ofxGenericImage > ofxGenericImageCache::add( const std::string& imageName )
+{
+    ofPtr< ofxGenericImage > image = ofxGenericImage::create( imageName );
+    if( image )
+    {
+        add( image );
+    }
+    return image;
+}
+
+void ofxGenericImageCache::add( ofPtr< ofxGenericImage > image )
+{
+    _images.insert(image);
+}
+
+void ofxGenericImageCache::release( const std::string& imageName )
+{
+    ofPtr< ofxGenericImage > image = ofxGenericImageManager::getInstance().getImage( imageName );
+    release( image );
+}
+
+void ofxGenericImageCache::release( ofPtr< ofxGenericImage > image )
+{
+    _images.erase(image);
+}
+
+void ofxGenericImageCache::clear()
+{
+    _images.clear();
+}
+

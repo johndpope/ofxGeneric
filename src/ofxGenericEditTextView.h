@@ -17,6 +17,7 @@
 
 class ofxGenericEditTextViewDelegate;
 class ofxGenericFont;
+class ofxGenericImage;
 
 class ofxGenericEditTextView : public ofxGenericView
 {
@@ -106,6 +107,8 @@ protected:
     
     bool _moveFromUnderKeyboardOnBeginEdit;
     bool _hideKeyboardOnReturn;
+    
+    ofPtr< ofxGenericImage > _backgroundImage;
 };
 
 class ofxGenericEditTextViewDelegate

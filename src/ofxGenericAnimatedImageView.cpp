@@ -8,7 +8,6 @@
 
 #include "ofxGenericAnimatedImageView.h"
 #include "ofxGenericImage.h"
-#include "ofxGenericImageManager.h"
 
 ofPtr< ofxGenericAnimatedImageView > ofxGenericAnimatedImageView::create( const ofRectangle& setFrame, const std::vector< string >& frames, float frameRate, ofxGenericAnimatedImageLoopType loopType, int animationDirection )
 {
@@ -64,7 +63,7 @@ void ofxGenericAnimatedImageView::setImageFrames( const std::vector< string >& f
     for( unsigned int travImageFileNames = 0; travImageFileNames < frames.size(); travImageFileNames ++ )
     {
         string fileName = frames[ travImageFileNames ];
-        ofPtr< ofxGenericImage > imageFrame = ofxGenericImageManager::getInstance().load( fileName );
+        ofPtr< ofxGenericImage > imageFrame = ofxGenericImage::create( fileName );
         if( imageFrame )
         {
             imageFrames.push_back( imageFrame );
