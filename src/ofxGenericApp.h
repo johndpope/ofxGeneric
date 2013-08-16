@@ -58,6 +58,7 @@ public:
     
     bool getStatusBarVisible();
     void setStatusBarVisible( bool visible, bool animated );
+    ofRectangle getStatusBarFrame();
     
     void setAllowOtherAppSounds( bool allow );
     

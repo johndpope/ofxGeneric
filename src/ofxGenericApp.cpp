@@ -435,6 +435,16 @@ void ofxGenericApp::setStatusBarVisible( bool visible, bool animated )
 #endif
 }
 
+ofRectangle ofxGenericApp::getStatusBarFrame()
+{
+#if TARGET_OS_IPHONE
+    CGRect statusBarFrame = [UIApplication sharedApplication].statusBarFrame;
+    return ofxCGRectToofRectangle( statusBarFrame );
+#else
+    return ofRectangle();
+#endif
+}
+
 void ofxGenericApp::setAllowOtherAppSounds( bool allow )
 {
 #if TARGET_OS_IPHONE
