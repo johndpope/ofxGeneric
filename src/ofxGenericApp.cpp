@@ -85,11 +85,6 @@ ofxGenericAppDelegate* ofxGenericApp::getAppDelegate()
 }
 #endif
 
-void ofxGenericApp::realRun()
-{
-    // this method is now a noop, since native app run loop is being created before this is called
-}
-
 void ofxGenericApp::runViaInfiniteLoop( ofPtr< ofxAppGenericWindow > window )
 {
     ofLogVerbose( ofxGenericModuleName, "App loop starting..." );
@@ -97,24 +92,12 @@ void ofxGenericApp::runViaInfiniteLoop( ofPtr< ofxAppGenericWindow > window )
     _window = window;
     _windowSize = _window->getFrame();
 
-    if ( true )
-    {
-        realRun();
-    } else
+    if (false) // may need this code in the future for Android
     {
         try
         {
-        #if TARGET_OS_IPHONE
-            @try
-            {
-                realRun();
-            } @catch( NSException* exception )
-            {
-                ofxGenericException uncaught( exception );
-                handleUncaughtException( uncaught );
-            }
             
-        #elif TARGET_ANDROID
+        #if TARGET_ANDROID
         /*    JNIMethod setWindow(
                     JNIFindClass(ofxGenericApp::ActivityClassName ),
                     true,

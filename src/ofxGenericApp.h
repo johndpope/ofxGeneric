@@ -122,9 +122,7 @@ protected:
     ofxGenericApp();
     static ofPtr< ofxGenericApp > _this;
     void setofxGenericAppInstanceToThis();
-    
-    void realRun();
-    
+        
     std::vector< ofPtr< ofxGenericKeyboardDelegate > > _keyboardDelegates;
     std::map< string, string > _launchOptions;
     
