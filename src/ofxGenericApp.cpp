@@ -55,15 +55,6 @@ ofxGenericApp::~ofxGenericApp()
 
 ofPtr< ofxGenericApp > ofxGenericApp::_this;
 
-ofPtr< ofxGenericApp > ofxGenericApp::getInstance()
-{
-    if ( !ofxGenericApp::_this )
-    {
-        ( new ofxGenericApp() )->setofxGenericAppInstanceToThis();
-    }
-    return ofxGenericApp::_this;
-}
-
 void ofxGenericApp::setofxGenericAppInstanceToThis()
 {
     if ( !ofxGenericApp::_this )
@@ -96,12 +87,7 @@ ofxGenericAppDelegate* ofxGenericApp::getAppDelegate()
 
 void ofxGenericApp::realRun()
 {
-#if TARGET_OS_IPHONE
-    NSString* delegateClassName = NSStringFromClass( getAppDelegateClass() );
-    UIApplicationMain( nil, nil, nil, delegateClassName );
-#endif
-    // for non-iOS, should probably be moved to #elsif
-    finishedLaunching();
+    // this method is now a noop, since native app run loop is being created before this is called
 }
 
 void ofxGenericApp::runViaInfiniteLoop( ofPtr< ofxAppGenericWindow > window )

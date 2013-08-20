@@ -26,25 +26,35 @@ void SignalHandler( int signal );
 
 @synthesize window = _window;
 
--( BOOL )application:( UIApplication* )application didFinishLaunchingWithOptions:( NSDictionary* )launchOptions
+- (BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    if ( [ self shouldInstallDefaultUncaughtExceptionHandler ] )
-    {
-        [ self installUncaughtExceptionHandler ];
-    }
-
-    ofPtr< ofxAppGenericWindow > window = ofxGenericApp::getInstance()->getWindow();
-
+    ofPtr< ofxAppGenericWindow > window( new ofxAppGenericWindow( false ) );
+    
     if ( window )
     {
         self.window = window->getNativeWindow();
-        
         [ self.window setScreen:[ UIScreen mainScreen ] ];
         self.window.frame = [UIScreen mainScreen].bounds;
         [ self.window makeKeyAndVisible ];
     } else
     {
         ofxGLogError( "ofxGenericApp::getWindow() returned NULL, unable to initialize screen" );
+    }
+    
+    ofPtr< ofxGenericApp > app = ofxGenericApp::getInstance();
+    
+    // TODO: don't use ofSetupOpenGL
+    ofSetupOpenGL( window, 1024, 768, OF_FULLSCREEN );
+    ofRunApp( app );
+    
+    return YES;
+}
+
+-( BOOL )application:( UIApplication* )application didFinishLaunchingWithOptions:( NSDictionary* )launchOptions
+{
+    if ( [ self shouldInstallDefaultUncaughtExceptionHandler ] )
+    {
+        [ self installUncaughtExceptionHandler ];
     }
     
     std::map< string, string > options = std::map< string, string >();
