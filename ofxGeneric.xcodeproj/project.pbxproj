@@ -893,7 +893,7 @@
 		3C7B4DD114FC78A0003121FE /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Lumos Labs";
 			};
 			buildConfigurationList = 3C7B4DD414FC78A0003121FE /* Build configuration list for PBXProject "ofxGeneric" */;
