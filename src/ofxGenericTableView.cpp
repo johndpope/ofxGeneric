@@ -546,6 +546,38 @@ void ofxGenericTableView::scrollToCell( unsigned int section, unsigned int index
 #endif
 }
 
+void ofxGenericTableView::setHeaderView( ofPtr< ofxGenericView > headerView )
+{
+    if ( headerView )
+    {
+    
+#if TARGET_OS_IPHONE
+        UITableView* tableView = *this;
+        if ( tableView )
+        {
+            tableView.tableHeaderView = headerView->getNativeView();
+        }
+#endif
+        
+    }
+}
+
+void ofxGenericTableView::setFooterView( ofPtr< ofxGenericView > footerView )
+{
+    if ( footerView )
+    {
+    
+#if TARGET_OS_IPHONE
+        UITableView* tableView = *this;
+        if ( tableView )
+        {
+            tableView.tableFooterView = footerView->getNativeView();
+        }
+#endif
+        
+    }
+}
+
 #if TARGET_OS_IPHONE
 ofxGenericUIViewCastOperator( ofxGenericTableView, UITableView );
 
