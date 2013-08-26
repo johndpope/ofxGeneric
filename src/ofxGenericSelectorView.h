@@ -65,7 +65,12 @@ public:
     virtual float selectorView_getWidthOfComponent( ofPtr< ofxGenericSelectorView > selectorView, unsigned int component ) { return 0.0f; };
     virtual float selectorView_getHeightOfRowsInComponent( ofPtr< ofxGenericSelectorView > selectorView, unsigned int component ) { return 0.0f; };
     
-    virtual ofPtr< ofxGenericView > selectorView_getViewForRowInComponent( ofPtr< ofxGenericSelectorView > selectorView, unsigned int component, unsigned int row ) { return ofPtr< ofxGenericView >(); };  // clients of this class should always create a new row view whenever the delegate method asks for it, rather than always returning the same view instance for the same row ... this is because of changes in how iOS 7 implements this class (that is, it will request more than one view for the same row and will present them on the screen simultaneously .. always returning the same view for a row will therefore cause visual glitches).
+    // clients of this class should always create a new row view whenever the delegate method asks for it,
+    // rather than always returning the same view instance for the same row ... this is because of changes 
+    // in how iOS 7 implements this class (that is, it will request more than one view for the same row and 
+    // will present them on the screen simultaneously .. always returning the same view for a row will 
+    // therefore cause visual glitches).
+    virtual ofPtr< ofxGenericView > selectorView_getViewForRowInComponent( ofPtr< ofxGenericSelectorView > selectorView, unsigned int component, unsigned int row ) { return ofPtr< ofxGenericView >(); };  
     
     virtual void selectorView_selectedRow( ofPtr< ofxGenericSelectorView > selectorView, unsigned int component, unsigned int row ) {};
 };
