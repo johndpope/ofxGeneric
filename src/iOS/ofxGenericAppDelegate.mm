@@ -26,7 +26,8 @@ void SignalHandler( int signal );
 
 @synthesize window = _window;
 
-- (BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+
+-( BOOL )application:( UIApplication* )application didFinishLaunchingWithOptions:( NSDictionary* )launchOptions
 {
     ofPtr< ofxAppGenericWindow > window( new ofxAppGenericWindow( false ) );
     
@@ -47,11 +48,8 @@ void SignalHandler( int signal );
     ofSetupOpenGL( window, 1024, 768, OF_FULLSCREEN );
     ofRunApp( app );
     
-    return YES;
-}
-
--( BOOL )application:( UIApplication* )application didFinishLaunchingWithOptions:( NSDictionary* )launchOptions
-{
+    
+    
     if ( [ self shouldInstallDefaultUncaughtExceptionHandler ] )
     {
         [ self installUncaughtExceptionHandler ];
