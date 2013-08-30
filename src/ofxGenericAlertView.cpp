@@ -53,7 +53,12 @@ void ofxGenericAlertView::createNativeView()
 ofxGenericAlertView::~ofxGenericAlertView()
 {
 #if TARGET_OS_IPHONE
+    _view.delegate = nil;
+    [ _view release ];
+    _view = nil;
+    
     [ _forwarder release ];
+    _forwarder = nil;
 #endif
 }
 
@@ -179,7 +184,7 @@ void ofxGenericAlertView::cancelled()
     {
         
     }
-    return TRUE;
+    return YES;
 }
 
 @end
