@@ -182,6 +182,8 @@ protected:
     
     virtual void stop();
     
+    virtual void doRequestFinished();
+    
     void timer_fired( ofPtr< ofxGenericTimer > timer );
     
     int _responseStatusCode;
