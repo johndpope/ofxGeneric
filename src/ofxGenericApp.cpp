@@ -481,7 +481,7 @@ void ofxGenericApp::handleSignal( int signal )
 
 void ofxGenericApp::showFatalErrorAndQuit( string title, string message )
 {
-    ofPtr< ofxGenericAlertView > fatalErrorAlert = ofxGenericAlertView::create( title, message, dynamic_pointer_cast< ofxGenericAlertViewDelegate >( _this ) );
+    ofPtr< ofxGenericAlertView > fatalErrorAlert = ofxGenericAlertView::create( title, message, "Ok", dynamic_pointer_cast< ofxGenericAlertViewDelegate >( _this ) );
     fatalErrorAlert->show();
     
 #if TARGET_OS_IPHONE
