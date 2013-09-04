@@ -26,9 +26,13 @@ string ofxGGetPathFromFileName( string fileName );
 
 bool ofxGmkdir( string location, bool useDocuments );
 bool ofxGrmdir( string location, bool useDocuments, bool onlyIfEmpty = true );
+bool ofxGrename( string oldPath, string newPath, bool useDocuments );
 
 bool ofxGFileExists( string absolutePath );
 bool ofxGFileExists( string location, bool useDocuments );
+
+//////////////////////////////// Resources //////////////////////////////////
+
 
 //////////////////////////////// Font //////////////////////////////////
 

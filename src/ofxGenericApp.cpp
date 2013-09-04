@@ -55,15 +55,6 @@ ofxGenericApp::~ofxGenericApp()
 
 ofPtr< ofxGenericApp > ofxGenericApp::_this;
 
-ofPtr< ofxGenericApp > ofxGenericApp::getInstance()
-{
-    if ( !ofxGenericApp::_this )
-    {
-        ( new ofxGenericApp() )->setofxGenericAppInstanceToThis();
-    }
-    return ofxGenericApp::_this;
-}
-
 void ofxGenericApp::setofxGenericAppInstanceToThis()
 {
     if ( !ofxGenericApp::_this )
@@ -94,16 +85,6 @@ ofxGenericAppDelegate* ofxGenericApp::getAppDelegate()
 }
 #endif
 
-void ofxGenericApp::realRun()
-{
-#if TARGET_OS_IPHONE
-    NSString* delegateClassName = NSStringFromClass( getAppDelegateClass() );
-    UIApplicationMain( nil, nil, nil, delegateClassName );
-#endif
-    // for non-iOS, should probably be moved to #elsif
-    finishedLaunching();
-}
-
 void ofxGenericApp::runViaInfiniteLoop( ofPtr< ofxAppGenericWindow > window )
 {
     ofLogVerbose( ofxGenericModuleName, "App loop starting..." );
@@ -111,24 +92,12 @@ void ofxGenericApp::runViaInfiniteLoop( ofPtr< ofxAppGenericWindow > window )
     _window = window;
     _windowSize = _window->getFrame();
 
-    if ( true )
-    {
-        realRun();
-    } else
+    if (false) // may need this code in the future for Android
     {
         try
         {
-        #if TARGET_OS_IPHONE
-            @try
-            {
-                realRun();
-            } @catch( NSException* exception )
-            {
-                ofxGenericException uncaught( exception );
-                handleUncaughtException( uncaught );
-            }
             
-        #elif TARGET_ANDROID
+        #if TARGET_ANDROID
         /*    JNIMethod setWindow(
                     JNIFindClass(ofxGenericApp::ActivityClassName ),
                     true,
@@ -432,6 +401,16 @@ void ofxGenericApp::setStatusBarVisible( bool visible, bool animated )
         animation = UIStatusBarAnimationNone;
     }
     [ [ UIApplication sharedApplication ] setStatusBarHidden:( BOOL )!visible withAnimation:animation ];
+#endif
+}
+
+ofRectangle ofxGenericApp::getStatusBarFrame()
+{
+#if TARGET_OS_IPHONE
+    CGRect statusBarFrame = [UIApplication sharedApplication].statusBarFrame;
+    return ofxCGRectToofRectangle( statusBarFrame );
+#else
+    return ofRectangle();
 #endif
 }
 

@@ -23,7 +23,7 @@ class ofxGenericKeyboardDelegate;
 class ofxGenericApp : public ofBaseApp, public ofxGenericAlertViewDelegate, public ofxGenericTimerDelegate
 {
 public:
-    static ofPtr< ofxGenericApp > getInstance();
+    static ofPtr< ofxGenericApp > getInstance(); // no longer implemented by ofxGenericApp.  Subclasses must implement to return instance of correct subclass.
     
     virtual void runViaInfiniteLoop( ofPtr< ofxAppGenericWindow > window );
     
@@ -58,6 +58,7 @@ public:
     
     bool getStatusBarVisible();
     void setStatusBarVisible( bool visible, bool animated );
+    ofRectangle getStatusBarFrame();
     
     void setAllowOtherAppSounds( bool allow );
     
@@ -121,9 +122,7 @@ protected:
     ofxGenericApp();
     static ofPtr< ofxGenericApp > _this;
     void setofxGenericAppInstanceToThis();
-    
-    void realRun();
-    
+        
     std::vector< ofPtr< ofxGenericKeyboardDelegate > > _keyboardDelegates;
     std::map< string, string > _launchOptions;
     

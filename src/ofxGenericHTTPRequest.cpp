@@ -480,6 +480,8 @@ void ofxGenericHTTPRequest::finished(
         ofxGLogWarning( warning );
     }
     
+    doRequestFinished();
+    
     if ( _delegate )
     {
         if ( isResponseOk() )
@@ -491,6 +493,11 @@ void ofxGenericHTTPRequest::finished(
         }
         _delegate.lock()->httpRequest_finished( _this.lock() );
     }
+}
+
+void ofxGenericHTTPRequest::doRequestFinished()
+{
+    //for subclasses to do things after the request has finished
 }
 
 void ofxGenericHTTPRequest::destroyResponseBody()

@@ -9,11 +9,11 @@
 #pragma once
 
 #include "ofxGenericView.h"
-#include "ofxGenericImageManager.h"
+#include "ofxGenericImage.h"
 
 class ofxGenericImage;
 
-class ofxGenericImageView : public ofxGenericView, public ofxGenericImageManagerDelegate
+class ofxGenericImageView : public ofxGenericView, public ofxGenericImageDelegate
 {
 public:
     static ofPtr< ofxGenericImageView > create( const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ), string fileName = string() );
@@ -43,7 +43,7 @@ public:
     virtual string toString();
     virtual ofPtr< ofxGenericValueStore > toValueStore();
     
-    void imageManager_imageLoaded( std::string imageName, ofPtr< ofxGenericImage > image );
+    void imageManager_imageLoaded( const std::string& imageName, ofPtr< ofxGenericImage > image );
     
 protected:
     virtual void init( ofPtrWeak< ofxGenericImageView > setThis, const ofRectangle& setFrame, string fileName = string() );

@@ -74,6 +74,9 @@ public:
     virtual float nativeGetHeightForCell( unsigned int section, unsigned int index );
     virtual void nativeSelectedRow( unsigned int section, unsigned int index );
     virtual float nativeGetContentHeight();
+    
+    virtual void setHeaderView( ofPtr< ofxGenericView > headerView );
+    virtual void setFooterView( ofPtr< ofxGenericView > footerView );
 
 protected:
     virtual void init( ofPtrWeak< ofxGenericView > setThis, bool areHeadersFixedInPlace, const ofRectangle& setBounds = ofRectangle( 0, 0, 0, 0 ), NativeView nativeView = NativeNull );

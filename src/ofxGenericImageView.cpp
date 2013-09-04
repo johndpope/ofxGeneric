@@ -7,8 +7,6 @@
 
 #include "ofxGenericImageView.h"
 #include "ofxGenericUtility.h"
-#include "ofxGenericImage.h"
-#include "ofxGenericImageManager.h"
 
 #if TARGET_OS_IPHONE
 #include "UIDevice-Hardware.h"
@@ -54,34 +52,41 @@ NativeView ofxGenericImageView::createNativeView( const ofRectangle& frame )
 
 void ofxGenericImageView::setImage( string fileName, bool aSync )
 {
-    if ( !ofxGenericImageManager::getInstance().imageIsLoaded( fileName ) )
+    if ( aSync )
     {
-        if ( aSync )
+        ofPtr< ofxGenericImage > image =
+            ofxGenericImage::createAsync( fileName,  dynamic_pointer_cast< ofxGenericImageDelegate >( _this ));
+        if( !image )
         {
             _waitingOnAsyncLoadImageName = fileName;
-            ofxGenericImageManager::getInstance().loadAsync( fileName, dynamic_pointer_cast< ofxGenericImageManagerDelegate >( _this ) );
         }
         else
         {
-            ofxGenericImageManager::getInstance().load( fileName );
+            setImage( image );
         }
     }
-    setImage( ofxGenericImageManager::getInstance().getImage( fileName ) );
+    else
+    {
+        setImage(ofxGenericImage::create( fileName ));
+    }
 }
 
 void ofxGenericImageView::setImage ( ofPtr< ofxGenericImage > image )
 {
-    if ( !image )
-    {
-        return;
-    }
+    _image = image;
     
 #if TARGET_OS_IPHONE
     if ( [ _view isKindOfClass:[ UIImageView class ] ] )
     {
         UIImageView* view = ( UIImageView* )_view;
-        
-        [ view setImage: image->getUIImage() ];
+        if( image )
+        {
+            [ view setImage: image->getUIImage() ];
+        }
+        else
+        {
+            [ view setImage: nil ];
+        }
     }
 #elif TARGET_ANDROID
 #endif
@@ -93,8 +98,7 @@ void ofxGenericImageView::willAppear()
     
     if ( !_waitingOnAsyncLoadImageName.empty() )
     {
-        ofxGenericImageManager::getInstance().load( _waitingOnAsyncLoadImageName );
-        setImage( ofxGenericImageManager::getInstance().getImage( _waitingOnAsyncLoadImageName ) );
+        setImage( ofxGenericImage::create( _waitingOnAsyncLoadImageName ) );
         _waitingOnAsyncLoadImageName = std::string();
     }
 }
@@ -157,7 +161,7 @@ ofPtr< ofxGenericValueStore > ofxGenericImageView::toValueStore()
     return result;
 }
 
-void ofxGenericImageView::imageManager_imageLoaded( std::string imageName, ofPtr< ofxGenericImage > image )
+void ofxGenericImageView::imageManager_imageLoaded( const std::string& imageName, ofPtr< ofxGenericImage > image )
 {
     setImage( image );
 }

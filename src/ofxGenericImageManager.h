@@ -11,9 +11,11 @@
 #include "ofxGenericMain.h"
 #include "ofxGenericConstants.h"
 #include <map>
+#include <set>
+
 
 class ofxGenericImage;
-class ofxGenericImageManagerDelegate;
+class ofxGenericImageDelegate;
 
 #if TARGET_OS_IPHONE
 @class ofxGenericImageManagerAsyncForwarder;
@@ -23,26 +25,26 @@ class ofxGenericImageManager
 {
 public:
     static ofxGenericImageManager& getInstance();
-    
     virtual ~ofxGenericImageManager();
+
+    static std::string getNativeImagePath( std::string fileName, bool makeAbsolute = true );
+
+    /// Add an image to the image manager's cache.
+    /** Returns the image previously assigned to the given name.
+     * name: the key for the image.
+     * image: the image to cache.
+     */
+    ofPtr< ofxGenericImage > add( const std::string& name, ofPtr< ofxGenericImage > image );
+    virtual ofPtr< ofxGenericImage > getImage( const std::string& name );
+
+    virtual ofPtr< ofxGenericImage > loadAsync( const std::string& name, ofPtrWeak< ofxGenericImageDelegate > delegate );
     
-    virtual bool load( std::string image );
-    virtual bool load( std::vector< std::string > images );
-    virtual bool loadAsync( std::string image, ofPtrWeak< ofxGenericImageManagerDelegate > delegate );
-    virtual void unload( std::string image );
-    virtual void unload( std::vector< std::string > images );
-    virtual void unloadAll();
-    
-    void cacheImage( ofPtr< ofxGenericImage >image, std::string name = "", bool async = true);
-    
-    virtual bool imageIsLoaded( std::string image );
-    virtual ofPtr< ofxGenericImage > getImage( std::string image );
 #if TARGET_OS_IPHONE
-    virtual UIImage* getUIImage( std::string image );
+    virtual UIImage* getUIImage( const std::string& image );
+    void finishedAsyncLoading( UIImage* image, const std::string& url );
+    void finishedAsyncLoadingWithError( const std::string& error );
 #endif
     
-    void finishedAsyncLoading( ofPtr< ofxGenericImage > image );
-    void finishedAsyncLoadingWithError( std::string error );
     
 protected:
     ofxGenericImageManager();
@@ -50,20 +52,17 @@ protected:
     static ofPtr< ofxGenericImageManager > _this;
     virtual void init( ofPtr< ofxGenericImageManager > setThis );
     
-    std::map< std::string, ofPtr< ofxGenericImage > > _images;
+    typedef std::map< std::string, ofPtrWeak< ofxGenericImage > > ImageMap;
+    ImageMap _images;
 
-    std::list< std::pair< std::string, ofPtrWeak< ofxGenericImageManagerDelegate > > > _asyncQueuedImages;
-    std::pair< std::string, ofPtrWeak< ofxGenericImageManagerDelegate > > _currentlyLoading;
+    std::list< std::pair< std::string, ofPtrWeak< ofxGenericImageDelegate > > > _asyncQueuedImages;
+    std::pair< std::string, ofPtrWeak< ofxGenericImageDelegate > > _currentlyLoading;
     void continueAsyncLoading();
+
+    virtual bool imageIsLoaded( const std::string& image );
+
 #if TARGET_OS_IPHONE
     ofxGenericImageManagerAsyncForwarder* _asyncLoadingForwarder;
 #endif
 };
 
-class ofxGenericImageManagerDelegate
-{
-public:
-    virtual void imageManager_imageLoaded( std::string imageName, ofPtr< ofxGenericImage > image ) {};
-    
-    virtual ~ofxGenericImageManagerDelegate() {};
-};

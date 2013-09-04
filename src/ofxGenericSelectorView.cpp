@@ -152,6 +152,8 @@ ofxGenericSelectorView::operator UIPickerView*()
 {
 @private
     ofPtrWeak< ofxGenericSelectorView > _forwardTo;
+    
+    vector< ofPtr< ofxGenericView > > _rowViewsCache; // we put row views in this cache to ensure they don't get deleted ... clients of this class should always create a new row view whenever the delegate method asks for it, rather than always returning the same view instance for the same row ... this is because of changes in how iOS 7 implements this class (that is, it will request more than one view for the same row and will present them on the screen simultaneously .. always returning the same view for a row will therefore cause visual glitches).
 }
 -( id )initWithForwardTo:( ofPtrWeak< ofxGenericSelectorView > )forwardTo;
 
@@ -243,6 +245,7 @@ void ofxGenericSelectorView::init( ofPtrWeak< ofxGenericSelectorView > setThis, 
         ofPtr< ofxGenericView > viewForRow = _forwardTo.lock()->getViewForRowInComponent( component, row );
         if ( viewForRow )
         {
+            _rowViewsCache.push_back( viewForRow );
             return viewForRow->getNativeView();
         }
     }

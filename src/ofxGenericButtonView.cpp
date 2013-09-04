@@ -146,51 +146,27 @@ std::string ofxGenericButtonView::getText()
 
 void ofxGenericButtonView::setBackgroundImage( std::string fileName )
 {
-    string imagePath = ofxGenericImage::getNativeImagePath( fileName );
-#if DEBUG
-    _backgroundImageFileName = imagePath;
-#endif
-    if ( ofxGFileExists( imagePath ) )
-    {
-#if TARGET_OS_IPHONE
-        if ( [ _view isKindOfClass:[ UIButton class ] ] )
-        {
-            UIButton* view = ( UIButton* )_view;
-            
-            UIImage *image = [ UIImage imageWithContentsOfFile:ofxStringToNSString( imagePath )  ];
-            buttonImageSizeTotal += image.size.width * image.size.height * 4;
-            
-            NSLog(@"allocating button image: %@ total MB: %f", ofxStringToNSString(fileName), buttonImageSizeTotal / 1024.0f / 1024.0f);
-            
-            [ view setBackgroundImage: image
-                             forState:UIControlStateNormal ];
-        }
-#elif TARGET_ANDROID
-        callJNIVoidMethod(
-                _jniMethods,
-                JNIMethod_setBackgroundImage
-                //, fileName
-                );
-#endif
-    } else
-    {
-        ofxGLogError( "Unable to find image file " + imagePath + ", cannot ofxGenericButtonView::setBackgroundImage!" );
-    }
+    setBackgroundImage( ofxGenericImage::create( fileName ) );
 }
 
 void ofxGenericButtonView::setBackgroundImage( ofPtr< ofxGenericImage > image )
 {
-    if ( !image )
+    _backgroundImage = image;
+    if ( !_backgroundImage )
     {
         ofxGLogError( "Unable to set image - provided ofxGenericImage is null, cannot ofxGenericButtonView::setBackgroundImage!" );
-        return;
     }
     
 #if TARGET_OS_IPHONE
     if ( [ _view isKindOfClass:[ UIButton class ] ] )
     {
+        UIImage* uiImage = nil;
+        if ( _backgroundImage )
+        {
+            uiImage = _backgroundImage->getUIImage();
+        }
         UIButton* view = ( UIButton* )_view;
-        [ view setBackgroundImage: image->getUIImage() forState:UIControlStateNormal ];
+        [ view setBackgroundImage: uiImage forState:UIControlStateNormal ];
     }
 #elif TARGET_ANDROID
 #endif
@@ -198,48 +174,27 @@ void ofxGenericButtonView::setBackgroundImage( ofPtr< ofxGenericImage > image )
 
 void ofxGenericButtonView::setDownBackgroundImage( std::string fileName )
 {
-    string imagePath = ofxGenericImage::getNativeImagePath( fileName );
-    if ( ofxGFileExists( imagePath ) )
-    {
-#if TARGET_OS_IPHONE
-        if ( [ _view isKindOfClass:[ UIButton class ] ] )
-        {
-            UIButton* view = ( UIButton* )_view;
-            
-            UIImage * image = [ UIImage imageWithContentsOfFile:ofxStringToNSString( imagePath )  ];
-            buttonImageSizeTotal += image.size.width * image.size.height * 4;
-        
-            NSLog(@"allocating button image: %@ total MB: %f", ofxStringToNSString(fileName), buttonImageSizeTotal / 1024.0f / 1024.0f);
-            
-            [ view setBackgroundImage: image
-                             forState:UIControlStateHighlighted ];
-        }
-#elif TARGET_ANDROID
-        callJNIVoidMethod(
-                          _jniMethods,
-                          JNIMethod_setDownBackgroundImage
-                          //, fileName
-                          );
-#endif
-    } else
-    {
-        ofxGLogError( "Unable to find image file " + imagePath + ", cannot ofxGenericButtonView::setDownBackgroundImage!" );
-    }
+    setDownBackgroundImage( ofxGenericImage::create( fileName ));
 }
 
 void ofxGenericButtonView::setDownBackgroundImage( ofPtr< ofxGenericImage > image )
 {
-    if ( !image )
+    _downBackgroundImage = image;
+    if ( !_downBackgroundImage )
     {
         ofxGLogError( "Unable to set image - provided ofxGenericImage is null, cannot ofxGenericButtonView::setDownBackgroundImage!" );
-        return;
     }
     
 #if TARGET_OS_IPHONE
     if ( [ _view isKindOfClass:[ UIButton class ] ] )
     {
+        UIImage* uiImage = nil;
+        if ( _downBackgroundImage )
+        {
+            uiImage = _downBackgroundImage->getUIImage();
+        }
         UIButton* view = ( UIButton* )_view;
-        [ view setBackgroundImage: image->getUIImage() forState:UIControlStateHighlighted ];
+        [ view setBackgroundImage: uiImage forState:UIControlStateHighlighted ];
     }
 #elif TARGET_ANDROID
 #endif
@@ -427,9 +382,9 @@ string ofxGenericButtonView::toString()
         result += " " + getText();
     }
 #if DEBUG
-    if ( !_backgroundImageFileName.empty() )
+    if ( _backgroundImage && !_backgroundImage->getFilePath().empty() )
     {
-        result += " " + ofFilePath::getFileName( _backgroundImageFileName );
+        result += " " + ofFilePath::getFileName( _backgroundImage->getFilePath() );
     }
 #endif
     return result;
@@ -458,9 +413,9 @@ ofPtr< ofxGenericValueStore > ofxGenericButtonView::toValueStore()
             result->write( "text", getText() );
         }
 #if DEBUG
-        if ( !_backgroundImageFileName.empty() )
+        if ( _backgroundImage && !_backgroundImage->getFilePath().empty() )
         {
-            result->write( "background image", _backgroundImageFileName );
+            result->write( "background image", _backgroundImage->getFilePath() );
         }
 #endif
         if ( ofxGenericApp::getInstance() && ofxGenericApp::getInstance()->getRootView() )

@@ -202,5 +202,11 @@ enum ofxGenericContentMode
     ofxGenericContentModeBottomRight
 };
 
+enum ofxGenericMotionEffectType
+{
+    ofxGenericMotionEffectTypeTiltAlongHorizontalAxis,
+    ofxGenericMotionEffectTypeTiltAlongVerticalAxis
+};
+
 typedef unsigned int ofxGenericIndex;
 static const ofxGenericIndex ofxGInvalidIndex = -1;

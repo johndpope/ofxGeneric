@@ -245,31 +245,29 @@ static int backgroundImageSize = 0;
 
 void ofxGenericEditTextView::setBackgroundImage( string imageFileName )
 {
-    string imagePath = ofxGenericImage::getNativeImagePath( imageFileName );
-    if ( ofxGFileExists( imagePath ) )
+    _backgroundImage = ofxGenericImage::create( imageFileName );
+    if( !_backgroundImage )
     {
-#if TARGET_OS_IPHONE
-        UIImage* image = [ UIImage imageWithContentsOfFile:ofxStringToNSString( imagePath ) ];
-        
-        if ( [ getNativeView() isKindOfClass:[ UITextField class ] ] )
-        {
-            backgroundImageSize += image.size.width * image.size.height * 4;
-            
-            NSLog(@"Allocating edit text view image: %@ total size: %f", ofxStringToNSString(imageFileName), backgroundImageSize / 1024.0f / 1024.0f);
-            
-            UITextField* textField = ( UITextField* )getNativeView();
-            [ textField setBackground:image ];
-        }
-        // Unsupported
-        /* else if ( [ getNativeView() isKindOfClass:[ UITextView class ] ] )
-        {
-            UITextView* textView = ( UITextView* )getNativeView();
-        }*/
-#endif
-    } else
-    {
-        ofxGLogError( "Unable to find image file " + imagePath + ", cannot ofxGenericEditTextView::setBackgroundImage!" );
+        ofxGLogError( "Unable to find image file " + imageFileName + ", cannot ofxGenericEditTextView::setBackgroundImage!" );
     }
+#if TARGET_OS_IPHONE
+    UIImage* uiImage = nil;
+    if( _backgroundImage )
+    {
+         uiImage = _backgroundImage->getUIImage();
+    }
+    
+    if ( [ getNativeView() isKindOfClass:[ UITextField class ] ] )
+    {
+        UITextField* textField = ( UITextField* )getNativeView();
+        [ textField setBackground:uiImage ];
+    }
+    // Unsupported
+    /* else if ( [ getNativeView() isKindOfClass:[ UITextView class ] ] )
+     {
+     UITextView* textView = ( UITextView* )getNativeView();
+     }*/
+#endif
 }
 
 void ofxGenericEditTextView::setPlaceholderText( string placeholderText )
