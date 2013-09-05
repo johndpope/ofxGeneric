@@ -34,8 +34,6 @@
 
 @end
 
-static int buttonImageSizeTotal = 0;
-
 #elif TARGET_ANDROID
 
 #include "JNIUtility.h"

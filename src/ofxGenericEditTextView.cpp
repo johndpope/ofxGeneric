@@ -241,8 +241,6 @@ string ofxGenericEditTextView::getFontName()
     return result;
 }
 
-static int backgroundImageSize = 0;
-
 void ofxGenericEditTextView::setBackgroundImage( string imageFileName )
 {
     _backgroundImage = ofxGenericImage::create( imageFileName );
