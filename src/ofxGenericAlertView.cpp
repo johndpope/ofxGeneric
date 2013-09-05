@@ -20,10 +20,13 @@
 
 #endif
 
-ofPtr< ofxGenericAlertView > ofxGenericAlertView::create( string title, string message, ofPtrWeak< ofxGenericAlertViewDelegate > delegate )
+ofPtr< ofxGenericAlertView > ofxGenericAlertView::create( const string& title,
+                                                         const string& message,
+                                                         const string& cancelButtonLabel,
+                                                         ofPtrWeak< ofxGenericAlertViewDelegate > delegate)
 {
     ofPtr< ofxGenericAlertView > create( new ofxGenericAlertView() );
-    create->init( create, title, message, delegate );
+    create->init( create, title, message, cancelButtonLabel, delegate );
     return create;
 }
 
@@ -32,21 +35,25 @@ ofxGenericAlertView::ofxGenericAlertView()
     
 }
 
-void ofxGenericAlertView::init( ofPtrWeak< ofxGenericAlertView > setThis, string title, string message, ofPtrWeak< ofxGenericAlertViewDelegate > delegate )
+void ofxGenericAlertView::init( ofPtrWeak< ofxGenericAlertView > setThis,
+                                const string& title,
+                                const string& message,
+                                const string& cancelButtonLabel,
+                                ofPtrWeak< ofxGenericAlertViewDelegate > delegate )
 {
     _this = setThis;
     _delegate = delegate;
     
-    createNativeView();
+    createNativeView(cancelButtonLabel);
     setTitle( title );
     setMessage( message );
 }
 
-void ofxGenericAlertView::createNativeView()
+void ofxGenericAlertView::createNativeView(const string& cancelButtonLabel)
 {
 #if TARGET_OS_IPHONE
     _forwarder = [ [ ofxGenericAlertViewForwarder alloc ] initWithForwardTo:_this ];
-    _view = [ [ UIAlertView alloc ] initWithTitle:@"" message:@"" delegate:_forwarder cancelButtonTitle:@"Ok" otherButtonTitles:nil ];
+    _view = [ [ UIAlertView alloc ] initWithTitle:@"" message:@"" delegate:_forwarder cancelButtonTitle:ofxStringToNSString(cancelButtonLabel) otherButtonTitles:nil ];
 #endif
 }
 
@@ -80,6 +87,14 @@ void ofxGenericAlertView::setMessage( string message )
         [ _view setMessage:ofxStringToNSString( message ) ];
     }
 #endif
+}
+
+void ofxGenericAlertView::addOtherButton( string buttonTitle )
+{
+    if( _view )
+    {
+        [_view addButtonWithTitle:ofxStringToNSString(buttonTitle)];
+    }
 }
 
 void ofxGenericAlertView::show()

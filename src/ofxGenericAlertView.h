@@ -18,10 +18,14 @@ class ofxGenericAlertViewDelegate;
 class ofxGenericAlertView
 {
 public:
-    static ofPtr< ofxGenericAlertView > create( string title = string(), string message = string(), ofPtrWeak< ofxGenericAlertViewDelegate > delegate = ofPtrWeak< ofxGenericAlertViewDelegate >() );
+    static ofPtr< ofxGenericAlertView > create( const string& title = string(),
+                                                const string& message = string(),
+                                                const string& cacnelButtonLabel = string(),
+                                                ofPtrWeak< ofxGenericAlertViewDelegate > delegate = ofPtrWeak< ofxGenericAlertViewDelegate >() );
 
     void setTitle( string title );
     void setMessage( string message );
+    void addOtherButton( string buttonTitle );
     
     void show();
     
@@ -31,10 +35,14 @@ public:
     virtual void cancelled();
 protected:
     ofxGenericAlertView();
-    virtual void init( ofPtrWeak< ofxGenericAlertView > setThis, string title, string message, ofPtrWeak< ofxGenericAlertViewDelegate > delegate );
+    virtual void init( ofPtrWeak< ofxGenericAlertView > setThis,
+                       const string& title,
+                       const string& message,
+                       const string& cancelButtonLabel,
+                       ofPtrWeak< ofxGenericAlertViewDelegate > delegate );
     ofPtrWeak< ofxGenericAlertView > _this;
 
-    virtual void createNativeView();
+    virtual void createNativeView(const string& cancelButtonLabel);
 #if TARGET_OS_IPHONE
     UIAlertView* _view;
 #endif    
