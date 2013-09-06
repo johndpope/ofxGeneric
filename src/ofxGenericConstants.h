@@ -202,6 +202,14 @@ enum ofxGenericContentMode
     ofxGenericContentModeBottomRight
 };
 
+enum ofxGenericContentHorizontalAlignment
+{
+    ofxGenericContentHorizontalAlignmentCenter,
+    ofxGenericContentHorizontalAlignmentLeft,
+    ofxGenericContentHorizontalAlignmentRight,
+    ofxGenericContentHorizontalAlignmentFill
+};
+
 enum ofxGenericMotionEffectType
 {
     ofxGenericMotionEffectTypeTiltAlongHorizontalAxis,

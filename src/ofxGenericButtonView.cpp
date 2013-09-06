@@ -231,6 +231,29 @@ ofPtrWeak< ofxGenericButtonViewDelegate > ofxGenericButtonView::getDelegate()
     return _touchDelegate;
 }
 
+void ofxGenericButtonView::setContentHorizontalAlignment( ofxGenericContentHorizontalAlignment alignment )
+{
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[ UIButton class ] ] )
+    {
+        UIButton* view = ( UIButton* )_view;
+        view.contentHorizontalAlignment = ofxGenericContentHorizontalAlignmentToiOS(alignment);
+    }
+#endif
+}
+
+ofxGenericContentHorizontalAlignment ofxGenericButtonView::getContentHorizontalAlignment()
+{
+#if TARGET_OS_IPHONE
+    if ( [ _view isKindOfClass:[ UIButton class ] ] )
+    {
+        UIButton* view = ( UIButton* )_view;
+        return iOSToofxGenericContentHorizontalAlignment(view.contentHorizontalAlignment);
+    }
+#endif
+    return ofxGenericContentHorizontalAlignmentLeft;
+}
+
 void ofxGenericButtonView::setTextAlignment( ofxGenericTextHorizontalAlignment alignment )
 {
     if ( _textView )
