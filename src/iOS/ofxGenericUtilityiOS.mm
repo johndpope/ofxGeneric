@@ -772,3 +772,35 @@ ofxGenericContentMode iOSToofxGenericContentMode( UIViewContentMode from )
     }
     return ofxGenericContentModeScaleToFill;
 }
+
+UIControlContentHorizontalAlignment ofxGenericContentHorizontalAlignmentToiOS( ofxGenericContentHorizontalAlignment from )
+{
+    switch ( from )
+    {
+        case ofxGenericContentHorizontalAlignmentLeft:
+            return UIControlContentHorizontalAlignmentLeft;
+        case ofxGenericContentHorizontalAlignmentCenter:
+            return UIControlContentHorizontalAlignmentCenter;
+        case ofxGenericContentHorizontalAlignmentRight:
+            return UIControlContentHorizontalAlignmentRight;
+        case ofxGenericContentHorizontalAlignmentFill:
+            return UIControlContentHorizontalAlignmentFill;
+    }
+    return UIControlContentHorizontalAlignmentLeft;
+}
+
+ofxGenericContentHorizontalAlignment iOSToofxGenericContentHorizontalAlignment( UIControlContentHorizontalAlignment from )
+{
+    switch ( from )
+    {
+        case UIControlContentHorizontalAlignmentLeft:
+            return ofxGenericContentHorizontalAlignmentLeft;
+        case UIControlContentHorizontalAlignmentCenter:
+            return ofxGenericContentHorizontalAlignmentCenter;
+        case UIControlContentHorizontalAlignmentRight:
+            return ofxGenericContentHorizontalAlignmentRight;
+        case UIControlContentHorizontalAlignmentFill:
+            return ofxGenericContentHorizontalAlignmentFill;
+    }
+    return ofxGenericContentHorizontalAlignmentLeft;
+}

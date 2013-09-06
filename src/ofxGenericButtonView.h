@@ -36,9 +36,12 @@ public:
     void setBackgroundImage( ofPtr< ofxGenericImage > image );
     void setDownBackgroundImage( std::string fileName );
     void setDownBackgroundImage( ofPtr< ofxGenericImage > image );
-    
+
     virtual void setTextAlignment( ofxGenericTextHorizontalAlignment alignment );
     virtual ofxGenericTextHorizontalAlignment getTextAlignment();
+    
+    virtual void setContentHorizontalAlignment( ofxGenericContentHorizontalAlignment alignment );
+    virtual ofxGenericContentHorizontalAlignment getContentHorizontalAlignment();
     
     virtual void setTextColor ( const ofColor& setColor );
     virtual ofColor getTextColor ();

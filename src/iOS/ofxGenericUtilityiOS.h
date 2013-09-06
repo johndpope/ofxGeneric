@@ -73,3 +73,6 @@ ofPoint CGSizeToofPoint( CGSize size );
 
 UIViewContentMode ofxGenericContentModeToiOS( ofxGenericContentMode from );
 ofxGenericContentMode iOSToofxGenericContentMode( UIViewContentMode from );
+
+UIControlContentHorizontalAlignment ofxGenericContentHorizontalAlignmentToiOS( ofxGenericContentHorizontalAlignment from );
+ofxGenericContentHorizontalAlignment iOSToofxGenericContentHorizontalAlignment( UIControlContentHorizontalAlignment from );
