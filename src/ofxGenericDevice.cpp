@@ -22,10 +22,6 @@ string ofxGenericDevice::getDeviceId()
         {
             return ofxNSStringToString( [ [ uiDevice identifierForVendor ] UUIDString ] );
         }
-        else if ( [ uiDevice respondsToSelector:@selector( uniqueIdentifier ) ] )
-        {
-            return ofxNSStringToString( [[UIDevice currentDevice] uniqueIdentifier] );
-        }
     }
     
 #elif TARGET_ANDROID
