@@ -38,6 +38,9 @@ public:
     virtual double getCurrentTime( string sound );
     virtual float getAmountComplete( string sound );
     
+    virtual void setSoundsAreEnabled( bool enabled );
+    virtual bool soundsAreEnabled();
+    
     virtual ~ofxGenericSoundManager();
 protected:
     
@@ -48,4 +51,5 @@ protected:
     virtual bool soundExistsCheck( string sound );
     
     std::map< string, ofPtr< ofxGenericSound > > _soundMap;
+    bool _soundsAreEnabled;
 };
