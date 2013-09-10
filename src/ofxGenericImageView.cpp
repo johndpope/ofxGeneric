@@ -92,6 +92,22 @@ void ofxGenericImageView::setImage ( ofPtr< ofxGenericImage > image )
 #endif
 }
 
+string ofxGenericImageView::getImageFilename()
+{
+    string retval;
+    
+    if ( _image )
+    {
+        retval = _image->getFilePath();
+    }
+    else if ( !_waitingOnAsyncLoadImageName.empty() )
+    {
+        retval = _waitingOnAsyncLoadImageName;
+    }
+    
+    return retval;
+}
+
 void ofxGenericImageView::willAppear()
 {
     ofxGenericView::willAppear();

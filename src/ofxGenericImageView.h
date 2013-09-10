@@ -21,6 +21,8 @@ public:
     virtual void setImage( string fileName, bool aSync = true );
     virtual void setImage ( ofPtr< ofxGenericImage > image );
     
+    virtual string getImageFilename();
+    
     virtual void willAppear();
     
 #if TARGET_OS_IPHONE
