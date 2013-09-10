@@ -55,7 +55,10 @@ ofPtr< ofxGenericStorePurchaser > ofxGenericStorePurchaser::create( std::vector<
     ofPtr< ofxGenericStorePurchaser > create = ofPtr< ofxGenericStorePurchaser >( new ofxGenericStorePurchaser() );
     create->init( create );
     create->setDelegate( delegate );
-    create->findProducts( products );
+    if ( products.size() > 0 )
+    {
+        create->findProducts( products );
+    }
     _allPurchasers.push_back( create );
     return create;
 }

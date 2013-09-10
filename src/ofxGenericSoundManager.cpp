@@ -21,7 +21,7 @@ ofxGenericSoundManager& ofxGenericSoundManager::getInstance()
     return *ofxGenericSoundManager::_this;
 }
 
-ofxGenericSoundManager::ofxGenericSoundManager()
+ofxGenericSoundManager::ofxGenericSoundManager() : _soundsAreEnabled( true )
 {
 }
 
@@ -108,7 +108,7 @@ void ofxGenericSoundManager::unloadAll()
 
 void ofxGenericSoundManager::play( string sound, float playbackDelay )
 {
-    if ( !soundExistsCheck( sound ) )
+    if ( !soundExistsCheck( sound ) || _soundsAreEnabled )
     {
         return;
     }
@@ -141,7 +141,7 @@ void ofxGenericSoundManager::pause( string sound )
 
 void ofxGenericSoundManager::loop( string sound, int loopCount, float playbackDelay )
 {
-    if ( !soundExistsCheck( sound ) )
+    if ( !soundExistsCheck( sound ) || !_soundsAreEnabled )
     {
         return;
     }
@@ -218,4 +218,14 @@ bool ofxGenericSoundManager::soundExistsCheck( string sound )
         return false;
     }
     return true;
+}
+
+void ofxGenericSoundManager::setSoundsAreEnabled( bool enabled )
+{
+    _soundsAreEnabled = enabled;
+}
+
+bool ofxGenericSoundManager::soundsAreEnabled()
+{
+    return _soundsAreEnabled;
 }
