@@ -71,6 +71,8 @@ string ofxGSPrintf( string format, string first );
 string ofxGSPrintf( string format, string first, string second );
 string ofxGSPrintf( string format, string first, string second, string third );
 
+string ofxGPrintf( string format, ... );
+
 std::vector< string > ofxGSplit( string value, char splitOn );
 
 string ofxGToUpperCase( const string& text );

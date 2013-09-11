@@ -371,6 +371,36 @@ string ofxGSPrintf( string format, string first, string second, string third )
     return ofxGSPrintf( format, replaceWith );
 }
 
+string ofxGPrintf( string format, ... )
+{
+    int size = 100;
+    std::string retval;
+    va_list ap;
+    while ( true )
+    {
+        retval.resize( size );
+        va_start( ap, format );
+        int n = vsnprintf( (char *)retval.c_str(), size, format.c_str(), ap );
+        va_end( ap );
+        
+        if ( n > -1 && n < size )
+        {
+            retval.resize(n);
+            return retval;
+        }
+        
+        if ( n > -1 )
+        {
+            size = n + 1;
+        }
+        else
+        {
+            size *= 2;
+        }
+    }
+    return retval;
+}
+
 std::vector< string > ofxGSplit( string value, char splitOn )
 {
     std::vector< string > strings;
