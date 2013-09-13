@@ -469,6 +469,23 @@ bool ofxGStringIsXMLSafe( const string& text )
     return true;
 }
 
+//TODO rewrite this better
+bool ofxGStringIsJSONSafe( const string& text )
+{
+    const string unsafe = "\"\\/";
+    for ( unsigned int i = 0; i < text.length(); i++ )
+    {
+        for ( unsigned int j = 0; j < unsafe.length(); j++ )
+        {
+            if ( text[i] == unsafe[j] )
+            {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
 ofPoint ofxGToPoint( const string& value )
 {
     ofPoint result;

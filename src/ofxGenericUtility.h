@@ -80,6 +80,7 @@ string ofxGToLowerCase( const string& text );
 
 string ofxGURLSafeString( const string& text );
 bool ofxGStringIsXMLSafe( const string& text );
+bool ofxGStringIsJSONSafe( const string& text );
 
 ofPoint ofxGToPoint( const string& value );
 ofxGenericCoordinate ofxGToCoordinate( const string& value );
