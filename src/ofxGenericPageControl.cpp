@@ -182,7 +182,7 @@ void ofxGenericPageControl::setEmptyDotColor( const ofColor& color )
     UIPageControl* nativeView = ( UIPageControl* )*this;
     if ( nativeView )
     {
-        if ( [ nativeView respondsToSelector:@selector( setPageIndicatorTintColor ) ] )
+        if ( [ nativeView respondsToSelector:@selector( setPageIndicatorTintColor: ) ] )
         {
             [ nativeView setPageIndicatorTintColor: ofxColorToUIColor( color ) ];
         } else
@@ -197,7 +197,7 @@ ofColor ofxGenericPageControl::getEmptyDotColor()
 {
 #if TARGET_OS_IPHONE
     UIPageControl* nativeView = ( UIPageControl* )*this;
-    if ( [ nativeView respondsToSelector:@selector( pageIndicatorTintColor ) ] )
+    if ( [ nativeView respondsToSelector:@selector( pageIndicatorTintColor: ) ] )
     {
         return ofxUIColorToofColor( [ nativeView pageIndicatorTintColor ] );
     } else
