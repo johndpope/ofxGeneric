@@ -108,7 +108,7 @@ void ofxGenericSoundManager::unloadAll()
 
 void ofxGenericSoundManager::play( string sound, float playbackDelay )
 {
-    if ( !soundExistsCheck( sound ) || _soundsAreEnabled )
+    if ( !soundExistsCheck( sound ) || !_soundsAreEnabled )
     {
         return;
     }
