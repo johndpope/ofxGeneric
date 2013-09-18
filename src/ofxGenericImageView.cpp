@@ -108,6 +108,15 @@ string ofxGenericImageView::getImageFilename()
     return retval;
 }
 
+ofPoint ofxGenericImageView::getImageSize()
+{
+    if ( _image )
+    {
+        return _image->getSize();
+    }
+    return ofPoint( 0, 0 );
+}
+
 void ofxGenericImageView::willAppear()
 {
     ofxGenericView::willAppear();

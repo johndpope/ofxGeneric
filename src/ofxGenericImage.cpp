@@ -168,6 +168,14 @@ std::string ofxGenericImage::getFilePath()
     return _filePath;
 }
 
+ofPoint ofxGenericImage::getSize()
+{
+#if TARGET_OS_IPHONE
+    return CGSizeToofPoint( _image.size );
+#elif TARGET_ANDROID
+    return ofPoint( 0,0 );
+#endif
+}
 
 ofPtr< ofxGenericImageCache > ofxGenericImageCache::create()
 {

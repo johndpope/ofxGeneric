@@ -53,6 +53,7 @@ public:
     virtual ~ofxGenericImage();
     
     std::string getFilePath();
+    ofPoint getSize();
 
 protected:
     ofxGenericImage();

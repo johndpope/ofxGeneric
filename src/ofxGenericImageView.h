@@ -22,6 +22,7 @@ public:
     virtual void setImage ( ofPtr< ofxGenericImage > image );
     
     virtual string getImageFilename();
+    virtual ofPoint getImageSize();
     
     virtual void willAppear();
     
