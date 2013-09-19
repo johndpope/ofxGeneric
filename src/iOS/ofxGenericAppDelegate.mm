@@ -12,6 +12,7 @@
 
 #include "ofxGenericException.h"
 #include "ofxGenericUtilityiOS.h"
+#include "ofxAppGenericWindow.h"
 
 @interface ofxGenericAppDelegate ( Private )
 
@@ -24,8 +25,6 @@ void SignalHandler( int signal );
 
 @implementation ofxGenericAppDelegate
 
-@synthesize window = _window;
-
 
 -( BOOL )application:( UIApplication* )application didFinishLaunchingWithOptions:( NSDictionary* )launchOptions
 {
@@ -33,10 +32,10 @@ void SignalHandler( int signal );
     
     if ( window )
     {
-        self.window = window->getNativeWindow();
-        [ self.window setScreen:[ UIScreen mainScreen ] ];
-        self.window.frame = [UIScreen mainScreen].bounds;
-        [ self.window makeKeyAndVisible ];
+        _ofxWindow = window;
+        [ _ofxWindow->getNativeWindow() setScreen:[ UIScreen mainScreen ] ];
+        _ofxWindow->getNativeWindow().frame = [UIScreen mainScreen].bounds;
+        [ _ofxWindow->getNativeWindow() makeKeyAndVisible ];
     } else
     {
         ofxGLogError( "ofxGenericApp::getWindow() returned NULL, unable to initialize screen" );
@@ -131,13 +130,17 @@ void SignalHandler( int signal );
 { ofxGenericApp::getInstance()->didBecomeActive(); }
 
 - (void)applicationWillResignActive:(UIApplication *)application
-{ ofxGenericApp::getInstance()->willResignActive(); }
+{
+    ofxGenericApp::getInstance()->willResignActive();
+}
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application
 { ofxGenericApp::getInstance()->didReceiveMemoryWarning(); }
 
 - (void)applicationWillTerminate:(UIApplication *)application
-{ ofxGenericApp::getInstance()->willTerminate(); }
+{
+    ofxGenericApp::getInstance()->willTerminate();
+}
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {

@@ -9,6 +9,7 @@
 #pragma once
 
 #include "ofMain.h"
+class ofxAppGenericWindow;
 
 #if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
@@ -17,9 +18,8 @@
 @interface ofxGenericAppDelegate : NSObject < UIApplicationDelegate >  
 {
     CADisplayLink* _displayLink;
+    ofPtr< ofxAppGenericWindow > _ofxWindow;
 }
-
-@property (retain, nonatomic) UIWindow* window;
 
 -( BOOL )application:( UIApplication* )application didFinishLaunchingWithOptions:( NSDictionary* )launchOptions;
 -( void )application:( UIApplication* )application didReceiveLocalNotification:( UILocalNotification* )notification;
