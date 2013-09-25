@@ -64,15 +64,15 @@ public:
     
     // TODO: scheme so that UIButtonDelegateForwarder is the only one that can call these
     // TODO: scheme so we can pass a reference of this to delegate
-    virtual void touchCancel();
-    virtual void touchDown();
-    virtual void touchDownRepeat();
-    virtual void touchDragEnter();
-    virtual void touchDragExit();
-    virtual void touchDragInside();
-    virtual void touchDragOutside();
-    virtual void touchUpInside();
-    virtual void touchUpOutside();
+    virtual void touchCancel( ofPoint position );
+    virtual void touchDown( ofPoint position );
+    virtual void touchDownRepeat( ofPoint position );
+    virtual void touchDragEnter( ofPoint position );
+    virtual void touchDragExit( ofPoint position );
+    virtual void touchDragInside( ofPoint position );
+    virtual void touchDragOutside( ofPoint position );
+    virtual void touchUpInside( ofPoint position );
+    virtual void touchUpOutside( ofPoint position );
     
     void setEnabled( bool enabled );
     bool getEnabled();
@@ -143,4 +143,14 @@ public:
     virtual void button_touchDragOutside( ofPtr< ofxGenericButtonView > buttonView ){};
     virtual void button_touchUpInside( ofPtr< ofxGenericButtonView > buttonView ){};
     virtual void button_touchUpOutside( ofPtr< ofxGenericButtonView > buttonView ){};
+    
+    virtual void button_touchCancel( ofPtr< ofxGenericButtonView > buttonView, ofPoint position ){};
+    virtual void button_touchDown( ofPtr< ofxGenericButtonView > buttonView, ofPoint position ){};
+    virtual void button_touchDownRepeat( ofPtr< ofxGenericButtonView > buttonView, ofPoint position ){};
+    virtual void button_touchDragEnter( ofPtr< ofxGenericButtonView > buttonView, ofPoint position ){};
+    virtual void button_touchDragExit( ofPtr< ofxGenericButtonView > buttonView, ofPoint position ){};
+    virtual void button_touchDragInside( ofPtr< ofxGenericButtonView > buttonView, ofPoint position ){};
+    virtual void button_touchDragOutside( ofPtr< ofxGenericButtonView > buttonView, ofPoint position ){};
+    virtual void button_touchUpInside( ofPtr< ofxGenericButtonView > buttonView, ofPoint position ){};
+    virtual void button_touchUpOutside( ofPtr< ofxGenericButtonView > buttonView, ofPoint position ){};
 };

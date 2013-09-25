@@ -93,15 +93,15 @@ NativeView ofxGenericButtonView::createNativeView( const ofRectangle& frame )
     _forwarder = [ [ ofxGenericButtonViewForwarder alloc ] init ];
     [ _forwarder setDelegate:this ];
 
-    [ newView addTarget:_forwarder action:@selector( touchCancel: ) forControlEvents: UIControlEventTouchCancel ];
-    [ newView addTarget:_forwarder action:@selector( touchDown: ) forControlEvents: UIControlEventTouchDown ];
-    [ newView addTarget:_forwarder action:@selector( touchDownRepeat: ) forControlEvents: UIControlEventTouchDownRepeat ];
-    [ newView addTarget:_forwarder action:@selector( touchDragEnter: ) forControlEvents: UIControlEventTouchDragEnter ];
-    [ newView addTarget:_forwarder action:@selector( touchDragExit: ) forControlEvents: UIControlEventTouchDragExit ];
-    [ newView addTarget:_forwarder action:@selector( touchDragInside: ) forControlEvents: UIControlEventTouchDragInside ];
-    [ newView addTarget:_forwarder action:@selector( touchDragOutside: ) forControlEvents: UIControlEventTouchDragOutside ];
-    [ newView addTarget:_forwarder action:@selector( touchUpInside: ) forControlEvents: UIControlEventTouchUpInside ];
-    [ newView addTarget:_forwarder action:@selector( touchUpOutside: ) forControlEvents:UIControlEventTouchUpOutside ];
+    [ newView addTarget:_forwarder action:@selector( touchCancel:withEvent: ) forControlEvents: UIControlEventTouchCancel ];
+    [ newView addTarget:_forwarder action:@selector( touchDown:withEvent: ) forControlEvents: UIControlEventTouchDown ];
+    [ newView addTarget:_forwarder action:@selector( touchDownRepeat:withEvent: ) forControlEvents: UIControlEventTouchDownRepeat ];
+    [ newView addTarget:_forwarder action:@selector( touchDragEnter:withEvent: ) forControlEvents: UIControlEventTouchDragEnter ];
+    [ newView addTarget:_forwarder action:@selector( touchDragExit:withEvent: ) forControlEvents: UIControlEventTouchDragExit ];
+    [ newView addTarget:_forwarder action:@selector( touchDragInside:withEvent: ) forControlEvents: UIControlEventTouchDragInside ];
+    [ newView addTarget:_forwarder action:@selector( touchDragOutside:withEvent: ) forControlEvents: UIControlEventTouchDragOutside ];
+    [ newView addTarget:_forwarder action:@selector( touchUpInside:withEvent: ) forControlEvents: UIControlEventTouchUpInside ];
+    [ newView addTarget:_forwarder action:@selector( touchUpOutside:withEvent: ) forControlEvents:UIControlEventTouchUpOutside ];
     return newView;
 #elif TARGET_ANDROID
     return ofxGenericView::createNativeView( frame );
@@ -546,11 +546,12 @@ void ofxGenericButtonView::registerJNIMethods()
 #endif
 
 #define touchEventMethod( eventName ) \
-void ofxGenericButtonView::eventName() \
+void ofxGenericButtonView::eventName( ofPoint position ) \
 { \
     if ( _touchDelegate ) \
     { \
         ( _touchDelegate.lock() )->button_ ## eventName( dynamic_pointer_cast< ofxGenericButtonView >( _this.lock() ) ); \
+        ( _touchDelegate.lock() )->button_ ## eventName( dynamic_pointer_cast< ofxGenericButtonView >( _this.lock() ), position ); \
     } \
 }
 
@@ -572,49 +573,60 @@ touchEventMethod( touchUpOutside );
     _delegate = setDelegate;
 }
 
--( void )touchCancel:( id )sender
+- ( ofPoint ) getTouchPos:( UIEvent * )event
 {
-    _delegate->touchCancel();
+    if ( [ event.allTouches count ] > 0 )
+    {
+        UITouch *touch = [ event.allTouches anyObject ];
+        CGPoint point = [ touch locationInView:touch.view ];
+        return ofPoint( point.x, point.y );
+    }
+    return ofPoint( -1, -1 );
 }
 
--( void )touchDown:( id )sender
+-( void )touchCancel:( id )sender withEvent:( UIEvent * )event
 {
-    _delegate->touchDown();
+    _delegate->touchCancel( [ self getTouchPos:event ] );
 }
 
--( void )touchDownRepeat:( id )sender
+-( void )touchDown:( id )sender withEvent:( UIEvent * )event
 {
-    _delegate->touchDownRepeat();
+    _delegate->touchDown( [ self getTouchPos:event ] );
 }
 
--( void )touchDragEnter:( id )sender
+-( void )touchDownRepeat:( id )sender withEvent:( UIEvent * )event
 {
-    _delegate->touchDragEnter();
+    _delegate->touchDownRepeat( [ self getTouchPos:event ] );
 }
 
--( void )touchDragExit:( id )sender
+-( void )touchDragEnter:( id )sender withEvent:( UIEvent * )event
 {
-    _delegate->touchDragExit();
+    _delegate->touchDragEnter( [ self getTouchPos:event ] );
 }
 
--( void )touchDragInside:( id )sender
+-( void )touchDragExit:( id )sender withEvent:( UIEvent * )event
 {
-    _delegate->touchDragInside();
+    _delegate->touchDragExit( [ self getTouchPos:event ] );
 }
 
--( void )touchDragOutside:( id )sender
+-( void )touchDragInside:( id )sender withEvent:( UIEvent * )event
 {
-    _delegate->touchDragOutside();
+    _delegate->touchDragInside( [ self getTouchPos:event ] );
 }
 
--( void )touchUpInside:( id )sender
+-( void )touchDragOutside:( id )sender withEvent:( UIEvent * )event
 {
-    _delegate->touchUpInside();
+    _delegate->touchDragOutside( [ self getTouchPos:event ] );
 }
 
--( void )touchUpOutside:( id )sender
+-( void )touchUpInside:( id )sender withEvent:( UIEvent * )event
 {
-    _delegate->touchUpOutside();
+    _delegate->touchUpInside( [ self getTouchPos:event ] );
+}
+
+-( void )touchUpOutside:( id )sender withEvent:( UIEvent * )event
+{
+    _delegate->touchUpOutside( [ self getTouchPos:event ] );
 }
 
 @end
