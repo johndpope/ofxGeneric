@@ -22,15 +22,15 @@
 }
 -( void )setDelegate:( ofxGenericButtonView* )setDelegate;
 
--( void )touchCancel:( id )sender;
--( void )touchDown:( id )sender;
--( void )touchDownRepeat:( id )sender;
--( void )touchDragEnter:( id )sender;
--( void )touchDragExit:( id )sender;
--( void )touchDragInside:( id )sender;
--( void )touchDragOutside:( id )sender;
--( void )touchUpInside:( id )sender;
--( void )touchUpOutside:( id )sender;
+-( void )touchCancel:( id )sender withEvent:( UIEvent *)event;
+-( void )touchDown:( id )sender withEvent:( UIEvent *)event;
+-( void )touchDownRepeat:( id )sender withEvent:( UIEvent *)event;
+-( void )touchDragEnter:( id )sender withEvent:( UIEvent *)event;
+-( void )touchDragExit:( id )sender withEvent:( UIEvent *)event;
+-( void )touchDragInside:( id )sender withEvent:( UIEvent *)event;
+-( void )touchDragOutside:( id )sender withEvent:( UIEvent *)event;
+-( void )touchUpInside:( id )sender withEvent:( UIEvent *)event;
+-( void )touchUpOutside:( id )sender withEvent:( UIEvent *)event;
 
 @end
 
