@@ -169,6 +169,25 @@ void ofxGenericSoundManager::setPitch( string sound, float pitch )
     _soundMap[ sound ]->setPitch( pitch );
 }
 
+float ofxGenericSoundManager::getVolume( string sound )
+{
+    if ( !soundExistsCheck( sound ) )
+    {
+        return 0.0f;
+    }
+    
+    return _soundMap[ sound ]->getVolume();
+}
+
+void ofxGenericSoundManager::setVolume( string sound, float volume )
+{
+    if ( !soundExistsCheck( sound ) )
+    {
+        return;
+    }
+    
+    _soundMap[ sound ]->setVolume( volume );
+}
 
 bool ofxGenericSoundManager::isPlaying( string sound )
 {

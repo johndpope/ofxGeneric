@@ -320,6 +320,33 @@ void ofxGenericSound::setPitch( float pitch )
 #endif
 }
 
+void ofxGenericSound::setVolume( float volume )
+{
+#if TARGET_OS_IPHONE
+    if ( [ _players count ] > 0 )
+    {
+        for ( unsigned int i = 0; i < [ _players count ]; i++ )
+        {
+            ( ( AVAudioPlayer * )[ _players objectAtIndex: i ] ).volume = volume;
+        }
+    }
+#endif
+}
+
+float ofxGenericSound::getVolume()
+{
+    float retval = 0.0f;
+    
+#if TARGET_OS_IPHONE
+    if ( [ _players count ] > 0 )
+    {
+        retval = ( ( AVAudioPlayer * )[ _players objectAtIndex: 0 ] ).volume;
+    }
+#endif
+    
+    return retval;
+}
+
 // preloads the sound into buffers so it will play faster... we may not need this
 void ofxGenericSound::preload( bool loadInBackground )
 {

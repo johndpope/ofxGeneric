@@ -33,6 +33,9 @@ public:
     virtual void setPan( string sound, float pan );
     virtual void setPitch( string sound, float pitch );
     
+    virtual float getVolume( string sound );
+    virtual void setVolume( string sound, float volume );
+    
     virtual bool isPlaying( string sound );
     virtual double getDuration( string sound );
     virtual double getCurrentTime( string sound );

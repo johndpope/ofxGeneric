@@ -48,6 +48,12 @@ public:
     // sets the pitch, where 1 is normal, 0.5 is lower/slower, 2.0 is higher/faster, etc.
     virtual void setPitch( float pitch );
     
+    // sets the volume, range 0 - 1
+    virtual void setVolume( float volume );
+    
+    // returns volume
+    virtual float getVolume();
+    
     // preloads the sound into buffers so it will play faster... we may not need this
     virtual void preload( bool loadInBackground = false );
     
