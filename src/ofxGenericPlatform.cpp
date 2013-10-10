@@ -231,6 +231,13 @@ string ofxGenericPlatform::imageFileName( string originalFileName, bool is4Inch,
     return result;
 }
 
+bool ofxGenericPlatform::isiOSVersionOrNewer( int version )
+{
+    return atoi( ofxGenericPlatform::operatingSystemVersion().substr( 0, 1 ).c_str() ) >= version;
+}
+
+#endif
+
 ofPoint ofxGenericPlatform::cameraFieldOfView()
 {
     ofPoint result;
@@ -241,5 +248,3 @@ ofPoint ofxGenericPlatform::cameraFieldOfView()
 #endif
     return result;
 }
-
-#endif

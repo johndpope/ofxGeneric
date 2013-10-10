@@ -53,6 +53,8 @@ public:
     static string imageSuffixiPadPortrait();
     
     static string imageFileName( string originalFileName, bool is4Inch, bool isiPad, bool isRetina );
+    
+    static bool isiOSVersionOrNewer( int version );
 #endif
     
     static ofPoint cameraFieldOfView();
