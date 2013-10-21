@@ -65,7 +65,9 @@ void SignalHandler( int signal );
         }
         else
         {
-            str = [ val stringValue ];
+            str = [ val description ];
+            //stringValue is incorrect, and is throwing selector issues. Use description instead
+            //str = [ val stringValue ];
         }
         
         NSString *key = (NSString *) k;
