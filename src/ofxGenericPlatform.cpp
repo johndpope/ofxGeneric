@@ -182,6 +182,18 @@ string ofxGenericPlatform::unknownLocale()
     return "unknown";
 }
 
+string ofxGenericPlatform::imageFileName( string originalFileName )
+{
+#if TARGET_OS_IPHONE
+    return imageFileName( originalFileName,
+                         is4InchDisplay(),
+                         isTablet(),
+                         isRetinaDisplay() );
+#else
+    ofxAssert( false, "Not implemented for non-iOS devices!" );
+#endif
+}
+
 #if TARGET_OS_IPHONE
 bool ofxGenericPlatform::isRetinaDisplay()
 {
@@ -207,7 +219,6 @@ string ofxGenericPlatform::imageSuffixiPadPortrait()
 {
     return "-1024h";
 }
-
 
 string ofxGenericPlatform::imageFileName( string originalFileName, bool is4Inch, bool isiPad, bool isRetina )
 {

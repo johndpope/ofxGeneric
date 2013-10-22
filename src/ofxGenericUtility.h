@@ -20,6 +20,14 @@
 
 class ofxGenericCoordinate;
 
+///////////////////////////// Assert ///////////////////////////////
+
+#if DEBUG
+#define ofxAssert( cond, msg ) assert( cond )
+#else
+#define ofxAssert( cond, msg ) ( (void)0 )
+#endif
+
 //////////////////////////////// Path //////////////////////////////////
 
 string ofxGGetPathFromFileName( string fileName );

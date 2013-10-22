@@ -43,6 +43,8 @@ public:
     static string locale();
     static string unknownLocale();
     
+    static string imageFileName( string originalFileName );
+    
 #if TARGET_OS_IPHONE
     static bool isRetinaDisplay();
     static string imageSuffixRetinaDisplay();
