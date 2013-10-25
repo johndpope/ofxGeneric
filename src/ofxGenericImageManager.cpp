@@ -300,7 +300,12 @@ UIImage* ofxGenericImageManager::getUIImage( const std::string& image )
 
 -( void )connectionDidFinishLoading:( NSURLConnection* )connection
 {
-    UIImage* uiImage = [ UIImage imageWithData:_data ];
+    CGFloat scale = 1.0f;
+    if (ofxGenericPlatform::isRetinaDisplay())
+    {
+        scale = 2.0f;
+    }
+    UIImage* uiImage = [UIImage imageWithData:_data scale:scale];
       
     [ _data release ];
     _data = nil;
