@@ -160,10 +160,13 @@ void SignalHandler( int signal );
 //- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification __OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_4_0);
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
+    ofxGenericApp::getInstance()->didEnterBackground();
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
-{ ofxGenericApp::getInstance()->willEnterForeground(); }
+{
+    ofxGenericApp::getInstance()->willEnterForeground();
+}
 
 /*
  - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url;  // Will be deprecated at some point, please replace with application:openURL:sourceApplication:annotation:
