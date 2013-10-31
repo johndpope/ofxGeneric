@@ -188,5 +188,14 @@ ofPtr< ofxGenericValueStore > ofxGenericImageView::toValueStore()
 
 void ofxGenericImageView::imageManager_imageLoaded( const std::string& imageName, ofPtr< ofxGenericImage > image )
 {
-    setImage( image );
+    if( imageName == _waitingOnAsyncLoadImageName )
+    {
+        setImage( image );
+    }
 }
+
+bool ofxGenericImageView::imageManager_imageStillNeeded( const std::string& imageName )
+{
+    return imageName == _waitingOnAsyncLoadImageName;
+}
+

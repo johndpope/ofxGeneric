@@ -159,54 +159,57 @@ ofPtr< ofxGenericImage > ofxGenericImageManager::loadAsync( const std::string& i
 
 void ofxGenericImageManager::continueAsyncLoading()
 {
-    if ( _currentlyLoading.first.empty() )
+    if ( _currentlyLoading.first.empty() && !_asyncQueuedImages.empty() )
     {
-        if ( _asyncQueuedImages.size() > 0 )
+        _currentlyLoading = _asyncQueuedImages.front() ;
+        _asyncQueuedImages.pop_front();
+        ofPtr< ofxGenericImageDelegate > delegate = _currentlyLoading.second.lock();
+        
+        while( imageIsLoaded( _currentlyLoading.first ) )
         {
-            _currentlyLoading = ( *_asyncQueuedImages.begin() );
-            _asyncQueuedImages.pop_front();
-            
-            while( imageIsLoaded( _currentlyLoading.first ) )
+            if ( delegate )
             {
-                std::string imageName = _currentlyLoading.first;
-                ofPtr< ofxGenericImageDelegate > delegate = _currentlyLoading.second.lock();
-                if ( delegate )
-                {
-                    delegate->imageManager_imageLoaded( imageName, getImage( imageName ) );
-                }
-                
-                if ( _asyncQueuedImages.size() == 0 )
-                {
-                    _currentlyLoading = std::pair< std::string, ofPtrWeak< ofxGenericImageDelegate > >();
-                    break;
-                }
-                
-                _currentlyLoading = ( *_asyncQueuedImages.begin() );
-                _asyncQueuedImages.pop_front();
+                delegate->imageManager_imageLoaded( _currentlyLoading.first, getImage( _currentlyLoading.first ) );
             }
-            
-    #if TARGET_OS_IPHONE
-            _asyncLoadingForwarder = [ [ ofxGenericImageManagerAsyncForwarder alloc ] initWithForwardTo:_this andURL: _currentlyLoading.first ];
-    #endif
+
+            if ( _asyncQueuedImages.empty() )
+            {
+                _currentlyLoading = std::pair< std::string, ofPtrWeak< ofxGenericImageDelegate > >();
+                return;
+            }
+
+             _currentlyLoading = _asyncQueuedImages.front();
+            _asyncQueuedImages.pop_front();
         }
+        
+#if TARGET_OS_IPHONE
+        if( delegate->imageManager_imageStillNeeded( _currentlyLoading.first ) )
+        {
+            _asyncLoadingForwarder = [ [ ofxGenericImageManagerAsyncForwarder alloc ] initWithForwardTo:_this andURL: _currentlyLoading.first ];
+        }
+#endif
     }
 }
 
 void ofxGenericImageManager::finishedAsyncLoading( UIImage* uiImage, const std::string& url )
 {
-    ofPtr< ofxGenericImage > image = ofxGenericImage::create( uiImage, url );
-    if ( image )
+    if( !imageIsLoaded(_currentlyLoading.first) )
     {
-        _images[ _currentlyLoading.first ] = image;
-    } else
-    {
-        ofxGLogError( "Error loading " + _currentlyLoading.first );
-    }
-
-    ofPtr< ofxGenericImageDelegate > delegate = _currentlyLoading.second.lock();
-    if ( delegate )
-    {
-        delegate->imageManager_imageLoaded( _currentlyLoading.first, image );
+        ofPtr< ofxGenericImage > image = ofxGenericImage::create( uiImage, url );
+        if ( image )
+        {
+            _images[ _currentlyLoading.first ] = image;
+            
+            ofPtr< ofxGenericImageDelegate > delegate = _currentlyLoading.second.lock();
+            if ( delegate )
+            {
+                delegate->imageManager_imageLoaded( _currentlyLoading.first, image );
+            }
+        }
+        else
+        {
+            ofxGLogError( "Error creating " + _currentlyLoading.first );
+        }
     }
     
     _currentlyLoading = std::pair< std::string, ofPtrWeak< ofxGenericImageDelegate > >();
@@ -228,11 +231,16 @@ void ofxGenericImageManager::finishedAsyncLoadingWithError( const string& error 
 
 bool ofxGenericImageManager::imageIsLoaded( const std::string& image )
 {
-    if ( _images[ image ] )
+    bool result = true;
+    ImageMap::iterator end = _images.end();
+    ImageMap::iterator itr = _images.find(image);
+    
+    if( itr == end || itr->second.expired() )
     {
-        return true;
+        result = false;
     }
-    return false;
+
+    return result;
 }
 
 ofPtr< ofxGenericImage > ofxGenericImageManager::getImage( const std::string& image )
