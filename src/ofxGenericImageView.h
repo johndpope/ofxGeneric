@@ -47,7 +47,8 @@ public:
     virtual ofPtr< ofxGenericValueStore > toValueStore();
     
     void imageManager_imageLoaded( const std::string& imageName, ofPtr< ofxGenericImage > image );
-    
+    bool imageManager_imageStillNeeded( const std::string& imageName );
+
 protected:
     virtual void init( ofPtrWeak< ofxGenericImageView > setThis, const ofRectangle& setFrame, string fileName = string() );
     ofxGenericImageView();
