@@ -159,48 +159,65 @@ ofPtr< ofxGenericImage > ofxGenericImageManager::loadAsync( const std::string& i
 
 void ofxGenericImageManager::continueAsyncLoading()
 {
-    if ( _currentlyLoading.first.empty() && !_asyncQueuedImages.empty() )
+    // process the async image queue
+    while( _currentlyLoading.first.empty() && !_asyncQueuedImages.empty() )
     {
         _currentlyLoading = _asyncQueuedImages.front() ;
         _asyncQueuedImages.pop_front();
         ofPtr< ofxGenericImageDelegate > delegate = _currentlyLoading.second.lock();
-        
-        while( imageIsLoaded( _currentlyLoading.first ) )
+
+        if( imageIsLoaded( _currentlyLoading.first ) )
         {
+            // The image is already loaded. Tell the delegate and move on.
             if ( delegate )
             {
                 delegate->imageManager_imageLoaded( _currentlyLoading.first, getImage( _currentlyLoading.first ) );
             }
-
-            if ( _asyncQueuedImages.empty() )
-            {
-                _currentlyLoading = std::pair< std::string, ofPtrWeak< ofxGenericImageDelegate > >();
-                return;
-            }
-
-             _currentlyLoading = _asyncQueuedImages.front();
-            _asyncQueuedImages.pop_front();
+            
+            // Clear currentlyLoading for another round.
+            _currentlyLoading = std::pair< std::string, ofPtrWeak< ofxGenericImageDelegate > >();
         }
-        
-#if TARGET_OS_IPHONE
-        if( delegate->imageManager_imageStillNeeded( _currentlyLoading.first ) )
+        else
         {
-            _asyncLoadingForwarder = [ [ ofxGenericImageManagerAsyncForwarder alloc ] initWithForwardTo:_this andURL: _currentlyLoading.first ];
-        }
+            // Image is not loaded.
+            if( delegate && !(delegate->imageManager_imageStillNeeded( _currentlyLoading.first )) )
+            {
+                // There is a delegate and it does not need the image. Clear the current and continue.
+                _currentlyLoading = std::pair< std::string, ofPtrWeak< ofxGenericImageDelegate > >();
+            }
+            else
+            {
+                // The was no delegate, or the delgate still awaits this image.
+                // Launch an async load.
+#if TARGET_OS_IPHONE
+                _asyncLoadingForwarder = [ [ ofxGenericImageManagerAsyncForwarder alloc ] initWithForwardTo:_this andURL: _currentlyLoading.first ];
 #endif
+            }
+        }
     }
 }
 
 void ofxGenericImageManager::finishedAsyncLoading( UIImage* uiImage, const std::string& url )
 {
-    if( !imageIsLoaded(_currentlyLoading.first) )
+    ofPtr< ofxGenericImageDelegate > delegate = _currentlyLoading.second.lock();
+    if( imageIsLoaded(_currentlyLoading.first) )
     {
+        // The image is loaded already! Tell the delegate.
+        if ( delegate )
+        {
+            delegate->imageManager_imageLoaded( _currentlyLoading.first, getImage(_currentlyLoading.first) );
+        }
+    }
+    else
+    {
+        // Image is not loaded, use the data from the async load.
         ofPtr< ofxGenericImage > image = ofxGenericImage::create( uiImage, url );
         if ( image )
         {
+            // Add the image to the image manager.
             _images[ _currentlyLoading.first ] = image;
             
-            ofPtr< ofxGenericImageDelegate > delegate = _currentlyLoading.second.lock();
+            // Inform the delegate.
             if ( delegate )
             {
                 delegate->imageManager_imageLoaded( _currentlyLoading.first, image );
@@ -211,15 +228,18 @@ void ofxGenericImageManager::finishedAsyncLoading( UIImage* uiImage, const std::
             ofxGLogError( "Error creating " + _currentlyLoading.first );
         }
     }
-    
-    _currentlyLoading = std::pair< std::string, ofPtrWeak< ofxGenericImageDelegate > >();
-    
+
+    // Release the async forwarder.
     if ( _asyncLoadingForwarder )
     {
         [ _asyncLoadingForwarder release ];
         _asyncLoadingForwarder = nil;
     }
+
+    // Clear the current.
+    _currentlyLoading = std::pair< std::string, ofPtrWeak< ofxGenericImageDelegate > >();
     
+    // Process the queue.
     continueAsyncLoading();
 }
 
