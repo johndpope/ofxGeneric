@@ -575,7 +575,8 @@ touchEventMethod( touchUpOutside );
 
 - ( ofPoint ) getTouchPos:( UIEvent * )event
 {
-    if ( [ event.allTouches count ] > 0 )
+    //check the class because of a strange Crashlytics bug where iOS 7 seems to send a UIButton instead of an event
+    if ( [event isKindOfClass: [UIEvent class]] && [ event.allTouches count ] > 0 )
     {
         UITouch *touch = [ event.allTouches anyObject ];
         CGPoint point = [ touch locationInView:touch.view ];
