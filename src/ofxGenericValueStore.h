@@ -98,6 +98,7 @@ public:
     bool asBool( bool defaultValue = false ) const;
     string asString( string defaultValue = string() ) const;
     string asString( ofxGenericMIMEType mimeType ) const;
+    std::map<string, string> asStringToStringMap() const;
 
     bool operator==( ofPtr< ofxGenericValueStore > compare ) const;
 

@@ -54,13 +54,12 @@ void ofxGenericImageView::setImage( string fileName, bool aSync )
 {
     if ( aSync )
     {
+        // Set _waitingOnAsyncLoadImageName before creating async, it may be used immediately in the
+        // delegate callback.        
+        _waitingOnAsyncLoadImageName = fileName;
         ofPtr< ofxGenericImage > image =
             ofxGenericImage::createAsync( fileName,  dynamic_pointer_cast< ofxGenericImageDelegate >( _this ));
-        if( !image )
-        {
-            _waitingOnAsyncLoadImageName = fileName;
-        }
-        else
+        if( image )
         {
             setImage( image );
         }
@@ -90,6 +89,8 @@ void ofxGenericImageView::setImage ( ofPtr< ofxGenericImage > image )
     }
 #elif TARGET_ANDROID
 #endif
+    
+    _waitingOnAsyncLoadImageName.clear();
 }
 
 string ofxGenericImageView::getImageFilename()
@@ -124,7 +125,6 @@ void ofxGenericImageView::willAppear()
     if ( !_waitingOnAsyncLoadImageName.empty() )
     {
         setImage( ofxGenericImage::create( _waitingOnAsyncLoadImageName ) );
-        _waitingOnAsyncLoadImageName = std::string();
     }
 }
 
@@ -188,5 +188,14 @@ ofPtr< ofxGenericValueStore > ofxGenericImageView::toValueStore()
 
 void ofxGenericImageView::imageManager_imageLoaded( const std::string& imageName, ofPtr< ofxGenericImage > image )
 {
-    setImage( image );
+    if( imageName == _waitingOnAsyncLoadImageName )
+    {
+        setImage( image );
+    }
 }
+
+bool ofxGenericImageView::imageManager_imageStillNeeded( const std::string& imageName )
+{
+    return imageName == _waitingOnAsyncLoadImageName;
+}
+

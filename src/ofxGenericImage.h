@@ -75,6 +75,7 @@ class ofxGenericImageDelegate
 {
 public:
     virtual void imageManager_imageLoaded( const std::string& imageName, ofPtr< ofxGenericImage > image ) {};
+    virtual bool imageManager_imageStillNeeded( const std::string& imageName ) { return true; };
     virtual ~ofxGenericImageDelegate() {};
 };
 

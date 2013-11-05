@@ -526,6 +526,19 @@ string ofxGenericValueStore::asString( ofxGenericMIMEType mimeType ) const
     return result;
 }
 
+std::map<string, string> ofxGenericValueStore::asStringToStringMap() const
+{
+    std::map<string, string> asMap;
+    vector<string> keys = getObjectKeys();
+    for (vector<string>::iterator i = keys.begin(); i != keys.end(); ++i)
+    {
+        asMap[*i] = read(*i, string(""));
+    }
+    
+    return asMap;
+}
+
+
 ofxGenericValueStoreObject* ofxGenericValueStore::asObject() const
 {
     if ( isObject() )
