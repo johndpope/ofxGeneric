@@ -105,8 +105,8 @@ void ofxGenericView::init( ofPtrWeak< ofxGenericView > setThis, const ofRectangl
     }
     
 #if TARGET_OS_IPHONE
-    _viewController = createUIViewController();
-    [ _viewController setView:_view ];
+//    _viewController = createUIViewController();
+//    [ _viewController setView:_view ];
 
 #elif TARGET_ANDROID
     JNIRect jniRect = ofRectangleToJNIRect( setFrame );
@@ -197,6 +197,11 @@ ofxUIGenericViewControllerForwarder* ofxGenericView::createUIViewController()
 
 ofxUIGenericViewControllerForwarder* ofxGenericView::getUIViewController()
 {
+    if (!_viewController)
+    {
+        _viewController = createUIViewController();
+        _viewController.view = _view;
+    }
     return _viewController;
 }
 #endif
