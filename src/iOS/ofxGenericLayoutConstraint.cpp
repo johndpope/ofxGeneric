@@ -9,27 +9,25 @@
 #include "ofxGenericLayoutConstraint.h"
 
 
-ofPtr< ofxGenericLayoutConstraint > ofxGenericLayoutConstraint::create(ofPtr<ofxGenericView> firstView, ofxGenericLayoutAttribute firstViewAttribute, ofxGenericLayoutRelation relation, ofPtr<ofxGenericView> secondView, ofxGenericLayoutAttribute secondViewAttribute, float multiplier, float constant)
+ofPtr< ofxGenericLayoutConstraint > ofxGenericLayoutConstraint::create(ofPtr<ofxGenericView> firstView, ofxGenericLayoutAttribute firstViewAttribute, ofxGenericLayoutRelation relation, ofPtr<ofxGenericView> secondView, ofxGenericLayoutAttribute secondViewAttribute, float multiplier, float constant, float priority)
 {
     ofPtr< ofxGenericLayoutConstraint > instance ( new ofxGenericLayoutConstraint() );
     if (instance)
     {
-        instance->init(firstView, firstViewAttribute, relation, secondView, secondViewAttribute, multiplier, constant);
+        instance->init(firstView, firstViewAttribute, relation, secondView, secondViewAttribute, multiplier, constant, priority);
     }
     
     return instance;
 }
 
-void ofxGenericLayoutConstraint::init(ofPtr<ofxGenericView> firstView, ofxGenericLayoutAttribute firstViewAttribute, ofxGenericLayoutRelation relation, ofPtr<ofxGenericView> secondView, ofxGenericLayoutAttribute secondViewAttribute, float multiplier, float constant)
+void ofxGenericLayoutConstraint::init(ofPtr<ofxGenericView> firstView, ofxGenericLayoutAttribute firstViewAttribute, ofxGenericLayoutRelation relation, ofPtr<ofxGenericView> secondView, ofxGenericLayoutAttribute secondViewAttribute, float multiplier, float constant, float priority)
 {
+    [firstView->getNativeView() setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [secondView->getNativeView() setTranslatesAutoresizingMaskIntoConstraints:NO];
     NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:firstView->getNativeView() attribute:(NSLayoutAttribute)firstViewAttribute relatedBy:(NSLayoutRelation)relation toItem:secondView->getNativeView() attribute:(NSLayoutAttribute)secondViewAttribute multiplier:multiplier constant:constant];
+    constraint.priority = priority;
     
     _nativeLayoutConstraint = [constraint retain];
-}
-
-void ofxGenericLayoutConstraint::setPriority(float priority)
-{
-    _nativeLayoutConstraint.priority = priority;
 }
 
 NSLayoutConstraint* ofxGenericLayoutConstraint::getNativeLayoutConstraint()

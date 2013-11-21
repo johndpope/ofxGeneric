@@ -49,11 +49,11 @@ public:
                                                       ofPtr< ofxGenericView >secondView,
                                                       ofxGenericLayoutAttribute secondViewAttribute,
                                                       float multiplier,
-                                                      float constant
+                                                      float constant,
+                                                      float priority
                                                       );
     virtual ~ofxGenericLayoutConstraint();
     
-    void setPriority( float priority );
     NSLayoutConstraint* getNativeLayoutConstraint();
     
 private:
@@ -65,7 +65,8 @@ private:
               ofPtr< ofxGenericView >secondView,
               ofxGenericLayoutAttribute secondViewAttribute,
               float multiplier,
-              float constant
+              float constant,
+              float priority
               );
     
     NSLayoutConstraint *_nativeLayoutConstraint;
