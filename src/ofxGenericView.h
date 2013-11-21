@@ -16,6 +16,7 @@
 class ofxGenericViewDelegate;
 #if TARGET_OS_IPHONE
 @class ofxUIGenericViewControllerForwarder;
+class ofxGenericLayoutConstraint;
 #endif
 
 class ofxGenericView
@@ -32,6 +33,7 @@ public:
 #if TARGET_OS_IPHONE
 
     ofxUIGenericViewControllerForwarder* getUIViewController();
+    void addLayoutConstraint( ofPtr< ofxGenericLayoutConstraint > constraint);
 
 #elif TARGET_ANDROID
 
