@@ -9,6 +9,8 @@
 #include "ofxGenericLayoutConstraint.h"
 
 
+
+
 ofPtr< ofxGenericLayoutConstraint > ofxGenericLayoutConstraint::create(ofPtr<ofxGenericView> firstView, ofxGenericLayoutAttribute firstViewAttribute, ofxGenericLayoutRelation relation, ofPtr<ofxGenericView> secondView, ofxGenericLayoutAttribute secondViewAttribute, float multiplier, float constant, float priority)
 {
     ofPtr< ofxGenericLayoutConstraint > instance ( new ofxGenericLayoutConstraint() );
@@ -22,9 +24,19 @@ ofPtr< ofxGenericLayoutConstraint > ofxGenericLayoutConstraint::create(ofPtr<ofx
 
 void ofxGenericLayoutConstraint::init(ofPtr<ofxGenericView> firstView, ofxGenericLayoutAttribute firstViewAttribute, ofxGenericLayoutRelation relation, ofPtr<ofxGenericView> secondView, ofxGenericLayoutAttribute secondViewAttribute, float multiplier, float constant, float priority)
 {
-    [firstView->getNativeView() setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [secondView->getNativeView() setTranslatesAutoresizingMaskIntoConstraints:NO];
-    NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:firstView->getNativeView() attribute:(NSLayoutAttribute)firstViewAttribute relatedBy:(NSLayoutRelation)relation toItem:secondView->getNativeView() attribute:(NSLayoutAttribute)secondViewAttribute multiplier:multiplier constant:constant];
+    UIView *firstUIView = nil;
+    if (firstView)
+    {
+        firstUIView = firstView->getNativeView();
+        [firstUIView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    }
+    UIView *secondUIView = nil;
+    if (secondView)
+    {
+        secondUIView = secondView->getNativeView();
+        [secondUIView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    }
+    NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:firstUIView attribute:(NSLayoutAttribute)firstViewAttribute relatedBy:(NSLayoutRelation)relation toItem:secondUIView attribute:(NSLayoutAttribute)secondViewAttribute multiplier:multiplier constant:constant];
     constraint.priority = priority;
     
     _nativeLayoutConstraint = [constraint retain];
@@ -40,3 +52,4 @@ ofxGenericLayoutConstraint::~ofxGenericLayoutConstraint()
     [_nativeLayoutConstraint release];
     _nativeLayoutConstraint = nil;
 }
+

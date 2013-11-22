@@ -11,8 +11,6 @@
 #include "ofxGenericMain.h"
 #include "ofxGenericView.h"
 
-#import <UIKit/NSLayoutConstraint.h>
-
 
 enum ofxGenericLayoutAttribute
 {
@@ -57,7 +55,7 @@ public:
     NSLayoutConstraint* getNativeLayoutConstraint();
     
 private:
-    ofxGenericLayoutConstraint();
+    ofxGenericLayoutConstraint() {}
     void init(
               ofPtr< ofxGenericView >firstView,
               ofxGenericLayoutAttribute firstViewAttribute,
