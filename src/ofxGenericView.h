@@ -34,6 +34,8 @@ public:
 
     ofxUIGenericViewControllerForwarder* getUIViewController();
     void addLayoutConstraint( ofPtr< ofxGenericLayoutConstraint > constraint);
+    void layoutIfNeeded(); // call this in animation block when animating a change to a constraint
+    void addRootViewLayoutConstraints();
 
 #elif TARGET_ANDROID
 
