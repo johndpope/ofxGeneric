@@ -160,6 +160,8 @@
 		B5BD221017C535BB00D25A31 /* ofxGenericMotionViewEffect.h in Headers */ = {isa = PBXBuildFile; fileRef = B5BD220E17C535BB00D25A31 /* ofxGenericMotionViewEffect.h */; };
 		B5C55D33161D04980002872E /* ofxGenericHMAC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5C55D31161D04980002872E /* ofxGenericHMAC.cpp */; };
 		B5C55D34161D04980002872E /* ofxGenericHMAC.h in Headers */ = {isa = PBXBuildFile; fileRef = B5C55D32161D04980002872E /* ofxGenericHMAC.h */; };
+		CD6D23BF183C54590094EF0D /* ofxGenericLayoutConstraint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CD6D23BD183C54590094EF0D /* ofxGenericLayoutConstraint.cpp */; };
+		CD6D23C0183C54590094EF0D /* ofxGenericLayoutConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = CD6D23BE183C54590094EF0D /* ofxGenericLayoutConstraint.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -379,6 +381,8 @@
 		B5BD220E17C535BB00D25A31 /* ofxGenericMotionViewEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericMotionViewEffect.h; sourceTree = "<group>"; };
 		B5C55D31161D04980002872E /* ofxGenericHMAC.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericHMAC.cpp; sourceTree = "<group>"; };
 		B5C55D32161D04980002872E /* ofxGenericHMAC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericHMAC.h; sourceTree = "<group>"; };
+		CD6D23BD183C54590094EF0D /* ofxGenericLayoutConstraint.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericLayoutConstraint.cpp; sourceTree = "<group>"; };
+		CD6D23BE183C54590094EF0D /* ofxGenericLayoutConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericLayoutConstraint.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -623,6 +627,8 @@
 				3C5336E3153F6ED60046AFD8 /* ofxGenericAppDelegate.mm */,
 				3CC6222315AB930D009849CE /* ofxGenericUtilityiOS.h */,
 				3C5336E4153F6ED60046AFD8 /* ofxGenericUtilityiOS.mm */,
+				CD6D23BD183C54590094EF0D /* ofxGenericLayoutConstraint.cpp */,
+				CD6D23BE183C54590094EF0D /* ofxGenericLayoutConstraint.h */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -814,6 +820,7 @@
 				3C7B4EB614FC7CBF003121FE /* ofxAppGenericWindow.h in Headers */,
 				3C7B4EB814FC7CBF003121FE /* ofxGenericApp.h in Headers */,
 				3C7B4EBA14FC7CBF003121FE /* ofxGenericButtonView.h in Headers */,
+				CD6D23C0183C54590094EF0D /* ofxGenericLayoutConstraint.h in Headers */,
 				3C7B4EBB14FC7CBF003121FE /* ofxGenericConstants.h in Headers */,
 				3C7B4EBD14FC7CBF003121FE /* ofxGenericHTTPRequest.h in Headers */,
 				3C7B4EC114FC7CBF003121FE /* ofxGenericImageView.h in Headers */,
@@ -964,6 +971,7 @@
 				453C813C15192A39005ED622 /* tinyxml.cpp in Sources */,
 				453C813E15192A39005ED622 /* tinyxmlerror.cpp in Sources */,
 				453C813F15192A39005ED622 /* tinyxmlparser.cpp in Sources */,
+				CD6D23BF183C54590094EF0D /* ofxGenericLayoutConstraint.cpp in Sources */,
 				453C814015192A39005ED622 /* ofxXmlSettings.cpp in Sources */,
 				3C0AC1511522C34500872B70 /* ofxGenericPlatform.cpp in Sources */,
 				45037A491534E6E200ADB7EC /* ofxGenericValueStore.cpp in Sources */,
