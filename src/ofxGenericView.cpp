@@ -10,6 +10,7 @@
 #include "ofxGenericApp.h"
 
 #if TARGET_OS_IPHONE
+#include "ofxGenericLayoutConstraint.h"
 
 @interface ofxUIGenericViewControllerForwarder( Gesture )
 
@@ -204,6 +205,24 @@ ofxUIGenericViewControllerForwarder* ofxGenericView::getUIViewController()
     }
     return _viewController;
 }
+
+void ofxGenericView::addLayoutConstraint(ofPtr<ofxGenericLayoutConstraint> constraint)
+{
+    [_view addConstraint:constraint->getNativeLayoutConstraint()];
+}
+
+void ofxGenericView::layoutIfNeeded()
+{
+    [_view layoutIfNeeded];
+}
+
+void ofxGenericView::addRootViewLayoutConstraints()
+{
+    CGRect appFrame = [UIScreen mainScreen].bounds;
+    _this.lock()->addLayoutConstraint( ofxGenericLayoutConstraint::create( _this.lock(), ofxGenericLayoutAttributeWidth, ofxGenericLayoutRelationEqual, ofPtr< ofxGenericView >(), ofxGenericLayoutAttributeNotAnAttribute, 1.000000f, appFrame.size.width, 1000.000000f) );
+    _this.lock()->addLayoutConstraint( ofxGenericLayoutConstraint::create( _this.lock(), ofxGenericLayoutAttributeHeight, ofxGenericLayoutRelationEqual, ofPtr< ofxGenericView >(), ofxGenericLayoutAttributeNotAnAttribute, 1.000000f, appFrame.size.height, 1000.000000f) );
+}
+
 #endif
 
 ofRectangle ofxGenericView::getFrame()

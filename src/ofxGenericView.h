@@ -16,6 +16,7 @@
 class ofxGenericViewDelegate;
 #if TARGET_OS_IPHONE
 @class ofxUIGenericViewControllerForwarder;
+class ofxGenericLayoutConstraint;
 #endif
 
 class ofxGenericView
@@ -32,6 +33,9 @@ public:
 #if TARGET_OS_IPHONE
 
     ofxUIGenericViewControllerForwarder* getUIViewController();
+    void addLayoutConstraint( ofPtr< ofxGenericLayoutConstraint > constraint);
+    void layoutIfNeeded(); // call this in animation block when animating a change to a constraint
+    void addRootViewLayoutConstraints();
 
 #elif TARGET_ANDROID
 
