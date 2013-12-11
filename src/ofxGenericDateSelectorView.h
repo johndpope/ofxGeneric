@@ -30,6 +30,7 @@ public:
     
     void setDate( ofPtr< ofxGenericDate > value, bool animate = false );
     ofPtr< ofxGenericDate > getDate();
+    void setMaximumDate( ofPtr< ofxGenericDate > maxDate );
     
     virtual void valueChanged();
     

@@ -99,6 +99,21 @@ ofxGenericDateSelectorMode ofxGenericDateSelectorView::getMode()
     return retval;
 }
 
+void ofxGenericDateSelectorView::setMaximumDate( ofPtr<ofxGenericDate> maxDate )
+{
+    if ( maxDate )
+    {
+#if TARGET_OS_IPHONE
+        if ( [ getNativeView() isKindOfClass:[ UIDatePicker class ] ] )
+        {
+            UIDatePicker* asDatePicker = ( UIDatePicker* )getNativeView();
+            
+            [asDatePicker setMaximumDate:maxDate->convertToNSDate()];
+        }
+#endif
+    }
+}
+
 void ofxGenericDateSelectorView::setDate( ofPtr< ofxGenericDate > value, bool animate )
 {
     if( value )
