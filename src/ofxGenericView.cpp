@@ -1035,10 +1035,10 @@ void ofxGenericView::copyProperties( ofPtr< ofxGenericView > view )
 void ofxGenericView::addGestureRecognizerSwipe( ofxGenericGestureTypeSwipe type )
 {
 #if TARGET_OS_IPHONE
-    UISwipeGestureRecognizer *swipeRecognizer = [ [ [ UISwipeGestureRecognizer alloc ] initWithTarget:_viewController action:@selector( gesturePerformedSwipe: ) ] autorelease ];
+    UISwipeGestureRecognizer *swipeRecognizer = [ [ [ UISwipeGestureRecognizer alloc ] initWithTarget:getUIViewController() action:@selector( gesturePerformedSwipe: ) ] autorelease ];
 	[ swipeRecognizer setDirection:ofxGenericGestureTypeSwipeToiOS( type ) ];
     swipeRecognizer.cancelsTouchesInView = NO;
-    swipeRecognizer.delegate = _viewController;
+    swipeRecognizer.delegate = getUIViewController();
 	[ _view addGestureRecognizer:swipeRecognizer ];
 #elif TARGET_ANDROID
     throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "addGestureRecognizerSwipe" );
@@ -1048,11 +1048,11 @@ void ofxGenericView::addGestureRecognizerSwipe( ofxGenericGestureTypeSwipe type 
 void ofxGenericView::addGestureRecognizerTap( int tapCount, int fingerCount )
 {
 #if TARGET_OS_IPHONE
-    UITapGestureRecognizer *recognizer = [ [ [ UITapGestureRecognizer alloc ] initWithTarget:_viewController action:@selector( gesturePerformedTap: ) ] autorelease ];
+    UITapGestureRecognizer *recognizer = [ [ [ UITapGestureRecognizer alloc ] initWithTarget:getUIViewController() action:@selector( gesturePerformedTap: ) ] autorelease ];
 	recognizer.numberOfTapsRequired = tapCount;
     recognizer.numberOfTouchesRequired = fingerCount;
     recognizer.cancelsTouchesInView = NO;
-    recognizer.delegate = _viewController;
+    recognizer.delegate = getUIViewController();
 	[ _view addGestureRecognizer:recognizer ];
 #elif TARGET_ANDROID
     throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "addGestureRecognizerTap" );
@@ -1148,12 +1148,12 @@ ofPtr< ofImage > ofxGenericView::createImageRepresentation( )
 void ofxGenericView::addGestureRecognizerHold( float minimumPressDuration, unsigned int fingerCount, float allowableMovement )
 {
 #if TARGET_OS_IPHONE
-    UILongPressGestureRecognizer* recognizer = [ [ [ UILongPressGestureRecognizer alloc ] initWithTarget:_viewController action:@selector( gesturePerformedHold: ) ] autorelease ];
+    UILongPressGestureRecognizer* recognizer = [ [ [ UILongPressGestureRecognizer alloc ] initWithTarget:getUIViewController() action:@selector( gesturePerformedHold: ) ] autorelease ];
     recognizer.minimumPressDuration = minimumPressDuration;
     recognizer.numberOfTapsRequired = 0;
     recognizer.numberOfTouchesRequired = fingerCount;
     recognizer.cancelsTouchesInView = NO;
-    recognizer.delegate = _viewController;
+    recognizer.delegate = getUIViewController();
     recognizer.allowableMovement = allowableMovement;
     
 	[ _view addGestureRecognizer:recognizer ];
@@ -1166,11 +1166,11 @@ void ofxGenericView::addGestureRecognizerHold( float minimumPressDuration, unsig
 void ofxGenericView::addGestureRecognizerPan( unsigned int minimumFingerCount, unsigned int maximumFingerCount )
 {
 #if TARGET_OS_IPHONE
-    UIPanGestureRecognizer* recognizer = [ [ [ UIPanGestureRecognizer alloc ] initWithTarget:_viewController action:@selector( gesturePerformedPan: ) ] autorelease ];
+    UIPanGestureRecognizer* recognizer = [ [ [ UIPanGestureRecognizer alloc ] initWithTarget:getUIViewController() action:@selector( gesturePerformedPan: ) ] autorelease ];
     recognizer.minimumNumberOfTouches = minimumFingerCount;
     recognizer.maximumNumberOfTouches = maximumFingerCount;
     recognizer.cancelsTouchesInView = NO;
-    recognizer.delegate = _viewController;
+    recognizer.delegate = getUIViewController();
     
 	[ _view addGestureRecognizer:recognizer ];
 #elif TARGET_ANDROID
