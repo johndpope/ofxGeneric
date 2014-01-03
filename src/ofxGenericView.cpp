@@ -223,6 +223,15 @@ void ofxGenericView::addRootViewLayoutConstraints()
     _this.lock()->addLayoutConstraint( ofxGenericLayoutConstraint::create( _this.lock(), ofxGenericLayoutAttributeHeight, ofxGenericLayoutRelationEqual, ofPtr< ofxGenericView >(), ofxGenericLayoutAttributeNotAnAttribute, 1.000000f, appFrame.size.height, 1000.000000f) );
 }
 
+void ofxGenericView::addChildViewWithFillingConstraints( ofPtr< ofxGenericView > child )
+{
+    addChildView( child );
+    _this.lock()->addLayoutConstraint( ofxGenericLayoutConstraint::create( child, ofxGenericLayoutAttributeTop, ofxGenericLayoutRelationEqual, _this.lock(), ofxGenericLayoutAttributeTop, 1.000000f, 0.000000f, 1000.000000f) );
+    _this.lock()->addLayoutConstraint( ofxGenericLayoutConstraint::create( child, ofxGenericLayoutAttributeBottom, ofxGenericLayoutRelationEqual, _this.lock(), ofxGenericLayoutAttributeBottom, 1.000000f, 0.000000f, 1000.000000f) );
+    _this.lock()->addLayoutConstraint( ofxGenericLayoutConstraint::create( child, ofxGenericLayoutAttributeLeft, ofxGenericLayoutRelationEqual, _this.lock(), ofxGenericLayoutAttributeLeft, 1.000000f, 0.000000f, 1000.000000f) );
+    _this.lock()->addLayoutConstraint( ofxGenericLayoutConstraint::create( child, ofxGenericLayoutAttributeRight, ofxGenericLayoutRelationEqual, _this.lock(), ofxGenericLayoutAttributeRight, 1.000000f, 0.000000f, 1000.000000f) );
+}
+
 #endif
 
 ofRectangle ofxGenericView::getFrame()

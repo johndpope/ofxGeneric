@@ -36,6 +36,7 @@ public:
     void addLayoutConstraint( ofPtr< ofxGenericLayoutConstraint > constraint);
     void layoutIfNeeded(); // call this in animation block when animating a change to a constraint
     void addRootViewLayoutConstraints();
+    void addChildViewWithFillingConstraints( ofPtr< ofxGenericView > child );
 
 #elif TARGET_ANDROID
 
