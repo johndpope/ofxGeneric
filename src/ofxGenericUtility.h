@@ -74,12 +74,17 @@ string ofxGToString( double value, unsigned int decimalCount );
 string ofxGTrimDecimals( string str, unsigned int decimalCount );
 bool ofxGToBool( string value );
 
+// ofxGSPrintf variants do NOT handle reordered tokens in localized format strings!  See ofxGStringWithFormat below.
 string ofxGSPrintf( string format, const std::vector< string >& replaceWith );
 string ofxGSPrintf( string format, string first );
 string ofxGSPrintf( string format, string first, string second );
 string ofxGSPrintf( string format, string first, string second, string third );
 
 string ofxGPrintf( string format, ... );
+
+// use ofxGStringWithFormat variants for localized format strings:
+string ofxGStringWithFormat( const string& format, const string& first );
+string ofxGStringWithFormat( const string& format, const string& first, const string& second );
 
 std::vector< string > ofxGSplit( string value, char splitOn );
 
