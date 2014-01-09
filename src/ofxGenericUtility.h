@@ -83,8 +83,8 @@ string ofxGSPrintf( string format, string first, string second, string third );
 string ofxGPrintf( string format, ... );
 
 // use ofxGStringWithFormat variants for localized format strings:
-string ofxGStringWithFormat( string format, string first );
-string ofxGStringWithFormat( string format, string first, string second );
+string ofxGStringWithFormat( const string& format, const string& first );
+string ofxGStringWithFormat( const string& format, const string& first, const string& second );
 
 std::vector< string > ofxGSplit( string value, char splitOn );
 

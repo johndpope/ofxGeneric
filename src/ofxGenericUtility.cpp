@@ -401,12 +401,12 @@ string ofxGPrintf( string format, ... )
     return retval;
 }
 
-string ofxGStringWithFormat( string format, string first )
+string ofxGStringWithFormat( const string& format, const string& first )
 {
     return ofxGPrintf( format, first.c_str() );
 }
 
-string ofxGStringWithFormat( string format, string first, string second )
+string ofxGStringWithFormat( const string& format, const string& first, const string& second )
 {
     return ofxGPrintf( format, first.c_str(), second.c_str() );
 }
