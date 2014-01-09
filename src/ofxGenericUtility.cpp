@@ -401,6 +401,16 @@ string ofxGPrintf( string format, ... )
     return retval;
 }
 
+string ofxGStringWithFormat( string format, string first )
+{
+    return ofxGPrintf( format, first.c_str() );
+}
+
+string ofxGStringWithFormat( string format, string first, string second )
+{
+    return ofxGPrintf( format, first.c_str(), second.c_str() );
+}
+
 std::vector< string > ofxGSplit( string value, char splitOn )
 {
     std::vector< string > strings;
