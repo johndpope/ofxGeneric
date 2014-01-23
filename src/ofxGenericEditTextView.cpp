@@ -157,6 +157,17 @@ ofxGenericTextHorizontalAlignment ofxGenericEditTextView::getTextAlignment()
     return result;
 }
 
+void ofxGenericEditTextView::setTextColor( const ofColor& color )
+{
+#if TARGET_OS_IPHONE
+    if ([getNativeView() isKindOfClass:[UITextField class]])
+    {
+        UITextField *textField = (UITextField *)getNativeView();
+        textField.textColor = ofxColorToUIColor( color );
+    }
+#endif
+}
+
 void ofxGenericEditTextView::setTextCharacterLimit( bool enable, unsigned int count )
 {
     _textCharacterLimitEnabled = enable;

@@ -32,6 +32,8 @@ public:
     void setTextAlignment( ofxGenericTextHorizontalAlignment alignment );
     ofxGenericTextHorizontalAlignment getTextAlignment();
     
+    void setTextColor( const ofColor& color );
+    
     void setTextCharacterLimit( bool enable, unsigned int count = 0 );
     bool getTextCharacterLimitEnabled();
     unsigned int getTextCharacterLimitCount();
