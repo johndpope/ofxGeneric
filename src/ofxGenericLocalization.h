@@ -20,6 +20,8 @@ public:
     
     static string getPreferredISOLanguage();
     
+    static void useLprojFolder( bool useLproj );
+    
     virtual ~ofxGenericLocalization();
 protected:
     static ofPtr< ofxGenericLocalization > create();

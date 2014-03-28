@@ -18,6 +18,8 @@
 
 ofPtr< ofxGenericLocalization > ofxGenericLocalization::_this;
 
+static bool _useLprojFolder = false;
+
 ofPtr< ofxGenericLocalization > ofxGenericLocalization::create()
 {
     ofPtr< ofxGenericLocalization > create( new ofxGenericLocalization() );
@@ -54,9 +56,21 @@ void ofxGenericLocalization::init( ofPtrWeak< ofxGenericLocalization > setThis )
     }
 }
 
+void ofxGenericLocalization::useLprojFolder(bool useLproj)
+{
+    _useLprojFolder = useLproj;
+}
+
 string ofxGenericLocalization::getLocalizedFileName( string isoLanguage )
 {
-    return "localizedStrings_" + isoLanguage + ".json";
+    if (_useLprojFolder)
+    {
+        return isoLanguage + ".lproj/localizedStrings.json";
+    }
+    else
+    {
+        return "localizedStrings_" + isoLanguage + ".json";
+    }
 }
 
 string ofxGenericLocalization::getString( string key )
@@ -90,7 +104,27 @@ string ofxGenericLocalization::getPreferredISOLanguage()
 {
     string isoLanguage;
 #if TARGET_OS_IPHONE
-    isoLanguage = ofxNSStringToString( [ [ NSLocale preferredLanguages ] objectAtIndex:0 ] );
+    NSData *publishedLanguagesData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"publishedLanguages" ofType:@"json"]];
+    if (publishedLanguagesData) // if a published languages file exists, filter user's preferred languages by available published languages:
+    {
+        NSError *error = nil;
+        NSDictionary *publishedLanguagesDict = [NSJSONSerialization JSONObjectWithData:publishedLanguagesData options:kNilOptions error:&error];
+        if (publishedLanguagesDict && !error)
+        {
+            NSArray *publishedLanguages = publishedLanguagesDict[@"published"];
+            NSArray *preferredLanguages = [NSBundle preferredLocalizationsFromArray:publishedLanguages];
+            NSString *language = preferredLanguages[0];
+            isoLanguage = [language UTF8String];
+        }
+        else
+        {
+            NSLog(@"error reading published languages json: %@", error);
+        }
+    }
+    else // if published languages file does not exist, use older implementation:
+    {
+        isoLanguage = ofxNSStringToString( [ [ NSLocale preferredLanguages ] objectAtIndex:0 ] );
+    }
 #elif TARGET_ANDROID
     // http://stackoverflow.com/questions/4212320/get-the-current-language-in-device
 #endif
