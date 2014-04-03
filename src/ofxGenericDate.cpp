@@ -184,6 +184,8 @@ ofPtr< ofxGenericDate > ofxGenericDate::createFromCanonicalRepresentation( strin
     {
         instance = ofxGenericDate::createFromNSDate( date );
     }
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericDate", "createFromCanonicalRepresentation" );
 #endif
     
     return instance;
@@ -198,6 +200,8 @@ ofPtr< ofxGenericDate > ofxGenericDate::createFromCalendarDayCanonicalRepresenta
     {
         instance = ofxGenericDate::createFromNSDate( date );
     }
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericDate", "createFromCalendarDayCanonicalRepresentation" );
 #endif
     
     return instance;
@@ -419,6 +423,8 @@ string ofxGenericDate::getCanonicalRepresentation()
     string representation = "";
 #if TARGET_OS_IPHONE
     representation = [[getCanonicalDateFormatter() stringFromDate:convertToNSDate()] UTF8String];
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericDate", "getCanonicalRepresentation" );
 #endif
     
     return representation;
@@ -429,6 +435,8 @@ string ofxGenericDate::getCalendarDayCanonicalRepresentation()
     string representation = "";
 #if TARGET_OS_IPHONE
     representation = [[getCalendarDayCanonicalDateFormatter() stringFromDate:convertToNSDate()] UTF8String];
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericDate", "getCalendarDayCanonicalRepresentation" );
 #endif
     
     return representation;
