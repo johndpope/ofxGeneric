@@ -21,6 +21,38 @@
 
 #define SecondsInADay 86400.0
 
+#if TARGET_OS_IPHONE
+static NSDateFormatter* getCanonicalDateFormatter()
+{
+    static NSDateFormatter *canonicalDateFormatter = nil;  // creating NSDateFormatter is expensive .. hold on to static instance
+    if (!canonicalDateFormatter)
+    {
+        canonicalDateFormatter = [[NSDateFormatter alloc] init];
+        NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"]; // reference: https://developer.apple.com/library/ios/qa/qa1480/_index.html
+        [canonicalDateFormatter setLocale:[locale autorelease]];
+        [canonicalDateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssxx"];
+    }
+    [canonicalDateFormatter setTimeZone:[NSTimeZone systemTimeZone]]; // set every time in case user has changed time zones with app still running
+    
+    return canonicalDateFormatter;
+}
+
+static NSDateFormatter* getCalendarDayCanonicalDateFormatter()
+{
+    static NSDateFormatter *calendarDayCanonicalDateFormatter = nil;  // creating NSDateFormatter is expensive .. hold on to static instance
+    if (!calendarDayCanonicalDateFormatter)
+    {
+        calendarDayCanonicalDateFormatter = [[NSDateFormatter alloc] init];
+        NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"]; // reference: https://developer.apple.com/library/ios/qa/qa1480/_index.html
+        [calendarDayCanonicalDateFormatter setLocale:[locale autorelease]];
+        [calendarDayCanonicalDateFormatter setDateFormat:@"yyyy-MM-dd"];
+    }
+    [calendarDayCanonicalDateFormatter setTimeZone:[NSTimeZone systemTimeZone]]; // set every time in case user has changed time zones with app still running
+    
+    return calendarDayCanonicalDateFormatter;
+}
+#endif
+
 string ofxGenericDate::getDateFormatAsString( ofxGenericDate::DateFormat format )
 {
     switch ( format )
@@ -141,6 +173,38 @@ ofPtr< ofxGenericDate > ofxGenericDate::createWithComponents( int dayOfTheWeek, 
 #endif
     
     return retval;
+}
+
+ofPtr< ofxGenericDate > ofxGenericDate::createFromCanonicalRepresentation( string representation )
+{
+    ofPtr< ofxGenericDate > instance = ofPtr< ofxGenericDate >();
+#if TARGET_OS_IPHONE
+    NSDate *date = [getCanonicalDateFormatter() dateFromString:[NSString stringWithUTF8String:representation.c_str()]];
+    if ( date )
+    {
+        instance = ofxGenericDate::createFromNSDate( date );
+    }
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericDate", "createFromCanonicalRepresentation" );
+#endif
+    
+    return instance;
+}
+
+ofPtr< ofxGenericDate > ofxGenericDate::createFromCalendarDayCanonicalRepresentation( string representation )
+{
+    ofPtr< ofxGenericDate > instance = ofPtr< ofxGenericDate >();
+#if TARGET_OS_IPHONE
+    NSDate *date = [getCalendarDayCanonicalDateFormatter() dateFromString:[NSString stringWithUTF8String:representation.c_str()]];
+    if ( date )
+    {
+        instance = ofxGenericDate::createFromNSDate( date );
+    }
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericDate", "createFromCalendarDayCanonicalRepresentation" );
+#endif
+    
+    return instance;
 }
 
 #if TARGET_OS_IPHONE
@@ -352,6 +416,30 @@ string ofxGenericDate::getStringRepresentation( string format, bool convertToUTC
 #endif
     
     return result;
+}
+
+string ofxGenericDate::getCanonicalRepresentation()
+{
+    string representation = "";
+#if TARGET_OS_IPHONE
+    representation = [[getCanonicalDateFormatter() stringFromDate:convertToNSDate()] UTF8String];
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericDate", "getCanonicalRepresentation" );
+#endif
+    
+    return representation;
+}
+
+string ofxGenericDate::getCalendarDayCanonicalRepresentation()
+{
+    string representation = "";
+#if TARGET_OS_IPHONE
+    representation = [[getCalendarDayCanonicalDateFormatter() stringFromDate:convertToNSDate()] UTF8String];
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericDate", "getCalendarDayCanonicalRepresentation" );
+#endif
+    
+    return representation;
 }
 
 void ofxGenericDate::setFromSinceReferenceDate( double time )

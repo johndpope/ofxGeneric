@@ -43,11 +43,18 @@ public:
     virtual ~ofxGenericDate();
     static ofPtr< ofxGenericDate > create();
     static ofPtr< ofxGenericDate > create( double time );
+    
+    // NOTE: for creating date objects from data interchange date strings, use the createFromCanonicalRepresentation functions below
     static ofPtr< ofxGenericDate > create( string date, ofxGenericDate::DateFormat format = ofxGenericDate::DateFormatDateOnly );
     static ofPtr< ofxGenericDate > create( string date, string format );
     static ofPtr< ofxGenericDate > create( ofPtr< ofxGenericValueStore > date, ofxGenericDate::DateFormat format = ofxGenericDate::DateFormatDateOnly );
     static ofPtr< ofxGenericDate > create( ofPtr< ofxGenericValueStore > date, string format );
     static ofPtr< ofxGenericDate > createWithComponents( int dayOfTheWeek, int hour, int minute );
+    
+    // NOTE: when creating date objects from ISO 8601 data interchange date strings, use these two functions
+    static ofPtr< ofxGenericDate > createFromCanonicalRepresentation( string representation );
+    static ofPtr< ofxGenericDate > createFromCalendarDayCanonicalRepresentation( string representation );
+    
 #if TARGET_OS_IPHONE       
     static ofPtr< ofxGenericDate > createFromNSDate( NSDate* date );
 #endif
@@ -83,8 +90,13 @@ public:
     
     virtual string getDescription();
     
+    // NOTE: only use getStringRepresentation functions for creating user-visible strings for the UI.  For data interchange, use getCanonicalRepresentation functions below
     virtual string getStringRepresentation( ofxGenericDate::DateFormat format = ofxGenericDate::DateFormatDateOnly, bool convertToUTC = false );
     virtual string getStringRepresentation( string format, bool convertToUTC = false );
+    
+    // NOTE: use getCanonicalRepresentation functions to get an ISO 8601 data interchange-safe string that represents the date, for caching, sending to server, etc
+    string getCanonicalRepresentation();            // eg, 2014-04-01T15:30:05-0800
+    string getCalendarDayCanonicalRepresentation(); // eg, 2014-04-01 ... only represents a calendar day, not a moment in time. Not affected by user's calendar setting (e.g., Buddhist calendar)
     
     void setFromSinceReferenceDate( double time );
     
