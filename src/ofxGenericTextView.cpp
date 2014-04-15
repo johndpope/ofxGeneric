@@ -10,6 +10,10 @@
 #include "ofxGenericUtility.h"
 #include "ofxGenericFont.h"
 
+#if TARGET_OS_IPHONE
+static Class nativeClass = Nil;
+#endif
+
 ofPtr< ofxGenericTextView > ofxGenericTextView::create( const ofRectangle& setFrame, NativeView nativeView )
 {
     ofPtr< ofxGenericTextView > create = ofPtr< ofxGenericTextView >( new ofxGenericTextView() );
@@ -17,10 +21,21 @@ ofPtr< ofxGenericTextView > ofxGenericTextView::create( const ofRectangle& setFr
     return create;
 }
 
+#if TARGET_OS_IPHONE
+void ofxGenericTextView::setNativeViewClass( Class nativeViewClass )
+{
+    if ([nativeViewClass isSubclassOfClass:[UILabel class]])
+    {
+        nativeClass = nativeViewClass;
+    }
+}
+#endif
+
 NativeView ofxGenericTextView::createNativeView( const ofRectangle& frame )
 {
 #if TARGET_OS_IPHONE
-    UILabel* newView = [ [ UILabel alloc ] initWithFrame:ofxRectangleToCGRect( frame ) ];
+    Class labelClass = nativeClass ? nativeClass : [UILabel class];
+    UILabel* newView = [ [ labelClass alloc ] initWithFrame:ofxRectangleToCGRect( frame ) ];
     [ newView setBackgroundColor:[ UIColor clearColor ] ];
     [ newView setTextColor:[ UIColor blackColor ] ];
     [ newView setLineBreakMode:ofxGenericTextLinebreakModeToiOS( ofxGenericTextLinebreakModeWordWrap ) ];
