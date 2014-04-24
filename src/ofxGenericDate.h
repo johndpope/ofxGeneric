@@ -55,6 +55,11 @@ public:
     static ofPtr< ofxGenericDate > createFromCanonicalRepresentation( string representation );
     static ofPtr< ofxGenericDate > createFromCalendarDayCanonicalRepresentation( string representation );
     
+    // NOTE: these two methods use POSIX locale to avoid e.g. Buddhist calendar issues, but allows client to specific format, which might not be unambiguous and canonical.
+    static ofPtr< ofxGenericDate > createFromPOSIXRepresentation( string representation, ofxGenericDate::DateFormat format );
+    static ofPtr< ofxGenericDate > createFromPOSIXRepresentation( string representation, string format );
+    
+    
 #if TARGET_OS_IPHONE       
     static ofPtr< ofxGenericDate > createFromNSDate( NSDate* date );
 #endif
@@ -96,7 +101,12 @@ public:
     
     // NOTE: use getCanonicalRepresentation functions to get an ISO 8601 data interchange-safe string that represents the date, for caching, sending to server, etc
     string getCanonicalRepresentation();            // eg, 2014-04-01T15:30:05-0800
-    string getCalendarDayCanonicalRepresentation(); // eg, 2014-04-01 ... only represents a calendar day, not a moment in time. Not affected by user's calendar setting (e.g., Buddhist calendar)
+    string getCalendarDayCanonicalRepresentation(); // eg, 2014-04-01 (only represents a calendar day, not a moment in time. Not affected by user's calendar setting .. e.g., Buddhist calendar)
+    
+    // NOTE: these two methods use POSIX locale to handle eg Buddhist calendar issues, but lets client specify format. Depending on format, might not be an unambiguous timestamp. Time in user's timezone.
+    string getPOSIXRepresentation( ofxGenericDate::DateFormat format );
+    string getPOSIXRepresentation( string format );
+
     
     void setFromSinceReferenceDate( double time );
     

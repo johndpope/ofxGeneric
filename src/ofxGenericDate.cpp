@@ -22,6 +22,16 @@
 #define SecondsInADay 86400.0
 
 #if TARGET_OS_IPHONE
+static NSDateFormatter* getPOSIXDateFormatter()
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"]; // reference: https://developer.apple.com/library/ios/qa/qa1480/_index.html
+    [formatter setLocale:[locale autorelease]];
+    [formatter setTimeZone:[NSTimeZone systemTimeZone]];
+    
+    return [formatter autorelease];
+}
+
 static NSDateFormatter* getCanonicalDateFormatter()
 {
     static NSDateFormatter *canonicalDateFormatter = nil;  // creating NSDateFormatter is expensive .. hold on to static instance
@@ -186,6 +196,30 @@ ofPtr< ofxGenericDate > ofxGenericDate::createFromCanonicalRepresentation( strin
     }
 #elif TARGET_ANDROID
     throw ofxGenericExceptionMemberNotImplement( "ofxGenericDate", "createFromCanonicalRepresentation" );
+#endif
+    
+    return instance;
+}
+
+ofPtr< ofxGenericDate > ofxGenericDate::createFromPOSIXRepresentation( string representation, ofxGenericDate::DateFormat format )
+{
+    return ofxGenericDate::createFromPOSIXRepresentation( representation, getDateFormatAsString( format ) );
+}
+
+ofPtr< ofxGenericDate > ofxGenericDate::createFromPOSIXRepresentation( string representation, string format )
+{
+    ofPtr< ofxGenericDate > instance = ofPtr< ofxGenericDate >();
+    
+#if TARGET_OS_IPHONE
+    NSDateFormatter *formatter = getPOSIXDateFormatter();
+    [formatter setDateFormat:[NSString stringWithUTF8String:format.c_str()]];
+    NSDate *date = [formatter dateFromString:[NSString stringWithUTF8String:representation.c_str()]];
+    if ( date )
+    {
+        instance = ofxGenericDate::createFromNSDate( date );
+    }
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericDate", "createFromPOSIXRepresentation" );
 #endif
     
     return instance;
@@ -423,6 +457,25 @@ string ofxGenericDate::getCanonicalRepresentation()
     string representation = "";
 #if TARGET_OS_IPHONE
     representation = [[getCanonicalDateFormatter() stringFromDate:convertToNSDate()] UTF8String];
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericDate", "getCanonicalRepresentation" );
+#endif
+    
+    return representation;
+}
+
+string ofxGenericDate::getPOSIXRepresentation( ofxGenericDate::DateFormat format )
+{
+    return getPOSIXRepresentation( getDateFormatAsString( format ) );
+}
+
+string ofxGenericDate::getPOSIXRepresentation( string format )
+{
+    string representation = "";
+#if TARGET_OS_IPHONE
+    NSDateFormatter *formatter = getPOSIXDateFormatter();
+    [formatter setDateFormat:[NSString stringWithUTF8String:format.c_str()]];
+    representation = [[formatter stringFromDate:convertToNSDate()] UTF8String];
 #elif TARGET_ANDROID
     throw ofxGenericExceptionMemberNotImplement( "ofxGenericDate", "getCanonicalRepresentation" );
 #endif
