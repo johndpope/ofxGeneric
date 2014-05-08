@@ -163,7 +163,7 @@ ofPtr< ofxGenericDate > ofxGenericDate::createWithComponents( int dayOfTheWeek, 
     
 #if TARGET_OS_IPHONE
     NSDate* today = [NSDate date];
-    NSCalendar* gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSCalendar* gregorian = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
     [gregorian setLocale:[NSLocale currentLocale]];
     
     NSDateComponents* nowComponents = [gregorian components:NSYearCalendarUnit | NSWeekCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate:today];    

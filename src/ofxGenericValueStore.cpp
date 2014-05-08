@@ -1354,7 +1354,9 @@ string ofxGenericValueStore::toJSONString() const
     Json::Value* asJSON = convertToJSON();
     if ( asJSON )
     {
-        return ofxJSONElement( *asJSON ).getRawString();
+        const string& result = ofxJSONElement( *asJSON ).getRawString();
+        delete asJSON;
+        return result;
     }
     return string();
 }
