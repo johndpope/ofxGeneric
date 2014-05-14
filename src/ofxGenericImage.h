@@ -96,8 +96,10 @@ public:
     
     void clear();
     
+    virtual ~ofxGenericImageCache() {};
+    
 protected:
-    ofPtr< ofxGenericImageCache > _this;
+    ofPtrWeak< ofxGenericImageCache > _this;
     ofxGenericImageCache() {};
     void init(ofPtr< ofxGenericImageCache > instance);
     
