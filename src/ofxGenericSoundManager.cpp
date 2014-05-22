@@ -110,7 +110,7 @@ void ofxGenericSoundManager::play( string sound, float playbackDelay )
 {
     if ( !soundExistsCheck( sound ) || !_soundsAreEnabled )
     {
-        return;
+        load( sound );
     }
     ofxGLogVerbose( "Playing Sound " + sound );
     
