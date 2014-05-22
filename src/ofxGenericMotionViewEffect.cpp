@@ -51,7 +51,7 @@ void ofxGenericMotionViewEffect::applyTo( ofPtr< ofxGenericView > view )
                 interpolationHorizontal.minimumRelativeValue = [ NSNumber numberWithFloat:_minRelativeValue ];
                 interpolationHorizontal.maximumRelativeValue = [ NSNumber numberWithFloat:_maxRelativeValue ];
                 
-                [ nativeView addMotionEffect:interpolationHorizontal ];
+                [ nativeView addMotionEffect:[interpolationHorizontal autorelease] ];
             }
             else if ( _type == ofxGenericMotionEffectTypeTiltAlongVerticalAxis )
             {
@@ -59,7 +59,7 @@ void ofxGenericMotionViewEffect::applyTo( ofPtr< ofxGenericView > view )
                 interpolationVertical.minimumRelativeValue = [ NSNumber numberWithFloat:_minRelativeValue ];
                 interpolationVertical.maximumRelativeValue = [ NSNumber numberWithFloat:_maxRelativeValue ];
                 
-                [ nativeView addMotionEffect:interpolationVertical ];
+                [ nativeView addMotionEffect:[interpolationVertical autorelease] ];
             }
         }
         
