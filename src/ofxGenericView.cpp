@@ -72,7 +72,6 @@ ofxGenericView::~ofxGenericView()
     removeFromParent();
 
 #if TARGET_OS_IPHONE
-    [ _view removeFromSuperview ];
     [ _view release ];
     _view = nil;
     
