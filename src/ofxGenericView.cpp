@@ -616,6 +616,33 @@ int ofxGenericView::getAutoresizingMask( )
     return 0;
 }
 
+void ofxGenericView::setAccessibilityLabel( string label )
+{
+#if TARGET_OS_IPHONE
+    if ( _view )
+    {
+        _view.accessibilityLabel = ofxStringToNSString( label );
+    }
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "setAccessibilityLabel" );
+#endif
+}
+
+string ofxGenericView::getAccessibilityLabel()
+{
+    string label = "";
+#if TARGET_OS_IPHONE
+    if ( _view )
+    {
+        label = ofxNSStringToString( _view.accessibilityLabel );
+    }
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "getAccessibilityLabel" );
+#endif
+    
+    return label;
+}
+
 void ofxGenericView::setDropShadowColor( const ofColor& color )
 {
 #if TARGET_OS_IPHONE

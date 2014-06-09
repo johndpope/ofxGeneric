@@ -95,6 +95,9 @@ public:
     void setAutoresizingMask( int autoresizing );
     int getAutoresizingMask( );
     
+    void setAccessibilityLabel( string label );
+    string getAccessibilityLabel();
+    
     void setDropShadowColor( const ofColor& color );
     ofColor getDropShadowColor();
     void setDropShadowOffset( const ofPoint& offset );
