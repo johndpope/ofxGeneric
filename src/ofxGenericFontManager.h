@@ -26,22 +26,18 @@ public:
     
     void setFontSettings( ofPtr < ofxGenericFontSettings > fontSettings);
     void setFontCategories( ofPtr < ofxGenericFontCategory > fontCategories);
+    
 private:
-    
-    bool fontSettingIsInitialized();
-    
-    bool fontCategoryIsInitialized();
-    
-    bool fontSettingExistForCategory(string categoryKey);
-    
-    string getLocalizedFontName(string categoryKey);
-    float getLocalizedFontSizeMultiplier(string categoryKey);
-    float getLocalizedFontSize(string categoryKey, float baseFontSize);
-    
-    string convertFontToCategory(string fontName);
     
     ofPtr < ofxGenericFontSettings > _fontSettings;
     ofPtr < ofxGenericFontCategory > _fontCategories;
+    
+    bool fontSettingIsInitialized();
+    bool fontCategoryIsInitialized();
+    bool fontSettingExistForCategory(string categoryKey);
+    
+    float getLocalizedFontSize(string categoryKey, float baseFontSize);
+    
     ofxGenericFontManager() {};
     ofxGenericFontManager(ofxGenericFontManager const&);
     void operator=(ofxGenericFontManager const&);

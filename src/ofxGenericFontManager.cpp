@@ -11,11 +11,11 @@
 ofPtr< ofxGenericFont > ofxGenericFontManager::getLocalizedFontFromFontSettings(string fontName, float fontSize)
 {
     if (this->fontCategoryIsInitialized()) {
-        string categoryKey = this->convertFontToCategory(fontName);
+        string categoryKey = _fontCategories->convertFontToCategory(fontName);
         
         if (this->fontSettingIsInitialized()) {
             if (this->fontSettingExistForCategory(categoryKey)) {
-                fontName = this->getLocalizedFontName(categoryKey);
+                fontName = _fontSettings->getLocalizedFontName(categoryKey);
                 fontSize = this->getLocalizedFontSize(categoryKey, fontSize);
             }
         }
@@ -47,31 +47,16 @@ bool ofxGenericFontManager::fontCategoryIsInitialized()
 bool ofxGenericFontManager::fontSettingExistForCategory(string categoryKey)
 {
     bool returnValue = false;
-    string fontName = this->getLocalizedFontName(categoryKey);
-    float fontSizeMultiplier = this->getLocalizedFontSizeMultiplier(categoryKey);
+    string fontName = _fontSettings->getLocalizedFontName(categoryKey);
+    float fontSizeMultiplier = _fontSettings->getLocalizedFontSizeMultiplier(categoryKey);
     if (fontName.size() > 0 && fontSizeMultiplier > 0.0f) {
         returnValue = true;
     }
     return returnValue;
 }
 
-string ofxGenericFontManager::getLocalizedFontName(string categoryKey)
-{
-    return _fontSettings->getLocalizedFontName(categoryKey);
-}
-
-float ofxGenericFontManager::getLocalizedFontSizeMultiplier(string categoryKey)
-{
-    return _fontSettings->getLocalizedFontSizeMultiplier(categoryKey);
-}
-
 float ofxGenericFontManager::getLocalizedFontSize(string categoryKey, float baseFontSize)
 {
     float fontMultiplier = _fontSettings->getLocalizedFontSizeMultiplier(categoryKey);
     return baseFontSize * fontMultiplier;
-}
-
-string ofxGenericFontManager::convertFontToCategory(string fontName)
-{
-    return _fontCategories->convertFontToCategory(fontName);
 }
