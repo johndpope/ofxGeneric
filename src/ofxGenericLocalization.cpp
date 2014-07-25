@@ -100,30 +100,36 @@ string ofxGenericLocalization::getString( string key, string defaultValue )
     return defaultValue;
 }
 
-string ofxGenericLocalization::getPreferredISOLanguage()
+NSArray* ofxGenericLocalization::getPublishedLocalizedLanguages()
 {
-    string isoLanguage;
-#if TARGET_OS_IPHONE
     NSData *publishedLanguagesData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"publishedLanguages" ofType:@"json"]];
-    if (publishedLanguagesData) // if a published languages file exists, filter user's preferred languages by available published languages:
+    if (publishedLanguagesData)
     {
         NSError *error = nil;
         NSDictionary *publishedLanguagesDict = [NSJSONSerialization JSONObjectWithData:publishedLanguagesData options:kNilOptions error:&error];
         if (publishedLanguagesDict && !error)
         {
             NSArray *publishedLanguages = publishedLanguagesDict[@"published"];
-            NSArray *preferredLanguages = [NSBundle preferredLocalizationsFromArray:publishedLanguages];
-            NSString *language = preferredLanguages[0];
-            isoLanguage = [language UTF8String];
+            NSArray *preferredLanguages = [NSBundle preferredLocalizationsFromArray:publishedLanguages];//
+            
+            return preferredLanguages;
         }
         else
         {
             NSLog(@"error reading published languages json: %@", error);
         }
     }
-    else // if published languages file does not exist, use older implementation:
-    {
-        isoLanguage = ofxNSStringToString( [ [ NSLocale preferredLanguages ] objectAtIndex:0 ] );
+    return nil;
+}
+
+string ofxGenericLocalization::getPreferredISOLanguage()
+{
+    string isoLanguage = ofxNSStringToString( [ [ NSLocale preferredLanguages ] objectAtIndex:0 ] );
+#if TARGET_OS_IPHONE
+    NSArray *preferredLanguages = ofxGenericLocalization::getPublishedLocalizedLanguages();
+    NSString *language = [preferredLanguages firstObject];
+    if (language) {
+        isoLanguage = ofxNSStringToString( language );
     }
 #elif TARGET_ANDROID
     // http://stackoverflow.com/questions/4212320/get-the-current-language-in-device

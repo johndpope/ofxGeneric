@@ -160,6 +160,12 @@
 		B5BD221017C535BB00D25A31 /* ofxGenericMotionViewEffect.h in Headers */ = {isa = PBXBuildFile; fileRef = B5BD220E17C535BB00D25A31 /* ofxGenericMotionViewEffect.h */; };
 		B5C55D33161D04980002872E /* ofxGenericHMAC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5C55D31161D04980002872E /* ofxGenericHMAC.cpp */; };
 		B5C55D34161D04980002872E /* ofxGenericHMAC.h in Headers */ = {isa = PBXBuildFile; fileRef = B5C55D32161D04980002872E /* ofxGenericHMAC.h */; };
+		CBF409EF1982F3ED000CB539 /* ofxGenericFontCategory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CBF409E91982F3ED000CB539 /* ofxGenericFontCategory.cpp */; };
+		CBF409F01982F3ED000CB539 /* ofxGenericFontCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = CBF409EA1982F3ED000CB539 /* ofxGenericFontCategory.h */; };
+		CBF409F11982F3ED000CB539 /* ofxGenericFontManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CBF409EB1982F3ED000CB539 /* ofxGenericFontManager.cpp */; };
+		CBF409F21982F3ED000CB539 /* ofxGenericFontManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CBF409EC1982F3ED000CB539 /* ofxGenericFontManager.h */; };
+		CBF409F31982F3ED000CB539 /* ofxGenericFontSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CBF409ED1982F3ED000CB539 /* ofxGenericFontSettings.cpp */; };
+		CBF409F41982F3ED000CB539 /* ofxGenericFontSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = CBF409EE1982F3ED000CB539 /* ofxGenericFontSettings.h */; };
 		CD6D23BF183C54590094EF0D /* ofxGenericLayoutConstraint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CD6D23BD183C54590094EF0D /* ofxGenericLayoutConstraint.cpp */; };
 		CD6D23C0183C54590094EF0D /* ofxGenericLayoutConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = CD6D23BE183C54590094EF0D /* ofxGenericLayoutConstraint.h */; };
 /* End PBXBuildFile section */
@@ -381,6 +387,12 @@
 		B5BD220E17C535BB00D25A31 /* ofxGenericMotionViewEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericMotionViewEffect.h; sourceTree = "<group>"; };
 		B5C55D31161D04980002872E /* ofxGenericHMAC.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericHMAC.cpp; sourceTree = "<group>"; };
 		B5C55D32161D04980002872E /* ofxGenericHMAC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericHMAC.h; sourceTree = "<group>"; };
+		CBF409E91982F3ED000CB539 /* ofxGenericFontCategory.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericFontCategory.cpp; sourceTree = "<group>"; };
+		CBF409EA1982F3ED000CB539 /* ofxGenericFontCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericFontCategory.h; sourceTree = "<group>"; };
+		CBF409EB1982F3ED000CB539 /* ofxGenericFontManager.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericFontManager.cpp; sourceTree = "<group>"; };
+		CBF409EC1982F3ED000CB539 /* ofxGenericFontManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericFontManager.h; sourceTree = "<group>"; };
+		CBF409ED1982F3ED000CB539 /* ofxGenericFontSettings.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericFontSettings.cpp; sourceTree = "<group>"; };
+		CBF409EE1982F3ED000CB539 /* ofxGenericFontSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericFontSettings.h; sourceTree = "<group>"; };
 		CD6D23BD183C54590094EF0D /* ofxGenericLayoutConstraint.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericLayoutConstraint.cpp; sourceTree = "<group>"; };
 		CD6D23BE183C54590094EF0D /* ofxGenericLayoutConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericLayoutConstraint.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -499,6 +511,12 @@
 		3C7B4E6E14FC7CBF003121FE /* src */ = {
 			isa = PBXGroup;
 			children = (
+				CBF409E91982F3ED000CB539 /* ofxGenericFontCategory.cpp */,
+				CBF409EA1982F3ED000CB539 /* ofxGenericFontCategory.h */,
+				CBF409EB1982F3ED000CB539 /* ofxGenericFontManager.cpp */,
+				CBF409EC1982F3ED000CB539 /* ofxGenericFontManager.h */,
+				CBF409ED1982F3ED000CB539 /* ofxGenericFontSettings.cpp */,
+				CBF409EE1982F3ED000CB539 /* ofxGenericFontSettings.h */,
 				B54787E115E5759000ACF70F /* ofxGenericDateSelectorView.cpp */,
 				B54787E215E5759000ACF70F /* ofxGenericDateSelectorView.h */,
 				3C3B1BA615CF73F0002A671A /* ofxGenericOAuthGrantHTTPRequest.cpp */,
@@ -821,6 +839,7 @@
 				3C7B4EB814FC7CBF003121FE /* ofxGenericApp.h in Headers */,
 				3C7B4EBA14FC7CBF003121FE /* ofxGenericButtonView.h in Headers */,
 				CD6D23C0183C54590094EF0D /* ofxGenericLayoutConstraint.h in Headers */,
+				CBF409F21982F3ED000CB539 /* ofxGenericFontManager.h in Headers */,
 				3C7B4EBB14FC7CBF003121FE /* ofxGenericConstants.h in Headers */,
 				3C7B4EBD14FC7CBF003121FE /* ofxGenericHTTPRequest.h in Headers */,
 				3C7B4EC114FC7CBF003121FE /* ofxGenericImageView.h in Headers */,
@@ -838,6 +857,7 @@
 				453E461915365E1C00C66514 /* config.h in Headers */,
 				453E461A15365E1C00C66514 /* features.h in Headers */,
 				453E461B15365E1C00C66514 /* forwards.h in Headers */,
+				CBF409F01982F3ED000CB539 /* ofxGenericFontCategory.h in Headers */,
 				453E461C15365E1C00C66514 /* json.h in Headers */,
 				453E461D15365E1C00C66514 /* reader.h in Headers */,
 				B5BD221017C535BB00D25A31 /* ofxGenericMotionViewEffect.h in Headers */,
@@ -877,6 +897,7 @@
 				3C0CB5C51638985200AB87C8 /* NSData+Base64.h in Headers */,
 				3C0CB5C71638985200AB87C8 /* NSData+CommonCrypto.h in Headers */,
 				3C0CB5C91638985200AB87C8 /* NSString+Base64.h in Headers */,
+				CBF409F41982F3ED000CB539 /* ofxGenericFontSettings.h in Headers */,
 				B5BD220C17C52E2500D25A31 /* ofxGenericViewEffect.h in Headers */,
 				3C747C4C163E15C400AE5C92 /* ofxGenericSwitchView.h in Headers */,
 				3CC3086A16F0F9AE00BD86CA /* ofxGenericClass.h in Headers */,
@@ -1017,6 +1038,7 @@
 				3C96A11D16110F11000BA061 /* ofxGenericWebView.cpp in Sources */,
 				3C61377216113C2D00349CD9 /* NSFileManager+Tar.m in Sources */,
 				3C6D979E161149780087816E /* ioapi.c in Sources */,
+				CBF409F11982F3ED000CB539 /* ofxGenericFontManager.cpp in Sources */,
 				3C6D97A0161149780087816E /* mztools.c in Sources */,
 				3C6D97A2161149780087816E /* unzip.c in Sources */,
 				3C6D97A4161149780087816E /* zip.c in Sources */,
@@ -1027,6 +1049,7 @@
 				3C0CB5A91638948D00AB87C8 /* ofxGenericEncryption.cpp in Sources */,
 				3C0CB5C41638985200AB87C8 /* AESCrypt.m in Sources */,
 				3C0CB5C61638985200AB87C8 /* NSData+Base64.m in Sources */,
+				CBF409F31982F3ED000CB539 /* ofxGenericFontSettings.cpp in Sources */,
 				3C0CB5C81638985200AB87C8 /* NSData+CommonCrypto.m in Sources */,
 				3C0CB5CA1638985200AB87C8 /* NSString+Base64.m in Sources */,
 				3C747C4B163E15C400AE5C92 /* ofxGenericSwitchView.cpp in Sources */,
@@ -1034,6 +1057,7 @@
 				45F0F40016BB224700858F86 /* ofxGenericStoreProduct.cpp in Sources */,
 				45F0F40316BB226900858F86 /* ofxGenericStoreTransaction.cpp in Sources */,
 				3CC3086916F0F9AE00BD86CA /* ofxGenericClass.cpp in Sources */,
+				CBF409EF1982F3ED000CB539 /* ofxGenericFontCategory.cpp in Sources */,
 				3C6513021707B830000F8F50 /* ofxGenericLocationManager.cpp in Sources */,
 				3C29BC6617167A2100C77EFB /* ofxGenericHeadingManager.cpp in Sources */,
 				B5B5E44117B1B874009F8FC8 /* ofxGenericDevice.cpp in Sources */,

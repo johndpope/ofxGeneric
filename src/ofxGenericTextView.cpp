@@ -8,6 +8,7 @@
 #include "ofxGenericTextView.h"
 
 #include "ofxGenericUtility.h"
+#include "ofxGenericFontManager.h"
 #include "ofxGenericFont.h"
 
 #if TARGET_OS_IPHONE
@@ -170,7 +171,8 @@ int ofxGenericTextView::getNumberOfLines ()
 
 void ofxGenericTextView::setFont( string name, float size )
 {
-    ofPtr< ofxGenericFont > font = ofxGenericFont::create( name, size );
+    ofxGenericFontManager *fontManagerSingleton = &ofxGenericFontManager::getInstance();
+    ofPtr< ofxGenericFont > font = fontManagerSingleton->getLocalizedFontFromFontSettings(name, size);
     setFont( font );
 }
 
