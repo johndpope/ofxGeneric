@@ -139,8 +139,8 @@ void ofxGenericApp::finishedLaunching()
     
     handleFinishedLaunchingPresetup();
     
-    // wait a cycle so iOS has time to get initialized
-    _setupTimer = ofxGenericTimer::create( 0.0001f, false, dynamic_pointer_cast< ofxGenericTimerDelegate >( _this ) );
+    ofNotifySetup();
+    ofNotifyUpdate();
 }
 
 void ofxGenericApp::handleFinishedLaunchingPresetup()
@@ -171,16 +171,6 @@ void ofxGenericApp::handleFinishedLaunchingPresetup()
      // call testApp::setup()
      ofRegisterTouchEvents((ofxiPhoneApp*)ofGetAppPtr());
      */
-}
-
-void ofxGenericApp::timer_fired( ofPtr< ofxGenericTimer > timer )
-{
-    if ( timer == _setupTimer )
-    {
-        ofNotifySetup();
-        ofNotifyUpdate();
-        _setupTimer = ofPtr< ofxGenericTimer >();
-    }
 }
 
 void ofxGenericApp::createRootView()

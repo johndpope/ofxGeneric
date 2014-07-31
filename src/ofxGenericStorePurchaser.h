@@ -37,12 +37,9 @@ class ofxGenericStorePurchaser;
 {
     ofPtrWeak< ofxGenericStorePurchaser > _purchaser;
     SKProductsRequest* productsRequest;
-    BOOL _isTransactionObserver;
 }
 @property (retain) SKProductsRequest* productsRequest;
-- (id) initWithPurchaser: ( ofPtrWeak< ofxGenericStorePurchaser > ) purchaser;
-- (void) makeTransactionObserver:(SKPaymentQueue *)queue;
-- (void) removeAsTransactionObserver:(SKPaymentQueue *)queue;
+- (instancetype) initWithPurchaser: ( ofPtrWeak< ofxGenericStorePurchaser > ) purchaser;
 @end
 
 #endif
@@ -58,6 +55,9 @@ public:
     
     //when the app is foregrounded, we should finish all transactions for all purchasers
     static void doForegroundedWork();
+    
+    //begins listening for changes in the Payment Queue.  This should happen during application initialization.  Subsequent calls to this method will have no effect. 
+    void beginObserving();
     
     //requests the NativeStoreProducts from the app store using the passed IDs
     void findProducts( std::vector< string > products );
@@ -100,6 +100,7 @@ protected:
     
     static std::vector< ofPtrWeak< ofxGenericStorePurchaser > > _allPurchasers;
     bool _isFindingProducts;
+    bool _isObservingPurchases;
     
 #if TARGET_OS_IPHONE
     ofxGenericInAppPurchaseForwarder *forwarder;
