@@ -47,15 +47,8 @@ bool ofxGenericFontManager::fontSettingExistForCategory(string categoryKey)
 {
     bool returnValue = false;
     string fontName = _fontSettings->getLocalizedFontName(categoryKey);
-    float fontSizeMultiplier = _fontSettings->getLocalizedFontSizeMultiplier(categoryKey);
-    if (fontName.size() > 0 && fontSizeMultiplier > 0.0f) {
+    if (fontName.size() > 0) {
         returnValue = true;
     }
     return returnValue;
-}
-
-float ofxGenericFontManager::getLocalizedFontSize(string categoryKey, float baseFontSize)
-{
-    float fontMultiplier = _fontSettings->getLocalizedFontSizeMultiplier(categoryKey);
-    return baseFontSize * fontMultiplier;
 }

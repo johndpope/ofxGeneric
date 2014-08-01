@@ -36,8 +36,6 @@ private:
     bool fontCategoryIsInitialized();
     bool fontSettingExistForCategory(string categoryKey);
     
-    float getLocalizedFontSize(string categoryKey, float baseFontSize);
-    
     ofxGenericFontManager() {};
     ofxGenericFontManager(ofxGenericFontManager const&);
     void operator=(ofxGenericFontManager const&);
