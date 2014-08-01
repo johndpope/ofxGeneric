@@ -20,7 +20,7 @@
 class ofxGenericException;
 class ofxGenericKeyboardDelegate;
 
-class ofxGenericApp : public ofBaseApp, public ofxGenericAlertViewDelegate
+class ofxGenericApp : public ofBaseApp, public ofxGenericAlertViewDelegate, public ofxGenericTimerDelegate
 {
 public:
     // no longer implemented by ofxGenericApp.  Subclasses must implement to return instance of correct subclass.
@@ -99,6 +99,8 @@ public:
     virtual std::map< string, string > getLaunchOptions();
     virtual void setLaunchOptions( std::map< string, string > launchOptions );
     virtual void gotNotification( string type );
+    
+    virtual void timer_fired( ofPtr< ofxGenericTimer > timer );
 
     virtual ~ofxGenericApp();
     
@@ -133,6 +135,7 @@ protected:
     float _updateDeltaTime;
     
     virtual void handleFinishedLaunchingPresetup();
+    ofPtr< ofxGenericTimer > _setupTimer;
 };
 
 class ofxGenericOrientationEventArgs : public ofEventArgs

@@ -328,4 +328,5 @@ void ofxGenericStorePurchaser::setDelegate( ofPtrWeak< ofxGenericStorePurchaserD
 }
 
 @end
+
 #endif // TARGET_OS_IPHONE
