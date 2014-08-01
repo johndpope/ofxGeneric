@@ -22,7 +22,7 @@ public:
         return instance;
     }
     
-    ofPtr< ofxGenericFont > getLocalizedFontFromFontSettings(string fontName, float fontSize);
+    ofPtr< ofxGenericFont > getLocalizedFont(string fontName, float fontSize);
     
     void setFontSettings( ofPtr < ofxGenericFontSettings > fontSettings);
     void setFontCategories( ofPtr < ofxGenericFontCategory > fontCategories);
