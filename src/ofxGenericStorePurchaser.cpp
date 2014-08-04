@@ -82,10 +82,6 @@ void ofxGenericStorePurchaser::findProducts( std::vector< string > products )
     _isFindingProducts = true;
     
 #if TARGET_OS_IPHONE
-    if ( !forwarder )
-    {
-
-    }
     NSMutableSet* productIdentifiers = [ NSMutableSet set ];
     for ( unsigned int i = 0; i < products.size(); i++ )
     {
