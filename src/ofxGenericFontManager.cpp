@@ -47,7 +47,7 @@ bool ofxGenericFontManager::fontSettingExistForCategory(string categoryKey)
 {
     bool returnValue = false;
     string fontName = _fontSettings->getLocalizedFontName(categoryKey);
-    if (fontName.size() > 0) {
+    if (!fontName.empty()) {
         returnValue = true;
     }
     return returnValue;
