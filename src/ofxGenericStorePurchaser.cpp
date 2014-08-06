@@ -89,7 +89,6 @@ void ofxGenericStorePurchaser::findProducts( std::vector< string > products )
     }
     SKProductsRequest* productsRequest = [ [ [ SKProductsRequest alloc ] initWithProductIdentifiers:productIdentifiers ] autorelease ];
     productsRequest.delegate = forwarder;
-    forwarder.productsRequest = productsRequest;
     [ productsRequest start ];
 #endif
 }
@@ -222,9 +221,8 @@ void ofxGenericStorePurchaser::setDelegate( ofPtrWeak< ofxGenericStorePurchaserD
 }
 
 #if TARGET_OS_IPHONE
+#pragma mark - ofxGenericInAppPurchaseForwarder Implementation
 @implementation ofxGenericInAppPurchaseForwarder
-
-@synthesize productsRequest;
 
 - (id) initWithPurchaser: ( ofPtrWeak< ofxGenericStorePurchaser > ) purchaser
 {
@@ -314,13 +312,6 @@ void ofxGenericStorePurchaser::setDelegate( ofPtrWeak< ofxGenericStorePurchaserD
 - (void) paymentQueue:(SKPaymentQueue *)queue updatedDownloads:(NSArray *)downloads
 {
     //not sure if I need to do anything in here, it's just a required method
-}
-
--(void) dealloc
-{
-    self.productsRequest = nil;
-    
-    [ super dealloc ];
 }
 
 @end

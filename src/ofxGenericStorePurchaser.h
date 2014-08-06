@@ -36,9 +36,7 @@ class ofxGenericStorePurchaser;
 @interface ofxGenericInAppPurchaseForwarder : NSObject < SKProductsRequestDelegate, SKPaymentTransactionObserver >
 {
     ofPtrWeak< ofxGenericStorePurchaser > _purchaser;
-    SKProductsRequest* productsRequest;
 }
-@property (retain) SKProductsRequest* productsRequest;
 - (instancetype) initWithPurchaser: ( ofPtrWeak< ofxGenericStorePurchaser > ) purchaser;
 @end
 
