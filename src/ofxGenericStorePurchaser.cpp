@@ -36,7 +36,7 @@ ofxGenericStorePurchaser::~ofxGenericStorePurchaser()
 #endif
 }
 
-ofxGenericStorePurchaser::ofxGenericStorePurchaser() : _isFindingProducts( false )
+ofxGenericStorePurchaser::ofxGenericStorePurchaser() : _isFindingProducts( false ), _isObservingPurchases( false )
 #if TARGET_OS_IPHONE
 , forwarder( nil )
 #endif
@@ -47,6 +47,7 @@ ofxGenericStorePurchaser::ofxGenericStorePurchaser() : _isFindingProducts( false
 void ofxGenericStorePurchaser::init( ofPtrWeak< ofxGenericStorePurchaser > setThis )
 {
     _this = setThis;
+    
     forwarder = [ [ ofxGenericInAppPurchaseForwarder alloc ] initWithPurchaser:_this.lock() ];
 }
 
