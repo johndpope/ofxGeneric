@@ -169,6 +169,20 @@ bool ofxGenericStorePurchaser::paymentsCanBeMade()
 #endif
 }
 
+#pragma mark Error Handling
+
+void ofxGenericStorePurchaser::errorReceived( string error )
+{
+    _isFindingProducts = false;
+    ofLogError("Error in ofxGenericStorePurchaser: " + error );
+    if ( _delegate )
+    {
+        _delegate.lock()->inApp_productsFailed( error );
+    }
+}
+
+#pragma mark Product Related Callbacks
+
 void ofxGenericStorePurchaser::productsResponseReceived( std::map< string, ofPtr< ofxGenericStoreProduct > > products, std::vector< string > identifiers )
 {
     _isFindingProducts = false;
@@ -178,6 +192,8 @@ void ofxGenericStorePurchaser::productsResponseReceived( std::map< string, ofPtr
         _delegate.lock()->inApp_productsReceived( identifiers );
     }
 }
+
+#pragma mark - Payment Related Callbacks
 
 void ofxGenericStorePurchaser::paymentReceived( ofPtr< ofxGenericStoreTransaction > transaction )
 {
@@ -206,15 +222,6 @@ void ofxGenericStorePurchaser::paymentRestored( ofPtr< ofxGenericStoreTransactio
     }
 }
 
-void ofxGenericStorePurchaser::errorReceived( string error )
-{
-    _isFindingProducts = false;
-    ofLogError("Error in ofxGenericStorePurchaser: " + error );
-    if ( _delegate )
-    {
-        _delegate.lock()->inApp_productsFailed( error );
-    }
-}
 
 void ofxGenericStorePurchaser::setDelegate( ofPtrWeak< ofxGenericStorePurchaserDelegate > delegate )
 {
@@ -306,8 +313,6 @@ void ofxGenericStorePurchaser::setDelegate( ofPtrWeak< ofxGenericStorePurchaserD
                 break;
         }
     }
-    
-    
 }
 
 - (void) paymentQueue:(SKPaymentQueue *)queue updatedDownloads:(NSArray *)downloads
