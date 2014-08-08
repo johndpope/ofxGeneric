@@ -8,8 +8,9 @@
 
 #include "ofxGenericFontManager.h"
 
-ofPtr< ofxGenericFont > ofxGenericFontManager::getLocalizedFont(string fontName, float fontSize)
+ofPtr< ofxGenericFont > ofxGenericFontManager::getLocalizedFont(const string& inputFontName, float fontSize)
 {
+    string fontName = inputFontName;
     if (this->fontCategoryIsInitialized()) {
         string categoryKey = _fontCategories->convertFontToCategory(fontName);
         
@@ -43,7 +44,7 @@ bool ofxGenericFontManager::fontCategoryIsInitialized()
     return (_fontCategories);
 }
 
-bool ofxGenericFontManager::fontSettingExistForCategory(string categoryKey)
+bool ofxGenericFontManager::fontSettingExistForCategory(const string& categoryKey)
 {
     bool returnValue = false;
     string fontName = _fontSettings->getLocalizedFontName(categoryKey);

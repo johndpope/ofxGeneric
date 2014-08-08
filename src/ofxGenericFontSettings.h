@@ -14,7 +14,7 @@ class ofxGenericFontSettings : public ofxGenericSettings
 {
 
 public:
-    virtual string getLocalizedFontName(string categoryKey) = 0;
+    virtual string getLocalizedFontName(const string& categoryKey) = 0;
 
 protected:
     void parse( ofPtr< ofxGenericValueStore >& settings );

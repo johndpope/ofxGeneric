@@ -195,8 +195,7 @@ unsigned int ofxGenericEditTextView::getTextCharacterLimitCount()
 
 void ofxGenericEditTextView::setFont( string name, float size )
 {
-    ofxGenericFontManager *fontManagerSingleton = &ofxGenericFontManager::getInstance();
-    ofPtr< ofxGenericFont > font = fontManagerSingleton->getLocalizedFont(name, size);
+    ofPtr< ofxGenericFont > font = ofxGenericFontManager::getInstance().getLocalizedFont(name, size);
     setFont( font );
 }
 

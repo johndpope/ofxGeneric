@@ -14,7 +14,7 @@ class ofxGenericFontCategory : public ofxGenericSettings
 {
     
 public:
-    virtual string convertFontToCategory(string fontName) = 0;
+    virtual string convertFontToCategory(const string& fontName) = 0;
     
 protected:
     void parse( ofPtr< ofxGenericValueStore >& settings );

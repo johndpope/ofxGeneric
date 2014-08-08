@@ -22,7 +22,7 @@ public:
         return instance;
     }
     
-    ofPtr< ofxGenericFont > getLocalizedFont(string fontName, float fontSize);
+    ofPtr< ofxGenericFont > getLocalizedFont(const string& inputFontName, float fontSize);
     
     void setFontSettings( ofPtr < ofxGenericFontSettings > fontSettings);
     void setFontCategories( ofPtr < ofxGenericFontCategory > fontCategories);
@@ -34,7 +34,7 @@ private:
     
     bool fontSettingIsInitialized();
     bool fontCategoryIsInitialized();
-    bool fontSettingExistForCategory(string categoryKey);
+    bool fontSettingExistForCategory(const string& categoryKey);
     
     ofxGenericFontManager() {};
     ofxGenericFontManager(ofxGenericFontManager const&);
