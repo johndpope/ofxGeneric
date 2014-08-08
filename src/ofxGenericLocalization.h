@@ -19,6 +19,7 @@ public:
     static string getString( string key, string defaultValue );
     
     static string getPreferredISOLanguage();
+    static NSArray* getPublishedLocalizedLanguages();
     
     static void useLprojFolder( bool useLproj );
     

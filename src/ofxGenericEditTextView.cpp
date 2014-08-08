@@ -12,6 +12,7 @@
 #include "ofxGenericImage.h"
 
 #include "ofxGenericFont.h"
+#include "ofxGenericFontManager.h"
 
 #if TARGET_OS_IPHONE
 @interface ofxGenericEditTextViewForwarder : NSObject< UITextFieldDelegate, UITextViewDelegate >
@@ -194,7 +195,7 @@ unsigned int ofxGenericEditTextView::getTextCharacterLimitCount()
 
 void ofxGenericEditTextView::setFont( string name, float size )
 {
-    ofPtr< ofxGenericFont > font = ofxGenericFont::create( name, size );
+    ofPtr< ofxGenericFont > font = ofxGenericFontManager::getInstance().getLocalizedFont(name, size);
     setFont( font );
 }
 
