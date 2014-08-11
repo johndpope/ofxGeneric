@@ -70,7 +70,10 @@ void ofxGenericStorePurchaser::beginObserving()
     if (_isObservingPurchases) {
         return;
     }
+#if TARGET_OS_IPHONE
     [[SKPaymentQueue defaultQueue] addTransactionObserver:forwarder];
+#else
+#endif // TARGET_OS_IPHONE
     _isObservingPurchases = YES;
 }
 
