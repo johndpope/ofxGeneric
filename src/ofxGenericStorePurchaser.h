@@ -38,6 +38,7 @@ class ofxGenericStorePurchaser;
     ofPtrWeak< ofxGenericStorePurchaser > _purchaser;
 }
 - (instancetype) initWithPurchaser: ( ofPtrWeak< ofxGenericStorePurchaser > ) purchaser;
+- (void)processTransaction:(SKPaymentTransaction *)transaction queue:(SKPaymentQueue *)queue;
 @end
 
 #endif
@@ -50,9 +51,6 @@ public:
     virtual ~ofxGenericStorePurchaser();
     //pass in a list of products we want to use
     static ofPtr< ofxGenericStorePurchaser > create( std::vector< string > products, ofPtrWeak< ofxGenericStorePurchaserDelegate > delegate = ofPtrWeak< ofxGenericStorePurchaserDelegate >() );
-    
-    //when the app is foregrounded, we should finish all transactions for all purchasers
-    static void doForegroundedWork();
     
     //begins listening for changes in the Payment Queue.  This should happen during application initialization.  Subsequent calls to this method will have no effect. 
     void beginObserving();

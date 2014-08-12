@@ -16,18 +16,6 @@
 
 std::vector< ofPtrWeak< ofxGenericStorePurchaser > > ofxGenericStorePurchaser::_allPurchasers;
 
-//not a fan of this, maybe just change whole class to singleton
-void ofxGenericStorePurchaser::doForegroundedWork()
-{
-    for ( unsigned int i = 0; i < _allPurchasers.size(); i++ )
-    {
-        if ( _allPurchasers[i] )
-        {
-            _allPurchasers[i].lock()->finishAllTransactions();
-        }
-    }
-}
-
 ofxGenericStorePurchaser::~ofxGenericStorePurchaser()
 {
 #if TARGET_OS_IPHONE
@@ -137,26 +125,11 @@ void ofxGenericStorePurchaser::finishAllTransactions()
     for ( unsigned int i = 0; i < [ [ SKPaymentQueue defaultQueue ].transactions count ]; i++ )
     {
         SKPaymentTransaction *transaction = [ [ SKPaymentQueue defaultQueue ].transactions objectAtIndex:i ];
-        
-        if ( transaction.transactionState == SKPaymentTransactionStatePurchased )
-        {
-            paymentReceived( ofxGenericStoreTransaction::create( transaction, [ SKPaymentQueue defaultQueue ] ) );
-        }
-        else if ( transaction.transactionState == SKPaymentTransactionStateRestored )
-        {
-            paymentRestored( ofxGenericStoreTransaction::create( transaction, [ SKPaymentQueue defaultQueue ] ) );
-        }
-        else if ( transaction.transactionState == SKPaymentTransactionStateFailed )
-        {
-            ofPtr< ofxGenericStoreTransaction > ofxGTransaction = ofxGenericStoreTransaction::create( transaction, [ SKPaymentQueue defaultQueue ] );
-            paymentFailed( ofxGTransaction, ofxGToString( transaction.error.localizedDescription ) );
-            
-            //this seems the correct thing to do so the user is not plagued forever
-            finishPurchase( ofxGTransaction );
-        }
+        [forwarder processTransaction:transaction queue:[SKPaymentQueue defaultQueue]];
     }
 #endif
 }
+
 
 void ofxGenericStorePurchaser::finishPurchase( ofPtr< ofxGenericStoreTransaction > transaction )
 {
@@ -299,22 +272,28 @@ void ofxGenericStorePurchaser::setDelegate( ofPtrWeak< ofxGenericStorePurchaserD
     
     for ( SKPaymentTransaction* transaction in transactions )
     {
-        switch ( transaction.transactionState )
-        {
-            case SKPaymentTransactionStatePurchased:
-                _purchaser.lock()->paymentReceived( ofxGenericStoreTransaction::create( transaction, queue ) );
-                break;
-            case SKPaymentTransactionStateFailed:
-                _purchaser.lock()->paymentFailed( ofxGenericStoreTransaction::create( transaction, queue ), ofxGToString( transaction.error.localizedDescription ) );
-                break;
-            case SKPaymentTransactionStateRestored:
-                _purchaser.lock()->paymentRestored( ofxGenericStoreTransaction::create( transaction, queue ) );
-                break;
-            case SKPaymentTransactionStatePurchasing:
-                break;
-            default:
-                break;
-        }
+        [self processTransaction:transaction queue:queue];
+    }
+}
+
+- (void)processTransaction:(SKPaymentTransaction *)transaction queue:(SKPaymentQueue *)queue;
+{
+    switch ( transaction.transactionState )
+    {
+        case SKPaymentTransactionStatePurchasing:
+            break;
+        case SKPaymentTransactionStatePurchased:
+            _purchaser.lock()->paymentReceived( ofxGenericStoreTransaction::create( transaction, queue ) );
+            break;
+        case SKPaymentTransactionStateFailed:
+            _purchaser.lock()->paymentFailed( ofxGenericStoreTransaction::create( transaction, queue ), ofxGToString( transaction.error.localizedDescription ) );
+            break;
+        case SKPaymentTransactionStateRestored:
+            _purchaser.lock()->paymentRestored( ofxGenericStoreTransaction::create( transaction, queue ) );
+            break;
+     
+        default:
+            break;
     }
 }
 
