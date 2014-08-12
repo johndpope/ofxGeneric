@@ -79,7 +79,7 @@ public:
     //called by forwarder
     void productsResponseReceived( std::map< string, ofPtr< ofxGenericStoreProduct > > products, std::vector< string > identifiers );
     void paymentReceived( ofPtr< ofxGenericStoreTransaction > transaction );
-    void paymentFailed( ofPtr< ofxGenericStoreTransaction > transaction, string error );
+    void paymentFailed( ofPtr< ofxGenericStoreTransaction > transaction, NSError *error );
     void paymentRestored( ofPtr< ofxGenericStoreTransaction > transaction );
     void errorReceived( string error );
     
@@ -111,5 +111,5 @@ public:
     virtual void inApp_productsFailed( string error ) {};
     virtual void inApp_purchaseComplete( string identifier, ofPtr< ofxGenericStoreTransaction > transaction ) {};
     virtual void inApp_purchaseRestored( string identifier, ofPtr< ofxGenericStoreTransaction > transaction ) {};
-    virtual void inApp_purchaseFailed( string identifier, ofPtr< ofxGenericStoreTransaction > transaction, string error ) {};
+    virtual void inApp_purchaseFailed(ofPtr< ofxGenericStoreTransaction > transaction, NSError *error) {};
 };

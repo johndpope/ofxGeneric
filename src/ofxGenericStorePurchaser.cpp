@@ -180,12 +180,11 @@ void ofxGenericStorePurchaser::paymentReceived( ofPtr< ofxGenericStoreTransactio
     }
 }
 
-void ofxGenericStorePurchaser::paymentFailed( ofPtr< ofxGenericStoreTransaction > transaction, string error )
+void ofxGenericStorePurchaser::paymentFailed( ofPtr< ofxGenericStoreTransaction > transaction, NSError *error )
 {
-    ofLogError("ofxGenericStorePurchaser: paymentFailed - " + error );
     if ( _delegate )
     {
-        _delegate.lock()->inApp_purchaseFailed( transaction->getProductIdentifier(), transaction, error );
+        _delegate.lock()->inApp_purchaseFailed(transaction, error);
     }
 }
 
@@ -286,7 +285,7 @@ void ofxGenericStorePurchaser::setDelegate( ofPtrWeak< ofxGenericStorePurchaserD
             _purchaser.lock()->paymentReceived( ofxGenericStoreTransaction::create( transaction, queue ) );
             break;
         case SKPaymentTransactionStateFailed:
-            _purchaser.lock()->paymentFailed( ofxGenericStoreTransaction::create( transaction, queue ), ofxGToString( transaction.error.localizedDescription ) );
+            _purchaser.lock()->paymentFailed(ofxGenericStoreTransaction::create( transaction, queue ), transaction.error);
             break;
         case SKPaymentTransactionStateRestored:
             _purchaser.lock()->paymentRestored( ofxGenericStoreTransaction::create( transaction, queue ) );
