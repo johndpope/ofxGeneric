@@ -147,13 +147,13 @@ bool ofxGenericStorePurchaser::paymentsCanBeMade()
 
 #pragma mark Error Handling
 
-void ofxGenericStorePurchaser::errorReceived( string error )
+void ofxGenericStorePurchaser::errorFetchingProducts(NSError *error)
 {
     _isFindingProducts = false;
-    ofLogError("Error in ofxGenericStorePurchaser: " + error );
+    ofLogError("Error in ofxGenericStorePurchaser: " + (string)error.localizedDescription.UTF8String);
     if ( _delegate )
     {
-        _delegate.lock()->inApp_productsFailed( error );
+        _delegate.lock()->inApp_failedToFetchProducts(error);
     }
 }
 
@@ -220,7 +220,7 @@ void ofxGenericStorePurchaser::setDelegate( ofPtrWeak< ofxGenericStorePurchaserD
     return nil;
 }
 
-- (void) productsRequest:(SKProductsRequest*)request didReceiveResponse:(SKProductsResponse *)response
+- (void)productsRequest:(SKProductsRequest*)request didReceiveResponse:(SKProductsResponse *)response
 {
     if ( !_purchaser )
     {
@@ -248,21 +248,15 @@ void ofxGenericStorePurchaser::setDelegate( ofPtrWeak< ofxGenericStorePurchaserD
     _purchaser.lock()->productsResponseReceived( products, identifiers );
 }
 
-- (void) request:(SKRequest*)request didFailWithError:(NSError*)error
+- (void)request:(SKRequest*)request didFailWithError:(NSError*)error
 {
     if ( !_purchaser )
     {
         return;
     }
     
-    if ( error && error.localizedDescription )
-    {
-        _purchaser.lock()->errorReceived( ofxGToString( error.localizedDescription ) );
-    }
-    else
-    {
-        _purchaser.lock()->errorReceived( ofxGLocalized( "StorePurchaserUnknownError", "Unknown Error" ) );
-    }
+    _purchaser.lock()->errorFetchingProducts(error);
+ 
 }
 
 - (void) paymentQueue:(SKPaymentQueue *)queue updatedTransactions: (NSArray * )transactions

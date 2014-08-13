@@ -81,7 +81,7 @@ public:
     void paymentReceived( ofPtr< ofxGenericStoreTransaction > transaction );
     void paymentFailed( ofPtr< ofxGenericStoreTransaction > transaction, NSError *error );
     void paymentRestored( ofPtr< ofxGenericStoreTransaction > transaction );
-    void errorReceived( string error );
+    void errorFetchingProducts(NSError *error);
     
     void setDelegate( ofPtrWeak< ofxGenericStorePurchaserDelegate > delegate );
     
@@ -107,8 +107,11 @@ class ofxGenericStorePurchaserDelegate
 {
 public:
     virtual ~ofxGenericStorePurchaserDelegate() {};
+    //Product Fetch Methods
     virtual void inApp_productsReceived( std::vector< string > products ) {};
-    virtual void inApp_productsFailed( string error ) {};
+    virtual void inApp_failedToFetchProducts(NSError *error) {};
+    
+    //Product Purchase Methods
     virtual void inApp_purchaseComplete( string identifier, ofPtr< ofxGenericStoreTransaction > transaction ) {};
     virtual void inApp_purchaseRestored( string identifier, ofPtr< ofxGenericStoreTransaction > transaction ) {};
     virtual void inApp_purchaseFailed(ofPtr< ofxGenericStoreTransaction > transaction, NSError *error) {};
