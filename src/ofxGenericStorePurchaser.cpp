@@ -182,10 +182,13 @@ void ofxGenericStorePurchaser::paymentReceived( ofPtr< ofxGenericStoreTransactio
 
 void ofxGenericStorePurchaser::paymentFailed( ofPtr< ofxGenericStoreTransaction > transaction, NSError *error )
 {
+    ofLogError("ofxGenericStorePurchaser: paymentFailed - " + (string)error.localizedDescription.UTF8String );
     if ( _delegate )
     {
         _delegate.lock()->inApp_purchaseFailed(transaction, error);
     }
+    
+    finishPurchase(transaction);
 }
 
 void ofxGenericStorePurchaser::paymentRestored( ofPtr< ofxGenericStoreTransaction > transaction )
