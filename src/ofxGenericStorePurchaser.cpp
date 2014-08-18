@@ -150,7 +150,12 @@ bool ofxGenericStorePurchaser::paymentsCanBeMade()
 void ofxGenericStorePurchaser::errorFetchingProducts(NSError *error)
 {
     _isFindingProducts = false;
-    ofLogError("Error in ofxGenericStorePurchaser: " + (string)error.localizedDescription.UTF8String);
+    if (error.localizedDescription.length > 0) {
+        ofLogError("Error in ofxGenericStorePurchaser: " + (string)error.localizedDescription.UTF8String);
+    } else {
+        ofLogError("Error in ofxGenericStorePurchaser");
+    }
+    
     if ( _delegate )
     {
         _delegate.lock()->inApp_failedToFetchProducts(error);
@@ -182,7 +187,11 @@ void ofxGenericStorePurchaser::paymentReceived( ofPtr< ofxGenericStoreTransactio
 
 void ofxGenericStorePurchaser::paymentFailed( ofPtr< ofxGenericStoreTransaction > transaction, NSError *error )
 {
-    ofLogError("ofxGenericStorePurchaser: paymentFailed - " + (string)error.localizedDescription.UTF8String );
+    if (error.localizedDescription.length > 0) {
+        ofLogError("ofxGenericStorePurchaser: paymentFailed - " + (string)error.localizedDescription.UTF8String );
+    } else {
+        ofLogError("ofxGenericStorePurchaser: paymentFailed");
+    }
     if ( _delegate )
     {
         _delegate.lock()->inApp_purchaseFailed(transaction, error);
