@@ -97,6 +97,9 @@ public:
     
     void setAccessibilityLabel( string label );
     string getAccessibilityLabel();
+
+    void setAccessibilityIdentifier( string accessibilityIdentifier );
+    string getAccessibilityIdentifier();
     
     void setDropShadowColor( const ofColor& color );
     ofColor getDropShadowColor();
