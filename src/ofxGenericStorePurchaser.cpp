@@ -16,18 +16,6 @@
 
 std::vector< ofPtrWeak< ofxGenericStorePurchaser > > ofxGenericStorePurchaser::_allPurchasers;
 
-//not a fan of this, maybe just change whole class to singleton
-void ofxGenericStorePurchaser::doForegroundedWork()
-{
-    for ( unsigned int i = 0; i < _allPurchasers.size(); i++ )
-    {
-        if ( _allPurchasers[i] )
-        {
-            _allPurchasers[i].lock()->finishAllTransactions();
-        }
-    }
-}
-
 ofxGenericStorePurchaser::~ofxGenericStorePurchaser()
 {
 #if TARGET_OS_IPHONE
@@ -36,7 +24,7 @@ ofxGenericStorePurchaser::~ofxGenericStorePurchaser()
 #endif
 }
 
-ofxGenericStorePurchaser::ofxGenericStorePurchaser() : _isFindingProducts( false )
+ofxGenericStorePurchaser::ofxGenericStorePurchaser() : _isFindingProducts( false ), _isObservingPurchases( false )
 #if TARGET_OS_IPHONE
 , forwarder( nil )
 #endif
@@ -47,6 +35,8 @@ ofxGenericStorePurchaser::ofxGenericStorePurchaser() : _isFindingProducts( false
 void ofxGenericStorePurchaser::init( ofPtrWeak< ofxGenericStorePurchaser > setThis )
 {
     _this = setThis;
+    
+    forwarder = [ [ ofxGenericInAppPurchaseForwarder alloc ] initWithPurchaser:_this.lock() ];
 }
 
 //pass in a list of products we want to use
@@ -63,6 +53,18 @@ ofPtr< ofxGenericStorePurchaser > ofxGenericStorePurchaser::create( std::vector<
     return create;
 }
 
+void ofxGenericStorePurchaser::beginObserving()
+{
+    if (_isObservingPurchases) {
+        return;
+    }
+#if TARGET_OS_IPHONE
+    [[SKPaymentQueue defaultQueue] addTransactionObserver:forwarder];
+#else
+#endif // TARGET_OS_IPHONE
+    _isObservingPurchases = YES;
+}
+
 void ofxGenericStorePurchaser::findProducts( std::vector< string > products )
 {
     if ( _isFindingProducts )
@@ -72,10 +74,6 @@ void ofxGenericStorePurchaser::findProducts( std::vector< string > products )
     _isFindingProducts = true;
     
 #if TARGET_OS_IPHONE
-    if ( !forwarder )
-    {
-        forwarder = [ [ ofxGenericInAppPurchaseForwarder alloc ] initWithPurchaser:_this.lock() ];
-    }
     NSMutableSet* productIdentifiers = [ NSMutableSet set ];
     for ( unsigned int i = 0; i < products.size(); i++ )
     {
@@ -83,7 +81,6 @@ void ofxGenericStorePurchaser::findProducts( std::vector< string > products )
     }
     SKProductsRequest* productsRequest = [ [ [ SKProductsRequest alloc ] initWithProductIdentifiers:productIdentifiers ] autorelease ];
     productsRequest.delegate = forwarder;
-    forwarder.productsRequest = productsRequest;
     [ productsRequest start ];
 #endif
 }
@@ -97,16 +94,11 @@ ofPtr< ofxGenericStoreProduct > ofxGenericStorePurchaser::getStoreProduct( strin
 void ofxGenericStorePurchaser::purchaseProduct( string identifier )
 {
 #if TARGET_OS_IPHONE
-    if ( !forwarder )
-    {
-        forwarder = [ [ ofxGenericInAppPurchaseForwarder alloc ] initWithPurchaser:_this.lock() ];
-    }
     
     ofPtr< ofxGenericStoreProduct > product = _products[ identifier ];
     if ( product )
     {
         SKPayment *payment = [ SKPayment paymentWithProductIdentifier: ofxStringToNSString( product->getIdentifier() )  ];
-        [ forwarder makeTransactionObserver: nil ];
         [ [ SKPaymentQueue defaultQueue ] addPayment:payment ];
     }
 #endif
@@ -115,12 +107,7 @@ void ofxGenericStorePurchaser::purchaseProduct( string identifier )
 void ofxGenericStorePurchaser::restorePurchases()
 {
 #if TARGET_OS_IPHONE
-    if ( !forwarder )
-    {
-        forwarder = [ [ ofxGenericInAppPurchaseForwarder alloc ] initWithPurchaser:_this.lock() ];
-    }
     
-    [ forwarder makeTransactionObserver: nil ];
     [ [ SKPaymentQueue defaultQueue ] restoreCompletedTransactions ];
 #endif
 }
@@ -128,42 +115,21 @@ void ofxGenericStorePurchaser::restorePurchases()
 void ofxGenericStorePurchaser::finishAllTransactions()
 {
 #if TARGET_OS_IPHONE
-    if ( !forwarder )
-    {
-        forwarder = [ [ ofxGenericInAppPurchaseForwarder alloc ] initWithPurchaser:_this.lock() ];
-    }
     
     if ( [ [ SKPaymentQueue defaultQueue ].transactions count ] <= 0 )
     {
         return;
     }
     
-    [ forwarder makeTransactionObserver: nil ];
-    
     //if we still have transactions that are still being purchased, make sure to finish them by correctly crediting the user etc.
     for ( unsigned int i = 0; i < [ [ SKPaymentQueue defaultQueue ].transactions count ]; i++ )
     {
         SKPaymentTransaction *transaction = [ [ SKPaymentQueue defaultQueue ].transactions objectAtIndex:i ];
-        
-        if ( transaction.transactionState == SKPaymentTransactionStatePurchased )
-        {
-            paymentReceived( ofxGenericStoreTransaction::create( transaction, [ SKPaymentQueue defaultQueue ] ) );
-        }
-        else if ( transaction.transactionState == SKPaymentTransactionStateRestored )
-        {
-            paymentRestored( ofxGenericStoreTransaction::create( transaction, [ SKPaymentQueue defaultQueue ] ) );
-        }
-        else if ( transaction.transactionState == SKPaymentTransactionStateFailed )
-        {
-            ofPtr< ofxGenericStoreTransaction > ofxGTransaction = ofxGenericStoreTransaction::create( transaction, [ SKPaymentQueue defaultQueue ] );
-            paymentFailed( ofxGTransaction, ofxGToString( transaction.error.localizedDescription ) );
-            
-            //this seems the correct thing to do so the user is not plagued forever
-            finishPurchase( ofxGTransaction );
-        }
+        [forwarder processTransaction:transaction queue:[SKPaymentQueue defaultQueue]];
     }
 #endif
 }
+
 
 void ofxGenericStorePurchaser::finishPurchase( ofPtr< ofxGenericStoreTransaction > transaction )
 {
@@ -179,6 +145,25 @@ bool ofxGenericStorePurchaser::paymentsCanBeMade()
 #endif
 }
 
+#pragma mark Error Handling
+
+void ofxGenericStorePurchaser::errorFetchingProducts(NSError *error)
+{
+    _isFindingProducts = false;
+    if (error.localizedDescription.length > 0) {
+        ofLogError("Error in ofxGenericStorePurchaser: " + (string)error.localizedDescription.UTF8String);
+    } else {
+        ofLogError("Error in ofxGenericStorePurchaser");
+    }
+    
+    if ( _delegate )
+    {
+        _delegate.lock()->inApp_failedToFetchProducts(error);
+    }
+}
+
+#pragma mark Product Related Callbacks
+
 void ofxGenericStorePurchaser::productsResponseReceived( std::map< string, ofPtr< ofxGenericStoreProduct > > products, std::vector< string > identifiers )
 {
     _isFindingProducts = false;
@@ -189,6 +174,8 @@ void ofxGenericStorePurchaser::productsResponseReceived( std::map< string, ofPtr
     }
 }
 
+#pragma mark - Payment Related Callbacks
+
 void ofxGenericStorePurchaser::paymentReceived( ofPtr< ofxGenericStoreTransaction > transaction )
 {
     ofLogVerbose("ofxGenericStorePurchaser: paymentReceived - " + transaction->getProductIdentifier() );
@@ -198,13 +185,19 @@ void ofxGenericStorePurchaser::paymentReceived( ofPtr< ofxGenericStoreTransactio
     }
 }
 
-void ofxGenericStorePurchaser::paymentFailed( ofPtr< ofxGenericStoreTransaction > transaction, string error )
+void ofxGenericStorePurchaser::paymentFailed( ofPtr< ofxGenericStoreTransaction > transaction, NSError *error )
 {
-    ofLogError("ofxGenericStorePurchaser: paymentFailed - " + error );
+    if (error.localizedDescription.length > 0) {
+        ofLogError("ofxGenericStorePurchaser: paymentFailed - " + (string)error.localizedDescription.UTF8String );
+    } else {
+        ofLogError("ofxGenericStorePurchaser: paymentFailed");
+    }
     if ( _delegate )
     {
-        _delegate.lock()->inApp_purchaseFailed( transaction->getProductIdentifier(), transaction, error );
+        _delegate.lock()->inApp_purchaseFailed(transaction, error);
     }
+    
+    finishPurchase(transaction);
 }
 
 void ofxGenericStorePurchaser::paymentRestored( ofPtr< ofxGenericStoreTransaction > transaction )
@@ -216,15 +209,6 @@ void ofxGenericStorePurchaser::paymentRestored( ofPtr< ofxGenericStoreTransactio
     }
 }
 
-void ofxGenericStorePurchaser::errorReceived( string error )
-{
-    _isFindingProducts = false;
-    ofLogError("Error in ofxGenericStorePurchaser: " + error );
-    if ( _delegate )
-    {
-        _delegate.lock()->inApp_productsFailed( error );
-    }
-}
 
 void ofxGenericStorePurchaser::setDelegate( ofPtrWeak< ofxGenericStorePurchaserDelegate > delegate )
 {
@@ -232,9 +216,8 @@ void ofxGenericStorePurchaser::setDelegate( ofPtrWeak< ofxGenericStorePurchaserD
 }
 
 #if TARGET_OS_IPHONE
+#pragma mark - ofxGenericInAppPurchaseForwarder Implementation
 @implementation ofxGenericInAppPurchaseForwarder
-
-@synthesize productsRequest;
 
 - (id) initWithPurchaser: ( ofPtrWeak< ofxGenericStorePurchaser > ) purchaser
 {
@@ -246,7 +229,7 @@ void ofxGenericStorePurchaser::setDelegate( ofPtrWeak< ofxGenericStorePurchaserD
     return nil;
 }
 
-- (void) productsRequest:(SKProductsRequest*)request didReceiveResponse:(SKProductsResponse *)response
+- (void)productsRequest:(SKProductsRequest*)request didReceiveResponse:(SKProductsResponse *)response
 {
     if ( !_purchaser )
     {
@@ -274,21 +257,15 @@ void ofxGenericStorePurchaser::setDelegate( ofPtrWeak< ofxGenericStorePurchaserD
     _purchaser.lock()->productsResponseReceived( products, identifiers );
 }
 
-- (void) request:(SKRequest*)request didFailWithError:(NSError*)error
+- (void)request:(SKRequest*)request didFailWithError:(NSError*)error
 {
     if ( !_purchaser )
     {
         return;
     }
     
-    if ( error && error.localizedDescription )
-    {
-        _purchaser.lock()->errorReceived( ofxGToString( error.localizedDescription ) );
-    }
-    else
-    {
-        _purchaser.lock()->errorReceived( ofxGLocalized( "StorePurchaserUnknownError", "Unknown Error" ) );
-    }
+    _purchaser.lock()->errorFetchingProducts(error);
+ 
 }
 
 - (void) paymentQueue:(SKPaymentQueue *)queue updatedTransactions: (NSArray * )transactions
@@ -300,29 +277,29 @@ void ofxGenericStorePurchaser::setDelegate( ofPtrWeak< ofxGenericStorePurchaserD
     
     for ( SKPaymentTransaction* transaction in transactions )
     {
-        switch ( transaction.transactionState )
-        {
-            case SKPaymentTransactionStatePurchased:
-                _purchaser.lock()->paymentReceived( ofxGenericStoreTransaction::create( transaction, queue ) );
-                [ self removeAsTransactionObserver: queue ];
-                break;
-            case SKPaymentTransactionStateFailed:
-                _purchaser.lock()->paymentFailed( ofxGenericStoreTransaction::create( transaction, queue ), ofxGToString( transaction.error.localizedDescription ) );
-                [ self removeAsTransactionObserver: queue ];
-                break;
-            case SKPaymentTransactionStateRestored:
-                _purchaser.lock()->paymentRestored( ofxGenericStoreTransaction::create( transaction, queue ) );
-                [ self removeAsTransactionObserver: queue ];
-                break;
-            case SKPaymentTransactionStatePurchasing:
-                [ self removeAsTransactionObserver: queue ];
-                break;
-            default:
-                break;
-        }
+        [self processTransaction:transaction queue:queue];
     }
-    
-    
+}
+
+- (void)processTransaction:(SKPaymentTransaction *)transaction queue:(SKPaymentQueue *)queue;
+{
+    switch ( transaction.transactionState )
+    {
+        case SKPaymentTransactionStatePurchasing:
+            break;
+        case SKPaymentTransactionStatePurchased:
+            _purchaser.lock()->paymentReceived( ofxGenericStoreTransaction::create( transaction, queue ) );
+            break;
+        case SKPaymentTransactionStateFailed:
+            _purchaser.lock()->paymentFailed(ofxGenericStoreTransaction::create( transaction, queue ), transaction.error);
+            break;
+        case SKPaymentTransactionStateRestored:
+            _purchaser.lock()->paymentRestored( ofxGenericStoreTransaction::create( transaction, queue ) );
+            break;
+     
+        default:
+            break;
+    }
 }
 
 - (void) paymentQueue:(SKPaymentQueue *)queue updatedDownloads:(NSArray *)downloads
@@ -330,46 +307,6 @@ void ofxGenericStorePurchaser::setDelegate( ofPtrWeak< ofxGenericStorePurchaserD
     //not sure if I need to do anything in here, it's just a required method
 }
 
-- (void) makeTransactionObserver:(SKPaymentQueue *)queue
-{
-    if ( _isTransactionObserver )
-    {
-        return;
-    }
-    
-    if ( queue )
-    {
-        [ queue addTransactionObserver:self ];
-    }
-    else
-    {
-        [ [ SKPaymentQueue defaultQueue ] addTransactionObserver:self ];
-    }
-}
-
-- (void) removeAsTransactionObserver:(SKPaymentQueue *)queue
-{
-    if ( !_isTransactionObserver )
-    {
-        return;
-    }
-    
-    if ( queue )
-    {
-        [ queue removeTransactionObserver:self ];
-    }
-    else
-    {
-        [ [ SKPaymentQueue defaultQueue ] removeTransactionObserver:self ];
-    }
-}
-
--(void) dealloc
-{
-    self.productsRequest = nil;
-    
-    [ super dealloc ];
-}
-
 @end
-#endif
+
+#endif // TARGET_OS_IPHONE

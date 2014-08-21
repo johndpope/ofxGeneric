@@ -47,8 +47,6 @@ void SignalHandler( int signal );
     ofSetupOpenGL( window, 1024, 768, OF_FULLSCREEN );
     ofRunApp( app );
     
-    
-    
     if ( [ self shouldInstallDefaultUncaughtExceptionHandler ] )
     {
         [ self installUncaughtExceptionHandler ];

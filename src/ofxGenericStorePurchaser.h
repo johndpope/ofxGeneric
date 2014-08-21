@@ -36,13 +36,9 @@ class ofxGenericStorePurchaser;
 @interface ofxGenericInAppPurchaseForwarder : NSObject < SKProductsRequestDelegate, SKPaymentTransactionObserver >
 {
     ofPtrWeak< ofxGenericStorePurchaser > _purchaser;
-    SKProductsRequest* productsRequest;
-    BOOL _isTransactionObserver;
 }
-@property (retain) SKProductsRequest* productsRequest;
-- (id) initWithPurchaser: ( ofPtrWeak< ofxGenericStorePurchaser > ) purchaser;
-- (void) makeTransactionObserver:(SKPaymentQueue *)queue;
-- (void) removeAsTransactionObserver:(SKPaymentQueue *)queue;
+- (instancetype) initWithPurchaser: ( ofPtrWeak< ofxGenericStorePurchaser > ) purchaser;
+- (void)processTransaction:(SKPaymentTransaction *)transaction queue:(SKPaymentQueue *)queue;
 @end
 
 #endif
@@ -56,8 +52,8 @@ public:
     //pass in a list of products we want to use
     static ofPtr< ofxGenericStorePurchaser > create( std::vector< string > products, ofPtrWeak< ofxGenericStorePurchaserDelegate > delegate = ofPtrWeak< ofxGenericStorePurchaserDelegate >() );
     
-    //when the app is foregrounded, we should finish all transactions for all purchasers
-    static void doForegroundedWork();
+    //begins listening for changes in the Payment Queue.  This should happen during application initialization.  Subsequent calls to this method will have no effect. 
+    void beginObserving();
     
     //requests the NativeStoreProducts from the app store using the passed IDs
     void findProducts( std::vector< string > products );
@@ -83,9 +79,9 @@ public:
     //called by forwarder
     void productsResponseReceived( std::map< string, ofPtr< ofxGenericStoreProduct > > products, std::vector< string > identifiers );
     void paymentReceived( ofPtr< ofxGenericStoreTransaction > transaction );
-    void paymentFailed( ofPtr< ofxGenericStoreTransaction > transaction, string error );
+    void paymentFailed( ofPtr< ofxGenericStoreTransaction > transaction, NSError *error );
     void paymentRestored( ofPtr< ofxGenericStoreTransaction > transaction );
-    void errorReceived( string error );
+    void errorFetchingProducts(NSError *error);
     
     void setDelegate( ofPtrWeak< ofxGenericStorePurchaserDelegate > delegate );
     
@@ -100,6 +96,7 @@ protected:
     
     static std::vector< ofPtrWeak< ofxGenericStorePurchaser > > _allPurchasers;
     bool _isFindingProducts;
+    bool _isObservingPurchases;
     
 #if TARGET_OS_IPHONE
     ofxGenericInAppPurchaseForwarder *forwarder;
@@ -110,9 +107,12 @@ class ofxGenericStorePurchaserDelegate
 {
 public:
     virtual ~ofxGenericStorePurchaserDelegate() {};
+    //Product Fetch Methods
     virtual void inApp_productsReceived( std::vector< string > products ) {};
-    virtual void inApp_productsFailed( string error ) {};
+    virtual void inApp_failedToFetchProducts(NSError *error) {};
+    
+    //Product Purchase Methods
     virtual void inApp_purchaseComplete( string identifier, ofPtr< ofxGenericStoreTransaction > transaction ) {};
     virtual void inApp_purchaseRestored( string identifier, ofPtr< ofxGenericStoreTransaction > transaction ) {};
-    virtual void inApp_purchaseFailed( string identifier, ofPtr< ofxGenericStoreTransaction > transaction, string error ) {};
+    virtual void inApp_purchaseFailed(ofPtr< ofxGenericStoreTransaction > transaction, NSError *error) {};
 };
