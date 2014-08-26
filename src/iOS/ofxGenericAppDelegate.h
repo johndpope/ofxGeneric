@@ -15,7 +15,7 @@ class ofxAppGenericWindow;
 #import <UIKit/UIKit.h>
 #import "ofxGenericApp.h"
 
-@interface ofxGenericAppDelegate : NSObject < UIApplicationDelegate >  
+@interface ofxGenericAppDelegate : UIResponder < UIApplicationDelegate >
 {
     CADisplayLink* _displayLink;
     ofPtr< ofxAppGenericWindow > _ofxWindow;
