@@ -643,6 +643,33 @@ string ofxGenericView::getAccessibilityLabel()
     return label;
 }
 
+void ofxGenericView::setAccessibilityIdentifier( string accessibilityIdentifier )
+{
+#if TARGET_OS_IPHONE
+    if ( _view )
+    {
+        _view.accessibilityIdentifier = ofxStringToNSString( accessibilityIdentifier );
+    }
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "setAccessibilityIdentifier" );
+#endif
+}
+
+string ofxGenericView::getAccessibilityIdentifier()
+{
+    string label = "";
+#if TARGET_OS_IPHONE
+    if ( _view )
+    {
+        label = ofxNSStringToString( _view.accessibilityIdentifier );
+    }
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "getAccessibilityIdentifier" );
+#endif
+    
+    return label;
+}
+
 void ofxGenericView::setDropShadowColor( const ofColor& color )
 {
 #if TARGET_OS_IPHONE
@@ -1083,6 +1110,7 @@ void ofxGenericView::copyProperties( ofPtr< ofxGenericView > view )
         setContentMode( view->getContentMode() );
         setNextResponder( view->getNextResponder() );
         setViewDelegate( view->getViewDelegate() );
+        setAccessibilityIdentifier( view->getAccessibilityIdentifier());
     }
 }
 
