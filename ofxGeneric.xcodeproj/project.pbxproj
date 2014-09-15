@@ -1102,6 +1102,19 @@
 			};
 			name = Release;
 		};
+		CB12B89C19C69E310082DA32 /* DebugCalabash */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = DebugCalabash;
+		};
+		CB12B89D19C69E310082DA32 /* DebugCalabash */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3CA5336415B61A7900A8D36B /* Debug.xcconfig */;
+			buildSettings = {
+			};
+			name = DebugCalabash;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1109,6 +1122,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3C7B4DFC14FC78A1003121FE /* Debug */,
+				CB12B89C19C69E310082DA32 /* DebugCalabash */,
 				3C7B4DFD14FC78A1003121FE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1118,6 +1132,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3C7B4DFF14FC78A1003121FE /* Debug */,
+				CB12B89D19C69E310082DA32 /* DebugCalabash */,
 				3C7B4E0014FC78A1003121FE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
