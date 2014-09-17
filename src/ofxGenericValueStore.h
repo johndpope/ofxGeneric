@@ -43,6 +43,7 @@ public:
         ofxGenericValueStoreTypeUninitialized,
         ofxGenericValueStoreTypeFloat,
         ofxGenericValueStoreTypeInt,
+        ofxGenericValueStoreTypeUInt,
         ofxGenericValueStoreTypeBool,
         ofxGenericValueStoreTypeString,
         ofxGenericValueStoreTypeObject,
@@ -53,6 +54,7 @@ public:
     
     static ofPtr< ofxGenericValueStore > createWithValue( float value );
     static ofPtr< ofxGenericValueStore > createWithValue( int value );
+    static ofPtr< ofxGenericValueStore > createWithValue( unsigned int value );
     static ofPtr< ofxGenericValueStore > createWithValue( bool value );
     static ofPtr< ofxGenericValueStore > createWithValue( string value );
     static ofPtr< ofxGenericValueStore > createWithValue( const char* value );
@@ -68,6 +70,7 @@ public:
     
     virtual void write( float value );
     virtual void write( int value );
+    virtual void write( unsigned int value );
     virtual void write( bool value );
     virtual void write( string value );
     virtual void write( const char* value );
@@ -88,6 +91,7 @@ public:
 
     bool isFloat() const;
     bool isInt() const;
+    bool isUInt() const;
     bool isBool() const;
     bool isString() const;
     bool isObject() const;
@@ -95,6 +99,7 @@ public:
     
     float asFloat( float defaultValue = 0.0f ) const;
     int asInt( int defaultValue = 0 ) const;
+    unsigned int asUInt( unsigned int defaultValue = 0 ) const;
     bool asBool( bool defaultValue = false ) const;
     string asString( string defaultValue = string() ) const;
     string asString( ofxGenericMIMEType mimeType ) const;
@@ -108,6 +113,7 @@ public:
     
     virtual void write( string key, float value );
     virtual void write( string key, int value );
+    virtual void write( string key, unsigned int value );
     virtual void write( string key, bool value );
     virtual void write( string key, string value, bool onlyIfFilled = false );
     virtual void write( string key, const char* value, bool onlyIfFilled = false );
@@ -116,6 +122,7 @@ public:
     
     virtual float   read( string key, float defaultValue ) const;
     virtual int     read( string key, int defaultValue ) const;
+    virtual unsigned int read( string key, unsigned int defaultValue ) const;
     virtual bool    read( string key, bool defaultValue ) const;
     virtual string  read( string key, string defaultValue ) const;
     virtual string  read( string key, const char* defaultValue ) const;
@@ -214,6 +221,7 @@ protected:
     {
         float _floatValue;
         int _intValue;
+        unsigned int _uintValue;
         bool _boolValue;
         string* _stringValue;
         ofxGenericValueStoreObject* _objectValue;

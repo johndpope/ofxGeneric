@@ -60,6 +60,14 @@ ofPtr< ofxGenericValueStore > ofxGenericValueStore::createWithValue( int value )
     return create;
 }
 
+ofPtr< ofxGenericValueStore > ofxGenericValueStore::createWithValue( unsigned int value )
+{
+    ofPtr< ofxGenericValueStore > create( new ofxGenericValueStore() );
+    create->init( create, ofxGenericValueStoreTypeUInt );
+    create->write( value );
+    return create;
+}
+
 ofPtr< ofxGenericValueStore > ofxGenericValueStore::createWithValue( bool value )
 {
     ofPtr< ofxGenericValueStore > create( new ofxGenericValueStore() );
@@ -212,6 +220,23 @@ void ofxGenericValueStore::write( int value )
     } else if ( isInt() )
     {
         _values._intValue = value;
+    } else if ( isBool() )
+    {
+        write( ( bool )value );
+    } else if ( isString() )
+    {
+        write( ofxGToString( value ) );
+    }
+}
+
+void ofxGenericValueStore::write( unsigned int value )
+{
+    if ( isFloat() )
+    {
+        write( ( float )value );
+    } else if ( isUInt() )
+    {
+        _values._uintValue = value;
     } else if ( isBool() )
     {
         write( ( bool )value );
@@ -415,6 +440,12 @@ bool ofxGenericValueStore::isInt() const
     return getType() == ofxGenericValueStoreTypeInt;
 }
 
+bool ofxGenericValueStore::isUInt() const
+{
+    return getType() == ofxGenericValueStoreTypeUInt;
+}
+
+
 bool ofxGenericValueStore::isBool() const
 {
     return getType() == ofxGenericValueStoreTypeBool;
@@ -455,6 +486,21 @@ int ofxGenericValueStore::asInt( int defaultValue ) const
     if ( isInt() )
     {
         return _values._intValue;
+    } else if ( isFloat() )
+    {
+        return ( int )asFloat();
+    } else if ( isString() )
+    {
+        return atoi( asString().c_str() );
+    }
+    return defaultValue;
+}
+
+unsigned int ofxGenericValueStore::asUInt( unsigned int defaultValue ) const
+{
+    if ( isUInt() )
+    {
+        return _values._uintValue;
     } else if ( isFloat() )
     {
         return ( int )asFloat();
@@ -652,6 +698,15 @@ void ofxGenericValueStore::write( string key, int value )
     }
 }
 
+void ofxGenericValueStore::write( string key, unsigned int value )
+{
+    if ( asObject() )
+    {
+        ( *asObject() )[ key ] = createWithValue( value );
+        addObjectKey( key );
+    }
+}
+
 void ofxGenericValueStore::write( string key, bool value )
 {
     if ( asObject() )
@@ -712,6 +767,16 @@ int ofxGenericValueStore::read( string key, int defaultValue ) const
     if ( value )
     {
         return value->asInt();
+    }
+    return defaultValue;
+}
+
+unsigned int ofxGenericValueStore::read( string key, unsigned int defaultValue ) const
+{
+    ofPtr< ofxGenericValueStore > value = read( key );
+    if ( value )
+    {
+        return value->asUInt();
     }
     return defaultValue;
 }
@@ -1207,7 +1272,7 @@ ofPtr< ofxGenericValueStore > ofxGenericValueStore::createFrom( Json::Value& con
         case Json::intValue:
             return createWithValue( convert.asInt() );
         case Json::uintValue:
-            return createWithValue( convert.asInt() ); // TODO: fix range or support uint
+            return createWithValue( convert.asUInt() );
         case Json::realValue:
             return createWithValue( ( float )convert.asDouble() );
         case Json::stringValue:
