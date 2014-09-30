@@ -248,6 +248,7 @@ protected:
     bool _verify;
     string _securityKey;
     virtual string generateHash();
+    void handleValueParseError( Type type );
 };
 
 ofPtr< ofxGenericValueStore > operator << ( ofPtr< ofxGenericValueStore > store, const char* key );

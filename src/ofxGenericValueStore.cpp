@@ -20,6 +20,17 @@
 
 #define HmacStoreKey "hash"
 
+
+#define LogValueStoreTypeError(type) \
+    { \
+        ofxGLogFatalError(" ofxGenericValueStore error [" + string(__PRETTY_FUNCTION__) + " Line: " + ofxGToString(__LINE__) + "] unsupported value type: " + ofxGToString( type ) ); \
+    }
+
+#define LogValueStoreValueError(type, value) \
+    { \
+        ofxGLogFatalError(" ofxGenericValueStore error [" + string(__PRETTY_FUNCTION__) + " Line: " + ofxGToString(__LINE__) + "] unsupported value " + ofxGToString( value ) + "for type: " + ofxGToString( type ) ); \
+    }
+
 ofPtr< ofxGenericValueStore > ofxGenericValueStore::create( bool asArray )
 {
     ofxGenericValueStore::Type type;
@@ -203,12 +214,20 @@ void ofxGenericValueStore::write( float value )
     } else if ( isInt() )
     {
         write( ( int )value );
+    } else if ( isUInt() )
+    {
+        write( ( unsigned int )value );
+    
     } else if ( isBool() )
     {
         write( ( bool )value );
     } else if ( isString() )
     {
         write( ofxGToString( value ) );
+    }
+    else
+    {
+        LogValueStoreTypeError( getType() );
     }
 }
 
@@ -220,12 +239,33 @@ void ofxGenericValueStore::write( int value )
     } else if ( isInt() )
     {
         _values._intValue = value;
+    } else if ( isUInt() )
+    {
+        // [JON 9/29/14] Json::Reader::decodeNumber automatically determines the integer type
+        // based on the integer value read. Numbers < Json::Value::maxInt are converted to
+        // signed integers.
+        // 
+        // We need to support this conversion from Int to UInt for server result ids less
+        // than Json::Value::maxInt, which Json::Reader puts in an Int. We need to support
+        // unsigned integer values and GameResultModel expects a UInt.
+        if ( value >= 0 )
+        {
+            _values._uintValue = (unsigned int)value;
+        } else
+        {
+            _values._uintValue = 0;
+            LogValueStoreValueError( getType(), value );
+        }
     } else if ( isBool() )
     {
         write( ( bool )value );
     } else if ( isString() )
     {
         write( ofxGToString( value ) );
+    }
+    else
+    {
+        LogValueStoreTypeError( getType() );
     }
 }
 
@@ -244,6 +284,10 @@ void ofxGenericValueStore::write( unsigned int value )
     {
         write( ofxGToString( value ) );
     }
+    else
+    {
+        LogValueStoreTypeError( getType() );
+    }
 }
 
 void ofxGenericValueStore::write( bool value )
@@ -254,12 +298,19 @@ void ofxGenericValueStore::write( bool value )
     } else if ( isInt() )
     {
         write( ( int )value );
+    } else if ( isUInt() )
+    {
+        write( ( unsigned int )value );
     } else if ( isBool() )
     {
         _values._boolValue = value;
     } else if ( isString() )
     {
         write( ofxGToString( value ) );
+    }
+    else
+    {
+        LogValueStoreTypeError( getType() );
     }
 }
 
@@ -271,12 +322,19 @@ void ofxGenericValueStore::write( string value )
     } else if ( isInt() )
     {
         write( ( int )atoi( value.c_str() ) );
+    } else if ( isUInt() )
+    {
+        write( ( unsigned int )strtoul( value.c_str(), NULL, 0) );
     } else if ( isBool() )
     {
         write( ofxGToBool( value ) );
     } else if ( isString() )
     {
         ( *_values._stringValue ) = value;
+    }
+    else
+    {
+        LogValueStoreTypeError( getType() );
     }
 }
 
@@ -300,6 +358,9 @@ void ofxGenericValueStore::write( ofPtr< ofxGenericValueStore > value )
         } else if ( value->isInt() )
         {
             write( value->asInt() );
+        } else if ( value->isUInt() )
+        {
+            write( value->asUInt() );
         } else if ( value->isBool() )
         {
             write( value->asBool() );
@@ -363,6 +424,10 @@ void ofxGenericValueStore::write( ofPtr< ofxGenericValueStore > value )
                 }
             }
         }
+        else
+        {
+            LogValueStoreTypeError( getType() );
+        }
     }
 }
 
@@ -399,9 +464,16 @@ void ofxGenericValueStore::operator++()
     } else if ( isInt() )
     {
         write( asInt() + 1 );
+    } else if ( isUInt() )
+    {
+        write( asUInt() + 1 );
     } else if ( isBool() )
     {
         write( !asBool() );
+    }
+    else
+    {
+        LogValueStoreTypeError( getType() );
     }
 }
 
@@ -413,9 +485,25 @@ void ofxGenericValueStore::operator--()
     } else if ( isInt() )
     {
         write( asInt() - 1 );
+    } else if ( isUInt() )
+    {
+        unsigned int value = asUInt();
+        if ( value > 0 )
+        {
+            write( value - 1 );
+        }
+        else
+        {
+            LogValueStoreValueError( getType(), value );
+            write( 0 );
+        }
     } else if ( isBool() )
     {
         write( !asBool() );
+    }
+    else
+    {
+        LogValueStoreTypeError( getType() );
     }
 }
 
@@ -474,9 +562,16 @@ float ofxGenericValueStore::asFloat( float defaultValue ) const
     } else if ( isInt() )
     {
         return ( float )asInt();
+    } else if ( isUInt() )
+    {
+        return ( float )asUInt();
     } else if ( isString() )
     {
         return ( float )atof( asString().c_str() );
+    }
+    else
+    {
+        LogValueStoreTypeError( getType() );
     }
     return defaultValue;
 }
@@ -493,6 +588,11 @@ int ofxGenericValueStore::asInt( int defaultValue ) const
     {
         return atoi( asString().c_str() );
     }
+    else
+    {
+        LogValueStoreTypeError( getType() );
+    }
+    
     return defaultValue;
 }
 
@@ -501,12 +601,36 @@ unsigned int ofxGenericValueStore::asUInt( unsigned int defaultValue ) const
     if ( isUInt() )
     {
         return _values._uintValue;
+    } else if ( isInt() )
+    {
+        // [JON 9/29/14] Json::Reader::decodeNumber automatically determines the integer type
+        // based on the integer value read. Numbers < Json::Value::maxInt are converted to
+        // signed integers.
+        //
+        // We need to support this conversion from Int to UInt for server result ids less
+        // than Json::Value::maxInt, which Json::Reader puts in an Int. We need to support
+        // unsigned integer values and GameResultModel expects a UInt.
+        int value = asInt();
+        if ( value >= 0 )
+        {
+            return (unsigned int) value;
+        } else
+        {
+            LogValueStoreValueError( getType(), value );
+            return 0;
+        }
+        
+        return ( unsigned int )asInt();
     } else if ( isFloat() )
     {
         return ( int )asFloat();
     } else if ( isString() )
     {
         return atoi( asString().c_str() );
+    }
+    else
+    {
+        LogValueStoreTypeError( getType() );
     }
     return defaultValue;
 }
@@ -519,6 +643,9 @@ bool ofxGenericValueStore::asBool( bool defaultValue ) const
     } else if ( isInt() )
     {
         return ( bool )asInt();
+    } else if ( isUInt() )
+    {
+        return ( bool )asUInt();
     } else if ( isFloat() )
     {
         return ( bool )asFloat();
@@ -526,6 +653,11 @@ bool ofxGenericValueStore::asBool( bool defaultValue ) const
     {
         return ofxGToBool( asString() );
     }
+    else
+    {
+        LogValueStoreTypeError( getType() );
+    }
+    
     return defaultValue;
 }
 
@@ -537,6 +669,9 @@ string ofxGenericValueStore::asString( string defaultValue ) const
     } else if ( isInt() )
     {
         return ofxGToString( asInt() );
+    } else if ( isUInt() )
+    {
+        return ofxGToString( asUInt() );
     } else if ( isBool() )
     {
         return ofxGToString( asBool() );
@@ -552,6 +687,11 @@ string ofxGenericValueStore::asString( string defaultValue ) const
         // TODO: parse?
         return "array";
     }
+    else
+    {
+        LogValueStoreTypeError( getType() );
+    }
+    
     return defaultValue;
 }
 
@@ -1239,6 +1379,9 @@ void ofxGenericValueStore::convertFrom( Json::Value& convert )
     } else if ( convert.type() == Json::intValue && isInt() )
     {
         write( convert.asInt() );
+    } else if ( convert.type() == Json::uintValue && isUInt() )
+    {
+        write( convert.asUInt() );
     } else if ( convert.type() == Json::booleanValue && isBool() )
     {
         write( convert.asBool() );
@@ -1260,6 +1403,10 @@ void ofxGenericValueStore::convertFrom( Json::Value& convert )
         {
             write( index, ofxGenericValueStore::createFrom( convert[ index ] ) ); 
         }
+    }
+    else
+    {
+        LogValueStoreTypeError( getType() );
     }
 }
 
@@ -1299,6 +1446,8 @@ ofPtr< ofxGenericValueStore > ofxGenericValueStore::createFrom( Json::Value& con
             }    
             return array;
         }
+        default:
+            LogValueStoreTypeError( convert.type() );
             break;
     }
     return ofPtr< ofxGenericValueStore >();
@@ -1432,16 +1581,24 @@ Json::Value* ofxGenericValueStore::convertToJSON() const
     if ( isFloat() )
     {
         node = new Json::Value( ( double )asFloat() );
-    } else if ( isInt() )
+    }
+    else if ( isInt() )
     {
         node = new Json::Value( asInt() );
-    } else if ( isBool() )
+    }
+    else if ( isUInt() )
+    {
+        node = new Json::Value( asUInt() );
+    }
+    else if ( isBool() )
     {
         node = new Json::Value( asBool() );
-    } else if ( isString() )
+    }
+    else if ( isString() )
     {
         node = new Json::Value( asString() );
-    } else if ( isObject() )
+    }
+    else if ( isObject() )
     {
         node = new Json::Value( Json::objectValue );
         for( ofxGenericValueStoreObjectConstIterator travMembers = objectBegin(); travMembers !=objectEnd(); travMembers ++ )
@@ -1483,6 +1640,10 @@ Json::Value* ofxGenericValueStore::convertToJSON() const
                 ofxGLogError( "In writing to JSON a node at index " + ofxGToString( indexCount ) + " is empty" );
             }
         }
+    }
+    else
+    {
+        LogValueStoreTypeError( getType() );
     }
     return node;
 }
@@ -1551,6 +1712,9 @@ NSNumber* ofxGenericValueStore::toNSNumber() const
         case ofxGenericValueStoreTypeInt:
             result = [ NSNumber numberWithInt:asInt() ];
             break;
+        case ofxGenericValueStoreTypeUInt:
+            result = [ NSNumber numberWithUnsignedInteger:asUInt() ];
+            break;
         case ofxGenericValueStoreTypeObject:
             break;
         case ofxGenericValueStoreTypeString:
@@ -1558,6 +1722,8 @@ NSNumber* ofxGenericValueStore::toNSNumber() const
             break;
         case ofxGenericValueStoreTypeUninitialized:
             break;
+        default:
+            LogValueStoreTypeError( getType() );
     }
     
     return result;
