@@ -194,6 +194,16 @@ void ofxGenericWebView::setScrollingEnabled( bool enabled )
 #endif
 }
 
+void ofxGenericWebView::setScalesPageToFit(bool scales)
+{
+#if TARGET_OS_IPHONE
+    UIWebView *webView = getNativeWebView();
+    if (webView) {
+        webView.scalesPageToFit = (BOOL)scales;
+    }
+#endif
+}
+
 #if TARGET_OS_IPHONE
 ofPtr< ofxGenericScrollView > ofxGenericWebView::getScrollContainer()
 {

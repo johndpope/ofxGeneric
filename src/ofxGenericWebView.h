@@ -36,6 +36,7 @@ public:
     void goForward();
     
     void setScrollingEnabled( bool enabled );
+    void setScalesPageToFit(bool scales);
 #if TARGET_OS_IPHONE
     ofPtr< ofxGenericScrollView > getScrollContainer();
 #endif
