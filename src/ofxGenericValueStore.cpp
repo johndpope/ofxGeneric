@@ -1713,7 +1713,7 @@ NSNumber* ofxGenericValueStore::toNSNumber() const
             result = [ NSNumber numberWithInt:asInt() ];
             break;
         case ofxGenericValueStoreTypeUInt:
-            result = [ NSNumber numberWithUnsignedInteger:asUInt() ];
+            result = [ NSNumber numberWithUnsignedInt:asUInt() ];
             break;
         case ofxGenericValueStoreTypeObject:
             break;
