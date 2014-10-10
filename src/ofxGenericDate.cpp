@@ -418,7 +418,9 @@ string ofxGenericDate::getStringRepresentation( string format, bool convertToUTC
     }
     
     NSDate* nsDate = convertToNSDate();
-    [ formatter setDateFormat:ofxStringToNSString( format ) ];
+    formatter.locale = [NSLocale autoupdatingCurrentLocale];
+    NSString *localeFormatString = [NSDateFormatter dateFormatFromTemplate:ofxStringToNSString( format ) options:0 locale:formatter.locale];
+    formatter.dateFormat = localeFormatString;
     result = ofxNSStringToString( [ formatter stringFromDate:nsDate ] );
     
     if ( replaceDay )
