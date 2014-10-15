@@ -95,6 +95,9 @@ public:
     
     virtual string getDescription();
     
+    virtual string getStringRepresentationForUI( ofxGenericDate::DateFormat format = ofxGenericDate::DateFormatDateOnly, bool convertToUTC = false );
+    virtual string getStringRepresentationForUI( string format, bool convertToUTC = false );
+    
     // NOTE: only use getStringRepresentation functions for creating user-visible strings for the UI.  For data interchange, use getCanonicalRepresentation functions below
     virtual string getStringRepresentation( ofxGenericDate::DateFormat format = ofxGenericDate::DateFormatDateOnly, bool convertToUTC = false );
     virtual string getStringRepresentation( string format, bool convertToUTC = false );
@@ -134,6 +137,8 @@ protected:
     unsigned int _hour;
     unsigned int _minute;
     unsigned int _second;
+private:
+    string mutateDateStringRepresentation( string format, string result, NSDateFormatter* formatter);
 };
 
 bool operator == ( ofPtr< ofxGenericDate > left, ofPtr< ofxGenericDate > right );

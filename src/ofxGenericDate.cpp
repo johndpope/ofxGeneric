@@ -384,22 +384,19 @@ void ofxGenericDate::init( ofPtrWeak< ofxGenericDate > setThis, double time )
     setFromSinceReferenceDate( time );
 }
 
+string ofxGenericDate::getStringRepresentationForUI( ofxGenericDate::DateFormat format, bool convertToUTC )
+{
+    return getStringRepresentationForUI( getDateFormatAsString( format ), convertToUTC );
+}
+
 string ofxGenericDate::getStringRepresentation( ofxGenericDate::DateFormat format, bool convertToUTC )
 {
     return getStringRepresentation( getDateFormatAsString( format ), convertToUTC );
 }
 
-string ofxGenericDate::getStringRepresentation( string format, bool convertToUTC )
+string ofxGenericDate::mutateDateStringRepresentation( string format, string result, NSDateFormatter* formatter)
 {
-    string result;
-    
 #if TARGET_OS_IPHONE
-    NSDateFormatter* formatter = [ [ [ NSDateFormatter alloc ] init ] autorelease ];
-    if( convertToUTC )
-    {
-        [ formatter setTimeZone:[ NSTimeZone timeZoneWithName:@"UTC" ] ];
-    }
-    
     bool replaceDay = false;
     size_t start, end;
     if ( ofxGenericLocalization::getPreferredISOLanguage() != "en" )
@@ -416,12 +413,6 @@ string ofxGenericDate::getStringRepresentation( string format, bool convertToUTC
             format.replace( start, end - start, "|||" );
         }
     }
-    
-    NSDate* nsDate = convertToNSDate();
-    formatter.locale = [NSLocale autoupdatingCurrentLocale];
-    NSString *localeFormatString = [NSDateFormatter dateFormatFromTemplate:ofxStringToNSString( format ) options:0 locale:formatter.locale];
-    formatter.dateFormat = localeFormatString;
-    result = ofxNSStringToString( [ formatter stringFromDate:nsDate ] );
     
     if ( replaceDay )
     {
@@ -444,14 +435,52 @@ string ofxGenericDate::getStringRepresentation( string format, bool convertToUTC
         {
             insertEnd = result.size();
         }
-
+        
         result.replace( insertStart, insertEnd - insertStart, localizedDay.substr( 0, end - start ) );
     }
-
-#elif TARGET_ANDROID
 #endif
     
     return result;
+}
+
+string ofxGenericDate::getStringRepresentationForUI( string format, bool convertToUTC )
+{
+    string result;
+    
+#if TARGET_OS_IPHONE
+    NSDateFormatter* formatter = [ [ [ NSDateFormatter alloc ] init ] autorelease ];
+    if( convertToUTC )
+    {
+        [ formatter setTimeZone:[ NSTimeZone timeZoneWithName:@"UTC" ] ];
+    }
+    NSDate* nsDate = convertToNSDate();
+    formatter.locale = [NSLocale autoupdatingCurrentLocale];
+    NSString *localeFormatString = [NSDateFormatter dateFormatFromTemplate:ofxStringToNSString( format ) options:0 locale:formatter.locale];
+    formatter.dateFormat = localeFormatString;
+    result = ofxNSStringToString( [ formatter stringFromDate:nsDate ] );
+    
+#elif TARGET_ANDROID
+#endif
+    return mutateDateStringRepresentation(format, result, formatter);
+}
+
+string ofxGenericDate::getStringRepresentation( string format, bool convertToUTC )
+{
+    string result;
+    
+#if TARGET_OS_IPHONE
+    NSDateFormatter* formatter = [ [ [ NSDateFormatter alloc ] init ] autorelease ];
+    if( convertToUTC )
+    {
+        [ formatter setTimeZone:[ NSTimeZone timeZoneWithName:@"UTC" ] ];
+    }
+    NSDate* nsDate = convertToNSDate();
+    [ formatter setDateFormat:ofxStringToNSString( format ) ];
+    result = ofxNSStringToString( [ formatter stringFromDate:nsDate ] );
+    
+#elif TARGET_ANDROID
+#endif
+    return mutateDateStringRepresentation(format, result, formatter);
 }
 
 string ofxGenericDate::getCanonicalRepresentation()
