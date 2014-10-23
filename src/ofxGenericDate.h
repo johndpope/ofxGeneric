@@ -137,10 +137,7 @@ protected:
     unsigned int _hour;
     unsigned int _minute;
     unsigned int _second;
-#if TARGET_OS_IPHONE
-private:
-    string mutateDateStringRepresentation( string format, string result, NSDateFormatter* formatter);
-#endif
+    
 };
 
 bool operator == ( ofPtr< ofxGenericDate > left, ofPtr< ofxGenericDate > right );
