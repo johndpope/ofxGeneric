@@ -168,6 +168,7 @@
 		CBF409F41982F3ED000CB539 /* ofxGenericFontSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = CBF409EE1982F3ED000CB539 /* ofxGenericFontSettings.h */; };
 		CD6D23BF183C54590094EF0D /* ofxGenericLayoutConstraint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CD6D23BD183C54590094EF0D /* ofxGenericLayoutConstraint.cpp */; };
 		CD6D23C0183C54590094EF0D /* ofxGenericLayoutConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = CD6D23BE183C54590094EF0D /* ofxGenericLayoutConstraint.h */; };
+		D31A6DB719F9B04C007292B6 /* XCode6_patch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D31A6DB519F9B04C007292B6 /* XCode6_patch.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -395,6 +396,7 @@
 		CBF409EE1982F3ED000CB539 /* ofxGenericFontSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericFontSettings.h; sourceTree = "<group>"; };
 		CD6D23BD183C54590094EF0D /* ofxGenericLayoutConstraint.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericLayoutConstraint.cpp; sourceTree = "<group>"; };
 		CD6D23BE183C54590094EF0D /* ofxGenericLayoutConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericLayoutConstraint.h; sourceTree = "<group>"; };
+		D31A6DB519F9B04C007292B6 /* XCode6_patch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XCode6_patch.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -634,6 +636,7 @@
 				3C29BC6417167A2100C77EFB /* ofxGenericHeadingManager.cpp */,
 				3C29BC6517167A2100C77EFB /* ofxGenericHeadingManager.h */,
 				3C9F4AED168E77B6005F583E /* ofxGenericDelegateContainer.h */,
+				D31A6DB519F9B04C007292B6 /* XCode6_patch.cpp */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -997,6 +1000,7 @@
 				3C0AC1511522C34500872B70 /* ofxGenericPlatform.cpp in Sources */,
 				45037A491534E6E200ADB7EC /* ofxGenericValueStore.cpp in Sources */,
 				453E462115365E1C00C66514 /* json_reader.cpp in Sources */,
+				D31A6DB719F9B04C007292B6 /* XCode6_patch.cpp in Sources */,
 				453E462215365E1C00C66514 /* json_value.cpp in Sources */,
 				453E462315365E1C00C66514 /* json_writer.cpp in Sources */,
 				453E463015365E1C00C66514 /* ofxJSONElement.cpp in Sources */,
