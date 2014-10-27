@@ -44,12 +44,26 @@ const char* ofxGenericButtonView::className = "cc/openframeworks/ofxGeneric/Butt
 std::vector< ofxGenericButtonView* > ofxGenericButtonView::_nativeMap;
 #endif
 
+#if TARGET_OS_IPHONE
+static Class nativeClass = Nil;
+#endif
+
 ofPtr< ofxGenericButtonView > ofxGenericButtonView::create( ofxGenericButtonType buttonType, const ofRectangle& setFrame, ofPtrWeak< ofxGenericButtonViewDelegate > touchDelegate )
 {
     ofPtr< ofxGenericButtonView > create = ofPtr< ofxGenericButtonView >( new ofxGenericButtonView() );
     create->init( create, buttonType, setFrame, touchDelegate );
     return create;
 }
+
+#if TARGET_OS_IPHONE
+void ofxGenericButtonView::setNativeViewClass( Class nativeViewClass )
+{
+    if ([nativeViewClass isSubclassOfClass:[UIButton class]])
+    {
+        nativeClass = nativeViewClass;
+    }
+}
+#endif
 
 ofxGenericButtonView::ofxGenericButtonView()
 {
@@ -82,7 +96,8 @@ NativeView ofxGenericButtonView::createNativeView( const ofRectangle& frame )
 {
 #if TARGET_OS_IPHONE
     // TODO: configurable type
-    UIButton* newView = [ [ UIButton buttonWithType:ofxGenericButtonTypeToiOS(lastButtonType) ] retain ];
+     Class labelClass = nativeClass ? nativeClass : [UIButton class];
+    UIButton* newView = [ [ labelClass buttonWithType:ofxGenericButtonTypeToiOS(lastButtonType) ] retain ];
     [ newView setFrame:ofxRectangleToCGRect( frame ) ];
     [ newView setTitleColor:[ UIColor blackColor ] forState:UIControlStateNormal ];
     [ newView setBackgroundColor:[ UIColor clearColor ] ];

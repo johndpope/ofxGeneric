@@ -78,6 +78,7 @@ public:
     bool getEnabled();
     
 #if TARGET_OS_IPHONE
+    static void setNativeViewClass( Class nativeViewClass );
     operator UIButton*();
 #elif TARGET_ANDROID
 
