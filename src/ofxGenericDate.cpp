@@ -394,55 +394,6 @@ string ofxGenericDate::getStringRepresentation( ofxGenericDate::DateFormat forma
     return getStringRepresentation( getDateFormatAsString( format ), convertToUTC );
 }
 
-#if TARGET_OS_IPHONE
-string ofxGenericDate::mutateDateStringRepresentation( string format, string result, NSDateFormatter* formatter)
-{
-    bool replaceDay = false;
-    size_t start, end;
-    if ( ofxGenericLocalization::getPreferredISOLanguage() != "en" )
-    {
-        start = format.find( "E" );
-        if ( start != string::npos )
-        {
-            replaceDay = true;
-            end = format.find_first_not_of( "E", start );
-            if ( end == string::npos )
-            {
-                end = format.size();
-            }
-            format.replace( start, end - start, "|||" );
-        }
-    }
-    
-    if ( replaceDay )
-    {
-        NSArray* localizedDaysOfTheWeek;
-        if ( end - start > 3 )
-        {
-            localizedDaysOfTheWeek = [ formatter weekdaySymbols ];
-        } else if ( end - start > 1 )
-        {
-            localizedDaysOfTheWeek = [ formatter shortWeekdaySymbols ];
-        } else
-        {
-            localizedDaysOfTheWeek = [ formatter veryShortWeekdaySymbols ];
-        }
-        string localizedDay = ofxNSStringToString( [ localizedDaysOfTheWeek objectAtIndex:getDay() ] );
-        size_t insertStart, insertEnd;
-        insertStart = result.find( "|" );
-        insertEnd = result.find_first_not_of( "|", insertStart );
-        if ( insertEnd == string::npos )
-        {
-            insertEnd = result.size();
-        }
-        
-        result.replace( insertStart, insertEnd - insertStart, localizedDay.substr( 0, end - start ) );
-    }
-    
-    return result;
-}
-#endif
-
 string ofxGenericDate::getStringRepresentationForUI( string format )
 {
     string result;
@@ -454,7 +405,6 @@ string ofxGenericDate::getStringRepresentationForUI( string format )
     NSString *localeFormatString = [NSDateFormatter dateFormatFromTemplate:ofxStringToNSString( format ) options:0 locale:formatter.locale];
     formatter.dateFormat = localeFormatString;
     result = ofxNSStringToString( [ formatter stringFromDate:nsDate ] );
-    result = mutateDateStringRepresentation(format, result, formatter);
 #elif TARGET_ANDROID
 #endif
     return result;
@@ -473,7 +423,6 @@ string ofxGenericDate::getStringRepresentation( string format, bool convertToUTC
     NSDate* nsDate = convertToNSDate();
     [ formatter setDateFormat:ofxStringToNSString( format ) ];
     result = ofxNSStringToString( [ formatter stringFromDate:nsDate ] );
-    result = mutateDateStringRepresentation(format, result, formatter);
 #elif TARGET_ANDROID
 #endif
     return result;
