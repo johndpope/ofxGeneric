@@ -45,7 +45,6 @@ public:
     void setAutosizeFontToFitText( bool autosize );
     bool getAutosizeFontToFitText();
 #if TARGET_OS_IPHONE
-    void autosizeFontForMultiline();
     static void setNativeViewClass( Class nativeViewClass );
 #endif
 
