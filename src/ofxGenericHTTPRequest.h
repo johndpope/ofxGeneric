@@ -52,6 +52,8 @@ public:
     string getHeaders() const;
     string getBodyAsString() const;
     
+    void appendQueryValueFieldPair( string value, string field );
+    
     virtual void setBody( string body );
     virtual void setBody( void* body, unsigned int bodyByteLength );
     virtual void setHeaderField( string field, string value );

@@ -372,6 +372,20 @@ string ofxGenericHTTPRequest::getBodyAsString() const
 #endif
 }
 
+void ofxGenericHTTPRequest::appendQueryValueFieldPair( string value, string field )
+{
+#if TARGET_OS_IPHONE
+    NSString *nsValueFieldPair = [NSString stringWithFormat:@"%@=%@", ofxStringToNSString(value), ofxStringToNSString(field)];
+    NSString *existingURL = [[_request URL ] absoluteString];
+    NSString *prepend = ([existingURL rangeOfString:@"?"].location == NSNotFound) ? @"?" : @"&";
+    NSString *stringToAppend = [prepend stringByAppendingString:nsValueFieldPair];
+    NSURL *newURL = [NSURL URLWithString:[existingURL stringByAppendingString:stringToAppend]];
+    if (newURL && newURL.scheme && newURL.host) {
+        _request.URL = newURL;
+    }
+#endif
+}
+
 string ofxGenericHTTPRequest::toString( bool includebody ) const
 {
     string result = "HTTPRequest -";
