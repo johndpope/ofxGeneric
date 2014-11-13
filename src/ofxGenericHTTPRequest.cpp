@@ -379,11 +379,15 @@ void ofxGenericHTTPRequest::appendQueryValueFieldPair( string value, string fiel
     NSString *nsField = [ofxStringToNSString(field) stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSString *nsValueFieldPair = [NSString stringWithFormat:@"%@=%@", nsValue, nsField];
 
-    NSString *existingURL = [_request URL ].absoluteString;
-    NSString *prepend = ([existingURL rangeOfString:@"?"].location == NSNotFound) ? @"?" : @"&";
-    NSString *stringToAppend = [prepend stringByAppendingString:nsValueFieldPair];
-    
-    NSURL *newURL = [NSURL URLWithString:[existingURL stringByAppendingString:stringToAppend]];
+    NSURLComponents *existingURLComponents = [[NSURLComponents alloc] initWithURL:[_request URL] resolvingAgainstBaseURL:YES];
+    NSString *existingQuery = existingURLComponents.query;
+    if ([existingQuery length] > 0) {
+        nsValueFieldPair = [@"&" stringByAppendingString:nsValueFieldPair];
+    } else {
+        existingQuery = @"";
+    }
+    existingURLComponents.query = [existingQuery stringByAppendingString:nsValueFieldPair];
+    NSURL *newURL = [existingURLComponents URL];
     if (newURL && newURL.scheme && newURL.host) {
         _request.URL = newURL;
     }
