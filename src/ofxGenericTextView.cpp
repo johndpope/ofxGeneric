@@ -52,10 +52,6 @@ void ofxGenericTextView::setText( string newText )
     {
         UILabel* labelView = ( UILabel* )_view;
         [ labelView setText:ofxStringToNSString( newText ) ];
-        if ( getAutosizeFontToFitText() && getNumberOfLines() != 1 )
-        {
-            autosizeFontForMultiline();
-        }
     }
 #endif
 }
@@ -218,10 +214,6 @@ void ofxGenericTextView::setAutosizeFontToFitText( bool autosize )
     {
         UILabel* labelView = ( UILabel* )_view;
         [ labelView setAdjustsFontSizeToFitWidth:( BOOL )autosize ];
-        if ( autosize && getNumberOfLines() != 1 )
-        {
-            autosizeFontForMultiline();
-        }
     }
 #endif
 }
@@ -237,23 +229,6 @@ bool ofxGenericTextView::getAutosizeFontToFitText()
 #endif
     return false;
 }
-
-#if TARGET_OS_IPHONE
-void ofxGenericTextView::autosizeFontForMultiline()
-{
-    float newFontSize = ofxGFontSizeForText( getText(), getFontName(), getFontSize(), ofPoint( getFrame().width, getFrame().height ) );
-    
-    if ( newFontSize < getMinimumFontSize() )
-    {
-        newFontSize = getMinimumFontSize();
-    }
-    
-    if ( newFontSize != getFontSize() )
-    {
-        setFont( getFontName(), newFontSize );
-    }
-}
-#endif
 
 float ofxGenericTextView::getMinimumFontSize()
 {
