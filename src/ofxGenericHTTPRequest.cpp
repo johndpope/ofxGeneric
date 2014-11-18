@@ -372,6 +372,33 @@ string ofxGenericHTTPRequest::getBodyAsString() const
 #endif
 }
 
+void ofxGenericHTTPRequest::appendQueryValueFieldPair( string value, string field )
+{
+#if TARGET_OS_IPHONE
+    NSString *nsValue = [ofxStringToNSString(value) stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *nsField = [ofxStringToNSString(field) stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    if (![nsValue length] || ![nsField length]) {
+        return;
+    }
+    NSString *nsValueFieldPair = [NSString stringWithFormat:@"%@=%@", nsValue, nsField];
+
+    NSURLComponents *existingURLComponents = [[NSURLComponents alloc] initWithURL:[_request URL] resolvingAgainstBaseURL:YES];
+    NSString *existingQuery = existingURLComponents.query;
+    if ([existingQuery length] > 0) {
+        nsValueFieldPair = [@"&" stringByAppendingString:nsValueFieldPair];
+    } else {
+        existingQuery = @"";
+    }
+    existingURLComponents.query = [existingQuery stringByAppendingString:nsValueFieldPair];
+    NSURL *newURL = [existingURLComponents URL];
+    if (newURL && newURL.scheme && newURL.host) {
+        _request.URL = newURL;
+    } else {
+        NSLog(@"Lumosity - Error: %@", [NSString stringWithFormat:@"URL (%@) with query string is invalid with query parameters: %@", [_request.URL description], nsValueFieldPair]);
+    }
+#endif
+}
+
 string ofxGenericHTTPRequest::toString( bool includebody ) const
 {
     string result = "HTTPRequest -";
