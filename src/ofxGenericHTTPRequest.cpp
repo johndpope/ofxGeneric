@@ -377,6 +377,9 @@ void ofxGenericHTTPRequest::appendQueryValueFieldPair( string value, string fiel
 #if TARGET_OS_IPHONE
     NSString *nsValue = [ofxStringToNSString(value) stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSString *nsField = [ofxStringToNSString(field) stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    if (![nsValue length] || ![nsField length]) {
+        return;
+    }
     NSString *nsValueFieldPair = [NSString stringWithFormat:@"%@=%@", nsValue, nsField];
 
     NSURLComponents *existingURLComponents = [[NSURLComponents alloc] initWithURL:[_request URL] resolvingAgainstBaseURL:YES];
@@ -390,6 +393,8 @@ void ofxGenericHTTPRequest::appendQueryValueFieldPair( string value, string fiel
     NSURL *newURL = [existingURLComponents URL];
     if (newURL && newURL.scheme && newURL.host) {
         _request.URL = newURL;
+    } else {
+        NSLog(@"Lumosity - Error: %@", [NSString stringWithFormat:@"URL (%@) with query string is invalid with query parameters: %@", [_request.URL description], nsValueFieldPair]);
     }
 #endif
 }
