@@ -82,6 +82,20 @@ string ofxGenericDate::getDateFormatAsString( ofxGenericDate::DateFormat format 
     return "";
 }
 
+#if TARGET_OS_IPHONE
+NSDateFormatterStyle ofxGenericDate::getNSDateFormatterStyle( ofxGenericDate::DateFormatterStyle dateFormatterStyle)
+{
+    switch ( dateFormatterStyle ) {
+        case DateFormatterNoStyle: return NSDateFormatterNoStyle;
+        case DateFormatterShortStyle: return NSDateFormatterShortStyle;
+        case DateFormatterMediumStyle: return NSDateFormatterMediumStyle;
+        case DateFormatterLongStyle: return NSDateFormatterLongStyle;
+        case DateFormatterFullStyle: return NSDateFormatterFullStyle;
+        default: return NSDateFormatterNoStyle;
+    }
+}
+#endif
+
 ofxGenericDate::~ofxGenericDate()
 {
     
@@ -392,6 +406,21 @@ string ofxGenericDate::getStringRepresentationForUI( ofxGenericDate::DateFormat 
 string ofxGenericDate::getStringRepresentation( ofxGenericDate::DateFormat format, bool convertToUTC )
 {
     return getStringRepresentation( getDateFormatAsString( format ), convertToUTC );
+}
+
+string ofxGenericDate::getStringRepresentationForUI(ofxGenericDate::DateFormatterStyle dateStyle, ofxGenericDate::DateFormatterStyle timeStyle)
+{
+    string result;
+#if TARGET_OS_IPHONE
+    NSDateFormatter* formatter = [ [ [ NSDateFormatter alloc ] init ] autorelease ];
+    NSDate* nsDate = convertToNSDate();
+    formatter.locale = [NSLocale autoupdatingCurrentLocale];
+    formatter.dateStyle = getNSDateFormatterStyle(dateStyle);
+    formatter.timeStyle = getNSDateFormatterStyle(timeStyle);
+    result = ofxNSStringToString( [ formatter stringFromDate:nsDate ] );
+#elif TARGET_ANDROID
+#endif
+    return result;
 }
 
 string ofxGenericDate::getStringRepresentationForUI( string format )
