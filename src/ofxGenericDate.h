@@ -38,6 +38,15 @@ public:
         DateFormatCount
     };
     
+    enum DateFormatterStyle
+    {
+        DateFormatterNoStyle,
+        DateFormatterShortStyle,
+        DateFormatterMediumStyle,
+        DateFormatterLongStyle,
+        DateFormatterFullStyle
+    };
+    
     static string getDateFormatAsString( ofxGenericDate::DateFormat format );
     
     virtual ~ofxGenericDate();
@@ -97,6 +106,7 @@ public:
     
     virtual string getStringRepresentationForUI( ofxGenericDate::DateFormat format = ofxGenericDate::DateFormatDateOnly );
     virtual string getStringRepresentationForUI( string format );
+    virtual string getStringRepresentationForUI(ofxGenericDate::DateFormatterStyle dateStyle, ofxGenericDate::DateFormatterStyle timeStyle);
     
     // NOTE: only use getStringRepresentation functions for creating user-visible strings for the UI.  For data interchange, use getCanonicalRepresentation functions below
     virtual string getStringRepresentation( ofxGenericDate::DateFormat format = ofxGenericDate::DateFormatDateOnly, bool convertToUTC = false );
@@ -137,6 +147,10 @@ protected:
     unsigned int _hour;
     unsigned int _minute;
     unsigned int _second;
+    
+#if TARGET_OS_IPHONE
+    NSDateFormatterStyle getNSDateFormatterStyle( ofxGenericDate::DateFormatterStyle dateFormatterStyle);
+#endif
     
 };
 
