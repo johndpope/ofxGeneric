@@ -101,6 +101,8 @@ public:
     void setAccessibilityIdentifier( string accessibilityIdentifier );
     string getAccessibilityIdentifier();
     
+    void sizeToFit();
+    
     void setDropShadowColor( const ofColor& color );
     ofColor getDropShadowColor();
     void setDropShadowOffset( const ofPoint& offset );
