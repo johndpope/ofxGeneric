@@ -655,6 +655,18 @@ void ofxGenericView::setAccessibilityIdentifier( string accessibilityIdentifier 
 #endif
 }
 
+void ofxGenericView::sizeToFit()
+{
+#if TARGET_OS_IPHONE
+    if ( _view )
+    {
+        [_view sizeToFit];
+    }
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "sizeToFit" );
+#endif
+}
+
 string ofxGenericView::getAccessibilityIdentifier()
 {
     string label = "";
