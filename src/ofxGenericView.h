@@ -82,7 +82,10 @@ public:
     virtual void didDisappear();
     
     virtual void hitInView( ofPoint location );
-    
+
+    void setWrappingViewController(UIViewController *wrappingViewController);
+    UIViewController *getWrappingViewController() const;
+
     void setAlpha( float alpha );
     float getAlpha();
     
@@ -228,6 +231,8 @@ protected:
     friend class ofxAppGenericWindow;
     
 private:
+    __weak UIViewController *_wrappingViewController;
+
     void addChildViewPre( ofPtr< ofxGenericView > add );
     void addChildViewPost( ofPtr< ofxGenericView > add );
 };
