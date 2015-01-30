@@ -231,7 +231,7 @@ protected:
     friend class ofxAppGenericWindow;
     
 private:
-    __weak UIViewController *_wrappingViewController;
+    UIViewController *_wrappingViewController; // non-retaining ref
 
     void addChildViewPre( ofPtr< ofxGenericView > add );
     void addChildViewPost( ofPtr< ofxGenericView > add );
