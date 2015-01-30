@@ -145,7 +145,7 @@ void ofxGenericApp::finishedLaunching()
 
 void ofxGenericApp::handleFinishedLaunchingPresetup()
 {
-    createRootView();
+    //createRootView();
 
     // TODO: move earlier
 #if TARGET_OS_IPHONE
