@@ -116,6 +116,9 @@ public:
     string getCanonicalRepresentation();            // eg, 2014-04-01T15:30:05-0800
     string getCalendarDayCanonicalRepresentation(); // eg, 2014-04-01 (only represents a calendar day, not a moment in time. Not affected by user's calendar setting .. e.g., Buddhist calendar)
     
+    //Used for sending timestamp in event's visit map. This is same as above but with UTC time zone.
+    string getCanonicalUTCRepresentation();
+    
     // NOTE: these two methods use POSIX locale to handle eg Buddhist calendar issues, but lets client specify format. Depending on format, might not be an unambiguous timestamp. Time in user's timezone.
     string getPOSIXRepresentation( ofxGenericDate::DateFormat format );
     string getPOSIXRepresentation( string format );
