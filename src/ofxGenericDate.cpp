@@ -47,6 +47,21 @@ static NSDateFormatter* getCanonicalDateFormatter()
     return canonicalDateFormatter;
 }
 
+static NSDateFormatter* getCanonicalUTCDateFormatter()
+{
+    static NSDateFormatter *canonicalDateFormatter = nil;  // creating NSDateFormatter is expensive .. hold on to static instance
+    if (!canonicalDateFormatter)
+    {
+        canonicalDateFormatter = [[NSDateFormatter alloc] init];
+        NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"]; // reference: https://developer.apple.com/library/ios/qa/qa1480/_index.html
+        [canonicalDateFormatter setLocale:[locale autorelease]];
+        [canonicalDateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssxx"];
+    }
+    [canonicalDateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]]; //set to UTC.
+    
+    return canonicalDateFormatter;
+}
+
 static NSDateFormatter* getCalendarDayCanonicalDateFormatter()
 {
     static NSDateFormatter *calendarDayCanonicalDateFormatter = nil;  // creating NSDateFormatter is expensive .. hold on to static instance
@@ -464,6 +479,18 @@ string ofxGenericDate::getCanonicalRepresentation()
     representation = [[getCanonicalDateFormatter() stringFromDate:convertToNSDate()] UTF8String];
 #elif TARGET_ANDROID
     throw ofxGenericExceptionMemberNotImplement( "ofxGenericDate", "getCanonicalRepresentation" );
+#endif
+    
+    return representation;
+}
+
+string ofxGenericDate::getCanonicalUTCRepresentation()
+{
+    string representation = "";
+#if TARGET_OS_IPHONE
+    representation = [[getCanonicalUTCDateFormatter() stringFromDate:convertToNSDate()] UTF8String];
+#elif TARGET_ANDROID
+    throw ofxGenericExceptionMemberNotImplement( "ofxGenericDate", "getCanonicalUTCRepresentation" );
 #endif
     
     return representation;
