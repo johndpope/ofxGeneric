@@ -11,16 +11,17 @@
 #include "ofxGenericMain.h"
 
 #if TARGET_OS_IPHONE
-#include "ofAppiPhoneWindow.h"
+// TZLA-619 // #include "ofAppiPhoneWindow.h"
 #elif TARGET_ANDROID
-#include "ofAppBaseWindow.h"
+// TZLA-619 // #include "ofAppBaseWindow.h"
 #endif
 
 #include "ofxGenericView.h"
 
 class ofxAppGenericWindow
 #if TARGET_OS_IPHONE
-: public ofAppiPhoneWindow
+// TZLA-619 //: public ofAppiPhoneWindow
+: public ofxGenericView
 #elif TARGET_ANDROID
 : public ofAppBaseWindow, public JNIObject
 #endif

@@ -8,7 +8,7 @@
 
 #include "ofxGenericCameraPreviewView.h"
 
-#include "ofxiPhoneExtras.h"
+// TZLA-619 // #include "ofxiPhoneExtras.h"
 
 #include "ofxGenericImage.h"
 
@@ -177,9 +177,9 @@ void ofxGenericCameraPreviewView::takePicture()
                  
                  pictureTaken( ofxGenericImage::create( image ) );
 
-                 ofPtr< ofImage > convertedImage( new ofImage() );
+                 /* TZLA-619 // ofPtr< ofImage > convertedImage( new ofImage() );
                  ofxiPhoneUIImageToOFImage( image, *convertedImage );
-                 pictureTaken( convertedImage );
+                 pictureTaken( convertedImage );*/
              }
          }
          ];
@@ -198,10 +198,10 @@ void ofxGenericCameraPreviewView::pictureTaken( ofPtr< ofxGenericImage > image )
     }
 }
 
-void ofxGenericCameraPreviewView::pictureTaken( ofPtr< ofImage > image )
+/* TZLA-619 // void ofxGenericCameraPreviewView::pictureTaken( ofPtr< ofImage > image )
 {
     if ( _delegate )
     {
         _delegate.lock()->pictureTaken( image );
     }
-}
+}*/

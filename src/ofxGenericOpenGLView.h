@@ -17,7 +17,7 @@
 #import <OpenGLES/ES2/glext.h>
 #endif
 
-#include "ofEvents.h"
+// TZLA-619 // #include "ofEvents.h"
 
 // TODO: depth, fsaa, retina
 class ofxGenericOpenGLView : public ofxGenericView
@@ -31,7 +31,7 @@ public:
     void willAppear();
     void didDisappear();
     
-    void update( ofEventArgs &args );
+    // TZLA-619 // void update( ofEventArgs &args );
 
     void deleteFramebuffer();
 

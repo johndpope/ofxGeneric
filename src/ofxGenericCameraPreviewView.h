@@ -32,7 +32,7 @@ public:
     
     virtual void takePicture();
     virtual void pictureTaken( ofPtr< ofxGenericImage > image );
-    virtual void pictureTaken( ofPtr< ofImage > image );
+    // TZLA-619 // virtual void pictureTaken( ofPtr< ofImage > image );
     
     virtual void deviceOrientationChanged( ofxGenericOrientationEventArgs& orientationArgs );
     
@@ -57,6 +57,6 @@ class ofxGenericCameraPreviewViewDelegate
 public:
     virtual ~ofxGenericCameraPreviewViewDelegate() {};
     
-    virtual void pictureTaken( ofPtr< ofImage > image ) {};
+    // TZLA-619 // virtual void pictureTaken( ofPtr< ofImage > image ) {};
     virtual void pictureTaken( ofPtr< ofxGenericImage > image ) {};
 };

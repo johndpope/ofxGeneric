@@ -7,6 +7,34 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		191208861ADD765800D78663 /* ofColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 191208731ADD765800D78663 /* ofColor.cpp */; };
+		191208871ADD765800D78663 /* ofColor.h in Headers */ = {isa = PBXBuildFile; fileRef = 191208741ADD765800D78663 /* ofColor.h */; };
+		191208881ADD765800D78663 /* ofConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 191208751ADD765800D78663 /* ofConstants.h */; };
+		191208891ADD765800D78663 /* ofFileUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 191208761ADD765800D78663 /* ofFileUtils.cpp */; };
+		1912088A1ADD765800D78663 /* ofFileUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 191208771ADD765800D78663 /* ofFileUtils.h */; };
+		1912088B1ADD765800D78663 /* ofMath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 191208781ADD765800D78663 /* ofMath.cpp */; };
+		1912088C1ADD765800D78663 /* ofMath.h in Headers */ = {isa = PBXBuildFile; fileRef = 191208791ADD765800D78663 /* ofMath.h */; };
+		1912088D1ADD765800D78663 /* ofPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1912087A1ADD765800D78663 /* ofPoint.cpp */; };
+		1912088E1ADD765800D78663 /* ofPoint.h in Headers */ = {isa = PBXBuildFile; fileRef = 1912087B1ADD765800D78663 /* ofPoint.h */; };
+		1912088F1ADD765800D78663 /* ofRectangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1912087C1ADD765800D78663 /* ofRectangle.cpp */; };
+		191208901ADD765800D78663 /* ofRectangle.h in Headers */ = {isa = PBXBuildFile; fileRef = 1912087D1ADD765800D78663 /* ofRectangle.h */; };
+		191208911ADD765800D78663 /* ofTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 1912087E1ADD765800D78663 /* ofTypes.h */; };
+		191208921ADD765800D78663 /* ofUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1912087F1ADD765800D78663 /* ofUtils.cpp */; };
+		191208931ADD765800D78663 /* ofUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 191208801ADD765800D78663 /* ofUtils.h */; };
+		191208941ADD765800D78663 /* ofVec2f.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 191208811ADD765800D78663 /* ofVec2f.cpp */; };
+		191208951ADD765800D78663 /* ofVec2f.h in Headers */ = {isa = PBXBuildFile; fileRef = 191208821ADD765800D78663 /* ofVec2f.h */; };
+		191208961ADD765800D78663 /* ofVec3f.h in Headers */ = {isa = PBXBuildFile; fileRef = 191208831ADD765800D78663 /* ofVec3f.h */; };
+		191208971ADD765800D78663 /* ofVec4f.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 191208841ADD765800D78663 /* ofVec4f.cpp */; };
+		191208981ADD765800D78663 /* ofVec4f.h in Headers */ = {isa = PBXBuildFile; fileRef = 191208851ADD765800D78663 /* ofVec4f.h */; };
+		1912089B1ADD767900D78663 /* ofCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 191208991ADD767900D78663 /* ofCommon.h */; };
+		1912089C1ADD767900D78663 /* ofCommon.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1912089A1ADD767900D78663 /* ofCommon.mm */; };
+		1912089E1ADD772700D78663 /* ofBaseApp.h in Headers */ = {isa = PBXBuildFile; fileRef = 1912089D1ADD772700D78663 /* ofBaseApp.h */; };
+		191208C21ADD86F900D78663 /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 191208BE1ADD86F900D78663 /* tinyxml.cpp */; };
+		191208C31ADD86F900D78663 /* tinyxml.h in Headers */ = {isa = PBXBuildFile; fileRef = 191208BF1ADD86F900D78663 /* tinyxml.h */; };
+		191208C41ADD86F900D78663 /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 191208C01ADD86F900D78663 /* tinyxmlerror.cpp */; };
+		191208C51ADD86F900D78663 /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 191208C11ADD86F900D78663 /* tinyxmlparser.cpp */; };
+		191208C81ADD877900D78663 /* ofxXmlSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 191208C61ADD877900D78663 /* ofxXmlSettings.cpp */; };
+		191208C91ADD877900D78663 /* ofxXmlSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 191208C71ADD877900D78663 /* ofxXmlSettings.h */; };
 		3C0AC1511522C34500872B70 /* ofxGenericPlatform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C0AC1501522C34500872B70 /* ofxGenericPlatform.cpp */; };
 		3C0B9F9E1571F9FA009F61BE /* ofxGenericCameraPreviewView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C0B9F9D1571F9FA009F61BE /* ofxGenericCameraPreviewView.cpp */; };
 		3C0B9FAC1571FB07009F61BE /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C7B4F1814FD4E1C003121FE /* AVFoundation.framework */; };
@@ -28,7 +56,7 @@
 		3C29BC6717167A2100C77EFB /* ofxGenericHeadingManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C29BC6517167A2100C77EFB /* ofxGenericHeadingManager.h */; };
 		3C2A68F3154374F400BDB696 /* ofxGenericOpenGLView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C2A68F2154374F400BDB696 /* ofxGenericOpenGLView.h */; };
 		3C2A68F61543786700BDB696 /* ofxGenericOpenGLView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C2A68F51543786700BDB696 /* ofxGenericOpenGLView.cpp */; };
-		3C2DB20A15474D8100000034 /* ofxGenericLocalization.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C2DB20915474D8100000034 /* ofxGenericLocalization.cpp */; };
+		3C2DB20A15474D8100000034 /* ofxGenericLocalization.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3C2DB20915474D8100000034 /* ofxGenericLocalization.mm */; };
 		3C3B1BA315CF71AC002A671A /* ofxGenericOAuthToken.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C3B1BA115CF71AC002A671A /* ofxGenericOAuthToken.cpp */; };
 		3C3B1BA415CF71AC002A671A /* ofxGenericOAuthToken.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C3B1BA215CF71AC002A671A /* ofxGenericOAuthToken.h */; };
 		3C3B1BAE15CF73F0002A671A /* ofxGenericOAuthGrantHTTPRequest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C3B1BA615CF73F0002A671A /* ofxGenericOAuthGrantHTTPRequest.cpp */; };
@@ -62,7 +90,7 @@
 		3C747C4B163E15C400AE5C92 /* ofxGenericSwitchView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C747C49163E15C400AE5C92 /* ofxGenericSwitchView.cpp */; };
 		3C747C4C163E15C400AE5C92 /* ofxGenericSwitchView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C747C4A163E15C400AE5C92 /* ofxGenericSwitchView.h */; };
 		3C7B4DDE14FC78A1003121FE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C7B4DDD14FC78A1003121FE /* Foundation.framework */; };
-		3C7B4EB514FC7CBF003121FE /* ofxAppGenericWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C7B4E8A14FC7CBF003121FE /* ofxAppGenericWindow.cpp */; };
+		3C7B4EB514FC7CBF003121FE /* ofxAppGenericWindow.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3C7B4E8A14FC7CBF003121FE /* ofxAppGenericWindow.mm */; };
 		3C7B4EB614FC7CBF003121FE /* ofxAppGenericWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C7B4E8B14FC7CBF003121FE /* ofxAppGenericWindow.h */; };
 		3C7B4EB714FC7CBF003121FE /* ofxGenericApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C7B4E8C14FC7CBF003121FE /* ofxGenericApp.cpp */; };
 		3C7B4EB814FC7CBF003121FE /* ofxGenericApp.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C7B4E8D14FC7CBF003121FE /* ofxGenericApp.h */; };
@@ -110,13 +138,7 @@
 		3CF50AB31582AD9D00D6F7DA /* ofxGenericValueStoreUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CF50AB21582AD9D00D6F7DA /* ofxGenericValueStoreUtility.cpp */; };
 		3CF590941506E6EA00963966 /* ofxGenericEditTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CF590931506E6EA00963966 /* ofxGenericEditTextView.h */; };
 		3CF590971506E78E00963966 /* ofxGenericEditTextView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CF590961506E78E00963966 /* ofxGenericEditTextView.cpp */; };
-		45037A491534E6E200ADB7EC /* ofxGenericValueStore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45037A481534E6E100ADB7EC /* ofxGenericValueStore.cpp */; };
-		453C813C15192A39005ED622 /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 453C813515192A39005ED622 /* tinyxml.cpp */; };
-		453C813D15192A39005ED622 /* tinyxml.h in Headers */ = {isa = PBXBuildFile; fileRef = 453C813615192A39005ED622 /* tinyxml.h */; };
-		453C813E15192A39005ED622 /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 453C813715192A39005ED622 /* tinyxmlerror.cpp */; };
-		453C813F15192A39005ED622 /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 453C813815192A39005ED622 /* tinyxmlparser.cpp */; };
-		453C814015192A39005ED622 /* ofxXmlSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 453C813A15192A39005ED622 /* ofxXmlSettings.cpp */; };
-		453C814115192A39005ED622 /* ofxXmlSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 453C813B15192A39005ED622 /* ofxXmlSettings.h */; };
+		45037A491534E6E200ADB7EC /* ofxGenericValueStore.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45037A481534E6E100ADB7EC /* ofxGenericValueStore.mm */; };
 		453DE3DE15F66AC400046917 /* ofxGenericPageControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 453DE3DC15F66AC400046917 /* ofxGenericPageControl.cpp */; };
 		453DE3DF15F66AC400046917 /* ofxGenericPageControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 453DE3DD15F66AC400046917 /* ofxGenericPageControl.h */; };
 		453E461815365E1C00C66514 /* autolink.h in Headers */ = {isa = PBXBuildFile; fileRef = 453E45BA15365E1C00C66514 /* autolink.h */; };
@@ -171,6 +193,34 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		191208731ADD765800D78663 /* ofColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ofColor.cpp; path = src/openFrameworks/ofColor.cpp; sourceTree = "<group>"; };
+		191208741ADD765800D78663 /* ofColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofColor.h; path = src/openFrameworks/ofColor.h; sourceTree = "<group>"; };
+		191208751ADD765800D78663 /* ofConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofConstants.h; path = src/openFrameworks/ofConstants.h; sourceTree = "<group>"; };
+		191208761ADD765800D78663 /* ofFileUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ofFileUtils.cpp; path = src/openFrameworks/ofFileUtils.cpp; sourceTree = "<group>"; };
+		191208771ADD765800D78663 /* ofFileUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofFileUtils.h; path = src/openFrameworks/ofFileUtils.h; sourceTree = "<group>"; };
+		191208781ADD765800D78663 /* ofMath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ofMath.cpp; path = src/openFrameworks/ofMath.cpp; sourceTree = "<group>"; };
+		191208791ADD765800D78663 /* ofMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofMath.h; path = src/openFrameworks/ofMath.h; sourceTree = "<group>"; };
+		1912087A1ADD765800D78663 /* ofPoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ofPoint.cpp; path = src/openFrameworks/ofPoint.cpp; sourceTree = "<group>"; };
+		1912087B1ADD765800D78663 /* ofPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofPoint.h; path = src/openFrameworks/ofPoint.h; sourceTree = "<group>"; };
+		1912087C1ADD765800D78663 /* ofRectangle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ofRectangle.cpp; path = src/openFrameworks/ofRectangle.cpp; sourceTree = "<group>"; };
+		1912087D1ADD765800D78663 /* ofRectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofRectangle.h; path = src/openFrameworks/ofRectangle.h; sourceTree = "<group>"; };
+		1912087E1ADD765800D78663 /* ofTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofTypes.h; path = src/openFrameworks/ofTypes.h; sourceTree = "<group>"; };
+		1912087F1ADD765800D78663 /* ofUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ofUtils.cpp; path = src/openFrameworks/ofUtils.cpp; sourceTree = "<group>"; };
+		191208801ADD765800D78663 /* ofUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofUtils.h; path = src/openFrameworks/ofUtils.h; sourceTree = "<group>"; };
+		191208811ADD765800D78663 /* ofVec2f.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ofVec2f.cpp; path = src/openFrameworks/ofVec2f.cpp; sourceTree = "<group>"; };
+		191208821ADD765800D78663 /* ofVec2f.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofVec2f.h; path = src/openFrameworks/ofVec2f.h; sourceTree = "<group>"; };
+		191208831ADD765800D78663 /* ofVec3f.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofVec3f.h; path = src/openFrameworks/ofVec3f.h; sourceTree = "<group>"; };
+		191208841ADD765800D78663 /* ofVec4f.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ofVec4f.cpp; path = src/openFrameworks/ofVec4f.cpp; sourceTree = "<group>"; };
+		191208851ADD765800D78663 /* ofVec4f.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofVec4f.h; path = src/openFrameworks/ofVec4f.h; sourceTree = "<group>"; };
+		191208991ADD767900D78663 /* ofCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofCommon.h; path = src/openFrameworks/ofCommon.h; sourceTree = "<group>"; };
+		1912089A1ADD767900D78663 /* ofCommon.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ofCommon.mm; path = src/openFrameworks/ofCommon.mm; sourceTree = "<group>"; };
+		1912089D1ADD772700D78663 /* ofBaseApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofBaseApp.h; path = src/openFrameworks/ofBaseApp.h; sourceTree = "<group>"; };
+		191208BE1ADD86F900D78663 /* tinyxml.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinyxml.cpp; path = src/openFrameworks/tinyxml.cpp; sourceTree = SOURCE_ROOT; };
+		191208BF1ADD86F900D78663 /* tinyxml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tinyxml.h; path = src/openFrameworks/tinyxml.h; sourceTree = SOURCE_ROOT; };
+		191208C01ADD86F900D78663 /* tinyxmlerror.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinyxmlerror.cpp; path = src/openFrameworks/tinyxmlerror.cpp; sourceTree = SOURCE_ROOT; };
+		191208C11ADD86F900D78663 /* tinyxmlparser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinyxmlparser.cpp; path = src/openFrameworks/tinyxmlparser.cpp; sourceTree = SOURCE_ROOT; };
+		191208C61ADD877900D78663 /* ofxXmlSettings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ofxXmlSettings.cpp; path = src/openFrameworks/ofxXmlSettings.cpp; sourceTree = SOURCE_ROOT; };
+		191208C71ADD877900D78663 /* ofxXmlSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxXmlSettings.h; path = src/openFrameworks/ofxXmlSettings.h; sourceTree = SOURCE_ROOT; };
 		3C0AC14E1522C2E700872B70 /* ofxGenericPlatform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericPlatform.h; sourceTree = "<group>"; };
 		3C0AC1501522C34500872B70 /* ofxGenericPlatform.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericPlatform.cpp; sourceTree = "<group>"; };
 		3C0B9F9B1571F992009F61BE /* ofxGenericCameraPreviewView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericCameraPreviewView.h; sourceTree = "<group>"; };
@@ -200,7 +250,7 @@
 		3C2A68F2154374F400BDB696 /* ofxGenericOpenGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericOpenGLView.h; sourceTree = "<group>"; };
 		3C2A68F51543786700BDB696 /* ofxGenericOpenGLView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericOpenGLView.cpp; sourceTree = "<group>"; };
 		3C2DB20715474D1100000034 /* ofxGenericLocalization.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericLocalization.h; sourceTree = "<group>"; };
-		3C2DB20915474D8100000034 /* ofxGenericLocalization.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericLocalization.cpp; sourceTree = "<group>"; };
+		3C2DB20915474D8100000034 /* ofxGenericLocalization.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericLocalization.mm; sourceTree = "<group>"; };
 		3C3B1BA115CF71AC002A671A /* ofxGenericOAuthToken.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericOAuthToken.cpp; sourceTree = "<group>"; };
 		3C3B1BA215CF71AC002A671A /* ofxGenericOAuthToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericOAuthToken.h; sourceTree = "<group>"; };
 		3C3B1BA615CF73F0002A671A /* ofxGenericOAuthGrantHTTPRequest.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericOAuthGrantHTTPRequest.cpp; sourceTree = "<group>"; };
@@ -242,7 +292,7 @@
 		3C7B4DDA14FC78A1003121FE /* libofxGeneric.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libofxGeneric.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C7B4DDD14FC78A1003121FE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3C7B4DED14FC78A1003121FE /* UIKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		3C7B4E8A14FC7CBF003121FE /* ofxAppGenericWindow.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxAppGenericWindow.cpp; sourceTree = "<group>"; };
+		3C7B4E8A14FC7CBF003121FE /* ofxAppGenericWindow.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxAppGenericWindow.mm; sourceTree = "<group>"; };
 		3C7B4E8B14FC7CBF003121FE /* ofxAppGenericWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxAppGenericWindow.h; sourceTree = "<group>"; };
 		3C7B4E8C14FC7CBF003121FE /* ofxGenericApp.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericApp.cpp; sourceTree = "<group>"; };
 		3C7B4E8D14FC7CBF003121FE /* ofxGenericApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericApp.h; sourceTree = "<group>"; };
@@ -310,13 +360,7 @@
 		3CF590931506E6EA00963966 /* ofxGenericEditTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericEditTextView.h; sourceTree = "<group>"; };
 		3CF590961506E78E00963966 /* ofxGenericEditTextView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericEditTextView.cpp; sourceTree = "<group>"; };
 		45037A461534E6D700ADB7EC /* ofxGenericValueStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericValueStore.h; sourceTree = "<group>"; };
-		45037A481534E6E100ADB7EC /* ofxGenericValueStore.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; lineEnding = 0; path = ofxGenericValueStore.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		453C813515192A39005ED622 /* tinyxml.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = tinyxml.cpp; sourceTree = "<group>"; };
-		453C813615192A39005ED622 /* tinyxml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tinyxml.h; sourceTree = "<group>"; };
-		453C813715192A39005ED622 /* tinyxmlerror.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = tinyxmlerror.cpp; sourceTree = "<group>"; };
-		453C813815192A39005ED622 /* tinyxmlparser.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = tinyxmlparser.cpp; sourceTree = "<group>"; };
-		453C813A15192A39005ED622 /* ofxXmlSettings.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxXmlSettings.cpp; sourceTree = "<group>"; };
-		453C813B15192A39005ED622 /* ofxXmlSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxXmlSettings.h; sourceTree = "<group>"; };
+		45037A481534E6E100ADB7EC /* ofxGenericValueStore.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; lineEnding = 0; path = ofxGenericValueStore.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		453DE3DC15F66AC400046917 /* ofxGenericPageControl.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericPageControl.cpp; sourceTree = "<group>"; };
 		453DE3DD15F66AC400046917 /* ofxGenericPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericPageControl.h; sourceTree = "<group>"; };
 		453E45B615365E1C00C66514 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -396,6 +440,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1912086A1ADD756500D78663 /* openFrameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1912089D1ADD772700D78663 /* ofBaseApp.h */,
+				191208731ADD765800D78663 /* ofColor.cpp */,
+				191208741ADD765800D78663 /* ofColor.h */,
+				191208751ADD765800D78663 /* ofConstants.h */,
+				191208761ADD765800D78663 /* ofFileUtils.cpp */,
+				191208771ADD765800D78663 /* ofFileUtils.h */,
+				191208781ADD765800D78663 /* ofMath.cpp */,
+				191208791ADD765800D78663 /* ofMath.h */,
+				1912087A1ADD765800D78663 /* ofPoint.cpp */,
+				1912087B1ADD765800D78663 /* ofPoint.h */,
+				1912087C1ADD765800D78663 /* ofRectangle.cpp */,
+				1912087D1ADD765800D78663 /* ofRectangle.h */,
+				1912087E1ADD765800D78663 /* ofTypes.h */,
+				1912087F1ADD765800D78663 /* ofUtils.cpp */,
+				191208801ADD765800D78663 /* ofUtils.h */,
+				191208811ADD765800D78663 /* ofVec2f.cpp */,
+				191208821ADD765800D78663 /* ofVec2f.h */,
+				191208831ADD765800D78663 /* ofVec3f.h */,
+				191208841ADD765800D78663 /* ofVec4f.cpp */,
+				191208851ADD765800D78663 /* ofVec4f.h */,
+				191208991ADD767900D78663 /* ofCommon.h */,
+				1912089A1ADD767900D78663 /* ofCommon.mm */,
+			);
+			name = openFrameworks;
+			sourceTree = "<group>";
+		};
 		3C0CB5B71638985200AB87C8 /* AESCrypt-ObjC */ = {
 			isa = PBXGroup;
 			children = (
@@ -451,6 +524,7 @@
 		3C7B4DCF14FC78A0003121FE = {
 			isa = PBXGroup;
 			children = (
+				1912086A1ADD756500D78663 /* openFrameworks */,
 				3C85FC4D150FD108001F5854 /* addons */,
 				3CA5336315B61A7900A8D36B /* configs */,
 				3C7B4E6E14FC7CBF003121FE /* src */,
@@ -509,7 +583,7 @@
 				3CEBF17615890F9A008D2937 /* ofxGenericBarGraphView.cpp */,
 				3CEBF17715890F9A008D2937 /* ofxGenericBarGraphView.h */,
 				3C7B4E8614FC7CBF003121FE /* iOS */,
-				3C7B4E8A14FC7CBF003121FE /* ofxAppGenericWindow.cpp */,
+				3C7B4E8A14FC7CBF003121FE /* ofxAppGenericWindow.mm */,
 				3C7B4E8B14FC7CBF003121FE /* ofxAppGenericWindow.h */,
 				3C17BC03150AA08E00DA1034 /* ofxGenericActivityView.cpp */,
 				3C17BC01150A9F9A00DA1034 /* ofxGenericActivityView.h */,
@@ -519,7 +593,7 @@
 				3C7B4E8D14FC7CBF003121FE /* ofxGenericApp.h */,
 				3C7B4E8E14FC7CBF003121FE /* ofxGenericButtonView.cpp */,
 				3C7B4E8F14FC7CBF003121FE /* ofxGenericButtonView.h */,
-				45037A481534E6E100ADB7EC /* ofxGenericValueStore.cpp */,
+				45037A481534E6E100ADB7EC /* ofxGenericValueStore.mm */,
 				45037A461534E6D700ADB7EC /* ofxGenericValueStore.h */,
 				3CF50AB01582ACF700D6F7DA /* ofxGenericValueStoreUtility.h */,
 				3CF50AB21582AD9D00D6F7DA /* ofxGenericValueStoreUtility.cpp */,
@@ -548,7 +622,7 @@
 				3C7B4E9614FC7CBF003121FE /* ofxGenericImageView.h */,
 				3C1E7B421508288D007B6723 /* ofxGenericLaunchView.cpp */,
 				3C1E7B431508288D007B6723 /* ofxGenericLaunchView.h */,
-				3C2DB20915474D8100000034 /* ofxGenericLocalization.cpp */,
+				3C2DB20915474D8100000034 /* ofxGenericLocalization.mm */,
 				3C2DB20715474D1100000034 /* ofxGenericLocalization.h */,
 				3C5336DA153F64A10046AFD8 /* ofxGenericMain.h */,
 				3C2A68F51543786700BDB696 /* ofxGenericOpenGLView.cpp */,
@@ -702,10 +776,10 @@
 		453C813415192A39005ED622 /* libs */ = {
 			isa = PBXGroup;
 			children = (
-				453C813515192A39005ED622 /* tinyxml.cpp */,
-				453C813615192A39005ED622 /* tinyxml.h */,
-				453C813715192A39005ED622 /* tinyxmlerror.cpp */,
-				453C813815192A39005ED622 /* tinyxmlparser.cpp */,
+				191208BE1ADD86F900D78663 /* tinyxml.cpp */,
+				191208BF1ADD86F900D78663 /* tinyxml.h */,
+				191208C01ADD86F900D78663 /* tinyxmlerror.cpp */,
+				191208C11ADD86F900D78663 /* tinyxmlparser.cpp */,
 			);
 			path = libs;
 			sourceTree = "<group>";
@@ -713,8 +787,8 @@
 		453C813915192A39005ED622 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				453C813A15192A39005ED622 /* ofxXmlSettings.cpp */,
-				453C813B15192A39005ED622 /* ofxXmlSettings.h */,
+				191208C61ADD877900D78663 /* ofxXmlSettings.cpp */,
+				191208C71ADD877900D78663 /* ofxXmlSettings.h */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -819,17 +893,17 @@
 				3C7B4EC114FC7CBF003121FE /* ofxGenericImageView.h in Headers */,
 				3C7B4EC314FC7CBF003121FE /* ofxGenericTableView.h in Headers */,
 				3C7B4EC514FC7CBF003121FE /* ofxGenericTextView.h in Headers */,
+				1912089B1ADD767900D78663 /* ofCommon.h in Headers */,
 				3C7B4EC614FC7CBF003121FE /* ofxGenericUI.h in Headers */,
 				3C7B4EC814FC7CBF003121FE /* ofxGenericUtility.h in Headers */,
 				3C7B4ECA14FC7CBF003121FE /* ofxGenericView.h in Headers */,
 				3CF590941506E6EA00963966 /* ofxGenericEditTextView.h in Headers */,
 				3C1E7B451508288D007B6723 /* ofxGenericLaunchView.h in Headers */,
 				3C85FC60151149B7001F5854 /* ofxGenericScrollView.h in Headers */,
-				453C813D15192A39005ED622 /* tinyxml.h in Headers */,
-				453C814115192A39005ED622 /* ofxXmlSettings.h in Headers */,
 				453E461815365E1C00C66514 /* autolink.h in Headers */,
 				453E461915365E1C00C66514 /* config.h in Headers */,
 				453E461A15365E1C00C66514 /* features.h in Headers */,
+				1912089E1ADD772700D78663 /* ofBaseApp.h in Headers */,
 				453E461B15365E1C00C66514 /* forwards.h in Headers */,
 				CBF409F01982F3ED000CB539 /* ofxGenericFontCategory.h in Headers */,
 				453E461C15365E1C00C66514 /* json.h in Headers */,
@@ -838,21 +912,29 @@
 				453E461E15365E1C00C66514 /* value.h in Headers */,
 				453E461F15365E1C00C66514 /* writer.h in Headers */,
 				453E462015365E1C00C66514 /* json_batchallocator.h in Headers */,
+				191208901ADD765800D78663 /* ofRectangle.h in Headers */,
+				191208C31ADD86F900D78663 /* tinyxml.h in Headers */,
 				453E463115365E1C00C66514 /* ofxJSONElement.h in Headers */,
+				191208931ADD765800D78663 /* ofUtils.h in Headers */,
 				3C5336E7153F6ED60046AFD8 /* ofxGenericAppDelegate.h in Headers */,
 				454496161540C66600B21064 /* ofxGenericAlertView.h in Headers */,
+				191208981ADD765800D78663 /* ofVec4f.h in Headers */,
 				3C2A68F3154374F400BDB696 /* ofxGenericOpenGLView.h in Headers */,
 				3CEBF17915890F9A008D2937 /* ofxGenericBarGraphView.h in Headers */,
 				3CC6222415AB930D009849CE /* ofxGenericUtilityiOS.h in Headers */,
+				191208871ADD765800D78663 /* ofColor.h in Headers */,
 				3C3B1BA415CF71AC002A671A /* ofxGenericOAuthToken.h in Headers */,
 				3C3B1BAF15CF73F0002A671A /* ofxGenericOAuthGrantHTTPRequest.h in Headers */,
 				3C3B1BB115CF73F0002A671A /* ofxGenericOAuthHTTPRequest.h in Headers */,
 				B54787E415E5759000ACF70F /* ofxGenericDateSelectorView.h in Headers */,
+				1912088E1ADD765800D78663 /* ofPoint.h in Headers */,
+				191208961ADD765800D78663 /* ofVec3f.h in Headers */,
 				3CF2D29D15ED8C6E008A56AB /* UIDevice-Capabilities.h in Headers */,
 				3CF2D29F15ED8C6E008A56AB /* UIDevice-Hardware.h in Headers */,
 				3CF2D2A315ED8C6E008A56AB /* UIDevice-Orientation.h in Headers */,
 				3CF2D2A515ED8C6E008A56AB /* UIDevice-Reachability.h in Headers */,
 				3CF2D2C415ED917D008A56AB /* wwanconnect.h in Headers */,
+				191208881ADD765800D78663 /* ofConstants.h in Headers */,
 				453DE3DF15F66AC400046917 /* ofxGenericPageControl.h in Headers */,
 				458CA44F1611035100634D06 /* ofxGenericSound.h in Headers */,
 				458CA4611611145C00634D06 /* ofxGenericSoundManager.h in Headers */,
@@ -860,11 +942,15 @@
 				3C61377116113C2D00349CD9 /* NSFileManager+Tar.h in Headers */,
 				3C6D979D161149780087816E /* crypt.h in Headers */,
 				3C6D979F161149780087816E /* ioapi.h in Headers */,
+				191208C91ADD877900D78663 /* ofxXmlSettings.h in Headers */,
+				191208951ADD765800D78663 /* ofVec2f.h in Headers */,
 				3C6D97A1161149780087816E /* mztools.h in Headers */,
 				3C6D97A3161149780087816E /* unzip.h in Headers */,
+				1912088A1ADD765800D78663 /* ofFileUtils.h in Headers */,
 				3C6D97A5161149780087816E /* zip.h in Headers */,
 				3C6D97A6161149780087816E /* SSZipArchive.h in Headers */,
 				4583049A161CE897006C4F89 /* ofxGenericImageManager.h in Headers */,
+				1912088C1ADD765800D78663 /* ofMath.h in Headers */,
 				4583049F161CEA32006C4F89 /* ofxGenericImage.h in Headers */,
 				B5C55D34161D04980002872E /* ofxGenericHMAC.h in Headers */,
 				3C0CB5C31638985200AB87C8 /* AESCrypt.h in Headers */,
@@ -872,6 +958,7 @@
 				3C0CB5C71638985200AB87C8 /* NSData+CommonCrypto.h in Headers */,
 				3C0CB5C91638985200AB87C8 /* NSString+Base64.h in Headers */,
 				CBF409F41982F3ED000CB539 /* ofxGenericFontSettings.h in Headers */,
+				191208911ADD765800D78663 /* ofTypes.h in Headers */,
 				B5BD220C17C52E2500D25A31 /* ofxGenericViewEffect.h in Headers */,
 				3C747C4C163E15C400AE5C92 /* ofxGenericSwitchView.h in Headers */,
 				3CC3086A16F0F9AE00BD86CA /* ofxGenericClass.h in Headers */,
@@ -933,40 +1020,44 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3C7B4EB514FC7CBF003121FE /* ofxAppGenericWindow.cpp in Sources */,
+				3C7B4EB514FC7CBF003121FE /* ofxAppGenericWindow.mm in Sources */,
 				3C7B4EB714FC7CBF003121FE /* ofxGenericApp.cpp in Sources */,
 				3C7B4EB914FC7CBF003121FE /* ofxGenericButtonView.cpp in Sources */,
+				191208C81ADD877900D78663 /* ofxXmlSettings.cpp in Sources */,
 				3C7B4EBC14FC7CBF003121FE /* ofxGenericHTTPRequest.cpp in Sources */,
 				3C7B4EC014FC7CBF003121FE /* ofxGenericImageView.cpp in Sources */,
 				3C7B4EC214FC7CBF003121FE /* ofxGenericTableView.cpp in Sources */,
+				191208C41ADD86F900D78663 /* tinyxmlerror.cpp in Sources */,
 				3C7B4EC414FC7CBF003121FE /* ofxGenericTextView.cpp in Sources */,
 				3C7B4EC714FC7CBF003121FE /* ofxGenericUtility.cpp in Sources */,
 				3C7B4EC914FC7CBF003121FE /* ofxGenericView.cpp in Sources */,
 				3CF590971506E78E00963966 /* ofxGenericEditTextView.cpp in Sources */,
 				3C1E7B441508288D007B6723 /* ofxGenericLaunchView.cpp in Sources */,
+				1912088D1ADD765800D78663 /* ofPoint.cpp in Sources */,
 				3C17BC04150AA08E00DA1034 /* ofxGenericActivityView.cpp in Sources */,
 				3C85FC6415114B1E001F5854 /* ofxGenericScrollView.cpp in Sources */,
-				453C813C15192A39005ED622 /* tinyxml.cpp in Sources */,
-				453C813E15192A39005ED622 /* tinyxmlerror.cpp in Sources */,
-				453C813F15192A39005ED622 /* tinyxmlparser.cpp in Sources */,
+				191208941ADD765800D78663 /* ofVec2f.cpp in Sources */,
+				191208971ADD765800D78663 /* ofVec4f.cpp in Sources */,
 				CD6D23BF183C54590094EF0D /* ofxGenericLayoutConstraint.cpp in Sources */,
-				453C814015192A39005ED622 /* ofxXmlSettings.cpp in Sources */,
 				3C0AC1511522C34500872B70 /* ofxGenericPlatform.cpp in Sources */,
-				45037A491534E6E200ADB7EC /* ofxGenericValueStore.cpp in Sources */,
+				191208861ADD765800D78663 /* ofColor.cpp in Sources */,
+				45037A491534E6E200ADB7EC /* ofxGenericValueStore.mm in Sources */,
 				453E462115365E1C00C66514 /* json_reader.cpp in Sources */,
 				D31A6DB719F9B04C007292B6 /* XCode6_patch.cpp in Sources */,
 				453E462215365E1C00C66514 /* json_value.cpp in Sources */,
+				1912088F1ADD765800D78663 /* ofRectangle.cpp in Sources */,
 				453E462315365E1C00C66514 /* json_writer.cpp in Sources */,
 				453E463015365E1C00C66514 /* ofxJSONElement.cpp in Sources */,
 				456BACAD153DE6A50097D5D4 /* ofxGenericDate.cpp in Sources */,
 				3CA59B33153F4312008EE095 /* ofxGenericException.cpp in Sources */,
 				3C5336E8153F6ED60046AFD8 /* ofxGenericAppDelegate.mm in Sources */,
 				3C5336E9153F6ED60046AFD8 /* ofxGenericUtilityiOS.mm in Sources */,
+				191208891ADD765800D78663 /* ofFileUtils.cpp in Sources */,
 				B5BD220B17C52E2500D25A31 /* ofxGenericViewEffect.cpp in Sources */,
 				454496151540C66600B21064 /* ofxGenericAlertView.cpp in Sources */,
 				3C2A68F61543786700BDB696 /* ofxGenericOpenGLView.cpp in Sources */,
 				3C175687154527EF00B429E8 /* ofxGenericSliderView.cpp in Sources */,
-				3C2DB20A15474D8100000034 /* ofxGenericLocalization.cpp in Sources */,
+				3C2DB20A15474D8100000034 /* ofxGenericLocalization.mm in Sources */,
 				4544F5E91549D061007482B2 /* ofxGenericDrawableView.cpp in Sources */,
 				3C6D4B2B15584E4D004904CE /* ofxGenericSettings.cpp in Sources */,
 				3C4D9C0D1559E69900C02C92 /* ofxGenericTimer.cpp in Sources */,
@@ -980,9 +1071,12 @@
 				3C16BB2415C7B8AF0062017A /* ofxGenericMicrophone.cpp in Sources */,
 				3C3ECD5E15CF103C002A6B5C /* ofxGenericHTTPRequestHolder.cpp in Sources */,
 				3C3B1BA315CF71AC002A671A /* ofxGenericOAuthToken.cpp in Sources */,
+				191208C21ADD86F900D78663 /* tinyxml.cpp in Sources */,
 				3C3B1BAE15CF73F0002A671A /* ofxGenericOAuthGrantHTTPRequest.cpp in Sources */,
+				191208C51ADD86F900D78663 /* tinyxmlparser.cpp in Sources */,
 				3C3B1BB015CF73F0002A671A /* ofxGenericOAuthHTTPRequest.cpp in Sources */,
 				3C4B96EE15DCCCF8003D0B8C /* ofxGenericTableViewCell.cpp in Sources */,
+				191208921ADD765800D78663 /* ofUtils.cpp in Sources */,
 				B54787E315E5759000ACF70F /* ofxGenericDateSelectorView.cpp in Sources */,
 				3CF2D29E15ED8C6E008A56AB /* UIDevice-Capabilities.m in Sources */,
 				3CF2D2A015ED8C6E008A56AB /* UIDevice-Hardware.m in Sources */,
@@ -1002,7 +1096,9 @@
 				3C6D97A4161149780087816E /* zip.c in Sources */,
 				3C6D97A7161149780087816E /* SSZipArchive.m in Sources */,
 				45830499161CE897006C4F89 /* ofxGenericImageManager.cpp in Sources */,
+				1912089C1ADD767900D78663 /* ofCommon.mm in Sources */,
 				4583049E161CEA32006C4F89 /* ofxGenericImage.cpp in Sources */,
+				1912088B1ADD765800D78663 /* ofMath.cpp in Sources */,
 				B5C55D33161D04980002872E /* ofxGenericHMAC.cpp in Sources */,
 				3C0CB5A91638948D00AB87C8 /* ofxGenericEncryption.cpp in Sources */,
 				3C0CB5C41638985200AB87C8 /* AESCrypt.m in Sources */,

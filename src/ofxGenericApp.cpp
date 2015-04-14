@@ -44,6 +44,9 @@ const char* ofxGenericApp::ActivityClassName = "cc/openframeworks/ofxGeneric/Act
 ofxGenericEventsClass ofxGenericEvents;
 #endif
 
+#import "ofCommon.h"
+#include "ofUtils.h"
+
 ofxGenericApp::ofxGenericApp()
 : _keyboardIsVisible( false ), _lastUpdateTime( 0.0 ), _updateDeltaTime( 0.0f )
 {
@@ -87,7 +90,7 @@ ofxGenericAppDelegate* ofxGenericApp::getAppDelegate()
 
 void ofxGenericApp::runViaInfiniteLoop( ofPtr< ofxAppGenericWindow > window )
 {
-    ofLogVerbose( ofxGenericModuleName, "App loop starting..." );
+    // TZLA-619 // ofLogVerbose( ofxGenericModuleName, "App loop starting..." );
     // TODO: strong references
     _window = window;
     _windowSize = _window->getFrame();
@@ -140,7 +143,10 @@ void ofxGenericApp::finishedLaunching()
     handleFinishedLaunchingPresetup();
     
     // wait a cycle so iOS has time to get initialized
-    _setupTimer = ofxGenericTimer::create( 0.0001f, false, dynamic_pointer_cast< ofxGenericTimerDelegate >( _this ) );
+    // TZLA-619 // _setupTimer = ofxGenericTimer::create( 0.0001f, false, dynamic_pointer_cast< ofxGenericTimerDelegate >( _this ) );
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_MSEC), dispatch_get_main_queue(), ^{
+        setup();
+    });
 }
 
 void ofxGenericApp::handleFinishedLaunchingPresetup()
@@ -177,8 +183,8 @@ void ofxGenericApp::timer_fired( ofPtr< ofxGenericTimer > timer )
 {
     if ( timer == _setupTimer )
     {
-        ofNotifySetup();
-        ofNotifyUpdate();
+        // TZLA-619 // ofNotifySetup();
+        // TZLA-619 // ofNotifyUpdate();
         _setupTimer = ofPtr< ofxGenericTimer >();
     }
 }
@@ -444,12 +450,12 @@ void ofxGenericApp::vibrate()
 #endif
 }
 
-void ofxGenericApp::saveImageToLibrary( ofImage& image )
+/* TZLA-619 // void ofxGenericApp::saveImageToLibrary( ofImage& image )
 {
 #if TARGET_OS_IPHONE
     UIImageWriteToSavedPhotosAlbum( [ UIImage imageWithData:UIImagePNGRepresentation( OFImageToUIImage( image ) ) ], nil, nil, nil );
 #endif
-}
+}*/
 
 bool ofxGenericApp::hasNetworkConnection()
 {
@@ -595,8 +601,8 @@ void ofNotifyDeviceOrientationChanged( ofOrientation orientation )
 //	}
 	
 #ifdef OF_USING_POCO
-    orientationEventArgs.orientation = orientation;
-    ofNotifyEvent( ofxGenericEvents.orientation, orientationEventArgs );
+    // TZLA-619 // orientationEventArgs.orientation = orientation;
+    // TZLA-619 // ofNotifyEvent( ofxGenericEvents.orientation, orientationEventArgs );
 #endif
 }
 

@@ -9,12 +9,11 @@
 // TODO: test reusing same instance multiple times
 
 #include "ofxGenericHTTPRequest.h"
-
 #include "ofxGenericUtility.h"
-
 #include "ofxGenericValueStore.h"
-
 #include "ofxGenericException.h"
+
+#import "ofCommon.h"
 
 #if TARGET_OS_IPHONE
 @interface ofxGenericHTTPConnectionForwarder : NSObject< NSURLConnectionDelegate >

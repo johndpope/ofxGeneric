@@ -148,8 +148,8 @@ string ofxGenericStoreTransaction::getReceipt()
     //TODO perhaps cache this
     NSString *base64 = [ NSString base64StringFromData:_transaction.transactionReceipt length:-1 ];
     string strBase64 = ofxGToString( base64 );
-    ofLogVerbose( "Transaction Raw:\n" + ofxGToString( _transaction.transactionReceipt ) );
-    ofLogVerbose( "Transaction Base64:\n" + strBase64 );
+    // TZLA-619 // ofLogVerbose( "Transaction Raw:\n" + ofxGToString( _transaction.transactionReceipt ) );
+    // TZLA-619 // ofLogVerbose( "Transaction Base64:\n" + strBase64 );
     return strBase64;
     
     //uncomment if we needed to return raw instead

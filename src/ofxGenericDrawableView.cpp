@@ -10,6 +10,8 @@
 #include "ofUtils.h"
 #include "ofxGenericValueStore.h"
 
+#import "ofCommon.h"
+
 #define DrawCallTypePosition 0
 #define DrawCallTypeLineWidth 1
 #define DrawCallTypeLineColor 2

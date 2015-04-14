@@ -8,13 +8,15 @@
 
 #pragma once
 
-#include "ofMain.h"
+// TZLA-619 // #include "ofMain.h"
 
 #if TARGET_OS_IPHONE
-#import <UIKit/UIKit.h>
+
+// TZLA-619 // #import <UIKit/UIKit.h>
 
 #elif TARGET_ANDROID
-#include "JNIObject.h"
+
+// TZLA-619 // #include "JNIObject.h"
 
 #endif
 

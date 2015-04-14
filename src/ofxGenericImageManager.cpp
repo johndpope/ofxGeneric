@@ -11,6 +11,11 @@
 
 #include "ofxGenericPlatform.h"
 
+#include "ofUtils.h"
+#include "ofFileUtils.h"
+
+#import "ofCommon.h"
+
 
 #if TARGET_OS_IPHONE
 @interface ofxGenericImageManagerAsyncForwarder : NSObject

@@ -669,7 +669,7 @@ ofxGenericGestureState iOSToofxGenericGestureState( UIGestureRecognizerState fro
     return ofxGenericGestureStateFailed;
 }
 
-ofPtr< ofImage > UIImageToofImage( UIImage* image )
+/* TZLA-619 // ofPtr< ofImage > UIImageToofImage( UIImage* image )
 {
     ofPtr< ofImage > outImage( new ofImage() );
     if ( ofxiPhoneUIImageToOFImage( image, *outImage ) )
@@ -693,7 +693,7 @@ UIImage* OFImageToUIImage( ofImage& image )
     CGDataProviderRef provider = CGDataProviderCreateWithData( NULL, pixels, image.width * image.height * image.bpp / 8, NULL );
     CGImageRef imageRef = CGImageCreate( image.width, image.height, image.bpp / 4, image.bpp, image.width * image.bpp / 8, colorSpaceRef, bitmapInfo, provider, NULL, false, renderingIntent );
     return [ UIImage imageWithCGImage:imageRef ];
-}
+}*/
 
 CGSize ofPointToCGSize( const ofPoint& size )
 {

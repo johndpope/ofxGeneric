@@ -8,7 +8,8 @@
 
 #pragma once
 
-#include "ofMain.h"
+// TZLA-619 // #include "ofMain.h"
+#include "ofTypes.h"
 
 class ofxGenericClass
 {

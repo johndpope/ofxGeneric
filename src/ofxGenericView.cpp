@@ -9,6 +9,9 @@
 #include "ofxGenericUtility.h"
 #include "ofxGenericApp.h"
 
+#import "ofCommon.h"
+#include "ofTypes.h"
+
 #if TARGET_OS_IPHONE
 #include "ofxGenericLayoutConstraint.h"
 
@@ -1202,7 +1205,7 @@ bool ofxGenericView::getUserInteractionEnabled()
     return result;
 }
 
-ofPtr< ofImage > ofxGenericView::createImageRepresentation( )
+/* TZLA-619 // ofPtr< ofImage > ofxGenericView::createImageRepresentation( )
 {
 #if TARGET_OS_IPHONE
     
@@ -1228,7 +1231,7 @@ ofPtr< ofImage > ofxGenericView::createImageRepresentation( )
         NSString *nsLoc = [ NSString stringWithCString:loc.c_str() encoding:NSUTF8StringEncoding ];
         [ testDiskSave writeToFile:nsLoc atomically:YES ];*/
         
-        return UIImageToofImage( image );
+/* TZLA-619 //         return UIImageToofImage( image );
     }
     else
     {
@@ -1237,7 +1240,7 @@ ofPtr< ofImage > ofxGenericView::createImageRepresentation( )
 #elif TARGET_ANDROID
     throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "createImageRepresentation" );
 #endif
-}
+}*/
 
 void ofxGenericView::addGestureRecognizerHold( float minimumPressDuration, unsigned int fingerCount, float allowableMovement )
 {

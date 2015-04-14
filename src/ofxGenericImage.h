@@ -38,7 +38,7 @@ public:
      * image: The source image object.
      * name: An identifier string, for debugging.
      */
-    static ofPtr< ofxGenericImage > create( ofPtr< ofImage > image, const std::string& name = "" );
+    // TZLA-619 // static ofPtr< ofxGenericImage > create( ofPtr< ofImage > image, const std::string& name = "" );
 
 #if TARGET_OS_IPHONE
     /// Create an image from an ofImage.
@@ -60,7 +60,7 @@ protected:
     ofPtrWeak< ofxGenericImage > _this;
 
     virtual void init( ofPtrWeak< ofxGenericImage > setThis, const std::string& fileName );
-    virtual void init( ofPtrWeak< ofxGenericImage > setThis, ofPtr< ofImage > image, const std::string& fromFileName );
+    // TZLA-619 // virtual void init( ofPtrWeak< ofxGenericImage > setThis, ofPtr< ofImage > image, const std::string& fromFileName );
 
 #if TARGET_OS_IPHONE
     virtual void init( ofPtrWeak< ofxGenericImage > setThis, UIImage* image, const std::string& fromFileName );

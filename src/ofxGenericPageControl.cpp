@@ -9,6 +9,8 @@
 #include "ofxGenericPageControl.h"
 #include "ofxGenericUtility.h"
 
+#import "ofCommon.h"
+
 ofPtr< ofxGenericPageControl > ofxGenericPageControl::create( const ofRectangle& setFrame )
 {
     ofPtr< ofxGenericPageControl > create = ofPtr< ofxGenericPageControl >( new ofxGenericPageControl() );

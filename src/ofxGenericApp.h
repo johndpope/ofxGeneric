@@ -14,8 +14,8 @@
 #include "ofxGenericView.h"
 #include "ofxGenericAlertView.h"
 
-#include "ofEvents.h"
 #include "ofxGenericTimer.h"
+#include "ofBaseApp.h"
 
 class ofxGenericException;
 class ofxGenericKeyboardDelegate;
@@ -69,7 +69,7 @@ public:
     
     static void vibrate();
     
-    static void saveImageToLibrary( ofImage& image );
+    // TZLA-619 // static void saveImageToLibrary( ofImage& image );
 
     bool hasNetworkConnection();
     bool hasInternetConnection();
@@ -138,7 +138,7 @@ protected:
     ofPtr< ofxGenericTimer > _setupTimer;
 };
 
-class ofxGenericOrientationEventArgs : public ofEventArgs
+class ofxGenericOrientationEventArgs // TZLA-619 // : public ofEventArgs
 {
 public:
     ofOrientation orientation;
@@ -147,15 +147,15 @@ public:
 class ofxGenericEventsClass
 {
 public:
-    ofEvent< ofxGenericOrientationEventArgs  > orientation;
+    // TZLA-619 // ofEvent< ofxGenericOrientationEventArgs  > orientation;
     
     void disable()
     {
-        orientation.disable();
+        // TZLA-619 // orientation.disable();
     }
     void enable()
     {
-        orientation.enable();
+        // TZLA-619 // orientation.enable();
     }
 };
 
@@ -164,13 +164,13 @@ extern ofxGenericEventsClass ofxGenericEvents;
 template< class ListenerClass >
 void ofxGRegisterOrientationEvents( ListenerClass* listener )
 {
-    ofAddListener( ofxGenericEvents.orientation, listener, &ListenerClass::deviceOrientationChanged );
+    // TZLA-619 // ofAddListener( ofxGenericEvents.orientation, listener, &ListenerClass::deviceOrientationChanged );
 }
 
 template< class ListenerClass >
 void ofxGUnregisterOrientationEvents( ListenerClass* listener )
 {
-    ofRemoveListener( ofxGenericEvents.orientation, listener, &ListenerClass::deviceOrientationChanged );
+    // TZLA-619 // ofRemoveListener( ofxGenericEvents.orientation, listener, &ListenerClass::deviceOrientationChanged );
 }
 
 void ofNotifyDeviceOrientationChanged( ofOrientation orientation );

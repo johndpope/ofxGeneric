@@ -8,10 +8,11 @@
 
 #pragma once
 
-#include "ofMain.h"
+// TZLA-619 // #include "ofMain.h"
+
 class ofxAppGenericWindow;
 
-#if TARGET_OS_IPHONE
+// TZLA-619 // #if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
 #import "ofxGenericApp.h"
 
@@ -19,7 +20,13 @@ class ofxAppGenericWindow;
 {
     CADisplayLink* _displayLink;
     ofPtr< ofxAppGenericWindow > _ofxWindow;
+
 }
+
+-( void )installUncaughtExceptionHandler;
+
+void HandleUncaughtException( NSException *exception );
+void SignalHandler( int signal );
 
 -( BOOL )application:( UIApplication* )application didFinishLaunchingWithOptions:( NSDictionary* )launchOptions;
 -( void )application:( UIApplication* )application didReceiveLocalNotification:( UILocalNotification* )notification;
@@ -31,4 +38,4 @@ class ofxAppGenericWindow;
 -( void )setupKeyboardVisibilityNotifications;
 
 @end
-#endif
+// TZLA-619 // #endif

@@ -9,6 +9,8 @@
 #include "ofxGenericActivityView.h"
 #include "ofxGenericUtility.h"
 
+#import "ofCommon.h"
+
 ofPtr< ofxGenericActivityView > ofxGenericActivityView::create( const ofRectangle& setFrame )
 {
     ofPtr< ofxGenericActivityView > create = ofPtr< ofxGenericActivityView >( new ofxGenericActivityView() );

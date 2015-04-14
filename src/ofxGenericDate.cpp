@@ -19,6 +19,8 @@
 #include "ofxGenericLocalization.h"
 #include "ofxGenericException.h"
 
+#import "ofCommon.h"
+
 #define SecondsInADay 86400.0
 
 #if TARGET_OS_IPHONE

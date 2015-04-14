@@ -18,6 +18,8 @@
 #include "ofxJSONElement.h"
 #include <tinyxml.h>
 
+#include "ofUtils.h"
+
 #define HmacStoreKey "hash"
 
 
