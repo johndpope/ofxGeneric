@@ -143,7 +143,7 @@ void ofxGenericCameraPreviewView::takePicture()
     UIImage* uiimage = [ UIImage imageNamed:@"Default.png" ];
     pictureTaken( ofxGenericImage::create( uiimage ) );
 
-    /* TZLA-619 // ofPtr< ofImage > ofimage( new ofImage() );
+    /* IOSP-40 // ofPtr< ofImage > ofimage( new ofImage() );
     ofxiPhoneUIImageToOFImage( uiimage, *ofimage, ( int )getFrame().width, ( int )getFrame().height );
     pictureTaken( ofimage );*/
     
@@ -177,7 +177,7 @@ void ofxGenericCameraPreviewView::takePicture()
                  
                  pictureTaken( ofxGenericImage::create( image ) );
 
-                 /* TZLA-619 // ofPtr< ofImage > convertedImage( new ofImage() );
+                 /* IOSP-40 // ofPtr< ofImage > convertedImage( new ofImage() );
                  ofxiPhoneUIImageToOFImage( image, *convertedImage );
                  pictureTaken( convertedImage );*/
              }
@@ -198,7 +198,7 @@ void ofxGenericCameraPreviewView::pictureTaken( ofPtr< ofxGenericImage > image )
     }
 }
 
-/* TZLA-619 // void ofxGenericCameraPreviewView::pictureTaken( ofPtr< ofImage > image )
+/* IOSP-40 // void ofxGenericCameraPreviewView::pictureTaken( ofPtr< ofImage > image )
 {
     if ( _delegate )
     {

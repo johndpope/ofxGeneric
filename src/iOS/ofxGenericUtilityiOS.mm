@@ -669,7 +669,7 @@ ofxGenericGestureState iOSToofxGenericGestureState( UIGestureRecognizerState fro
     return ofxGenericGestureStateFailed;
 }
 
-/* TZLA-619 // ofPtr< ofImage > UIImageToofImage( UIImage* image )
+/* IOSP-40 // ofPtr< ofImage > UIImageToofImage( UIImage* image )
 {
     ofPtr< ofImage > outImage( new ofImage() );
     if ( ofxiPhoneUIImageToOFImage( image, *outImage ) )

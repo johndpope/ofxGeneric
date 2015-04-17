@@ -141,7 +141,7 @@ void ofxGenericOpenGLView::drawFrame()
 
 ofColor ofxGenericOpenGLView::getBackgroundColor()
 {
-    /* TZLA-619 // ofFloatColor backgroundColor = ofGetCurrentRenderer()->getBgColor();
+    /* IOSP-40 // ofFloatColor backgroundColor = ofGetCurrentRenderer()->getBgColor();
     ofColor result( ( int )( backgroundColor.r * 255 ), ( int )( backgroundColor.g * 255 ), ( int )( backgroundColor.b * 255 ), ( int )( backgroundColor.a * 255 ) );
     return result;*/
     return 0;

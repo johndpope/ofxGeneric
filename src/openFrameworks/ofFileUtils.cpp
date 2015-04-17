@@ -244,7 +244,7 @@ bool ofBufferToFile(const string & path, ofBuffer & buffer, bool binary){
 //------------------------------------------------------------------------------------------------------------
 
 
-/* TZLA-619 // #include "Poco/Util/FilesystemConfiguration.h"
+/* IOSP-40 // #include "Poco/Util/FilesystemConfiguration.h"
 #include "Poco/File.h"
 #include "Poco/Path.h"
 #include "Poco/DirectoryIterator.h"
@@ -358,7 +358,7 @@ void ofFile::close(){
 bool ofFile::create(){
 	bool success = false;
 
-	/* TZLA-619 // if(myFile.path() != ""){
+	/* IOSP-40 // if(myFile.path() != ""){
 		try{
 			success = myFile.createFile();
 		}
@@ -373,7 +373,7 @@ bool ofFile::create(){
 
 //------------------------------------------------------------------------------------------------------------
 ofBuffer ofFile::readToBuffer(){
-	/* TZLA-619 // if(myFile.path() == "" || myFile.exists() == false){
+	/* IOSP-40 // if(myFile.path() == "" || myFile.exists() == false){
 		return ofBuffer();
 	}*/
 
@@ -382,7 +382,7 @@ ofBuffer ofFile::readToBuffer(){
 
 //------------------------------------------------------------------------------------------------------------
 bool ofFile::writeFromBuffer(ofBuffer & buffer){
-	/* TZLA-619 // if(myFile.path() == ""){
+	/* IOSP-40 // if(myFile.path() == ""){
 		return false;
 	}*/
 	if(!isWriteMode()){
@@ -509,7 +509,7 @@ void ofFile::setExecutable(bool flag = true){
 
 //------------------------------------------------------------------------------------------------------------
 bool ofFile::copyTo(string path, bool bRelativeToData, bool overwrite){
-	/* TZLA-619 // if(path.empty() || !myFile.exists()){
+	/* IOSP-40 // if(path.empty() || !myFile.exists()){
 		ofLog(OF_LOG_ERROR, "ofFile::copyTo: trying to copy a non existing file");
 		return false;
 	}
@@ -540,7 +540,7 @@ bool ofFile::copyTo(string path, bool bRelativeToData, bool overwrite){
 
 //------------------------------------------------------------------------------------------------------------
 bool ofFile::moveTo(string path, bool bRelativeToData, bool overwrite){
-	/* TZLA-619 // if(path.empty() || !myFile.exists()){
+	/* IOSP-40 // if(path.empty() || !myFile.exists()){
 		return false;
 	}
 
@@ -570,7 +570,7 @@ bool ofFile::moveTo(string path, bool bRelativeToData, bool overwrite){
 
 //------------------------------------------------------------------------------------------------------------
 bool ofFile::renameTo(string path, bool bRelativeToData, bool overwrite){
-	/* TZLA-619 // if(path.empty() || !myFile.exists()){
+	/* IOSP-40 // if(path.empty() || !myFile.exists()){
 		return false;
 	}
 
@@ -601,7 +601,7 @@ bool ofFile::renameTo(string path, bool bRelativeToData, bool overwrite){
 
 //------------------------------------------------------------------------------------------------------------
 bool ofFile::remove(bool recursive){
-	/* TZLA-619 // if(myFile.path().empty() || !myFile.exists()){
+	/* IOSP-40 // if(myFile.path().empty() || !myFile.exists()){
 		return false;
 	}
 
@@ -659,7 +659,7 @@ bool ofFile::operator>=(const ofFile & file) const {
 //------------------------------------------------------------------------------------------------------------
 
 bool ofFile::copyFromTo(string pathSrc, string pathDst, bool bRelativeToData,  bool overwrite){
-	/* TZLA-619 // if(bRelativeToData){
+	/* IOSP-40 // if(bRelativeToData){
 		pathSrc = ofToDataPath(pathSrc);
 	}
 	if(bRelativeToData){
@@ -695,7 +695,7 @@ bool ofFile::copyFromTo(string pathSrc, string pathDst, bool bRelativeToData,  b
 //be careful with slashes here - appending a slash when moving a folder will causes mad headaches
 //------------------------------------------------------------------------------------------------------------
 bool ofFile::moveFromTo(string pathSrc, string pathDst, bool bRelativeToData, bool overwrite){
-	/* TZLA-619 // if(bRelativeToData){
+	/* IOSP-40 // if(bRelativeToData){
 		pathSrc = ofToDataPath(pathSrc);
 	}
 	if(bRelativeToData){
@@ -730,7 +730,7 @@ bool ofFile::moveFromTo(string pathSrc, string pathDst, bool bRelativeToData, bo
 
 //------------------------------------------------------------------------------------------------------------
 bool ofFile::doesFileExist(string fPath,  bool bRelativeToData){
-	/* TZLA-619 // if(bRelativeToData){
+	/* IOSP-40 // if(bRelativeToData){
 		fPath = ofToDataPath(fPath);
 	}
 	File file(fPath);
@@ -740,7 +740,7 @@ bool ofFile::doesFileExist(string fPath,  bool bRelativeToData){
 
 //------------------------------------------------------------------------------------------------------------
 bool ofFile::removeFile(string path, bool bRelativeToData){
-	/* TZLA-619 // if(bRelativeToData){
+	/* IOSP-40 // if(bRelativeToData){
 		path = ofToDataPath(path);
 	}
 	File file(path);
@@ -756,7 +756,7 @@ bool ofFile::removeFile(string path, bool bRelativeToData){
     return false;
 }
 
-/* TZLA-619 // Poco::File & ofFile::getPocoFile(){
+/* IOSP-40 // Poco::File & ofFile::getPocoFile(){
 	return myFile;
 }*/
 
@@ -781,7 +781,7 @@ class ExtensionComparator : public unary_function<ofFile, bool> {
 	public:
 		vector<string> * extensions;
 		inline bool operator()(const ofFile & file){
-			/* TZLA-619 // Path curPath(file.path());
+			/* IOSP-40 // Path curPath(file.path());
 			string curExtension = toLower(curPath.getExtension());
 			return !ofContains(*extensions, curExtension);*/
             return false;
@@ -815,7 +815,7 @@ void ofDirectory::close(){
 //------------------------------------------------------------------------------------------------------------
 bool ofDirectory::create(bool recursive){
 
-	/* TZLA-619 // if(myDir.path() != ""){
+	/* IOSP-40 // if(myDir.path() != ""){
 		try{
 			if(recursive){
 				myDir.createDirectories();
@@ -884,7 +884,7 @@ bool ofDirectory::isDirectory() const {
 
 //------------------------------------------------------------------------------------------------------------
 bool ofDirectory::copyTo(string path, bool bRelativeToData, bool overwrite){
-	/* TZLA-619 // if(myDir.path().empty() || !myDir.exists()){
+	/* IOSP-40 // if(myDir.path().empty() || !myDir.exists()){
 		return false;
 	}
 
@@ -914,7 +914,7 @@ bool ofDirectory::copyTo(string path, bool bRelativeToData, bool overwrite){
 
 //------------------------------------------------------------------------------------------------------------
 bool ofDirectory::moveTo(string path,  bool bRelativeToData, bool overwrite){
-	/* TZLA-619 // if(myDir.path().empty() || !myDir.exists()){
+	/* IOSP-40 // if(myDir.path().empty() || !myDir.exists()){
 		return false;
 	}
 
@@ -944,7 +944,7 @@ bool ofDirectory::moveTo(string path,  bool bRelativeToData, bool overwrite){
 
 //------------------------------------------------------------------------------------------------------------
 bool ofDirectory::renameTo(string path, bool bRelativeToData, bool overwrite){
-	/* TZLA-619 // if(myDir.path().empty() || !myDir.exists()){
+	/* IOSP-40 // if(myDir.path().empty() || !myDir.exists()){
 		return false;
 	}
 
@@ -975,7 +975,7 @@ bool ofDirectory::renameTo(string path, bool bRelativeToData, bool overwrite){
 
 //------------------------------------------------------------------------------------------------------------
 bool ofDirectory::remove(bool recursive){
-	/* TZLA-619 // if(path().empty() || !myDir.exists()){
+	/* IOSP-40 // if(path().empty() || !myDir.exists()){
 		return false;
 	}
 
@@ -993,7 +993,7 @@ bool ofDirectory::remove(bool recursive){
 
 //------------------------------------------------------------------------------------------------------------
 void ofDirectory::allowExt(string extension){
-	/* TZLA-619 // if(extension == "*"){
+	/* IOSP-40 // if(extension == "*"){
 		ofLog(OF_LOG_WARNING, "ofDirectoryLister::allowExt() the extension * is deprecated");
 	}
 	extensions.push_back(toLower(extension));*/
@@ -1007,7 +1007,7 @@ int ofDirectory::listDir(string directory){
 
 //------------------------------------------------------------------------------------------------------------
 int ofDirectory::listDir(){
-	/* TZLA-619 // Path base(path());
+	/* IOSP-40 // Path base(path());
 	if(!path().empty() && myDir.exists()){
 		// File::list(vector<File>) is broken on windows as of march 23, 2011...
 		// so we need to use File::list(vector<string>) and build a vector<File>
@@ -1052,7 +1052,7 @@ string ofDirectory::getOriginalDirectory(){
 
 //------------------------------------------------------------------------------------------------------------
 string ofDirectory::getName(unsigned int position){
-	/* TZLA-619 // Path cur(files.at(position).path());
+	/* IOSP-40 // Path cur(files.at(position).path());
 	return cur.getFileName();*/
     return "";
 }
@@ -1109,7 +1109,7 @@ int ofDirectory::numFiles(){
 
 //------------------------------------------------------------------------------------------------------------
 bool ofDirectory::removeDirectory(string path, bool deleteIfNotEmpty, bool bRelativeToData){
-	/* TZLA-619 // if(bRelativeToData){
+	/* IOSP-40 // if(bRelativeToData){
 		path = ofToDataPath(path);
 	}
 	File file(path);
@@ -1126,7 +1126,7 @@ bool ofDirectory::removeDirectory(string path, bool deleteIfNotEmpty, bool bRela
 
 //------------------------------------------------------------------------------------------------------------
 bool ofDirectory::createDirectory(string dirPath, bool bRelativeToData, bool recursive){
-	/* TZLA-619 // if(bRelativeToData){
+	/* IOSP-40 // if(bRelativeToData){
 		dirPath = ofToDataPath(dirPath);
 	}
 
@@ -1157,7 +1157,7 @@ bool ofDirectory::createDirectory(string dirPath, bool bRelativeToData, bool rec
 
 //------------------------------------------------------------------------------------------------------------
 bool ofDirectory::doesDirectoryExist(string dirPath, bool bRelativeToData){
-	/* TZLA-619 // if(bRelativeToData){
+	/* IOSP-40 // if(bRelativeToData){
 		dirPath = ofToDataPath(dirPath);
 	}
 	File file(dirPath);
@@ -1167,7 +1167,7 @@ bool ofDirectory::doesDirectoryExist(string dirPath, bool bRelativeToData){
 
 //------------------------------------------------------------------------------------------------------------
 bool ofDirectory::isDirectoryEmpty(string dirPath, bool bRelativeToData){
-	/* TZLA-619 // if(bRelativeToData){
+	/* IOSP-40 // if(bRelativeToData){
 		dirPath = ofToDataPath(dirPath);
 	}
 	File file(dirPath);
@@ -1181,7 +1181,7 @@ bool ofDirectory::isDirectoryEmpty(string dirPath, bool bRelativeToData){
 	return false;
 }
 
-/* TZLA-619 // //------------------------------------------------------------------------------------------------------------
+/* IOSP-40 // //------------------------------------------------------------------------------------------------------------
 Poco::File & ofDirectory::getPocoFile(){
 	return myDir;
 }*/
@@ -1291,7 +1291,7 @@ string ofFilePath::removeTrailingSlash(string path){
 
 //------------------------------------------------------------------------------------------------------------
 string ofFilePath::getFileName(string filePath, bool bRelativeToData){
-	/* TZLA-619 // if(bRelativeToData){
+	/* IOSP-40 // if(bRelativeToData){
 		filePath = ofToDataPath(filePath);
 	}
 
@@ -1316,7 +1316,7 @@ string ofFilePath::getBaseName(string filePath){
 
 //------------------------------------------------------------------------------------------------------------
 string ofFilePath::getEnclosingDirectory(string filePath, bool bRelativeToData){
-	/* TZLA-619 // if(bRelativeToData){
+	/* IOSP-40 // if(bRelativeToData){
 		filePath = ofToDataPath(filePath);
 	}
 
@@ -1328,7 +1328,7 @@ string ofFilePath::getEnclosingDirectory(string filePath, bool bRelativeToData){
 
 //------------------------------------------------------------------------------------------------------------
 string ofFilePath::getAbsolutePath(string path, bool bRelativeToData){
-	/* TZLA-619 // if(bRelativeToData){
+	/* IOSP-40 // if(bRelativeToData){
 		path = ofToDataPath(path);
 	}
 
@@ -1341,7 +1341,7 @@ string ofFilePath::getAbsolutePath(string path, bool bRelativeToData){
 
 //------------------------------------------------------------------------------------------------------------
 bool ofFilePath::isAbsolute(string path){
-	/* TZLA-619 // Path p(path);
+	/* IOSP-40 // Path p(path);
 	return p.isAbsolute();*/
     return false;
 }

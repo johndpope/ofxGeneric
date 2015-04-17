@@ -1205,7 +1205,7 @@ bool ofxGenericView::getUserInteractionEnabled()
     return result;
 }
 
-/* TZLA-619 // ofPtr< ofImage > ofxGenericView::createImageRepresentation( )
+/* IOSP-40 // ofPtr< ofImage > ofxGenericView::createImageRepresentation( )
 {
 #if TARGET_OS_IPHONE
     
@@ -1231,7 +1231,7 @@ bool ofxGenericView::getUserInteractionEnabled()
         NSString *nsLoc = [ NSString stringWithCString:loc.c_str() encoding:NSUTF8StringEncoding ];
         [ testDiskSave writeToFile:nsLoc atomically:YES ];*/
         
-/* TZLA-619 //         return UIImageToofImage( image );
+/* IOSP-40 //         return UIImageToofImage( image );
     }
     else
     {

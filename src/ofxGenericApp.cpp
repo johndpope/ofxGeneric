@@ -450,7 +450,7 @@ void ofxGenericApp::vibrate()
 #endif
 }
 
-/* TZLA-619 // void ofxGenericApp::saveImageToLibrary( ofImage& image )
+/* IOSP-40 // void ofxGenericApp::saveImageToLibrary( ofImage& image )
 {
 #if TARGET_OS_IPHONE
     UIImageWriteToSavedPhotosAlbum( [ UIImage imageWithData:UIImagePNGRepresentation( OFImageToUIImage( image ) ) ], nil, nil, nil );

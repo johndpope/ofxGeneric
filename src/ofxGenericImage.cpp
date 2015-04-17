@@ -40,7 +40,7 @@ ofPtr< ofxGenericImage > ofxGenericImage::createAsync( const std::string& fileNa
     return instance;
 }
 
-/* TZLA-619 // ofPtr< ofxGenericImage > ofxGenericImage::create( ofPtr< ofImage > image, const std::string& fromFileName )
+/* IOSP-40 // ofPtr< ofxGenericImage > ofxGenericImage::create( ofPtr< ofImage > image, const std::string& fromFileName )
 {
     ofPtr< ofxGenericImage > create( new ofxGenericImage() );
     create->init( create, image, fromFileName );
@@ -83,7 +83,7 @@ void ofxGenericImage::init( ofPtrWeak< ofxGenericImage > setThis, const std::str
     
 }
 
-/* TZLA-619 // void ofxGenericImage::init( ofPtrWeak< ofxGenericImage > setThis, ofPtr< ofImage > image, const std::string& fromFileName )
+/* IOSP-40 // void ofxGenericImage::init( ofPtrWeak< ofxGenericImage > setThis, ofPtr< ofImage > image, const std::string& fromFileName )
 {
     _this = setThis;
     

@@ -117,7 +117,7 @@ unsigned int ofGetUnixTime(){
 //default ofGetTimestampString returns in this format: 2011-01-15-18-29-35-299
 //--------------------------------------------------
 string ofGetTimestampString(){
-	/* TZLA-619 // string timeFormat = "%Y-%m-%d-%H-%M-%S-%i";
+	/* IOSP-40 // string timeFormat = "%Y-%m-%d-%H-%M-%S-%i";
 	Poco::LocalDateTime now;
 	return Poco::DateTimeFormatter::format(now, timeFormat);*/
     return "";
@@ -126,7 +126,7 @@ string ofGetTimestampString(){
 //specify the string format - eg: %Y-%m-%d-%H-%M-%S-%i ( 2011-01-15-18-29-35-299 )
 //--------------------------------------------------
 string ofGetTimestampString(string timestampFormat){
-	/* TZLA-619 // Poco::LocalDateTime now;
+	/* IOSP-40 // Poco::LocalDateTime now;
 	return Poco::DateTimeFormatter::format(now, timestampFormat);*/
     return "";
 }
@@ -699,7 +699,7 @@ void ofLaunchBrowser(string url){
 
 	// make sure it is a properly formatted url:
 	//   some platforms, like Android, require urls to start with lower-case http/https
-	/* TZLA-619 // if(Poco::icompare(url.substr(0,8), "https://") == 0){
+	/* IOSP-40 // if(Poco::icompare(url.substr(0,8), "https://") == 0){
 		url.replace(0,5,"https");
 	}
 	else if(Poco::icompare(url.substr(0,7), "http://") == 0){
@@ -755,7 +755,7 @@ string ofGetVersionInfo(){
 
 //--------------------------------------------------
 void ofSaveScreen(string filename) {
-   /* TZLA-619 // ofImage screen;
+   /* IOSP-40 // ofImage screen;
    screen.allocate(ofGetWidth(), ofGetHeight(), OF_IMAGE_COLOR);
    screen.grabScreen(0, 0, ofGetWidth(), ofGetHeight());
    screen.saveImage(filename);*/
@@ -764,7 +764,7 @@ void ofSaveScreen(string filename) {
 //--------------------------------------------------
 void ofSaveViewport(string filename) {
 	// because ofSaveScreen doesn't related to viewports
-	/* TZLA-619 // ofImage screen;
+	/* IOSP-40 // ofImage screen;
 	ofRectangle view = ofGetCurrentViewport();
 	screen.allocate(view.width, view.height, OF_IMAGE_COLOR);
 	screen.grabScreen(0, 0, view.width, view.height);
