@@ -17,11 +17,11 @@ typedef UIView* NativeView;
 typedef UIWindow* NativeWindow;
 #define NativeNull nil
 #else //if TARGET_ANDROID // FIXME: ARG ECLIPSE WHY DO YOU HATE ME PARSEEEEEEEE DAAAMN YOU
-// TZLA-619 // #define TARGET_ANDROID 1
+// IOSP-40 // #define TARGET_ANDROID 1
 // WTFFFFFFF
-// TZLA-619 // typedef jobject NativeView;
-// TZLA-619 // typedef jobject NativeWindow;
-// TZLA-619 // typedef jobject NativeImage;
+// IOSP-40 // typedef jobject NativeView;
+// IOSP-40 // typedef jobject NativeWindow;
+// IOSP-40 // typedef jobject NativeImage;
 #define NativeNull NULL
 #endif
 

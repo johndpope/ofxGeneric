@@ -10,7 +10,7 @@
 #include "ofxGenericUtility.h"
 #include "ofxGenericApp.h"
 
-// TZLA-619 // #include "ofGraphics.h"
+// IOSP-40 // #include "ofGraphics.h"
 
 #if TARGET_OS_IPHONE
 #import <QuartzCore/QuartzCore.h>
@@ -72,8 +72,8 @@ NativeView ofxGenericOpenGLView::createNativeView( const ofRectangle& frame )
 
 void ofxGenericOpenGLView::didLoad()
 {
-    // TZLA-619 // ofGetCurrentRenderer()->setBackgroundAuto( true );
-    // TZLA-619 // ofGetCurrentRenderer()->background( ofColor( 0, 0, 0, 255 ) );
+    // IOSP-40 // ofGetCurrentRenderer()->setBackgroundAuto( true );
+    // IOSP-40 // ofGetCurrentRenderer()->background( ofColor( 0, 0, 0, 255 ) );
 
 #if TARGET_OS_IPHONE
     // TODO: break into ES1 and ES2 classes?
@@ -98,41 +98,41 @@ void ofxGenericOpenGLView::didLoad()
 void ofxGenericOpenGLView::willAppear()
 {
     ofxGenericView::willAppear();
-    // TZLA-619 // ofAddListener( ofEvents().update, this, &ofxGenericOpenGLView::update );
+    // IOSP-40 // ofAddListener( ofEvents().update, this, &ofxGenericOpenGLView::update );
 }
 
 void ofxGenericOpenGLView::didDisappear()
 {
     ofxGenericView::didDisappear();
-    // TZLA-619 // ofRemoveListener( ofEvents().update, this, &ofxGenericOpenGLView::update );
+    // IOSP-40 // ofRemoveListener( ofEvents().update, this, &ofxGenericOpenGLView::update );
 }
 
-// TZLA-619 // void ofxGenericOpenGLView::update( ofEventArgs &args )
-// TZLA-619 // {
-// TZLA-619 //     setFramebuffer();
-// TZLA-619 //
-// TZLA-619 //     if ( ofGetCurrentRenderer()->bClearBg() )
-// TZLA-619 //     {
-// TZLA-619 //         ofFloatColor clearColor = ofGetCurrentRenderer()->getBgColor();
-// TZLA-619 // 		glClearColor( clearColor.r, clearColor.g, clearColor.b, clearColor.a );
-// TZLA-619 //
-// TZLA-619 //         GLbitfield clear = 0;
-// TZLA-619 //         if ( _colorRenderbuffer )
-// TZLA-619 //         {
-// TZLA-619 //             clear |= GL_COLOR_BUFFER_BIT;
-// TZLA-619 //         }
-// TZLA-619 // /*        if ( _depthRenderbuffer )
-// TZLA-619 //         {
-// TZLA-619 //             clear |= GL_DEPTH_BUFFER_BIT;
-// TZLA-619 //         }
-// TZLA-619 //  */
-// TZLA-619 // 		glClear( clear );
-// TZLA-619 // 	}
-// TZLA-619 //
-// TZLA-619 //     drawFrame();
-// TZLA-619 //
-// TZLA-619 //     presentFramebuffer();
-// TZLA-619 // }
+// IOSP-40 // void ofxGenericOpenGLView::update( ofEventArgs &args )
+// IOSP-40 // {
+// IOSP-40 //     setFramebuffer();
+// IOSP-40 //
+// IOSP-40 //     if ( ofGetCurrentRenderer()->bClearBg() )
+// IOSP-40 //     {
+// IOSP-40 //         ofFloatColor clearColor = ofGetCurrentRenderer()->getBgColor();
+// IOSP-40 // 		glClearColor( clearColor.r, clearColor.g, clearColor.b, clearColor.a );
+// IOSP-40 //
+// IOSP-40 //         GLbitfield clear = 0;
+// IOSP-40 //         if ( _colorRenderbuffer )
+// IOSP-40 //         {
+// IOSP-40 //             clear |= GL_COLOR_BUFFER_BIT;
+// IOSP-40 //         }
+// IOSP-40 // /*        if ( _depthRenderbuffer )
+// IOSP-40 //         {
+// IOSP-40 //             clear |= GL_DEPTH_BUFFER_BIT;
+// IOSP-40 //         }
+// IOSP-40 //  */
+// IOSP-40 // 		glClear( clear );
+// IOSP-40 // 	}
+// IOSP-40 //
+// IOSP-40 //     drawFrame();
+// IOSP-40 //
+// IOSP-40 //     presentFramebuffer();
+// IOSP-40 // }
 
 void ofxGenericOpenGLView::drawFrame()
 {
@@ -149,7 +149,7 @@ ofColor ofxGenericOpenGLView::getBackgroundColor()
 
 void ofxGenericOpenGLView::setBackgroundColor( const ofColor& setColor )
 {
-    // TZLA-619 // ofGetCurrentRenderer()->background( setColor );
+    // IOSP-40 // ofGetCurrentRenderer()->background( setColor );
 }
 
 #if TARGET_OS_IPHONE    

@@ -3,7 +3,7 @@
 #include "ofConstants.h"
 #include <bitset> // for ofToBinary
 
-// TZLA-619 // #include "ofLog.h"
+// IOSP-40 // #include "ofLog.h"
 
 #ifdef TARGET_WIN32	 // for ofLaunchBrowser
 	#include <shellapi.h>

@@ -1,14 +1,14 @@
 #include "ofMath.h"
 #include "ofUtils.h"
-// TZLA-619 // #include "ofAppRunner.h"
+// IOSP-40 // #include "ofAppRunner.h"
 #include "float.h"
 
 #ifndef TARGET_WIN32
 	#include <sys/time.h>
 #endif
 
-// TZLA-619 // #include "ofNoise.h"
-// TZLA-619 // #include "ofPolyline.h"
+// IOSP-40 // #include "ofNoise.h"
+// IOSP-40 // #include "ofPolyline.h"
 
 //--------------------------------------------------
 int ofNextPow2(int a){
@@ -86,7 +86,7 @@ float ofNormalize(float value, float min, float max){
 float ofMap(float value, float inputMin, float inputMax, float outputMin, float outputMax, bool clamp) {
 
 	if (fabs(inputMin - inputMax) < FLT_EPSILON){
-		// TZLA-619 // ofLog(OF_LOG_WARNING, "ofMap: avoiding possible divide by zero, check inputMin and inputMax\n");
+		// IOSP-40 // ofLog(OF_LOG_WARNING, "ofMap: avoiding possible divide by zero, check inputMin and inputMax\n");
 		return outputMin;
 	} else {
 		float outVal = ((value - inputMin) / (inputMax - inputMin) * (outputMax - outputMin) + outputMin);
@@ -175,62 +175,62 @@ float ofLerpRadians(float currentAngle, float targetAngle, float pct) {
 
 //--------------------------------------------------
 float ofRandomWidth() {
-    return ofRandom(0, 0); // TZLA-619 // ofGetWidth());
+    return ofRandom(0, 0); // IOSP-40 // ofGetWidth());
 }
 
 //--------------------------------------------------
 float ofRandomHeight() {
-    return ofRandom(0, 0); // TZLA-619 //  ofGetHeight());
+    return ofRandom(0, 0); // IOSP-40 //  ofGetHeight());
 }
 
 //--------------------------------------------------
 float ofNoise(float x){
-    return 0; // TZLA-619 //  _slang_library_noise1(x)*0.5f + 0.5f;
+    return 0; // IOSP-40 //  _slang_library_noise1(x)*0.5f + 0.5f;
 }
 
 //--------------------------------------------------
 float ofNoise(float x, float y){
-    return 0; // TZLA-619 // _slang_library_noise2(x,y)*0.5f + 0.5f;
+    return 0; // IOSP-40 // _slang_library_noise2(x,y)*0.5f + 0.5f;
 }
 
 //--------------------------------------------------
 float ofNoise(float x, float y, float z){
-    return 0; // TZLA-619 // _slang_library_noise3(x,y,z)*0.5f + 0.5f;
+    return 0; // IOSP-40 // _slang_library_noise3(x,y,z)*0.5f + 0.5f;
 }
 
 //--------------------------------------------------
 float ofNoise(float x, float y, float z, float w){
-    return 0; // TZLA-619 // _slang_library_noise4(x,y,z,w)*0.5f + 0.5f;
+    return 0; // IOSP-40 // _slang_library_noise4(x,y,z,w)*0.5f + 0.5f;
 }
 
 //--------------------------------------------------
 float ofSignedNoise(float x){
-    return 0; // TZLA-619 // _slang_library_noise1(x);
+    return 0; // IOSP-40 // _slang_library_noise1(x);
 }
 
 //--------------------------------------------------
 float ofSignedNoise(float x, float y){
-    return 0; // TZLA-619 // _slang_library_noise2(x,y);
+    return 0; // IOSP-40 // _slang_library_noise2(x,y);
 }
 
 //--------------------------------------------------
 float ofSignedNoise(float x, float y, float z){
-    return 0; // TZLA-619 // _slang_library_noise3(x,y,z);
+    return 0; // IOSP-40 // _slang_library_noise3(x,y,z);
 }
 
 //--------------------------------------------------
 float ofSignedNoise(float x, float y, float z, float w){
-    return 0; // TZLA-619 // _slang_library_noise4(x,y,z,w);
+    return 0; // IOSP-40 // _slang_library_noise4(x,y,z,w);
 }
 
 //--------------------------------------------------
 bool ofInsidePoly(float x, float y, const vector<ofPoint> & polygon){
-    return false; // TZLA-619 // ofPolyline::inside(x,y, ofPolyline(polygon));
+    return false; // IOSP-40 // ofPolyline::inside(x,y, ofPolyline(polygon));
 }
 
 //--------------------------------------------------
 bool ofInsidePoly(const ofPoint & p, const vector<ofPoint> & poly){
-    return false; // TZLA-619 // ofPolyline::inside(p.x,p.y, ofPolyline(poly));
+    return false; // IOSP-40 // ofPolyline::inside(p.x,p.y, ofPolyline(poly));
 }
 
 //--------------------------------------------------

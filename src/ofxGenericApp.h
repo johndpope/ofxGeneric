@@ -69,7 +69,7 @@ public:
     
     static void vibrate();
     
-    // TZLA-619 // static void saveImageToLibrary( ofImage& image );
+    // IOSP-40 // static void saveImageToLibrary( ofImage& image );
 
     bool hasNetworkConnection();
     bool hasInternetConnection();
@@ -138,7 +138,7 @@ protected:
     ofPtr< ofxGenericTimer > _setupTimer;
 };
 
-class ofxGenericOrientationEventArgs // TZLA-619 // : public ofEventArgs
+class ofxGenericOrientationEventArgs // IOSP-40 // : public ofEventArgs
 {
 public:
     ofOrientation orientation;
@@ -147,15 +147,15 @@ public:
 class ofxGenericEventsClass
 {
 public:
-    // TZLA-619 // ofEvent< ofxGenericOrientationEventArgs  > orientation;
+    // IOSP-40 // ofEvent< ofxGenericOrientationEventArgs  > orientation;
     
     void disable()
     {
-        // TZLA-619 // orientation.disable();
+        // IOSP-40 // orientation.disable();
     }
     void enable()
     {
-        // TZLA-619 // orientation.enable();
+        // IOSP-40 // orientation.enable();
     }
 };
 
@@ -164,13 +164,13 @@ extern ofxGenericEventsClass ofxGenericEvents;
 template< class ListenerClass >
 void ofxGRegisterOrientationEvents( ListenerClass* listener )
 {
-    // TZLA-619 // ofAddListener( ofxGenericEvents.orientation, listener, &ListenerClass::deviceOrientationChanged );
+    // IOSP-40 // ofAddListener( ofxGenericEvents.orientation, listener, &ListenerClass::deviceOrientationChanged );
 }
 
 template< class ListenerClass >
 void ofxGUnregisterOrientationEvents( ListenerClass* listener )
 {
-    // TZLA-619 // ofRemoveListener( ofxGenericEvents.orientation, listener, &ListenerClass::deviceOrientationChanged );
+    // IOSP-40 // ofRemoveListener( ofxGenericEvents.orientation, listener, &ListenerClass::deviceOrientationChanged );
 }
 
 void ofNotifyDeviceOrientationChanged( ofOrientation orientation );

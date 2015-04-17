@@ -33,7 +33,7 @@
 #endif
 
 #ifdef TARGET_OF_IPHONE
-// TZLA-619 // #include "ofxiPhoneExtras.h"
+// IOSP-40 // #include "ofxiPhoneExtras.h"
 #endif
 
 #ifdef TARGET_ANDROID
@@ -487,7 +487,7 @@ double ofToDouble(const string& doubleString) {
 bool ofToBool(const string& boolString) {
 	static const string trueString = "true";
 	static const string falseString = "false";
-    string lower = boolString; // TZLA-619 // Poco::toLower(boolString);
+    string lower = boolString; // IOSP-40 // Poco::toLower(boolString);
 	if(lower == trueString) {
 		return true;
 	}
@@ -576,7 +576,7 @@ vector <string> ofSplitString(const string & source, const string & delimiter, b
 		subend = search(substart, source.end(), delimiter.begin(), delimiter.end());
 		string sub(substart, subend);
 		if(trim) {
-			// TZLA-619 // Poco::trimInPlace(sub);
+			// IOSP-40 // Poco::trimInPlace(sub);
 		}
 		if (!ignoreEmpty || !sub.empty()) {
 			result.push_back(sub);
@@ -735,7 +735,7 @@ void ofLaunchBrowser(string url){
 	#endif
 
 	#ifdef TARGET_OF_IPHONE
-		// TZLA-619 // ofxiPhoneLaunchBrowser(url);
+		// IOSP-40 // ofxiPhoneLaunchBrowser(url);
 	#endif
 
 	#ifdef TARGET_ANDROID
@@ -796,7 +796,7 @@ string ofSystem(string command){
 	char c;
 
 	if (ret == NULL){
-		// TZLA-619 // ofLogError() << "ofSystem: error opening return file";
+		// IOSP-40 // ofLogError() << "ofSystem: error opening return file";
 	}else{
 		do {
 		      c = fgetc (ret);

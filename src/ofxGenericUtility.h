@@ -13,7 +13,7 @@
 #if TARGET_OS_IPHONE
 #include "ofxGenericUtilityiOS.h"
 #elif TARGET_ANDROID
-// TZLA-619 // #include "ofxGenericUtilityAndroid.h"
+// IOSP-40 // #include "ofxGenericUtilityAndroid.h"
 #endif
 
 #include <list>

@@ -86,7 +86,7 @@ enum ofTargetPlatform{
 	#define GLEW_STATIC
 	#include "GL\glew.h"
 	#include "GL\wglew.h"
-   	// TZLA-619 // #include "glu.h"
+   	// IOSP-40 // #include "glu.h"
 	#define __WINDOWS_DS__
 	#define __WINDOWS_MM__
 	#if (_MSC_VER)       // microsoft visual studio
@@ -170,22 +170,22 @@ enum ofTargetPlatform{
 #ifdef TARGET_ANDROID
 	#include <typeinfo>
 	#include <unistd.h>
-	// TZLA-619 // #include <GLES/gl.h>
+	// IOSP-40 // #include <GLES/gl.h>
 	#define GL_GLEXT_PROTOTYPES
-	// TZLA-619 // #include <GLES/glext.h>
+	// IOSP-40 // #include <GLES/glext.h>
 
 	#define TARGET_LITTLE_ENDIAN
 #endif
 
 #ifdef TARGET_OPENGLES
-	// TZLA-619 // #include "glu.h"
+	// IOSP-40 // #include "glu.h"
 	//typedef GLushort ofIndexType ;
 #else
 	//typedef GLuint ofIndexType;
 #endif
 
-// TZLA-619 // #include "tesselator.h"
-// TZLA-619 // typedef TESSindex ofIndexType;
+// IOSP-40 // #include "tesselator.h"
+// IOSP-40 // typedef TESSindex ofIndexType;
 
 
 #ifndef __MWERKS__

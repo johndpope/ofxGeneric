@@ -2,7 +2,7 @@
 
 #include "ofPoint.h"
 
-class ofBaseApp { // TZLA-619 //: public ofBaseSoundInput, public ofBaseSoundOutput{
+class ofBaseApp { // IOSP-40 //: public ofBaseSoundInput, public ofBaseSoundOutput{
 
 	public:
         ofBaseApp() {
@@ -27,8 +27,8 @@ class ofBaseApp { // TZLA-619 //: public ofBaseSoundInput, public ofBaseSoundOut
 		virtual void mouseReleased(){}
 		virtual void mouseReleased(int x, int y, int button ){}
 		
-		// TZLA-619 // virtual void dragEvent(ofDragInfo dragInfo) { }
-		// TZLA-619 // virtual void gotMessage(ofMessage msg){ }
+		// IOSP-40 // virtual void dragEvent(ofDragInfo dragInfo) { }
+		// IOSP-40 // virtual void gotMessage(ofMessage msg){ }
 	
 		virtual void windowEntry ( int state ) { }
 		

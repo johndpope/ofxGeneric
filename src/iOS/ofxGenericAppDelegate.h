@@ -8,11 +8,11 @@
 
 #pragma once
 
-// TZLA-619 // #include "ofMain.h"
+// IOSP-40 // #include "ofMain.h"
 
 class ofxAppGenericWindow;
 
-// TZLA-619 // #if TARGET_OS_IPHONE
+// IOSP-40 // #if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
 #import "ofxGenericApp.h"
 
@@ -38,4 +38,4 @@ void SignalHandler( int signal );
 -( void )setupKeyboardVisibilityNotifications;
 
 @end
-// TZLA-619 // #endif
+// IOSP-40 // #endif

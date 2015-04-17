@@ -90,7 +90,7 @@ ofxGenericAppDelegate* ofxGenericApp::getAppDelegate()
 
 void ofxGenericApp::runViaInfiniteLoop( ofPtr< ofxAppGenericWindow > window )
 {
-    // TZLA-619 // ofLogVerbose( ofxGenericModuleName, "App loop starting..." );
+    // IOSP-40 // ofLogVerbose( ofxGenericModuleName, "App loop starting..." );
     // TODO: strong references
     _window = window;
     _windowSize = _window->getFrame();
@@ -143,7 +143,7 @@ void ofxGenericApp::finishedLaunching()
     handleFinishedLaunchingPresetup();
     
     // wait a cycle so iOS has time to get initialized
-    // TZLA-619 // _setupTimer = ofxGenericTimer::create( 0.0001f, false, dynamic_pointer_cast< ofxGenericTimerDelegate >( _this ) );
+    // IOSP-40 // _setupTimer = ofxGenericTimer::create( 0.0001f, false, dynamic_pointer_cast< ofxGenericTimerDelegate >( _this ) );
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_MSEC), dispatch_get_main_queue(), ^{
         setup();
     });
@@ -183,8 +183,8 @@ void ofxGenericApp::timer_fired( ofPtr< ofxGenericTimer > timer )
 {
     if ( timer == _setupTimer )
     {
-        // TZLA-619 // ofNotifySetup();
-        // TZLA-619 // ofNotifyUpdate();
+        // IOSP-40 // ofNotifySetup();
+        // IOSP-40 // ofNotifyUpdate();
         _setupTimer = ofPtr< ofxGenericTimer >();
     }
 }
@@ -601,8 +601,8 @@ void ofNotifyDeviceOrientationChanged( ofOrientation orientation )
 //	}
 	
 #ifdef OF_USING_POCO
-    // TZLA-619 // orientationEventArgs.orientation = orientation;
-    // TZLA-619 // ofNotifyEvent( ofxGenericEvents.orientation, orientationEventArgs );
+    // IOSP-40 // orientationEventArgs.orientation = orientation;
+    // IOSP-40 // ofNotifyEvent( ofxGenericEvents.orientation, orientationEventArgs );
 #endif
 }
 

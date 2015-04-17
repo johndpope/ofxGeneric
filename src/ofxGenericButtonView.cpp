@@ -422,7 +422,7 @@ string ofxGenericButtonView::toString()
 #if DEBUG
     if ( _backgroundImage && !_backgroundImage->getFilePath().empty() )
     {
-        // TZLA-619 // result += " " + ofFilePath::getFileName( _backgroundImage->getFilePath() );
+        // IOSP-40 // result += " " + ofFilePath::getFileName( _backgroundImage->getFilePath() );
     }
 #endif
     return result;

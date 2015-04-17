@@ -153,7 +153,7 @@ public:
     virtual void setUserInteractionEnabled( bool enabled );
     virtual bool getUserInteractionEnabled();
     
-    // TZLA-619 // virtual ofPtr< ofImage > createImageRepresentation( );
+    // IOSP-40 // virtual ofPtr< ofImage > createImageRepresentation( );
     
 #if TARGET_OS_IPHONE
     virtual void gesturePerformedSwipe( UISwipeGestureRecognizer* recognizer );

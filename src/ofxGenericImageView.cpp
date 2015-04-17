@@ -10,7 +10,7 @@
 
 #if TARGET_OS_IPHONE
 #include "UIDevice-Hardware.h"
-// TZLA-619 // #include "ofxiPhoneExtras.h"
+// IOSP-40 // #include "ofxiPhoneExtras.h"
 
 #elif TARGET_ANDROID
 #include "JNIUtility.h"
@@ -170,7 +170,7 @@ string ofxGenericImageView::toString()
     
     if ( _image && !_image->getFilePath().empty() )
     {
-        // TZLA-619 // result += " " + ofFilePath::getFileName( _image->getFilePath() );
+        // IOSP-40 // result += " " + ofFilePath::getFileName( _image->getFilePath() );
     }
     return result;
 }
@@ -182,7 +182,7 @@ ofPtr< ofxGenericValueStore > ofxGenericImageView::toValueStore()
     {
         if ( _image && !_image->getFilePath().empty() )
         {
-            // TZLA-619 // result->write( "image", ofFilePath::getFileName( _image->getFilePath() ) );
+            // IOSP-40 // result->write( "image", ofFilePath::getFileName( _image->getFilePath() ) );
         }
     }
     return result;

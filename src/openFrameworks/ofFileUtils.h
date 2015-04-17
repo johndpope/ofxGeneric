@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ofConstants.h"
-// TZLA-619 // #include "Poco/File.h"
+// IOSP-40 // #include "Poco/File.h"
 
 //----------------------------------------------------------
 // ofBuffer
@@ -143,7 +143,7 @@ public:
 	uint64_t getSize() const;
 
 	//if you want access to a few other things
-	// TZLA-619 // Poco::File & getPocoFile();
+	// IOSP-40 // Poco::File & getPocoFile();
 
 	//this allows to compare files by their paths, also provides sorting and use as key in stl containers
 	bool operator==(const ofFile & file) const;
@@ -189,7 +189,7 @@ private:
 	bool isWriteMode();
 	bool openStream(Mode _mode, bool binary);
 	void copyFrom(const ofFile & mom);
-	// TZLA-619 // Poco::File myFile;
+	// IOSP-40 // Poco::File myFile;
 	Mode mode;
 };
 
@@ -252,7 +252,7 @@ public:
 
 
 	//if you want access to a few other things
-	// TZLA-619 // Poco::File & getPocoFile();
+	// IOSP-40 // Poco::File & getPocoFile();
 
 	//this allows to compare dirs by their paths, also provides sorting and use as key in stl containers
 	bool operator==(const ofDirectory & dir);
@@ -274,7 +274,7 @@ public:
 
 
 private:
-	// TZLA-619 // Poco::File myDir;
+	// IOSP-40 // Poco::File myDir;
 	string originalDirectory;
 	vector <string> extensions;
 	vector <ofFile> files;

@@ -287,9 +287,9 @@ void ofFile::copyFrom(const ofFile & mom){
 		Mode new_mode = mom.mode;
 		if(new_mode != Reference && new_mode != ReadOnly){
 			new_mode = ReadOnly;
-			// TZLA-619 // ofLog(OF_LOG_WARNING, "ofFile: trying to copy a write file, opening copy as read only");
+			// IOSP-40 // ofLog(OF_LOG_WARNING, "ofFile: trying to copy a write file, opening copy as read only");
 		}
-		// TZLA-619 // open(mom.myFile.path(), new_mode);
+		// IOSP-40 // open(mom.myFile.path(), new_mode);
 	}
 }
 
@@ -326,7 +326,7 @@ bool ofFile::openStream(Mode _mode, bool binary){
 //------------------------------------------------------------------------------------------------------------
 bool ofFile::open(string _path, Mode _mode, bool binary){
 	close();
-	// TZLA-619 // myFile = File(ofToDataPath(_path));
+	// IOSP-40 // myFile = File(ofToDataPath(_path));
 	return openStream(_mode, binary);
 }
 
@@ -335,7 +335,7 @@ bool ofFile::changeMode(Mode _mode, bool binary){
 	if(_mode != mode){
 		string _path = path();
 		close();
-		// TZLA-619 // myFile = File(_path);
+		// IOSP-40 // myFile = File(_path);
 		return openStream(_mode, binary);
 	}
 	else{
@@ -350,7 +350,7 @@ bool ofFile::isWriteMode(){
 
 //-------------------------------------------------------------------------------------------------------------
 void ofFile::close(){
-	// TZLA-619 // myFile = File();
+	// IOSP-40 // myFile = File();
 	fstream::close();
 }
 
@@ -386,7 +386,7 @@ bool ofFile::writeFromBuffer(ofBuffer & buffer){
 		return false;
 	}*/
 	if(!isWriteMode()){
-		// TZLA-619 // ofLog(OF_LOG_ERROR, "ofFile: trying to a file opened as read only");
+		// IOSP-40 // ofLog(OF_LOG_ERROR, "ofFile: trying to a file opened as read only");
 	}
 	*this << buffer;
 	return true;
@@ -405,7 +405,7 @@ bool ofFile::exists() const {
 		return false;
 	}
 	try{
-		// TZLA-619 // return myFile.exists();
+		// IOSP-40 // return myFile.exists();
         return false;
 	}
 	catch(...){
@@ -415,7 +415,7 @@ bool ofFile::exists() const {
 
 //------------------------------------------------------------------------------------------------------------
 string ofFile::path() const {
-	// TZLA-619 // return myFile.path();
+	// IOSP-40 // return myFile.path();
     return "";
 }
 
@@ -446,65 +446,65 @@ string ofFile::getAbsolutePath() const {
 
 //------------------------------------------------------------------------------------------------------------
 bool ofFile::canRead() const {
-	// TZLA-619 // return myFile.canRead();
+	// IOSP-40 // return myFile.canRead();
     return false;
 }
 
 //------------------------------------------------------------------------------------------------------------
 bool ofFile::canWrite() const {
-	// TZLA-619 // return myFile.canWrite();
+	// IOSP-40 // return myFile.canWrite();
     return false;
 }
 
 //------------------------------------------------------------------------------------------------------------
 bool ofFile::canExecute() const {
-	// TZLA-619 // return myFile.canExecute();
+	// IOSP-40 // return myFile.canExecute();
     return false;
 }
 
 //------------------------------------------------------------------------------------------------------------
 bool ofFile::isFile() const {
-	// TZLA-619 // return myFile.isFile();
+	// IOSP-40 // return myFile.isFile();
     return false;
 }
 
 //------------------------------------------------------------------------------------------------------------
 bool ofFile::isLink() const {
-	// TZLA-619 // return myFile.isLink();
+	// IOSP-40 // return myFile.isLink();
     return false;
 }
 
 //------------------------------------------------------------------------------------------------------------
 bool ofFile::isDirectory() const {
-	// TZLA-619 // return myFile.isDirectory();
+	// IOSP-40 // return myFile.isDirectory();
     return false;
 }
 
 //------------------------------------------------------------------------------------------------------------
 bool ofFile::isDevice() const {
-	// TZLA-619 // return myFile.isDevice();
+	// IOSP-40 // return myFile.isDevice();
     return false;
 }
 
 //------------------------------------------------------------------------------------------------------------
 bool ofFile::isHidden() const {
-	// TZLA-619 // return myFile.isHidden();
+	// IOSP-40 // return myFile.isHidden();
     return false;
 }
 
 //------------------------------------------------------------------------------------------------------------
 void ofFile::setWriteable(bool flag = true){
-	// TZLA-619 // myFile.setWriteable(flag);
+	// IOSP-40 // myFile.setWriteable(flag);
 }
 
 //------------------------------------------------------------------------------------------------------------
 void ofFile::setReadOnly(bool flag = true){
-	// TZLA-619 // myFile.setReadOnly(flag);
+	// IOSP-40 // myFile.setReadOnly(flag);
 }
 
 //------------------------------------------------------------------------------------------------------------
 void ofFile::setExecutable(bool flag = true){
-	// TZLA-619 // myFile.setExecutable(flag);
+	// IOSP-40 // myFile.setExecutable(flag);
 }
 
 //------------------------------------------------------------------------------------------------------------
@@ -620,7 +620,7 @@ bool ofFile::remove(bool recursive){
 
 //------------------------------------------------------------------------------------------------------------
 uint64_t ofFile::getSize() const {
-	// TZLA-619 // return myFile.getSize();
+	// IOSP-40 // return myFile.getSize();
     return -1;
 }
 
@@ -804,12 +804,12 @@ void ofDirectory::open(string path){
 	path = ofFilePath::getPathForDirectory(path);
 	originalDirectory = path;
 	files.clear();
-	// TZLA-619 // myDir = File(ofToDataPath(path));
+	// IOSP-40 // myDir = File(ofToDataPath(path));
 }
 
 //------------------------------------------------------------------------------------------------------------
 void ofDirectory::close(){
-	// TZLA-619 // myDir = File();
+	// IOSP-40 // myDir = File();
 }
 
 //------------------------------------------------------------------------------------------------------------
@@ -835,13 +835,13 @@ bool ofDirectory::create(bool recursive){
 
 //------------------------------------------------------------------------------------------------------------
 bool ofDirectory::exists() const {
-	// TZLA-619 // return myDir.exists();
+	// IOSP-40 // return myDir.exists();
     return false;
 }
 
 //------------------------------------------------------------------------------------------------------------
 string ofDirectory::path() const {
-	// TZLA-619 // return myDir.path();
+	// IOSP-40 // return myDir.path();
     return "";
 }
 
@@ -852,23 +852,23 @@ string ofDirectory::getAbsolutePath() const {
 
 //------------------------------------------------------------------------------------------------------------
 bool ofDirectory::isHidden() const {
-	// TZLA-619 // return myDir.isHidden();
+	// IOSP-40 // return myDir.isHidden();
     return false;
 }
 
 //------------------------------------------------------------------------------------------------------------
 void ofDirectory::setWriteable(bool flag = true){
-	// TZLA-619 // myDir.setWriteable(flag);
+	// IOSP-40 // myDir.setWriteable(flag);
 }
 
 //------------------------------------------------------------------------------------------------------------
 void ofDirectory::setReadOnly(bool flag = true){
-	// TZLA-619 // myDir.setReadOnly(flag);
+	// IOSP-40 // myDir.setReadOnly(flag);
 }
 
 //------------------------------------------------------------------------------------------------------------
 void ofDirectory::setExecutable(bool flag = true){
-	// TZLA-619 // myDir.setExecutable(flag);
+	// IOSP-40 // myDir.setExecutable(flag);
 }
 
 //------------------------------------------------------------------------------------------------------------
@@ -878,7 +878,7 @@ void ofDirectory::setShowHidden(bool showHidden){
 
 //------------------------------------------------------------------------------------------------------------
 bool ofDirectory::isDirectory() const {
-	// TZLA-619 // return myDir.isDirectory();
+	// IOSP-40 // return myDir.isDirectory();
     return false;
 }
 
@@ -1276,7 +1276,7 @@ string ofFilePath::getPathForDirectory(string path){
 	// if a trailing slash is missing from a path, this will clean it up
 	// if it's a windows-style "\" path it will add a "\"
 	// if it's a unix-style "/" path it will add a "/"
-	// TZLA-619 // return Path::forDirectory(path).toString();
+	// IOSP-40 // return Path::forDirectory(path).toString();
     return "";
 }
 
@@ -1360,7 +1360,7 @@ string ofFilePath::getCurrentWorkingDirectory(){
 		pathWithoutApp = pathOSXStr.substr(0, found);
 		return pathWithoutApp;
 	#else
-		// TZLA-619 // return Path::current();
+		// IOSP-40 // return Path::current();
         return "";
 	#endif
 }

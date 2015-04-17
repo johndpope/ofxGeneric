@@ -11,7 +11,7 @@
 
 #include "ofConstants.h"
 #include "ofPoint.h"
-// TZLA-619 // #include "ofLog.h"
+// IOSP-40 // #include "ofLog.h"
 
 //----------------------------------------------------------
 // ofRectangle

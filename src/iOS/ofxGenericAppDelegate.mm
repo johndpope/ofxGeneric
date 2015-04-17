@@ -8,7 +8,7 @@
 
 #import "ofxGenericAppDelegate.h"
 #import "ofxGenericApp.h"
-// TZLA-619 // #import "ofMain.h"
+// IOSP-40 // #import "ofMain.h"
 
 #include "ofxGenericException.h"
 #include "ofxGenericUtilityiOS.h"
@@ -37,8 +37,8 @@
     ofPtr< ofxGenericApp > app = ofxGenericApp::getInstance();
     
     // TODO: don't use ofSetupOpenGL
-    // TZLA-619 // ofSetupOpenGL( window, 1024, 768, OF_FULLSCREEN );
-    // TZLA-619 // ofRunApp( app );
+    // IOSP-40 // ofSetupOpenGL( window, 1024, 768, OF_FULLSCREEN );
+    // IOSP-40 // ofRunApp( app );
     app->runViaInfiniteLoop(window);
     
     if ( [ self shouldInstallDefaultUncaughtExceptionHandler ] )
@@ -106,7 +106,7 @@
 
 -( void )update
 {
-    // TZLA-619 // ofNotifyUpdate();
+    // IOSP-40 // ofNotifyUpdate();
 }
 
 -( void )deviceOrientationDidChange:( NSNotification* )notification

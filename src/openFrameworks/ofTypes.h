@@ -54,8 +54,8 @@ class ofSerialDeviceInfo{
 // ofMutex
 //----------------------------------------------------------
 
-// TZLA-619 // #include "Poco/Mutex.h"
-// TZLA-619 // typedef Poco::FastMutex ofMutex;
+// IOSP-40 // #include "Poco/Mutex.h"
+// IOSP-40 // typedef Poco::FastMutex ofMutex;
 
 //----------------------------------------------------------
 // ofStyle

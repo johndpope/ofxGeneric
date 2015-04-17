@@ -153,9 +153,9 @@ void ofxGenericStorePurchaser::errorFetchingProducts(NSError *error)
 {
     _isFindingProducts = false;
     if (error.localizedDescription.length > 0) {
-        // TZLA-619 // ofLogError("Error in ofxGenericStorePurchaser: " + (string)error.localizedDescription.UTF8String);
+        // IOSP-40 // ofLogError("Error in ofxGenericStorePurchaser: " + (string)error.localizedDescription.UTF8String);
     } else {
-        // TZLA-619 // ofLogError("Error in ofxGenericStorePurchaser");
+        // IOSP-40 // ofLogError("Error in ofxGenericStorePurchaser");
     }
     
     if ( _delegate )
@@ -180,7 +180,7 @@ void ofxGenericStorePurchaser::productsResponseReceived( std::map< string, ofPtr
 
 void ofxGenericStorePurchaser::paymentReceived( ofPtr< ofxGenericStoreTransaction > transaction )
 {
-    // TZLA-619 // ofLogVerbose("ofxGenericStorePurchaser: paymentReceived - " + transaction->getProductIdentifier() );
+    // IOSP-40 // ofLogVerbose("ofxGenericStorePurchaser: paymentReceived - " + transaction->getProductIdentifier() );
     if ( _delegate )
     {
         _delegate.lock()->inApp_purchaseComplete( transaction->getProductIdentifier(), transaction );
@@ -190,9 +190,9 @@ void ofxGenericStorePurchaser::paymentReceived( ofPtr< ofxGenericStoreTransactio
 void ofxGenericStorePurchaser::paymentFailed( ofPtr< ofxGenericStoreTransaction > transaction, NSError *error )
 {
     if (error.localizedDescription.length > 0) {
-        // TZLA-619 // ofLogError("ofxGenericStorePurchaser: paymentFailed - " + (string)error.localizedDescription.UTF8String );
+        // IOSP-40 // ofLogError("ofxGenericStorePurchaser: paymentFailed - " + (string)error.localizedDescription.UTF8String );
     } else {
-        // TZLA-619 // ofLogError("ofxGenericStorePurchaser: paymentFailed");
+        // IOSP-40 // ofLogError("ofxGenericStorePurchaser: paymentFailed");
     }
     if ( _delegate )
     {
@@ -204,7 +204,7 @@ void ofxGenericStorePurchaser::paymentFailed( ofPtr< ofxGenericStoreTransaction 
 
 void ofxGenericStorePurchaser::paymentRestored( ofPtr< ofxGenericStoreTransaction > transaction )
 {
-    // TZLA-619 // ofLogVerbose("ofxGenericStorePurchaser: paymentRestored - " + transaction->getProductIdentifier() );
+    // IOSP-40 // ofLogVerbose("ofxGenericStorePurchaser: paymentRestored - " + transaction->getProductIdentifier() );
     if ( _delegate )
     {
         _delegate.lock()->inApp_purchaseRestored( transaction->getProductIdentifier(), transaction );
@@ -247,13 +247,13 @@ void ofxGenericStorePurchaser::setDelegate( ofPtrWeak< ofxGenericStorePurchaserD
         string identifier = product->getIdentifier();
         products[ identifier ] = product;
         identifiers.push_back( identifier );
-        // TZLA-619 // ofLogVerbose(" ofxGenericStorePurchaser: Recieved product: " + identifier );
+        // IOSP-40 // ofLogVerbose(" ofxGenericStorePurchaser: Recieved product: " + identifier );
     }
     
     for ( unsigned int i = 0; i < [ response.invalidProductIdentifiers count ]; i++ )
     {
         NSString *invalidId = [ response.invalidProductIdentifiers objectAtIndex:i ];
-        // TZLA-619 // ofLogWarning( "ofxGenericStorePurchaser: Apple returned invalid product identifier from products request: \"" + ofxGToString( invalidId ) + "\"" );
+        // IOSP-40 // ofLogWarning( "ofxGenericStorePurchaser: Apple returned invalid product identifier from products request: \"" + ofxGToString( invalidId ) + "\"" );
     }
     
     _purchaser.lock()->productsResponseReceived( products, identifiers );

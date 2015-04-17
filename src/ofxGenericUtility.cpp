@@ -1,5 +1,5 @@
 #include "ofxGenericUtility.h"
-// TZLA-619 // #include "ofLog.h"
+// IOSP-40 // #include "ofLog.h"
 #include "ofxGenericConstants.h"
 
 #include <sys/stat.h>
@@ -150,27 +150,27 @@ ofPoint ofxGPointSizeForText( string text, string fontName, float fontSize, floa
 
 void ofxGLogError( const string & message )
 {
-	// TZLA-619 // ofLogError( ofxGenericModuleName, message );
+	// IOSP-40 // ofLogError( ofxGenericModuleName, message );
 }
 
 void ofxGLogFatalError( const string & message )
 {
-	// TZLA-619 // ofLogFatalError( ofxGenericModuleName, message );
+	// IOSP-40 // ofLogFatalError( ofxGenericModuleName, message );
 }
 
 void ofxGLogNotice( const string & message )
 {
-	// TZLA-619 // ofLogNotice( ofxGenericModuleName, message );
+	// IOSP-40 // ofLogNotice( ofxGenericModuleName, message );
 }
 
 void ofxGLogVerbose( const string & message )
 {
-	// TZLA-619 // ofLogVerbose( ofxGenericModuleName, message );
+	// IOSP-40 // ofLogVerbose( ofxGenericModuleName, message );
 }
 
 void ofxGLogWarning( const string & message )
 {
-	// TZLA-619 // ofLogWarning( ofxGenericModuleName, message );
+	// IOSP-40 // ofLogWarning( ofxGenericModuleName, message );
 }
 
 //////////////////////////////// String conversions //////////////////////////////////

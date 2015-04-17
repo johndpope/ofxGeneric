@@ -10,7 +10,7 @@
 
 #include "ofxGenericMain.h"
 
-// TZLA-619 // #import "ofxiPhoneExtras.h"
+// IOSP-40 // #import "ofxiPhoneExtras.h"
 #include "ofTypes.h"
 
 string ofxGToString( NSData* data );
@@ -66,8 +66,8 @@ ofxGenericDateSelectorMode iOSToofxGenericDateSelectorMode( UIDatePickerMode fro
 UIGestureRecognizerState ofxGenericGestureStateToiOS( ofxGenericGestureState from );
 ofxGenericGestureState iOSToofxGenericGestureState( UIGestureRecognizerState from );
 
-// TZLA-619 // ofPtr< ofImage > UIImageToofImage( UIImage* image );
-// TZLA-619 // UIImage* OFImageToUIImage( ofImage& image ); // fix to use ofPtr?
+// IOSP-40 // ofPtr< ofImage > UIImageToofImage( UIImage* image );
+// IOSP-40 // UIImage* OFImageToUIImage( ofImage& image ); // fix to use ofPtr?
 
 CGSize ofPointToCGSize( const ofPoint& size );
 ofPoint CGSizeToofPoint( CGSize size );

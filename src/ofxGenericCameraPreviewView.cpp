@@ -8,7 +8,7 @@
 
 #include "ofxGenericCameraPreviewView.h"
 
-// TZLA-619 // #include "ofxiPhoneExtras.h"
+// IOSP-40 // #include "ofxiPhoneExtras.h"
 
 #include "ofxGenericImage.h"
 
@@ -143,9 +143,9 @@ void ofxGenericCameraPreviewView::takePicture()
     UIImage* uiimage = [ UIImage imageNamed:@"Default.png" ];
     pictureTaken( ofxGenericImage::create( uiimage ) );
 
-    ofPtr< ofImage > ofimage( new ofImage() );
+    /* TZLA-619 // ofPtr< ofImage > ofimage( new ofImage() );
     ofxiPhoneUIImageToOFImage( uiimage, *ofimage, ( int )getFrame().width, ( int )getFrame().height );
-    pictureTaken( ofimage );
+    pictureTaken( ofimage );*/
     
 #else
 

@@ -244,13 +244,13 @@ void ofRectangle::scaleTo(const ofRectangle& targetRect,
                 scale(MIN(wRatio,hRatio));
             }
         } else {
-            // TZLA-619 // ofLogWarning("ofRectangle") << "scaleTo: this rectangle has 0 width or 0 height. No scaling applied to avoid divide by zero.";
+            // IOSP-40 // ofLogWarning("ofRectangle") << "scaleTo: this rectangle has 0 width or 0 height. No scaling applied to avoid divide by zero.";
         }
     } else if(aspectRatioMode == OF_ASPECT_RATIO_IGNORE) {
         width  = tw;
         height = th;
     } else {
-        // TZLA-619 // ofLogWarning("ofRectangle") << "scaleTo: Unknown ofAspectRatioMode = " << aspectRatioMode << ". Using OF_ASPECT_RATIO_IGNORE.";
+        // IOSP-40 // ofLogWarning("ofRectangle") << "scaleTo: Unknown ofAspectRatioMode = " << aspectRatioMode << ". Using OF_ASPECT_RATIO_IGNORE.";
         width  = tw;
         height = th;
     }
@@ -271,7 +271,7 @@ void ofRectangle::alignToHorz(const float& targetX,
     if(thisHorzAnchor != OF_ALIGN_HORZ_IGNORE) {
         translateX(targetX - getHorzAnchor(thisHorzAnchor));
     } else {
-        // TZLA-619 // ofLogVerbose("ofRectangle") << "alignToHorz: thisHorzAnchor == OF_ALIGN_HORZ_IGNORE. No alignment applied.";
+        // IOSP-40 // ofLogVerbose("ofRectangle") << "alignToHorz: thisHorzAnchor == OF_ALIGN_HORZ_IGNORE. No alignment applied.";
     }
 }
 
@@ -292,9 +292,9 @@ void ofRectangle::alignToHorz(const ofRectangle& targetRect,
         alignToHorz(targetRect.getHorzAnchor(targetHorzAnchor),thisHorzAnchor);
     } else {
         if(targetHorzAnchor == OF_ALIGN_HORZ_IGNORE) {
-            // TZLA-619 // ofLogVerbose("ofRectangle") << "alignToHorz: targetHorzAnchor == OF_ALIGN_HORZ_IGNORE. No alignment applied.";
+            // IOSP-40 // ofLogVerbose("ofRectangle") << "alignToHorz: targetHorzAnchor == OF_ALIGN_HORZ_IGNORE. No alignment applied.";
         } else {
-            // TZLA-619 // ofLogVerbose("ofRectangle") << "alignToHorz: thisHorzAnchor == OF_ALIGN_HORZ_IGNORE. No alignment applied.";
+            // IOSP-40 // ofLogVerbose("ofRectangle") << "alignToHorz: thisHorzAnchor == OF_ALIGN_HORZ_IGNORE. No alignment applied.";
         }
     }
     
@@ -307,7 +307,7 @@ void ofRectangle::alignToVert(const float& targetY,
     if(thisVertAnchor != OF_ALIGN_VERT_IGNORE) {
         translateY(targetY - getVertAnchor(thisVertAnchor));
     } else {
-        // TZLA-619 // ofLogVerbose("ofRectangle") << "alignToVert: thisVertAnchor == OF_ALIGN_VERT_IGNORE. No alignment applied.";
+        // IOSP-40 // ofLogVerbose("ofRectangle") << "alignToVert: thisVertAnchor == OF_ALIGN_VERT_IGNORE. No alignment applied.";
     }
 }
 
@@ -328,9 +328,9 @@ void ofRectangle::alignToVert(const ofRectangle& targetRect,
         alignToVert(targetRect.getVertAnchor(targetVertAnchor),thisVertAnchor);
     } else {
         if(targetVertAnchor == OF_ALIGN_VERT_IGNORE) {
-            // TZLA-619 // ofLogVerbose("ofRectangle") << "alignToVert: targetVertAnchor == OF_ALIGN_VERT_IGNORE. No alignment applied.";
+            // IOSP-40 // ofLogVerbose("ofRectangle") << "alignToVert: targetVertAnchor == OF_ALIGN_VERT_IGNORE. No alignment applied.";
         } else {
-            // TZLA-619 // ofLogVerbose("ofRectangle") << "alignToVert: thisVertAnchor == OF_ALIGN_VERT_IGNORE. No alignment applied.";
+            // IOSP-40 // ofLogVerbose("ofRectangle") << "alignToVert: thisVertAnchor == OF_ALIGN_VERT_IGNORE. No alignment applied.";
         }
         
     }
@@ -408,11 +408,11 @@ bool ofRectangle::intersects(const ofPoint& p0, const ofPoint& p1) const {
     ofPoint bottomLeft  = getBottomLeft();
     
     return inside(p0) || // check end inside
-    inside(p1);// TZLA-619 //  || // check end inside
-           // TZLA-619 // ofLineSegmentIntersection(p0, p1, topLeft,     topRight,    p) || // cross top
-           // TZLA-619 // ofLineSegmentIntersection(p0, p1, topRight,    bottomRight, p) || // cross right
-           // TZLA-619 // ofLineSegmentIntersection(p0, p1, bottomRight, bottomLeft,  p) || // cross bottom
-           // TZLA-619 // ofLineSegmentIntersection(p0, p1, bottomLeft,  topLeft,     p);   // cross left
+    inside(p1);// IOSP-40 //  || // check end inside
+           // IOSP-40 // ofLineSegmentIntersection(p0, p1, topLeft,     topRight,    p) || // cross top
+           // IOSP-40 // ofLineSegmentIntersection(p0, p1, topRight,    bottomRight, p) || // cross right
+           // IOSP-40 // ofLineSegmentIntersection(p0, p1, bottomRight, bottomLeft,  p) || // cross bottom
+           // IOSP-40 // ofLineSegmentIntersection(p0, p1, bottomLeft,  topLeft,     p);   // cross left
 }
 
 //----------------------------------------------------------
@@ -596,7 +596,7 @@ ofPoint ofRectangle::getBottomRight() const {
 float ofRectangle::getHorzAnchor(ofAlignHorz anchor) const {
     switch (anchor) {
         case OF_ALIGN_HORZ_IGNORE:
-            // TZLA-619 // ofLogError("ofRectangle") << "getHorzAnchor: Unable to get anchor for OF_ALIGN_HORZ_IGNORE.  Returning 0.";
+            // IOSP-40 // ofLogError("ofRectangle") << "getHorzAnchor: Unable to get anchor for OF_ALIGN_HORZ_IGNORE.  Returning 0.";
             return 0.0f;
         case OF_ALIGN_HORZ_LEFT:
             return getLeft();
@@ -605,7 +605,7 @@ float ofRectangle::getHorzAnchor(ofAlignHorz anchor) const {
         case OF_ALIGN_HORZ_CENTER:
             return getCenter().x;
         default:
-            // TZLA-619 // ofLogError("ofRectangle") << "getHorzAnchor: Unknown ofAlignHorz = " << anchor << ". Returning 0.0";
+            // IOSP-40 // ofLogError("ofRectangle") << "getHorzAnchor: Unknown ofAlignHorz = " << anchor << ". Returning 0.0";
             return 0.0f;
     }
 }
@@ -614,7 +614,7 @@ float ofRectangle::getHorzAnchor(ofAlignHorz anchor) const {
 float ofRectangle::getVertAnchor(ofAlignVert anchor) const {
     switch (anchor) {
         case OF_ALIGN_VERT_IGNORE:
-            // TZLA-619 // ofLogError("ofRectangle") << "getVertAnchor: Unable to get anchor for OF_ALIGN_VERT_IGNORE.  Returning 0.0";
+            // IOSP-40 // ofLogError("ofRectangle") << "getVertAnchor: Unable to get anchor for OF_ALIGN_VERT_IGNORE.  Returning 0.0";
             return 0.0f;
         case OF_ALIGN_VERT_TOP:
             return getTop();
@@ -623,7 +623,7 @@ float ofRectangle::getVertAnchor(ofAlignVert anchor) const {
         case OF_ALIGN_VERT_CENTER:
             return getCenter().y;
         default:
-            // TZLA-619 // ofLogError("ofRectangle") << "getVertAnchor: Unknown ofAlignVert = " << anchor << ". Returning 0.0";
+            // IOSP-40 // ofLogError("ofRectangle") << "getVertAnchor: Unknown ofAlignVert = " << anchor << ". Returning 0.0";
             return 0.0f;
     }
 }
