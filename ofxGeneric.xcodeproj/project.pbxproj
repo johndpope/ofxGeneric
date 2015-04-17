@@ -35,6 +35,20 @@
 		191208C51ADD86F900D78663 /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 191208C11ADD86F900D78663 /* tinyxmlparser.cpp */; };
 		191208C81ADD877900D78663 /* ofxXmlSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 191208C61ADD877900D78663 /* ofxXmlSettings.cpp */; };
 		191208C91ADD877900D78663 /* ofxXmlSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 191208C71ADD877900D78663 /* ofxXmlSettings.h */; };
+		19B765171AE1289700A0794A /* ofxJSONElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 19B765151AE1289700A0794A /* ofxJSONElement.cpp */; };
+		19B765181AE1289700A0794A /* ofxJSONElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 19B765161AE1289700A0794A /* ofxJSONElement.h */; };
+		19B765211AE128A900A0794A /* autolink.h in Headers */ = {isa = PBXBuildFile; fileRef = 19B765191AE128A900A0794A /* autolink.h */; };
+		19B765221AE128A900A0794A /* config.h in Headers */ = {isa = PBXBuildFile; fileRef = 19B7651A1AE128A900A0794A /* config.h */; };
+		19B765231AE128A900A0794A /* features.h in Headers */ = {isa = PBXBuildFile; fileRef = 19B7651B1AE128A900A0794A /* features.h */; };
+		19B765241AE128A900A0794A /* forwards.h in Headers */ = {isa = PBXBuildFile; fileRef = 19B7651C1AE128A900A0794A /* forwards.h */; };
+		19B765251AE128A900A0794A /* json.h in Headers */ = {isa = PBXBuildFile; fileRef = 19B7651D1AE128A900A0794A /* json.h */; };
+		19B765261AE128A900A0794A /* reader.h in Headers */ = {isa = PBXBuildFile; fileRef = 19B7651E1AE128A900A0794A /* reader.h */; };
+		19B765271AE128A900A0794A /* value.h in Headers */ = {isa = PBXBuildFile; fileRef = 19B7651F1AE128A900A0794A /* value.h */; };
+		19B765281AE128A900A0794A /* writer.h in Headers */ = {isa = PBXBuildFile; fileRef = 19B765201AE128A900A0794A /* writer.h */; };
+		19B765301AE128B400A0794A /* json_batchallocator.h in Headers */ = {isa = PBXBuildFile; fileRef = 19B765291AE128B400A0794A /* json_batchallocator.h */; };
+		19B765311AE128B400A0794A /* json_reader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 19B7652C1AE128B400A0794A /* json_reader.cpp */; };
+		19B765321AE128B400A0794A /* json_value.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 19B7652D1AE128B400A0794A /* json_value.cpp */; };
+		19B765331AE128B400A0794A /* json_writer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 19B7652F1AE128B400A0794A /* json_writer.cpp */; };
 		3C0AC1511522C34500872B70 /* ofxGenericPlatform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C0AC1501522C34500872B70 /* ofxGenericPlatform.cpp */; };
 		3C0B9F9E1571F9FA009F61BE /* ofxGenericCameraPreviewView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C0B9F9D1571F9FA009F61BE /* ofxGenericCameraPreviewView.cpp */; };
 		3C0B9FAC1571FB07009F61BE /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C7B4F1814FD4E1C003121FE /* AVFoundation.framework */; };
@@ -141,20 +155,6 @@
 		45037A491534E6E200ADB7EC /* ofxGenericValueStore.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45037A481534E6E100ADB7EC /* ofxGenericValueStore.mm */; };
 		453DE3DE15F66AC400046917 /* ofxGenericPageControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 453DE3DC15F66AC400046917 /* ofxGenericPageControl.cpp */; };
 		453DE3DF15F66AC400046917 /* ofxGenericPageControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 453DE3DD15F66AC400046917 /* ofxGenericPageControl.h */; };
-		453E461815365E1C00C66514 /* autolink.h in Headers */ = {isa = PBXBuildFile; fileRef = 453E45BA15365E1C00C66514 /* autolink.h */; };
-		453E461915365E1C00C66514 /* config.h in Headers */ = {isa = PBXBuildFile; fileRef = 453E45BB15365E1C00C66514 /* config.h */; };
-		453E461A15365E1C00C66514 /* features.h in Headers */ = {isa = PBXBuildFile; fileRef = 453E45BC15365E1C00C66514 /* features.h */; };
-		453E461B15365E1C00C66514 /* forwards.h in Headers */ = {isa = PBXBuildFile; fileRef = 453E45BD15365E1C00C66514 /* forwards.h */; };
-		453E461C15365E1C00C66514 /* json.h in Headers */ = {isa = PBXBuildFile; fileRef = 453E45BE15365E1C00C66514 /* json.h */; };
-		453E461D15365E1C00C66514 /* reader.h in Headers */ = {isa = PBXBuildFile; fileRef = 453E45BF15365E1C00C66514 /* reader.h */; };
-		453E461E15365E1C00C66514 /* value.h in Headers */ = {isa = PBXBuildFile; fileRef = 453E45C015365E1C00C66514 /* value.h */; };
-		453E461F15365E1C00C66514 /* writer.h in Headers */ = {isa = PBXBuildFile; fileRef = 453E45C115365E1C00C66514 /* writer.h */; };
-		453E462015365E1C00C66514 /* json_batchallocator.h in Headers */ = {isa = PBXBuildFile; fileRef = 453E45C415365E1C00C66514 /* json_batchallocator.h */; };
-		453E462115365E1C00C66514 /* json_reader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 453E45C715365E1C00C66514 /* json_reader.cpp */; };
-		453E462215365E1C00C66514 /* json_value.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 453E45C815365E1C00C66514 /* json_value.cpp */; };
-		453E462315365E1C00C66514 /* json_writer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 453E45CA15365E1C00C66514 /* json_writer.cpp */; };
-		453E463015365E1C00C66514 /* ofxJSONElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 453E460215365E1C00C66514 /* ofxJSONElement.cpp */; };
-		453E463115365E1C00C66514 /* ofxJSONElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 453E460315365E1C00C66514 /* ofxJSONElement.h */; };
 		454496151540C66600B21064 /* ofxGenericAlertView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 454496131540C66600B21064 /* ofxGenericAlertView.cpp */; };
 		454496161540C66600B21064 /* ofxGenericAlertView.h in Headers */ = {isa = PBXBuildFile; fileRef = 454496141540C66600B21064 /* ofxGenericAlertView.h */; };
 		4544F5E91549D061007482B2 /* ofxGenericDrawableView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4544F5E81549D061007482B2 /* ofxGenericDrawableView.cpp */; };
@@ -221,6 +221,23 @@
 		191208C11ADD86F900D78663 /* tinyxmlparser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinyxmlparser.cpp; path = src/openFrameworks/tinyxmlparser.cpp; sourceTree = SOURCE_ROOT; };
 		191208C61ADD877900D78663 /* ofxXmlSettings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ofxXmlSettings.cpp; path = src/openFrameworks/ofxXmlSettings.cpp; sourceTree = SOURCE_ROOT; };
 		191208C71ADD877900D78663 /* ofxXmlSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxXmlSettings.h; path = src/openFrameworks/ofxXmlSettings.h; sourceTree = SOURCE_ROOT; };
+		19B765151AE1289700A0794A /* ofxJSONElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ofxJSONElement.cpp; path = src/openFrameworks/ofxJSON/src/ofxJSONElement.cpp; sourceTree = SOURCE_ROOT; };
+		19B765161AE1289700A0794A /* ofxJSONElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxJSONElement.h; path = src/openFrameworks/ofxJSON/src/ofxJSONElement.h; sourceTree = SOURCE_ROOT; };
+		19B765191AE128A900A0794A /* autolink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = autolink.h; path = src/openFrameworks/ofxJSON/lib/include/json/autolink.h; sourceTree = SOURCE_ROOT; };
+		19B7651A1AE128A900A0794A /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = config.h; path = src/openFrameworks/ofxJSON/lib/include/json/config.h; sourceTree = SOURCE_ROOT; };
+		19B7651B1AE128A900A0794A /* features.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = features.h; path = src/openFrameworks/ofxJSON/lib/include/json/features.h; sourceTree = SOURCE_ROOT; };
+		19B7651C1AE128A900A0794A /* forwards.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = forwards.h; path = src/openFrameworks/ofxJSON/lib/include/json/forwards.h; sourceTree = SOURCE_ROOT; };
+		19B7651D1AE128A900A0794A /* json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = json.h; path = src/openFrameworks/ofxJSON/lib/include/json/json.h; sourceTree = SOURCE_ROOT; };
+		19B7651E1AE128A900A0794A /* reader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = reader.h; path = src/openFrameworks/ofxJSON/lib/include/json/reader.h; sourceTree = SOURCE_ROOT; };
+		19B7651F1AE128A900A0794A /* value.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = value.h; path = src/openFrameworks/ofxJSON/lib/include/json/value.h; sourceTree = SOURCE_ROOT; };
+		19B765201AE128A900A0794A /* writer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = writer.h; path = src/openFrameworks/ofxJSON/lib/include/json/writer.h; sourceTree = SOURCE_ROOT; };
+		19B765291AE128B400A0794A /* json_batchallocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = json_batchallocator.h; path = src/openFrameworks/ofxJSON/lib/src/lib_json/json_batchallocator.h; sourceTree = SOURCE_ROOT; };
+		19B7652A1AE128B400A0794A /* json_internalarray.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = json_internalarray.inl; path = src/openFrameworks/ofxJSON/lib/src/lib_json/json_internalarray.inl; sourceTree = SOURCE_ROOT; };
+		19B7652B1AE128B400A0794A /* json_internalmap.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = json_internalmap.inl; path = src/openFrameworks/ofxJSON/lib/src/lib_json/json_internalmap.inl; sourceTree = SOURCE_ROOT; };
+		19B7652C1AE128B400A0794A /* json_reader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = json_reader.cpp; path = src/openFrameworks/ofxJSON/lib/src/lib_json/json_reader.cpp; sourceTree = SOURCE_ROOT; };
+		19B7652D1AE128B400A0794A /* json_value.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = json_value.cpp; path = src/openFrameworks/ofxJSON/lib/src/lib_json/json_value.cpp; sourceTree = SOURCE_ROOT; };
+		19B7652E1AE128B400A0794A /* json_valueiterator.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = json_valueiterator.inl; path = src/openFrameworks/ofxJSON/lib/src/lib_json/json_valueiterator.inl; sourceTree = SOURCE_ROOT; };
+		19B7652F1AE128B400A0794A /* json_writer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = json_writer.cpp; path = src/openFrameworks/ofxJSON/lib/src/lib_json/json_writer.cpp; sourceTree = SOURCE_ROOT; };
 		3C0AC14E1522C2E700872B70 /* ofxGenericPlatform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericPlatform.h; sourceTree = "<group>"; };
 		3C0AC1501522C34500872B70 /* ofxGenericPlatform.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericPlatform.cpp; sourceTree = "<group>"; };
 		3C0B9F9B1571F992009F61BE /* ofxGenericCameraPreviewView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericCameraPreviewView.h; sourceTree = "<group>"; };
@@ -364,24 +381,6 @@
 		453DE3DC15F66AC400046917 /* ofxGenericPageControl.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericPageControl.cpp; sourceTree = "<group>"; };
 		453DE3DD15F66AC400046917 /* ofxGenericPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericPageControl.h; sourceTree = "<group>"; };
 		453E45B615365E1C00C66514 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		453E45BA15365E1C00C66514 /* autolink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = autolink.h; sourceTree = "<group>"; };
-		453E45BB15365E1C00C66514 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
-		453E45BC15365E1C00C66514 /* features.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = features.h; sourceTree = "<group>"; };
-		453E45BD15365E1C00C66514 /* forwards.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = forwards.h; sourceTree = "<group>"; };
-		453E45BE15365E1C00C66514 /* json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = json.h; sourceTree = "<group>"; };
-		453E45BF15365E1C00C66514 /* reader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = reader.h; sourceTree = "<group>"; };
-		453E45C015365E1C00C66514 /* value.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = value.h; sourceTree = "<group>"; };
-		453E45C115365E1C00C66514 /* writer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = writer.h; sourceTree = "<group>"; };
-		453E45C415365E1C00C66514 /* json_batchallocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = json_batchallocator.h; sourceTree = "<group>"; };
-		453E45C515365E1C00C66514 /* json_internalarray.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = json_internalarray.inl; sourceTree = "<group>"; };
-		453E45C615365E1C00C66514 /* json_internalmap.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = json_internalmap.inl; sourceTree = "<group>"; };
-		453E45C715365E1C00C66514 /* json_reader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = json_reader.cpp; sourceTree = "<group>"; };
-		453E45C815365E1C00C66514 /* json_value.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = json_value.cpp; sourceTree = "<group>"; };
-		453E45C915365E1C00C66514 /* json_valueiterator.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = json_valueiterator.inl; sourceTree = "<group>"; };
-		453E45CA15365E1C00C66514 /* json_writer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = json_writer.cpp; sourceTree = "<group>"; };
-		453E460015365E1C00C66514 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
-		453E460215365E1C00C66514 /* ofxJSONElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxJSONElement.cpp; sourceTree = "<group>"; };
-		453E460315365E1C00C66514 /* ofxJSONElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxJSONElement.h; sourceTree = "<group>"; };
 		454496131540C66600B21064 /* ofxGenericAlertView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericAlertView.cpp; sourceTree = "<group>"; };
 		454496141540C66600B21064 /* ofxGenericAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericAlertView.h; sourceTree = "<group>"; };
 		4544F5E61549D057007482B2 /* ofxGenericDrawableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericDrawableView.h; sourceTree = "<group>"; };
@@ -807,7 +806,6 @@
 			children = (
 				453E45B615365E1C00C66514 /* .gitignore */,
 				453E45B715365E1C00C66514 /* lib */,
-				453E460015365E1C00C66514 /* README */,
 				453E460115365E1C00C66514 /* src */,
 			);
 			path = ofxJSON;
@@ -833,14 +831,14 @@
 		453E45B915365E1C00C66514 /* json */ = {
 			isa = PBXGroup;
 			children = (
-				453E45BA15365E1C00C66514 /* autolink.h */,
-				453E45BB15365E1C00C66514 /* config.h */,
-				453E45BC15365E1C00C66514 /* features.h */,
-				453E45BD15365E1C00C66514 /* forwards.h */,
-				453E45BE15365E1C00C66514 /* json.h */,
-				453E45BF15365E1C00C66514 /* reader.h */,
-				453E45C015365E1C00C66514 /* value.h */,
-				453E45C115365E1C00C66514 /* writer.h */,
+				19B765191AE128A900A0794A /* autolink.h */,
+				19B7651A1AE128A900A0794A /* config.h */,
+				19B7651B1AE128A900A0794A /* features.h */,
+				19B7651C1AE128A900A0794A /* forwards.h */,
+				19B7651D1AE128A900A0794A /* json.h */,
+				19B7651E1AE128A900A0794A /* reader.h */,
+				19B7651F1AE128A900A0794A /* value.h */,
+				19B765201AE128A900A0794A /* writer.h */,
 			);
 			path = json;
 			sourceTree = "<group>";
@@ -856,13 +854,13 @@
 		453E45C315365E1C00C66514 /* lib_json */ = {
 			isa = PBXGroup;
 			children = (
-				453E45C415365E1C00C66514 /* json_batchallocator.h */,
-				453E45C515365E1C00C66514 /* json_internalarray.inl */,
-				453E45C615365E1C00C66514 /* json_internalmap.inl */,
-				453E45C715365E1C00C66514 /* json_reader.cpp */,
-				453E45C815365E1C00C66514 /* json_value.cpp */,
-				453E45C915365E1C00C66514 /* json_valueiterator.inl */,
-				453E45CA15365E1C00C66514 /* json_writer.cpp */,
+				19B765291AE128B400A0794A /* json_batchallocator.h */,
+				19B7652A1AE128B400A0794A /* json_internalarray.inl */,
+				19B7652B1AE128B400A0794A /* json_internalmap.inl */,
+				19B7652C1AE128B400A0794A /* json_reader.cpp */,
+				19B7652D1AE128B400A0794A /* json_value.cpp */,
+				19B7652E1AE128B400A0794A /* json_valueiterator.inl */,
+				19B7652F1AE128B400A0794A /* json_writer.cpp */,
 			);
 			path = lib_json;
 			sourceTree = "<group>";
@@ -870,8 +868,8 @@
 		453E460115365E1C00C66514 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				453E460215365E1C00C66514 /* ofxJSONElement.cpp */,
-				453E460315365E1C00C66514 /* ofxJSONElement.h */,
+				19B765151AE1289700A0794A /* ofxJSONElement.cpp */,
+				19B765161AE1289700A0794A /* ofxJSONElement.h */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -890,6 +888,7 @@
 				CBF409F21982F3ED000CB539 /* ofxGenericFontManager.h in Headers */,
 				3C7B4EBB14FC7CBF003121FE /* ofxGenericConstants.h in Headers */,
 				3C7B4EBD14FC7CBF003121FE /* ofxGenericHTTPRequest.h in Headers */,
+				19B765181AE1289700A0794A /* ofxJSONElement.h in Headers */,
 				3C7B4EC114FC7CBF003121FE /* ofxGenericImageView.h in Headers */,
 				3C7B4EC314FC7CBF003121FE /* ofxGenericTableView.h in Headers */,
 				3C7B4EC514FC7CBF003121FE /* ofxGenericTextView.h in Headers */,
@@ -900,30 +899,23 @@
 				3CF590941506E6EA00963966 /* ofxGenericEditTextView.h in Headers */,
 				3C1E7B451508288D007B6723 /* ofxGenericLaunchView.h in Headers */,
 				3C85FC60151149B7001F5854 /* ofxGenericScrollView.h in Headers */,
-				453E461815365E1C00C66514 /* autolink.h in Headers */,
-				453E461915365E1C00C66514 /* config.h in Headers */,
-				453E461A15365E1C00C66514 /* features.h in Headers */,
 				1912089E1ADD772700D78663 /* ofBaseApp.h in Headers */,
-				453E461B15365E1C00C66514 /* forwards.h in Headers */,
 				CBF409F01982F3ED000CB539 /* ofxGenericFontCategory.h in Headers */,
-				453E461C15365E1C00C66514 /* json.h in Headers */,
-				453E461D15365E1C00C66514 /* reader.h in Headers */,
 				B5BD221017C535BB00D25A31 /* ofxGenericMotionViewEffect.h in Headers */,
-				453E461E15365E1C00C66514 /* value.h in Headers */,
-				453E461F15365E1C00C66514 /* writer.h in Headers */,
-				453E462015365E1C00C66514 /* json_batchallocator.h in Headers */,
 				191208901ADD765800D78663 /* ofRectangle.h in Headers */,
 				191208C31ADD86F900D78663 /* tinyxml.h in Headers */,
-				453E463115365E1C00C66514 /* ofxJSONElement.h in Headers */,
 				191208931ADD765800D78663 /* ofUtils.h in Headers */,
+				19B765221AE128A900A0794A /* config.h in Headers */,
 				3C5336E7153F6ED60046AFD8 /* ofxGenericAppDelegate.h in Headers */,
 				454496161540C66600B21064 /* ofxGenericAlertView.h in Headers */,
+				19B765301AE128B400A0794A /* json_batchallocator.h in Headers */,
 				191208981ADD765800D78663 /* ofVec4f.h in Headers */,
 				3C2A68F3154374F400BDB696 /* ofxGenericOpenGLView.h in Headers */,
 				3CEBF17915890F9A008D2937 /* ofxGenericBarGraphView.h in Headers */,
 				3CC6222415AB930D009849CE /* ofxGenericUtilityiOS.h in Headers */,
 				191208871ADD765800D78663 /* ofColor.h in Headers */,
 				3C3B1BA415CF71AC002A671A /* ofxGenericOAuthToken.h in Headers */,
+				19B765261AE128A900A0794A /* reader.h in Headers */,
 				3C3B1BAF15CF73F0002A671A /* ofxGenericOAuthGrantHTTPRequest.h in Headers */,
 				3C3B1BB115CF73F0002A671A /* ofxGenericOAuthHTTPRequest.h in Headers */,
 				B54787E415E5759000ACF70F /* ofxGenericDateSelectorView.h in Headers */,
@@ -943,15 +935,18 @@
 				3C6D979D161149780087816E /* crypt.h in Headers */,
 				3C6D979F161149780087816E /* ioapi.h in Headers */,
 				191208C91ADD877900D78663 /* ofxXmlSettings.h in Headers */,
+				19B765211AE128A900A0794A /* autolink.h in Headers */,
 				191208951ADD765800D78663 /* ofVec2f.h in Headers */,
 				3C6D97A1161149780087816E /* mztools.h in Headers */,
 				3C6D97A3161149780087816E /* unzip.h in Headers */,
 				1912088A1ADD765800D78663 /* ofFileUtils.h in Headers */,
 				3C6D97A5161149780087816E /* zip.h in Headers */,
+				19B765281AE128A900A0794A /* writer.h in Headers */,
 				3C6D97A6161149780087816E /* SSZipArchive.h in Headers */,
 				4583049A161CE897006C4F89 /* ofxGenericImageManager.h in Headers */,
 				1912088C1ADD765800D78663 /* ofMath.h in Headers */,
 				4583049F161CEA32006C4F89 /* ofxGenericImage.h in Headers */,
+				19B765271AE128A900A0794A /* value.h in Headers */,
 				B5C55D34161D04980002872E /* ofxGenericHMAC.h in Headers */,
 				3C0CB5C31638985200AB87C8 /* AESCrypt.h in Headers */,
 				3C0CB5C51638985200AB87C8 /* NSData+Base64.h in Headers */,
@@ -960,12 +955,15 @@
 				CBF409F41982F3ED000CB539 /* ofxGenericFontSettings.h in Headers */,
 				191208911ADD765800D78663 /* ofTypes.h in Headers */,
 				B5BD220C17C52E2500D25A31 /* ofxGenericViewEffect.h in Headers */,
+				19B765231AE128A900A0794A /* features.h in Headers */,
 				3C747C4C163E15C400AE5C92 /* ofxGenericSwitchView.h in Headers */,
 				3CC3086A16F0F9AE00BD86CA /* ofxGenericClass.h in Headers */,
 				3C6513031707B830000F8F50 /* ofxGenericLocationManager.h in Headers */,
 				3C29BC6717167A2100C77EFB /* ofxGenericHeadingManager.h in Headers */,
 				3C9F4AEF168E77B6005F583E /* ofxGenericDelegateContainer.h in Headers */,
+				19B765241AE128A900A0794A /* forwards.h in Headers */,
 				B5B5E44217B1B874009F8FC8 /* ofxGenericDevice.h in Headers */,
+				19B765251AE128A900A0794A /* json.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1039,15 +1037,12 @@
 				191208941ADD765800D78663 /* ofVec2f.cpp in Sources */,
 				191208971ADD765800D78663 /* ofVec4f.cpp in Sources */,
 				CD6D23BF183C54590094EF0D /* ofxGenericLayoutConstraint.cpp in Sources */,
+				19B765331AE128B400A0794A /* json_writer.cpp in Sources */,
 				3C0AC1511522C34500872B70 /* ofxGenericPlatform.cpp in Sources */,
 				191208861ADD765800D78663 /* ofColor.cpp in Sources */,
 				45037A491534E6E200ADB7EC /* ofxGenericValueStore.mm in Sources */,
-				453E462115365E1C00C66514 /* json_reader.cpp in Sources */,
 				D31A6DB719F9B04C007292B6 /* XCode6_patch.cpp in Sources */,
-				453E462215365E1C00C66514 /* json_value.cpp in Sources */,
 				1912088F1ADD765800D78663 /* ofRectangle.cpp in Sources */,
-				453E462315365E1C00C66514 /* json_writer.cpp in Sources */,
-				453E463015365E1C00C66514 /* ofxJSONElement.cpp in Sources */,
 				456BACAD153DE6A50097D5D4 /* ofxGenericDate.cpp in Sources */,
 				3CA59B33153F4312008EE095 /* ofxGenericException.cpp in Sources */,
 				3C5336E8153F6ED60046AFD8 /* ofxGenericAppDelegate.mm in Sources */,
@@ -1085,9 +1080,11 @@
 				3CF2D2A615ED8C6E008A56AB /* UIDevice-Reachability.m in Sources */,
 				3CF2D2C315ED917D008A56AB /* wwanconnect.c in Sources */,
 				453DE3DE15F66AC400046917 /* ofxGenericPageControl.cpp in Sources */,
+				19B765311AE128B400A0794A /* json_reader.cpp in Sources */,
 				458CA44E1611035100634D06 /* ofxGenericSound.cpp in Sources */,
 				458CA4601611145C00634D06 /* ofxGenericSoundManager.cpp in Sources */,
 				3C96A11D16110F11000BA061 /* ofxGenericWebView.cpp in Sources */,
+				19B765321AE128B400A0794A /* json_value.cpp in Sources */,
 				3C61377216113C2D00349CD9 /* NSFileManager+Tar.m in Sources */,
 				3C6D979E161149780087816E /* ioapi.c in Sources */,
 				CBF409F11982F3ED000CB539 /* ofxGenericFontManager.cpp in Sources */,
@@ -1112,6 +1109,7 @@
 				45F0F40316BB226900858F86 /* ofxGenericStoreTransaction.cpp in Sources */,
 				3CC3086916F0F9AE00BD86CA /* ofxGenericClass.cpp in Sources */,
 				CBF409EF1982F3ED000CB539 /* ofxGenericFontCategory.cpp in Sources */,
+				19B765171AE1289700A0794A /* ofxJSONElement.cpp in Sources */,
 				3C6513021707B830000F8F50 /* ofxGenericLocationManager.cpp in Sources */,
 				3C29BC6617167A2100C77EFB /* ofxGenericHeadingManager.cpp in Sources */,
 				B5B5E44117B1B874009F8FC8 /* ofxGenericDevice.cpp in Sources */,
