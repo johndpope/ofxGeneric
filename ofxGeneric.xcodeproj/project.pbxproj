@@ -1122,12 +1122,14 @@
 		3C7B4DFC14FC78A1003121FE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
 		};
 		3C7B4DFD14FC78A1003121FE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				VALID_ARCHS = x86_64;
 			};
 			name = Release;
 		};
@@ -1135,6 +1137,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3CA5336415B61A7900A8D36B /* Debug.xcconfig */;
 			buildSettings = {
+				"ARCHS[sdk=iphoneos*]" = "$(ARCHS_STANDARD)";
+				"ARCHS[sdk=iphonesimulator*]" = "$(ARCHS_STANDARD)";
+				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = Debug;
 		};
@@ -1142,13 +1147,18 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3CA5336515B61A7900A8D36B /* Release.xcconfig */;
 			buildSettings = {
+				"ARCHS[sdk=iphoneos*]" = "$(ARCHS_STANDARD)";
+				"ARCHS[sdk=iphonesimulator*]" = "$(ARCHS_STANDARD)";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=iphoneos*]" = 5.1.1;
+				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = Release;
 		};
 		CB12B89C19C69E310082DA32 /* DebugCalabash */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				VALID_ARCHS = x86_64;
 			};
 			name = DebugCalabash;
 		};
@@ -1156,6 +1166,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3CA5336415B61A7900A8D36B /* Debug.xcconfig */;
 			buildSettings = {
+				"ARCHS[sdk=iphoneos*]" = "$(ARCHS_STANDARD)";
+				"ARCHS[sdk=iphonesimulator*]" = "$(ARCHS_STANDARD)";
+				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = DebugCalabash;
 		};
