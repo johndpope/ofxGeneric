@@ -417,11 +417,12 @@ void ofxGenericHTTPRequest::appendSplitTestQueryValues( NSArray* splitTestList )
     //append string to existing call
     NSURLComponents *existingURLComponents = [[NSURLComponents alloc] initWithURL:[_request URL] resolvingAgainstBaseURL:YES];
     NSString *existingQuery = existingURLComponents.query;
-    if ([existingQuery length] == 0) {
+    if ([existingQuery length] > 0) {
         splitTestNameQueryParams = [@"&" stringByAppendingString:splitTestNameQueryParams];
     } else {
-        existingQuery = @"";
+        existingQuery = @"?";
     }
+    
     existingURLComponents.query = [existingQuery stringByAppendingString:splitTestNameQueryParams];
     NSURL *newURL = [existingURLComponents URL];
     if (newURL && newURL.scheme && newURL.host) {
