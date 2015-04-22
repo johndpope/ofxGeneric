@@ -53,6 +53,7 @@ public:
     string getBodyAsString() const;
     
     void appendQueryValueFieldPair( string value, string field );
+    void appendSplitTestQueryValues( NSArray* splitTestList );
     
     virtual void setBody( string body );
     virtual void setBody( void* body, unsigned int bodyByteLength );

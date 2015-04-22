@@ -399,6 +399,11 @@ void ofxGenericHTTPRequest::appendQueryValueFieldPair( string value, string fiel
 #endif
 }
 
+void ofxGenericHTTPRequest::appendSplitTestQueryValues( NSArray* splitTestList )
+{
+    
+}
+
 string ofxGenericHTTPRequest::toString( bool includebody ) const
 {
     string result = "HTTPRequest -";
