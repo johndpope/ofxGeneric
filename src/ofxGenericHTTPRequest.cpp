@@ -401,7 +401,34 @@ void ofxGenericHTTPRequest::appendQueryValueFieldPair( string value, string fiel
 
 void ofxGenericHTTPRequest::appendSplitTestQueryValues( NSArray* splitTestList )
 {
+    if ( splitTestList == nil || [splitTestList count] == 0 )
+        return;
     
+    //form split test query string
+    NSString *splitTestNameQueryParams = @"";
+    for (id splitTestName in splitTestList) {
+        if ( [splitTestNameQueryParams length] > 0 ) {
+            [splitTestNameQueryParams stringByAppendingString:[NSString stringWithFormat:@"&['split_tests']['name'][]=%@", splitTestName]];
+        } else {
+            [splitTestNameQueryParams stringByAppendingString:[NSString stringWithFormat:@"['split_tests']['name'][]=%@", splitTestName]];
+        }
+    }
+    
+    //append string to existing call
+    NSURLComponents *existingURLComponents = [[NSURLComponents alloc] initWithURL:[_request URL] resolvingAgainstBaseURL:YES];
+    NSString *existingQuery = existingURLComponents.query;
+    if ([existingQuery length] == 0) {
+        splitTestNameQueryParams = [@"&" stringByAppendingString:splitTestNameQueryParams];
+    } else {
+        existingQuery = @"";
+    }
+    existingURLComponents.query = [existingQuery stringByAppendingString:splitTestNameQueryParams];
+    NSURL *newURL = [existingURLComponents URL];
+    if (newURL && newURL.scheme && newURL.host) {
+        _request.URL = newURL;
+    } else {
+        NSLog(@"Lumosity - Error: %@", [NSString stringWithFormat:@"URL (%@) with query string is invalid with split test query parameters: %@", [_request.URL description], splitTestNameQueryParams]);
+    }
 }
 
 string ofxGenericHTTPRequest::toString( bool includebody ) const
