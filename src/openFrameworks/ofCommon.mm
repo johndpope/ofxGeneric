@@ -36,14 +36,14 @@ NSString * ofxStringToNSString(string s){
     return [[[NSString alloc] initWithCString: s.c_str() encoding:NSUTF8StringEncoding] autorelease];
 }
 
-inline float ofxColorUnsignedCharToFloat(unsigned char component){
+inline CGFloat ofxColorUnsignedCharToFloat(unsigned char component){
     if(component < 0){
         component = 0;
     }
-    return ((float)component) / 255.0f;
+    return ((CGFloat)component) / 255.0f;
 }
 
-inline unsigned char ofxColorFloatToUnsignedChar(float component){
+inline unsigned char ofxColorFloatToUnsignedChar(CGFloat component){
     return (unsigned char)(component * 255.0f);
 }
 
@@ -51,7 +51,7 @@ ofColor ofxUIColorToofColor(UIColor * from){
     ofColor to;
     CGColorRef color = [from CGColor];
     
-    const float * colorComponents = (const float *) CGColorGetComponents(color);
+    const CGFloat * colorComponents = (const CGFloat *) CGColorGetComponents(color);
     to.r = 0;
     to.g = 0;
     to.b = 0;
