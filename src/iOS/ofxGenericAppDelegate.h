@@ -8,11 +8,8 @@
 
 #pragma once
 
-// IOSP-40 // #include "ofMain.h"
-
 class ofxAppGenericWindow;
 
-// IOSP-40 // #if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
 #import "ofxGenericApp.h"
 
@@ -38,4 +35,3 @@ void SignalHandler( int signal );
 -( void )setupKeyboardVisibilityNotifications;
 
 @end
-// IOSP-40 // #endif

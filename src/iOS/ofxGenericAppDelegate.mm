@@ -8,7 +8,6 @@
 
 #import "ofxGenericAppDelegate.h"
 #import "ofxGenericApp.h"
-// IOSP-40 // #import "ofMain.h"
 
 #include "ofxGenericException.h"
 #include "ofxGenericUtilityiOS.h"
@@ -36,9 +35,6 @@
     
     ofPtr< ofxGenericApp > app = ofxGenericApp::getInstance();
     
-    // TODO: don't use ofSetupOpenGL
-    // IOSP-40 // ofSetupOpenGL( window, 1024, 768, OF_FULLSCREEN );
-    // IOSP-40 // ofRunApp( app );
     app->runViaInfiniteLoop(window);
     
     if ( [ self shouldInstallDefaultUncaughtExceptionHandler ] )
@@ -106,7 +102,6 @@
 
 -( void )update
 {
-    // IOSP-40 // ofNotifyUpdate();
 }
 
 -( void )deviceOrientationDidChange:( NSNotification* )notification

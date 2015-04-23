@@ -7,9 +7,6 @@
 //
 
 #include "ofxGenericCameraPreviewView.h"
-
-// IOSP-40 // #include "ofxiPhoneExtras.h"
-
 #include "ofxGenericImage.h"
 
 ofPtr< ofxGenericCameraPreviewView > ofxGenericCameraPreviewView::create( ofPtrWeak< ofxGenericCameraPreviewViewDelegate > delegate, const ofRectangle& setFrame )

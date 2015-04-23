@@ -2,7 +2,7 @@
 
 #include "ofPoint.h"
 
-class ofBaseApp { // IOSP-40 //: public ofBaseSoundInput, public ofBaseSoundOutput{
+class ofBaseApp { 
 
 	public:
         ofBaseApp() {
@@ -27,9 +27,6 @@ class ofBaseApp { // IOSP-40 //: public ofBaseSoundInput, public ofBaseSoundOutp
 		virtual void mouseReleased(){}
 		virtual void mouseReleased(int x, int y, int button ){}
 		
-		// IOSP-40 // virtual void dragEvent(ofDragInfo dragInfo) { }
-		// IOSP-40 // virtual void gotMessage(ofMessage msg){ }
-	
 		virtual void windowEntry ( int state ) { }
 		
 		int mouseX, mouseY;			// for processing heads
