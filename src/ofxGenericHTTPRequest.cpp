@@ -408,22 +408,24 @@ void ofxGenericHTTPRequest::appendSplitTestQueryValues( NSArray* splitTestList )
     NSString *splitTestNameQueryParams = @"";
     for (id splitTestName in splitTestList) {
         if ( [splitTestNameQueryParams length] > 0 ) {
-            splitTestNameQueryParams = [splitTestNameQueryParams stringByAppendingString:[NSString stringWithFormat:@"&['split_tests']['name'][]=%@", splitTestName]];
+            splitTestNameQueryParams = [splitTestNameQueryParams stringByAppendingString:[NSString stringWithFormat:@"&['split_tests']['name'][]=%@", [splitTestName stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding]]];
         } else {
-            splitTestNameQueryParams = [splitTestNameQueryParams stringByAppendingString:[NSString stringWithFormat:@"['split_tests']['name'][]=%@", splitTestName]];
+            splitTestNameQueryParams = [splitTestNameQueryParams stringByAppendingString:[NSString stringWithFormat:@"['split_tests']['name'][]=%@", [splitTestName stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding] ]];
         }
     }
 
     //append string to existing call
     NSURLComponents *existingURLComponents = [[NSURLComponents alloc] initWithURL:[_request URL] resolvingAgainstBaseURL:YES];
-    NSString *existingQuery = existingURLComponents.query;
+    NSString *existingQuery = [existingURLComponents.query stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding];
     if ([existingQuery length] > 0) {
         splitTestNameQueryParams = [@"&" stringByAppendingString:splitTestNameQueryParams];
     } else {
         existingQuery = @"?";
     }
     
-    existingURLComponents.percentEncodedQuery = [existingQuery stringByAppendingString:splitTestNameQueryParams];
+    //existingURLComponents.percentEncodedQuery = [existingQuery stringByAppendingString:splitTestNameQueryParams];
+    existingURLComponents.query = [existingQuery stringByAppendingString:splitTestNameQueryParams];
+
     NSURL *newURL = [existingURLComponents URL];
     if (newURL && newURL.scheme && newURL.host) {
         _request.URL = newURL;
