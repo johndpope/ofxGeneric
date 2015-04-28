@@ -43,6 +43,12 @@ public:
     
     virtual void didReceiveMemoryWarning();
     
+    virtual void ofxLLogError( const string & message );
+    virtual void ofxLLogFatalError( const string & message );
+    virtual void ofxLLogNotice( const string & message );
+    virtual void ofxLLogVerbose( const string & message );
+    virtual void ofxLLogWarning( const string & message );
+    
     void setOrientation( ofOrientation toOrientation );
     virtual bool shouldAutorotate( ofOrientation toOrientation );
     virtual void deviceOrientationDidChange( ofOrientation newOrientation );

@@ -212,6 +212,26 @@ void ofxGenericApp::didReceiveMemoryWarning()
 {
 }
 
+void ofxGenericApp::ofxLLogError( const string & message )
+{
+}
+
+void ofxGenericApp::ofxLLogFatalError( const string & message )
+{
+}
+
+void ofxGenericApp::ofxLLogNotice( const string & message )
+{
+}
+
+void ofxGenericApp::ofxLLogVerbose( const string & message )
+{
+}
+
+void ofxGenericApp::ofxLLogWarning( const string & message )
+{
+}
+
 string ofxGenericApp::getAppVersion()
 {
 #if TARGET_OS_IPHONE

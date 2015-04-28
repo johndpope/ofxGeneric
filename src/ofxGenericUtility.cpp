@@ -12,6 +12,7 @@
 #endif
 
 #include "ofxGenericLocationManager.h"
+#include "ofxGenericApp.h"
 
 //////////////////////////////// Path //////////////////////////////////
 
@@ -147,27 +148,47 @@ ofPoint ofxGPointSizeForText( string text, string fontName, float fontSize, floa
 
 void ofxGLogError( const string & message )
 {
-	ofLogError( ofxGenericModuleName, message );
+    ofPtr< ofxGenericApp > app = ofxGenericApp::getInstance();
+    if (app) {
+        app->ofxLLogError(message);
+    }
+    ofLogError( ofxGenericModuleName, message );
 }
 
 void ofxGLogFatalError( const string & message )
 {
-	ofLogFatalError( ofxGenericModuleName, message );
+    ofPtr< ofxGenericApp > app = ofxGenericApp::getInstance();
+    if (app) {
+        app->ofxLLogFatalError(message);
+    }
+    ofLogFatalError( ofxGenericModuleName, message );
 }
 
 void ofxGLogNotice( const string & message )
 {
-	ofLogNotice( ofxGenericModuleName, message );
+    ofPtr< ofxGenericApp > app = ofxGenericApp::getInstance();
+    if (app) {
+        app->ofxLLogNotice(message);
+    }
+    ofLogNotice( ofxGenericModuleName, message );
 }
 
 void ofxGLogVerbose( const string & message )
 {
-	ofLogVerbose( ofxGenericModuleName, message );
+    ofPtr< ofxGenericApp > app = ofxGenericApp::getInstance();
+    if (app) {
+        app->ofxLLogVerbose(message);
+    }
+    ofLogVerbose( ofxGenericModuleName, message );
 }
 
 void ofxGLogWarning( const string & message )
 {
-	ofLogWarning( ofxGenericModuleName, message );
+    ofPtr< ofxGenericApp > app = ofxGenericApp::getInstance();
+    if (app) {
+        app->ofxLLogWarning(message);
+    }
+    ofLogWarning( ofxGenericModuleName, message );
 }
 
 //////////////////////////////// String conversions //////////////////////////////////
