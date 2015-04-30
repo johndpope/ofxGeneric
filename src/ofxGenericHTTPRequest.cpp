@@ -425,7 +425,7 @@ void ofxGenericHTTPRequest::appendSplitTestQueryValues( NSArray* splitTestList )
     
     //grab base url from existingUrlComponents
     //append param string manually because those damn brackets keep getting encoded
-    // MAGIC DONT TOUCH
+    //MAGIC DONT TOUCH
     existingURLComponents.query = nil;
     existingURLComponents.fragment = nil;
     NSURL *baseURL = [existingURLComponents URL];
