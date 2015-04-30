@@ -408,9 +408,9 @@ void ofxGenericHTTPRequest::appendSplitTestQueryValues( NSArray* splitTestList )
     NSString *splitTestNameQueryParams = @"";
     for (id splitTestName in splitTestList) {
         if ( [splitTestNameQueryParams length] > 0 ) {
-            splitTestNameQueryParams = [splitTestNameQueryParams stringByAppendingString:[NSString stringWithFormat:@"&['split_tests']['name'][]='%@'", [splitTestName stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding]]];
+            splitTestNameQueryParams = [splitTestNameQueryParams stringByAppendingString:[NSString stringWithFormat:@"&[split_tests][name][]=%@", [splitTestName stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding]]];
         } else {
-            splitTestNameQueryParams = [splitTestNameQueryParams stringByAppendingString:[NSString stringWithFormat:@"['split_tests']['name'][]='%@'", [splitTestName stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding]]];
+            splitTestNameQueryParams = [splitTestNameQueryParams stringByAppendingString:[NSString stringWithFormat:@"[split_tests][name][]=%@", [splitTestName stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding]]];
         }
     }
 
