@@ -387,7 +387,7 @@ void ofxGenericHTTPRequest::appendQueryValueFieldPair( string value, string fiel
     if ([existingQuery length] > 0) {
         nsValueFieldPair = [@"&" stringByAppendingString:nsValueFieldPair];
     } else {
-        existingQuery = @"";
+        existingQuery = @"?";
     }
     existingURLComponents.query = [existingQuery stringByAppendingString:nsValueFieldPair];
     NSURL *newURL = [existingURLComponents URL];
@@ -408,9 +408,9 @@ void ofxGenericHTTPRequest::appendSplitTestQueryValues( NSArray* splitTestList )
     NSString *splitTestNameQueryParams = @"";
     for (id splitTestName in splitTestList) {
         if ( [splitTestNameQueryParams length] > 0 ) {
-            splitTestNameQueryParams = [splitTestNameQueryParams stringByAppendingString:[NSString stringWithFormat:@"&['split_tests']['name'][]=%@", [splitTestName stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding]]];
+            splitTestNameQueryParams = [splitTestNameQueryParams stringByAppendingString:[NSString stringWithFormat:@"&['split_tests']['name'][]='%@'", [splitTestName stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding]]];
         } else {
-            splitTestNameQueryParams = [splitTestNameQueryParams stringByAppendingString:[NSString stringWithFormat:@"['split_tests']['name'][]=%@", [splitTestName stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding] ]];
+            splitTestNameQueryParams = [splitTestNameQueryParams stringByAppendingString:[NSString stringWithFormat:@"['split_tests']['name'][]='%@'", [splitTestName stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding]]];
         }
     }
 
@@ -424,9 +424,15 @@ void ofxGenericHTTPRequest::appendSplitTestQueryValues( NSArray* splitTestList )
     }
     
     //existingURLComponents.percentEncodedQuery = [existingQuery stringByAppendingString:splitTestNameQueryParams];
-    existingURLComponents.query = [existingQuery stringByAppendingString:splitTestNameQueryParams];
-
-    NSURL *newURL = [existingURLComponents URL];
+    //existingURLComponents.query = [existingQuery stringByAppendingString:splitTestNameQueryParams];
+    
+    existingURLComponents.query = nil;
+    existingURLComponents.fragment = nil;
+    NSURL *baseURL = [existingURLComponents URL];
+    NSString *paramString = [existingQuery stringByAppendingString:splitTestNameQueryParams];
+    NSString *fullUrlString = [[baseURL absoluteString] stringByAppendingString:paramString];
+    NSURL *newURL = [[NSURL alloc] initWithString:fullUrlString];
+    
     if (newURL && newURL.scheme && newURL.host) {
         _request.URL = newURL;
     } else {
