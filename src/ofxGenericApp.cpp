@@ -151,8 +151,6 @@ void ofxGenericApp::finishedLaunching()
 
 void ofxGenericApp::handleFinishedLaunchingPresetup()
 {
-    createRootView();
-
     // TODO: move earlier
 #if TARGET_OS_IPHONE
     ofSetDataPathRoot( ofxNSStringToString( [ NSString stringWithFormat:@"%@/", [ [ NSBundle mainBundle ] resourcePath ] ] ) );
