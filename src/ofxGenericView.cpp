@@ -1510,6 +1510,18 @@ void ofxGenericView::registerJNIMethods()
 }
 #endif
 
+
+void ofxGenericView::setWrappingViewController(UIViewController *wrappingViewController)
+{
+    _wrappingViewController = wrappingViewController;
+}
+
+UIViewController *ofxGenericView::getWrappingViewController() const
+{
+    return _wrappingViewController;
+}
+
+
 #if TARGET_OS_IPHONE
 
 @implementation ofxUIGenericViewControllerForwarder

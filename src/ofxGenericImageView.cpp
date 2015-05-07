@@ -54,22 +54,7 @@ NativeView ofxGenericImageView::createNativeView( const ofRectangle& frame )
 
 void ofxGenericImageView::setImage( string fileName, bool aSync )
 {
-    if ( aSync )
-    {
-        // Set _waitingOnAsyncLoadImageName before creating async, it may be used immediately in the
-        // delegate callback.        
-        _waitingOnAsyncLoadImageName = fileName;
-        ofPtr< ofxGenericImage > image =
-            ofxGenericImage::createAsync( fileName,  dynamic_pointer_cast< ofxGenericImageDelegate >( _this ));
-        if( image )
-        {
-            setImage( image );
-        }
-    }
-    else
-    {
-        setImage(ofxGenericImage::create( fileName ));
-    }
+    setImage(ofxGenericImage::create( fileName ));
 }
 
 void ofxGenericImageView::setImage ( ofPtr< ofxGenericImage > image )
@@ -187,17 +172,3 @@ ofPtr< ofxGenericValueStore > ofxGenericImageView::toValueStore()
     }
     return result;
 }
-
-void ofxGenericImageView::imageManager_imageLoaded( const std::string& imageName, ofPtr< ofxGenericImage > image )
-{
-    if( imageName == _waitingOnAsyncLoadImageName )
-    {
-        setImage( image );
-    }
-}
-
-bool ofxGenericImageView::imageManager_imageStillNeeded( const std::string& imageName )
-{
-    return imageName == _waitingOnAsyncLoadImageName;
-}
-

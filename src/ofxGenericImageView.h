@@ -13,7 +13,7 @@
 
 class ofxGenericImage;
 
-class ofxGenericImageView : public ofxGenericView, public ofxGenericImageDelegate
+class ofxGenericImageView : public ofxGenericView
 {
 public:
     static ofPtr< ofxGenericImageView > create( const ofRectangle& setFrame = ofRectangle( 0, 0, 0, 0 ), string fileName = string() );
@@ -45,9 +45,6 @@ public:
     
     virtual string toString();
     virtual ofPtr< ofxGenericValueStore > toValueStore();
-    
-    void imageManager_imageLoaded( const std::string& imageName, ofPtr< ofxGenericImage > image );
-    bool imageManager_imageStillNeeded( const std::string& imageName );
 
 protected:
     virtual void init( ofPtrWeak< ofxGenericImageView > setThis, const ofRectangle& setFrame, string fileName = string() );
