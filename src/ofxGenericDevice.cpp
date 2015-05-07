@@ -10,6 +10,8 @@
 
 #include "ofxGenericUtility.h"
 
+#import "ofCommon.h"
+
 string ofxGenericDevice::getDeviceId()
 {
     

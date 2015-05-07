@@ -11,6 +11,8 @@
 #include "ofxGenericFontManager.h"
 #include "ofxGenericFont.h"
 
+#import "ofCommon.h"
+
 #if TARGET_OS_IPHONE
 static Class nativeClass = Nil;
 #endif

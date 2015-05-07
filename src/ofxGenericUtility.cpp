@@ -1,5 +1,5 @@
 #include "ofxGenericUtility.h"
-#include "ofLog.h"
+// IOSP-40 // #include "ofLog.h"
 #include "ofxGenericConstants.h"
 
 #include <sys/stat.h>
@@ -13,6 +13,9 @@
 
 #include "ofxGenericLocationManager.h"
 #include "ofxGenericApp.h"
+
+#import "ofCommon.h"
+#include "ofUtils.h"
 
 //////////////////////////////// Path //////////////////////////////////
 
@@ -152,7 +155,7 @@ void ofxGLogError( const string & message )
     if (app) {
         app->ofxLLogError(message);
     }
-    ofLogError( ofxGenericModuleName, message );
+	// IOSP-40 // ofLogError( ofxGenericModuleName, message );
 }
 
 void ofxGLogFatalError( const string & message )
@@ -161,7 +164,7 @@ void ofxGLogFatalError( const string & message )
     if (app) {
         app->ofxLLogFatalError(message);
     }
-    ofLogFatalError( ofxGenericModuleName, message );
+	// IOSP-40 // ofLogFatalError( ofxGenericModuleName, message );
 }
 
 void ofxGLogNotice( const string & message )
@@ -170,7 +173,7 @@ void ofxGLogNotice( const string & message )
     if (app) {
         app->ofxLLogNotice(message);
     }
-    ofLogNotice( ofxGenericModuleName, message );
+	// IOSP-40 // ofLogNotice( ofxGenericModuleName, message );
 }
 
 void ofxGLogVerbose( const string & message )
@@ -179,7 +182,7 @@ void ofxGLogVerbose( const string & message )
     if (app) {
         app->ofxLLogVerbose(message);
     }
-    ofLogVerbose( ofxGenericModuleName, message );
+	// IOSP-40 // ofLogVerbose( ofxGenericModuleName, message );
 }
 
 void ofxGLogWarning( const string & message )
@@ -188,7 +191,7 @@ void ofxGLogWarning( const string & message )
     if (app) {
         app->ofxLLogWarning(message);
     }
-    ofLogWarning( ofxGenericModuleName, message );
+	// IOSP-40 // ofLogWarning( ofxGenericModuleName, message );
 }
 
 //////////////////////////////// String conversions //////////////////////////////////

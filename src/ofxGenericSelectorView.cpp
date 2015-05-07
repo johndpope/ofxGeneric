@@ -10,6 +10,8 @@
 
 #include "ofxGenericUtility.h"
 
+#import "ofCommon.h"
+
 unsigned int ofxGenericSelectorView::getNumberOfComponents()
 {
     if ( _delegate )

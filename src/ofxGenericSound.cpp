@@ -8,6 +8,9 @@
 
 #include "ofxGenericSound.h"
 
+#import "ofCommon.h"
+#include "ofUtils.h"
+
 ofPtr< ofxGenericSound > ofxGenericSound::create( string fileName, string extension, bool loadInBackground, bool loadIntoMemory )
 {
     ofPtr< ofxGenericSound > create( new ofxGenericSound() );
@@ -80,7 +83,7 @@ void ofxGenericSound::init( ofPtrWeak< ofxGenericSound > setThis, string fileNam
     }
     else
     {
-        ofLogError("Failed to load ofxGenericSound \"" + fileName + "\" - File does not exist." );
+        // IOSP-40 // ofLogError("Failed to load ofxGenericSound \"" + fileName + "\" - File does not exist." );
     }
 }
 
@@ -131,7 +134,7 @@ bool ofxGenericSound::loadSound( string fileName )
     
     if ( !success )
     {
-        ofLogError( "Failed to load ofxGenericSound \"" + fileName + "\" - " + loadError );
+        // IOSP-40 // ofLogError( "Failed to load ofxGenericSound \"" + fileName + "\" - " + loadError );
     }
     
     _isLoadingInBackground = false;
@@ -196,12 +199,12 @@ void ofxGenericSound::play( float playbackDelay )
             player = [ [ [ AVAudioPlayer alloc ] initWithData:oldPlayer.data error:&error ] autorelease ];
             if ( error )
             {
-                ofLogError( "Error playing sound and trying to create new AVAudioPlayer: " + string( [[NSString stringWithFormat:@"%@",error] cStringUsingEncoding:NSUTF8StringEncoding] ) );
+                // IOSP-40 // ofLogError( "Error playing sound and trying to create new AVAudioPlayer: " + string( [[NSString stringWithFormat:@"%@",error] cStringUsingEncoding:NSUTF8StringEncoding] ) );
                 return;
             }
             else if ( !player )
             {
-                ofLogError( "Error playing sound and trying to create new AVAudioPlayer: player is nil after alloc call." );
+                // IOSP-40 // ofLogError( "Error playing sound and trying to create new AVAudioPlayer: player is nil after alloc call." );
                 return;
             }
             

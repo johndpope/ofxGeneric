@@ -10,7 +10,7 @@
 
 #if TARGET_OS_IPHONE
 #include "UIDevice-Hardware.h"
-#include "ofxiPhoneExtras.h"
+// IOSP-40 // #include "ofxiPhoneExtras.h"
 
 #elif TARGET_ANDROID
 #include "JNIUtility.h"
@@ -18,6 +18,8 @@
 jclass ofxGenericImageView::_jniClass = NULL;
 const char* ofxGenericImageView::className = "cc/openframeworks/ofxGeneric/ImageView";
 #endif
+
+#import "ofCommon.h"
 
 ofxGenericImageView::ofxGenericImageView()
 {
@@ -153,7 +155,7 @@ string ofxGenericImageView::toString()
     
     if ( _image && !_image->getFilePath().empty() )
     {
-        result += " " + ofFilePath::getFileName( _image->getFilePath() );
+        // IOSP-40 // result += " " + ofFilePath::getFileName( _image->getFilePath() );
     }
     return result;
 }
@@ -165,7 +167,7 @@ ofPtr< ofxGenericValueStore > ofxGenericImageView::toValueStore()
     {
         if ( _image && !_image->getFilePath().empty() )
         {
-            result->write( "image", ofFilePath::getFileName( _image->getFilePath() ) );
+            // IOSP-40 // result->write( "image", ofFilePath::getFileName( _image->getFilePath() ) );
         }
     }
     return result;

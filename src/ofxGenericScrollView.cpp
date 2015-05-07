@@ -9,6 +9,8 @@
 #include "ofxGenericScrollView.h"
 #include "ofxGenericUtility.h"
 
+#import "ofCommon.h"
+
 #if TARGET_OS_IPHONE
 
 @interface ofxGenericScrollViewForwarder : NSObject <UIScrollViewDelegate>

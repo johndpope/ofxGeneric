@@ -13,10 +13,16 @@
 #if TARGET_OS_IPHONE
 #include "ofxGenericUtilityiOS.h"
 #elif TARGET_ANDROID
-#include "ofxGenericUtilityAndroid.h"
+// IOSP-40 // #include "ofxGenericUtilityAndroid.h"
 #endif
 
 #include <list>
+
+using namespace std;
+
+#include "ofPoint.h"
+#include "ofRectangle.h"
+#include "ofColor.h"
 
 class ofxGenericCoordinate;
 

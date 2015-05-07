@@ -10,6 +10,8 @@
 
 #include "ofxGenericDate.h"
 
+#import "ofCommon.h"
+
 
 #if TARGET_OS_IPHONE
 @interface ofxGenericDateSelectorViewForwarder : NSObject

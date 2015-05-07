@@ -9,6 +9,8 @@
 #include "ofxGenericAlertView.h"
 #include "ofxGenericUtility.h"
 
+#import "ofCommon.h"
+
 #if TARGET_OS_IPHONE
 @interface ofxGenericAlertViewForwarder : NSObject< UIAlertViewDelegate >
 {
