@@ -10,6 +10,9 @@
 
 #include "ofxGenericMain.h"
 
+#import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
+
 class ofxGenericLocationManagerDelegate;
 #if TARGET_OS_IPHONE
 @class ofxGenericLocationManagerForwarder;

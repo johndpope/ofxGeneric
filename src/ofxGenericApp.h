@@ -14,8 +14,8 @@
 #include "ofxGenericView.h"
 #include "ofxGenericAlertView.h"
 
-#include "ofEvents.h"
 #include "ofxGenericTimer.h"
+#include "ofBaseApp.h"
 
 class ofxGenericException;
 class ofxGenericKeyboardDelegate;
@@ -69,8 +69,6 @@ public:
     
     static void vibrate();
     
-    static void saveImageToLibrary( ofImage& image );
-
     bool hasNetworkConnection();
     bool hasInternetConnection();
     
@@ -100,8 +98,6 @@ public:
     virtual void setLaunchOptions( std::map< string, string > launchOptions );
     virtual void gotNotification( string type );
     
-    virtual void timer_fired( ofPtr< ofxGenericTimer > timer );
-
     virtual ~ofxGenericApp();
     
 protected:
@@ -138,7 +134,7 @@ protected:
     ofPtr< ofxGenericTimer > _setupTimer;
 };
 
-class ofxGenericOrientationEventArgs : public ofEventArgs
+class ofxGenericOrientationEventArgs
 {
 public:
     ofOrientation orientation;
@@ -147,15 +143,12 @@ public:
 class ofxGenericEventsClass
 {
 public:
-    ofEvent< ofxGenericOrientationEventArgs  > orientation;
     
     void disable()
     {
-        orientation.disable();
     }
     void enable()
     {
-        orientation.enable();
     }
 };
 
@@ -164,13 +157,11 @@ extern ofxGenericEventsClass ofxGenericEvents;
 template< class ListenerClass >
 void ofxGRegisterOrientationEvents( ListenerClass* listener )
 {
-    ofAddListener( ofxGenericEvents.orientation, listener, &ListenerClass::deviceOrientationChanged );
 }
 
 template< class ListenerClass >
 void ofxGUnregisterOrientationEvents( ListenerClass* listener )
 {
-    ofRemoveListener( ofxGenericEvents.orientation, listener, &ListenerClass::deviceOrientationChanged );
 }
 
 void ofNotifyDeviceOrientationChanged( ofOrientation orientation );

@@ -8,6 +8,8 @@
 
 #include "ofxGenericEncryption.h"
 
+#import "ofCommon.h"
+
 #if TARGET_OS_IPHONE
 #import "AESCrypt.h"
 #endif

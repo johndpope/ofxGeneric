@@ -14,6 +14,8 @@
 
 #include "ofxGenericApp.h"
 
+#import "ofCommon.h"
+
 #if TARGET_OS_IPHONE
 @interface ofxGenericButtonViewForwarder : NSObject 
 {
@@ -420,7 +422,7 @@ string ofxGenericButtonView::toString()
 #if DEBUG
     if ( _backgroundImage && !_backgroundImage->getFilePath().empty() )
     {
-        result += " " + ofFilePath::getFileName( _backgroundImage->getFilePath() );
+        // IOSP-40 // result += " " + ofFilePath::getFileName( _backgroundImage->getFilePath() );
     }
 #endif
     return result;

@@ -8,6 +8,8 @@
 
 #include "ofxGenericTableViewCell.h"
 
+#import "ofCommon.h"
+
 ofxGenericTableViewCell::~ofxGenericTableViewCell()
 {
 #if TARGET_OS_IPHONE

@@ -9,6 +9,8 @@
 #include "ofxGenericSliderView.h"
 #include "ofxGenericUtility.h"
 
+#import "ofCommon.h"
+
 #if TARGET_OS_IPHONE
 
 @interface ofxGenericSliderViewForwarder : NSObject

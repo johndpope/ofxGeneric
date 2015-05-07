@@ -12,6 +12,8 @@
 
 #include "ofxGenericMain.h"
 
+#include "ofUtils.h"
+
 ofPtr< ofxGenericBarGraphView > ofxGenericBarGraphView::create( ofxGenericBarGraphViewExpand expand, float minimum, float maximum, const ofRectangle& setFrame )
 {
     ofPtr< ofxGenericBarGraphView > create( new ofxGenericBarGraphView() );

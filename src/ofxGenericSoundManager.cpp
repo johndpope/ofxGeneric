@@ -29,7 +29,7 @@ void ofxGenericSoundManager::init( ofPtr< ofxGenericSoundManager > setThis )
 {
     if ( _this )
     {
-        ofLogWarning( "ofxGenericSoundManager already has _this set and init is being called! Are you calling ofxGenericSoundManager::getInstance() before calling you subclass's getInstance()?" );
+        // IOSP-40 // ofLogWarning( "ofxGenericSoundManager already has _this set and init is being called! Are you calling ofxGenericSoundManager::getInstance() before calling you subclass's getInstance()?" );
     }
     ofxGenericSoundManager::_this = setThis;
     
@@ -233,7 +233,7 @@ bool ofxGenericSoundManager::soundExistsCheck( string sound )
 {
     if ( !_soundMap[ sound ] )
     {
-        ofLogWarning( "ofxGenericSoundManager: There is no sound loaded named \"" + sound + "\"" );
+        // IOSP-40 // ofLogWarning( "ofxGenericSoundManager: There is no sound loaded named \"" + sound + "\"" );
         return false;
     }
     return true;

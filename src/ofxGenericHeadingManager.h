@@ -13,6 +13,7 @@
 class ofxGenericHeadingManagerDelegate;
 #if TARGET_OS_IPHONE
 @class ofxGenericHeadingManagerForwarder;
+@class CLLocationManager;
 #endif
 
 class ofxGenericHeadingManager

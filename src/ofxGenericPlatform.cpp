@@ -13,6 +13,9 @@
 #include "UIDevice-Hardware.h"
 #endif
 
+#import "ofCommon.h"
+#include "ofFileUtils.h"
+
 bool ofxGenericPlatform::multitaskingSupported()
 {
 #if TARGET_OS_IPHONE

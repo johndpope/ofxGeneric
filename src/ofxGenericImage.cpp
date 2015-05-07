@@ -16,6 +16,9 @@
 
 #endif
 
+#import "ofCommon.h"
+#include "ofUtils.h"
+
 
 ofPtr< ofxGenericImage > ofxGenericImage::create( const std::string& fileName)
 {
@@ -37,12 +40,12 @@ ofPtr< ofxGenericImage > ofxGenericImage::createAsync( const std::string& fileNa
     return instance;
 }
 
-ofPtr< ofxGenericImage > ofxGenericImage::create( ofPtr< ofImage > image, const std::string& fromFileName )
+/* IOSP-40 // ofPtr< ofxGenericImage > ofxGenericImage::create( ofPtr< ofImage > image, const std::string& fromFileName )
 {
     ofPtr< ofxGenericImage > create( new ofxGenericImage() );
     create->init( create, image, fromFileName );
     return create;
-}
+}*/
 
 #if TARGET_OS_IPHONE
 ofPtr< ofxGenericImage > ofxGenericImage::create( UIImage* image, const std::string& fromFileName )
@@ -80,7 +83,7 @@ void ofxGenericImage::init( ofPtrWeak< ofxGenericImage > setThis, const std::str
     
 }
 
-void ofxGenericImage::init( ofPtrWeak< ofxGenericImage > setThis, ofPtr< ofImage > image, const std::string& fromFileName )
+/* IOSP-40 // void ofxGenericImage::init( ofPtrWeak< ofxGenericImage > setThis, ofPtr< ofImage > image, const std::string& fromFileName )
 {
     _this = setThis;
     
@@ -99,7 +102,7 @@ void ofxGenericImage::init( ofPtrWeak< ofxGenericImage > setThis, ofPtr< ofImage
     
 #endif
     
-}
+}*/
 
 #if TARGET_OS_IPHONE
 void ofxGenericImage::init( ofPtrWeak< ofxGenericImage > setThis, UIImage* image, const std::string& fromFileName )

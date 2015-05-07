@@ -10,6 +10,8 @@
 
 #include "ofxGenericLocationManager.h"
 
+#import "ofCommon.h"
+
 #if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
