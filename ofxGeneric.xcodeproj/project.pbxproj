@@ -152,7 +152,7 @@
 		3CF50AB31582AD9D00D6F7DA /* ofxGenericValueStoreUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CF50AB21582AD9D00D6F7DA /* ofxGenericValueStoreUtility.cpp */; };
 		3CF590941506E6EA00963966 /* ofxGenericEditTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CF590931506E6EA00963966 /* ofxGenericEditTextView.h */; };
 		3CF590971506E78E00963966 /* ofxGenericEditTextView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CF590961506E78E00963966 /* ofxGenericEditTextView.cpp */; };
-		45037A491534E6E200ADB7EC /* ofxGenericValueStore.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45037A481534E6E100ADB7EC /* ofxGenericValueStore.mm */; };
+		45037A491534E6E200ADB7EC /* ofxGenericValueStore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45037A481534E6E100ADB7EC /* ofxGenericValueStore.cpp */; };
 		453DE3DE15F66AC400046917 /* ofxGenericPageControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 453DE3DC15F66AC400046917 /* ofxGenericPageControl.cpp */; };
 		453DE3DF15F66AC400046917 /* ofxGenericPageControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 453DE3DD15F66AC400046917 /* ofxGenericPageControl.h */; };
 		454496151540C66600B21064 /* ofxGenericAlertView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 454496131540C66600B21064 /* ofxGenericAlertView.cpp */; };
@@ -377,7 +377,7 @@
 		3CF590931506E6EA00963966 /* ofxGenericEditTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericEditTextView.h; sourceTree = "<group>"; };
 		3CF590961506E78E00963966 /* ofxGenericEditTextView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericEditTextView.cpp; sourceTree = "<group>"; };
 		45037A461534E6D700ADB7EC /* ofxGenericValueStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGenericValueStore.h; sourceTree = "<group>"; };
-		45037A481534E6E100ADB7EC /* ofxGenericValueStore.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; lineEnding = 0; path = ofxGenericValueStore.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		45037A481534E6E100ADB7EC /* ofxGenericValueStore.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; lineEnding = 0; path = ofxGenericValueStore.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		453DE3DC15F66AC400046917 /* ofxGenericPageControl.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericPageControl.cpp; sourceTree = "<group>"; };
 		453DE3DD15F66AC400046917 /* ofxGenericPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericPageControl.h; sourceTree = "<group>"; };
 		453E45B615365E1C00C66514 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -592,7 +592,7 @@
 				3C7B4E8D14FC7CBF003121FE /* ofxGenericApp.h */,
 				3C7B4E8E14FC7CBF003121FE /* ofxGenericButtonView.cpp */,
 				3C7B4E8F14FC7CBF003121FE /* ofxGenericButtonView.h */,
-				45037A481534E6E100ADB7EC /* ofxGenericValueStore.mm */,
+				45037A481534E6E100ADB7EC /* ofxGenericValueStore.cpp */,
 				45037A461534E6D700ADB7EC /* ofxGenericValueStore.h */,
 				3CF50AB01582ACF700D6F7DA /* ofxGenericValueStoreUtility.h */,
 				3CF50AB21582AD9D00D6F7DA /* ofxGenericValueStoreUtility.cpp */,
@@ -1040,7 +1040,7 @@
 				19B765331AE128B400A0794A /* json_writer.cpp in Sources */,
 				3C0AC1511522C34500872B70 /* ofxGenericPlatform.cpp in Sources */,
 				191208861ADD765800D78663 /* ofColor.cpp in Sources */,
-				45037A491534E6E200ADB7EC /* ofxGenericValueStore.mm in Sources */,
+				45037A491534E6E200ADB7EC /* ofxGenericValueStore.cpp in Sources */,
 				D31A6DB719F9B04C007292B6 /* XCode6_patch.cpp in Sources */,
 				1912088F1ADD765800D78663 /* ofRectangle.cpp in Sources */,
 				456BACAD153DE6A50097D5D4 /* ofxGenericDate.cpp in Sources */,

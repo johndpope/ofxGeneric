@@ -143,7 +143,6 @@ void ofxGenericApp::finishedLaunching()
     handleFinishedLaunchingPresetup();
     
     // wait a cycle so iOS has time to get initialized
-    // IOSP-40 // _setupTimer = ofxGenericTimer::create( 0.0001f, false, dynamic_pointer_cast< ofxGenericTimerDelegate >( _this ) );
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_MSEC), dispatch_get_main_queue(), ^{
         setup();
     });
@@ -177,16 +176,6 @@ void ofxGenericApp::handleFinishedLaunchingPresetup()
      */
 }
 
-void ofxGenericApp::timer_fired( ofPtr< ofxGenericTimer > timer )
-{
-    if ( timer == _setupTimer )
-    {
-        // IOSP-40 // ofNotifySetup();
-        // IOSP-40 // ofNotifyUpdate();
-        _setupTimer = ofPtr< ofxGenericTimer >();
-    }
-}
-
 void ofxGenericApp::createRootView()
 {
     ofPtr< ofxGenericView > rootView = ofxGenericView::create( _window->getFrame() );
@@ -213,6 +202,26 @@ void ofxGenericApp::willTerminate()
 }
 
 void ofxGenericApp::didReceiveMemoryWarning()
+{
+}
+
+void ofxGenericApp::ofxLLogError( const string & message )
+{
+}
+
+void ofxGenericApp::ofxLLogFatalError( const string & message )
+{
+}
+
+void ofxGenericApp::ofxLLogNotice( const string & message )
+{
+}
+
+void ofxGenericApp::ofxLLogVerbose( const string & message )
+{
+}
+
+void ofxGenericApp::ofxLLogWarning( const string & message )
 {
 }
 
@@ -448,13 +457,6 @@ void ofxGenericApp::vibrate()
 #endif
 }
 
-/* IOSP-40 // void ofxGenericApp::saveImageToLibrary( ofImage& image )
-{
-#if TARGET_OS_IPHONE
-    UIImageWriteToSavedPhotosAlbum( [ UIImage imageWithData:UIImagePNGRepresentation( OFImageToUIImage( image ) ) ], nil, nil, nil );
-#endif
-}*/
-
 bool ofxGenericApp::hasNetworkConnection()
 {
 #if TARGET_OS_IPHONE
@@ -591,17 +593,6 @@ void ofxGenericApp::gotNotification( string type )
 
 void ofNotifyDeviceOrientationChanged( ofOrientation orientation )
 {
-//    ofBaseApp * ofAppPtr = ofGetAppPtr();
-    static ofxGenericOrientationEventArgs orientationEventArgs;
-    
-//	if(ofAppPtr){
-//		ofAppPtr->dragEvent(info);
-//	}
-	
-#ifdef OF_USING_POCO
-    // IOSP-40 // orientationEventArgs.orientation = orientation;
-    // IOSP-40 // ofNotifyEvent( ofxGenericEvents.orientation, orientationEventArgs );
-#endif
 }
 
 bool ofxGenericApp::isDebuggerAttached()

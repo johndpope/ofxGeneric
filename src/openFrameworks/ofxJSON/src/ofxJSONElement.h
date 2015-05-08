@@ -14,8 +14,6 @@
 #include <fstream>
 #include <json/json.h>
 
-// IOSP-40 // #include "ofMain.h"
-
 #include <vector>
 
 using namespace std;

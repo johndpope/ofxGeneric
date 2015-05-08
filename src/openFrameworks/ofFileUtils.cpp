@@ -244,17 +244,6 @@ bool ofBufferToFile(const string & path, ofBuffer & buffer, bool binary){
 //------------------------------------------------------------------------------------------------------------
 
 
-/* IOSP-40 // #include "Poco/Util/FilesystemConfiguration.h"
-#include "Poco/File.h"
-#include "Poco/Path.h"
-#include "Poco/DirectoryIterator.h"
-#include "Poco/StringTokenizer.h"
-#include "Poco/Exception.h"
-#include "Poco/FileStream.h"
-#include "Poco/String.h"
-
-using namespace Poco;*/
-
 //------------------------------------------------------------------------------------------------------------
 ofFile::ofFile(){
 	mode = Reference;

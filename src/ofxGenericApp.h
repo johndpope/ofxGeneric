@@ -43,6 +43,12 @@ public:
     
     virtual void didReceiveMemoryWarning();
     
+    virtual void ofxLLogError( const string & message );
+    virtual void ofxLLogFatalError( const string & message );
+    virtual void ofxLLogNotice( const string & message );
+    virtual void ofxLLogVerbose( const string & message );
+    virtual void ofxLLogWarning( const string & message );
+    
     void setOrientation( ofOrientation toOrientation );
     virtual bool shouldAutorotate( ofOrientation toOrientation );
     virtual void deviceOrientationDidChange( ofOrientation newOrientation );
@@ -69,8 +75,6 @@ public:
     
     static void vibrate();
     
-    // IOSP-40 // static void saveImageToLibrary( ofImage& image );
-
     bool hasNetworkConnection();
     bool hasInternetConnection();
     
@@ -100,8 +104,6 @@ public:
     virtual void setLaunchOptions( std::map< string, string > launchOptions );
     virtual void gotNotification( string type );
     
-    virtual void timer_fired( ofPtr< ofxGenericTimer > timer );
-
     virtual ~ofxGenericApp();
     
 protected:
@@ -138,7 +140,7 @@ protected:
     ofPtr< ofxGenericTimer > _setupTimer;
 };
 
-class ofxGenericOrientationEventArgs // IOSP-40 // : public ofEventArgs
+class ofxGenericOrientationEventArgs
 {
 public:
     ofOrientation orientation;
@@ -147,15 +149,12 @@ public:
 class ofxGenericEventsClass
 {
 public:
-    // IOSP-40 // ofEvent< ofxGenericOrientationEventArgs  > orientation;
     
     void disable()
     {
-        // IOSP-40 // orientation.disable();
     }
     void enable()
     {
-        // IOSP-40 // orientation.enable();
     }
 };
 
@@ -164,13 +163,11 @@ extern ofxGenericEventsClass ofxGenericEvents;
 template< class ListenerClass >
 void ofxGRegisterOrientationEvents( ListenerClass* listener )
 {
-    // IOSP-40 // ofAddListener( ofxGenericEvents.orientation, listener, &ListenerClass::deviceOrientationChanged );
 }
 
 template< class ListenerClass >
 void ofxGUnregisterOrientationEvents( ListenerClass* listener )
 {
-    // IOSP-40 // ofRemoveListener( ofxGenericEvents.orientation, listener, &ListenerClass::deviceOrientationChanged );
 }
 
 void ofNotifyDeviceOrientationChanged( ofOrientation orientation );

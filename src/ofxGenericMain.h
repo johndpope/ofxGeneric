@@ -8,15 +8,13 @@
 
 #pragma once
 
-// IOSP-40 // #include "ofMain.h"
-
 #if TARGET_OS_IPHONE
 
-// IOSP-40 // #import <UIKit/UIKit.h>
+#import <UIKit/UIKit.h>
 
 #elif TARGET_ANDROID
 
-// IOSP-40 // #include "JNIObject.h"
+#include "JNIObject.h"
 
 #endif
 

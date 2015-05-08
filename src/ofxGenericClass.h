@@ -8,7 +8,6 @@
 
 #pragma once
 
-// IOSP-40 // #include "ofMain.h"
 #include "ofTypes.h"
 
 class ofxGenericClass

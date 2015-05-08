@@ -1,6 +1,5 @@
 #include "ofMath.h"
 #include "ofUtils.h"
-// IOSP-40 // #include "ofAppRunner.h"
 #include "float.h"
 
 #ifndef TARGET_WIN32
