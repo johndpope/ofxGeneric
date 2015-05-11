@@ -14,6 +14,8 @@
 #include "ofxGenericFont.h"
 #include "ofxGenericFontManager.h"
 
+#import "ofCommon.h"
+
 #if TARGET_OS_IPHONE
 @interface ofxGenericEditTextViewForwarder : NSObject< UITextFieldDelegate, UITextViewDelegate >
 {

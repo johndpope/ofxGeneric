@@ -82,7 +82,10 @@ public:
     virtual void didDisappear();
     
     virtual void hitInView( ofPoint location );
-    
+
+    void setWrappingViewController(UIViewController *wrappingViewController);
+    UIViewController *getWrappingViewController() const;
+
     void setAlpha( float alpha );
     float getAlpha();
     
@@ -153,7 +156,7 @@ public:
     virtual void setUserInteractionEnabled( bool enabled );
     virtual bool getUserInteractionEnabled();
     
-    virtual ofPtr< ofImage > createImageRepresentation( );
+    // IOSP-40 // virtual ofPtr< ofImage > createImageRepresentation( );
     
 #if TARGET_OS_IPHONE
     virtual void gesturePerformedSwipe( UISwipeGestureRecognizer* recognizer );
@@ -228,6 +231,8 @@ protected:
     friend class ofxAppGenericWindow;
     
 private:
+    UIViewController *_wrappingViewController; // non-retaining ref
+
     void addChildViewPre( ofPtr< ofxGenericView > add );
     void addChildViewPost( ofPtr< ofxGenericView > add );
 };

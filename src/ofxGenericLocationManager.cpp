@@ -12,6 +12,8 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 
+#import "ofCommon.h"
+
 @interface ofxGenericLocationManagerForwarder : NSObject< CLLocationManagerDelegate >
 {
 @private

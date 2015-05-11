@@ -11,6 +11,9 @@
 #include "ofxGenericValueStore.h"
 #include "ofxGenericException.h"
 
+#import "ofCommon.h"
+#include "ofUtils.h"
+
 // TODO: proper fallback language setup
 #define FallbackIsoLanguage "en"
 

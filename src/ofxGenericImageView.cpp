@@ -10,7 +10,7 @@
 
 #if TARGET_OS_IPHONE
 #include "UIDevice-Hardware.h"
-#include "ofxiPhoneExtras.h"
+// IOSP-40 // #include "ofxiPhoneExtras.h"
 
 #elif TARGET_ANDROID
 #include "JNIUtility.h"
@@ -18,6 +18,8 @@
 jclass ofxGenericImageView::_jniClass = NULL;
 const char* ofxGenericImageView::className = "cc/openframeworks/ofxGeneric/ImageView";
 #endif
+
+#import "ofCommon.h"
 
 ofxGenericImageView::ofxGenericImageView()
 {
@@ -52,22 +54,7 @@ NativeView ofxGenericImageView::createNativeView( const ofRectangle& frame )
 
 void ofxGenericImageView::setImage( string fileName, bool aSync )
 {
-    if ( aSync )
-    {
-        // Set _waitingOnAsyncLoadImageName before creating async, it may be used immediately in the
-        // delegate callback.        
-        _waitingOnAsyncLoadImageName = fileName;
-        ofPtr< ofxGenericImage > image =
-            ofxGenericImage::createAsync( fileName,  dynamic_pointer_cast< ofxGenericImageDelegate >( _this ));
-        if( image )
-        {
-            setImage( image );
-        }
-    }
-    else
-    {
-        setImage(ofxGenericImage::create( fileName ));
-    }
+    setImage(ofxGenericImage::create( fileName ));
 }
 
 void ofxGenericImageView::setImage ( ofPtr< ofxGenericImage > image )
@@ -168,7 +155,7 @@ string ofxGenericImageView::toString()
     
     if ( _image && !_image->getFilePath().empty() )
     {
-        result += " " + ofFilePath::getFileName( _image->getFilePath() );
+        // IOSP-40 // result += " " + ofFilePath::getFileName( _image->getFilePath() );
     }
     return result;
 }
@@ -180,22 +167,8 @@ ofPtr< ofxGenericValueStore > ofxGenericImageView::toValueStore()
     {
         if ( _image && !_image->getFilePath().empty() )
         {
-            result->write( "image", ofFilePath::getFileName( _image->getFilePath() ) );
+            // IOSP-40 // result->write( "image", ofFilePath::getFileName( _image->getFilePath() ) );
         }
     }
     return result;
 }
-
-void ofxGenericImageView::imageManager_imageLoaded( const std::string& imageName, ofPtr< ofxGenericImage > image )
-{
-    if( imageName == _waitingOnAsyncLoadImageName )
-    {
-        setImage( image );
-    }
-}
-
-bool ofxGenericImageView::imageManager_imageStillNeeded( const std::string& imageName )
-{
-    return imageName == _waitingOnAsyncLoadImageName;
-}
-

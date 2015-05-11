@@ -8,6 +8,8 @@
 
 #include "ofxGenericSwitchView.h"
 
+#import "ofCommon.h"
+
 #if TARGET_OS_IPHONE
 @interface ofxGenericSwitchViewForwarder : NSObject
 {

@@ -10,6 +10,8 @@
 
 #include "ofxGenericUtility.h"
 
+#import "ofCommon.h"
+
 ofPtr< ofxGenericFont > ofxGenericFont::create( string name, float size )
 {
     ofPtr< ofxGenericFont > create( new ofxGenericFont() );

@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "ofMain.h"
+#include "ofTypes.h"
 
 class ofxGenericClass
 {

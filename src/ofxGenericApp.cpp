@@ -44,6 +44,9 @@ const char* ofxGenericApp::ActivityClassName = "cc/openframeworks/ofxGeneric/Act
 ofxGenericEventsClass ofxGenericEvents;
 #endif
 
+#import "ofCommon.h"
+#include "ofUtils.h"
+
 ofxGenericApp::ofxGenericApp()
 : _keyboardIsVisible( false ), _lastUpdateTime( 0.0 ), _updateDeltaTime( 0.0f )
 {
@@ -87,7 +90,7 @@ ofxGenericAppDelegate* ofxGenericApp::getAppDelegate()
 
 void ofxGenericApp::runViaInfiniteLoop( ofPtr< ofxAppGenericWindow > window )
 {
-    ofLogVerbose( ofxGenericModuleName, "App loop starting..." );
+    // IOSP-40 // ofLogVerbose( ofxGenericModuleName, "App loop starting..." );
     // TODO: strong references
     _window = window;
     _windowSize = _window->getFrame();
@@ -140,13 +143,13 @@ void ofxGenericApp::finishedLaunching()
     handleFinishedLaunchingPresetup();
     
     // wait a cycle so iOS has time to get initialized
-    _setupTimer = ofxGenericTimer::create( 0.0001f, false, dynamic_pointer_cast< ofxGenericTimerDelegate >( _this ) );
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_MSEC), dispatch_get_main_queue(), ^{
+        setup();
+    });
 }
 
 void ofxGenericApp::handleFinishedLaunchingPresetup()
 {
-    createRootView();
-
     // TODO: move earlier
 #if TARGET_OS_IPHONE
     ofSetDataPathRoot( ofxNSStringToString( [ NSString stringWithFormat:@"%@/", [ [ NSBundle mainBundle ] resourcePath ] ] ) );
@@ -171,16 +174,6 @@ void ofxGenericApp::handleFinishedLaunchingPresetup()
      // call testApp::setup()
      ofRegisterTouchEvents((ofxiPhoneApp*)ofGetAppPtr());
      */
-}
-
-void ofxGenericApp::timer_fired( ofPtr< ofxGenericTimer > timer )
-{
-    if ( timer == _setupTimer )
-    {
-        ofNotifySetup();
-        ofNotifyUpdate();
-        _setupTimer = ofPtr< ofxGenericTimer >();
-    }
 }
 
 void ofxGenericApp::createRootView()
@@ -209,6 +202,26 @@ void ofxGenericApp::willTerminate()
 }
 
 void ofxGenericApp::didReceiveMemoryWarning()
+{
+}
+
+void ofxGenericApp::ofxLLogError( const string & message )
+{
+}
+
+void ofxGenericApp::ofxLLogFatalError( const string & message )
+{
+}
+
+void ofxGenericApp::ofxLLogNotice( const string & message )
+{
+}
+
+void ofxGenericApp::ofxLLogVerbose( const string & message )
+{
+}
+
+void ofxGenericApp::ofxLLogWarning( const string & message )
 {
 }
 
@@ -444,13 +457,6 @@ void ofxGenericApp::vibrate()
 #endif
 }
 
-void ofxGenericApp::saveImageToLibrary( ofImage& image )
-{
-#if TARGET_OS_IPHONE
-    UIImageWriteToSavedPhotosAlbum( [ UIImage imageWithData:UIImagePNGRepresentation( OFImageToUIImage( image ) ) ], nil, nil, nil );
-#endif
-}
-
 bool ofxGenericApp::hasNetworkConnection()
 {
 #if TARGET_OS_IPHONE
@@ -587,17 +593,6 @@ void ofxGenericApp::gotNotification( string type )
 
 void ofNotifyDeviceOrientationChanged( ofOrientation orientation )
 {
-//    ofBaseApp * ofAppPtr = ofGetAppPtr();
-    static ofxGenericOrientationEventArgs orientationEventArgs;
-    
-//	if(ofAppPtr){
-//		ofAppPtr->dragEvent(info);
-//	}
-	
-#ifdef OF_USING_POCO
-    orientationEventArgs.orientation = orientation;
-    ofNotifyEvent( ofxGenericEvents.orientation, orientationEventArgs );
-#endif
 }
 
 bool ofxGenericApp::isDebuggerAttached()

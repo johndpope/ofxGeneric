@@ -14,6 +14,8 @@
 #include "ofxGenericConstants.h"
 #include "ofxGenericPlatform.h"
 
+#import "ofCommon.h"
+
 #if TARGET_ANDROID
 #include "JNIUtility.h"
 #include "JNIRect.h"

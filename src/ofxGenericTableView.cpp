@@ -11,6 +11,12 @@
 
 #include "ofxGenericUtility.h"
 
+#include <vector>
+
+using namespace std;
+
+#import "ofCommon.h"
+
 #if TARGET_OS_IPHONE
 @interface ofxGenericTableViewForwarder : UITableViewController
 {

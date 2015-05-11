@@ -8,6 +8,8 @@
 
 #pragma once
 
+#import <UIKit/UIKit.h>
+
 #include "ofxGenericMain.h"
 
 #if TARGET_OS_IPHONE
@@ -15,11 +17,11 @@ typedef UIView* NativeView;
 typedef UIWindow* NativeWindow;
 #define NativeNull nil
 #else //if TARGET_ANDROID // FIXME: ARG ECLIPSE WHY DO YOU HATE ME PARSEEEEEEEE DAAAMN YOU
-#define TARGET_ANDROID 1
+// IOSP-40 // #define TARGET_ANDROID 1
 // WTFFFFFFF
-typedef jobject NativeView;
-typedef jobject NativeWindow;
-typedef jobject NativeImage;
+// IOSP-40 // typedef jobject NativeView;
+// IOSP-40 // typedef jobject NativeWindow;
+// IOSP-40 // typedef jobject NativeImage;
 #define NativeNull NULL
 #endif
 
