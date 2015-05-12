@@ -10,6 +10,9 @@
 #include "ofxJSONElement.h"
 #include "ofUtils.h"
 
+using std::strerror;
+#include <cerrno>
+
 
 //--------------------------------------------------------------
 ofxJSONElement::ofxJSONElement(Json::Value& v) : Value(v) {
@@ -51,6 +54,7 @@ bool ofxJSONElement::openLocal(string filename, bool inDocuments) {
 	
 	if (!myfile.is_open()) {
 		// IOSP-40 // ofLog(OF_LOG_VERBOSE, "Could not open "+absoluteFilename);
+        cout << strerror(errno) << ':' << absoluteFilename << '\n';
 		return false;
 	}
 	
@@ -93,6 +97,7 @@ bool ofxJSONElement::save(string filename, bool pretty, bool inDocuments)
 	ofstream file_key(absoluteFilename.c_str());
 	if (!file_key.is_open()) {
 		// IOSP-40 // ofLog(OF_LOG_WARNING, "Unable to open "+absoluteFilename);
+        cout << strerror(errno) << ':' << absoluteFilename << '\n';
 		return false;
 	}
 	

@@ -21,7 +21,8 @@
 
 string ofxGGetPathFromFileName( string fileName )
 {
-    unsigned int slashPos = fileName.find_last_of( "/\\" );
+    // IOSP-14 // unsigned int slashPos = fileName.find_last_of( "/\\" );
+    size_t slashPos = fileName.find_last_of( "/\\" );
     if ( slashPos != fileName.npos )
     {
         return fileName.substr( 0, slashPos );
@@ -251,7 +252,8 @@ string ofxGToString( double value, unsigned int decimalCount )
 
 string ofxGTrimDecimals( string str, unsigned int decimalCount )
 {
-    unsigned int decimalPlace = str.find( "." );
+    // IOSP-14 // unsigned int decimalPlace = str.find( "." );
+    size_t decimalPlace = str.find( "." );
     if ( decimalPlace == string::npos || str.size() - decimalPlace - 1 <= decimalCount )
     {
         return str;
@@ -439,8 +441,10 @@ std::vector< string > ofxGSplit( string value, char splitOn )
 {
     std::vector< string > strings;
     
-    unsigned int lastPosition = 0;
-    for( unsigned int position = value.find( splitOn, 0 ); position < value.size(); position = value.find( splitOn, position ) )
+    // IOSP-14 // unsigned int lastPosition = 0;
+    // IOSP-14 // for( unsigned int position = value.find( splitOn, 0 ); position < value.size(); position = value.find( splitOn, position ) )
+    size_t lastPosition = 0;
+    for( size_t position = value.find( splitOn, 0 ); position < value.size(); position = value.find( splitOn, position ) )
     {
         if ( position == lastPosition + 1 )
         {
