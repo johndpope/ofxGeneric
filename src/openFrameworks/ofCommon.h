@@ -20,8 +20,8 @@ ofRectangle ofxCGRectToofRectangle(const CGRect & from);
 string ofxNSStringToString(NSString * s);
 NSString * ofxStringToNSString(string s);
 
-inline float ofxColorUnsignedCharToFloat(unsigned char component);
-inline unsigned char ofxColorFloatToUnsignedChar(float component);
+inline CGFloat ofxColorUnsignedCharToFloat(unsigned char component);
+inline unsigned char ofxColorFloatToUnsignedChar(CGFloat component);
 UIColor * ofxColorToUIColor(const ofColor & from);
 ofColor ofxUIColorToofColor(UIColor * from);
 
