@@ -386,7 +386,7 @@ void ofxGenericHTTPRequest::appendQueryValueFieldPair( string value, string fiel
     if ([existingQuery length] > 0) {
         nsValueFieldPair = [@"&" stringByAppendingString:nsValueFieldPair];
     } else {
-        existingQuery = @"";
+        existingQuery = @"?";
     }
     existingURLComponents.query = [existingQuery stringByAppendingString:nsValueFieldPair];
     NSURL *newURL = [existingURLComponents URL];
@@ -396,6 +396,48 @@ void ofxGenericHTTPRequest::appendQueryValueFieldPair( string value, string fiel
         NSLog(@"Lumosity - Error: %@", [NSString stringWithFormat:@"URL (%@) with query string is invalid with query parameters: %@", [_request.URL description], nsValueFieldPair]);
     }
 #endif
+}
+
+void ofxGenericHTTPRequest::appendSplitTestQueryValues( NSArray* splitTestList )
+{
+    if ( splitTestList == nil || [splitTestList count] == 0 )
+        return;
+    
+    //form split test query string
+    NSString *splitTestNameQueryParams = @"";
+    for (id splitTestName in splitTestList) {
+        if ( [splitTestNameQueryParams length] > 0 ) {
+            splitTestNameQueryParams = [splitTestNameQueryParams stringByAppendingString:[NSString stringWithFormat:@"&[split_tests][name][]=%@", [splitTestName stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding]]];
+        } else {
+            splitTestNameQueryParams = [splitTestNameQueryParams stringByAppendingString:[NSString stringWithFormat:@"[split_tests][name][]=%@", [splitTestName stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding]]];
+        }
+    }
+
+    //append string to existing call
+    NSURLComponents *existingURLComponents = [[NSURLComponents alloc] initWithURL:[_request URL] resolvingAgainstBaseURL:YES];
+    NSString *existingQuery = [existingURLComponents.query stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding];
+    if ([existingQuery length] > 0) {
+        splitTestNameQueryParams = [@"&" stringByAppendingString:splitTestNameQueryParams];
+    } else {
+        existingQuery = @"?";
+    }
+    
+    //grab base url from existingUrlComponents
+    //append param string manually because those damn brackets keep getting encoded
+    //MAGIC DONT TOUCH
+    existingURLComponents.query = nil;
+    existingURLComponents.fragment = nil;
+    NSURL *baseURL = [existingURLComponents URL];
+    NSString *paramString = [existingQuery stringByAppendingString:splitTestNameQueryParams];
+    NSString *fullUrlString = [[baseURL absoluteString] stringByAppendingString:paramString];
+    NSURL *newURL = [[NSURL alloc] initWithString:fullUrlString];
+    
+    if (newURL && newURL.scheme && newURL.host) {
+        _request.URL = newURL;
+    } else {
+        NSLog(@"Lumosity - Error: %@", [NSString stringWithFormat:@"URL (%@) with query string is invalid with split test query parameters: %@", [_request.URL description], splitTestNameQueryParams]);
+    }
+
 }
 
 string ofxGenericHTTPRequest::toString( bool includebody ) const
