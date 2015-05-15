@@ -1778,13 +1778,13 @@ bool ofxGenericValueStore::verifyContentsFromDisk()
             }
             else
             {
-                ofxGLogError("ofxGenericValueStore::verifyContentsFromDisk file " + _fileName + " have invalid hash!");
+                ofxGLogWarning("ofxGenericValueStore::verifyContentsFromDisk file " + _fileName + " have invalid hash!");
                 return false;
             }
         }
         else
         {
-            ofxGLogError("ofxGenericValueStore::verifyContentsFromDisk file " + _fileName + " HmacStoreKey missing!");
+            ofxGLogWarning("ofxGenericValueStore::verifyContentsFromDisk file " + _fileName + " HmacStoreKey missing!");
             return false;
         }
     }
