@@ -1363,6 +1363,7 @@ bool ofxGenericValueStore::readFromDisk()
             
             if( _verify && !verifyContentsFromDisk() )
             {
+                ofxGLogError("ofxGenericValueStore::readFromDisk file " + _fileName + " failed on verification!");
                 purge();
                 return false;
             }
@@ -1777,11 +1778,13 @@ bool ofxGenericValueStore::verifyContentsFromDisk()
             }
             else
             {
+                ofxGLogWarning("ofxGenericValueStore::verifyContentsFromDisk file " + _fileName + " have invalid hash!");
                 return false;
             }
         }
         else
         {
+            ofxGLogWarning("ofxGenericValueStore::verifyContentsFromDisk file " + _fileName + " HmacStoreKey missing!");
             return false;
         }
     }
