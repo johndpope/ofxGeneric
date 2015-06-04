@@ -466,7 +466,7 @@ string ofxGToUpperCase( const string& text )
     string retval;
 #if TARGET_OS_IPHONE
     NSString *string = ofxStringToNSString(text);
-    retval = [[string uppercaseString] UTF8String];
+    retval = ofxNSStringToString([string uppercaseString]);
 #else
     retval.resize( text.size() );
     std::transform( text.begin(), text.end(), retval.begin(), ::toupper );
@@ -479,7 +479,7 @@ string ofxGToLowerCase( const string& text )
     string retval;
 #if TARGET_OS_IPHONE
     NSString *string = ofxStringToNSString(text);
-    retval = [[string lowercaseString] UTF8String];
+    retval = ofxNSStringToString([string lowercaseString]);
 #else
     retval.resize( text.size() );
     std::transform( text.begin(), text.end(), retval.begin(), ::tolower );
