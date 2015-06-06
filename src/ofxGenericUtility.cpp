@@ -464,16 +464,26 @@ std::vector< string > ofxGSplit( string value, char splitOn )
 string ofxGToUpperCase( const string& text )
 {
     string retval;
+#if TARGET_OS_IPHONE
+    NSString *string = ofxStringToNSString(text);
+    retval = ofxNSStringToString([string uppercaseString]);
+#else
     retval.resize( text.size() );
     std::transform( text.begin(), text.end(), retval.begin(), ::toupper );
+#endif
     return retval;
 }
 
 string ofxGToLowerCase( const string& text )
 {
     string retval;
+#if TARGET_OS_IPHONE
+    NSString *string = ofxStringToNSString(text);
+    retval = ofxNSStringToString([string lowercaseString]);
+#else
     retval.resize( text.size() );
     std::transform( text.begin(), text.end(), retval.begin(), ::tolower );
+#endif
     return retval;
 }
 
