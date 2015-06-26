@@ -824,9 +824,9 @@ void ofxGenericHTTPRequest::setDumpBodyOnError( bool dump )
 - (void)connection:(NSURLConnection *)connection willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
 {
     if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
-        [[challenge sender] performDefaultHandlingForAuthenticationChallenge:challenge];
+        [challenge.sender performDefaultHandlingForAuthenticationChallenge:challenge];
     } else {
-        [[challenge sender] cancelAuthenticationChallenge:challenge];
+        [challenge.sender cancelAuthenticationChallenge:challenge];
     }
 }
 
