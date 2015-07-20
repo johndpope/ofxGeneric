@@ -146,7 +146,7 @@ public:
     virtual void write( unsigned int index, const char* value, bool onlyIfFilled = false );
     virtual void write( unsigned int index, ofPoint value );
     virtual void write( unsigned int index, ofPtr< ofxGenericValueStore > value );
-    virtual void writeToFront( ofPtr< ofxGenericValueStore > value );
+    virtual void writeToFront(ofPtr<ofxGenericValueStore> value);
     
     virtual float   read( unsigned int index, float defaultValue ) const;
     virtual int     read( unsigned int index, int defaultValue ) const;
@@ -191,7 +191,7 @@ public:
     void remove( ofxGenericValueStoreObjectIterator location );
     void remove( ofxGenericValueStoreArrayIterator location );
     
-    void insert( ofxGenericValueStoreArrayIterator location,  ofPtr< ofxGenericValueStore > value);
+    void insert(ofxGenericValueStoreArrayIterator location, ofPtr< ofxGenericValueStore > value);
 
     string toJSONString() const;
     virtual Json::Value* convertToJSON() const;
