@@ -1102,6 +1102,13 @@ void ofxGenericValueStore::write( unsigned int index, ofPtr< ofxGenericValueStor
     }
 }
 
+void ofxGenericValueStore::writeToFront(ofPtr<ofxGenericValueStore> value)
+{
+    if (asArray()) {
+        insert(arrayBegin(), value);
+    }
+}
+
 float ofxGenericValueStore::read( unsigned int index, float defaultValue ) const
 {
     ofPtr< ofxGenericValueStore > value = read( index );
@@ -1328,6 +1335,14 @@ void ofxGenericValueStore::remove( ofxGenericValueStoreArrayIterator location )
     if ( asArray() )
     {
         asArray()->erase( location );
+    }
+}
+
+
+void ofxGenericValueStore::insert(ofxGenericValueStoreArrayIterator location, ofPtr<ofxGenericValueStore> value)
+{
+    if (asArray()) {
+        asArray()->insert(arrayBegin(), 1, value);
     }
 }
 
