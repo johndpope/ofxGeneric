@@ -25,8 +25,8 @@ ofBuffer::ofBuffer(){
 }
 
 //--------------------------------------------------
-ofBuffer::ofBuffer(const char * buffer, unsigned int size){
-	set(buffer, size);
+ofBuffer::ofBuffer(const char * inputBuffer, unsigned int size){
+	set(inputBuffer, size);
 }
 
 //--------------------------------------------------
@@ -250,8 +250,8 @@ ofFile::ofFile(){
 }
 
 //------------------------------------------------------------------------------------------------------------
-ofFile::ofFile(string path, Mode mode, bool binary){
-	open(path, mode, binary);
+ofFile::ofFile(string path, Mode inputMode, bool binary){
+	open(path, inputMode, binary);
 }
 
 //-------------------------------------------------------------------------------------------------------------
@@ -861,8 +861,8 @@ void ofDirectory::setExecutable(bool flag = true){
 }
 
 //------------------------------------------------------------------------------------------------------------
-void ofDirectory::setShowHidden(bool showHidden){
-	this->showHidden = showHidden;
+void ofDirectory::setShowHidden(bool showHiddenValue){
+	this->showHidden = showHiddenValue;
 }
 
 //------------------------------------------------------------------------------------------------------------
@@ -1312,7 +1312,7 @@ string ofFilePath::getEnclosingDirectory(string filePath, bool bRelativeToData){
 	Path myPath(filePath);
 
 	return myPath.parent().toString();*/
-    return false;
+    return "";
 }
 
 //------------------------------------------------------------------------------------------------------------
@@ -1324,7 +1324,7 @@ string ofFilePath::getAbsolutePath(string path, bool bRelativeToData){
 	Path myPath(path);
 
 	return myPath.makeAbsolute().toString();*/
-    return false;
+    return "";
 }
 
 

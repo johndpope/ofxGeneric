@@ -252,7 +252,7 @@ void ofxGenericStorePurchaser::setDelegate( ofPtrWeak< ofxGenericStorePurchaserD
     
     for ( unsigned int i = 0; i < [ response.invalidProductIdentifiers count ]; i++ )
     {
-        NSString *invalidId = [ response.invalidProductIdentifiers objectAtIndex:i ];
+        //NSString *invalidId = [ response.invalidProductIdentifiers objectAtIndex:i ];
         // IOSP-40 // ofLogWarning( "ofxGenericStorePurchaser: Apple returned invalid product identifier from products request: \"" + ofxGToString( invalidId ) + "\"" );
     }
     

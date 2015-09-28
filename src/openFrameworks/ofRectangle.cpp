@@ -401,12 +401,7 @@ bool ofRectangle::intersects(const ofRectangle& rect) const {
 bool ofRectangle::intersects(const ofPoint& p0, const ofPoint& p1) const {
     // check for a line intersection
     ofPoint p;
-    
-    ofPoint topLeft     = getTopLeft();
-    ofPoint topRight    = getTopRight();
-    ofPoint bottomRight = getBottomRight();
-    ofPoint bottomLeft  = getBottomLeft();
-    
+        
     return inside(p0) || // check end inside
     inside(p1);// IOSP-40 //  || // check end inside
            // IOSP-40 // ofLineSegmentIntersection(p0, p1, topLeft,     topRight,    p) || // cross top
@@ -477,12 +472,12 @@ ofRectangle ofRectangle::getUnion(const ofRectangle& rect) const {
 void ofRectangle::standardize() {
     if(width < 0.0f) {
         x += width;
-        width = -1.0 * width;
+        width = -1.0f * width;
     } 
     
     if(height < 0.0f) {
         y += height;
-        height = -1.0 * height;
+        height = -1.0f * height;
     }
 }
 

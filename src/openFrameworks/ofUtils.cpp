@@ -799,7 +799,7 @@ string ofSystem(string command){
 		// IOSP-40 // ofLogError() << "ofSystem: error opening return file";
 	}else{
 		do {
-		      c = fgetc (ret);
+		      c = (char)fgetc (ret);
 		      strret += c;
 		} while (c != EOF);
 		fclose (ret);

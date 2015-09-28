@@ -90,7 +90,7 @@ unsigned int ofxGenericTableView::nativeGetNumberOfCells( unsigned int section )
     
     if ( count > 0 && getSeparatorStyle() == ofxGenericTableViewSeparatorStyleSizedPadding )
     {
-        count = MAX( count * 2 - 1, 0 );
+        count = MAX( count * 2 - 1, (unsigned int)0 );
     }
     
     if ( getAreHeadersFixedInPlace() && getHeaderForSection( section ) )
