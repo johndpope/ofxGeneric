@@ -226,11 +226,11 @@ float ofxGenericEditTextView::getFontSize()
     if ( [ getNativeView() isKindOfClass:[ UITextField class ] ] )
     {
         UITextField* textField = ( UITextField* )getNativeView();
-        result = [ [ textField font ] pointSize ];
+        result = (float)[ [ textField font ] pointSize ];
     } else if ( [ getNativeView() isKindOfClass:[ UITextView class ] ] )
     {
         UITextView* textView = ( UITextView* )getNativeView();
-        result = [ [ textView font ] pointSize ];
+        result = (float)[ [ textView font ] pointSize ];
     }
 #endif
     return result;
@@ -392,8 +392,8 @@ bool ofxGenericEditTextView::shouldChangeCharactersInRange( int from, int count,
 {
     if ( getTextCharacterLimitEnabled() )
     {
-        unsigned int oldLength = getText().length();
-        unsigned int replacementLength = replacement.length();
+        unsigned int oldLength = (unsigned int)getText().length();
+        unsigned int replacementLength = (unsigned int)replacement.length();
         
         unsigned int newLength = oldLength - count + replacementLength;
         
@@ -745,7 +745,7 @@ bool ofxGenericEditTextView::getSecureText()
 {    
     if ( _delegate )
     {
-        return ( BOOL )_delegate->shouldChangeCharactersInRange( range.location, range.length, ofxNSStringToString( string ) );
+        return ( BOOL )_delegate->shouldChangeCharactersInRange( (int)range.location, (int)range.length, ofxNSStringToString( string ) );
     }
     return YES;
 }

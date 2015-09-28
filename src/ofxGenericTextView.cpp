@@ -161,7 +161,7 @@ int ofxGenericTextView::getNumberOfLines ()
     if ( [ _view isKindOfClass:[ UILabel class ] ] )
     {
         UILabel* labelView = ( UILabel* )_view;
-        return labelView.numberOfLines;
+        return (int)labelView.numberOfLines;
     }
 #endif
     return 0;
@@ -190,7 +190,7 @@ float ofxGenericTextView::getFontSize()
     if ( [ _view isKindOfClass:[ UILabel class ] ] )
     {
         UILabel* labelView = ( UILabel* )_view;
-        return labelView.font.pointSize;
+        return (int)labelView.font.pointSize;
     }
 #endif
     return 12.0f;

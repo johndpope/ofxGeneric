@@ -462,7 +462,7 @@ int ofxGenericTableView::getSelectedIndex()
         {
             return -1;
         }
-        return p.row;
+        return (int)p.row;
     }
 #endif
     return -1;
@@ -479,7 +479,7 @@ int ofxGenericTableView::getSelectedSection()
         {
             return -1;
         }
-        return p.section;
+        return (int)p.section;
     }
 #endif
     return -1;

@@ -221,8 +221,8 @@ void ofxGenericView::layoutIfNeeded()
 void ofxGenericView::addRootViewLayoutConstraints()
 {
     CGRect appFrame = [UIScreen mainScreen].bounds;
-    _this.lock()->addLayoutConstraint( ofxGenericLayoutConstraint::create( _this.lock(), ofxGenericLayoutAttributeWidth, ofxGenericLayoutRelationEqual, ofPtr< ofxGenericView >(), ofxGenericLayoutAttributeNotAnAttribute, 1.000000f, appFrame.size.width, 1000.000000f) );
-    _this.lock()->addLayoutConstraint( ofxGenericLayoutConstraint::create( _this.lock(), ofxGenericLayoutAttributeHeight, ofxGenericLayoutRelationEqual, ofPtr< ofxGenericView >(), ofxGenericLayoutAttributeNotAnAttribute, 1.000000f, appFrame.size.height, 1000.000000f) );
+    _this.lock()->addLayoutConstraint( ofxGenericLayoutConstraint::create( _this.lock(), ofxGenericLayoutAttributeWidth, ofxGenericLayoutRelationEqual, ofPtr< ofxGenericView >(), ofxGenericLayoutAttributeNotAnAttribute, 1.000000f, (float)appFrame.size.width, 1000.000000f) );
+    _this.lock()->addLayoutConstraint( ofxGenericLayoutConstraint::create( _this.lock(), ofxGenericLayoutAttributeHeight, ofxGenericLayoutRelationEqual, ofPtr< ofxGenericView >(), ofxGenericLayoutAttributeNotAnAttribute, 1.000000f, (float)appFrame.size.height, 1000.000000f) );
 }
 
 void ofxGenericView::addChildViewWithFillingConstraints( ofPtr< ofxGenericView > child )
@@ -487,7 +487,7 @@ ofPtrWeak< ofxGenericView > ofxGenericView::getParent()
 
 unsigned int ofxGenericView::getChildCount()
 {
-    return _children.size();
+    return (unsigned int)_children.size();
 }
 
 ofPtr< ofxGenericView > ofxGenericView::getChildAt( unsigned int index )
@@ -778,7 +778,7 @@ float ofxGenericView::getDropShadowRadius()
 #if TARGET_OS_IPHONE
     if ( getNativeView() && getNativeView().layer )
     {
-        return getNativeView().layer.shadowRadius;
+        return (float)getNativeView().layer.shadowRadius;
     }
 #elif TARGET_ANDROID
     throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "getDropShadowRadius" );
@@ -985,7 +985,7 @@ ofPoint ofxGenericView::convertFrom( const ofPoint& point, ofPtr< ofxGenericView
 {
 #if TARGET_OS_IPHONE
     CGPoint p = [ _view convertPoint:CGPointMake(point.x, point.y) fromView:view->getNativeView() ];
-    return ofPoint( p.x, p.y );
+    return ofPoint( (float)p.x, (float)p.y );
 #elif TARGET_ANDROID
     throw ofxGenericExceptionMemberNotImplement( "ofxGenericView", "convertFrom" );
 #endif
@@ -1242,7 +1242,7 @@ void ofxGenericView::addGestureRecognizerPan( unsigned int minimumFingerCount, u
 void ofxGenericView::gesturePerformedSwipe( UISwipeGestureRecognizer* recognizer )
 {
     CGPoint cgp = [recognizer locationInView:getNativeView()];
-    ofPoint p = ofPoint(cgp.x, cgp.y);
+    ofPoint p = ofPoint((float)cgp.x, (float)cgp.y);
     ofxGenericGestureTypeSwipe type = iOSToofxGenericGestureTypeSwipe( [ recognizer direction ] );
     gesturePerformedSwipe( type, p );
 }
@@ -1250,19 +1250,19 @@ void ofxGenericView::gesturePerformedSwipe( UISwipeGestureRecognizer* recognizer
 void ofxGenericView::gesturePerformedTap( UITapGestureRecognizer* recognizer )
 {
     CGPoint cgp = [recognizer locationInView:getNativeView()];
-    ofPoint p = ofPoint(cgp.x, cgp.y);
-    gesturePerformedTap( [ recognizer numberOfTapsRequired ], [ recognizer numberOfTouches ], p );
+    ofPoint p = ofPoint((float)cgp.x, (float)cgp.y);
+    gesturePerformedTap( (int)[ recognizer numberOfTapsRequired ], (int)[ recognizer numberOfTouches ], p );
 }
 
 void ofxGenericView::gesturePerformedHold( UILongPressGestureRecognizer* recognizer )
 {
     CGPoint cgp = [recognizer locationInView:getNativeView()];
-    ofPoint p = ofPoint(cgp.x, cgp.y);
+    ofPoint p = ofPoint((int)cgp.x, (int)cgp.y);
     gesturePerformedHold(
                          iOSToofxGenericGestureState( [ recognizer state ] ),
                          (float)[ recognizer minimumPressDuration ],
-                         [ recognizer numberOfTouches ],
-                         [ recognizer allowableMovement ],
+                         (unsigned int)[ recognizer numberOfTouches ],
+                         (unsigned int)[ recognizer allowableMovement ],
                          p
                          );
 
@@ -1272,7 +1272,10 @@ void ofxGenericView::gesturePerformedPan( UIPanGestureRecognizer* recognizer )
 {
     CGPoint velocity = [ recognizer velocityInView:getNativeView() ];
     CGPoint currentTouchLocation = [ recognizer locationInView:getNativeView() ];
-    gesturePerformedPan( iOSToofxGenericGestureState( [ recognizer state ] ), [ recognizer numberOfTouches ], ofPoint( currentTouchLocation.x, currentTouchLocation.y ), ofPoint( velocity.x, velocity.y ) );
+    gesturePerformedPan( iOSToofxGenericGestureState( [ recognizer state ] ),
+                        (unsigned int)[ recognizer numberOfTouches ],
+                        ofPoint( (float)currentTouchLocation.x, (float)currentTouchLocation.y ),
+                        ofPoint( (float)velocity.x, (float)velocity.y ) );
 }
 
 #endif
@@ -1598,7 +1601,7 @@ UIViewController *ofxGenericView::getWrappingViewController() const
     {
         if ( _forwardTo )
         {
-            _forwardTo.lock()->hitInView( ofPoint( point.x, point.y ) );
+            _forwardTo.lock()->hitInView( ofPoint( (float)point.x, (float)point.y ) );
         }
     }
     

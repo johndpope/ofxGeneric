@@ -125,7 +125,7 @@ void ofxGenericHTTPRequest::init(
                                 method,
                                 format,
                                 ( void* )body.c_str(),
-                                body.length(),
+                                (unsigned int)body.length(),
                                 delegate,
                                 timeout
                                 );
@@ -193,7 +193,7 @@ void ofxGenericHTTPRequest::setMethod( string method )
 
 void ofxGenericHTTPRequest::setBody( string body )
 {
-    setBody( ( void* )body.c_str(), body.length() );
+    setBody( ( void* )body.c_str(), (unsigned int)body.length() );
 }
 
 void ofxGenericHTTPRequest::setBody( void* body, unsigned int bodyByteLength )
@@ -503,7 +503,7 @@ void ofxGenericHTTPRequest::finished(
              stringMIMEType,
              textEncoding,
              ( void* )body.c_str(),
-             body.length(),
+             (unsigned int)body.length(),
              suggestedFileName
         );
 }
@@ -601,7 +601,7 @@ void ofxGenericHTTPRequest::finishedSuccessfully( NSURLResponse* response, NSDat
     if ( [ response isKindOfClass:[ NSHTTPURLResponse class ] ] )
     {
         NSHTTPURLResponse* httpResponse = ( NSHTTPURLResponse* )response;
-        statusCode = [ httpResponse statusCode ];
+        statusCode = (int)[ httpResponse statusCode ];
     } else
     {
         statusCode = 200;
@@ -612,7 +612,7 @@ void ofxGenericHTTPRequest::finishedSuccessfully( NSURLResponse* response, NSDat
              ofxNSStringToString( [ response MIMEType ] ),
              ofxNSStringToString( [ response textEncodingName ] ),
              ( void* )[ data bytes ],
-             [ data length ],
+             (unsigned int)[ data length ],
              ofxNSStringToString( [ response suggestedFilename ] )
              );
 }

@@ -94,12 +94,12 @@ void ofBuffer::set(const char * _buffer, unsigned int _size){
 
 //--------------------------------------------------
 void ofBuffer::set(const string & text){
-	set(text.c_str(),text.size());
+	set(text.c_str(),(unsigned int)text.size());
 }
 
 //--------------------------------------------------
 void ofBuffer::append(const string& _buffer){
-	append(_buffer.c_str(), _buffer.size());
+	append(_buffer.c_str(), (unsigned int)_buffer.size());
 }
 
 //--------------------------------------------------
@@ -1084,7 +1084,7 @@ void ofDirectory::sort(){
 
 //------------------------------------------------------------------------------------------------------------
 unsigned int ofDirectory::size(){
-	return files.size();
+	return (unsigned int)files.size();
 }
 
 //------------------------------------------------------------------------------------------------------------

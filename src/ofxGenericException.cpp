@@ -46,7 +46,7 @@ void ofxGenericException::allocAndCopy( char*& to, const char* from ) throw()
 {
     if ( from )
     {
-        int length = strlen( from ) + 1;
+        int length = (int)strlen( from ) + 1;
         to = new char[ length ];
         strcpy( to, from );
     } else 

@@ -597,7 +597,7 @@ touchEventMethod( touchUpOutside );
     {
         UITouch *touch = [ event.allTouches anyObject ];
         CGPoint point = [ touch locationInView:touch.view ];
-        return ofPoint( point.x, point.y );
+        return ofPoint( (float)point.x, (float)point.y );
     }
     return ofPoint( -1, -1 );
 }

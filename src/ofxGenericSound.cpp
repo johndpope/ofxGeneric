@@ -36,7 +36,7 @@ void ofxGenericSound::init( ofPtrWeak< ofxGenericSound > setThis, string fileNam
 #endif
         
     //pull the extension off if we already have it in the fileName
-    unsigned int dotIndex = fileName.find_last_of( '.' );
+    unsigned long dotIndex = fileName.find_last_of( '.' );
     if ( dotIndex != string::npos )
     {
         string foundExtension = fileName.substr( dotIndex, fileName.length() - dotIndex );
@@ -397,7 +397,7 @@ double ofxGenericSound::getCurrentTime( int playerIndex)
     {
         if ( playerIndex < 0 )
         {
-            playerIndex = [ _players count ] - 1;
+            playerIndex = (int)[ _players count ] - 1;
         }
         return ( ( AVAudioPlayer * )[ _players objectAtIndex: playerIndex ] ).currentTime;
     }

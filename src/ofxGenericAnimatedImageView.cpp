@@ -81,7 +81,7 @@ void ofxGenericAnimatedImageView::setImageFrames( const std::vector< ofPtr< ofxG
     _frames = frames;
     if ( reverse )
     {
-        _currentFrame = frames.size() - 1;
+        _currentFrame = (int)frames.size() - 1;
         _animationDirection = -1;
     }
     else
@@ -136,11 +136,11 @@ void ofxGenericAnimatedImageView::timer_fired( ofPtr< ofxGenericTimer > timer )
             else if ( _loopMode == ofxGenericAnimatedImageLoopTypePingPong )
             {
                 _animationDirection = -1;
-                newFrame = _frames.size() - 1;
+                newFrame = (int)_frames.size() - 1;
             }
             else if ( _loopMode == ofxGenericAnimatedImageLoopTypeClamp )
             {
-                newFrame = _frames.size() - 1;
+                newFrame = (int)_frames.size() - 1;
                 clearTimer();
             }
             else if ( _loopMode == ofxGenericAnimatedImageLoopTypeOnce )

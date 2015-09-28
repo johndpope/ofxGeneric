@@ -181,7 +181,7 @@ void ofxGenericDrawableView::repaint()
 
 int ofxGenericDrawableView::getDrawCallCount()
 {
-    return _drawCalls.size();
+    return (int)_drawCalls.size();
 }
 
 ofPtr< ofxGenericValueStore > ofxGenericDrawableView::getDrawCallAt(int i)

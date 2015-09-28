@@ -395,7 +395,7 @@ template <>
 string ofToHex(const string& value) {
 	ostringstream out;
 	// how many bytes are in the string
-	int numBytes = value.size();
+	int numBytes = (int)value.size();
 	for(int i = 0; i < numBytes; i++) {
 		// print each byte as a 2-character wide hex value
 		out << setfill('0') << setw(2) << hex << (unsigned int) ((unsigned char)value[i]);
@@ -451,7 +451,7 @@ string ofHexToString(const string& stringHexString) {
 	stringstream out;
 	stringstream stream(stringHexString);
 	// a hex string has two characters per byte
-	int numBytes = stringHexString.size() / 2;
+	int numBytes = (int)stringHexString.size() / 2;
 	for(int i = 0; i < numBytes; i++) {
 		string curByte;
 		// grab two characters from the hex string
@@ -511,7 +511,7 @@ char ofToChar(const string& charString) {
 //----------------------------------------
 template <> string ofToBinary(const string& value) {
 	stringstream out;
-	int numBytes = value.size();
+	int numBytes = (int)value.size();
 	for(int i = 0; i < numBytes; i++) {
 		bitset<8> bitBuffer(value[i]);
 		out << bitBuffer;
@@ -556,7 +556,7 @@ string ofBinaryToString(const string& value) {
 	ostringstream out;
 	stringstream stream(value);
 	bitset<8> byteString;
-	int numBytes = value.size() / 8;
+	int numBytes = (int)value.size() / 8;
 	for(int i = 0; i < numBytes; i++) {
 		stream >> byteString;
 		out << (char) byteString.to_ulong();
@@ -592,7 +592,7 @@ vector <string> ofSplitString(const string & source, const string & delimiter, b
 //--------------------------------------------------
 string ofJoinString(vector <string> stringElements, const string & delimiter){
 	string resultString = "";
-	int numElements = stringElements.size();
+	int numElements = (int)stringElements.size();
 
 	for(int k = 0; k < numElements; k++){
 		if( k < numElements-1 ){

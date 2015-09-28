@@ -1227,10 +1227,10 @@ unsigned int ofxGenericValueStore::length() const
 {
     if ( asArray() )
     {
-        return ( *asArray() ).size();
+        return (unsigned int)( *asArray() ).size();
     } else if ( isObject() )
     {
-        return ( *asObject() ).size();
+        return (unsigned int)( *asObject() ).size();
     }
     return 0;
 }

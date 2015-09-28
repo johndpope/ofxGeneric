@@ -142,7 +142,7 @@ ofPoint ofxGPointSizeForText( string text, string fontName, float fontSize, floa
     UIFont* font = [ UIFont fontWithName:nsFontName size:fontSize ];
     NSString* nsText = [ NSString stringWithCString:text.c_str() encoding:NSUTF8StringEncoding ];
     CGSize size = [ nsText sizeWithFont:font constrainedToSize:CGSizeMake( constrainedWidth, FLT_MAX ) lineBreakMode:NSLineBreakByWordWrapping ];
-    return ofPoint( size.width, size.height );
+    return ofPoint( (int)size.width, (int)size.height );
 #else
     return ofPoint( 0, 0 );
 #endif

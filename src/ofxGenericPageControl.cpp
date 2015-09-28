@@ -119,7 +119,7 @@ ofPoint ofxGenericPageControl::getSizeForPageCount( int number )
     if ( nativeView )
     {
         CGSize size = [ nativeView sizeForNumberOfPages:number ];
-        return ofPoint( size.width, size.height );
+        return ofPoint( (float)size.width, (float)size.height );
     }
 #endif
     return ofPoint( 0, 0 );

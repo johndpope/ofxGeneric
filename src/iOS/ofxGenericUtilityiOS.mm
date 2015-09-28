@@ -702,7 +702,7 @@ CGSize ofPointToCGSize( const ofPoint& size )
 
 ofPoint CGSizeToofPoint( CGSize size )
 {
-    return ofPoint( size.width, size.height );
+    return ofPoint( (float)size.width, (float)size.height );
 }
 
 UIViewContentMode ofxGenericContentModeToiOS( ofxGenericContentMode from )

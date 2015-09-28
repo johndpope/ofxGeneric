@@ -54,7 +54,7 @@ public:
     
     NSLayoutConstraint* getNativeLayoutConstraint();
     
-    float getConstant() { return getNativeLayoutConstraint().constant; }
+    float getConstant() { return (float)getNativeLayoutConstraint().constant; }
     void setConstant( float constant ) { getNativeLayoutConstraint().constant = constant; }
     void changeConstantByDelta (float delta) { getNativeLayoutConstraint().constant += delta; }
     

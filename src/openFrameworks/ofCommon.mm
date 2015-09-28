@@ -21,7 +21,7 @@ CGRect ofxRectangleToCGRect(const ofRectangle & from){
 }
 
 ofRectangle ofxCGRectToofRectangle(const CGRect & from){
-    return ofRectangle(from.origin.x, from.origin.y, from.size.width, from.size.height);
+    return ofRectangle((float)from.origin.x, (float)from.origin.y, (float)from.size.width, (float)from.size.height);
 }
 
 string ofxNSStringToString(NSString * s){

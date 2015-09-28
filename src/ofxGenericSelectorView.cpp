@@ -211,7 +211,7 @@ void ofxGenericSelectorView::init( ofPtrWeak< ofxGenericSelectorView > setThis, 
 {
     if ( _forwardTo )
     {
-        return _forwardTo.lock()->getNumberOfRowsInComponent( component );
+        return _forwardTo.lock()->getNumberOfRowsInComponent( (unsigned int)component );
     }
     return 0;
 }
@@ -221,7 +221,7 @@ void ofxGenericSelectorView::init( ofPtrWeak< ofxGenericSelectorView > setThis, 
 {
     if ( _forwardTo )
     {
-        return ( CGFloat )_forwardTo.lock()->getWidthOfComponent( component );
+        return ( CGFloat )_forwardTo.lock()->getWidthOfComponent( (unsigned int)component );
     }
     return 0.0f;
 }
@@ -230,7 +230,7 @@ void ofxGenericSelectorView::init( ofPtrWeak< ofxGenericSelectorView > setThis, 
 {
     if ( _forwardTo )
     {
-        return ( CGFloat )_forwardTo.lock()->getHeightOfRowsInComponent( component );
+        return ( CGFloat )_forwardTo.lock()->getHeightOfRowsInComponent( (unsigned int)component );
     }
     return 0.0f;
 }
@@ -244,7 +244,7 @@ void ofxGenericSelectorView::init( ofPtrWeak< ofxGenericSelectorView > setThis, 
 {
     if ( _forwardTo )
     {
-        ofPtr< ofxGenericView > viewForRow = _forwardTo.lock()->getViewForRowInComponent( component, row );
+        ofPtr< ofxGenericView > viewForRow = _forwardTo.lock()->getViewForRowInComponent( (unsigned int)component, (unsigned int)row );
         if ( viewForRow )
         {
             _rowViewsCache.push_back( viewForRow );
@@ -258,7 +258,7 @@ void ofxGenericSelectorView::init( ofPtrWeak< ofxGenericSelectorView > setThis, 
 {
     if ( _forwardTo )
     {
-        _forwardTo.lock()->selectedRow( component, row );
+        _forwardTo.lock()->selectedRow( (unsigned int)component, (unsigned int)row );
     }
 }
 

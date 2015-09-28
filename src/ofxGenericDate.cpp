@@ -553,13 +553,13 @@ void ofxGenericDate::setFromNSDate( NSDate* date )
         NSCalendar* calendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
         NSDateComponents* components = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit | NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit | NSWeekdayCalendarUnit) fromDate:date];
         
-        _year = [components year];
-        _month = [components month];
-        _date = [components day];
-        _day = [components weekday] - 1; //returns 1 - 7, where Sunday is 1
-        _hour = [components hour];
-        _minute = [components minute];
-        _second = [components second];
+        _year = (int)[components year];
+        _month = (int)[components month];
+        _date = (int)[components day];
+        _day = (int)[components weekday] - 1; //returns 1 - 7, where Sunday is 1
+        _hour = (int)[components hour];
+        _minute = (int)[components minute];
+        _second = (int)[components second];
     }
 }
 #endif
@@ -568,7 +568,7 @@ int ofxGenericDate::getMillisecondOffsetFromUTC()
 {
     int result = 0;
 #if TARGET_OS_IPHONE
-    result = 1000 * [ [ NSTimeZone localTimeZone ] secondsFromGMT ];
+    result = 1000 * (int)[ [ NSTimeZone localTimeZone ] secondsFromGMT ];
 #else 
     throw ofxGenericExceptionMemberNotImplement( "ofxGenericDate", "getMillisecondOffsetFromUTC" );
 #endif

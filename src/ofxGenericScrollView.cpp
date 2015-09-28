@@ -143,7 +143,7 @@ ofPoint ofxGenericScrollView::getContentOffset()
     UIScrollView* view = *this;
     if ( view )
     {
-        return ofPoint( view.contentOffset.x, view.contentOffset.y );
+        return ofPoint( (float)view.contentOffset.x, (float)view.contentOffset.y );
     }
 #elif TARGET_ANDROID
 #endif
@@ -229,7 +229,7 @@ ofPoint ofxGenericScrollView::getContentSize()
     if ( view )
     {
         CGSize s = view.contentSize;
-        return ofPoint( s.width, s.height );
+        return ofPoint( (float)s.width, (float)s.height );
     } 
 #elif TARGET_ANDROID
 #endif  
