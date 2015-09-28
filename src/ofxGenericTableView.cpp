@@ -603,7 +603,7 @@ ofxGenericUIViewCastOperator( ofxGenericTableView, UITableView );
 {
     if ( _delegate )
     {
-        return _delegate->nativeGetHeightForHeaderInSection( section );
+        return _delegate->nativeGetHeightForHeaderInSection( (unsigned int)section );
     }
     return 0.0f;
 }
@@ -612,7 +612,7 @@ ofxGenericUIViewCastOperator( ofxGenericTableView, UITableView );
 {
     if ( _delegate )
     {
-        ofPtr< ofxGenericTableViewCell > header = _delegate->nativeGetHeaderInSection( section );
+        ofPtr< ofxGenericTableViewCell > header = _delegate->nativeGetHeaderInSection( (unsigned int)section );
         if ( header )
         {
             return header->getNativeView();
@@ -625,7 +625,7 @@ ofxGenericUIViewCastOperator( ofxGenericTableView, UITableView );
 {
     if ( _delegate )
     {
-        return _delegate->nativeGetNumberOfCells( section );
+        return _delegate->nativeGetNumberOfCells( (unsigned int)section );
     }
     return 0;
 }
@@ -634,7 +634,7 @@ ofxGenericUIViewCastOperator( ofxGenericTableView, UITableView );
 {
     if ( _delegate )
     {
-        ofPtr< ofxGenericTableViewCell > view = _delegate->nativeGetCell( [ indexPath section ], [ indexPath row ] );
+        ofPtr< ofxGenericTableViewCell > view = _delegate->nativeGetCell( (unsigned int)[ indexPath section ], (unsigned int)[ indexPath row ] );
         if ( view )
         {
             return *view;
@@ -647,7 +647,7 @@ ofxGenericUIViewCastOperator( ofxGenericTableView, UITableView );
 {
     if ( _delegate )
     {
-        return _delegate->nativeGetHeightForCell( [ indexPath section ], [ indexPath row ] );
+        return _delegate->nativeGetHeightForCell( (unsigned int)[ indexPath section ], (unsigned int)[ indexPath row ] );
     }
     return 0.0f;
 }
@@ -656,7 +656,7 @@ ofxGenericUIViewCastOperator( ofxGenericTableView, UITableView );
 {
     if ( _delegate )
     {
-        _delegate->nativeSelectedRow( indexPath.section, indexPath.row );
+        _delegate->nativeSelectedRow( (unsigned int)indexPath.section, (unsigned int)indexPath.row );
     }
 }
 
@@ -679,7 +679,7 @@ ofxGenericUIViewCastOperator( ofxGenericTableView, UITableView );
 {
     if ( _delegate )
     {
-        return ( BOOL )_delegate->getCellDraggingEnabled( indexPath.section, indexPath.row );
+        return ( BOOL )_delegate->getCellDraggingEnabled( (unsigned int)indexPath.section, (unsigned int)indexPath.row );
     }
     return NO;
 }
@@ -688,7 +688,10 @@ ofxGenericUIViewCastOperator( ofxGenericTableView, UITableView );
 {
     if ( ( sourceIndexPath.section != destinationIndexPath.section || sourceIndexPath.row != destinationIndexPath.row ) && _delegate )
     {
-        _delegate->moveRow( sourceIndexPath.section, sourceIndexPath.row, destinationIndexPath.section, destinationIndexPath.row );
+        _delegate->moveRow((unsigned int)sourceIndexPath.section,
+                           (unsigned int)sourceIndexPath.row,
+                           (unsigned int)destinationIndexPath.section,
+                           (unsigned int)destinationIndexPath.row );
     }
 }
 
