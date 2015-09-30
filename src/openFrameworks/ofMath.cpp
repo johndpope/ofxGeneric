@@ -35,8 +35,8 @@ void ofSeedRandom() {
 }
 
 //--------------------------------------------------
-void ofSeedRandom(int val) {
-	srand((unsigned int) val);
+void ofSeedRandom(unsigned int val) {
+	srand(val);
 }
 
 //--------------------------------------------------
