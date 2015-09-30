@@ -1257,7 +1257,7 @@ void ofxGenericView::gesturePerformedTap( UITapGestureRecognizer* recognizer )
 void ofxGenericView::gesturePerformedHold( UILongPressGestureRecognizer* recognizer )
 {
     CGPoint cgp = [recognizer locationInView:getNativeView()];
-    ofPoint p = ofPoint((int)cgp.x, (int)cgp.y);
+    ofPoint p = ofPoint((float)cgp.x, (float)cgp.y);
     gesturePerformedHold(
                          iOSToofxGenericGestureState( [ recognizer state ] ),
                          (float)[ recognizer minimumPressDuration ],

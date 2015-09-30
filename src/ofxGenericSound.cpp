@@ -36,7 +36,7 @@ void ofxGenericSound::init( ofPtrWeak< ofxGenericSound > setThis, string fileNam
 #endif
         
     //pull the extension off if we already have it in the fileName
-    unsigned long dotIndex = fileName.find_last_of( '.' );
+    size_t dotIndex = fileName.find_last_of( '.' );
     if ( dotIndex != string::npos )
     {
         string foundExtension = fileName.substr( dotIndex, fileName.length() - dotIndex );

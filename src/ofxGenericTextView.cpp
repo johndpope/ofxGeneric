@@ -190,7 +190,7 @@ float ofxGenericTextView::getFontSize()
     if ( [ _view isKindOfClass:[ UILabel class ] ] )
     {
         UILabel* labelView = ( UILabel* )_view;
-        return (int)labelView.font.pointSize;
+        return (float)labelView.font.pointSize;
     }
 #endif
     return 12.0f;
