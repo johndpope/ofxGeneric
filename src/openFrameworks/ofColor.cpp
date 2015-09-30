@@ -164,10 +164,10 @@ float ofColor_<float>::limit() {
 
 template<typename PixelType>
 ofColor_<PixelType>::ofColor_ (){
-	r = (char) limit();
-	g = (char) limit();
-	b = (char) limit();
-	a = (char) limit();
+	r = (PixelType) limit();
+	g = (PixelType) limit();
+	b = (PixelType) limit();
+	a = (PixelType) limit();
 }
 
 template<typename PixelType>
@@ -175,10 +175,10 @@ ofColor_<PixelType>::~ofColor_ (){}
 
 template<typename PixelType>
 ofColor_<PixelType>::ofColor_ (float _r, float _g, float _b, float _a){
-	r = (char)_r;
-	g = (char)_g;
-	b = (char)_b;
-	a = (char)_a;
+	r = (PixelType)_r;
+	g = (PixelType)_g;
+	b = (PixelType)_b;
+	a = (PixelType)_a;
 }
 
 template<typename PixelType>
@@ -194,13 +194,13 @@ ofColor_<PixelType>::ofColor_ (const ofColor_<PixelType> & color, float _a){
 	r = color.r;
 	g = color.g;
 	b = color.b;
-	a = (char)_a;
+	a = (PixelType)_a;
 }
 
 template<typename PixelType>
 ofColor_<PixelType>::ofColor_ (float grayValue, float _a){
-	r = g = b = (char)grayValue;
-	a = (char)_a;
+	r = g = b = (PixelType)grayValue;
+	a = (PixelType)_a;
 }
 
 template<typename PixelType>
@@ -221,17 +221,17 @@ ofColor_<PixelType> ofColor_<PixelType>::fromHex(int hexColor, float alpha) {
 
 template<typename PixelType>
 void ofColor_<PixelType>::set (float _r, float _g, float _b, float _a){
-	r = (char)_r;
-	g = (char)_g;
-	b = (char)_b;
-	a = (char)_a;
+	r = (PixelType)_r;
+	g = (PixelType)_g;
+	b = (PixelType)_b;
+	a = (PixelType)_a;
 }
 
 
 template<typename PixelType>
 void ofColor_<PixelType>::set (float _gray, float _a){
-	r = g = b = (char)_gray;
-	a = (char)_a;
+	r = g = b = (PixelType)_gray;
+	a = (PixelType)_a;
 }
 
 
@@ -249,25 +249,25 @@ void ofColor_<PixelType>::setHex (int hexColor, float alpha){
 	r = (hexColor >> 16) & 0xff;
 	g = (hexColor >> 8) & 0xff;
 	b = (hexColor >> 0) & 0xff;
-	a = (char)alpha;
+	a = (PixelType)alpha;
 }
 
 
 template<typename PixelType>
 ofColor_<PixelType>& ofColor_<PixelType>::clamp (){
-	r = (char)CLAMP(r, 0.0f, limit());
-	g = (char)CLAMP(g, 0.0f, limit());
-	b = (char)CLAMP(b, 0.0f, limit());
-	a = (char)CLAMP(a, 0.0f, limit());
+	r = (PixelType)CLAMP(r, 0.0f, limit());
+	g = (PixelType)CLAMP(g, 0.0f, limit());
+	b = (PixelType)CLAMP(b, 0.0f, limit());
+	a = (PixelType)CLAMP(a, 0.0f, limit());
 	return *this;
 }
 
 
 template<typename PixelType>
 ofColor_<PixelType>& ofColor_<PixelType>::invert() {
-	r = (char)limit() - r;
-	g = (char)limit() - g;
-	b = (char)limit() - b;
+	r = (PixelType)limit() - r;
+	g = (PixelType)limit() - g;
+	b = (PixelType)limit() - b;
 	return *this;
 }
 
@@ -278,9 +278,9 @@ ofColor_<PixelType>& ofColor_<PixelType>::normalize() {
     // avoid division by 0
     if ( brightness > 0 ) 
     {
-        r = (char)(limit() * (r / brightness));
-        g = (char)(limit() * (g / brightness));
-        b = (char)(limit() * (b / brightness));
+        r = (PixelType)(limit() * (r / brightness));
+        g = (PixelType)(limit() * (g / brightness));
+        b = (PixelType)(limit() * (b / brightness));
     }
 	return *this;
 }
@@ -289,10 +289,10 @@ ofColor_<PixelType>& ofColor_<PixelType>::normalize() {
 template<typename PixelType>
 ofColor_<PixelType>& ofColor_<PixelType>::lerp(const ofColor_<PixelType>& target, float amount) {
 	float invAmount = 1.f - amount;
-	r = (char)(invAmount * r + amount * target.r);
-	g = (char)(invAmount * g + amount * target.g);
-	b = (char)(invAmount * b + amount * target.b);
-	a = (char)(invAmount * a + amount * target.a);
+	r = (PixelType)(invAmount * r + amount * target.r);
+	g = (PixelType)(invAmount * g + amount * target.g);
+	b = (PixelType)(invAmount * b + amount * target.b);
+	a = (PixelType)(invAmount * a + amount * target.a);
 	return *this;
 }
 
@@ -452,32 +452,32 @@ void ofColor_<PixelType>::setHsb(float hue, float saturation, float brightness, 
 		PixelType tv = (PixelType) ((1.f - saturationNorm * (1.f - hueSixRemainder)) * brightness);
 		switch(hueSixCategory) {
 			case 0: // r
-				r = (char)brightness;
+				r = (PixelType)brightness;
 				g = tv;
 				b = pv;
 				break;
 			case 1: // g
 				r = qv;
-				g = (char)brightness;
+				g = (PixelType)brightness;
 				b = pv;
 				break;
 			case 2:
 				r = pv;
-				g = (char)brightness;
+				g = (PixelType)brightness;
 				b = tv;
 				break;
 			case 3: // b
 				r = pv;
 				g = qv;
-				b = (char)brightness;
+				b = (PixelType)brightness;
 				break;
 			case 4:
 				r = tv;
 				g = pv;
-				b = (char)brightness;
+				b = (PixelType)brightness;
 				break;
 			case 5: // back to r
-				r = (char)brightness;
+				r = (PixelType)brightness;
 				g = pv;
 				b = qv;
 				break;
@@ -485,7 +485,7 @@ void ofColor_<PixelType>::setHsb(float hue, float saturation, float brightness, 
 	}
     
     // finally assign the alpha
-    a = (char)alpha;
+    a = (PixelType)alpha;
 }
 
 
@@ -510,10 +510,10 @@ ofColor_<PixelType> & ofColor_<PixelType>::operator = (ofColor_<PixelType> const
 
 template<typename PixelType>
 ofColor_<PixelType> & ofColor_<PixelType>::operator = (float const & val){
-	r = (char)val;
-	g = (char)val;
-	b = (char)val;
-	a = (char)limit();
+	r = (PixelType)val;
+	g = (PixelType)val;
+	b = (PixelType)val;
+	a = (PixelType)limit();
 	return *this;
 }
 
