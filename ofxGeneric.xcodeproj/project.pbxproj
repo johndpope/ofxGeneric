@@ -131,7 +131,6 @@
 		3C96A11E16110F11000BA061 /* ofxGenericWebView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C96A11C16110F11000BA061 /* ofxGenericWebView.h */; };
 		3C9F4AEF168E77B6005F583E /* ofxGenericDelegateContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C9F4AED168E77B6005F583E /* ofxGenericDelegateContainer.h */; };
 		3CA59B33153F4312008EE095 /* ofxGenericException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CA59B32153F4311008EE095 /* ofxGenericException.cpp */; };
-		3CA69A5716BCA85E00B50F3D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CA69A5616BCA85E00B50F3D /* libz.dylib */; };
 		3CB572AD1596512C0060F9BE /* ofxGenericSelectorView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CB572AC1596512C0060F9BE /* ofxGenericSelectorView.cpp */; };
 		3CC3086916F0F9AE00BD86CA /* ofxGenericClass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CC3086716F0F9AE00BD86CA /* ofxGenericClass.cpp */; };
 		3CC3086A16F0F9AE00BD86CA /* ofxGenericClass.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CC3086816F0F9AE00BD86CA /* ofxGenericClass.h */; };
@@ -190,6 +189,7 @@
 		CD6D23BF183C54590094EF0D /* ofxGenericLayoutConstraint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CD6D23BD183C54590094EF0D /* ofxGenericLayoutConstraint.cpp */; };
 		CD6D23C0183C54590094EF0D /* ofxGenericLayoutConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = CD6D23BE183C54590094EF0D /* ofxGenericLayoutConstraint.h */; };
 		D31A6DB719F9B04C007292B6 /* XCode6_patch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D31A6DB519F9B04C007292B6 /* XCode6_patch.cpp */; };
+		FCEEB1F81C5B04A300BDE6C2 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = FCEEB1F71C5B04A300BDE6C2 /* libz.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -421,6 +421,7 @@
 		CD6D23BD183C54590094EF0D /* ofxGenericLayoutConstraint.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ofxGenericLayoutConstraint.cpp; sourceTree = "<group>"; };
 		CD6D23BE183C54590094EF0D /* ofxGenericLayoutConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGenericLayoutConstraint.h; sourceTree = "<group>"; };
 		D31A6DB519F9B04C007292B6 /* XCode6_patch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XCode6_patch.cpp; sourceTree = "<group>"; };
+		FCEEB1F71C5B04A300BDE6C2 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -428,8 +429,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FCEEB1F81C5B04A300BDE6C2 /* libz.tbd in Frameworks */,
 				3C6513051707BB65000F8F50 /* CoreLocation.framework in Frameworks */,
-				3CA69A5716BCA85E00B50F3D /* libz.dylib in Frameworks */,
 				4548300216BB5207004C5398 /* StoreKit.framework in Frameworks */,
 				3C0B9FAC1571FB07009F61BE /* AVFoundation.framework in Frameworks */,
 				3C7B4DDE14FC78A1003121FE /* Foundation.framework in Frameworks */,
@@ -544,6 +545,7 @@
 		3C7B4DDC14FC78A1003121FE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FCEEB1F71C5B04A300BDE6C2 /* libz.tbd */,
 				3CBAC60014FD4EC8002A12C8 /* CoreVideo.framework */,
 				4548300116BB5207004C5398 /* StoreKit.framework */,
 				3CBAC5FE14FD4EA7002A12C8 /* CoreMedia.framework */,
