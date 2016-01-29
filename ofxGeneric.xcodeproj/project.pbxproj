@@ -189,7 +189,6 @@
 		CD6D23BF183C54590094EF0D /* ofxGenericLayoutConstraint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CD6D23BD183C54590094EF0D /* ofxGenericLayoutConstraint.cpp */; };
 		CD6D23C0183C54590094EF0D /* ofxGenericLayoutConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = CD6D23BE183C54590094EF0D /* ofxGenericLayoutConstraint.h */; };
 		D31A6DB719F9B04C007292B6 /* XCode6_patch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D31A6DB519F9B04C007292B6 /* XCode6_patch.cpp */; };
-		FCEEB1F81C5B04A300BDE6C2 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = FCEEB1F71C5B04A300BDE6C2 /* libz.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -429,7 +428,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FCEEB1F81C5B04A300BDE6C2 /* libz.tbd in Frameworks */,
 				3C6513051707BB65000F8F50 /* CoreLocation.framework in Frameworks */,
 				4548300216BB5207004C5398 /* StoreKit.framework in Frameworks */,
 				3C0B9FAC1571FB07009F61BE /* AVFoundation.framework in Frameworks */,
