@@ -1139,6 +1139,7 @@
 			buildSettings = {
 				"ARCHS[sdk=iphoneos*]" = "$(ARCHS_STANDARD)";
 				"ARCHS[sdk=iphonesimulator*]" = "$(ARCHS_STANDARD)";
+				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};
@@ -1151,6 +1152,7 @@
 				"ARCHS[sdk=iphoneos*]" = "$(ARCHS_STANDARD)";
 				"ARCHS[sdk=iphonesimulator*]" = "$(ARCHS_STANDARD)";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
 				"IPHONEOS_DEPLOYMENT_TARGET[sdk=iphoneos*]" = 5.1.1;
 				ONLY_ACTIVE_ARCH = YES;
 				VALID_ARCHS = "armv7 armv7s arm64";
@@ -1170,6 +1172,7 @@
 			buildSettings = {
 				"ARCHS[sdk=iphoneos*]" = "$(ARCHS_STANDARD)";
 				"ARCHS[sdk=iphonesimulator*]" = "$(ARCHS_STANDARD)";
+				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};
