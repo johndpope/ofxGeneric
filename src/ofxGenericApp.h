@@ -48,6 +48,7 @@ public:
     virtual void ofxLLogNotice( const string & message );
     virtual void ofxLLogVerbose( const string & message );
     virtual void ofxLLogWarning( const string & message );
+    virtual void ofxLLogDebug( const string & message );
     
     void setOrientation( ofOrientation toOrientation );
     virtual bool shouldAutorotate( ofOrientation toOrientation );

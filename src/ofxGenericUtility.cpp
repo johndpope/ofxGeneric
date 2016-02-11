@@ -195,6 +195,15 @@ void ofxGLogWarning( const string & message )
 	// IOSP-40 // ofLogWarning( ofxGenericModuleName, message );
 }
 
+void ofxGLogDebug( const string & message )
+{
+    ofPtr< ofxGenericApp > app = ofxGenericApp::getInstance();
+    if (app) {
+        app->ofxLLogDebug(message);
+    }
+    // IOSP-40 // ofLogWarning( ofxGenericModuleName, message );
+}
+
 //////////////////////////////// String conversions //////////////////////////////////
 
 string ofxGToString( int value )

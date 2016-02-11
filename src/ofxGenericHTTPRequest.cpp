@@ -544,8 +544,8 @@ void ofxGenericHTTPRequest::finished(
     }
     else
     {
-        string warning = toString( _dumpBodyOnError ) + "\n" + responseToString( _dumpBodyOnError ) + "\n";
-        ofxGLogWarning( warning );
+        string debug = toString( _dumpBodyOnError ) + "\n" + responseToString( _dumpBodyOnError ) + "\n";
+        ofxGLogDebug( debug );
     }
     
     doRequestFinished();

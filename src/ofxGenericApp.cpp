@@ -225,6 +225,10 @@ void ofxGenericApp::ofxLLogWarning( const string & message )
 {
 }
 
+void ofxGenericApp::ofxLLogDebug( const string & message )
+{
+}
+
 string ofxGenericApp::getAppVersion()
 {
 #if TARGET_OS_IPHONE

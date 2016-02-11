@@ -1378,6 +1378,7 @@ bool ofxGenericValueStore::readFromDisk()
             
             if( _verify && !verifyContentsFromDisk() )
             {
+                // TODO: this filename can contain the users ID, we should log only the actual filename.
                 ofxGLogError("ofxGenericValueStore::readFromDisk file " + _fileName + " failed on verification!");
                 purge();
                 return false;
