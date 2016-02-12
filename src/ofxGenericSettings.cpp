@@ -8,6 +8,8 @@
 
 #include "ofxGenericSettings.h"
 
+#include "ofCommon.h"
+
 void ofxGenericSettings::init( ofPtrWeak< ofxGenericSettings > setThis )
 {
     ofxGenericValueStore::init( setThis, ofxGenericValueStoreTypeObject );
@@ -29,7 +31,10 @@ bool ofxGenericSettings::readFromDisk()
         parse( oldParse );
     } else
     {
-        ofxGLogError( "Unable to read settings file " + getFileName() );
+        // We should never log paths containing the users id to the console or 3rd party logging systems.
+        NSString *objCFileName = ofxStringToNSString(getFileName());
+        NSString *lastPathComponent = [objCFileName lastPathComponent];
+        ofxGLogError( "Unable to read settings file " + ofxNSStringToString(lastPathComponent) );
     }
 
     return result;

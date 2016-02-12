@@ -19,6 +19,7 @@
 #include <tinyxml.h>
 
 #include "ofUtils.h"
+#include "ofCommon.h"
 
 #define HmacStoreKey "hash"
 
@@ -1359,6 +1360,11 @@ void ofxGenericValueStore::setFileName( string fileName, bool fileInDocuments )
 {
     _fileName = fileName;
     _fileInDocuments = fileInDocuments;
+    
+    // We should never log paths containing the users id to the console or 3rd party logging systems.
+    NSString *objCFileName = ofxStringToNSString(_fileName);
+    NSString *lastPathComponent = [objCFileName lastPathComponent];
+    _lastPathComponentInFileName = ofxNSStringToString(lastPathComponent);
 }
 
 string ofxGenericValueStore::getFileName()
@@ -1379,7 +1385,7 @@ bool ofxGenericValueStore::readFromDisk()
             if( _verify && !verifyContentsFromDisk() )
             {
                 // TODO: this filename can contain the users ID, we should log only the actual filename.
-                ofxGLogError("ofxGenericValueStore::readFromDisk file " + _fileName + " failed on verification!");
+                ofxGLogError("ofxGenericValueStore::readFromDisk file " + _lastPathComponentInFileName + " failed on verification!");
                 purge();
                 return false;
             }
@@ -1794,13 +1800,13 @@ bool ofxGenericValueStore::verifyContentsFromDisk()
             }
             else
             {
-                ofxGLogWarning("ofxGenericValueStore::verifyContentsFromDisk file " + _fileName + " have invalid hash!");
+                ofxGLogWarning("ofxGenericValueStore::verifyContentsFromDisk file " + _lastPathComponentInFileName + " have invalid hash!");
                 return false;
             }
         }
         else
         {
-            ofxGLogWarning("ofxGenericValueStore::verifyContentsFromDisk file " + _fileName + " HmacStoreKey missing!");
+            ofxGLogWarning("ofxGenericValueStore::verifyContentsFromDisk file " + _lastPathComponentInFileName + " HmacStoreKey missing!");
             return false;
         }
     }

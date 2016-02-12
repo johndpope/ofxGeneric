@@ -236,7 +236,8 @@ protected:
     void dropObjectKey( string key );
 
     string _fileName;
-    bool _fileInDocuments;    
+    string _lastPathComponentInFileName;
+    bool _fileInDocuments;
     
     void convertFrom( Json::Value& convert );
     static ofPtr< ofxGenericValueStore > createFrom( Json::Value& convert );
