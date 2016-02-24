@@ -1364,7 +1364,11 @@ void ofxGenericValueStore::setFileName( string fileName, bool fileInDocuments )
     // We should never log paths containing the users id to the console or 3rd party logging systems.
     NSString *objCFileName = ofxStringToNSString(_fileName);
     NSString *lastPathComponent = [objCFileName lastPathComponent];
-    _lastPathComponentInFileName = ofxNSStringToString(lastPathComponent);
+    if (lastPathComponent) {
+        _lastPathComponentInFileName = ofxNSStringToString(lastPathComponent);
+    } else {
+        _lastPathComponentInFileName = "";
+    }
 }
 
 string ofxGenericValueStore::getFileName()
@@ -1384,7 +1388,6 @@ bool ofxGenericValueStore::readFromDisk()
             
             if( _verify && !verifyContentsFromDisk() )
             {
-                // TODO: this filename can contain the users ID, we should log only the actual filename.
                 ofxGLogError("ofxGenericValueStore::readFromDisk file " + _lastPathComponentInFileName + " failed on verification!");
                 purge();
                 return false;

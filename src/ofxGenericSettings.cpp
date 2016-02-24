@@ -34,7 +34,9 @@ bool ofxGenericSettings::readFromDisk()
         // We should never log paths containing the users id to the console or 3rd party logging systems.
         NSString *objCFileName = ofxStringToNSString(getFileName());
         NSString *lastPathComponent = [objCFileName lastPathComponent];
-        ofxGLogError( "Unable to read settings file " + ofxNSStringToString(lastPathComponent) );
+        if (lastPathComponent) {
+            ofxGLogError("Unable to read settings file " + ofxNSStringToString(lastPathComponent));
+        }
     }
 
     return result;

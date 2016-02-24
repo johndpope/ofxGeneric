@@ -192,7 +192,6 @@ void ofxGLogWarning( const string & message )
     if (app) {
         app->ofxLLogWarning(message);
     }
-	// IOSP-40 // ofLogWarning( ofxGenericModuleName, message );
 }
 
 void ofxGLogDebug( const string & message )
@@ -201,7 +200,6 @@ void ofxGLogDebug( const string & message )
     if (app) {
         app->ofxLLogDebug(message);
     }
-    // IOSP-40 // ofLogWarning( ofxGenericModuleName, message );
 }
 
 //////////////////////////////// String conversions //////////////////////////////////
