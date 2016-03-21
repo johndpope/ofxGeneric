@@ -47,11 +47,7 @@ string ofxGenericPlatform::deviceModelVersion()
 bool ofxGenericPlatform::isTablet()
 {
 #if TARGET_OS_IPHONE
-#ifdef UI_USER_INTERFACE_IDIOM
-    return UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad;
-#else
-    return false;
-#endif
+    return [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad;
 #endif
 }
 
