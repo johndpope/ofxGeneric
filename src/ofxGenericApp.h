@@ -27,7 +27,9 @@ public:
     //THIS IS INCORRECT: there is no reason not to do this. Previously, LumosityApp had its own _this,
     //which is presumably the reason for this choice, but there is no reason for it to have its own _this
     //(since ofxGenericApp has a _this already) and it was casuing a crash.
-    static ofPtr< ofxGenericApp > getInstance();
+    static ofPtr< ofxGenericApp > getInstance() {
+        return ofPtr<ofxGenericApp>();
+    }
     
     virtual void runViaInfiniteLoop( ofPtr< ofxAppGenericWindow > window );
     
